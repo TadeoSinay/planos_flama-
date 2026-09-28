@@ -1,0 +1,36 @@
+FLAMA S.A. - Uso de los archivos en AutoCAD 2027
+================================================
+
+1) Laminas 2D (DXF -> DWG)
+   Ejecutar 1_convertir_DXF_a_DWG.bat. Abre cada lamina *_H1/H2/H3.dxf y la
+   guarda como DWG 2018 en la misma carpeta.
+   Cada DXF trae:
+     - Espacio modelo: la lamina completa dibujada a 1:1 en mm de papel.
+       Las vistas estan reducidas a la escala del rotulo y las cotas tienen
+       DIMLFAC = factor de escala, por lo que indican la medida real.
+     - Presentacion "Lamina_A3" / "Lamina_A2": ventana 1:1 y configuracion de
+       pagina ISO full bleed; trazar con escala 1:1 y tabla de plumillas
+       monochrome.ctb (los espesores estan asignados por capa: 0,5 / 0,25 /
+       0,7 mm segun IRAM 4502 / ISO 128-20).
+     - Estilo de texto ISO3098 (isocpeur.ttf, incluida en AutoCAD).
+     - Estilo de cota FLAMA-ISO (IRAM 4513 / ISO 129-1, separador decimal coma).
+
+2) Modelo 3D
+   - <codigo>.step : solidos exactos por pieza (ensamble). En AutoCAD:
+     comando IMPORT -> seleccionar el .step.
+   - <codigo>_3D.dxf : una malla (MESH) por pieza, capa 3D-<PIEZA>.
+     2_abrir_modelo_3D.bat <codigo> la abre, la convierte a solidos
+     (CONVTOSOLID) y guarda <codigo>_3D.dwg con vista isometrica realista.
+
+3) Capas de las laminas
+   01-VISIBLE        aristas visibles        continua gruesa 0,50
+   02-OCULTA         aristas ocultas         trazos fina 0,25
+   03-EJE            ejes y simetrias        trazo largo y punto fina 0,25
+   04-COTA           cotas                   continua fina 0,25
+   05-RAYADO         rayados de corte        continua fina 0,25
+   06-TEXTO          textos y globos
+   07-RECUADRO       recuadro y marcas       continua 0,70
+   08-FINA           lineas de referencia, fondos de rosca, contornos de detalle
+   09-PLANO-CORTE    traza de plano de corte
+   10-ROTULO / 11-TEXTO-ROTULO   rotulo y lista de piezas
+   12-SOLDADURA      simbolos de soldadura ISO 2553

@@ -1,0 +1,5 @@
+*.bat text eol=crlf
+*.txt text eol=crlf
+*.dxf -text
+*.step -text
+*.pdf binary
