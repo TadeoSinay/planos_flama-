@@ -195,23 +195,24 @@ def esq01():
     h.texto("retorno de la PSV", (x + 60, y + 37), 2.5, A.MIDDLE_CENTER)
     leyenda(h, h.fx1 - 60, h.fy1 - 12)
     # tabla de presiones de ensayo (catálogo)
-    filas = [("Modelo", "Ps (MPa)", "Pe (MPa)", "Recipiente")]
-    rec = {"manual": "soldado SAE 1010", "rodante": "soldado SAE 1010", "inox": "soldado AISI 304",
-           "co2": "sin costura"}
+    filas = [("Modelo", "Ps", "Pe fabr.", "PH recarga", "c/ años")]
     for m in MODELOS:
-        filas.append((m.codigo.replace("FL_MAT_", ""), m.spec.get("Presión de servicio (MPa)"),
-                      m.spec.get("Presión de ensayo (MPa)"), rec[m.familia]))
-    _tabla(h, h.fx1 - 128, h.fy1 - 82, filas, [32, 30, 30, 36], alto=4.6, hs=(2.5, 2.5),
-           encabezado="PRESIONES (catálogo FLAMA)")
-    _notas(h, ["PROCEDIMIENTO (resumen; criterios completos en DOC-02 / DOC-03)",
-               "1) Llenar el recipiente con agua hasta desplazar todo el aire; colocarlo en la jaula o cuba.",
-               "2) Con V2 abierta y V3 cerrada, subir la presión en forma gradual hasta la presión de ensayo Pe.",
-               "3) Cerrar V1 y mantener Pe el tiempo indicado en DOC-02 (sin caída de presión en PI-1).",
-               "4) Aceptación: sin pérdidas, sin exudación ni deformación visible; CO2: expansión permanente",
-               "    según método de camisa de agua (ISO 11623 / CGA C-1), límite habitual 10 % de la total.",
-               "5) Despresurizar por V3, vaciar, secar a ≤ 60 °C hasta punto de rocío adecuado antes de cargar polvo.",
-               "6) Manómetro patrón clase 0,6 o mejor, calibrado; PSV tarada a 1,1 × Pe para proteger el banco.",
-               "7) Nunca ensayar con aire o gas: la energía acumulada es peligrosa (ensayo sólo con líquido)."],
+        ps = float(m.spec["Presión de servicio (MPa)"].replace(",", "."))
+        rec = "IRAM 2529-1" if m.familia == "co2" else f"{2.5 * ps:.1f}".replace(".", ",")
+        anos = "2" if (m.familia == "inox" or "AFFF" in m.codigo) else "5"
+        filas.append((m.codigo.replace("FL_MAT_", ""), m.spec["Presión de servicio (MPa)"],
+                      m.spec["Presión de ensayo (MPa)"], rec, anos))
+    _tabla(h, h.fx1 - 128, h.fy1 - 82, filas, [32, 16, 22, 36, 22], alto=4.6, hs=(2.5, 2.5),
+           encabezado="PRESIONES EN MPa (catálogo / IRAM 3517-2)")
+    _notas(h, ["PROCEDIMIENTO (IRAM 3517-2:2005, 4.3.3.3 y 4.3.3.6)",
+               "1) Quitar válvula y partes internas; eliminar todo resto de polvo. Colocar el recipiente en la jaula.",
+               "2) Llenar con agua purgando todo el aire (V2 abierta, V3 cerrada).",
+               "3) Subir la presión hasta la de prueba y MANTENERLA 1 min (cerrar V1; PI-1 sin caída).",
+               "4) Satisfactorio si no hay caída de presión, rotura, pérdidas ni deformaciones permanentes visibles;",
+               "    si falla, inutilizar (2 orificios Ø ≥ 10 mm y leyenda NO APTO amarilla, 4.5). CO2: IRAM 2529-1.",
+               "5) Bomba manual o a motor capaz de no menos del 150 % de la presión de ensayo, con retención (4.3.3.3).",
+               "6) Recarga: PH = 2,5 × Ps (4.3.2.2), cada 5 años (polvo, CO2, halogenados) o 2 años (agua, AFFF).",
+               "7) Secar hasta que no se vea agua ni humedad (4.3.3.4). Nunca ensayar con aire o gas (4.3.3)."],
            h.fy0 + 95)
     return doc
 
@@ -276,14 +277,14 @@ def esq02():
     h.texto("cuba de inmersión", (x4 + 22, y - 72), 2.5, A.MIDDLE_CENTER)
     h.texto("o detector de fugas", (x4 + 22, y - 76), 2.5, A.MIDDLE_CENTER)
     flecha(h, (x4 + 22, y - 84), (x4 + 22, y - 96))
-    caja(h, x4 + 22, y - 104, 60, 14, "5  PESADA FINAL + PRECINTO\nTARJETA (FL_SEN_04)", 2.5)
+    caja(h, x4 + 22, y - 104, 60, 14, "5  PESADA + MARBETE + PRECINTO\nOBLEA (FL_SEN_04)", 2.5)
     leyenda(h, h.fx1 - 62, h.fy1 - 12)
     _notas(h, ["NOTAS (criterios de aceptación en DOC-02 y DOC-03)",
-               "1) Polvo ABC con certificado IRAM 3569; humedad y granulometría según certificado; no mezclar polvos.",
-               "2) El recipiente debe estar seco por dentro antes de cargar (el polvo húmedo se apelmaza).",
-               "3) Carga por peso: tolerancia de la masa de agente según DOC-02; registrar tara y peso total.",
+               "1) Polvo ABC gris IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2 3.5.3.4).",
+               "2) Recinto con HR ≤ 70 % y extracción ≥ 8 renovaciones/h (3.7); recipiente seco (4.3.3.4).",
+               "3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes +3 % (anexo E).",
                "4) Presurizar sólo con N2 seco (punto de rocío ≤ -40 °C); el regulador limita a la P de servicio.",
-               "5) Estanqueidad: inmersión en agua o detector; sin burbujas. Repetir control de presión a las 24 h.",
+               "5) Ensayo de pérdidas obligatorio (3.8): inmersión o detector; control de presión a las 24 h (FLAMA).",
                "6) Rodantes: la misma secuencia con la botella/recipiente de 25 a 100 kg y su válvula."],
            h.fy0 + 80)
     return doc
@@ -307,7 +308,7 @@ def esq03():
     rombo(h, cx + 68, yr - 22, 36, 16, "¿aprueba?")
     flecha(h, (cx + 68, yr - 6), (cx + 68, yr - 14))
     h.linea((cx + 86, yr - 22), (cx + 100, yr - 22), FIN)
-    caja(h, cx + 114, yr - 22, 28, 12, "RECHAZO\ninutilizar", 2.5)
+    caja(h, cx + 114, yr - 22, 28, 12, "INUTILIZAR\n2 aguj. Ø10\nNO APTO", 2.5)
     h.texto("NO", (cx + 88, yr - 19.5), 2.5)
     h.linea((cx + 68, yr - 30), (cx + 68, yr - 36), FIN)
     h.texto("SÍ", (cx + 70, yr - 33), 2.5)
@@ -321,23 +322,24 @@ def esq03():
     flecha(h, (cx, y2 - 22), (cx, y2 - 28))
     caja(h, cx, y2 - 33, 70, 10, "ESTANQUEIDAD + PESADA FINAL")
     flecha(h, (cx, y2 - 38), (cx, y2 - 44))
-    caja(h, cx, y2 - 49, 70, 10, "TARJETA, PRECINTO Y ENTREGA")
+    caja(h, cx, y2 - 49, 70, 10, "MARBETE, OBLEA, PRECINTO, ENTREGA")
     filas = [("Tipo", "Agente", "Carga", "Presurización / control"),
              ("ABC / BC", "polvo IRAM 3569", "por peso, recipiente seco", "N2 a 1,4 MPa; manómetro en verde"),
              ("Rodantes ABC", "polvo IRAM 3569", "por peso", "N2 a P servicio; manguera y tobera"),
              ("CO2", "CO2 IRAM 41170", "trasvase líquido, por peso", "autopresurizado; control por pesada"),
-             ("Agua", "agua potable", "por volumen/peso", "N2 o aire seco a 0,8 MPa"),
-             ("AFFF", "solución AFFF IRAM 3515", "solución nueva al %", "N2 a 0,8 MPa"),
-             ("Sales K", "solución IRAM 3697", "solución nueva", "N2 a 0,8 MPa"),
+             ("Agua", "agua potable", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
+             ("AFFF", "solución AFFF IRAM 3515", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
+             ("Sales K", "solución IRAM 3697", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
              ("HCFC/HFC", "IRAM 3526-1/-5", "recuperar y reciclar", "N2; prohibido venteo"),
              ("Clase D", "polvo clase D", "por peso, seco", "N2 a 1,4 MPa")]
     _tabla(h, h.fx0 + 150, h.fy1 - 14, filas, [26, 42, 46, 60], alto=5.5, hs=(2.5, 2.5, 1.8, 1.8),
            encabezado="CARGA SEGÚN TIPO")
     _notas(h, ["NOTAS",
-               "1) Intervalos y prueba hidráulica: ver DOC-03 (IRAM 3517-2 y NFPA 10).",
+               "1) IRAM 3517-2: control c/3 meses, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua, AFFF).",
                "2) Presiones de servicio: catálogo FLAMA (Hoja 3 de cada plano FL_MAT).",
                "3) El agente descargado se recupera; halogenados: prohibido liberarlos a la atmósfera.",
-               "4) Todo matafuego rechazado se inutiliza (perforación) y se informa al usuario."],
+               "4) Inutilización (4.5): 2 orificios Ø ≥ 10 mm, NO APTO en amarillo, nota al propietario.",
+               "5) Recinto de polvo HR ≤ 70 %; no mezclar polvo ABC con BC (3.5.3.4); ensayo de pérdidas (3.8)."],
            h.fy1 - 75, h.fx0 + 150)
     return doc
 

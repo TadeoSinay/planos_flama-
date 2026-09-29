@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.195509259
+2461313.2043634257
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.195509259
+2461313.2043634257
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-257
+258
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{79B420A9-0E71-4058-AA6C-159ECADD6718}
+{0BD459C9-D67E-4443-980C-6D26805F83CD}
   9
 $VERSIONGUID
   2
-{3AB311FF-70AA-44FC-99E1-4865358DE97D}
+{AD165B52-7DB3-417A-9196-6976B7FD4F1A}
   9
 $EXTNAMES
 290
@@ -2175,7 +2175,7 @@ AcAecLayerStandard
   0
 APPID
   5
-254
+255
 330
 3
 100
@@ -2189,7 +2189,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-255
+256
 330
 3
 100
@@ -2633,7 +2633,7 @@ AcDbBlockTableRecord
   0
 BLOCK_RECORD
   5
-24E
+24F
 330
 9
 100
@@ -2643,7 +2643,7 @@ AcDbBlockTableRecord
   2
 *Paper_Space
 340
-251
+252
  70
 0
 280
@@ -3813,9 +3813,9 @@ AcDbBlockEnd
   0
 BLOCK
   5
-24F
+250
 330
-24E
+24F
 100
 AcDbEntity
   8
@@ -3839,9 +3839,9 @@ AcDbBlockBegin
   0
 ENDBLK
   5
-250
+251
 330
-24E
+24F
 100
 AcDbEntity
   8
@@ -17115,7 +17115,7 @@ AcDbText
  40
 2.5
   1
-3) La puerta abre sin llave; si se usa vidrio, colocar martillo de rotura encadenado.
+3) Con vidrio: medio que asegure su rotura para extraer el extintor (IRAM 3517-2 3.3.4); martillo
   7
 ISO3098
  11
@@ -17149,7 +17149,7 @@ AcDbText
  40
 2.5
   1
-4) Altura de montaje: parte superior del matafuego ≤ 1,50 m (FL_SEN_01).
+    junto al gabinete e interior con franjas rojas y blancas (IRAM 3517 rev. 2020, s/ resumen).
   7
 ISO3098
  11
@@ -17163,11 +17163,45 @@ AcDbText
  73
 1
   0
+TEXT
+  5
+24E
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+30.0
+ 20
+40.0
+ 30
+0.0
+ 40
+2.5
+  1
+4) Altura de montaje: parte superior del matafuego ≤ 1,50 m (FL_SEN_01).
+  7
+ISO3098
+ 11
+30.0
+ 21
+40.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
 VIEWPORT
   5
-252
+253
 330
-24E
+24F
 100
 AcDbEntity
  67
@@ -17269,9 +17303,9 @@ AcDbViewport
   0
 VIEWPORT
   5
-253
+254
 330
-24E
+24F
 100
 AcDbEntity
  67
@@ -17471,7 +17505,7 @@ Model
   3
 Lamina
 350
-251
+252
   0
 DICTIONARY
   5
@@ -18237,7 +18271,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-256
+257
   0
 DICTIONARYVAR
   5
@@ -18249,11 +18283,11 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:41:32.486633+00:00
+1.4.4 @ 2026-09-29T04:54:17.341300+00:00
   0
 LAYOUT
   5
-251
+252
 330
 D
 100
@@ -18375,13 +18409,13 @@ Lamina
  76
 1
 330
-24E
+24F
 331
-252
+253
   0
 DICTIONARYVAR
   5
-256
+257
 330
 2D
 100
@@ -18389,7 +18423,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:41:32.556741+00:00
+1.4.4 @ 2026-09-29T04:54:17.409071+00:00
   0
 ENDSEC
   0

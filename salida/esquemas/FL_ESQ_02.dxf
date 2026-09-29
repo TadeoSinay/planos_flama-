@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.1955439816
+2461313.204386574
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.1955439816
+2461313.204386574
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{878BBA5E-F1B3-4BFD-A1DF-EA90847200EF}
+{26797AFE-0CD3-4D73-8A9E-5D600C6A85B3}
   9
 $VERSIONGUID
   2
-{4C8F601C-18DB-4CEF-B8CA-4CFA598DC4B1}
+{370C2999-66AD-4F2C-A21B-2D9A981DD948}
   9
 $EXTNAMES
 290
@@ -9211,7 +9211,7 @@ AcDbText
  40
 2.5
   1
-5  PESADA FINAL + PRECINTO
+5  PESADA + MARBETE + PRECINTO
   7
 ISO3098
  72
@@ -9247,7 +9247,7 @@ AcDbText
  40
 2.5
   1
-TARJETA (FL_SEN_04)
+OBLEA (FL_SEN_04)
   7
 ISO3098
  72
@@ -9935,7 +9935,7 @@ AcDbText
  40
 2.5
   1
-1) Polvo ABC con certificado IRAM 3569; humedad y granulometría según certificado; no mezclar polvos.
+1) Polvo ABC gris IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2 3.5.3.4).
   7
 ISO3098
  11
@@ -9969,7 +9969,7 @@ AcDbText
  40
 2.5
   1
-2) El recipiente debe estar seco por dentro antes de cargar (el polvo húmedo se apelmaza).
+2) Recinto con HR ≤ 70 % y extracción ≥ 8 renovaciones/h (3.7); recipiente seco (4.3.3.4).
   7
 ISO3098
  11
@@ -10003,7 +10003,7 @@ AcDbText
  40
 2.5
   1
-3) Carga por peso: tolerancia de la masa de agente según DOC-02; registrar tara y peso total.
+3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes +3 % (anexo E).
   7
 ISO3098
  11
@@ -10071,7 +10071,7 @@ AcDbText
  40
 2.5
   1
-5) Estanqueidad: inmersión en agua o detector; sin burbujas. Repetir control de presión a las 24 h.
+5) Ensayo de pérdidas obligatorio (3.8): inmersión o detector; control de presión a las 24 h (FLAMA).
   7
 ISO3098
  11
@@ -11205,7 +11205,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:41:35.146642+00:00
+1.4.4 @ 2026-09-29T04:54:19.967085+00:00
   0
 LAYOUT
   5
@@ -11345,7 +11345,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:41:35.156214+00:00
+1.4.4 @ 2026-09-29T04:54:19.982681+00:00
   0
 ENDSEC
   0

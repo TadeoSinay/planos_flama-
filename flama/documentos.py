@@ -167,17 +167,18 @@ def doc02():
              ["R2", "Inspección visual de soldaduras", "ISO 5817 nivel C: sin fisuras, poros abiertos ni falta de "
               "penetración visible en costura longitudinal, circunferencial y cuello", "100 %", "N"],
              ["R3", "<b>Prueba hidráulica</b> del recipiente (FL_ESQ_01)", "presión de ensayo Pe del catálogo "
-              "(3,5 MPa manuales; 4,0 MPa rodantes) mantenida ≥ 30 s: sin pérdidas, exudación ni deformación visible",
-              "100 %", "C / R"],
-             ["R4", "Secado interior", "después de la PH, hasta ausencia de humedad (el polvo ABC es higroscópico)",
-              "100 %", "R"],
+              "(3,5 MPa manuales; 4,0 MPa rodantes) mantenida <b>1 min</b> (criterio de IRAM 3517-2 4.3.3.6 h): sin "
+              "caída de presión, pérdidas ni deformación permanente visible; bomba ≥ 150 % de Pe y jaula", "100 %", "C / N"],
+             ["R4", "Secado interior", "después de la PH, hasta que no se vea agua ni humedad condensada "
+              "(IRAM 3517-2 4.3.3.4)", "100 %", "N"],
              ["R5", "Pintura", "espesor y adherencia según DOC-01", "por lote", "R"],
-             ["R6", "Carga de agente", "pesada de polvo IRAM 3569 con balanza calibrada; tolerancia ± 2 % de la carga "
-              "nominal", "100 %", "R"],
+             ["R6", "Carga de agente", "pesada de polvo ABC gris IRAM 3569 con balanza calibrada; tolerancia "
+              "<b>1 y 2,5 kg: 0/+100 g; 5 y 10 kg: 0/+300 g; rodantes: +3 %</b> (IRAM 3517-2 anexo E); recinto HR ≤ 70 %",
+              "100 %", "N"],
              ["R7", "Presurización", "N<sub>2</sub> seco a la presión de servicio (1,4 MPa a 20 °C); verificación con "
               "manómetro patrón; aguja del manómetro IRAM 3533 en zona verde", "100 %", "C / N"],
-             ["R8", "<b>Estanqueidad</b>", "inmersión o detector de fugas: sin burbujas; control de presión a las 24 h "
-              "sin caída detectable", "100 %", "R"],
+             ["R8", "<b>Estanqueidad</b>", "ensayo de verificación de pérdidas de propelente y agente (IRAM 3517-2 3.8): "
+              "inmersión o detector; control de presión a las 24 h (criterio FLAMA)", "100 %", "N / R"],
              ["R9", "Pesada final y marcado", "masa total dentro de la tolerancia; etiqueta, n° de serie, sello IRAM, "
               "fecha; precinto y seguro colocados", "100 %", "N / C"],
          ], ["N°", "Ensayo", "Método y criterio", "Frecuencia", "Fuente"], [5, 20, 55, 10, 10]),
@@ -188,8 +189,8 @@ def doc02():
               "1 por lote o por turno de soldadura", "R"],
              ["L2", "Expansión volumétrica", "método de camisa de agua a Pe: expansión permanente ≤ 10 % de la total",
               "1 por lote", "R"],
-             ["L3", "Descarga", "tiempo de descarga y alcance dentro del catálogo; masa residual ≤ 15 % de la carga",
-              "1 por lote", "C / R"],
+             ["L3", "Descarga", "manuales: ≥ 8 s y ≥ 85 % descargado; rodantes: 25 kg ≥ 10 s, 50/70 kg ≥ 15 s, "
+              "100 kg ≥ 30 s, ≥ 85 % (IRAM 3517-2 anexo E); alcance según catálogo", "1 por lote", "N / C"],
              ["L4", "Polvo", "certificado del lote IRAM 3569; humedad y fluidez según certificado", "por lote de polvo", "N"],
              ["L5", "Manómetros y válvulas", "certificado IRAM 3533; prueba de la válvula a Pe", "por partida", "N / R"],
          ], ["N°", "Ensayo", "Método y criterio", "Frecuencia", "Fuente"], [5, 20, 55, 10, 10]),
@@ -211,63 +212,107 @@ def doc02():
 
 
 # ------------------------------------------------------------------ DOC-03
+def _ps(m):
+    return float(m.spec["Presión de servicio (MPa)"].replace(",", "."))
+
+
 def doc03():
-    grupos = [
-        ("ABC / BC / clase D (polvo, presión permanente)", "FL_MAT_ABC_1kg a 10kg, BC_5kg, CLASED_9l",
-         "3,5", "5 años", "12 años",
-         "vaciar, secar, polvo nuevo o recuperado y tamizado del mismo tipo; N<sub>2</sub> a Ps; estanqueidad; "
-         "NFPA: examen interno cada 6 años"),
-        ("ABC rodantes", "FL_MAT_ABC_25kg a 100kg", "4,0", "5 años", "12 años",
-         "igual que polvo; además PH de la manguera y control de ruedas, eje y válvula esférica"),
-        ("CO<sub>2</sub>", "FL_MAT_CO2_2kg, 5kg", "25", "5 años", "5 años",
-         "<b>control por pesada</b>: recargar si la pérdida supera el 10 % de la carga; PH con camisa de agua y "
-         "expansión permanente; manga de alta presión con PH propia"),
-        ("Agua", "FL_MAT_AGUA_10l", "2,0", "5 años", "5 años",
-         "agua nueva; N<sub>2</sub> o aire seco a 0,8 MPa; revisar corrosión interna del inoxidable"),
-        ("AFFF", "FL_MAT_AFFF_10l, 50l", "2,0 / 4,0", "5 años", "5 años",
-         "solución nueva a la concentración del fabricante; NFPA: reemplazo de la solución premezclada cada 3 años"),
-        ("Sales K", "FL_MAT_SALESK_6l", "2,0", "5 años", "5 años",
-         "solución nueva del fabricante; lanza y boquilla limpias; recipiente inoxidable"),
-        ("HCFC / HFC (halogenados)", "FL_MAT_HCFC-HFC_5kg", "2,0", "5 años", "12 años",
-         "<b>recuperación en circuito cerrado</b> (prohibido ventear); reciclado o agente nuevo; control por "
-         "presión y pesada"),
-    ]
-    filas = [[f"<b>{g[0]}</b><br/>{g[1]}", g[2], g[3], g[4], g[5]] for g in grupos]
+    fil_ph = []
+    for m in MODELOS:
+        ps = _ps(m)
+        if m.familia == "co2":
+            pr = "IRAM 2529-1 (camisa de agua)"
+        else:
+            pr = f"{2.5 * ps:.1f}".replace(".", ",") + " (2,5 × Ps)"
+        intervalo = "2 años" if m.familia == "inox" or "AFFF" in m.codigo else "5 años"
+        fil_ph.append([m.codigo.replace("FL_MAT_", ""), _e(m.spec["Presión de servicio (MPa)"]), pr,
+                       _e(m.spec["Presión de ensayo (MPa)"]), intervalo])
     h = [cabecera("DOC-03", "Mantenimiento, recarga y prueba hidráulica", "Todos los modelos FLAMA"),
-         "<h1>Ensayos de mantenimiento y recarga por tipo</h1>",
-         "<h2>1. Normas</h2>",
-         "<ul><li><b>IRAM 3517-2</b> - Matafuegos manuales y sobre ruedas. Dotación, control, mantenimiento y "
-         "recarga (norma argentina de servicio).</li>"
-         "<li><b>NFPA 10</b> - Standard for Portable Fire Extinguishers (inspección, mantenimiento y prueba "
-         "hidrostática; referencia internacional).</li>"
-         "<li>Reglamentación local: Dec. 351/79 (Ley 19.587) y ordenanzas municipales (habilitación de recargadoras).</li></ul>",
-         "<h2>2. Intervalos</h2>",
+         "<h1>Ensayos de control, mantenimiento y recarga por tipo</h1>",
+         "<p>Base: <b>IRAM 3517-2:2005</b> (tercera edición, 2005-12-23), leída en su texto completo; se citan "
+         "los apartados. Las novedades de la <b>revisión 2020</b> se toman de un resumen publicado por un "
+         "prestador (fuente secundaria, columna S) hasta disponer del texto 2020. NFPA 10 como referencia.</p>",
+         "<h2>1. Intervalos (IRAM 3517-2)</h2>",
          tabla([
-             ["Control del usuario", "trimestral (R)", "mensual (inspección, N)"],
-             ["Mantenimiento por empresa habilitada", "anual: control de carga y presión, tarjeta (R)", "anual (N)"],
-             ["Recarga", "después de cada uso, por pérdida de carga/presión o al vencer la carga (R)",
-              "después de cada uso o si la inspección lo indica (N)"],
-             ["Prueba hidráulica", "cada 5 años como máximo, todos los tipos (R)", "según tabla 3 (N)"],
-         ], ["Actividad", "IRAM 3517-2", "NFPA 10"], [30, 40, 30]),
-         "<h2>3. Ensayos por tipo en la recarga</h2>",
-         tabla(filas, ["Tipo / modelos", "PH (MPa, C)", "PH IRAM 3517-2", "PH NFPA 10", "Particularidades de la recarga"],
-               [26, 10, 12, 10, 42]),
-         "<h2>4. Ensayos comunes a toda recarga</h2>",
+             ["Control periódico", "cada 3 meses como mínimo, 4 controles cada 12 meses; verifica dotación y equipos "
+              "(tabla B.1); formulario del anexo C por duplicado", "3.3.1 a 3.3.8", "N"],
+             ["Etiqueta de control", "celeste, <b>35 mm de alto × 50 mm de largo</b>, con: EQUIPO CONTROLADO POR, "
+              "FECHA (mes y año), EL PRÓXIMO CONTROL SE DEBE REALIZAR ANTES DE CUMPLIRSE LOS TRES MESES DE LA FECHA "
+              "INDICADA; adherida al extintor, nunca al gabinete (FL_SEN_04)", "3.3.6", "N"],
+             ["Mantenimiento", "por lo menos anualmente, o cuando lo indique el control; examen de partes mecánicas, "
+              "agente y medio de expulsión", "3.4.2, 3.4.4", "N"],
+             ["Equipos de reemplazo", "el extintor retirado se sustituye por uno de igual clasificación y potencial",
+              "3.4.3", "N"],
+             ["Recarga", "después del uso, cuando lo indique una inspección o el mantenimiento; sólo agentes "
+              "IRAM del anexo D con certificación", "3.5.2, 3.5.3.7", "N"],
+             ["Agua, AFFF (y sales K, 2020)", "cambiar el agente <b>cada año</b>, previo lavado interior",
+              "tabla B.1; S", "N / S"],
+             ["Prueba hidrostática", "<b>como máximo cada 5 años</b>: polvo, CO<sub>2</sub>, halogenados; "
+              "<b>como máximo cada 2 años</b>: agua, AFFF (2020: también acetato de potasio). Su vencimiento no debe "
+              "ser anterior al vencimiento de la carga", "tabla B.1, 4.3.1.6; S", "N / S"],
+             ["Mangas", "PH cada vez que el extintor requiere PH o ante dudas (2005); anual para CO<sub>2</sub> y ABC "
+              "con rótulo en la manga (2020)", "4.3.3.7; S", "N / S"],
+             ["Marbete (disco)", "cambiar con cada mantenimiento y recarga (polvo, halogenados); CO<sub>2</sub>: con "
+              "cada PH", "tabla B.1, 3.10", "N"],
+         ], ["Actividad", "Requisito", "Apartado", "F."], [18, 60, 14, 8]),
+         "<h2>2. Prueba hidrostática (4.3)</h2>",
+         "<ul><li><b>Presión</b>: extintores bajo presión que operan a menos de 2,8 MPa: <b>2,5 veces la presión de "
+         "servicio</b> (4.3.2.2). CO<sub>2</sub> y cilindros: IRAM 2529-1 (4.3.2.1, 4.3.3.5). Mangas de CO<sub>2</sub>: "
+         "IRAM 3509/3565; las demás: a la presión de servicio (4.3.2.3).</li>"
+         "<li><b>Equipo</b> (4.3.3.3): bomba manual o a motor capaz de <b>no menos del 150 %</b> de la presión de "
+         "ensayo, válvulas de retención, conexión flexible y <b>jaula o barrera de protección</b> (FL_ESQ_01). "
+         "Nunca presión neumática ni de gas.</li>"
+         "<li><b>Procedimiento</b> (4.3.3.6): quitar válvula y partes internas, eliminar todo el polvo, llenar con "
+         "agua purgando el aire, subir a la presión de prueba y <b>mantenerla 1 min</b>. Satisfactorio si no hay "
+         "caída de presión, rotura, pérdidas visibles ni deformaciones permanentes visibles; si falla, se inutiliza.</li>"
+         "<li><b>Mangas</b> (4.3.3.7): llenar de agua, llegar a la presión en 1 min como máximo, mantener 1 min; "
+         "secar a no más de 65 °C; las que fallan se destruyen.</li>"
+         "<li><b>No se ensaya y se inutiliza</b> (4.3.1.3): reparaciones por soldadura o masilla, picaduras "
+         "pasantes, extintor quemado, inoxidable cargado con anticongelante de cloruro de calcio.</li>"
+         "<li><b>Secado</b> (4.3.3.4): todo extintor que no sea de agua se seca hasta que no se vea agua ni "
+         "humedad condensada.</li></ul>",
+         tabla(fil_ph, ["Modelo", "Ps (MPa)", "PH recarga (MPa) 3517-2", "Pe fabricación (MPa, catálogo)",
+                        "Intervalo PH"], [22, 12, 28, 22, 16]),
+         "<p class='nota'>Donde la presión de fabricación del catálogo (rodantes 4,0 MPa) supera 2,5 × Ps, en la "
+         "recarga rige 2,5 × Ps según 3517-2; FLAMA puede ensayar a la presión de fabricación si su norma de "
+         "producto lo exige (confirmar con IRAM 3550 / 3541).</p>",
+         "<h2>3. Condiciones de funcionamiento a garantizar (anexo E)</h2>",
          tabla([
-             ["1", "Inspección externa", "corrosión, abolladuras, soldaduras, rosca del cuello, legibilidad del marcado; "
-              "rechazo: corrosión con pérdida de material, golpes con arista, fisuras, fuego"],
-             ["2", "Inspección interna", "linterna o endoscopio: corrosión, restos de agente apelmazado; recubrimiento"],
-             ["3", "Válvula", "O-ring nuevo, vástago y resorte, sifón destapado, manguera sin fisuras, tobera"],
-             ["4", "Manómetro", "sello IRAM 3533, aguja libre, cero correcto; reemplazar si no verifica"],
-             ["5", "Prueba hidráulica", "si vence o si el recipiente es dudoso (FL_ESQ_01); rechazo = inutilizar"],
-             ["6", "Carga y presurización", "según FL_ESQ_02 / FL_ESQ_03 con la presión del catálogo"],
-             ["7", "Estanqueidad", "inmersión o detector; control de presión a las 24 h"],
-             ["8", "Registro", "tarjeta FL_SEN_04, precinto nuevo, oblea de la jurisdicción"],
-         ], ["N°", "Ensayo", "Criterio"], [5, 20, 75]),
-         "<p class='nota'>Presiones de ensayo (columna PH): catálogo FLAMA (Hoja 3 de cada plano). Los intervalos de "
-         "NFPA 10 son los de la edición 2022 (hidrostática: 5 años para CO<sub>2</sub>, agua, espuma y químico "
-         "húmedo; 12 años para polvo y halogenados; examen interno de polvo presurizado a los 6 años).</p>",
-         FUENTES]
+             ["3523 polvo manual", "1 y 2,5 kg: 0 / +100 g · 5 y 10 kg: 0 / +300 g", "mín. 8 s", "mín. 85 %"],
+             ["3550 polvo rodante", "+3 %", "25 kg mín. 10 s · 50 y 70 kg mín. 15 s · 100 kg mín. 30 s", "mín. 85 %"],
+             ["3509 CO<sub>2</sub> manual", "0 / −5 %", "mín. 8 s", "mín. 80 %"],
+             ["3525 agua manual", "+3 %", "40 a 65 s", "mín. 95 %"],
+             ["3527 AFFF manual", "+3 %", "40 a 65 s", "mín. 85 %"],
+             ["3541 AFFF rodante", "+3 %", "50 L: 90 a 150 s", "mín. 95 %"],
+         ], ["Norma / tipo", "Tolerancia de carga", "Tiempo de descarga", "Descarga"], [22, 30, 32, 16]),
+         "<h2>4. Recarga: requisitos de taller</h2>",
+         "<ul><li>Recinto de polvo: humedad relativa <b>≤ 70 %</b> y extracción con <b>≥ 8 renovaciones por hora</b> "
+         "(3.7).</li>"
+         "<li>Polvo ABC: en la recarga anual debe ser <b>ABC estándar color gris</b> IRAM 3569 o superior (3.5.3.7); "
+         "masa máxima de extinción IRAM 3672: gris 1,7 g · ABC 90 amarillo 1,2 g · BC rosado 1,8 g.</li>"
+         "<li><b>Prohibido mezclar polvo ABC con BC</b>: la reacción puede hacer estallar el extintor (3.5.3.4). "
+         "Polvo clase D: no debe humedecerse (3.5.3.6). No se convierte un extintor de un tipo a otro (3.5.4).</li>"
+         "<li>Ensayo de pérdidas después de toda recarga (3.8). Reponer precintos con identificación y pasador de "
+         "seguridad (3.11).</li>"
+         "<li>Oblea o etiqueta firmemente adherida con: mes y año del próximo mantenimiento y recarga, mes y año de "
+         "vencimiento de la PH, n° de serie y responsable inscripto (3.6.1); registro de trazabilidad (3.6.2).</li>"
+         "<li><b>Disco marbete</b> de baquelita coloreada en su masa, entre válvula y recipiente, D interior 40 ó "
+         "50 mm, 4 entallas radiales a 90° que rompan antes de 20 mm de deformación; color anual según tabla 1 "
+         "(3.10, FL_SEN_04).</li>"
+         "<li>Pintura: repintar si hay oxidación, metal a la vista, pérdida de brillo o color distinto (4.4; DOC-01).</li>"
+         "<li><b>Inutilización</b> (4.5): retirar el agente, practicar <b>dos orificios de Ø ≥ 10 mm</b> en recipiente y "
+         "cilindro expulsor, pintar <b>NO APTO</b> en amarillo y entregar nota con los motivos.</li></ul>",
+         "<h2>5. Revisión 2020 (fuente secundaria S)</h2>",
+         "<ul><li>Extintor de <b>reserva</b>: 10 % de la dotación, 40 mm inferiores pintados de verde con la leyenda "
+         "EXTINTOR DE RESERVA. Extintor <b>sustituto</b>: 40 mm inferiores amarillos, leyenda EXTINTOR SUSTITUTO "
+         "(FL_SEN_06).</li>"
+         "<li>Vida útil: ABC 20 años como máximo; CO<sub>2</sub> de menos de 10 kg, 30 años.</li>"
+         "<li>Matafuego de vehículo: mantenimiento sugerido cada 6 meses (el polvo se compacta).</li></ul>",
+         "<h2>6. NFPA 10 (referencia)</h2>",
+         "<p>Inspección mensual, mantenimiento anual, examen interno de polvo presurizado cada 6 años, PH cada 12 años "
+         "(polvo, halogenados) y cada 5 años (CO<sub>2</sub>, agua, espuma, químico húmedo); solución AFFF premezclada "
+         "cada 3 años. Ver DOC-04.</p>",
+         FUENTES.replace("R = valor", "S = resumen publicado de IRAM 3517 (2020), a confirmar con el texto 2020 · R = valor")]
     return "".join(h)
 
 
@@ -302,10 +347,10 @@ def doc04():
          ], ["Tema", "IRAM / Argentina", "NFPA 10 / EE. UU."], [24, 38, 38]),
          "<h2>4. Instalación</h2>",
          tabla([
-             ["Altura de la parte superior", "≤ 1,50 m (práctica argentina, Dec. 351/79; confirmar)",
+             ["Altura de la parte superior", "≤ 1,50 m para extintores de hasta 20 kg (IRAM 3517 rev. 2020, S)",
               "≤ 1,53 m (5 ft) si pesa ≤ 18,14 kg; ≤ 1,07 m (3,5 ft) si pesa más (§6.1.3.8.1-2)"],
-             ["Separación al piso", "-", "≥ 102 mm (4 in) (§6.1.3.8.3)"],
-             ["Distancia de recorrido", "según riesgo y reglamentación local",
+             ["Separación al piso", "≥ 10 cm (IRAM 3517 rev. 2020, S)", "≥ 102 mm (4 in) (§6.1.3.8.3)"],
+             ["Distancia de recorrido", "≤ 15 m de recorrido horizontal por piso (IRAM 3517-2 anexo A)",
               "clase A: 22,9 m (75 ft); clase B: 9,15 o 15,25 m (30 o 50 ft) según potencial"],
              ["Visibilidad", "chapa baliza y cartel", "visible, accesible, sin obstrucciones; señalizado si no se ve"],
          ], ["Tema", "IRAM / Argentina", "NFPA 10"], [24, 38, 38]),
@@ -314,9 +359,10 @@ def doc04():
              ["Inspección", "trimestral (IRAM 3517-2)", "mensual"],
              ["Mantenimiento", "anual", "anual"],
              ["Examen interno polvo presurizado", "en cada recarga / PH", "cada 6 años"],
-             ["PH polvo y halogenados", "cada 5 años", "cada 12 años"],
-             ["PH CO<sub>2</sub>, agua, espuma, químico húmedo", "cada 5 años", "cada 5 años"],
-             ["Solución AFFF premezclada", "en cada recarga", "reemplazo cada 3 años"],
+             ["PH polvo y halogenados", "cada 5 años como máximo", "cada 12 años"],
+             ["PH CO<sub>2</sub>", "cada 5 años", "cada 5 años"],
+             ["PH agua, AFFF, acetato de potasio", "cada 2 años como máximo", "cada 5 años"],
+             ["Agente agua / AFFF / sales K", "cambio anual", "AFFF premezclado: cada 3 años"],
          ], ["Actividad", "IRAM", "NFPA 10"], [40, 30, 30]),
          "<p class='nota'>Los números de sección de NFPA 10 corresponden a la edición 2022; verificar contra la "
          "edición adoptada por la autoridad competente. Los valores IRAM se indican como referencia (ver fuentes).</p>",

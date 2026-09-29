@@ -33,8 +33,10 @@ funcionan igual con AutoCAD en español o en inglés.
 
 ## Planos y documentos complementarios
 
+Base normativa de servicio: **IRAM 3517-2:2005 leída completa** (apartados citados en cada lámina y documento); novedades de la revisión 2020 tomadas de un resumen publicado (marcadas **S**).
+
 Se generan con `python generar.py --complementarios` (o con `python generar.py` sin argumentos, que genera todo).
-`salida/FLAMA_complementarios.pdf` junta las 19 láminas y los 4 documentos.
+`salida/FLAMA_complementarios.pdf` junta las 20 láminas y los 4 documentos.
 
 | Carpeta | Código | Contenido |
 |---|---|---|
@@ -42,8 +44,9 @@ Se generan con `python generar.py --complementarios` (o con `python generar.py` 
 | `salida/senaletica/` | `FL_SEN_01` | Chapa baliza (IRAM 10005, franjas 45° de 100 mm) y esquema de instalación con alturas IRAM / NFPA 10 |
 | | `FL_SEN_02` | Cartel ISO 7010 F001, con leyenda y con flecha de dirección; tamaño por distancia (ISO 3864-1) |
 | | `FL_SEN_03` | Símbolos letra-forma de clases de fuego A, B, C, D, K con los **colores NFPA 10** (verde, rojo, azul, amarillo, negro) y clases por modelo |
-| | `FL_SEN_04` | Tarjeta de control (frente y dorso, IRAM 3517-2) y etiqueta de identificación e instrucciones |
+| | `FL_SEN_04` | Etiqueta de control celeste 35 × 50 mm (IRAM 3517-2 3.3.6), oblea de servicio (3.6.1), disco marbete y colores anuales (3.10, tabla 1) |
 | | `FL_SEN_05` | **Sistema de pictogramas NFPA 10 (Anexo B)**: apto en azul, no apto en negro con barra roja, por modelo |
+| | `FL_SEN_06` | Extintor de reserva (franja inferior verde de 40 mm) y sustituto (amarilla); etiqueta de instrucciones |
 | `salida/accesorios/` | `FL_ACC_01` | Soporte de pared con cartelas (2,5 / 5 / 10 kg), 3 vistas ISO E + isometría, STEP |
 | | `FL_ACC_02` | Soporte vehicular con abrazaderas de fleje (1 / 2,5 kg) |
 | | `FL_ACC_03` | Gabinete metálico con puerta y visor (5 / 10 kg) |
@@ -141,8 +144,8 @@ caucho macizo y chapa en las ruedas. Ver `flama/materiales.py`.
 2. **Rosca de la válvula de CO₂**: se indica cónica 25E (ISO 11363-1); confirmar con el proveedor del cilindro.
 3. **Espesores derivados** (Agua, AFFF, Sales K: 0,8 mm inox; CO₂: 5,4 / 6,0 mm; 70 kg): elegidos para que la masa coincida con el catálogo; confirmar con cálculo a presión de ensayo.
 4. Firmas "Revisó" y "Aprobó" del rótulo.
-5. Valores marcados **R** en DOC-01 a DOC-04 (tolerancia de carga, tiempo de PH, presión de rotura,
-   masa residual, intervalos IRAM 3517-2): confirmarlos con IRAM 3523, 3550 y 3517-2 vigentes.
+5. Valores marcados **R** en DOC-01 y DOC-02 (presión de rotura, expansión volumétrica, ensayos de tipo):
+   confirmarlos con IRAM 3523 y 3550. Valores **S** (revisión 2020 de IRAM 3517): confirmar con el texto 2020.
 6. Pictogramas de F001 y NFPA 10: los dibujos son esquemáticos; para imprimir, usar los originales de la norma.
 
 ## Regenerar

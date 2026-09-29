@@ -195,7 +195,8 @@ def acc01():
                "1) Tolerancias generales ISO 2768-m; aristas vivas matadas 0,3 × 45°.",
                "2) El cuello del matafuego entra en la ranura B y la válvula apoya sobre el ala;",
                "    el labio frontal impide que el matafuego se desenganche por golpe.",
-               "3) Cotas A y B según tabla (dibujado el soporte para 10 kg)."], h.fy0 + 55)
+               "3) Cotas A y B según tabla (dibujado el soporte para 10 kg).",
+               "4) Sin fijaciones que impidan retirar el extintor (IRAM 3517-2 3.3.4): se levanta y sale."], h.fy0 + 55)
     return doc, sol
 
 
@@ -263,7 +264,8 @@ def acc03():
     _notas(h, ["NOTAS",
                "1) Tolerancias generales ISO 2768-m.",
                "2) Medidas interiores útiles 298 × 218 × 748 mm: admite matafuego de 10 kg (Ø181,5 × 562,5 + válvula).",
-               "3) La puerta abre sin llave; si se usa vidrio, colocar martillo de rotura encadenado.",
+               "3) Con vidrio: medio que asegure su rotura para extraer el extintor (IRAM 3517-2 3.3.4); martillo",
+               "    junto al gabinete e interior con franjas rojas y blancas (IRAM 3517 rev. 2020, s/ resumen).",
                "4) Altura de montaje: parte superior del matafuego ≤ 1,50 m (FL_SEN_01)."], h.fy0 + 55)
     return doc, sol
 

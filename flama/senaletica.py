@@ -6,8 +6,9 @@
   SEN-02  Cartel de ubicación de matafuego (ISO 7010 F001) y tamaños por
           distancia de observación (ISO 3864-1, h = L / Z).
   SEN-03  Símbolos de clases de fuego A, B, C, D, K (IRAM 10005 / NFPA 10).
-  SEN-04  Tarjeta de control de mantenimiento y recarga (IRAM 3517-2) y
-          etiqueta de identificación e instrucciones.
+  SEN-04  Etiqueta de control celeste, oblea de servicio, disco marbete
+          (IRAM 3517-2) y etiqueta de instrucciones.
+  SEN-06  Extintor de reserva y sustituto (franja inferior de 40 mm).
   SEN-05  Sistema de pictogramas de NFPA 10 (Anexo B) por modelo.
 
 Los accesorios (soportes, gabinete) están en accesorios.py.
@@ -99,7 +100,10 @@ def simbolo_clase(h, letra, c, lado):
 
 
 # ------------------------------------------------------------------ SEN-01 chapa baliza
-def chapa_baliza(h, x0, y0, w, alto, s, clases="ABC", franja=100.0):
+FOTO = (190, 225, 70)      # fotoluminiscente (verde amarillento)
+
+
+def chapa_baliza(h, x0, y0, w, alto, s, clases="ABC", franja=100.0, foto=15.0):
     """Chapa baliza de w × alto mm reales a escala s (mm papel / mm real) con
     esquina inferior izquierda en (x0, y0) del papel."""
     rect = sg.box(x0, y0, x0 + w * s, y0 + alto * s)
@@ -112,6 +116,11 @@ def chapa_baliza(h, x0, y0, w, alto, s, clases="ABC", franja=100.0):
         q = banda.intersection(rect)
         if not q.is_empty:
             _relleno(h, q, ROJO)
+    if foto:
+        for xa in (x0, x0 + (w - foto) * s):
+            fr = sg.box(xa, y0, xa + foto * s, y0 + alto * s)
+            _relleno(h, fr, FOTO)
+            _contorno(h, fr, "08-FINA")
     _contorno(h, rect)
     # recuadro blanco con letras de clase, arriba a la derecha (letras rojas)
     txt = "".join(clases)
@@ -150,7 +159,7 @@ def sen01():
     h.linea((xi - 5, yi), (xi + 90, yi), "01-VISIBLE")
     for i in range(12):
         h.linea((xi - 5 + 8 * i, yi), (xi - 9 + 8 * i, yi - 4), "08-FINA")
-    h.linea((xi + 20, yi), (xi + 20, yi + 2200 * si), "01-VISIBLE")  # pared
+    h.linea((xi + 20, yi), (xi + 20, yi + 2500 * si), "01-VISIBLE")  # pared
     zc = 700.0  # borde inferior de la chapa
     chapa_baliza(h, xi + 20, yi + zc * si, 350, 870, si)
     # matafuego delante de la chapa (esquemático, 10 kg): parte superior a 1,50 m máx.
@@ -158,12 +167,19 @@ def sen01():
     h.rect(mx - 90 * si, yi + 850 * si, mx + 90 * si, yi + 1500 * si, "02-OCULTA")
     h.cota_lineal((mx + 90 * si, yi), (mx + 90 * si, yi + 1500 * si), (xi + 52, yi), 90, 20, texto="≤ 1500")
     h.cota_lineal((xi + 20, yi + zc * si), (xi + 20, yi + (zc + 870) * si), (xi + 5, yi), 90, 20)
+    # señal tridimensional (prisma F001) a 2,0-2,5 m (rev. 2020)
+    pr = sg.box(xi + 20, yi + 2100 * si, xi + 20 + 250 * si, yi + 2350 * si)
+    _relleno(h, pr, ROJO)
+    _contorno(h, pr)
+    h.cota_lineal((xi + 20 + 250 * si, yi), (xi + 20 + 250 * si, yi + 2100 * si), (xi + 75, yi), 90, 20,
+                  texto="2000 a 2500")
+    h.texto("señal tridimensional", (xi + 20 + 260 * si, yi + 2230 * si), 2.5, A.MIDDLE_LEFT)
     h.texto("ESQUEMA DE INSTALACIÓN (1:20)", (xi + 40, yi - 10), 3.5, A.MIDDLE_CENTER)
     notas = [
         "NOTAS",
-        "1) IRAM 10005: franjas inclinadas a 45° respecto de la horizontal, rojas y blancas, de 100 mm de ancho.",
-        "2) El matafuego se cuelga delante de la chapa (trazos), con su parte superior a no más de 1,50 m del piso",
-        "    (práctica habitual en Argentina, Dec. 351/79; confirmar con la autoridad de aplicación local).",
+        "1) IRAM 10005-2: franjas inclinadas a 45°, rojas y blancas, de 100 mm; señalización según IRAM 3517-2 3.3.4.",
+        "2) Matafuego delante de la chapa: parte superior a ≤ 1,50 m del piso (hasta 20 kg) y base a ≥ 10 cm del piso;",
+        "    15 mm fotoluminiscentes a cada costado y datos del prestador en la chapa (IRAM 3517 rev. 2020, s/ resumen).",
         "3) Arriba a la derecha, letras de las clases de fuego del matafuego, rojas sobre fondo blanco (altura adoptada 50 mm).",
         "4) NFPA 10 §6.1.3.8: matafuego de hasta 18,14 kg (40 lb): parte superior a no más de 1,53 m (5 ft);",
         "    de más de 18,14 kg: a no más de 1,07 m (3,5 ft); separación mínima al piso 102 mm (4 in).",
@@ -283,69 +299,140 @@ def sen03():
 
 
 # ------------------------------------------------------------------ SEN-04 tarjeta de control
+CELESTE = (120, 190, 235)
+MARBETE = [("VERDE CLARO", (150, 220, 120)), ("NARANJA", (245, 140, 30)), ("MARRÓN CLARO", (190, 140, 90)),
+           ("NEGRO", (30, 30, 30)), ("AMARILLO", (250, 215, 0)), ("CELESTE", (120, 190, 235)),
+           ("VERDE OSCURO", (0, 100, 50)), ("AZUL", (0, 60, 160)), ("LILA", (180, 140, 210)),
+           ("BLANCO", (255, 255, 255))]
+
+
 def sen04():
-    doc, h = _hoja("FL_SEN_04", "Tarjeta de control", "IRAM 3517-2 - control, mantenimiento y recarga", "1:1", "A3")
-    x0, y0, w, alto = h.fx0 + 20, h.fy0 + 80, 100.0, 160.0
-    h.rect(x0, y0, x0 + w, y0 + alto, "01-VISIBLE")
-    h.msp.add_circle((x0 + w / 2, y0 + alto - 8), 3, dxfattribs={"layer": "01-VISIBLE"})
-    campos = ["EMPRESA DE RECARGA", "N° de registro / habilitación", "Matafuego N° (serie)", "Agente / capacidad",
-              "Fecha de recarga", "Vencimiento de carga", "Fecha última prueba hidráulica", "Vencimiento prueba hidráulica",
-              "Peso total (kg)", "Presión (MPa) / manómetro", "Técnico responsable", "Firma"]
-    yy = y0 + alto - 16
-    for c in campos:
-        h.linea((x0 + 4, yy - 7), (x0 + w - 4, yy - 7), "08-FINA")
-        h.texto(c, (x0 + 4, yy - 5.5), 1.8)
-        yy -= 11.5
-    h.cota_lineal((x0, y0 + alto), (x0 + w, y0 + alto), (x0, y0 + alto + 8), 0, 1)
-    h.cota_lineal((x0, y0), (x0, y0 + alto), (x0 - 10, y0), 90, 1)
-    h.texto("FRENTE", (x0 + w / 2, y0 - 6), 3.5, A.MIDDLE_CENTER)
-    # dorso: registro de controles trimestrales
-    x1 = x0 + w + 25
-    h.rect(x1, y0, x1 + w, y0 + alto, "01-VISIBLE")
-    h.msp.add_circle((x1 + w / 2, y0 + alto - 8), 3, dxfattribs={"layer": "01-VISIBLE"})
-    h.texto("CONTROLES PERIÓDICOS", (x1 + w / 2, y0 + alto - 16), 2.5, A.MIDDLE_CENTER)
-    cols = [x1 + 4, x1 + 30, x1 + 60, x1 + w - 4]
-    for c, t in zip(cols, ["Fecha", "Estado", "Firma"]):
-        h.texto(t, (c + 1, y0 + alto - 24), 1.8)
-    for i in range(13):
-        yl = y0 + alto - 27 - 10 * i
-        h.linea((x1 + 4, yl), (x1 + w - 4, yl), "08-FINA")
-    for c in cols:
-        h.linea((c, y0 + alto - 27), (c, y0 + alto - 147), "08-FINA")
-    h.texto("DORSO", (x1 + w / 2, y0 - 6), 3.5, A.MIDDLE_CENTER)
-    # etiqueta autoadhesiva de identificación e instrucciones (ejemplo ABC 10 kg)
-    x2, we, he = x1 + w + 25, 110.0, 160.0
-    h.rect(x2, y0, x2 + we, y0 + he, "01-VISIBLE")
-    cab = sg.box(x2, y0 + he - 18, x2 + we, y0 + he)
+    doc, h = _hoja("FL_SEN_04", "Etiquetas y marbete", "IRAM 3517-2:2005 - 3.3.6, 3.6.1, 3.10 y tabla 1", "2:1", "A3")
+    k = 2.0  # escala 2:1
+    # 1) etiqueta de control periódico, celeste 35 × 50 (3.3.6)
+    x0, y0 = h.fx0 + 15, h.fy1 - 25 - 35 * k
+    et = sg.box(x0, y0, x0 + 50 * k, y0 + 35 * k)
+    _relleno(h, et, CELESTE)
+    _contorno(h, et)
+    lin = ["EQUIPO CONTROLADO POR:", "........................................", "FECHA: ......... / .........",
+           "EL PRÓXIMO CONTROL SE DEBE REALIZAR", "ANTES DE CUMPLIRSE LOS TRES MESES", "DE LA FECHA INDICADA"]
+    for i, t in enumerate(lin):
+        h.texto(t, (x0 + 25 * k, y0 + (30 - 5.2 * i) * k), 1.8 * k * 0.72, A.MIDDLE_CENTER)
+    h.cota_lineal((x0, y0 + 35 * k), (x0 + 50 * k, y0 + 35 * k), (x0, y0 + 35 * k + 8), 0, 1 / k)
+    h.cota_lineal((x0 + 50 * k, y0), (x0 + 50 * k, y0 + 35 * k), (x0 + 50 * k + 8, y0), 90, 1 / k)
+    h.texto("1  ETIQUETA DE CONTROL - 3.3.6 (2:1)", (x0, y0 - 7), 3.5)
+    # 2) oblea de mantenimiento y recarga (3.6.1)
+    x1 = x0 + 50 * k + 30
+    ob = sg.Point(x1 + 32, y0 + 35).buffer(32, 64)
+    _relleno(h, ob, BLANCO)
+    _contorno(h, ob)
+    cx, cy = ob.centroid.x, ob.centroid.y
+    for i, t in enumerate(["RECARGADOR INSCRIPTO", "..............................", "PRÓX. MANT./RECARGA: ../..",
+                           "VENC. P. HIDRÁULICA: ../..", "N° SERIE: ............"]):
+        h.texto(t, (cx, cy + 20 - 10 * i), 2.5, A.MIDDLE_CENTER)
+    h.texto("2  OBLEA - 3.6.1 (2:1)", (x1, y0 - 7), 3.5)
+    # 3) disco marbete (3.10, figura 1): D interior 40 ó 50, 4 entallas a 90°
+    x2 = x1 + 95
+    k = 1.0  # disco a 1:1
+    Di, De = 40.0, 60.0
+    c = (x2 + De / 2 + 5, y0 + 35)
+    disco = sg.Point(c).buffer(De * k / 2, 96).difference(sg.Point(c).buffer(Di * k / 2, 96))
+    for ang in (0, 90, 180, 270):
+        ent = affinity.rotate(sg.box(c[0] + Di * k / 2 - 0.1, c[1] - 1.2, c[0] + Di * k / 2 + 4 * k, c[1] + 1.2),
+                              ang, origin=c)
+        disco = disco.difference(ent)
+    _relleno(h, disco, MARBETE[8][1])
+    _contorno(h, disco)
+    h.eje((c[0] - De * k / 2 - 4, c[1]), (c[0] + De * k / 2 + 4, c[1]))
+    h.eje((c[0], c[1] - De * k / 2 - 4), (c[0], c[1] + De * k / 2 + 4))
+    h.cota_lineal((c[0] - Di * k / 2, c[1]), (c[0] + Di * k / 2, c[1]), (c[0], c[1] - De / 2 - 8), 0, 1 / k,
+                  texto="%%cD = 40 ó 50")
+    h.nota_referencia("4 entallas radiales a 90°", (c[0] + Di * k / 2 + 3 * k, c[1] + 1),
+                      (c[0] + De * k / 2 + 12, c[1] + De * k / 2))
+    h.texto("3  DISCO MARBETE - 3.10 (1:1)", (x2, y0 - 7), 3.5)
+    h.texto("muestra: color 2026 LILA (ver tabla)", (x2, y0 - 12), 2.5)
+    # tabla de colores (tabla 1 repetida cada 10 años)
+    filas = [("Año (serie desde 2008)", "Color")]
+    for i, (n, _) in enumerate(MARBETE):
+        filas.append((f"{2018 + i} / {2028 + i}", n))
+    _tabla(h, h.fx0 + 15, y0 - 25, filas, [45, 35], alto=4.6, encabezado="COLOR ANUAL DEL DISCO (tabla 1)")
+    for i, (_, rgb) in enumerate(MARBETE):
+        yy = y0 - 25 - 4.6 * (i + 2) + 2.3
+        m = sg.Point(h.fx0 + 102, yy).buffer(1.8, 24)
+        _relleno(h, m, rgb)
+        _contorno(h, m, "08-FINA")
+    notas = ["NOTAS (IRAM 3517-2:2005)",
+             "1) Etiqueta celeste 35 × 50 mm en cada control; se adhieren una a continuación de otra en el",
+             "    costado del extintor, nunca en el gabinete ni en su vidrio (3.3.6).",
+             "2) Oblea firmemente adherida: próximo mantenimiento y recarga, vencimiento de la PH, n° de",
+             "    serie y responsable inscripto (3.6.1). Diseño de la oblea: ilustrativo.",
+             "3) Disco de fenol formaldehído coloreado en su masa, entre válvula y cuello; no se puede retirar",
+             "    sin romperlo; rotura antes de 20 mm de deformación (3.10, fig. 1). Diámetro exterior: adoptado.",
+             "4) Tabla 1 terminó en 2007 con la indicación de repetir la serie: colores calculados; confirmar",
+             "    el cronograma vigente (rev. 2020). Etiqueta de instrucciones: FL_SEN_06."]
+    for i, t in enumerate(notas):
+        h.texto(t, (h.fx0 + 135, h.fy0 + 150 - 5 * i), 2.5 if i else 3.5)
+    return doc
+
+
+# ------------------------------------------------------------------ SEN-06 reserva / sustituto
+def _silueta(h, x, y0, D, H, franja_rgb, leyenda, s):
+    r = D / 2 * s
+    cuerpo = sg.box(x - r, y0, x + r, y0 + (H - D / 2) * s).union(sg.Point(x, y0 + (H - D / 2) * s).buffer(r, 48))
+    _relleno(h, cuerpo, ROJO)
+    fr = sg.box(x - r, y0, x + r, y0 + 40 * s)
+    _relleno(h, fr, franja_rgb)
+    _contorno(h, cuerpo)
+    _contorno(h, fr, "08-FINA")
+    h.rect(x - 8 * s, y0 + H * s, x + 8 * s, y0 + (H + 25) * s, "01-VISIBLE")
+    h.cota_lineal((x + r, y0), (x + r, y0 + 40 * s), (x + r + 8, y0), 90, 1 / s)
+    for i, t in enumerate(leyenda.split(" ", 1)):
+        _texto_color(h, t, (x, y0 + H * s * 0.5 - 4 * i), 2.5, BLANCO)
+    return cuerpo
+
+
+def sen06():
+    doc, h = _hoja("FL_SEN_06", "Reserva y sustituto", "Franja 40 mm (rev. 2020) y etiqueta de instrucciones",
+                   "1:5", "A3")
+    s = 0.2
+    y0 = h.fy0 + 100
+    xs = (h.fx0 + 45, h.fx0 + 135)
+    _silueta(h, xs[0], y0, 181.5, 562.5, VERDE, "EXTINTOR DE RESERVA", s)
+    _silueta(h, xs[1], y0, 181.5, 562.5, AMARILLO, "EXTINTOR SUSTITUTO", s)
+    h.texto("EXTINTOR DE RESERVA", (xs[0], y0 - 10), 3.5, A.MIDDLE_CENTER)
+    h.texto("40 mm inferiores VERDES", (xs[0], y0 - 16), 2.5, A.MIDDLE_CENTER)
+    h.texto("EXTINTOR SUSTITUTO", (xs[1], y0 - 10), 3.5, A.MIDDLE_CENTER)
+    h.texto("40 mm inferiores AMARILLOS", (xs[1], y0 - 16), 2.5, A.MIDDLE_CENTER)
+    notas = ["NOTAS",
+             "1) Reserva: se mantiene en condiciones un 10 % de la dotación para reemplazar equipos",
+             "    despresurizados, usados o con anomalías (IRAM 3517 rev. 2020, según resumen publicado).",
+             "2) Sustituto: el que deja el prestador mientras retira equipos para mantenimiento; misma",
+             "    clasificación y potencial que el retirado (IRAM 3517-2:2005 3.4.3; franja: rev. 2020).",
+             "3) Franja: pintura en polvo verde RAL 6032 / amarillo RAL 1003 (DOC-01); leyenda en vinilo.",
+             "4) Confirmar colores y leyendas con el texto de la revisión 2020 (fuente secundaria)."]
+    for i, t in enumerate(notas):
+        h.texto(t, (h.fx0 + 5, h.fy0 + 62 - 5 * i), 2.5 if i else 3.5)
+    # 4) etiqueta de identificación e instrucciones (ejemplo ABC 10 kg, esc. 1:1 reducida)
+    x3, we, he = h.fx0 + 215, 110.0, 160.0
+    y3 = h.fy1 - 22 - he
+    h.rect(x3, y3, x3 + we, y3 + he, "01-VISIBLE")
+    cab = sg.box(x3, y3 + he - 15, x3 + we, y3 + he)
     _relleno(h, cab, ROJO)
-    _texto_color(h, "MATAFUEGO ABC 10 kg", (x2 + we / 2, y0 + he - 7), 5.0, BLANCO)
-    _texto_color(h, "FLAMA S.A.", (x2 + we / 2, y0 + he - 14), 2.5, BLANCO)
+    _texto_color(h, "MATAFUEGO ABC 10 kg", (x3 + we / 2, y3 + he - 6), 4.0, BLANCO)
+    _texto_color(h, "FLAMA S.A.", (x3 + we / 2, y3 + he - 12), 2.0, BLANCO)
     for i, L in enumerate("ABC"):
-        simbolo_clase(h, L, (x2 + 22 + i * 33, y0 + he - 33), 20)
+        simbolo_clase(h, L, (x3 + 18 + i * 26, y3 + he - 27), 16)
     pasos = ["MODO DE USO", "1. Retirar el matafuego del soporte.", "2. Quitar el precinto y el seguro.",
-             "3. Apuntar la tobera a la base del fuego.", "4. Apretar la palanca y barrer en zig-zag.",
+             "3. Apuntar a la base del fuego.", "4. Apretar la palanca, barrer en zig-zag.",
              "5. Recargar después de cada uso."]
     for i, t in enumerate(pasos):
-        h.texto(t, (x2 + 5, y0 + he - 52 - 6 * i), 3.5 if i == 0 else 2.5)
-    datos = ["Agente: polvo ABC (IRAM 3569)   Carga: 10 kg", "Propelente: N2   Presión de servicio: 1,4 MPa",
-             "Temperatura de uso: -20 °C a +50 °C   Prueba: 3,5 MPa", "Norma: IRAM 3523   Sello de conformidad IRAM",
-             "No usar en metales combustibles (clase D)."]
-    h.linea((x2 + 4, y0 + 58), (x2 + we - 4, y0 + 58), "08-FINA")
+        h.texto(t, (x3 + 4, y3 + he - 42 - 5 * i), 2.5 if i == 0 else 2.0)
+    datos = ["Agente: polvo ABC (IRAM 3569)  Carga: 10 kg", "Propelente: N2  Ps: 1,4 MPa  Pe: 3,5 MPa",
+             "Temperatura: -20 °C a +50 °C", "Norma IRAM 3523 - placa según IRAM 3534",
+             "No apto para metales (clase D)."]
     for i, t in enumerate(datos):
-        h.texto(t, (x2 + 5, y0 + 52 - 7 * i), 2.5)
-    h.cota_lineal((x2, y0 + he), (x2 + we, y0 + he), (x2, y0 + he + 8), 0, 1)
-    h.cota_lineal((x2 + we, y0), (x2 + we, y0 + he), (x2 + we + 8, y0), 90, 1)
-    h.texto("ETIQUETA (ej. ABC 10 kg)", (x2 + we / 2, y0 - 6), 3.5, A.MIDDLE_CENTER)
-    notas = ["NOTAS",
-             "1) Tarjeta de cartulina plastificada o PVC 0,5 mm, sujeta al cuello de la válvula con precinto.",
-             "2) Datos de la recarga y de la prueba hidráulica según IRAM 3517-2; la prueba hidráulica de los",
-             "    matafuegos se realiza como máximo cada 5 años (ver DOC-03).",
-             "3) Control periódico (dorso): cada 3 meses (IRAM 3517-2); NFPA 10 exige inspección mensual.",
-             "4) Se complementa con la oblea/marbete de la entidad certificadora que corresponda a la jurisdicción.",
-             "5) Etiqueta: vinilo autoadhesivo con laminado UV; datos y clases de cada modelo según su plano FL_MAT;",
-             "    temperatura de uso y presión según el catálogo; pictogramas NFPA opcionales (FL_SEN_05)."]
-    for i, t in enumerate(notas):
-        h.texto(t, (h.fx0 + 5, h.fy0 + 50 - 5 * i), 2.5 if i else 3.5)
+        h.texto(t, (x3 + 4, y3 + 38 - 6 * i), 2.0)
+    h.texto("ETIQUETA DE INSTRUCCIONES (ej. ABC 10 kg, 1:1)", (x3, y3 + he + 4), 3.5)
     return doc
 
 
@@ -443,4 +530,5 @@ def sen05():
 
 
 LAMINAS = [("FL_SEN_01", sen01, "A3"), ("FL_SEN_02", sen02, "A3"), ("FL_SEN_03", sen03, "A3"),
-           ("FL_SEN_04", sen04, "A3"), ("FL_SEN_05", sen05, "A3")]
+           ("FL_SEN_04", sen04, "A3"), ("FL_SEN_05", sen05, "A3"),
+           ("FL_SEN_06", sen06, "A3")]
