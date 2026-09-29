@@ -31,6 +31,34 @@ convierten los DXF a DWG y abren los modelos 3D con
 Los scripts usan comandos con prefijo `_` (nombres globales en inglés), así que
 funcionan igual con AutoCAD en español o en inglés.
 
+## Planos y documentos complementarios
+
+Se generan con `python generar.py --complementarios` (o con `python generar.py` sin argumentos, que genera todo).
+`salida/FLAMA_complementarios.pdf` junta las 19 láminas y los 4 documentos.
+
+| Carpeta | Código | Contenido |
+|---|---|---|
+| `salida/recipientes/` | `FL_REC_ABC_1kg` … `FL_REC_ABC_100kg` | **Recipientes ABC para venta suelta**: vista, corte A-A, vista superior, detalles de cuello y uniones soldadas, cotas con tolerancias, tabla de datos (volumen, masa, espesores, presiones, rosca). DXF + PDF + STEP |
+| `salida/senaletica/` | `FL_SEN_01` | Chapa baliza (IRAM 10005, franjas 45° de 100 mm) y esquema de instalación con alturas IRAM / NFPA 10 |
+| | `FL_SEN_02` | Cartel ISO 7010 F001, con leyenda y con flecha de dirección; tamaño por distancia (ISO 3864-1) |
+| | `FL_SEN_03` | Símbolos letra-forma de clases de fuego A, B, C, D, K con los **colores NFPA 10** (verde, rojo, azul, amarillo, negro) y clases por modelo |
+| | `FL_SEN_04` | Tarjeta de control (frente y dorso, IRAM 3517-2) y etiqueta de identificación e instrucciones |
+| | `FL_SEN_05` | **Sistema de pictogramas NFPA 10 (Anexo B)**: apto en azul, no apto en negro con barra roja, por modelo |
+| `salida/accesorios/` | `FL_ACC_01` | Soporte de pared con cartelas (2,5 / 5 / 10 kg), 3 vistas ISO E + isometría, STEP |
+| | `FL_ACC_02` | Soporte vehicular con abrazaderas de fleje (1 / 2,5 kg) |
+| | `FL_ACC_03` | Gabinete metálico con puerta y visor (5 / 10 kg) |
+| `salida/esquemas/` | `FL_ESQ_01` | Banco de prueba hidráulica, con presiones de ensayo de los 17 modelos |
+| | `FL_ESQ_02` | Línea de carga ABC: polvo, válvula, presurización N₂, estanqueidad, pesada |
+| | `FL_ESQ_03` | Diagrama de flujo de recarga y tabla de carga por tipo de agente |
+| `salida/documentos/` | `DOC-01` | Tratamiento superficial y pintura: desengrase, **granallado Sa 2½**, fosfatizado, polvo poliéster, pasivado del inoxidable, controles (ISO 2808, 2409, 9227 500 h) y **saponificación** (qué es, qué agentes la producen, por qué FLAMA no usa alquídicos) |
+| | `DOC-02` | **Ensayos obligatorios de fabricación ABC**: de rutina al 100 % (PH, estanqueidad, carga, presión), por lote (rotura, expansión, descarga) y de tipo |
+| | `DOC-03` | **Ensayos de mantenimiento y recarga por tipo** (ABC, rodantes, CO₂, agua, AFFF, sales K, HCFC/HFC, clase D): intervalos IRAM 3517-2 frente a NFPA 10 |
+| | `DOC-04` | **NFPA 10 frente a IRAM**: colores y formas de clase, pictogramas, NFPA 704 (por qué no se aplica), carteles, alturas de montaje, distancias e intervalos |
+
+Las láminas de señalética se imprimen en color. En los documentos, cada valor indica su origen:
+**C** catálogo FLAMA, **N** norma citada, **R** valor de referencia habitual que hay que confirmar
+con la edición vigente de la norma IRAM (el texto de IRAM está protegido y no se tuvo a la vista).
+
 ## Modelos
 
 | Código / archivo | Denominación | Norma IRAM agente | Norma IRAM extintor | Fuente de datos |
@@ -113,6 +141,9 @@ caucho macizo y chapa en las ruedas. Ver `flama/materiales.py`.
 2. **Rosca de la válvula de CO₂**: se indica cónica 25E (ISO 11363-1); confirmar con el proveedor del cilindro.
 3. **Espesores derivados** (Agua, AFFF, Sales K: 0,8 mm inox; CO₂: 5,4 / 6,0 mm; 70 kg): elegidos para que la masa coincida con el catálogo; confirmar con cálculo a presión de ensayo.
 4. Firmas "Revisó" y "Aprobó" del rótulo.
+5. Valores marcados **R** en DOC-01 a DOC-04 (tolerancia de carga, tiempo de PH, presión de rotura,
+   masa residual, intervalos IRAM 3517-2): confirmarlos con IRAM 3523, 3550 y 3517-2 vigentes.
+6. Pictogramas de F001 y NFPA 10: los dibujos son esquemáticos; para imprimir, usar los originales de la norma.
 
 ## Regenerar
 
@@ -127,4 +158,5 @@ Estructura del código:
 `flama/catalogo.py` (datos), `flama/modelo3d.py` (sólidos), `flama/vistas.py`
 (proyección HLR y cortes), `flama/lamina.py` (formato, rótulo, capas, cotas,
 soldadura), `flama/planos.py` (hojas 1–3), `flama/exportar.py` (DXF/PDF/STEP),
-`flama/normas.py` (normativa).
+`flama/normas.py` (normativa), `flama/recipientes.py` (recipientes sueltos),
+`flama/senaletica.py`, `flama/accesorios.py`, `flama/esquemas.py`, `flama/documentos.py`.

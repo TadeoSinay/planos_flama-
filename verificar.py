@@ -21,6 +21,49 @@ ESCALAS_OK = {"1:1", "1:2", "1:5", "1:10", "1:20", "2:1", "5:1", "-"}
 BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "salida")
 
 
+N_COMP = 0
+
+
+def verificar_complementarios():
+    """Recipientes sueltos, señalética, accesorios y esquemas: DXF íntegro, una
+    presentación, recuadro IRAM 4504 (25/10) y rótulo IRAM 4508 (175 × 51)."""
+    global N_COMP
+    err = []
+    archivos = sorted(glob.glob(os.path.join(BASE, "recipientes", "*", "*.dxf")) +
+                      [f for c in ("senaletica", "accesorios", "esquemas")
+                       for f in glob.glob(os.path.join(BASE, c, "*.dxf"))])
+    for f in archivos:
+        N_COMP += 1
+        doc = ezdxf.readfile(f)
+        if doc.audit().has_errors:
+            err.append(f"{f}: errores DXF")
+        pres = [n for n in doc.layouts.names() if n != "Model"]
+        if pres != ["Lamina"]:
+            err.append(f"{f}: presentaciones {pres}")
+            continue
+        lay = doc.layouts.get("Lamina")
+        W, H = lay.dxf.paper_width, lay.dxf.paper_height
+        rects = set()
+        for p in doc.modelspace().query("LWPOLYLINE[layer=='07-RECUADRO']"):
+            xs = [round(q[0], 2) for q in p.get_points()]
+            ys = [round(q[1], 2) for q in p.get_points()]
+            rects.add((min(xs), min(ys), max(xs), max(ys)))
+        if (25.0, 10.0, round(W - 10, 2), round(H - 10, 2)) not in rects:
+            err.append(f"{f}: recuadro no está a 25/10 mm (IRAM 4504)")
+        if (round(W - 10 - ROT_W, 2), 10.0, round(W - 10, 2), 10.0 + ROT_H) not in rects:
+            err.append(f"{f}: rótulo distinto de 175 x 51 mm (IRAM 4508)")
+        textos = [t.dxf.text for t in doc.modelspace().query("TEXT")]
+        cod = os.path.splitext(os.path.basename(f))[0]
+        if cod not in textos or "FLAMA S.A." not in textos:
+            err.append(f"{f}: rótulo sin código o propietario")
+    for d in ("FL_REC_ABC_1kg", "FL_REC_ABC_100kg"):
+        if not os.path.exists(os.path.join(BASE, "recipientes", d, d + ".pdf")):
+            err.append(f"falta {d}.pdf")
+    if len(glob.glob(os.path.join(BASE, "documentos", "DOC-0*.pdf"))) != 4:
+        err.append("faltan documentos DOC-01 a DOC-04")
+    return err
+
+
 def main():
     errores = []
     val = {v["codigo"]: v for v in json.load(open(os.path.join(BASE, "validacion.json"), encoding="utf-8"))}
@@ -88,6 +131,7 @@ def main():
                 errores.append(f"{f}: escala no normalizada {e}")
         filas.append(f"| {m.codigo} | {v['H_cat']:.0f} | {v['H_mod']:.1f} | {v['W_cat']:.0f} | {v['W_mod']:.1f} | "
                      f"{v['D_cat']:.0f} | {v['D_mod']:.1f} | {v['formato_h1']} {v['escala_h1']} |")
+    errores += verificar_complementarios()
     print("| Código | H cat. | H modelo | A cat. | A modelo | P cat. | P modelo | Hoja 1 |")
     print("|---|---|---|---|---|---|---|---|")
     print("\n".join(filas))
@@ -96,7 +140,8 @@ def main():
         print("ERRORES:")
         print("\n".join(errores))
         sys.exit(1)
-    print(f"OK: {len(MODELOS)} planos ({3 * len(MODELOS)} láminas) verificados sin errores.")
+    print(f"OK: {len(MODELOS)} planos ({3 * len(MODELOS)} láminas) y {N_COMP} láminas complementarias "
+          "verificados sin errores.")
 
 
 if __name__ == "__main__":

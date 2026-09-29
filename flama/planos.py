@@ -602,7 +602,8 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None):
         for j, (val, w) in enumerate(zip(fila, anchos)):
             h.rect(x, y - alto, x + w, y, "10-ROTULO")
             t = str(val)
-            hh = hs[j] if len(t) * hs[j] * 0.8 <= w - 3 else 1.8
+            hj = hs[min(j, len(hs) - 1)]
+            hh = hj if len(t) * hj * 0.8 <= w - 3 else 1.8
             if j == 0:
                 h.texto(t, (x + 1.5, y - alto / 2), hh, A.MIDDLE_LEFT)
             else:
