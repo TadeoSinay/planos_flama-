@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.2044097222
+2461313.219201389
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.2044097222
+2461313.219201389
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{E0797587-155C-465C-A405-D9735CC2755B}
+{E0810632-F4D9-476A-8D1A-45E9CA829835}
   9
 $VERSIONGUID
   2
-{C0402BED-1329-4E09-A371-C7D90CA13230}
+{91F549CC-EEBC-4C9B-AD4C-A156CC9FE58E}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -9937,7 +9937,7 @@ AcDbText
  40
 1.8
   1
-trasvase líquido, por peso
+trasvase por peso
   7
 ISO3098
  72
@@ -10005,7 +10005,7 @@ AcDbText
  40
 1.8
   1
-autopresurizado; control por pesada
+autopresurizado; antirretroceso
   7
 ISO3098
  72
@@ -10275,7 +10275,7 @@ AcDbText
  40
 1.8
   1
-N2 a 0,8 MPa; PH c/2 años
+N2 o aire; PH c/2 años
   7
 ISO3098
  72
@@ -10545,7 +10545,7 @@ AcDbText
  40
 1.8
   1
-N2 a 0,8 MPa; PH c/2 años
+N2 o aire; PH c/2 años
   7
 ISO3098
  72
@@ -10815,7 +10815,7 @@ AcDbText
  40
 1.8
   1
-N2 a 0,8 MPa; PH c/2 años
+N2 o aire; recip. inox
   7
 ISO3098
  72
@@ -10949,7 +10949,7 @@ AcDbText
  40
 2.5
   1
-IRAM 3526-1/-5
+IRAM 3526
   7
 ISO3098
  72
@@ -11017,7 +11017,7 @@ AcDbText
  40
 1.8
   1
-recuperar y reciclar
+recuperación cerrada
   7
 ISO3098
  72
@@ -11085,7 +11085,7 @@ AcDbText
  40
 1.8
   1
-N2; prohibido venteo
+N2 o argón (Mezcla B: argón)
   7
 ISO3098
  72
@@ -11425,7 +11425,7 @@ AcDbText
  40
 2.5
   1
-1) IRAM 3517-2: control c/3 meses, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua, AFFF).
+1) IRAM 3517-2:2020: control trimestral, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua).
   7
 ISO3098
  11
@@ -11527,7 +11527,7 @@ AcDbText
  40
 2.5
   1
-4) Inutilización (4.5): 2 orificios Ø ≥ 10 mm, NO APTO en amarillo, nota al propietario.
+4) Inutilización (9.12): 2 orificios Ø ≥ 10 mm, mangueras cortadas, acta del anexo G.
   7
 ISO3098
  11
@@ -11561,7 +11561,7 @@ AcDbText
  40
 2.5
   1
-5) Recinto de polvo HR ≤ 70 %; no mezclar polvo ABC con BC (3.5.3.4); ensayo de pérdidas (3.8).
+5) Gas impulsor según tabla 2; registro de trazabilidad 6 años (9.4.16); marbete por año (9.6).
   7
 ISO3098
  11
@@ -12661,7 +12661,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:21.078748+00:00
+1.4.4 @ 2026-09-29T05:15:39.117199+00:00
   0
 LAYOUT
   5
@@ -12801,7 +12801,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:21.089338+00:00
+1.4.4 @ 2026-09-29T05:15:39.127357+00:00
   0
 ENDSEC
   0

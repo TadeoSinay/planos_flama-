@@ -198,21 +198,22 @@ def esq01():
     filas = [("Modelo", "Ps", "Pe fabr.", "PH recarga", "c/ años")]
     for m in MODELOS:
         ps = float(m.spec["Presión de servicio (MPa)"].replace(",", "."))
-        rec = "IRAM 2529-1" if m.familia == "co2" else f"{2.5 * ps:.1f}".replace(".", ",")
+        rec = ("IRAM 2533" if m.familia == "co2" else "4,0" if m.familia == "rodante"
+               else f"{2.5 * ps:.1f}".replace(".", ","))
         anos = "2" if (m.familia == "inox" or "AFFF" in m.codigo) else "5"
         filas.append((m.codigo.replace("FL_MAT_", ""), m.spec["Presión de servicio (MPa)"],
                       m.spec["Presión de ensayo (MPa)"], rec, anos))
     _tabla(h, h.fx1 - 128, h.fy1 - 82, filas, [32, 16, 22, 36, 22], alto=4.6, hs=(2.5, 2.5),
-           encabezado="PRESIONES EN MPa (catálogo / IRAM 3517-2)")
-    _notas(h, ["PROCEDIMIENTO (IRAM 3517-2:2005, 4.3.3.3 y 4.3.3.6)",
-               "1) Quitar válvula y partes internas; eliminar todo resto de polvo. Colocar el recipiente en la jaula.",
+           encabezado="PRESIONES MPa (catálogo / 3517-2:2020)")
+    _notas(h, ["PROCEDIMIENTO (IRAM 3517-2:2020, 9.7.4 y 9.7.5.2)",
+               "1) Quitar válvula, accesorios y partes internas; eliminar el polvo. Recipiente en jaula o tras defensa.",
                "2) Llenar con agua purgando todo el aire (V2 abierta, V3 cerrada).",
-               "3) Subir la presión hasta la de prueba y MANTENERLA 1 min (cerrar V1; PI-1 sin caída).",
-               "4) Satisfactorio si no hay caída de presión, rotura, pérdidas ni deformaciones permanentes visibles;",
-               "    si falla, inutilizar (2 orificios Ø ≥ 10 mm y leyenda NO APTO amarilla, 4.5). CO2: IRAM 2529-1.",
-               "5) Bomba manual o a motor capaz de no menos del 150 % de la presión de ensayo, con retención (4.3.3.3).",
-               "6) Recarga: PH = 2,5 × Ps (4.3.2.2), cada 5 años (polvo, CO2, halogenados) o 2 años (agua, AFFF).",
-               "7) Secar hasta que no se vea agua ni humedad (4.3.3.4). Nunca ensayar con aire o gas (4.3.3)."],
+               "3) Subir hasta la presión de prueba y MANTENERLA 1 min (cerrar V1; PI-1 sin caída).",
+               "4) Satisfactorio sin caída de presión, rotura, pérdidas ni deformación permanente visible; si falla,",
+               "    inutilizar (9.12: 2 orificios Ø ≥ 10 mm). CO2: IRAM 2533 / 2529-1, acuñar PH mes/año (9.7.7).",
+               "5) Bomba ≥ 150 % de la presión de ensayo con retención; circuito cerrado de agua, pulmón ≥ 5 L (4.4.1).",
+               "6) PH = 2,5 × Ps; rodantes 4 MPa; cada 5 años (polvo, CO2, gases limpios) o 2 años (agua, AFFF, K).",
+               "7) Mangueras de rodantes y CO2: PH anual, 2 × Ps (≥ 2,8 MPa) / 12 MPa. Nunca con aire o gas (9.7.4.1)."],
            h.fy0 + 95)
     return doc
 
@@ -280,11 +281,11 @@ def esq02():
     caja(h, x4 + 22, y - 104, 60, 14, "5  PESADA + MARBETE + PRECINTO\nOBLEA (FL_SEN_04)", 2.5)
     leyenda(h, h.fx1 - 62, h.fy1 - 12)
     _notas(h, ["NOTAS (criterios de aceptación en DOC-02 y DOC-03)",
-               "1) Polvo ABC gris IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2 3.5.3.4).",
-               "2) Recinto con HR ≤ 70 % y extracción ≥ 8 renovaciones/h (3.7); recipiente seco (4.3.3.4).",
-               "3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes +3 % (anexo E).",
-               "4) Presurizar sólo con N2 seco (punto de rocío ≤ -40 °C); el regulador limita a la P de servicio.",
-               "5) Ensayo de pérdidas obligatorio (3.8): inmersión o detector; control de presión a las 24 h (FLAMA).",
+               "1) Polvo IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2:2020 9.9.1.6).",
+               "2) Recinto HR ≤ 70 %, deshumidificado por condensación (sin estufas), ≥ 8 renov./h (9.4.8).",
+               "3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes ± 3 % (tabla 3).",
+               "4) Presurizar con nitrógeno seco (tabla 2); secado verificado con cámara de video (9.8.2).",
+               "5) Ensayo de pérdidas obligatorio (9.4.10), fuera del recinto si evapora agua; control a las 24 h (FLAMA).",
                "6) Rodantes: la misma secuencia con la botella/recipiente de 25 a 100 kg y su válvula."],
            h.fy0 + 80)
     return doc
@@ -326,20 +327,20 @@ def esq03():
     filas = [("Tipo", "Agente", "Carga", "Presurización / control"),
              ("ABC / BC", "polvo IRAM 3569", "por peso, recipiente seco", "N2 a 1,4 MPa; manómetro en verde"),
              ("Rodantes ABC", "polvo IRAM 3569", "por peso", "N2 a P servicio; manguera y tobera"),
-             ("CO2", "CO2 IRAM 41170", "trasvase líquido, por peso", "autopresurizado; control por pesada"),
-             ("Agua", "agua potable", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
-             ("AFFF", "solución AFFF IRAM 3515", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
-             ("Sales K", "solución IRAM 3697", "cambio anual, lavar", "N2 a 0,8 MPa; PH c/2 años"),
-             ("HCFC/HFC", "IRAM 3526-1/-5", "recuperar y reciclar", "N2; prohibido venteo"),
+             ("CO2", "CO2 IRAM 41170", "trasvase por peso", "autopresurizado; antirretroceso"),
+             ("Agua", "agua potable", "cambio anual, lavar", "N2 o aire; PH c/2 años"),
+             ("AFFF", "solución AFFF IRAM 3515", "cambio anual, lavar", "N2 o aire; PH c/2 años"),
+             ("Sales K", "solución IRAM 3697", "cambio anual, lavar", "N2 o aire; recip. inox"),
+             ("HCFC/HFC", "IRAM 3526", "recuperación cerrada", "N2 o argón (Mezcla B: argón)"),
              ("Clase D", "polvo clase D", "por peso, seco", "N2 a 1,4 MPa")]
     _tabla(h, h.fx0 + 150, h.fy1 - 14, filas, [26, 42, 46, 60], alto=5.5, hs=(2.5, 2.5, 1.8, 1.8),
            encabezado="CARGA SEGÚN TIPO")
     _notas(h, ["NOTAS",
-               "1) IRAM 3517-2: control c/3 meses, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua, AFFF).",
+               "1) IRAM 3517-2:2020: control trimestral, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua).",
                "2) Presiones de servicio: catálogo FLAMA (Hoja 3 de cada plano FL_MAT).",
                "3) El agente descargado se recupera; halogenados: prohibido liberarlos a la atmósfera.",
-               "4) Inutilización (4.5): 2 orificios Ø ≥ 10 mm, NO APTO en amarillo, nota al propietario.",
-               "5) Recinto de polvo HR ≤ 70 %; no mezclar polvo ABC con BC (3.5.3.4); ensayo de pérdidas (3.8)."],
+               "4) Inutilización (9.12): 2 orificios Ø ≥ 10 mm, mangueras cortadas, acta del anexo G.",
+               "5) Gas impulsor según tabla 2; registro de trazabilidad 6 años (9.4.16); marbete por año (9.6)."],
            h.fy1 - 75, h.fx0 + 150)
     return doc
 

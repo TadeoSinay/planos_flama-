@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.2043287037
+2461313.21912037
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.2043402777
+2461313.2191319442
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-323
+325
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{37CEFF01-3DC4-4DBC-8C46-8E3CC69092EA}
+{C1B721F7-5803-48ED-BDDA-30A2C5EF1780}
   9
 $VERSIONGUID
   2
-{10088F5C-8C6B-499B-AB20-874BC88C4D72}
+{DD0C2A9A-58BF-4C2C-868B-8A48EF9ADF9C}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -2175,7 +2175,7 @@ AcAecLayerStandard
   0
 APPID
   5
-320
+322
 330
 3
 100
@@ -2189,7 +2189,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-321
+323
 330
 3
 100
@@ -2653,7 +2653,7 @@ AcDbBlockTableRecord
   0
 BLOCK_RECORD
   5
-31A
+31C
 330
 9
 100
@@ -2663,7 +2663,7 @@ AcDbBlockTableRecord
   2
 *Paper_Space
 340
-31D
+31F
  70
 0
 280
@@ -4095,9 +4095,9 @@ AcDbBlockEnd
   0
 BLOCK
   5
-31B
+31D
 330
-31A
+31C
 100
 AcDbEntity
   8
@@ -4121,9 +4121,9 @@ AcDbBlockBegin
   0
 ENDBLK
   5
-31C
+31E
 330
-31A
+31C
 100
 AcDbEntity
   8
@@ -82563,11 +82563,79 @@ AcDbText
  73
 1
   0
+TEXT
+  5
+31A
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+30.0
+ 20
+45.0
+ 30
+0.0
+ 40
+2.5
+  1
+4) IRAM 3517-2:2020 6.2.12: en vehículos, soporte con correas u otro medio de sujeción específico;
+  7
+ISO3098
+ 11
+30.0
+ 21
+45.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+31B
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+30.0
+ 20
+40.0
+ 30
+0.0
+ 40
+2.5
+  1
+    mantenimiento semestral recomendado por compactación del polvo (9.2.1).
+  7
+ISO3098
+ 11
+30.0
+ 21
+40.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
 VIEWPORT
   5
-31E
+320
 330
-31A
+31C
 100
 AcDbEntity
  67
@@ -82669,9 +82737,9 @@ AcDbViewport
   0
 VIEWPORT
   5
-31F
+321
 330
-31A
+31C
 100
 AcDbEntity
  67
@@ -82871,7 +82939,7 @@ Model
   3
 Lamina
 350
-31D
+31F
   0
 DICTIONARY
   5
@@ -83637,7 +83705,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-322
+324
   0
 DICTIONARYVAR
   5
@@ -83649,11 +83717,11 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:14.571814+00:00
+1.4.4 @ 2026-09-29T05:15:32.643644+00:00
   0
 LAYOUT
   5
-31D
+31F
 330
 D
 100
@@ -83775,13 +83843,13 @@ Lamina
  76
 1
 330
-31A
+31C
 331
-31E
+320
   0
 DICTIONARYVAR
   5
-322
+324
 330
 2D
 100
@@ -83789,7 +83857,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:15.619470+00:00
+1.4.4 @ 2026-09-29T05:15:33.808123+00:00
   0
 ENDSEC
   0

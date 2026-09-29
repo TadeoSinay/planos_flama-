@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.204375
+2461313.2191666667
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.204375
+2461313.2191666667
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{E7387C47-F2E4-4F22-AE40-E1118A875AC9}
+{1955C2B8-E905-4666-BB68-311AA7C0E37E}
   9
 $VERSIONGUID
   2
-{1F8AA4EC-A6A7-4160-B8E6-343DD04E7AA4}
+{5B9EDBCA-58DD-4772-89C4-4C41D1286211}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -8855,7 +8855,7 @@ AcDbText
  40
 3.5
   1
-PRESIONES EN MPa (catálogo / IRAM 3517-2)
+PRESIONES MPa (catálogo / 3517-2:2020)
   7
 ISO3098
  72
@@ -11491,7 +11491,7 @@ AcDbText
  40
 2.5
   1
-2,0
+4,0
   7
 ISO3098
  72
@@ -12505,7 +12505,7 @@ AcDbText
  40
 2.5
   1
-IRAM 2529-1
+IRAM 2533
   7
 ISO3098
  72
@@ -12843,7 +12843,7 @@ AcDbText
  40
 2.5
   1
-IRAM 2529-1
+IRAM 2533
   7
 ISO3098
  72
@@ -13857,7 +13857,7 @@ AcDbText
  40
 2.5
   1
-3,5
+4,0
   7
 ISO3098
  72
@@ -14195,7 +14195,7 @@ AcDbText
  40
 2.5
   1
-3,5
+4,0
   7
 ISO3098
  72
@@ -14533,7 +14533,7 @@ AcDbText
  40
 2.5
   1
-3,5
+4,0
   7
 ISO3098
  72
@@ -14871,7 +14871,7 @@ AcDbText
  40
 2.5
   1
-3,5
+4,0
   7
 ISO3098
  72
@@ -14975,7 +14975,7 @@ AcDbText
  40
 3.5
   1
-PROCEDIMIENTO (IRAM 3517-2:2005, 4.3.3.3 y 4.3.3.6)
+PROCEDIMIENTO (IRAM 3517-2:2020, 9.7.4 y 9.7.5.2)
   7
 ISO3098
  11
@@ -15009,7 +15009,7 @@ AcDbText
  40
 2.5
   1
-1) Quitar válvula y partes internas; eliminar todo resto de polvo. Colocar el recipiente en la jaula.
+1) Quitar válvula, accesorios y partes internas; eliminar el polvo. Recipiente en jaula o tras defensa.
   7
 ISO3098
  11
@@ -15077,7 +15077,7 @@ AcDbText
  40
 2.5
   1
-3) Subir la presión hasta la de prueba y MANTENERLA 1 min (cerrar V1; PI-1 sin caída).
+3) Subir hasta la presión de prueba y MANTENERLA 1 min (cerrar V1; PI-1 sin caída).
   7
 ISO3098
  11
@@ -15111,7 +15111,7 @@ AcDbText
  40
 2.5
   1
-4) Satisfactorio si no hay caída de presión, rotura, pérdidas ni deformaciones permanentes visibles;
+4) Satisfactorio sin caída de presión, rotura, pérdidas ni deformación permanente visible; si falla,
   7
 ISO3098
  11
@@ -15145,7 +15145,7 @@ AcDbText
  40
 2.5
   1
-    si falla, inutilizar (2 orificios Ø ≥ 10 mm y leyenda NO APTO amarilla, 4.5). CO2: IRAM 2529-1.
+    inutilizar (9.12: 2 orificios Ø ≥ 10 mm). CO2: IRAM 2533 / 2529-1, acuñar PH mes/año (9.7.7).
   7
 ISO3098
  11
@@ -15179,7 +15179,7 @@ AcDbText
  40
 2.5
   1
-5) Bomba manual o a motor capaz de no menos del 150 % de la presión de ensayo, con retención (4.3.3.3).
+5) Bomba ≥ 150 % de la presión de ensayo con retención; circuito cerrado de agua, pulmón ≥ 5 L (4.4.1).
   7
 ISO3098
  11
@@ -15213,7 +15213,7 @@ AcDbText
  40
 2.5
   1
-6) Recarga: PH = 2,5 × Ps (4.3.2.2), cada 5 años (polvo, CO2, halogenados) o 2 años (agua, AFFF).
+6) PH = 2,5 × Ps; rodantes 4 MPa; cada 5 años (polvo, CO2, gases limpios) o 2 años (agua, AFFF, K).
   7
 ISO3098
  11
@@ -15247,7 +15247,7 @@ AcDbText
  40
 2.5
   1
-7) Secar hasta que no se vea agua ni humedad (4.3.3.4). Nunca ensayar con aire o gas (4.3.3).
+7) Mangueras de rodantes y CO2: PH anual, 2 × Ps (≥ 2,8 MPa) / 12 MPa. Nunca con aire o gas (9.7.4.1).
   7
 ISO3098
  11
@@ -16347,7 +16347,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:18.503190+00:00
+1.4.4 @ 2026-09-29T05:15:36.703878+00:00
   0
 LAYOUT
   5
@@ -16487,7 +16487,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:18.519076+00:00
+1.4.4 @ 2026-09-29T05:15:36.778162+00:00
   0
 ENDSEC
   0

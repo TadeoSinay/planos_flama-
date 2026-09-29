@@ -33,34 +33,36 @@ funcionan igual con AutoCAD en español o en inglés.
 
 ## Planos y documentos complementarios
 
-Base normativa de servicio: **IRAM 3517-2:2005 leída completa** (apartados citados en cada lámina y documento); novedades de la revisión 2020 tomadas de un resumen publicado (marcadas **S**).
+Base normativa leída en su texto completo: **IRAM 3517-2:2020** (dotación, elección, instalación,
+señalización, control, mantenimiento y recarga) y **IRAM de Emergencia 3504:2001** (extintores de gases
+limpios). Cada lámina y documento cita el apartado. Los PDF de las normas tienen licencia de IRAM y
+**no se incluyen en el repositorio**.
 
-Se generan con `python generar.py --complementarios` (o con `python generar.py` sin argumentos, que genera todo).
-`salida/FLAMA_complementarios.pdf` junta las 20 láminas y los 4 documentos.
+Se generan con `python generar.py --complementarios` (o con `python generar.py` sin argumentos).
+`salida/FLAMA_complementarios.pdf` junta las 22 láminas y los 5 documentos.
 
 | Carpeta | Código | Contenido |
 |---|---|---|
-| `salida/recipientes/` | `FL_REC_ABC_1kg` … `FL_REC_ABC_100kg` | **Recipientes ABC para venta suelta**: vista, corte A-A, vista superior, detalles de cuello y uniones soldadas, cotas con tolerancias, tabla de datos (volumen, masa, espesores, presiones, rosca). DXF + PDF + STEP |
-| `salida/senaletica/` | `FL_SEN_01` | Chapa baliza (IRAM 10005, franjas 45° de 100 mm) y esquema de instalación con alturas IRAM / NFPA 10 |
-| | `FL_SEN_02` | Cartel ISO 7010 F001, con leyenda y con flecha de dirección; tamaño por distancia (ISO 3864-1) |
-| | `FL_SEN_03` | Símbolos letra-forma de clases de fuego A, B, C, D, K con los **colores NFPA 10** (verde, rojo, azul, amarillo, negro) y clases por modelo |
-| | `FL_SEN_04` | Etiqueta de control celeste 35 × 50 mm (IRAM 3517-2 3.3.6), oblea de servicio (3.6.1), disco marbete y colores anuales (3.10, tabla 1) |
-| | `FL_SEN_05` | **Sistema de pictogramas NFPA 10 (Anexo B)**: apto en azul, no apto en negro con barra roja, por modelo |
-| | `FL_SEN_06` | Extintor de reserva (franja inferior verde de 40 mm) y sustituto (amarilla); etiqueta de instrucciones |
-| `salida/accesorios/` | `FL_ACC_01` | Soporte de pared con cartelas (2,5 / 5 / 10 kg), 3 vistas ISO E + isometría, STEP |
-| | `FL_ACC_02` | Soporte vehicular con abrazaderas de fleje (1 / 2,5 kg) |
-| | `FL_ACC_03` | Gabinete metálico con puerta y visor (5 / 10 kg) |
-| `salida/esquemas/` | `FL_ESQ_01` | Banco de prueba hidráulica, con presiones de ensayo de los 17 modelos |
-| | `FL_ESQ_02` | Línea de carga ABC: polvo, válvula, presurización N₂, estanqueidad, pesada |
-| | `FL_ESQ_03` | Diagrama de flujo de recarga y tabla de carga por tipo de agente |
-| `salida/documentos/` | `DOC-01` | Tratamiento superficial y pintura: desengrase, **granallado Sa 2½**, fosfatizado, polvo poliéster, pasivado del inoxidable, controles (ISO 2808, 2409, 9227 500 h) y **saponificación** (qué es, qué agentes la producen, por qué FLAMA no usa alquídicos) |
-| | `DOC-02` | **Ensayos obligatorios de fabricación ABC**: de rutina al 100 % (PH, estanqueidad, carga, presión), por lote (rotura, expansión, descarga) y de tipo |
-| | `DOC-03` | **Ensayos de mantenimiento y recarga por tipo** (ABC, rodantes, CO₂, agua, AFFF, sales K, HCFC/HFC, clase D): intervalos IRAM 3517-2 frente a NFPA 10 |
-| | `DOC-04` | **NFPA 10 frente a IRAM**: colores y formas de clase, pictogramas, NFPA 704 (por qué no se aplica), carteles, alturas de montaje, distancias e intervalos |
+| `salida/recipientes/` | `FL_REC_ABC_1kg` … `FL_REC_ABC_100kg` | **Recipientes ABC para venta suelta**: vista, corte A-A, vista superior, detalles de cuello y soldaduras, cotas con tolerancias, datos (volumen, masa, espesores, presiones, rosca). DXF + PDF + STEP |
+| `salida/senaletica/` | `FL_SEN_01` | Chapa baliza vertical 350 × 870 (y 260 × 870): franjas de 100 mm a 45°, borde fotoluminiscente de 15 mm, tipos de fuego 140 × 140, datos del PRS y n° de puesto (7.2.5, fig. 3); puesto de incendio con alturas (6.2.14, 7.3) |
+| | `FL_SEN_02` | Cartel tridimensional de señalización en altura, caras ≥ 280 × 220 a 2,0-2,5 m (7.3, fig. 5) |
+| | `FL_SEN_03` | Tipos de fuego: símbolo (letra en contorno) + pictograma, colores IRAM-DEF D 1054 (7.2.2, fig. 1); clases por modelo |
+| | `FL_SEN_04` | Etiqueta de control celeste 35 × 50 con frecuencia (8.3.3), "fuera de servicio" 110 × 150 (fig. 8), oblea (9.4.14), numeración (fig. 2), rótulo de manguera 20 × 30 (9.7.1.4) |
+| | `FL_SEN_05` | **Sistema de pictogramas NFPA 10 (Anexo B)** por modelo (referencia internacional) |
+| | `FL_SEN_06` | Extintor de reserva (faja verde) y sustituto (faja amarilla) (5.3, 9.4.5); placa IRAM 3534 |
+| | `FL_SEN_07` | Chapas horizontales o de piso 800 / 500 (fig. 4), chapa de baldes 500 × 500 (fig. 6) y balde 5-7 L (6.2.19) |
+| | `FL_SEN_08` | Marbete (anillo plano y cónico, D 33/36/40/50, color por año, fig. 9, tabla 4) y marbete por modelo; traba y precinto (9.4.13) |
+| `salida/accesorios/` | `FL_ACC_01` … `03` | Soporte de pared, soporte vehicular y gabinete (7.4), modelados en 3D, 3 vistas ISO E + isometría, STEP |
+| `salida/esquemas/` | `FL_ESQ_01` … `03` | Banco de prueba hidrostática (9.7) con presiones de los 17 modelos; línea de carga ABC (9.4.8, 9.4.9); flujo de recarga |
+| `salida/documentos/` | `DOC-01` | Tratamiento superficial y pintura: granallado Sa 2½, fosfatizado, polvo poliéster rojo 03-1-050, controles y **saponificación** |
+| | `DOC-02` | **Ensayos de fabricación ABC**: rutina, lote y tipo |
+| | `DOC-03` | **Control, mantenimiento y recarga por tipo** según IRAM 3517-2:2020 (frecuencias, PH, tabla 3, gas impulsor, recinto de polvo, marbete, inutilización) |
+| | `DOC-04` | **NFPA 10 frente a IRAM**: símbolos y colores, pictogramas, NFPA 704, alturas, distancias, intervalos |
+| | `DOC-05` | **Ensayos de fabricación HCFC/HFC** según IRAM 3504 |
 
-Las láminas de señalética se imprimen en color. En los documentos, cada valor indica su origen:
-**C** catálogo FLAMA, **N** norma citada, **R** valor de referencia habitual que hay que confirmar
-con la edición vigente de la norma IRAM (el texto de IRAM está protegido y no se tuvo a la vista).
+Origen de cada valor en los documentos: **C** catálogo FLAMA, **N** norma leída, **N\*** norma hermana
+aplicada por analogía (IRAM 3504 para criterios de rotura y expansión de los ABC), **R** valor de referencia
+a confirmar con la norma de fabricación.
 
 ## Modelos
 
@@ -144,9 +146,11 @@ caucho macizo y chapa en las ruedas. Ver `flama/materiales.py`.
 2. **Rosca de la válvula de CO₂**: se indica cónica 25E (ISO 11363-1); confirmar con el proveedor del cilindro.
 3. **Espesores derivados** (Agua, AFFF, Sales K: 0,8 mm inox; CO₂: 5,4 / 6,0 mm; 70 kg): elegidos para que la masa coincida con el catálogo; confirmar con cálculo a presión de ensayo.
 4. Firmas "Revisó" y "Aprobó" del rótulo.
-5. Valores marcados **R** en DOC-01 y DOC-02 (presión de rotura, expansión volumétrica, ensayos de tipo):
-   confirmarlos con IRAM 3523 y 3550. Valores **S** (revisión 2020 de IRAM 3517): confirmar con el texto 2020.
-6. Pictogramas de F001 y NFPA 10: los dibujos son esquemáticos; para imprimir, usar los originales de la norma.
+5. Normas de fabricación **IRAM 3523** (polvo manual) y **IRAM 3550** (polvo rodante): confirmar los valores
+   N\* y R de DOC-02 (rotura, expansión, ensayos de tipo). **IRAM 3504**: se leyó la edición de emergencia 2001;
+   confirmar la vigente. **IRAM 10005**: el archivo recibido es un resumen, no la norma.
+6. Pictogramas de las figuras 1 y 5 de IRAM 3517-2 y de NFPA 10: los dibujos son esquemáticos; para imprimir,
+   usar los originales de cada norma.
 
 ## Regenerar
 

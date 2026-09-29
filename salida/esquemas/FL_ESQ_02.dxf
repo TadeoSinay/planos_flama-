@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.204386574
+2461313.2191898148
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.204386574
+2461313.2191898148
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{26797AFE-0CD3-4D73-8A9E-5D600C6A85B3}
+{7D85F579-5450-4A6C-946A-4976171932E6}
   9
 $VERSIONGUID
   2
-{370C2999-66AD-4F2C-A21B-2D9A981DD948}
+{AD36D696-4ED2-4351-9D7E-C8243F99C496}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -9935,7 +9935,7 @@ AcDbText
  40
 2.5
   1
-1) Polvo ABC gris IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2 3.5.3.4).
+1) Polvo IRAM 3569 certificado; PROHIBIDO mezclar ABC con BC (IRAM 3517-2:2020 9.9.1.6).
   7
 ISO3098
  11
@@ -9969,7 +9969,7 @@ AcDbText
  40
 2.5
   1
-2) Recinto con HR ≤ 70 % y extracción ≥ 8 renovaciones/h (3.7); recipiente seco (4.3.3.4).
+2) Recinto HR ≤ 70 %, deshumidificado por condensación (sin estufas), ≥ 8 renov./h (9.4.8).
   7
 ISO3098
  11
@@ -10003,7 +10003,7 @@ AcDbText
  40
 2.5
   1
-3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes +3 % (anexo E).
+3) Tolerancia de carga: 1-2,5 kg 0/+100 g; 5-10 kg 0/+300 g; rodantes ± 3 % (tabla 3).
   7
 ISO3098
  11
@@ -10037,7 +10037,7 @@ AcDbText
  40
 2.5
   1
-4) Presurizar sólo con N2 seco (punto de rocío ≤ -40 °C); el regulador limita a la P de servicio.
+4) Presurizar con nitrógeno seco (tabla 2); secado verificado con cámara de video (9.8.2).
   7
 ISO3098
  11
@@ -10071,7 +10071,7 @@ AcDbText
  40
 2.5
   1
-5) Ensayo de pérdidas obligatorio (3.8): inmersión o detector; control de presión a las 24 h (FLAMA).
+5) Ensayo de pérdidas obligatorio (9.4.10), fuera del recinto si evapora agua; control a las 24 h (FLAMA).
   7
 ISO3098
  11
@@ -11205,7 +11205,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:19.967085+00:00
+1.4.4 @ 2026-09-29T05:15:38.071172+00:00
   0
 LAYOUT
   5
@@ -11345,7 +11345,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T04:54:19.982681+00:00
+1.4.4 @ 2026-09-29T05:15:38.080236+00:00
   0
 ENDSEC
   0

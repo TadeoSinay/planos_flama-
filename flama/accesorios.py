@@ -189,14 +189,15 @@ def acc01():
              ("Terminación", "granallado/fosfatizado + polvo poliéster rojo 60-80 µm (DOC-01)"),
              ("Fijación", "2 tarugos nylon Ø8 + tornillo Ø5 × 50"),
              ("Ensayo", "carga estática 4 × peso cargado, 5 min, sin deformación permanente"),
-             ("Montaje", "altura según FL_SEN_01 (≤ 1,50 m; NFPA 10 §6.1.3.8)")]
+             ("Montaje", "IRAM 3517-2:2020 6.2.14 (FL_SEN_01); NFPA 10 §6.1.3.8")]
     _tabla(h, h.fx1 - 150, h.fy1 - 44, datos, [30, 120], alto=5.0, hs=(2.5, 1.8), encabezado="ESPECIFICACIÓN")
     _notas(h, ["NOTAS",
                "1) Tolerancias generales ISO 2768-m; aristas vivas matadas 0,3 × 45°.",
                "2) El cuello del matafuego entra en la ranura B y la válvula apoya sobre el ala;",
                "    el labio frontal impide que el matafuego se desenganche por golpe.",
                "3) Cotas A y B según tabla (dibujado el soporte para 10 kg).",
-               "4) Sin fijaciones que impidan retirar el extintor (IRAM 3517-2 3.3.4): se levanta y sale."], h.fy0 + 55)
+               "4) Soporte colgante (IRAM 3517-2:2020 6.2.11 a); sin fijaciones que impidan o dificulten retirar el",
+               "    extintor (8.3.2): se levanta y sale. Altura: ≤ 1,5 m hasta 20 kg; ≥ 0,10 m al piso (6.2.14)."], h.fy0 + 55)
     return doc, sol
 
 
@@ -233,7 +234,9 @@ def acc02():
     _notas(h, ["NOTAS",
                "1) Tolerancias generales ISO 2768-m.",
                "2) Montar con la válvula accesible y la manija hacia el operador; nunca en el habitáculo sin sujeción.",
-               "3) Se ofrece para los modelos con 'Soporte vehicular' en el catálogo (1 kg, 2,5 kg; opcional 5 y 10 kg)."],
+               "3) Se ofrece para los modelos con 'Soporte vehicular' en el catálogo (1 kg, 2,5 kg; opcional 5 y 10 kg).",
+               "4) IRAM 3517-2:2020 6.2.12: en vehículos, soporte con correas u otro medio de sujeción específico;",
+               "    mantenimiento semestral recomendado por compactación del polvo (9.2.1)."],
            h.fy0 + 55)
     return doc, sol
 
@@ -259,14 +262,16 @@ def acc03():
              ("Terminación", "granallado/fosfatizado + polvo poliéster rojo (DOC-01)"),
              ("Interior", "soporte FL_ACC_01 para 10 kg; apto 5 kg"),
              ("Ventilación", "4 ranuras 40 × 5 en base y techo"),
-             ("Leyenda", "\"MATAFUEGO\" en vinilo blanco sobre la puerta (FL_SEN_02)")]
+             ("Señalización", "franjas 45° en laterales y fondo, tipos de fuego, n° de puesto (7.4)")]
     _tabla(h, h.fx1 - 150, h.fy1 - 12, datos, [30, 120], alto=5.0, hs=(2.5, 1.8), encabezado="ESPECIFICACIÓN")
     _notas(h, ["NOTAS",
                "1) Tolerancias generales ISO 2768-m.",
                "2) Medidas interiores útiles 298 × 218 × 748 mm: admite matafuego de 10 kg (Ø181,5 × 562,5 + válvula).",
-               "3) Con vidrio: medio que asegure su rotura para extraer el extintor (IRAM 3517-2 3.3.4); martillo",
-               "    junto al gabinete e interior con franjas rojas y blancas (IRAM 3517 rev. 2020, s/ resumen).",
-               "4) Altura de montaje: parte superior del matafuego ≤ 1,50 m (FL_SEN_01)."], h.fy0 + 55)
+               "3) IRAM 3517-2:2020 7.4: franjas rojas y blancas de 100 mm a 45° en los laterales visibles y en el",
+               "    fondo (detrás del extintor); tipos de fuego, n° de puesto y datos del PRS en los laterales;",
+               "    cartel en altura (7.3). Martillo sujeto al gabinete para romper el vidrio (6.2.15, 8.3.2).",
+               "4) Extintor sujeto pero de fácil extracción, instrucciones visibles (6.2.15); a la intemperie o a",
+               "    temperatura elevada: aberturas y drenajes protegidos (6.2.17). Altura ≤ 1,5 m (6.2.14)."], h.fy0 + 55)
     return doc, sol
 
 

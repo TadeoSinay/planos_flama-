@@ -59,8 +59,8 @@ def verificar_complementarios():
     for d in ("FL_REC_ABC_1kg", "FL_REC_ABC_100kg"):
         if not os.path.exists(os.path.join(BASE, "recipientes", d, d + ".pdf")):
             err.append(f"falta {d}.pdf")
-    if len(glob.glob(os.path.join(BASE, "documentos", "DOC-0*.pdf"))) != 4:
-        err.append("faltan documentos DOC-01 a DOC-04")
+    if len(glob.glob(os.path.join(BASE, "documentos", "DOC-0*.pdf"))) != 5:
+        err.append("faltan documentos DOC-01 a DOC-05")
     return err
 
 
