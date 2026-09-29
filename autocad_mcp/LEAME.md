@@ -14,26 +14,29 @@ claude mcp add autocad -- python autocad_mcp\server.py
 
 Reiniciá Claude Code y comprobá con `/mcp` que aparece **autocad** conectado.
 
-## Herramientas
+## Herramientas (22)
 
-| Herramienta | Qué hace |
+| Grupo | Herramientas |
 |---|---|
-| `estado` | Versión de AutoCAD y dibujos abiertos |
-| `abrir_plano` | Abre una lámina FLAMA (`FL-ABC-004`, hoja 1–3) |
-| `abrir` | Abre cualquier DWG/DXF |
-| `comando` | Ejecuta un comando de AutoCAD (usar nombres con `_`, p. ej. `_ZOOM _E`) |
-| `guardar_como` | Guarda el dibujo activo en DWG o DXF 2018 |
-| `convertir_todo_a_dwg` | Pasa las 51 láminas DXF a DWG |
-| `importar_3d` | Abre el 3D de un modelo, lo convierte a sólidos y lo muestra en isométrica |
-| `listar_capas` | Capas del dibujo activo |
-| `trazar_pdf` | Traza la presentación Lamina_A3/A2 a PDF |
+| Estado y archivos | `autocad_status`, `autocad_open_drawing`, `autocad_new_drawing`, `autocad_save_as`, `autocad_plot_pdf` |
+| Consulta (solo lectura) | `autocad_list_layers`, `autocad_list_entities` (filtros + paginación), `autocad_mass_properties` |
+| Dibujo 2D | `autocad_add_line`, `autocad_add_circle`, `autocad_add_text` |
+| Sólidos 3D | `autocad_add_box`, `autocad_add_cylinder`, `autocad_add_revolved_solid` (perfil r-z girado sobre Z), `autocad_boolean`, `autocad_delete_entity` |
+| Vista y comandos | `autocad_set_view`, `autocad_run_command` |
+| Flujo FLAMA | `autocad_list_flama_models`, `autocad_open_flama_sheet`, `autocad_convert_flama_to_dwg`, `autocad_open_flama_3d` |
+
+Cada herramienta declara si es de solo lectura o destructiva (anotaciones MCP),
+valida sus parámetros y, si algo falla, devuelve el error con la acción sugerida.
+
+`evaluacion.xml` tiene 10 preguntas de verificación con respuesta conocida para
+comprobar que el MCP funciona de punta a punta con tu AutoCAD.
 
 Después le podés pedir a Claude, por ejemplo: *"abrí el plano del ABC 10 kg en AutoCAD"*.
 
 ## Notas
 
 - AutoCAD puede estar abierto o cerrado; si está cerrado lo inicia.
-- `comando` ejecuta comandos arbitrarios en AutoCAD: Claude Code te pedirá permiso
+- `autocad_run_command` ejecuta comandos arbitrarios en AutoCAD: Claude Code te pedirá permiso
   en cada uso salvo que lo autorices.
 - No fue probado contra un AutoCAD real desde el entorno donde se escribió; si una
   herramienta falla, el mensaje de error aparece en la respuesta.

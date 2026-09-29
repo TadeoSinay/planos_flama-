@@ -1,0 +1,48 @@
+<!--
+Evaluación del MCP de AutoCAD (autocad_mcp). Preguntas de solo lectura sobre
+las láminas y modelos FLAMA de salida/. Respuestas verificadas contra los DXF
+generados (ezdxf). Requiere AutoCAD abierto; se permite abrir los archivos
+(autocad_open_flama_sheet / autocad_open_flama_3d) sin guardar cambios.
+-->
+<evaluation>
+  <qa_pair>
+    <question>¿Cuántos modelos de extintor FLAMA hay disponibles para abrir en AutoCAD?</question>
+    <answer>17</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué grosor de línea (en centésimas de mm) tiene la capa de aristas visibles?</question>
+    <answer>50</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué tipo de línea usa la capa donde se dibujan las aristas ocultas?</question>
+    <answer>ISO02-TRAZOS</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué grosor de línea (centésimas de mm) tiene la capa del recuadro de la lámina?</question>
+    <answer>70</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>¿Cuántas cotas hay en el espacio modelo de la hoja 1 del extintor ABC 100 kg sobre ruedas?</question>
+    <answer>7</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>¿Cuántas cotas hay en el espacio modelo de la hoja 2 (corte y detalles) del extintor CO2 2 kg?</question>
+    <answer>5</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>¿Cómo se llama la presentación de impresión de la hoja 1 del extintor ABC 100 kg sobre ruedas?</question>
+    <answer>Lamina_A2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>¿Cómo se llama la presentación de impresión de la hoja 1 del extintor ABC 25 kg sobre ruedas?</question>
+    <answer>Lamina_A3</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Al abrir el modelo 3D del extintor CO2 5 kg sin convertir a sólidos, ¿cuántas mallas (una por pieza) contiene?</question>
+    <answer>16</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Al abrir el modelo 3D del extintor ABC 100 kg sobre ruedas sin convertir a sólidos, ¿cuántas mallas contiene?</question>
+    <answer>27</answer>
+  </qa_pair>
+</evaluation>
