@@ -25,7 +25,9 @@ tiene la verificación dimensional.
 
 Los scripts para AutoCAD 2027 están en `autocad/` (ver `autocad/LEAME_AutoCAD.txt`):
 convierten los DXF a DWG y abren los modelos 3D con
-`"C:\Program Files\Autodesk\AutoCAD 2027\acad.exe" /product ACAD /language "en-US"`.
+`"C:\Program Files\Autodesk\AutoCAD 2027\acad.exe" /product ACAD /language "es-ES"`.
+Los scripts usan comandos con prefijo `_` (nombres globales en inglés), así que
+funcionan igual con AutoCAD en español o en inglés.
 
 ## Modelos
 

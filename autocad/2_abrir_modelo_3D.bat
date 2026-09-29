@@ -23,5 +23,5 @@ set "SCR=%TEMP%\flama_3d.scr"
 >> "%SCR%" echo _SAVEAS 2018 "%DIR%\%~1_3D.dwg"
 >> "%SCR%" echo FILEDIA 1
 >> "%SCR%" echo SDI 0
-"%ACAD%" /product ACAD /language "en-US" /b "%SCR%"
+"%ACAD%" /product ACAD /language "es-ES" /b "%SCR%"
 endlocal

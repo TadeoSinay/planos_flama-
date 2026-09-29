@@ -21,5 +21,5 @@ for /r "%RAIZ%" %%F in (*_H?.dxf) do (
 >> "%SCR%" echo CMDDIA 1
 >> "%SCR%" echo SDI 0
 
-"%ACAD%" /product ACAD /language "en-US" /b "%SCR%"
+"%ACAD%" /product ACAD /language "es-ES" /b "%SCR%"
 endlocal
