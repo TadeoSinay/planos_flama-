@@ -13,37 +13,45 @@ PAGE_NAMES = {"A3": "ISO_full_bleed_A3_(420.00_x_297.00_MM)",
               "A1": "ISO_full_bleed_A1_(841.00_x_594.00_MM)"}
 
 
-def preparar_layout(doc, fmt):
-    """Layout de papel con ventana 1:1 sobre la lámina (lista para trazar)."""
-    W, H = FORMATOS[fmt]
-    psp = doc.layouts.new("Lamina_" + fmt)
+def preparar_layouts(doc, hojas):
+    """Una presentación por lámina (ventana 1:1 sobre su zona del espacio modelo),
+    con configuración de página ISO full bleed y 'DWG To PDF.pc3'.
+    hojas: [(nombre, formato, ox)]"""
+    for nombre, fmt, ox in hojas:
+        W, H = FORMATOS[fmt]
+        psp = doc.layouts.new(nombre)
+        psp.page_setup(size=(W, H), margins=(0, 0, 0, 0), units="mm", offset=(0, 0), rotation=0,
+                       scale=1, name=PAGE_NAMES[fmt], device="DWG To PDF.pc3")
+        vp = psp.add_viewport(center=(W / 2, H / 2), size=(W, H), view_center_point=(ox + W / 2, H / 2),
+                              view_height=H)
+        vp.dxf.status = 2
     if "Layout1" in doc.layouts.names():
         doc.layouts.delete("Layout1")
-    psp.page_setup(size=(W, H), margins=(0, 0, 0, 0), units="mm", offset=(0, 0), rotation=0,
-                   scale=1, name=PAGE_NAMES[fmt], device="DWG To PDF.pc3")
-    vp = psp.add_viewport(center=(W / 2, H / 2), size=(W, H), view_center_point=(W / 2, H / 2),
-                          view_height=H)
-    vp.dxf.status = 2
+    doc.layouts.set_active_layout(hojas[0][0])
 
 
-def _render(doc, fmt):
-    ctx = RenderContext(doc)
-    back = pmb.PyMuPdfBackend()
-    cfg = config.Configuration(
+def _config():
+    return config.Configuration(
         background_policy=config.BackgroundPolicy.WHITE,
         color_policy=config.ColorPolicy.BLACK,
         lineweight_policy=config.LineweightPolicy.ABSOLUTE,
         min_lineweight=0.18,
     )
-    Frontend(ctx, back, config=cfg).draw_layout(doc.modelspace(), finalize=True)
-    W, H = FORMATOS[fmt]
-    page = layout.Page(W, H, layout.Units.mm, margins=layout.Margins.all(0))
-    return back, page, layout.Settings(fit_page=False, scale=1.0)
 
 
-def dxf_a_pdf_bytes(doc, fmt):
-    back, page, st = _render(doc, fmt)
-    return back.get_pdf_bytes(page, settings=st)
+def pdf_hojas(doc, hojas):
+    """PDF de varias páginas, una por lámina, a tamaño real."""
+    import pymupdf
+    out = pymupdf.open()
+    ctx = RenderContext(doc)
+    for nombre, fmt, ox in hojas:
+        W, H = FORMATOS[fmt]
+        back = pmb.PyMuPdfBackend()
+        Frontend(ctx, back, config=_config()).draw_layout(doc.layouts.get(nombre), finalize=True)
+        page = layout.Page(W, H, layout.Units.mm, margins=layout.Margins.all(0))
+        data = back.get_pdf_bytes(page, settings=layout.Settings(fit_page=False, scale=1.0))
+        out.insert_pdf(pymupdf.open("pdf", data))
+    return out
 
 
 def dxf_a_png(doc, ruta, fmt, dpi=110):

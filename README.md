@@ -9,18 +9,20 @@ las vistas salen de proyectar esos sólidos con eliminación de líneas ocultas.
 Por eso las tres vistas, la isometría, el corte y los detalles son coherentes
 entre sí y con el modelo 3D.
 
-## Contenido por modelo (`salida/<CÓDIGO>/`)
+## Contenido por modelo (`salida/FL_MAT_<TIPO>_<tamaño>/`)
+
+Nomenclatura: `FL_MAT_<TIPO>_<tamaño>`, por ejemplo `FL_MAT_ABC_10kg`, `FL_MAT_CO2_2kg`,
+`FL_MAT_AFFF_50l`. El mismo código figura como N° de plano en el rótulo.
 
 | Archivo | Contenido |
 |---|---|
-| `<CÓDIGO>_H1.dxf` | **Hoja 1 – Plano de conjunto**: vista anterior, superior y lateral izquierda (método ISO E), isometría, cotas generales, números de posición y lista de piezas |
-| `<CÓDIGO>_H2.dxf` | **Hoja 2 – Corte A-A y detalles** (A2): corte del recipiente y detalles ampliados A–E (válvula/manómetro/manijas, cuello roscado, unión cúpula-cuerpo, fondo, tobera; en rodantes: válvula esférica y tobera) |
-| `<CÓDIGO>_H3.dxf` | **Hoja 3 – Especificaciones y normas**: tabla técnica y normativa citada |
-| `<CÓDIGO>.pdf` | Las 3 hojas en PDF, a tamaño real (A3/A2) |
-| `<CÓDIGO>.step` | Ensamble 3D con sólidos exactos por pieza (AutoCAD: `IMPORT`) |
-| `<CÓDIGO>_3D.dxf` | Modelo 3D con una malla por pieza (AutoCAD: `CONVTOSOLID`) |
+| `FL_MAT_…​.dxf` | **El plano**: las 3 láminas en un solo dibujo, una presentación por lámina: **Hoja1_Conjunto** (vistas anterior, superior y lateral izquierda en método ISO E, isometría, cotas, números de posición y lista de piezas), **Hoja2_Corte_Detalles** (A2: corte A-A del recipiente y detalles ampliados A–E) y **Hoja3_Especificaciones** (tabla técnica y normas) |
+| `FL_MAT_…​.pdf` | El mismo plano en PDF de 3 páginas a tamaño real (A3/A2) |
+| `FL_MAT_…​.dwg` | Se genera en tu PC con `autocad\1_convertir_DXF_a_DWG.bat` o con el MCP (`autocad_convert_flama_to_dwg`). DWG es un formato cerrado y en este entorno no hay conversor disponible |
+| `FL_MAT_…​.step` | Ensamble 3D con sólidos exactos por pieza (AutoCAD: `IMPORT`) |
+| `FL_MAT_…​_3D.dxf` | Modelo 3D con una malla por pieza (AutoCAD: `CONVTOSOLID`) |
 
-`salida/FLAMA_planos_completos.pdf` junta los 51 planos y `salida/validacion.json`
+`salida/FLAMA_planos_completos.pdf` junta los 17 planos (51 láminas) y `salida/validacion.json`
 tiene la verificación dimensional.
 
 Los scripts para AutoCAD 2027 están en `autocad/` (ver `autocad/LEAME_AutoCAD.txt`):
@@ -31,25 +33,25 @@ funcionan igual con AutoCAD en español o en inglés.
 
 ## Modelos
 
-| Código | Denominación | Norma IRAM agente | Norma IRAM extintor | Fuente de datos |
+| Código / archivo | Denominación | Norma IRAM agente | Norma IRAM extintor | Fuente de datos |
 |---|---|---|---|---|
-| FL-ABC-001 | Extintor ABC 1 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 1 kg 3" R1 |
-| FL-ABC-002 | Extintor ABC 2,5 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 2,5 kg R2 |
-| FL-ABC-003 | Extintor ABC 5 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 5 kg R2 |
-| FL-ABC-004 | Extintor ABC 10 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 10 kg R2 |
-| FL-AGU-001 | Extintor Agua 10 l | – | 3525 | catálogo pág. 8 |
-| FL-AFF-001 | Extintor AFFF 10 l | 3515 | 3527 | catálogo pág. 10 |
-| FL-AFF-002 | Extintor AFFF 50 l sobre ruedas | 3515 | 3541 | catálogo pág. 11 · recipiente 50 kg R2 |
-| FL-BC-001 | Extintor BC 5 kg | 3569 | 3523 | catálogo pág. 6 · recipiente 5 kg R2 |
-| FL-K-001 | Extintor Sales K 6 l | 3697 | 3694 | catálogo pág. 15 |
-| FL-CO2-001 | Extintor CO₂ 2 kg | 41170 | 3509 | catálogo pág. 16 |
-| FL-CO2-002 | Extintor CO₂ 5 kg | 41170 | 3509 | catálogo pág. 16 |
-| FL-HAL-001 | Extintor HCFC/HFC 5 kg | 3526-1 / 3526-5 | 3504 | catálogo págs. 13–14 · recipiente 5 kg R2 |
-| FL-D-001 | Extintor Clase D 9 l | – | 3523 | catálogo pág. 17 · recipiente 10 kg R2 (**ver pendientes**) |
-| FL-ABC-025 | Extintor ABC 25 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · recipiente 25 kg R3 |
-| FL-ABC-050 | Extintor ABC 50 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · recipiente 50 kg R2 |
-| FL-ABC-070 | Extintor ABC 70 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 |
-| FL-ABC-100 | Extintor ABC 100 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · rodante 100 kg R1 (Ø390) |
+| FL_MAT_ABC_1kg | Extintor ABC 1 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 1 kg 3" R1 |
+| FL_MAT_ABC_2.5kg | Extintor ABC 2,5 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 2,5 kg R2 |
+| FL_MAT_ABC_5kg | Extintor ABC 5 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 5 kg R2 |
+| FL_MAT_ABC_10kg | Extintor ABC 10 kg | 3569 | 3523 | catálogo pág. 4 · recipiente 10 kg R2 |
+| FL_MAT_AGUA_10l | Extintor Agua 10 l | – | 3525 | catálogo pág. 8 |
+| FL_MAT_AFFF_10l | Extintor AFFF 10 l | 3515 | 3527 | catálogo pág. 10 |
+| FL_MAT_AFFF_50l | Extintor AFFF 50 l sobre ruedas | 3515 | 3541 | catálogo pág. 11 · recipiente 50 kg R2 |
+| FL_MAT_BC_5kg | Extintor BC 5 kg | 3569 | 3523 | catálogo pág. 6 · recipiente 5 kg R2 |
+| FL_MAT_SALESK_6l | Extintor Sales K 6 l | 3697 | 3694 | catálogo pág. 15 |
+| FL_MAT_CO2_2kg | Extintor CO₂ 2 kg | 41170 | 3509 | catálogo pág. 16 |
+| FL_MAT_CO2_5kg | Extintor CO₂ 5 kg | 41170 | 3509 | catálogo pág. 16 |
+| FL_MAT_HCFC-HFC_5kg | Extintor HCFC/HFC 5 kg | 3526-1 / 3526-5 | 3504 | catálogo págs. 13–14 · recipiente 5 kg R2 |
+| FL_MAT_CLASED_9l | Extintor Clase D 9 l | – | 3523 | catálogo pág. 17 · recipiente 10 kg R2 (**ver pendientes**) |
+| FL_MAT_ABC_25kg | Extintor ABC 25 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · recipiente 25 kg R3 |
+| FL_MAT_ABC_50kg | Extintor ABC 50 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · recipiente 50 kg R2 |
+| FL_MAT_ABC_70kg | Extintor ABC 70 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 |
+| FL_MAT_ABC_100kg | Extintor ABC 100 kg sobre ruedas | 3569 | 3550 | catálogo pág. 5 · rodante 100 kg R1 (Ø390) |
 
 Las normas de producto se transcriben tal como figuran en las filas
 "Norma IRAM agente extintor" y "Norma IRAM extintor" del catálogo de referencia.
@@ -106,7 +108,7 @@ el espesor del suncho portamanguera. Por eso supera en 1,5–3 mm la
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 python generar.py                 # todos
-python generar.py FL-ABC-004      # uno
+python generar.py FL_MAT_ABC_10kg      # uno
 ```
 
 Estructura del código:

@@ -24,7 +24,7 @@ from pydantic import Field
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SALIDA = os.path.join(REPO, "salida")
-CODIGO_RE = r"^FL-[A-Z0-9]+-\d{3}$"
+CODIGO_RE = r"^FL_MAT_[A-Z0-9-]+_[0-9.]+(kg|l)$"
 
 mcp = FastMCP("autocad_mcp")
 
@@ -129,7 +129,7 @@ def autocad_status() -> str:
 @mcp.tool(name="autocad_open_drawing", annotations=ADD)
 def autocad_open_drawing(
     ruta: Annotated[str, Field(description="Ruta del DWG/DXF, absoluta o relativa al repo, "
-                                           "p. ej. 'salida/FL-ABC-004/FL-ABC-004_H1.dxf'", min_length=3)],
+                                           "p. ej. 'salida/FL_MAT_ABC_10kg/FL_MAT_ABC_10kg.dxf'", min_length=3)],
 ) -> str:
     """Abre un DWG o DXF y hace zoom extensión."""
     p = _ruta(ruta)
@@ -455,28 +455,44 @@ def autocad_list_flama_models() -> str:
     return _ok(total=len(res), modelos=res)
 
 
+HOJAS = {1: "Hoja1_Conjunto", 2: "Hoja2_Corte_Detalles", 3: "Hoja3_Especificaciones"}
+
+
 @mcp.tool(name="autocad_open_flama_sheet", annotations=ADD)
 def autocad_open_flama_sheet(
-    codigo: Annotated[str, Field(pattern=CODIGO_RE, description="Código FLAMA, p. ej. 'FL-ABC-004'")],
+    codigo: Annotated[str, Field(pattern=CODIGO_RE, description="Código FLAMA, p. ej. 'FL_MAT_ABC_10kg'")],
     hoja: Annotated[int, Field(ge=1, le=3, description="1 conjunto, 2 corte y detalles, 3 especificaciones")] = 1,
 ) -> str:
-    """Abre una lámina FLAMA (DWG si ya fue convertida, si no el DXF)."""
-    base = os.path.join(SALIDA, codigo, f"{codigo}_H{hoja}")
+    """Abre el plano de un matafuego (DWG si ya fue convertido, si no el DXF) y
+    activa la presentación de la hoja pedida."""
+    base = os.path.join(SALIDA, codigo, codigo)
     p = base + ".dwg" if os.path.exists(base + ".dwg") else base + ".dxf"
-    return autocad_open_drawing(p)
+    if not os.path.exists(p):
+        return _err(FileNotFoundError(p), "Usá autocad_list_flama_models para ver los códigos.")
+    try:
+        app = _acad()
+        d = app.Documents.Open(p)
+        _esperar(app)
+        d.ActiveLayout = d.Layouts.Item(HOJAS[hoja])
+        _esperar(app)
+        app.ZoomExtents()
+        return _ok(abierto=d.FullName, presentacion=HOJAS[hoja])
+    except Exception as e:
+        return _err(e)
 
 
 @mcp.tool(name="autocad_convert_flama_to_dwg", annotations=DEST)
 def autocad_convert_flama_to_dwg(
     codigo: Annotated[Optional[str], Field(pattern=CODIGO_RE, description="Un modelo; vacío = todos")] = None,
 ) -> str:
-    """Abre las láminas DXF de salida/ y las guarda como DWG 2018 junto a cada DXF."""
+    """Abre los planos FL_MAT_*.dxf de salida/ (3 láminas c/u) y los guarda como DWG 2018 junto a cada DXF."""
     try:
         app = _acad()
         hechos, errores = [], []
         for raiz, _, archivos in os.walk(SALIDA):
             for a in sorted(archivos):
-                if not (a.endswith(".dxf") and "_H" in a) or (codigo and not a.startswith(codigo)):
+                if not (a.endswith(".dxf") and a.startswith("FL_MAT_") and not a.endswith("_3D.dxf")) \
+                        or (codigo and a != codigo + ".dxf"):
                     continue
                 p = os.path.join(raiz, a)
                 try:
@@ -494,7 +510,7 @@ def autocad_convert_flama_to_dwg(
 
 @mcp.tool(name="autocad_open_flama_3d", annotations=ADD)
 def autocad_open_flama_3d(
-    codigo: Annotated[str, Field(pattern=CODIGO_RE, description="Código FLAMA, p. ej. 'FL-ABC-100'")],
+    codigo: Annotated[str, Field(pattern=CODIGO_RE, description="Código FLAMA, p. ej. 'FL_MAT_ABC_100kg'")],
     a_solidos: Annotated[bool, Field(description="Convertir mallas a sólidos 3D (CONVTOSOLID)")] = True,
 ) -> str:
     """Abre el modelo 3D de un extintor (DXF con una malla por pieza), opcionalmente lo

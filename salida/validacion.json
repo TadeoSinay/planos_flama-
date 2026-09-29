@@ -1,6 +1,6 @@
 [
  {
-  "codigo": "FL-ABC-001",
+  "codigo": "FL_MAT_ABC_1kg",
   "nombre": "Extintor ABC 1 kg",
   "formato_h1": "A2",
   "escala_h1": "1:2",
@@ -13,7 +13,7 @@
   "vol_dm3": 1.18
  },
  {
-  "codigo": "FL-ABC-002",
+  "codigo": "FL_MAT_ABC_2.5kg",
   "nombre": "Extintor ABC 2,5 kg",
   "formato_h1": "A2",
   "escala_h1": "1:2",
@@ -26,7 +26,7 @@
   "vol_dm3": 3.5
  },
  {
-  "codigo": "FL-ABC-003",
+  "codigo": "FL_MAT_ABC_5kg",
   "nombre": "Extintor ABC 5 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -39,7 +39,7 @@
   "vol_dm3": 6.0
  },
  {
-  "codigo": "FL-ABC-004",
+  "codigo": "FL_MAT_ABC_10kg",
   "nombre": "Extintor ABC 10 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -52,7 +52,7 @@
   "vol_dm3": 12.5
  },
  {
-  "codigo": "FL-AGU-001",
+  "codigo": "FL_MAT_AGUA_10l",
   "nombre": "Extintor Agua 10 l",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -65,7 +65,7 @@
   "vol_dm3": 13.92
  },
  {
-  "codigo": "FL-AFF-001",
+  "codigo": "FL_MAT_AFFF_10l",
   "nombre": "Extintor AFFF 10 l",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -78,7 +78,7 @@
   "vol_dm3": 13.92
  },
  {
-  "codigo": "FL-AFF-002",
+  "codigo": "FL_MAT_AFFF_50l",
   "nombre": "Extintor AFFF 50 l sobre ruedas",
   "formato_h1": "A2",
   "escala_h1": "1:10",
@@ -91,7 +91,7 @@
   "vol_dm3": 61.8
  },
  {
-  "codigo": "FL-BC-001",
+  "codigo": "FL_MAT_BC_5kg",
   "nombre": "Extintor BC 5 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -104,7 +104,7 @@
   "vol_dm3": 6.0
  },
  {
-  "codigo": "FL-K-001",
+  "codigo": "FL_MAT_SALESK_6l",
   "nombre": "Extintor Sales K 6 l",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -117,7 +117,7 @@
   "vol_dm3": 8.92
  },
  {
-  "codigo": "FL-CO2-001",
+  "codigo": "FL_MAT_CO2_2kg",
   "nombre": "Extintor CO₂ 2 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -130,7 +130,7 @@
   "vol_dm3": 3.19
  },
  {
-  "codigo": "FL-CO2-002",
+  "codigo": "FL_MAT_CO2_5kg",
   "nombre": "Extintor CO₂ 5 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -143,7 +143,7 @@
   "vol_dm3": 8.41
  },
  {
-  "codigo": "FL-HAL-001",
+  "codigo": "FL_MAT_HCFC-HFC_5kg",
   "nombre": "Extintor HCFC/HFC 5 kg",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -156,7 +156,7 @@
   "vol_dm3": 6.0
  },
  {
-  "codigo": "FL-D-001",
+  "codigo": "FL_MAT_CLASED_9l",
   "nombre": "Extintor Clase D 9 l",
   "formato_h1": "A3",
   "escala_h1": "1:5",
@@ -169,7 +169,7 @@
   "vol_dm3": 12.5
  },
  {
-  "codigo": "FL-ABC-025",
+  "codigo": "FL_MAT_ABC_25kg",
   "nombre": "Extintor ABC 25 kg sobre ruedas",
   "formato_h1": "A3",
   "escala_h1": "1:10",
@@ -182,7 +182,7 @@
   "vol_dm3": 34.4
  },
  {
-  "codigo": "FL-ABC-050",
+  "codigo": "FL_MAT_ABC_50kg",
   "nombre": "Extintor ABC 50 kg sobre ruedas",
   "formato_h1": "A2",
   "escala_h1": "1:10",
@@ -195,7 +195,7 @@
   "vol_dm3": 61.8
  },
  {
-  "codigo": "FL-ABC-070",
+  "codigo": "FL_MAT_ABC_70kg",
   "nombre": "Extintor ABC 70 kg sobre ruedas",
   "formato_h1": "A2",
   "escala_h1": "1:10",
@@ -208,7 +208,7 @@
   "vol_dm3": 86.0
  },
  {
-  "codigo": "FL-ABC-100",
+  "codigo": "FL_MAT_ABC_100kg",
   "nombre": "Extintor ABC 100 kg sobre ruedas",
   "formato_h1": "A2",
   "escala_h1": "1:10",

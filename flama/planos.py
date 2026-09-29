@@ -161,11 +161,10 @@ def rotulo_base(m, fmt, e, hoja, tipo, sub=""):
 
 
 # =================================================================== HOJA 1
-def hoja1(m, piezas, info, proy):
+def hoja1(m, piezas, info, proy, doc, ox=0.0):
     fmt, e, k = _elegir(m, piezas, info)
     f = 1.0 / k
-    doc = nuevo_doc()
-    h = Hoja(doc, fmt)
+    h = Hoja(doc, fmt, ox)
     h.formato()
     y_rot = h.rotulo(rotulo_base(m, fmt, e, 1, "Plano de conjunto"))
     filas, orden = lista(m, piezas)
@@ -343,10 +342,9 @@ def definir_detalles(m, info):
 
 
 # =================================================================== HOJA 2
-def hoja2(m, piezas, info, res1):
-    doc = nuevo_doc()
+def hoja2(m, piezas, info, res1, doc, ox=0.0):
     fmt = "A2"
-    h = Hoja(doc, fmt)
+    h = Hoja(doc, fmt, ox)
     h.formato()
     nombres = ["cuerpo", "cupula", "fondo", "cuello", "soldaduras", "cano_pesca"]
     if m.familia == "co2":
@@ -511,9 +509,8 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
 
 
 # =================================================================== HOJA 3
-def hoja3(m, info):
-    doc = nuevo_doc()
-    h = Hoja(doc, "A3")
+def hoja3(m, info, doc, ox=0.0):
+    h = Hoja(doc, "A3", ox)
     h.formato()
     y_rot = h.rotulo(rotulo_base(m, "A3", None, 3, "Especificaciones y normas",
                                  "Datos técnicos y normativa aplicable"))
@@ -588,12 +585,23 @@ def _partir(s, n):
 
 
 # =================================================================== todo
+SEPARACION = 60.0  # mm entre láminas en el espacio modelo
+
+
 def generar(m):
+    """Un único dibujo por modelo: las 3 láminas lado a lado en el espacio modelo.
+    Devuelve (piezas, info, doc, hojas, res1) con hojas = [(nombre, formato, ox)]."""
     piezas, info = M.construir(m)
     comp = M.compuesto(piezas)
     proy = {v: V.proyectar(comp, v, tol=0.5, ocultas=(v != "iso")) for v in V.VISTAS}
-    d1, res1 = hoja1(m, piezas, info, proy)
+    doc = nuevo_doc()
+    fmt1 = _elegir(m, piezas, info)[0]
+    ox2 = FORMATOS[fmt1][0] + SEPARACION
+    ox3 = ox2 + FORMATOS["A2"][0] + SEPARACION
+    _, res1 = hoja1(m, piezas, info, proy, doc, 0.0)
     res1["proy"] = proy
-    d2 = hoja2(m, piezas, info, res1)
-    d3 = hoja3(m, info)
-    return piezas, info, [d1, d2, d3], res1
+    hoja2(m, piezas, info, res1, doc, ox2)
+    hoja3(m, info, doc, ox3)
+    hojas = [("Hoja1_Conjunto", res1["fmt"], 0.0), ("Hoja2_Corte_Detalles", "A2", ox2),
+             ("Hoja3_Especificaciones", "A3", ox3)]
+    return piezas, info, doc, hojas, res1

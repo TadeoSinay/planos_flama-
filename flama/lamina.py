@@ -82,13 +82,16 @@ def nuevo_doc():
 
 
 class Hoja:
-    def __init__(self, doc, formato):
+    def __init__(self, doc, formato, ox=0.0):
+        """ox: desplazamiento en X de la lámina dentro del espacio modelo (varias
+        hojas del mismo plano quedan una al lado de la otra)."""
         self.doc = doc
         self.msp = doc.modelspace()
         self.fmt = formato
+        self.ox = ox
         self.W, self.H = FORMATOS[formato]
-        self.fx0, self.fy0 = MARGEN_IZQ, MARGEN
-        self.fx1, self.fy1 = self.W - MARGEN, self.H - MARGEN
+        self.fx0, self.fy0 = ox + MARGEN_IZQ, MARGEN
+        self.fx1, self.fy1 = ox + self.W - MARGEN, self.H - MARGEN
 
     # ------------------------------------------------------------ básicos
     def texto(self, s, p, h=3.5, al=A.BOTTOM_LEFT, capa="06-TEXTO", rot=0):
@@ -106,17 +109,17 @@ class Hoja:
 
     # ------------------------------------------------------------ formato
     def formato(self):
-        W, H = self.W, self.H
+        W, H, o = self.W, self.H, self.ox
         # borde de corte (línea fina)
-        self.rect(0, 0, W, H, capa="08-FINA")
+        self.rect(o, 0, o + W, H, capa="08-FINA")
         # recuadro
         self.rect(self.fx0, self.fy0, self.fx1, self.fy1, capa="07-RECUADRO")
         # marcas de centrado: desde el borde de corte hasta 5 mm dentro del recuadro
-        cx, cy = W / 2, H / 2
+        cx, cy = o + W / 2, H / 2
         self.linea((cx, 0), (cx, self.fy0 + 5), "07-RECUADRO")
         self.linea((cx, H), (cx, self.fy1 - 5), "07-RECUADRO")
-        self.linea((0, cy), (self.fx0 + 5, cy), "07-RECUADRO")
-        self.linea((W, cy), (self.fx1 - 5, cy), "07-RECUADRO")
+        self.linea((o, cy), (self.fx0 + 5, cy), "07-RECUADRO")
+        self.linea((o + W, cy), (self.fx1 - 5, cy), "07-RECUADRO")
         # sistema de zonas (campos de 50 mm a partir de las marcas de centrado)
         xs = sorted(set([cx + 50 * i for i in range(-20, 21) if self.fx0 < cx + 50 * i < self.fx1]))
         ys = sorted(set([cy + 50 * i for i in range(-20, 21) if self.fy0 < cy + 50 * i < self.fy1]))
@@ -200,17 +203,20 @@ class Hoja:
         C("Propietario", r.get("empresa", "FLAMA S.A."), c1, y1 - 12, c2, y1, 5.0)
         C("Denominación", None, c1, y0 + 12, c2, y1 - 12)
         tit = r["titulo"]
-        if len(tit) <= 24:
+        if len(tit) <= 19:
             self.texto(tit, ((c1 + c2) / 2, y0 + 25), 5.0, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
+        elif len(tit) <= 27:
+            self.texto(tit, ((c1 + c2) / 2, y0 + 25), 3.5, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
         else:
-            corte = tit.rfind(" ", 0, 24)
+            corte = tit.rfind(" ", 0, 20)
             self.texto(tit[:corte], ((c1 + c2) / 2, y0 + 28), 5.0, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
             self.texto(tit[corte + 1:], ((c1 + c2) / 2, y0 + 21.5), 3.5, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
         self.texto(r.get("subtitulo", ""), ((c1 + c2) / 2, y0 + 15.5), 2.2, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
         C("Tipo de documento", r.get("tipo_doc", ""), c1, y0, c2, y0 + 12, 3.5)
         # ---- columna derecha
         cm = c2 + 24
-        C("N° de plano", r["codigo"], c2, y0, x1, y0 + 14, 5.0)
+        cod = r["codigo"]
+        C("N° de plano", cod, c2, y0, x1, y0 + 14, 5.0 if len(cod) <= 11 else (3.5 if len(cod) <= 16 else 3.0))
         C("Hoja", f"{r['hoja']} / {r['hojas']}", c2, y0 + 14, cm, y0 + 24, 3.5)
         C("Idioma", "es", cm, y0 + 14, x1, y0 + 24, 3.5)
         C("Edición", r.get("edicion", "0"), c2, y0 + 24, cm, y0 + 34, 3.5)

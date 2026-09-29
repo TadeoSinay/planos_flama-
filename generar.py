@@ -1,7 +1,7 @@
 """Genera todos los planos FLAMA S.A.
 
 Uso:  python generar.py [CODIGO ...]      (sin argumentos: todos los modelos)
-Salida: salida/<CODIGO>/  (DXF por hoja, PDF de 3 hojas, STEP, DXF 3D)
+Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
 """
 
 import os
@@ -27,14 +27,10 @@ def main(codigos):
         t = time.time()
         d = os.path.join(salida, m.codigo)
         os.makedirs(d, exist_ok=True)
-        piezas, info, docs, res = P.generar(m)
-        fmts = [res["fmt"], "A2", "A3"]
-        pdf_m = pymupdf.open()
-        for i, (doc, fmt) in enumerate(zip(docs, fmts)):
-            X.preparar_layout(doc, fmt)
-            doc.saveas(os.path.join(d, f"{m.codigo}_H{i + 1}.dxf"))
-            pg = pymupdf.open("pdf", X.dxf_a_pdf_bytes(doc, fmt))
-            pdf_m.insert_pdf(pg)
+        piezas, info, doc, hojas, res = P.generar(m)
+        X.preparar_layouts(doc, hojas)
+        doc.saveas(os.path.join(d, f"{m.codigo}.dxf"))
+        pdf_m = X.pdf_hojas(doc, hojas)
         pdf_m.set_metadata({"title": f"{m.codigo} - {m.nombre}", "author": "FLAMA S.A.",
                             "subject": "Plano de conjunto, corte y detalles, especificaciones"})
         pdf_m.save(os.path.join(d, f"{m.codigo}.pdf"))

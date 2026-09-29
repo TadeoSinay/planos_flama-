@@ -10,32 +10,32 @@ generados (ezdxf). Requiere AutoCAD abierto; se permite abrir los archivos
     <answer>17</answer>
   </qa_pair>
   <qa_pair>
-    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué grosor de línea (en centésimas de mm) tiene la capa de aristas visibles?</question>
+    <question>En el plano FL_MAT_ABC_10kg, ¿qué grosor de línea (en centésimas de mm) tiene la capa de aristas visibles?</question>
     <answer>50</answer>
   </qa_pair>
   <qa_pair>
-    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué tipo de línea usa la capa donde se dibujan las aristas ocultas?</question>
+    <question>En el plano FL_MAT_ABC_10kg, ¿qué tipo de línea usa la capa donde se dibujan las aristas ocultas?</question>
     <answer>ISO02-TRAZOS</answer>
   </qa_pair>
   <qa_pair>
-    <question>En la hoja 1 del extintor ABC 10 kg, ¿qué grosor de línea (centésimas de mm) tiene la capa del recuadro de la lámina?</question>
+    <question>En el plano FL_MAT_ABC_10kg, ¿qué grosor de línea (centésimas de mm) tiene la capa del recuadro de la lámina?</question>
     <answer>70</answer>
   </qa_pair>
   <qa_pair>
-    <question>¿Cuántas cotas hay en el espacio modelo de la hoja 1 del extintor ABC 100 kg sobre ruedas?</question>
-    <answer>7</answer>
+    <question>¿Cuántas cotas hay en total en el espacio modelo del plano del matafuego ABC 100 kg (sus 3 láminas)?</question>
+    <answer>12</answer>
   </qa_pair>
   <qa_pair>
-    <question>¿Cuántas cotas hay en el espacio modelo de la hoja 2 (corte y detalles) del extintor CO2 2 kg?</question>
-    <answer>5</answer>
+    <question>¿Cuántas cotas hay en total en el espacio modelo del plano del matafuego CO2 2 kg?</question>
+    <answer>10</answer>
   </qa_pair>
   <qa_pair>
-    <question>¿Cómo se llama la presentación de impresión de la hoja 1 del extintor ABC 100 kg sobre ruedas?</question>
-    <answer>Lamina_A2</answer>
+    <question>¿Cómo se llama la presentación de impresión de la hoja 2 del plano FL_MAT_ABC_100kg?</question>
+    <answer>Hoja2_Corte_Detalles</answer>
   </qa_pair>
   <qa_pair>
-    <question>¿Cómo se llama la presentación de impresión de la hoja 1 del extintor ABC 25 kg sobre ruedas?</question>
-    <answer>Lamina_A3</answer>
+    <question>¿Cuántas presentaciones de impresión tiene el plano FL_MAT_ABC_25kg?</question>
+    <answer>3</answer>
   </qa_pair>
   <qa_pair>
     <question>Al abrir el modelo 3D del extintor CO2 5 kg sin convertir a sólidos, ¿cuántas mallas (una por pieza) contiene?</question>

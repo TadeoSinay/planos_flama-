@@ -30,23 +30,27 @@ def main():
         dH, dW = v["H_mod"] - v["H_cat"], v["W_mod"] - v["W_cat"]
         if abs(dH) > 0.05 or abs(dW) > 0.05:
             errores.append(f"{m.codigo}: caja envolvente difiere del catálogo (dH={dH}, dW={dW})")
+        f = os.path.join(BASE, m.codigo, f"{m.codigo}.dxf")
+        doc = ezdxf.readfile(f)
+        aud = doc.audit()
+        if aud.has_errors:
+            errores.append(f"{f}: {len(aud.errors)} errores DXF")
+        capas = {l.dxf.name for l in doc.layers}
+        falt = set(CAPAS) - capas
+        if falt:
+            errores.append(f"{f}: faltan capas {falt}")
+        pres = [n for n in doc.layouts.names() if n != "Model"]
+        if len(pres) != 3:
+            errores.append(f"{f}: se esperaban 3 presentaciones, hay {pres}")
+        textos = [t.dxf.text for t in doc.modelspace().query("TEXT")]
         for i in (1, 2, 3):
-            f = os.path.join(BASE, m.codigo, f"{m.codigo}_H{i}.dxf")
-            doc = ezdxf.readfile(f)
-            aud = doc.audit()
-            if aud.has_errors:
-                errores.append(f"{f}: {len(aud.errors)} errores DXF")
-            capas = {l.dxf.name for l in doc.layers}
-            falt = set(CAPAS) - capas
-            if falt:
-                errores.append(f"{f}: faltan capas {falt}")
-            textos = [t.dxf.text for t in doc.modelspace().query("TEXT")]
-            if m.codigo not in textos or "FLAMA S.A." not in textos or f"{i} / 3" not in textos:
-                errores.append(f"{f}: rótulo incompleto")
-            esc = [t for t in textos if ":" in t and len(t) <= 5 and t.replace(":", "").isdigit()]
-            for e in esc:
-                if e not in ESCALAS_OK:
-                    errores.append(f"{f}: escala no normalizada {e}")
+            if f"{i} / 3" not in textos:
+                errores.append(f"{f}: falta el rótulo de la hoja {i}")
+        if textos.count(m.codigo) != 3 or textos.count("FLAMA S.A.") != 3:
+            errores.append(f"{f}: rótulos incompletos (código o propietario)")
+        for e in [t for t in textos if ":" in t and len(t) <= 5 and t.replace(":", "").isdigit()]:
+            if e not in ESCALAS_OK:
+                errores.append(f"{f}: escala no normalizada {e}")
         filas.append(f"| {m.codigo} | {v['H_cat']:.0f} | {v['H_mod']:.1f} | {v['W_cat']:.0f} | {v['W_mod']:.1f} | "
                      f"{v['D_cat']:.0f} | {v['D_mod']:.1f} | {v['formato_h1']} {v['escala_h1']} |")
     print("| Código | H cat. | H modelo | A cat. | A modelo | P cat. | P modelo | Hoja 1 |")
@@ -57,7 +61,7 @@ def main():
         print("ERRORES:")
         print("\n".join(errores))
         sys.exit(1)
-    print(f"OK: {len(MODELOS)} modelos, {3 * len(MODELOS)} láminas verificadas sin errores.")
+    print(f"OK: {len(MODELOS)} planos ({3 * len(MODELOS)} láminas) verificados sin errores.")
 
 
 if __name__ == "__main__":

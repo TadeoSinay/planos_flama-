@@ -1,13 +1,13 @@
 @echo off
 rem ==========================================================================
 rem  FLAMA S.A. - Abre el modelo 3D de un extintor en AutoCAD 2027.
-rem  Uso:  2_abrir_modelo_3D.bat FL-ABC-004
+rem  Uso:  2_abrir_modelo_3D.bat FL_MAT_ABC_10kg
 rem  Carga el DXF 3D (mallas por pieza), convierte las mallas en solidos
 rem  (CONVTOSOLID), aplica estilo visual realista y guarda <codigo>_3D.dwg.
 rem  El solido exacto (superficies B-rep) esta en <codigo>.step: comando IMPORT.
 rem ==========================================================================
 setlocal
-if "%~1"=="" (echo Indique el codigo, p.ej. FL-ABC-004 & exit /b 1)
+if "%~1"=="" (echo Indique el codigo, p.ej. FL_MAT_ABC_10kg & exit /b 1)
 set "ACAD=C:\Program Files\Autodesk\AutoCAD 2027\acad.exe"
 set "DIR=%~dp0..\salida\%~1"
 set "SCR=%TEMP%\flama_3d.scr"
