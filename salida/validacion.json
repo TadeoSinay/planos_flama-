@@ -2,7 +2,7 @@
  {
   "codigo": "FL_MAT_ABC_1kg",
   "nombre": "Extintor ABC 1 kg",
-  "formato_h1": "A2",
+  "formato_h1": "A3",
   "escala_h1": "1:2",
   "H_cat": 340.0,
   "H_mod": 340.0,
@@ -28,8 +28,8 @@
  {
   "codigo": "FL_MAT_ABC_5kg",
   "nombre": "Extintor ABC 5 kg",
-  "formato_h1": "A3",
-  "escala_h1": "1:5",
+  "formato_h1": "A2",
+  "escala_h1": "1:2",
   "H_cat": 480.0,
   "H_mod": 480.0,
   "W_cat": 225.0,
@@ -62,7 +62,7 @@
   "W_mod": 240.0,
   "D_cat": 190.0,
   "D_mod": 193.0,
-  "vol_dm3": 13.92
+  "vol_dm3": 13.98
  },
  {
   "codigo": "FL_MAT_AFFF_10l",
@@ -75,12 +75,12 @@
   "W_mod": 240.0,
   "D_cat": 190.0,
   "D_mod": 193.0,
-  "vol_dm3": 13.92
+  "vol_dm3": 13.98
  },
  {
   "codigo": "FL_MAT_AFFF_50l",
   "nombre": "Extintor AFFF 50 l sobre ruedas",
-  "formato_h1": "A2",
+  "formato_h1": "A3",
   "escala_h1": "1:10",
   "H_cat": 1210.0,
   "H_mod": 1210.0,
@@ -93,8 +93,8 @@
  {
   "codigo": "FL_MAT_BC_5kg",
   "nombre": "Extintor BC 5 kg",
-  "formato_h1": "A3",
-  "escala_h1": "1:5",
+  "formato_h1": "A2",
+  "escala_h1": "1:2",
   "H_cat": 480.0,
   "H_mod": 480.0,
   "W_cat": 225.0,
@@ -106,28 +106,28 @@
  {
   "codigo": "FL_MAT_SALESK_6l",
   "nombre": "Extintor Sales K 6 l",
-  "formato_h1": "A3",
-  "escala_h1": "1:5",
+  "formato_h1": "A2",
+  "escala_h1": "1:2",
   "H_cat": 470.0,
   "H_mod": 470.0,
   "W_cat": 270.0,
   "W_mod": 270.0,
   "D_cat": 190.0,
   "D_mod": 193.0,
-  "vol_dm3": 8.92
+  "vol_dm3": 8.96
  },
  {
   "codigo": "FL_MAT_CO2_2kg",
   "nombre": "Extintor CO₂ 2 kg",
-  "formato_h1": "A3",
-  "escala_h1": "1:5",
+  "formato_h1": "A2",
+  "escala_h1": "1:2",
   "H_cat": 520.0,
   "H_mod": 520.0,
   "W_cat": 254.0,
   "W_mod": 254.0,
   "D_cat": 114.0,
   "D_mod": 114.0,
-  "vol_dm3": 3.19
+  "vol_dm3": 2.96
  },
  {
   "codigo": "FL_MAT_CO2_5kg",
@@ -140,13 +140,13 @@
   "W_mod": 310.0,
   "D_cat": 140.0,
   "D_mod": 143.0,
-  "vol_dm3": 8.41
+  "vol_dm3": 7.92
  },
  {
   "codigo": "FL_MAT_HCFC-HFC_5kg",
   "nombre": "Extintor HCFC/HFC 5 kg",
-  "formato_h1": "A3",
-  "escala_h1": "1:5",
+  "formato_h1": "A2",
+  "escala_h1": "1:2",
   "H_cat": 480.0,
   "H_mod": 480.0,
   "W_cat": 225.0,
@@ -184,7 +184,7 @@
  {
   "codigo": "FL_MAT_ABC_50kg",
   "nombre": "Extintor ABC 50 kg sobre ruedas",
-  "formato_h1": "A2",
+  "formato_h1": "A3",
   "escala_h1": "1:10",
   "H_cat": 1210.0,
   "H_mod": 1210.0,

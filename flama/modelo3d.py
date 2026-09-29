@@ -258,19 +258,16 @@ def extintor_manual(m, cW=0.0, cH=0.0):
     out = dict(piezas)
     info = dict(recipiente=dr)
 
-    # ancho: de la tobera/manguera (-X) a la punta de la palanca (+X)
-    d_hose = 0 if chico else 16.0
-    if fam == "co2":
-        d_noz = 70.0 if R < 60 else 90.0
-    elif fam == "inox":
-        d_noz = 30.0 if "AFFF" in m.nombre else (26.0 if "K" in m.nombre else 22.0)
-    else:
-        d_noz = 22.0
+    # dispositivo de descarga propio de cada tipo (ver catalogo.DESCARGA)
+    tipo = m.descarga
+    d_hose = 0 if chico else (14.0 if fam == "co2" else 16.0)
+    d_dev = {"tobera_polvo": 24.0, "tobera_chorro": 22.0, "lanza_espuma": 32.0, "lanza_k": 20.0,
+             "lanza_d": 40.0, "difusor_brazo": 70.0, "difusor_manga": 90.0, "tobera_1kg": 0.0}[tipo]
     if chico:
         xmin = -(15 * s + 13 * s + 26)
     else:
-        xh = -(R + 4 + max(d_hose, d_noz) / 2)
-        xmin = xh - max(d_hose, d_noz) / 2
+        xh = -(R + 4 + max(d_hose, d_dev) / 2)
+        xmin = xh - max(d_hose, d_dev) / 2
     x_tip = W + xmin + cW
     man_d = 28.0 if chico else 38.0
     val, vi = valvula(dr["z_cuello"], s=s, x_tip=x_tip, h_total=H - dr["z_cuello"] + cH,
@@ -286,61 +283,92 @@ def extintor_manual(m, cW=0.0, cH=0.0):
     else:
         out["cano_pesca"] = _tube(5, 3.5, zs0 - zf, (0, 0, zf))
 
-    xs, zs = vi["x_salida"], vi["z_salida"]
-    if chico:
-        # tobera directa
-        noz = cq.Solid.makeCone(6 * s, 4 * s, 26, cq.Vector(xs, 0, zs), cq.Vector(-1, 0, 0))
-        out["tobera"] = noz
-        info["tobera"] = (xs - 13, zs)
-    elif fam == "co2" and R < 60:
-        # brazo giratorio + difusor (sin manga, según catálogo)
-        arm = _sweep_circle([(xs, 0, zs), (xh, 0, zs, 12), (xh, 0, zs - 60)], 6)
-        out["brazo_difusor"] = arm
-        hl = 180.0
-        cone = cq.Solid.makeCone(12, d_noz / 2, hl, cq.Vector(xh, 0, zs - 60), cq.Vector(0, 0, -1))
-        cone = cone.cut(cq.Solid.makeCone(10, d_noz / 2 - 2.5, hl, cq.Vector(xh, 0, zs - 60), cq.Vector(0, 0, -1)))
-        out["difusor"] = cone
-        info["tobera"] = (xh, zs - 60 - hl / 2)
-    else:
-        # manguera: horizontal, curva y bajada paralela al cuerpo
-        rb = max(8.0, min(40.0, abs(xh - (xs - 12)) - 4))
-        if fam == "co2":
-            l_noz = 260.0
-        elif fam == "inox":
-            l_noz = 190.0 if "AFFF" in m.nombre else (230.0 if "K" in m.nombre else 90.0)
-        else:
-            l_noz = 70.0
-        z_n_bot = max(0.18 * H, dr["z_fondo"] + 40)
-        l_noz = min(l_noz, zs - rb - 25 - z_n_bot)
-        z_n_top = z_n_bot + l_noz
-        out["racor"] = cq.Solid.makeCylinder(9, 12, cq.Vector(xs, 0, zs), cq.Vector(-1, 0, 0))
-        x1 = xs - 12
-        pts = [(x1, 0, zs), (xh, 0, zs, rb), (xh, 0, z_n_top + 5)]
-        out["manguera"] = _sweep_circle(pts, d_hose / 2)
-        if fam == "co2":
-            cone = cq.Solid.makeCone(10, d_noz / 2, l_noz, cq.Vector(xh, 0, z_n_top), cq.Vector(0, 0, -1))
-            cone = cone.cut(cq.Solid.makeCone(8, d_noz / 2 - 2.5, l_noz, cq.Vector(xh, 0, z_n_top), cq.Vector(0, 0, -1)))
-            out["difusor"] = cone
-        else:
-            noz = _cyl(d_noz / 2, l_noz, (xh, 0, z_n_bot))
-            noz = noz.cut(_cyl(d_noz / 2 - 3, 10, (xh, 0, z_n_bot)))
-            out["tobera"] = noz.clean()
-        # suncho portamanguera
-        zsu = z_n_bot + l_noz * 0.45
-        band = _tube(R + 1.5, R - 0.2, 18, (0, 0, zsu - 9))
-        clip = _box(abs(xh) - R + d_noz / 2 + 3, 12, 18, (xh + (-R)) / 2 - 1, 0, zsu - 9)
-        clip = clip.cut(_cyl(d_noz / 2 + 0.2, 18, (xh, 0, zsu - 9)))
-        out["suncho"] = band.fuse(clip).clean()
-        info["tobera"] = (xh, (z_n_bot + z_n_top) / 2)
-        info["suncho_z"] = zsu
     if fam == "co2":
-        # pie de apoyo (base plástica)
-        zb = dr["zb"] - R
-        hp = 0.55 * R
-        pie = _tube(R, R - 3.0, hp, (0, 0, 0)).fuse(_cyl(R, 4, (0, 0, 0)))
-        out["pie"] = pie.clean()
-        for k in list(piezas):
-            out[k] = out[k].translate(cq.Vector(0, 0, 0))
+        # pie de apoyo (base de polietileno) del cilindro de fondo semiesférico
+        out["pie"] = _tube(R, R - 3.0, 0.55 * R, (0, 0, 0)).fuse(_cyl(R, 4, (0, 0, 0))).clean()
+
+    xs, zs = vi["x_salida"], vi["z_salida"]
+    if tipo == "tobera_1kg":
+        noz = cq.Solid.makeCone(6 * s, 4 * s, 26, cq.Vector(xs, 0, zs), cq.Vector(-1, 0, 0))
+        out["tobera"] = noz.cut(_cyl(2.5, 26, (xs, 0, zs), (-1, 0, 0)))
+        info["tobera"] = (xs - 13, zs)
+        return out, info
+
+    if tipo == "difusor_brazo":
+        # CO2 2 kg: brazo giratorio rígido + difusor aislante con empuñadura (sin manga)
+        out["brazo_difusor"] = _sweep_circle([(xs, 0, zs), (xh, 0, zs, 12), (xh, 0, zs - 55)], 6)
+        z0d, hl = zs - 55, 170.0
+        cone = cq.Solid.makeCone(12, d_dev / 2, hl, cq.Vector(xh, 0, z0d), cq.Vector(0, 0, -1))
+        cone = cone.cut(cq.Solid.makeCone(9.5, d_dev / 2 - 2.5, hl, cq.Vector(xh, 0, z0d), cq.Vector(0, 0, -1)))
+        out["difusor"] = cone.clean()
+        out["empunadura"] = _tube(17, 12.1, 30, (xh, 0, z0d - 32))
+        info["tobera"] = (xh, z0d - hl / 2)
+        info["eje_tobera"] = (xh, z0d - hl, z0d)
+        return out, info
+
+    # manguera: salida horizontal, curva y bajada paralela al cuerpo
+    rb = max(8.0, min(40.0, abs(xh - (xs - 12)) - 4))
+    l_dev = {"tobera_polvo": 75.0, "tobera_chorro": 85.0, "lanza_espuma": 210.0, "lanza_k": 300.0,
+             "lanza_d": 360.0, "difusor_manga": 260.0}[tipo]
+    z_bot = {"lanza_k": max(dr["z_fondo"] + 15, 20.0)}.get(tipo, max(0.16 * H, dr["z_fondo"] + 40))
+    l_dev = min(l_dev, zs - rb - 25 - z_bot)
+    z_top = z_bot + l_dev
+    out["racor"] = cq.Solid.makeCylinder(9, 12, cq.Vector(xs, 0, zs), cq.Vector(-1, 0, 0))
+    ho = _sweep_circle([(xs - 12, 0, zs), (xh, 0, zs, rb), (xh, 0, z_top + 5)], d_hose / 2)
+    out["manguera"] = ho
+    if tipo == "tobera_polvo":
+        # portatobera (racor) + tobera cónica de polvo
+        body = _cyl(10, 20, (xh, 0, z_top - 20))
+        tip = cq.Solid.makeCone(d_dev / 2, 7, l_dev - 20, cq.Vector(xh, 0, z_top - 20), cq.Vector(0, 0, -1))
+        out["tobera"] = body.fuse(tip).cut(_cyl(4, l_dev, (xh, 0, z_bot))).clean()
+    elif tipo == "tobera_chorro":
+        # tobera de chorro pleno: cuerpo cilíndrico + cono convergente con orificio calibrado
+        body = _cyl(d_dev / 2, l_dev * 0.55, (xh, 0, z_top - l_dev * 0.55))
+        tip = cq.Solid.makeCone(d_dev / 2, 6, l_dev * 0.45, cq.Vector(xh, 0, z_bot + l_dev * 0.45), cq.Vector(0, 0, -1))
+        out["tobera"] = body.fuse(tip).cut(_cyl(3, l_dev, (xh, 0, z_bot))).clean()
+    elif tipo == "lanza_espuma":
+        # lanza espumígena: tubo con 4 tomas de aire (venturi) y boca de salida
+        tubo = _tube(d_dev / 2, d_dev / 2 - 2.5, l_dev, (xh, 0, z_bot))
+        cab = _cyl(11, 22, (xh, 0, z_top - 22))
+        lanza = tubo.fuse(cab)
+        for ang in (0, 90, 180, 270):
+            dx, dy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+            lanza = lanza.cut(_cyl(3.5, 12, (xh + dx * (d_dev / 2 - 6), dy * (d_dev / 2 - 6), z_top - 45),
+                                   (dx, dy, 0)))
+        out["lanza"] = lanza.clean()
+    elif tipo == "lanza_k":
+        # lanza aplicadora clase K: tubo rígido largo + boquilla de niebla en abanico a 45°
+        tubo = _tube(8, 6, l_dev - 30, (xh, 0, z_bot + 30))
+        cab = cq.Solid.makeCone(8, 13, 30, cq.Vector(xh, 0, z_bot + 30), cq.Vector(0, 0, -1))
+        fan = _box(26, 6, 6, xh, 0, z_bot)
+        out["lanza"] = tubo.fuse(cab).fuse(fan).clean()
+    elif tipo == "lanza_d":
+        # lanza aplicadora de flujo suave (clase D): tubo + difusor de baja velocidad
+        tubo = _tube(10, 8, l_dev - 60, (xh, 0, z_bot + 60))
+        dif = cq.Solid.makeCone(10, d_dev / 2, 60, cq.Vector(xh, 0, z_bot + 60), cq.Vector(0, 0, -1))
+        dif = dif.cut(cq.Solid.makeCone(8, d_dev / 2 - 2, 60, cq.Vector(xh, 0, z_bot + 60), cq.Vector(0, 0, -1)))
+        grip = _tube(14, 10.1, 90, (xh, 0, z_top - 110))
+        out["lanza"] = tubo.fuse(dif).clean()
+        out["empunadura"] = grip
+    elif tipo == "difusor_manga":
+        # CO2 5 kg: manga de alta presión + difusor aislante con empuñadura
+        cone = cq.Solid.makeCone(10, d_dev / 2, l_dev, cq.Vector(xh, 0, z_top), cq.Vector(0, 0, -1))
+        cone = cone.cut(cq.Solid.makeCone(8, d_dev / 2 - 2.5, l_dev, cq.Vector(xh, 0, z_top), cq.Vector(0, 0, -1)))
+        out["difusor"] = cone.clean()
+        out["empunadura"] = _tube(18, 12.1, 40, (xh, 0, z_top - 5))
+    # suncho con portatobera / soporte de difusor
+    zsu = z_bot + l_dev * (0.45 if tipo != "lanza_k" else 0.8)
+    r_dev = {"lanza_k": 8.0, "lanza_d": 10.0, "difusor_manga": 0.0}.get(tipo, d_dev / 2)
+    if tipo == "difusor_manga":
+        # radio exterior del cono a la altura del soporte
+        r_dev = 10 + (d_dev / 2 - 10) * (z_top - zsu) / l_dev
+    band = _tube(R + 1.5, R - 0.2, 18, (0, 0, zsu - 9))
+    clip = _box(abs(xh) - R + r_dev + 3, 12, 18, (xh + (-R)) / 2 - 1 + (d_dev / 2 - r_dev) / 2, 0, zsu - 9)
+    clip = clip.cut(_cyl(r_dev + 0.2, 18, (xh, 0, zsu - 9)))
+    out["suncho"] = band.fuse(clip).clean()
+    info["tobera"] = (xh, (z_bot + z_top) / 2)
+    info["eje_tobera"] = (xh, z_bot, z_top)
+    info["suncho_z"] = zsu
     return out, info
 
 
@@ -362,13 +390,16 @@ def extintor_rodante(m, cD=0.0):
     track = W - bw_w
     xw = track / 2
     # ruedas
-    for sgn, nom in ((1, "rueda_der"), (-1, "rueda_izq")):
+    for sgn, suf in ((1, "der"), (-1, "izq")):
         c = cq.Vector(sgn * (xw - bw_w / 2), yw, Rw)
+        # neumático macizo (anillo de caucho) + llanta de chapa (disco con cubo)
         tire = _cyl(Rw, bw_w, (c.x, c.y, c.z), (sgn, 0, 0))
-        tire = tire.cut(_cyl(Rw * 0.55, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
-        rim = _cyl(Rw * 0.55, bw_w - 10, (c.x + sgn * 5, c.y, c.z), (sgn, 0, 0))
-        hub = _cyl(30, bw_w + 10, (c.x - sgn * 10, c.y, c.z), (sgn, 0, 0))
-        out[nom] = tire.fuse(rim).fuse(hub).clean()
+        tire = tire.cut(_cyl(Rw * 0.72, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
+        llanta = _tube(Rw * 0.72, Rw * 0.72 - 3, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0))
+        llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 4, (c.x + sgn * (bw_w / 2 - 2), c.y, c.z), (sgn, 0, 0)))
+        llanta = llanta.fuse(_tube(30, 13, bw_w + 10, (c.x - sgn * 10, c.y, c.z), (sgn, 0, 0)))
+        out["rueda_" + suf] = tire
+        out["llanta_" + suf] = llanta.clean()
     out["eje_ruedas"] = _cyl(12.5, track - bw_w + 20, (-(xw - bw_w / 2) + 10 - 10, yw, Rw), (1, 0, 0))
     # bastidor: dos parantes + arco superior (caño Ø25,4)
     rt = 12.7
@@ -387,14 +418,15 @@ def extintor_rodante(m, cD=0.0):
     zs2 = dr["zb"] + 0.85 * g["hc"]
     sun = None
     for zz in (zs1, zs2):
-        b = _tube(R + 4, R + 0.1, 40, (0, 0, zz - 20))
+        # abrazadera de planchuela 40 × 6 y brazos de planchuela hasta el bastidor
+        b = _tube(R + 6, R + 0.1, 40, (0, 0, zz - 20))
         for sg in (1, -1):
             if xa > R:
-                b = b.fuse(_box(xa - R + 10, 25, 40, sg * (R + xa) / 2, 0, zz - 20))
+                b = b.fuse(_box(xa - R + 10, 6, 40, sg * (R + xa) / 2, 0, zz - 20))
                 y0 = 0.0
             else:
                 y0 = math.sqrt(R * R - xa * xa) - 2
-            b = b.fuse(_box(25, ya - y0 + 10, 40, sg * xa, (ya + y0) / 2, zz - 20))
+            b = b.fuse(_box(6, ya - y0 + 10, 40, sg * xa, (ya + y0) / 2, zz - 20))
         sun = b if sun is None else sun.fuse(b)
     out["sunchos_bastidor"] = sun.clean()
     # apoyo delantero
@@ -438,10 +470,23 @@ def extintor_rodante(m, cD=0.0):
     ve = _box(40, 40, 60, xn, 0, zn_top)
     ve = ve.fuse(_box(14, 90, 12, xn, -65, zn_top + 24))
     out["valvula_esferica"] = ve.clean()
-    hn = 200.0
-    tb = cq.Solid.makeCone(16, 34, hn, cq.Vector(xn, 0, zn_top), cq.Vector(0, 0, -1))
-    tb = tb.cut(cq.Solid.makeCone(13, 31, hn, cq.Vector(xn, 0, zn_top), cq.Vector(0, 0, -1)))
-    out["tobera_campana"] = tb
+    if m.descarga == "lanza_espuma_rodante":
+        # lanza espumígena de rodante: tubo Ø40 con 4 tomas de aire y boca expandida
+        hn = 380.0
+        tubo = _tube(20, 17.5, hn - 40, (xn, 0, zn_top - hn + 40))
+        boca = cq.Solid.makeCone(20, 28, 40, cq.Vector(xn, 0, zn_top - hn + 40), cq.Vector(0, 0, -1))
+        boca = boca.cut(cq.Solid.makeCone(17.5, 25.5, 40, cq.Vector(xn, 0, zn_top - hn + 40), cq.Vector(0, 0, -1)))
+        lz = tubo.fuse(boca)
+        for ang in (0, 90, 180, 270):
+            dx, dy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+            lz = lz.cut(_cyl(5, 12, (xn + dx * 14, dy * 14, zn_top - 40), (dx, dy, 0)))
+        out["lanza"] = lz.clean()
+    else:
+        hn = 200.0
+        tb = cq.Solid.makeCone(16, 34, hn, cq.Vector(xn, 0, zn_top), cq.Vector(0, 0, -1))
+        tb = tb.cut(cq.Solid.makeCone(13, 31, hn, cq.Vector(xn, 0, zn_top), cq.Vector(0, 0, -1)))
+        out["tobera_campana"] = tb
+    info["eje_tobera"] = (xn, zn_top - hn, zn_top + 60)
     info.update(dict(Rw=Rw, bw_w=bw_w, xw=xw, yw=yw, track=track, xa=xa, y_loop=y_loop,
                      tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zn_top + 30)))
     return out, info

@@ -15,27 +15,30 @@ from shapely.ops import unary_union
 from . import vistas as V
 
 FORMATOS = {"A3": (420.0, 297.0), "A2": (594.0, 420.0), "A1": (841.0, 594.0)}
-MARGEN_IZQ, MARGEN = 20.0, 10.0          # ISO 5457 / IRAM 4504
-ROT_W, ROT_H = 180.0, 56.0               # rótulo (ISO 7200: ancho máx. 180 mm)
-ESCALAS = [(1, 1), (1, 2), (1, 5), (1, 10), (1, 20)]      # ISO 5455 / IRAM 4505
+MARGEN_IZQ, MARGEN = 25.0, 10.0          # IRAM 4504: 25 mm a la izquierda (archivo), 10 mm en los demás
+ROT_W, ROT_H = 175.0, 51.0               # IRAM 4508: rótulo de 175 × 51 mm
+ESCALAS = [(1, 1), (1, 2), (1, 5), (1, 10), (1, 20)]      # IRAM 4505 / ISO 5455
 AMPLIAC = [(5, 1), (2, 1), (1, 1), (1, 2), (1, 5), (1, 10)]
+ALTURAS = (1.8, 2.5, 3.5, 5.0, 7.0, 10.0)                 # IRAM 4503, letra tipo B
 
 A = TextEntityAlignment
 
+# Grupo de líneas IRAM 4502 (relación gruesa : media : fina = 4 : 2 : 1 -> 0,7 / 0,35 / 0,18 mm)
+G, M_, F = 70, 35, 18
 CAPAS = {
-    # nombre: (color ACI, espesor 1/100 mm, tipo de línea)
-    "01-VISIBLE": (7, 50, "CONTINUOUS"),
-    "02-OCULTA": (4, 25, "ISO02-TRAZOS"),
-    "03-EJE": (1, 25, "ISO04-TRAZO-PUNTO"),
-    "04-COTA": (3, 25, "CONTINUOUS"),
-    "05-RAYADO": (8, 25, "CONTINUOUS"),
-    "06-TEXTO": (7, 25, "CONTINUOUS"),
-    "07-RECUADRO": (7, 70, "CONTINUOUS"),
-    "08-FINA": (5, 25, "CONTINUOUS"),
-    "09-PLANO-CORTE": (1, 50, "ISO04-TRAZO-PUNTO"),
-    "10-ROTULO": (7, 35, "CONTINUOUS"),
-    "11-TEXTO-ROTULO": (7, 25, "CONTINUOUS"),
-    "12-SOLDADURA": (6, 25, "CONTINUOUS"),
+    # nombre: (color ACI, espesor 1/100 mm, tipo de línea, línea IRAM 4502)
+    "01-VISIBLE": (7, G, "CONTINUOUS", "A continua gruesa: contornos y aristas visibles"),
+    "02-OCULTA": (4, M_, "IRAM-E-TRAZOS", "E de trazos media: contornos y aristas ocultos"),
+    "03-EJE": (1, F, "IRAM-F-TRAZO-PUNTO", "F trazo largo y corto fina: ejes, simetrías, trayectorias"),
+    "04-COTA": (3, F, "CONTINUOUS", "B continua fina: líneas de cota y auxiliares"),
+    "05-RAYADO": (8, F, "CONTINUOUS", "B continua fina: rayados IRAM 4509"),
+    "06-TEXTO": (7, 25, "CONTINUOUS", "Escritura IRAM 4503 tipo B (trazo h/10)"),
+    "07-RECUADRO": (7, G, "CONTINUOUS", "Recuadro IRAM 4504"),
+    "08-FINA": (5, F, "CONTINUOUS", "B continua fina: referencias, fondos de rosca, contornos de detalle"),
+    "09-PLANO-CORTE": (1, F, "IRAM-F-TRAZO-PUNTO", "G trazo largo y corto fina con extremos gruesos: planos de corte"),
+    "10-ROTULO": (7, M_, "CONTINUOUS", "Rótulo y lista de materiales IRAM 4508"),
+    "11-TEXTO-ROTULO": (7, 25, "CONTINUOUS", "Escritura del rótulo"),
+    "12-SOLDADURA": (6, F, "CONTINUOUS", "Símbolos de soldadura"),
 }
 
 
@@ -50,20 +53,27 @@ def nuevo_doc():
     doc.header["$LTSCALE"] = 1.0
     doc.header["$PSLTSCALE"] = 0
     doc.header["$DIMDSEP"] = 44  # separador decimal coma
-    # ISO 128-20 (d = 0,25 mm): trazo 12d, espacio 3d; trazo largo 24d, punto 0,5d
-    doc.linetypes.add("ISO02-TRAZOS", pattern=[3.75, 3.0, -0.75],
-                      description="ISO 128 tipo 02 - trazos (d=0,25) __ __ __")
-    doc.linetypes.add("ISO04-TRAZO-PUNTO", pattern=[7.625, 6.0, -0.75, 0.125, -0.75],
-                      description="ISO 128 tipo 04 - trazo largo y punto (d=0,25) ____ . ____")
-    for n, (c, lw, lt) in CAPAS.items():
-        doc.layers.add(n, color=c, lineweight=lw, linetype=lt)
+    doc.linetypes.add("IRAM-E-TRAZOS", pattern=[5.0, 4.0, -1.0],
+                      description="IRAM 4502 E - trazos __ __ __")
+    doc.linetypes.add("IRAM-F-TRAZO-PUNTO", pattern=[20.0, 15.0, -2.0, 1.0, -2.0],
+                      description="IRAM 4502 F - trazo largo y trazo corto ____ _ ____")
+    for n, (c, lw, lt, desc) in CAPAS.items():
+        ly = doc.layers.add(n, color=c, lineweight=lw, linetype=lt)
+        ly.description = desc
     doc.styles.add("ISO3098", font="isocpeur.ttf")
-    ds = doc.dimstyles.new("FLAMA-ISO")
+    # flecha IRAM 4513: triángulo isósceles lleno, relación base : altura = 1 : 4
+    blk = doc.blocks.new("IRAM_FLECHA")
+    blk.add_solid([(0, 0), (-1, 0.125), (-1, -0.125)])
+    ds = doc.dimstyles.new("FLAMA-IRAM")
     ds.dxf.dimtxsty = "ISO3098"
     ds.dxf.dimtxt = 3.5
-    ds.dxf.dimasz = 3.0
+    ds.dxf.dimblk = "IRAM_FLECHA"
+    ds.dxf.dimblk1 = "IRAM_FLECHA"
+    ds.dxf.dimblk2 = "IRAM_FLECHA"
+    ds.dxf.dimsah = 0
+    ds.dxf.dimasz = 3.5
     ds.dxf.dimexe = 2.0
-    ds.dxf.dimexo = 1.0
+    ds.dxf.dimexo = 1.5
     ds.dxf.dimgap = 1.0
     ds.dxf.dimtad = 1
     ds.dxf.dimtih = 0
@@ -74,8 +84,8 @@ def nuevo_doc():
     ds.dxf.dimclrd = 3
     ds.dxf.dimclre = 3
     ds.dxf.dimclrt = 3
-    ds.dxf.dimlwd = 25
-    ds.dxf.dimlwe = 25
+    ds.dxf.dimlwd = F
+    ds.dxf.dimlwe = F
     ds.dxf.dimtix = 0
     ds.dxf.dimatfit = 3
     return doc
@@ -174,32 +184,33 @@ class Hoja:
                 self.texto(str(val), (x0 + 1.5, yv), hv, A.MIDDLE_LEFT, "11-TEXTO-ROTULO")
 
     def rotulo(self, r):
-        """Rótulo (IRAM 4508 / ISO 7200). r: dict con titulo, subtitulo, codigo,
-        hoja, hojas, escala, material, edicion, fecha, dibujo, reviso, aprobo,
-        tipo_doc, empresa."""
+        """Rótulo IRAM 4508 (175 × 51 mm) en el ángulo inferior derecho.
+        r: dict con titulo, subtitulo, codigo, hoja, hojas, escala, material,
+        edicion, fecha, dibujo, reviso, aprobo, tipo_doc, empresa, formato."""
         x0, y0 = self.fx1 - ROT_W, self.fy0
         x1, y1 = self.fx1, self.fy0 + ROT_H
         C = self._celda
-        c1, c2 = x0 + 56, x0 + 128
-        # ---- columna izquierda
-        yF = y0 + 32
-        C("", None, x0, y1 - 6, x0 + 14, y1)
-        C("", "Fecha", x0 + 14, y1 - 6, x0 + 33, y1, 2.2)
-        C("", "Nombre", x0 + 33, y1 - 6, c1, y1, 2.2)
+        c1, c2 = x0 + 55, x0 + 125
+        # ---- columna 1: firmas, escala y método, tolerancias y formato
+        yF = y0 + 28
+        C("", None, x0, y1 - 5, x0 + 14, y1)
+        C("", "Fecha", x0 + 14, y1 - 5, x0 + 30, y1, 2.5)
+        C("", "Nombre", x0 + 30, y1 - 5, c1, y1, 2.5)
         filas = [("Dibujó", r.get("fecha", ""), r.get("dibujo", "")),
                  ("Revisó", r.get("fecha_rev", ""), r.get("reviso", "")),
                  ("Aprobó", r.get("fecha_apr", ""), r.get("aprobo", ""))]
         for i, (a, fch, nom) in enumerate(filas):
-            ya = y1 - 6 * (i + 2)
-            C("", a, x0, ya, x0 + 14, ya + 6, 2.2, "l")
-            C("", fch, x0 + 14, ya, x0 + 33, ya + 6, 2.2)
-            C("", nom, x0 + 33, ya, c1, ya + 6, 2.2)
-        C("Escala", r["escala"], x0, y0 + 18, x0 + 22, yF, 5.0)
-        C("Método de proyección", None, x0 + 22, y0 + 18, c1, yF)
-        self.simbolo_primer_diedro(x0 + 30.5, y0 + 23.5)
-        C("Tolerancias generales", "ISO 2768-m", x0, y0 + 8, c1, y0 + 18, 3.5)
-        C("Formato", self.fmt, x0, y0, c1, y0 + 8, 3.5)
-        # ---- columna central
+            ya = y1 - 5 - 6 * (i + 1)
+            C("", a, x0, ya, x0 + 14, ya + 6, 2.5, "l")
+            C("", fch[:6] + fch[-2:] if len(fch) == 10 else fch, x0 + 14, ya, x0 + 30, ya + 6, 2.5)
+            C("", nom, x0 + 30, ya, c1, ya + 6, 2.5)
+        C("Escala", r["escala"], x0, y0 + 14, x0 + 20, yF, 5.0)
+        C("Método de proyección", None, x0 + 20, y0 + 14, c1, yF)
+        self.simbolo_primer_diedro(x0 + 27.5, y0 + 19.5, 2.5)
+        self.texto("ISO E", (x0 + 51.5, y0 + 19.5), 2.5, A.MIDDLE_RIGHT, "11-TEXTO-ROTULO")
+        C("Tolerancias generales", "ISO 2768-m", x0, y0, x0 + 33, y0 + 14, 3.5)
+        C("Formato", self.fmt, x0 + 33, y0, c1, y0 + 14, 3.5)
+        # ---- columna 2: propietario, denominación, tipo de documento
         C("Propietario", r.get("empresa", "FLAMA S.A."), c1, y1 - 12, c2, y1, 5.0)
         C("Denominación", None, c1, y0 + 12, c2, y1 - 12)
         tit = r["titulo"]
@@ -211,26 +222,30 @@ class Hoja:
             corte = tit.rfind(" ", 0, 20)
             self.texto(tit[:corte], ((c1 + c2) / 2, y0 + 28), 5.0, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
             self.texto(tit[corte + 1:], ((c1 + c2) / 2, y0 + 21.5), 3.5, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
-        self.texto(r.get("subtitulo", ""), ((c1 + c2) / 2, y0 + 15.5), 2.2, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
+        self.texto(r.get("subtitulo", ""), ((c1 + c2) / 2, y0 + 15.5), 1.8, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
         C("Tipo de documento", r.get("tipo_doc", ""), c1, y0, c2, y0 + 12, 3.5)
-        # ---- columna derecha
-        cm = c2 + 24
+        # ---- columna 3: reemplazos, material, edición, hoja, número de plano
+        cm = c2 + 22
+        C("Reemplaza a / Reemplazado por", r.get("reemplaza", "-"), c2, y1 - 8, x1, y1, 1.8)
+        C("Material", r.get("material", ""), c2, y1 - 18, x1, y1 - 8, 2.5)
+        C("Edición", r.get("edicion", "0"), c2, y0 + 23, cm, y1 - 18, 3.5)
+        C("Fecha de emisión", r.get("fecha", ""), cm, y0 + 23, x1, y1 - 18, 2.5)
+        C("Hoja", f"{r['hoja']} / {r['hojas']}", c2, y0 + 13, cm, y0 + 23, 3.5)
+        C("Idioma", "es", cm, y0 + 13, x1, y0 + 23, 3.5)
         cod = r["codigo"]
-        C("N° de plano", cod, c2, y0, x1, y0 + 14, 5.0 if len(cod) <= 11 else (3.5 if len(cod) <= 16 else 3.0))
-        C("Hoja", f"{r['hoja']} / {r['hojas']}", c2, y0 + 14, cm, y0 + 24, 3.5)
-        C("Idioma", "es", cm, y0 + 14, x1, y0 + 24, 3.5)
-        C("Edición", r.get("edicion", "0"), c2, y0 + 24, cm, y0 + 34, 3.5)
-        C("Fecha de emisión", r.get("fecha", ""), cm, y0 + 24, x1, y0 + 34, 2.5)
-        C("Material", r.get("material", ""), c2, y0 + 34, x1, y0 + 45, 2.5)
-        C("Reemplaza a / Reemplazado por", r.get("reemplaza", "-"), c2, y0 + 45, x1, y1, 2.5)
+        C("N° de plano", cod, c2, y0, x1, y0 + 13, 5.0 if len(cod) <= 11 else (3.5 if len(cod) <= 16 else 3.0))
         self.rect(x0, y0, x1, y1, "07-RECUADRO")
         return y1
 
     # ------------------------------------------------------------ lista de piezas
+    COLS_LISTA = [("Pos.", 9), ("Cant.", 9), ("Denominación", 44), ("Código", 19),
+                  ("Material", 55), ("kg", 12), ("Observ.", 27)]
+
     def lista_piezas(self, filas, y_base, h_fila=5.0):
-        """IRAM 4508 / ISO 7573: sobre el rótulo, encabezado abajo, lectura hacia arriba."""
+        """Lista de materiales IRAM 4508: mismo ancho que el rótulo, apoyada sobre
+        él, encabezado abajo y numeración creciente hacia arriba."""
         x0, x1 = self.fx1 - ROT_W, self.fx1
-        cols = [("Pos.", 10), ("Cant.", 10), ("Denominación", 66), ("Material", 50), ("Observaciones", 44)]
+        cols = self.COLS_LISTA
         xs = [x0]
         for _, w in cols:
             xs.append(xs[-1] + w)
@@ -246,10 +261,11 @@ class Hoja:
         for i, f in enumerate(filas):
             yy = y_base + h_fila * (i + 1) + h_fila / 2
             for j, (val, (nom, w)) in enumerate(zip(f, cols)):
-                al = A.MIDDLE_CENTER if j < 2 else A.MIDDLE_LEFT
-                px = xs[j] + (w / 2 if j < 2 else 1.2)
+                centrado = j in (0, 1, 3, 5)
+                al = A.MIDDLE_CENTER if centrado else A.MIDDLE_LEFT
+                px = xs[j] + (w / 2 if centrado else 1.2)
                 s = str(val)
-                hh = 2.5 if len(s) * 1.9 < w or j < 2 else 2.0
+                hh = 2.5 if len(s) * 2.5 * 0.80 <= w - 2 else 1.8
                 self.texto(s, (px, yy), hh, al, "11-TEXTO-ROTULO")
         return y_top
 
@@ -298,7 +314,7 @@ class Hoja:
         ov = {"dimlfac": k}
         if prefijo:
             ov["dimpost"] = prefijo + "<>"
-        d = self.msp.add_linear_dim(base=base, p1=p1, p2=p2, angle=ang, dimstyle="FLAMA-ISO",
+        d = self.msp.add_linear_dim(base=base, p1=p1, p2=p2, angle=ang, dimstyle="FLAMA-IRAM",
                                     override=ov, text=texto if texto else "<>",
                                     dxfattribs={"layer": "04-COTA"})
         d.render()
@@ -341,7 +357,7 @@ class Hoja:
             self.texto(letra, (tip[0] + sentido[0] * 2 - sgn * ux * 3, tip[1] + sentido[1] * 2 - sgn * uy * 3),
                        5, A.MIDDLE_CENTER)
 
-    def _flecha(self, tip, d, L=3.0, w=1.0):
+    def _flecha(self, tip, d, L=3.5, w=0.875):  # IRAM 4513: base : altura = 1 : 4
         px, py = -d[1], d[0]
         b = (tip[0] - d[0] * L, tip[1] - d[1] * L)
         pts = [tip, (b[0] + px * w / 2 * 1, b[1] + py * w / 2), (b[0] - px * w / 2, b[1] - py * w / 2)]

@@ -58,49 +58,61 @@ Las normas de producto se transcriben tal como figuran en las filas
 
 ## Normas de dibujo aplicadas
 
-| Norma | Equivalente ISO | Qué se aplica |
+| Norma | Título | Qué se aplica en las láminas |
 |---|---|---|
-| IRAM 4501 | ISO 5456-2 | Método ISO E (primer diedro): superior debajo de la anterior, lateral izquierda a su derecha; símbolo del método en el rótulo |
-| IRAM 4502 | ISO 128-20/-24 | Grupo 0,5: visibles 0,5; cotas, rayados y referencias 0,25; ocultas en trazos 0,25; ejes en trazo largo y punto 0,25; recuadro 0,7 |
-| IRAM 4503 | ISO 3098 | Letra tipo B vertical; alturas 2,5 – 3,5 – 5 – 7 |
-| IRAM 4504 | ISO 5457 | Formatos A3/A2, recuadro, marcas de centrado, zonas de 50 mm |
-| IRAM 4505 | ISO 5455 | Sólo escalas normalizadas (1:1, 1:2, 1:5, 1:10, 1:20; 2:1, 5:1) |
-| IRAM 4507 | ISO 128-40/-44/-50 | Plano de corte con letras y flechas; rayado a 45°; secciones delgadas ennegrecidas |
-| IRAM 4508 | ISO 7200 / 7573 | Rótulo abajo a la derecha; lista de piezas encima, leída de abajo hacia arriba |
-| IRAM 4513 | ISO 129-1 | Cotas en mm, cifra sobre la línea de cota, flecha llena, coma decimal, prefijo Ø |
-| IRAM 4520 | ISO 6410-1 | Rosca interior: cresta con línea gruesa, fondo con línea fina |
-| IRAM 4540 | ISO 5456-3 | Isometría sin aristas ocultas |
-| – | ISO 2553 / ISO 4063 | Símbolos de soldadura: filete, todo alrededor, proceso 131 (MIG) |
-| – | ISO 2768-1 | Tolerancias generales clase m |
-| – | ISO 6433 | Números de posición |
+| IRAM 4501 | Dibujo técnico. Métodos de proyección | Método ISO E: superior (B) debajo de la anterior (A), lateral izquierda (C) a su derecha; símbolo junto a la escala en el rótulo |
+| IRAM 4502 | Dibujo técnico. Líneas | Grupo 0,7: A continua gruesa 0,7 (visibles), E trazos **media** 0,35 (ocultas), B continua fina 0,18 (cotas, rayados, referencias, fondos de rosca), F trazo largo y corto fina 0,18 (ejes y centros), G fina con extremos gruesos (plano de corte). Relación 4:2:1 |
+| IRAM 4503 | Dibujo técnico. Letras | Letra tipo B vertical; alturas 1,8 · 2,5 · 3,5 · 5 · 7 |
+| IRAM 4504 | Formatos, elementos gráficos y plegado de láminas | A3 / A2; recuadro a **25 mm** del borde izquierdo y 10 mm de los demás; marcas de centrado y zonas |
+| IRAM 4505 | Dibujo tecnológico. Escalas | Sólo 1:1, 1:2, 1:5, 1:10, 1:20 y 2:1, 5:1; se elige la mayor que entra en A3 o A2 |
+| IRAM 4507 | Dibujo técnico. Representación de secciones y cortes | CORTE A-A por el plano de simetría, con letras y flechas |
+| IRAM 4508 | Rótulo, lista de materiales y despiezo | Rótulo **175 × 51 mm**; lista de materiales del mismo ancho sobre el rótulo: posición, cantidad, denominación, código, material, **peso**, observaciones |
+| IRAM 4509 | Dibujo técnico. Rayados indicadores de secciones y cortes | 45° con línea fina, orientación alternada en piezas contiguas, secciones delgadas ennegrecidas |
+| IRAM 4513 | Dibujo técnico. Acotación | Flecha de triángulo lleno **1:4**; separación ≥ altura de cifra; cotas fuera del contorno; coma decimal |
+| IRAM 4520 | Dibujo tecnológico. Representación de roscas y partes roscadas | Rosca interior en corte: cresta gruesa, fondo fino |
+| IRAM 4540 | Dibujo técnico. Representación de vistas en perspectiva | Isometría con ejes a 120°, sin ocultas |
+| ISO 2553 / 4063 | Soldaduras | Filete todo alrededor; proceso **131 MIG** (acero al carbono) o **141 TIG** (inoxidable) |
+| ISO 2768-1 | Tolerancias generales | Clase m |
 
-## Verificación dimensional
+Los datos de las normas IRAM de dibujo (márgenes, rótulo, líneas, flechas, rayados)
+se tomaron de resúmenes publicados de cada norma. El texto completo es material
+protegido de IRAM y hay que consultarlo en la edición vigente.
 
-`generar.py` construye cada conjunto y ajusta el largo de la palanca, la altura
-del cuerpo de la válvula y la posición del eje de ruedas para que la caja
-envolvente coincida con **altura y ancho del catálogo (±0,05 mm)**. El resultado
-queda en `salida/validacion.json`.
+## Qué distingue a cada tipo (no sólo las dimensiones)
 
-La **profundidad** acotada (vista lateral) es la medida real del modelo e incluye
-el espesor del suncho portamanguera. Por eso supera en 1,5–3 mm la
-"profundidad" del catálogo, que coincide con el Ø del recipiente.
+| Tipo | Recipiente | Válvula | Descarga |
+|---|---|---|---|
+| ABC / BC / HCFC-HFC | chapa acero SAE 1010, costura MIG, fondo cóncavo con pollera | latón forjado, manómetro IRAM 3533 | manguera + tobera con portatobera (1 kg: tobera directa, sin manguera) |
+| Clase D | idem 10 kg | idem | manguera + **lanza aplicadora de flujo suave** con empuñadura |
+| Agua | **acero inoxidable AISI 304, costura TIG** | idem | manguera + **tobera de chorro pleno** |
+| AFFF | inoxidable, TIG | idem | manguera + **lanza espumígena** con 4 tomas de aire |
+| Sales K | inoxidable, TIG | idem | manguera + **lanza aplicadora larga** con boquilla de niebla |
+| CO₂ | **cilindro sin costura 34CrMo4, cuello integral**, pie de apoyo | **sin manómetro, con disco de seguridad** | 2 kg: brazo giratorio + difusor; 5 kg: manga de alta presión + difusor con empuñadura y soporte |
+| Rodantes ABC | recipiente con dos cabezales, bastidor de caño, ruedas de caucho macizo | idem con manómetro | manguera enrollada + válvula esférica + tobera campana |
+| Rodante AFFF 50 l | idem | idem | válvula esférica + **lanza espumígena** |
 
-## Pendientes a confirmar por FLAMA (no inventados)
+## Verificaciones automáticas (`verificar.py`)
 
-1. **Clase D 9 l**: el catálogo de referencia sólo lista clase D de 5 kg y 10 kg
-   (IRAM 3523). El plano usa el recipiente de 10 kg y deja la observación en la hoja 3.
-2. **Materiales "A definir"**: la lista de piezas sólo nombra los materiales que
-   indica el catálogo (chapa de acero / acero inoxidable, válvula de latón forjado,
-   manga de caucho sintético). El resto se completa en el BOM.
-3. **Recipientes sin plano de referencia** (Agua, AFFF 10 l, Sales K, CO₂, 70 kg):
-   el Ø y la altura salen del catálogo; los espesores y la longitud del cuerpo son
-   derivados (ver hoja 3 de cada modelo).
-4. **Rosca de válvula de CO₂**: se indica rosca cónica 25E (ISO 11363-1); confirmar
-   con el proveedor del cilindro.
-5. **Títulos de normas IRAM**: se citan por número y título. El texto normativo no
-   se reproduce porque es material protegido de IRAM. Verificar los títulos de
-   IRAM 4507 y 4540 contra la edición vigente.
-6. Rótulo: los campos "Revisó" y "Aprobó" quedan en blanco para la firma.
+- Altura y ancho de cada modelo igual al catálogo (±0,05 mm). La profundidad incluye el suncho.
+- **Masa**: la suma de la lista de materiales (volumen × densidad) + carga nominal se compara con el peso cargado del catálogo. Da entre −8 % y +12 % en los 17 modelos; el ABC 10 kg da −2 % y su recipiente 5,24 kg, contra 5,48 kg del plano de referencia.
+- IRAM 4504 recuadro 25/10, IRAM 4508 rótulo 175 × 51, IRAM 4502 grupo de líneas, IRAM 4513 flecha 1:4, escalas normalizadas, 3 presentaciones, rótulos completos y ningún "A definir".
+
+## Materiales
+
+Ya no queda ningún "A definir". Se respetan los materiales que da el catálogo
+(chapa de acero / inoxidable, válvula de latón forjado, manga de caucho sintético,
+manómetro con sello IRAM 3533). Para el resto se especifican los materiales
+habituales de cada componente: acero SAE 1010 en cuello, manijas y sunchos;
+inoxidable AISI 304 en eje y pasador; PVC o polipropileno en el sifón;
+polipropileno en toberas y lanzas; polietileno AD aislante en el difusor de CO₂;
+caucho macizo y chapa en las ruedas. Ver `flama/materiales.py`.
+
+## Pendientes a confirmar por FLAMA
+
+1. **Clase D 9 l**: el catálogo de referencia sólo tiene clase D de 5 y 10 kg; se usa el recipiente de 10 kg.
+2. **Rosca de la válvula de CO₂**: se indica cónica 25E (ISO 11363-1); confirmar con el proveedor del cilindro.
+3. **Espesores derivados** (Agua, AFFF, Sales K: 0,8 mm inox; CO₂: 5,4 / 6,0 mm; 70 kg): elegidos para que la masa coincida con el catálogo; confirmar con cálculo a presión de ensayo.
+4. Firmas "Revisó" y "Aprobó" del rótulo.
 
 ## Regenerar
 

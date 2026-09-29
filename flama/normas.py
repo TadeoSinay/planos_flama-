@@ -10,32 +10,34 @@ las que rigen la representación efectivamente aplicada en este generador.
 
 # Normas de dibujo técnico aplicadas (número, título, qué se aplica en la lámina)
 DIBUJO = [
-    ("IRAM 4501", "Dibujo técnico - Vistas", "ISO 5456-2",
-     "Método de proyección ISO E (primer diedro): vista superior debajo de la anterior, "
-     "lateral izquierda a la derecha de la anterior; símbolo del método en el rótulo."),
-    ("IRAM 4502", "Dibujo técnico - Líneas", "ISO 128-20 / ISO 128-24",
-     "Grupo de líneas 0,5: continua gruesa 0,5 mm (aristas visibles), continua fina 0,25 mm "
-     "(cotas, rayados, fondo de rosca, referencias), trazos finos 0,25 mm (aristas ocultas), "
-     "trazo largo y punto fino 0,25 mm (ejes), trazo y punto grueso en extremos del plano de corte."),
-    ("IRAM 4503", "Dibujo técnico - Letras y números", "ISO 3098-1/-2",
-     "Escritura tipo B vertical; alturas nominales 2,5 - 3,5 - 5 - 7 - 10 mm."),
-    ("IRAM 4504", "Dibujo técnico - Formatos, elementos gráficos y plegado de láminas", "ISO 5457",
-     "Formatos serie A, recuadro 0,7 mm, marcas de centrado y sistema de coordenadas de zonas."),
-    ("IRAM 4505", "Dibujo técnico - Escalas", "ISO 5455",
-     "Sólo escalas normalizadas: 1:1, 1:2, 1:5, 1:10, 1:20 y ampliaciones 2:1, 5:1."),
-    ("IRAM 4507", "Dibujo técnico - Cortes y secciones", "ISO 128-40 / 128-44 / 128-50",
-     "Plano de corte con letras y flechas; rayado a 45° con línea fina; secciones "
-     "estrechas ennegrecidas."),
-    ("IRAM 4508", "Dibujo técnico - Rótulo, lista de materiales y despiece", "ISO 7200 / ISO 7573",
-     "Rótulo en el ángulo inferior derecho; lista de piezas sobre el rótulo, leída de abajo "
-     "hacia arriba; números de posición (ISO 6433)."),
-    ("IRAM 4513", "Dibujo técnico - Acotación", "ISO 129-1",
-     "Cotas en mm sin unidad, cifra sobre la línea de cota, flechas cerradas llenas, "
-     "separador decimal coma; prefijo Ø en diámetros."),
-    ("IRAM 4520", "Dibujo técnico - Representación de roscas", "ISO 6410-1",
-     "Cresta con línea gruesa, fondo con línea fina; rayado hasta la cresta."),
-    ("IRAM 4540", "Dibujo técnico - Representación de perspectivas", "ISO 5456-3",
-     "Proyección axonométrica isométrica, sin aristas ocultas."),
+    ("IRAM 4501", "Dibujo técnico. Métodos de proyección", "ISO 5456-2",
+     "Método ISO E: vista superior (B) debajo de la anterior (A), lateral izquierda (C) a su "
+     "derecha; símbolo del método junto a la escala, dentro del rótulo."),
+    ("IRAM 4502", "Dibujo técnico. Líneas", "ISO 128-20",
+     "Grupo 0,7: A continua gruesa 0,7 (aristas visibles); E de trazos media 0,35 (ocultas); "
+     "B continua fina 0,18 (cotas, rayados, referencias, fondo de rosca); F trazo largo y corto "
+     "fina 0,18 (ejes); G fina con extremos gruesos (plano de corte). Relación 4:2:1."),
+    ("IRAM 4503", "Dibujo técnico. Letras", "ISO 3098",
+     "Letra tipo B vertical, trazo h/10; alturas de la serie 1,8 - 2,5 - 3,5 - 5 - 7 - 10."),
+    ("IRAM 4504", "Formatos, elementos gráficos y plegado de láminas", "ISO 5457",
+     "Formatos A3 y A2; recuadro a 25 mm del borde izquierdo y 10 mm de los demás; marcas de "
+     "centrado; plegado a módulo A4."),
+    ("IRAM 4505", "Dibujo tecnológico. Escalas", "ISO 5455",
+     "Escalas normalizadas 1:1, 1:2, 1:5, 1:10, 1:20 y ampliaciones 2:1, 5:1."),
+    ("IRAM 4507", "Dibujo técnico. Representación de secciones y cortes", "ISO 128-40/44",
+     "Corte A-A por el plano de simetría, designado con letras y flechas de observación."),
+    ("IRAM 4508", "Rótulo, lista de materiales y despiezo", "ISO 7200",
+     "Rótulo de 175 × 51 mm en el ángulo inferior derecho; lista de materiales del mismo ancho "
+     "apoyada sobre el rótulo (posición, cantidad, denominación, código, material, peso, observaciones)."),
+    ("IRAM 4509", "Dibujo técnico. Rayados indicadores de secciones y cortes", "ISO 128-50",
+     "Rayado a 45° con línea fina; orientación distinta en piezas contiguas; secciones delgadas ennegrecidas."),
+    ("IRAM 4513", "Dibujo técnico. Acotación", "ISO 129-1",
+     "Flecha: triángulo lleno con base : altura = 1 : 4; separación entre cotas y al dibujo no menor "
+     "que la altura de la cifra; cotas fuera del contorno; coma decimal."),
+    ("IRAM 4520", "Dibujo tecnológico. Representación de roscas y partes roscadas", "ISO 6410-1",
+     "Rosca interior en corte: cresta con línea gruesa, fondo con línea fina; rayado hasta la cresta."),
+    ("IRAM 4540", "Dibujo técnico. Representación de vistas en perspectiva", "ISO 5456-3",
+     "Isometría: ejes a 120°, sin aristas ocultas."),
 ]
 
 SOLDADURA = ("ISO 2553", "Representación simbólica de soldaduras",

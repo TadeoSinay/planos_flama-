@@ -27,6 +27,17 @@ class Modelo:
     geo_fuente: str = "derivado"
     observaciones: list = field(default_factory=list)
 
+    @property
+    def descarga(self):
+        """Dispositivo de descarga propio del tipo (ver DESCARGA)."""
+        return DESCARGA[self.codigo]
+
+    @property
+    def soldadura(self):
+        """Proceso de soldadura del recipiente (ISO 4063): 141 TIG en inoxidable,
+        131 MIG en acero al carbono; el cilindro de CO2 es sin costura."""
+        return {"inox": ("141", "TIG")}.get(self.familia, ("131", "MIG"))
+
     # dimensiones totales (mm) que el modelo 3D debe respetar
     @property
     def H(self):
@@ -107,7 +118,7 @@ def _g_inox(H, R=95.0, hd=60.0, h_valv=100.0):
     """Recipiente de acero inoxidable; la altura del cuerpo se deriva de la
     altura total del catálogo (volumen interior resultante informado)."""
     import math
-    t = 1.0
+    t = 0.8  # chapa inoxidable habitual en extintores de 6 a 10 l
     hn = 14.0
     hc = H - h_valv - hn - hd
     ri = R - t
@@ -122,7 +133,7 @@ def _g_co2(D, H, h_valv=100.0):
     La longitud del cuerpo se deriva de la altura total del catálogo."""
     import math
     R = D / 2
-    t = 3.6 if D < 130 else 4.2
+    t = 5.4 if D < 130 else 6.0  # pared para 25 MPa de ensayo; masa coherente con el peso cargado
     hombro = round(0.55 * R, 1)
     hn = 22.0
     z_pie = 8.0
@@ -212,3 +223,14 @@ MODELOS = [
 
 def por_codigo(c):
     return next(m for m in MODELOS if m.codigo == c)
+
+
+# Dispositivo de descarga por modelo (según catálogo de referencia y práctica de cada agente)
+DESCARGA = {
+    "FL_MAT_ABC_1kg": "tobera_1kg", "FL_MAT_ABC_2.5kg": "tobera_polvo", "FL_MAT_ABC_5kg": "tobera_polvo",
+    "FL_MAT_ABC_10kg": "tobera_polvo", "FL_MAT_BC_5kg": "tobera_polvo", "FL_MAT_HCFC-HFC_5kg": "tobera_polvo",
+    "FL_MAT_AGUA_10l": "tobera_chorro", "FL_MAT_AFFF_10l": "lanza_espuma", "FL_MAT_SALESK_6l": "lanza_k",
+    "FL_MAT_CLASED_9l": "lanza_d", "FL_MAT_CO2_2kg": "difusor_brazo", "FL_MAT_CO2_5kg": "difusor_manga",
+    "FL_MAT_ABC_25kg": "campana", "FL_MAT_ABC_50kg": "campana", "FL_MAT_ABC_70kg": "campana",
+    "FL_MAT_ABC_100kg": "campana", "FL_MAT_AFFF_50l": "lanza_espuma_rodante",
+}
