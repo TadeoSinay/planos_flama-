@@ -60,7 +60,7 @@ NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Disposi
               6: "Identificación y precinto", 7: "Embalaje", 8: "Soporte (accesorio de montaje)"}
 
 # densidad aparente de los agentes (kg/dm³) y masa molar del gas impulsor (kg/mol): R = referencia
-RHO_AGENTE = {"ABC": 0.95, "BC": 0.90, "D": 1.10, "HCFC": 1.46}
+RHO_AGENTE = {"ABC": 0.95, "BC": 1.05, "D": 1.10, "HCFC": 1.46}
 MOLAR = {"N₂": 0.028, "Argón": 0.040}
 
 
@@ -193,7 +193,7 @@ def carga(m):
                   "D": "Polvo para metales combustibles clase D", "HCFC": "HCFC 123 / HFC 236fa (agente limpio)"}[ag]
         v_ag = kg / RHO_AGENTE[ag]
         gas = "Argón" if ag == "HCFC" else "N₂"
-        libre = max(0.3, V - v_ag)
+        libre = V - v_ag
         q, um = kg, "kg"
     elif ag == "CO2":
         kg = float(cap.split()[0])
@@ -202,13 +202,59 @@ def carga(m):
         litros = float(cap.split()[0])
         nombre = {"AGUA": "Agua", "AFFF": "Agua + concentrado AFFF 3 %", "K": "Solución de sales de potasio (clase K)"}[ag]
         q, um = litros, "L"
-        gas, libre = "N₂", max(0.3, V - litros)
+        gas, libre = "N₂", V - litros
         kg = litros
     pa = (_ps(m) + 0.101) * 1e6
     n = pa * libre * 1e-3 / (8.314 * 293.15)
     m_gas = n * MOLAR[gas]
     nm3 = n * 0.022414
     return (nombre, q, um, n_ag, gas, m_gas, nm3, libre)
+
+
+# tolerancia de carga: IRAM 3517-2:2020 tabla 3 (9.4.12) e IRAM 3523 tabla II (4.6). La carga objetivo se toma
+# en el centro de la banda cuando la tolerancia es sólo positiva (0 / +X), para no quedar nunca por debajo.
+def tolerancia(m):
+    """(texto de tolerancia, carga objetivo, referencia)."""
+    ag = _agente(m)
+    _, q, um, *_ = carga(m)
+    n = m.spec["Norma IRAM extintor"]
+    ref = "IRAM 3517-2:2020 tabla 3"
+    if n == "3523":
+        x = 0.1 if q <= 2.5 else 0.3
+        return f"0 / +{_f(x * 1000, 0)} g", q + x / 2, ref + " · IRAM 3523 tabla II"
+    if n in ("3550", "3541", "3537", "3525", "3527"):
+        return "± 3 %", q, ref
+    if n == "3694":
+        return "0 / +3 %", q * 1.015, ref
+    if n in ("3509", "3565"):
+        return "0 / -5 %", q, ref
+    if n == "3504":
+        return ("0 / -2 %" if q <= 2.5 else "0 / -3 %"), q, ref
+    return "-", q, ""
+
+
+def tabla_carga():
+    """Relación agente / gas impulsor por modelo (hoja Carga_N2)."""
+    out = []
+    for m in MODELOS:
+        ag = _agente(m)
+        nombre, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
+        tol, obj, ref = tolerancia(m)
+        V = m.geo["vol_dm3"]
+        rho = RHO_AGENTE.get(ag)
+        v_ag = q / rho if rho else (q if um == "L" else None)
+        if ag == "CO2":
+            llen = q / V
+            obs = (f"Autopresurizado. Grado de llenado {_f(llen, 3)} kg/dm³ (máx. 0,75 kg/dm³, R: IRAM 2533 / ADR P200)"
+                   + ("" if llen <= 0.75 else " - EXCEDE"))
+        else:
+            obs = ("" if libre >= 0.10 * V else "OJO: volumen libre < 10 % del recipiente; revisar densidad aparente "
+                   "del polvo o volumen del plano")
+        out.append([m.codigo, nombre, m.spec["Norma IRAM extintor"], q, um, tol, round(obj, 3), ref, V,
+                    rho, None if v_ag is None else round(v_ag, 3), None if ag == "CO2" else round(libre, 3),
+                    None if ag == "CO2" else round(libre / V, 4), _ps(m), gas, round(m_gas * 1000, 1),
+                    round(nm3 * 1000, 1), round(m_gas * 1000 / obj, 2) if m_gas else None, obs])
+    return out
 
 
 # ------------------------------------------------------------------ embalaje
@@ -294,14 +340,20 @@ def bom_producto(m, cilindro=False):
     ag, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
     add(1, f"{base}-S5", NOMBRE_SUB[5], 1, "u", ori="Carga en planta" if m.codigo in PROPIOS else "Compra",
         op=("18 Carga de polvo (T01) / C8 (T02)" if m.codigo in PROPIOS else ""), sub=5)
-    add(2, f"{base}-A1", ag, q, um, ag, f"tolerancia de carga según IRAM {n_ext}", {"AGUA": 1.0, "AFFF": 1.0, "K": 1.35}.get(_agente(m), 1.0),
+    tol, obj, ref_tol = tolerancia(m)
+    if _agente(m) == "AFFF":
+        add(2, f"{base}-A1", "Agua potable (premezcla)", round(q * 0.97, 3), "L", "Agua", f"97 % de {_f(q)} L; "
+            f"tolerancia {tol}", 1.0, "Red", "SP-1 premezcla", norma=ref_tol, fte="N", sub=5)
+        ag, q, um = "Concentrado espumígeno AFFF 3 % (IRAM 3515)", round(q * 0.03, 3), "L"
+    add(2, f"{base}-A1" + ("b" if _agente(m) == "AFFF" else ""), ag, q if _agente(m) == "AFFF" else round(obj, 3), um, ag,
+        f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})", {"AGUA": 1.0, "AFFF": 1.0, "K": 1.35}.get(_agente(m), 1.0),
         "Compra", "SP-1 almacén previo a la carga", norma=f"IRAM {n_ag}" if n_ag != "-" else "", fte="C",
         obs="Lote único por extintor; prohibido mezclar ABC con BC (3517-2 9.9.1.6)" if _agente(m) in ("ABC", "BC")
         else "", sub=5)
     if m_gas:
         add(2, f"{base}-A2", f"Gas impulsor: {gas}", round(m_gas, 4), "kg", gas,
             f"{_f(nm3 * 1000, 1)} L normales para {_f(_ps(m), 1)} MPa a 20 °C en {_f(libre, 2)} dm³ libres",
-            1.0, "Compra", "20 Presurización (T05) / C10", norma="IRAM 3517-2 9.4.9 (tabla 2)", fte="R",
+            1.0, "Compra", "20 Presurización (T05) / C10", norma="IRAM 3517-2 9.4.9 (tabla 2) · IRAM 3523 2.3 y 3.10", fte="C",
             obs="Batería en SP-1; punto de rocío ≤ -56,7 °C para gases limpios", sub=5)
     # ---- identificación, precinto y accesorios
     add(1, f"{base}-S6", NOMBRE_SUB[6], 1, "u", ori="Compra", op="22 Etiquetado (T07)", sub=6)
@@ -696,7 +748,7 @@ def _mp_clave(f):
     if f["nivel"] != 2:
         return None
     suf = f["codigo"].split("-")[-1]
-    if suf in ("C1", "C2", "C3", "C4", "A1", "A2", "E1", "E3", "E4", "I1", "I3", "I4", "V1"):
+    if suf in ("C1", "C2", "C3", "C4", "A1", "A1b", "A2", "E1", "E3", "E4", "I1", "I3", "I4", "V1"):
         nom = d if suf != "E1" else f"{d} {f['med']}"
         return (nom, um, f["cant"])
     if f["ori"].startswith("Compra") and f["sub"] in (2, 3, 4) and f["cant"]:
@@ -746,13 +798,15 @@ def _resumen(wb, productos, E):
     ws = wb.create_sheet("Resumen", 1)
     cab = ["Plano", "Producto", "Familia", "Fabricación", "Norma IRAM", "Agente", "Carga", "UM", "Gas impulsor",
            "Gas (kg)", "Peso vacío S1-S4 (kg)", "Peso cargado (kg)", "Peso catálogo (kg)", "Desvío", "Piezas del plano",
-           "Ítems BOM", "Recipiente suelto", "Hoja"]
+           "Ítems BOM", "Recipiente suelto", "Hoja", "Tara catálogo (kg) = catálogo - carga - gas",
+           "Desvío de tara (modelo vs catálogo)"]
     for j, t in enumerate(cab, 1):
         c = ws.cell(1, j, t)
         c.font = E["Font"](bold=True, color="FFFFFF")
         c.fill = E["cab"]
         c.alignment = E["Al"](wrap_text=True, vertical="center")
-        ws.column_dimensions[c.column_letter].width = [18, 40, 9, 16, 11, 40, 7, 5, 13, 8, 10, 10, 10, 8, 8, 8, 18, 8][j - 1]
+        ws.column_dimensions[c.column_letter].width = [18, 40, 9, 16, 11, 40, 7, 5, 13, 8, 10, 10, 10, 8, 8, 8, 18, 8,
+                                                       14, 12][j - 1]
     ws.row_dimensions[1].height = 32
     for i, (m, filas) in enumerate(productos, 2):
         ag, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
@@ -766,13 +820,54 @@ def _resumen(wb, productos, E):
         for j, v in enumerate(vals, 1):
             c = ws.cell(i, j, v)
             c.border = E["borde"]
+        _, obj, _ = tolerancia(m)
+        kg_carga = obj if um == "kg" else q * {"AGUA": 1.0, "AFFF": 1.0, "K": 1.35}.get(_agente(m), 1.0)
+        ws.cell(i, 7, round(obj, 3))
+        ws.cell(i, 19, f"=M{i}-{round(kg_carga, 3)}-J{i}" if m_gas else f"=M{i}-{round(kg_carga, 3)}")
+        ws.cell(i, 20, f"=(L{i}-{round(kg_carga, 3)}-J{i})/S{i}-1" if m_gas else f"=(L{i}-{round(kg_carga, 3)})/S{i}-1")
+        ws.cell(i, 19).number_format = "0.00"
+        ws.cell(i, 20).number_format = "0.0%"
         ws.cell(i, 18).hyperlink = f"#'{sh}'!A1"
         ws.cell(i, 18, "ir »").font = E["Font"](color="0563C1", underline="single")
         for j in (11, 12):
             ws.cell(i, j).number_format = "0.00"
         ws.cell(i, 14).number_format = "0.0%"
     ws.freeze_panes = "C2"
-    ws.auto_filter.ref = f"A1:R{1 + len(productos)}"
+    ws.auto_filter.ref = f"A1:T{1 + len(productos)}"
+    return ws
+
+
+def _carga_n2(wb, E):
+    ws = wb.create_sheet("Carga_N2", 2)
+    ws["A1"] = ("Carga de agente y gas impulsor por extintor - la capacidad es la MASA de agente (IRAM 3523 2.2); "
+                "el N₂ no es una concentración: es la masa que da la presión de servicio a 20 °C en el volumen libre")
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    notas = ["Carga: nominal del catálogo con la tolerancia de IRAM 3517-2:2020 tabla 3 / IRAM 3523 tabla II. Si la "
+             "tolerancia es sólo positiva se carga al centro de la banda (p. ej. 10 kg → 10,15 kg).",
+             "N₂ (o argón en HCFC, tabla 2 de 3517-2): m = (Ps + 0,101 MPa) × V libre / (R × 293,15 K) × M. "
+             "V libre = V recipiente - carga / densidad aparente (R). Ps a 20 °C ± 2 °C (IRAM 3523 2.3), < 1,7 MPa (4.7).",
+             "CO₂: no lleva gas impulsor; se controla el grado de llenado (kg de CO₂ por dm³ de recipiente)."]
+    for i, n in enumerate(notas, 2):
+        ws.cell(i, 1, "• " + n)
+    cab = ["Plano", "Agente", "Norma ext.", "Carga nominal", "UM", "Tolerancia", "Carga objetivo", "Referencia",
+           "V recipiente (dm³)", "Densidad aparente (kg/dm³)", "V agente (dm³)", "V libre (dm³)", "V libre (%)",
+           "Ps (MPa a 20 °C)", "Gas", "Gas (g)", "Gas (L normales)", "g de gas por kg / L de agente", "Observaciones"]
+    w = [20, 40, 9, 9, 5, 11, 10, 30, 10, 10, 9, 9, 8, 9, 9, 8, 9, 10, 60]
+    for j, (t, ww) in enumerate(zip(cab, w), 1):
+        c = ws.cell(6, j, t)
+        c.font = E["Font"](bold=True, color="FFFFFF")
+        c.fill = E["cab"]
+        c.alignment = E["Al"](wrap_text=True, vertical="center")
+        ws.column_dimensions[c.column_letter].width = ww
+    ws.row_dimensions[6].height = 45
+    for i, fila in enumerate(tabla_carga(), 7):
+        for j, v in enumerate(fila, 1):
+            c = ws.cell(i, j, v)
+            c.border = E["borde"]
+        ws.cell(i, 13).number_format = "0.0%"
+        if fila[-1].startswith("OJO"):
+            ws.cell(i, 19).font = E["Font"](bold=True, color="C00000")
+    ws.freeze_panes = "B7"
     return ws
 
 
@@ -885,6 +980,7 @@ def excel(ruta):
     cil = [(m, bom_producto(m, cilindro=True)) for m in RC.modelos_abc()]
     _leeme(wb, E, len(term), len(cil))
     _resumen(wb, term, E)
+    _carga_n2(wb, E)
     _plana(wb, "BOM_Terminados", [(m.codigo, f) for m, f in term], E)
     _plana(wb, "BOM_Cilindros", [(RC.codigo_rec(m), f) for m, f in cil], E)
     for m, f in term:
