@@ -167,3 +167,22 @@ Estructura del código:
 soldadura), `flama/planos.py` (hojas 1–3), `flama/exportar.py` (DXF/PDF/STEP),
 `flama/normas.py` (normativa), `flama/recipientes.py` (recipientes sueltos),
 `flama/senaletica.py`, `flama/accesorios.py`, `flama/esquemas.py`, `flama/documentos.py`.
+
+## BOM y planos de despiece
+
+`python generar.py --bom` genera **`salida/bom/FLAMA_BOM.xlsx`** y `python generar.py --despiece` genera
+**`salida/despiece/FL_DES_<modelo>.dxf/.pdf`** (más `FLAMA_despieces.pdf` con las 17 láminas). Ambos salen del
+mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, material, medida y peso coinciden.
+
+| Hoja del Excel | Contenido |
+|---|---|
+| `LEEME` | Niveles, subconjuntos, fuentes de cada dato (P plano, C catálogo, N norma, L layout, R referencia a confirmar) y puntos abiertos |
+| `Resumen` | Los 17 productos: agente, carga, gas impulsor, peso vacío y cargado calculados frente al catálogo |
+| `BOM_Terminados` / `BOM_Cilindros` | Tabla plana filtrable de los 17 matafuegos terminados y de los 8 recipientes ABC FL_REC sueltos |
+| `FL_MAT_*` / `FL_REC_*` | Una hoja por plano: BOM multinivel plegable (0 producto · 1 subconjunto · 2 pieza/insumo · 3 materia prima), con fórmulas de peso |
+| `Recargas` | Kits de servicio RK-*-A/B/C por extintor: polvo nuevo o recuperado (IRAM 3517-2 9.9.1.4, 4.4.1 y, 9.9.4), HCFC recuperado en circuito cerrado (4.4.1 z), CO₂, repuestos |
+| `Explosion_MP` | Materia prima e insumos por unidad de cada producto (chapa, fleje, caño, polvo, N₂, alambre, gas, pintura, embalaje) |
+| `Despiece` | Índice de planos FL_DES con globos = códigos BOM |
+
+Subconjuntos: S1 recipiente (en los ABC = plano FL_REC) · S2 válvula · S3 descarga · S4 carro · S5 carga ·
+S6 identificación y precinto · S7 embalaje · S8 soporte.

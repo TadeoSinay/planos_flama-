@@ -2,6 +2,8 @@
 
 Uso:  python generar.py [CODIGO ...]      (sin argumentos: todo)
       python generar.py --complementarios  (sólo recipientes, señalética, accesorios, esquemas y documentos)
+      python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM multinivel por plano)
+      python generar.py --despiece         (salida/despiece/FL_DES_*: vistas explosionadas con globos del BOM)
 Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
         salida/recipientes/, senaletica/, accesorios/, esquemas/, documentos/
 """
@@ -104,6 +106,13 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if args == ["--complementarios"]:
         complementarios()
+    elif args == ["--bom"]:
+        from flama import bom
+        os.makedirs(os.path.join(BASE, "salida", "bom"), exist_ok=True)
+        bom.excel(os.path.join(BASE, "salida", "bom", "FLAMA_BOM.xlsx"))
+    elif args == ["--despiece"]:
+        from flama import despiece
+        despiece.generar(os.path.join(BASE, "salida", "despiece"))
     else:
         main(args)
         if not args:
