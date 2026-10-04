@@ -60,8 +60,38 @@ NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Disposi
               6: "Identificación y precinto", 7: "Embalaje", 8: "Soporte (accesorio de montaje)"}
 
 # densidad aparente de los agentes (kg/dm³) y masa molar del gas impulsor (kg/mol): R = referencia
-RHO_AGENTE = {"ABC": 0.95, "BC": 1.05, "D": 1.10, "HCFC": 1.46}
-MOLAR = {"N₂": 0.028, "Argón": 0.040}
+# Química de los agentes. Densidad aparente (polvos) o densidad (líquidos) en kg/dm³: mín / típica / máx. La
+# típica entra al BOM; la mínima es el peor caso de volumen (el polvo más liviano ocupa más lugar).
+# (clave, nombre, composición, mecanismo, saponifica, gas impulsor, ρmín, ρtip, ρmáx, fuente)
+AGENTES = {
+    "ABC": ("Polvo ABC (fosfato monoamónico, MAP)", "MAP 40-90 % + sulfato de amonio + silicona hidrófuga + "
+            "carbonato de calcio / talco", "Captura de radicales; en clase A el MAP funde (≈190 °C) y forma una capa "
+            "vítrea de ácido polifosfórico que aísla las brasas: el potencial A depende del % de MAP",
+            "No. Es ácido (pH ≈ 4,5 en solución): no saponifica grasas, no apto clase K",
+            "N₂", 0.72, 0.90, 0.98, "HDS Buckeye/Equimiseg/Corponor: 0,72-0,98; mín. 0,82 g/cm³ en ficha NOM-104"),
+    "BC": ("Polvo BC (bicarbonato de sodio / de potasio Purple K / Monnex)", "NaHCO₃ ≥ 90 % (o KHCO₃) + "
+           "estearatos + sílice", "Captura de radicales y descomposición endotérmica (CO₂ + H₂O)",
+           "Leve: alcalino, saponifica superficialmente aceites de cocina (no reemplaza clase K)",
+           "N₂", 0.90, 1.00, 1.09, "Purple K: 62 ± 2 a 68 lb/ft³ (0,99-1,09); NaHCO₃ R"),
+    "D": ("Polvo clase D (cloruro de sodio)", "NaCl 80-90 % + aglutinante termoplástico + estearato de Mg",
+          "Forma costra sobre el metal fundido y lo aísla del aire", "No", "N₂", 1.10, 1.20, 1.30,
+          "HDS Met-L-X (composición); densidad R"),
+    "HCFC": ("HCFC Mezcla B (HCFC-123 base) / HFC-236fa", "HCFC-123 > 93 % + argón (mezcla B)",
+             "Enfriamiento y captura de radicales; no deja residuo", "No",
+             "Argón", 1.36, 1.48, 1.48, "Halotron I: 1,48 kg/L a 25 °C; HFC-236fa ≈ 1,36"),
+    "AGUA": ("Agua", "Agua potable (o destilada en agua pulverizada)", "Enfriamiento", "No",
+             "Aire comprimido", 1.00, 1.00, 1.00, "Catálogo: presurizado con aire comprimido"),
+    "AFFF": ("Agua + espumígeno AFFF al 3 %", "97 % agua + 3 % concentrado AFFF (IRAM 3515)",
+             "Película acuosa que sella vapores del combustible + enfriamiento", "No", "Aire comprimido",
+             1.00, 1.01, 1.02, "Catálogo: presurizado con aire comprimido; 3 % según concentrado"),
+    "K": ("Solución de acetato de potasio (clase K)", "Acetato de potasio (> 90 % de los sólidos) + citrato, "
+          "en solución acuosa", "SAPONIFICACIÓN: el K⁺ reacciona con los ácidos grasos del aceite caliente y forma "
+          "una espuma jabonosa que sella la superficie; más enfriamiento", "Sí: es su mecanismo principal",
+          "Aire comprimido", 1.19, 1.25, 1.30, "HDS Amerex CH530 ≈ 1,2; Buckeye 1,19-1,24; mezclado ≈ 1,3"),
+}
+RHO_AGENTE = {k: v[6] for k, v in AGENTES.items()}
+MOLAR = {"N₂": 0.028, "Argón": 0.040, "Aire comprimido": 0.029}
+LIBRE_MIN = 0.10    # fracción mínima de volumen libre para el gas (R: a validar con ensayo de descarga ≥ 85 %)
 
 
 def _f(v, d=1):
@@ -189,10 +219,11 @@ def carga(m):
     n_ag = m.spec.get("Norma IRAM agente extintor", "-")
     if ag in ("ABC", "BC", "D", "HCFC"):
         kg = float(cap.split()[0].replace(",", ".")) if "kg" in cap else round(float(cap.split()[0]) * RHO_AGENTE["D"], 1)
+        # D 9 l: 9 dm³ de polvo a densidad típica
         nombre = {"ABC": "Polvo químico seco ABC (fosfato monoamónico)", "BC": "Polvo químico seco BC (bicarbonato)",
                   "D": "Polvo para metales combustibles clase D", "HCFC": "HCFC 123 / HFC 236fa (agente limpio)"}[ag]
         v_ag = kg / RHO_AGENTE[ag]
-        gas = "Argón" if ag == "HCFC" else "N₂"
+        gas = AGENTES[ag][4]
         libre = V - v_ag
         q, um = kg, "kg"
     elif ag == "CO2":
@@ -200,9 +231,9 @@ def carga(m):
         return ("Dióxido de carbono (IRAM 41170)", kg, "kg", n_ag, "- (autopresurizado)", 0.0, 0.0, 0.0)
     else:
         litros = float(cap.split()[0])
-        nombre = {"AGUA": "Agua", "AFFF": "Agua + concentrado AFFF 3 %", "K": "Solución de sales de potasio (clase K)"}[ag]
+        nombre = AGENTES[ag][0]
         q, um = litros, "L"
-        gas, libre = "N₂", V - litros
+        gas, libre = AGENTES[ag][4], V - litros
         kg = litros
     pa = (_ps(m) + 0.101) * 1e6
     n = pa * libre * 1e-3 / (8.314 * 293.15)
@@ -231,30 +262,6 @@ def tolerancia(m):
     if n == "3504":
         return ("0 / -2 %" if q <= 2.5 else "0 / -3 %"), q, ref
     return "-", q, ""
-
-
-def tabla_carga():
-    """Relación agente / gas impulsor por modelo (hoja Carga_N2)."""
-    out = []
-    for m in MODELOS:
-        ag = _agente(m)
-        nombre, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
-        tol, obj, ref = tolerancia(m)
-        V = m.geo["vol_dm3"]
-        rho = RHO_AGENTE.get(ag)
-        v_ag = q / rho if rho else (q if um == "L" else None)
-        if ag == "CO2":
-            llen = q / V
-            obs = (f"Autopresurizado. Grado de llenado {_f(llen, 3)} kg/dm³ (máx. 0,75 kg/dm³, R: IRAM 2533 / ADR P200)"
-                   + ("" if llen <= 0.75 else " - EXCEDE"))
-        else:
-            obs = ("" if libre >= 0.10 * V else "OJO: volumen libre < 10 % del recipiente; revisar densidad aparente "
-                   "del polvo o volumen del plano")
-        out.append([m.codigo, nombre, m.spec["Norma IRAM extintor"], q, um, tol, round(obj, 3), ref, V,
-                    rho, None if v_ag is None else round(v_ag, 3), None if ag == "CO2" else round(libre, 3),
-                    None if ag == "CO2" else round(libre / V, 4), _ps(m), gas, round(m_gas * 1000, 1),
-                    round(nm3 * 1000, 1), round(m_gas * 1000 / obj, 2) if m_gas else None, obs])
-    return out
 
 
 # ------------------------------------------------------------------ embalaje
@@ -346,7 +353,7 @@ def bom_producto(m, cilindro=False):
             f"tolerancia {tol}", 1.0, "Red", "SP-1 premezcla", norma=ref_tol, fte="N", sub=5)
         ag, q, um = "Concentrado espumígeno AFFF 3 % (IRAM 3515)", round(q * 0.03, 3), "L"
     add(2, f"{base}-A1" + ("b" if _agente(m) == "AFFF" else ""), ag, q if _agente(m) == "AFFF" else round(obj, 3), um, ag,
-        f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})", {"AGUA": 1.0, "AFFF": 1.0, "K": 1.35}.get(_agente(m), 1.0),
+        f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})", (RHO_AGENTE.get(_agente(m), 1.0) if um == "L" else 1.0),
         "Compra", "SP-1 almacén previo a la carga", norma=f"IRAM {n_ag}" if n_ag != "-" else "", fte="C",
         obs="Lote único por extintor; prohibido mezclar ABC con BC (3517-2 9.9.1.6)" if _agente(m) in ("ABC", "BC")
         else "", sub=5)
@@ -821,7 +828,7 @@ def _resumen(wb, productos, E):
             c = ws.cell(i, j, v)
             c.border = E["borde"]
         _, obj, _ = tolerancia(m)
-        kg_carga = obj if um == "kg" else q * {"AGUA": 1.0, "AFFF": 1.0, "K": 1.35}.get(_agente(m), 1.0)
+        kg_carga = obj if um == "kg" else q * (RHO_AGENTE.get(_agente(m), 1.0) if um == "L" else 1.0)
         ws.cell(i, 7, round(obj, 3))
         ws.cell(i, 19, f"=M{i}-{round(kg_carga, 3)}-J{i}" if m_gas else f"=M{i}-{round(kg_carga, 3)}")
         ws.cell(i, 20, f"=(L{i}-{round(kg_carga, 3)}-J{i})/S{i}-1" if m_gas else f"=(L{i}-{round(kg_carga, 3)})/S{i}-1")
@@ -837,37 +844,170 @@ def _resumen(wb, productos, E):
     return ws
 
 
-def _carga_n2(wb, E):
-    ws = wb.create_sheet("Carga_N2", 2)
-    ws["A1"] = ("Carga de agente y gas impulsor por extintor - la capacidad es la MASA de agente (IRAM 3523 2.2); "
-                "el N₂ no es una concentración: es la masa que da la presión de servicio a 20 °C en el volumen libre")
-    ws["A1"].font = E["Font"](bold=True, size=12)
-    notas = ["Carga: nominal del catálogo con la tolerancia de IRAM 3517-2:2020 tabla 3 / IRAM 3523 tabla II. Si la "
-             "tolerancia es sólo positiva se carga al centro de la banda (p. ej. 10 kg → 10,15 kg).",
-             "N₂ (o argón en HCFC, tabla 2 de 3517-2): m = (Ps + 0,101 MPa) × V libre / (R × 293,15 K) × M. "
-             "V libre = V recipiente - carga / densidad aparente (R). Ps a 20 °C ± 2 °C (IRAM 3523 2.3), < 1,7 MPa (4.7).",
-             "CO₂: no lleva gas impulsor; se controla el grado de llenado (kg de CO₂ por dm³ de recipiente)."]
-    for i, n in enumerate(notas, 2):
-        ws.cell(i, 1, "• " + n)
-    cab = ["Plano", "Agente", "Norma ext.", "Carga nominal", "UM", "Tolerancia", "Carga objetivo", "Referencia",
-           "V recipiente (dm³)", "Densidad aparente (kg/dm³)", "V agente (dm³)", "V libre (dm³)", "V libre (%)",
-           "Ps (MPa a 20 °C)", "Gas", "Gas (g)", "Gas (L normales)", "g de gas por kg / L de agente", "Observaciones"]
-    w = [20, 40, 9, 9, 5, 11, 10, 30, 10, 10, 9, 9, 8, 9, 9, 8, 9, 10, 60]
-    for j, (t, ww) in enumerate(zip(cab, w), 1):
-        c = ws.cell(6, j, t)
+def _cab(ws, fila, cab, anchos, E, alto=45):
+    for j, (t, w) in enumerate(zip(cab, anchos), 1):
+        c = ws.cell(fila, j, t)
         c.font = E["Font"](bold=True, color="FFFFFF")
         c.fill = E["cab"]
         c.alignment = E["Al"](wrap_text=True, vertical="center")
-        ws.column_dimensions[c.column_letter].width = ww
-    ws.row_dimensions[6].height = 45
-    for i, fila in enumerate(tabla_carga(), 7):
-        for j, v in enumerate(fila, 1):
-            c = ws.cell(i, j, v)
+        ws.column_dimensions[c.column_letter].width = w
+    ws.row_dimensions[fila].height = alto
+
+
+def _quimica(wb, E):
+    """Hoja de entrada: química y densidad de cada agente. Las celdas amarillas alimentan Carga_N2 por fórmula."""
+    ws = wb.create_sheet("Quimica_agentes", 2)
+    ws["A1"] = "Química de los agentes extintores - DATOS DE ENTRADA (celdas amarillas)"
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    ws["A2"] = ("Si cambia la formulación (% de MAP, tipo de bicarbonato, concentración del acetato o del AFFF) cambia la "
+                "densidad, y con ella el volumen que ocupa la carga, el volumen libre, el N₂ y si el recipiente alcanza. "
+                "Cambie la densidad acá y mire la hoja Carga_N2.")
+    cab = ["Clave", "Agente", "Composición", "Mecanismo de extinción", "¿Saponifica?", "Gas impulsor",
+           "ρ mín (kg/dm³)", "ρ típica (kg/dm³)", "ρ máx (kg/dm³)", "Masa molar gas (kg/mol)", "Fuente"]
+    _cab(ws, 4, cab, [7, 34, 40, 50, 34, 14, 9, 9, 9, 10, 50], E)
+    amarillo = E["Fill"]("solid", fgColor="FFF2CC")
+    filas = {}
+    for i, (k, v) in enumerate(AGENTES.items(), 5):
+        nom, comp, mec, sap, gas, r0, r1, r2, fte = v
+        for j, x in enumerate([k, nom, comp, mec, sap, gas, r0, r1, r2, MOLAR[gas], fte], 1):
+            c = ws.cell(i, j, x)
             c.border = E["borde"]
-        ws.cell(i, 13).number_format = "0.0%"
-        if fila[-1].startswith("OJO"):
-            ws.cell(i, 19).font = E["Font"](bold=True, color="C00000")
-    ws.freeze_panes = "B7"
+            c.alignment = E["Al"](wrap_text=True, vertical="top")
+            if j in (7, 8, 9, 10):
+                c.fill = amarillo
+        ws.row_dimensions[i].height = 48
+        filas[k] = i
+    r = 5 + len(AGENTES) + 1
+    ws.cell(r, 1, "Volumen libre mínimo (fracción del recipiente)").font = E["Font"](bold=True)
+    c = ws.cell(r, 7, LIBRE_MIN)
+    c.fill = amarillo
+    c.number_format = "0%"
+    ws.cell(r, 8, "R: a validar con el ensayo de descarga continua ≥ 85 % de la masa (IRAM 3523 4.9.1)")
+    filas["_libre"] = r
+    # potencial extintor según grado de polvo (catálogo de referencia, pág. 4 y 6)
+    r += 2
+    ws.cell(r, 1, "Grado del polvo y potencial extintor (catálogo de referencia, pág. 4 y 6)").font = E["Font"](bold=True)
+    r += 1
+    _cab(ws, r, ["Grado", "1 kg", "2,5 kg", "5 kg", "10 kg", "Comentario"], [7, 34, 40, 50, 34, 14], E, 20)
+    for g, vals, com in (("ABC 60", ("1A-3B-C", "3A-20B-C", "6A-40B-C", "6A-60B-C"), "60 % MAP"),
+                         ("ABC 90", ("consultar", "3A-20B-C", "10A-40B-C", "10A-60B-C"), "90 % MAP: más potencial A"),
+                         ("BC Purple K", ("-", "20B", "40B", "consultar"), "bicarbonato de potasio"),
+                         ("BC sódico / Monnex", ("-", "-", "-", "-"), "sin potencial publicado")):
+        r += 1
+        for j, x in enumerate((g,) + vals + (com,), 1):
+            ws.cell(r, j, x).border = E["borde"]
+    return filas
+
+
+def _carga_n2(wb, E, fq):
+    ws = wb.create_sheet("Carga_N2", 3)
+    ws["A1"] = ("Carga de agente y gas impulsor por extintor (fórmulas ligadas a Quimica_agentes) - la capacidad es la "
+                "MASA de agente (IRAM 3523 2.2); el gas no es una concentración: es la masa que da Ps a 20 °C en el "
+                "volumen libre")
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    notas = ["Carga: nominal con la tolerancia de IRAM 3517-2:2020 tabla 3 / IRAM 3523 tabla II; si la tolerancia es "
+             "sólo positiva se carga al centro de la banda.",
+             "Gas: m = (Ps + 0,101 MPa) × V libre / (8,314 × 293,15 K) × M. Gas según IRAM 3517-2 tabla 2 y catálogo: "
+             "N₂ seco en polvos, argón en HCFC, aire comprimido en agua, AFFF y acetato de potasio.",
+             "Control: con la densidad MÍNIMA (polvo más liviano) el agente debe entrar y dejar el volumen libre mínimo; "
+             "si no, el recipiente queda chico para esa formulación. La columna U es la densidad aparente mínima que hay "
+             "que exigir en la orden de compra del polvo para que el recipiente del plano alcance; la V es el volumen "
+             "que necesitaría el recipiente si se acepta el polvo más liviano."]
+    for i, n in enumerate(notas, 2):
+        ws.cell(i, 1, "• " + n)
+    cab = ["Plano", "Clave agente", "Carga objetivo", "UM", "Tolerancia", "V recipiente (dm³)", "Ps (MPa)", "Gas",
+           "ρ mín", "ρ típica", "ρ máx", "V agente con ρ típica (dm³)", "V libre con ρ típica (dm³)", "V libre (%) ρ típica",
+           "V libre (%) ρ mín", "V libre (%) ρ máx", "Gas (g) ρ típica", "Gas (g) ρ mín", "Gas (g) ρ máx",
+           "Control con ρ mín", "ρ MÍNIMA EXIGIBLE al proveedor (kg/dm³)", "V recipiente necesario con ρ mín (dm³)",
+           "Observaciones"]
+    _cab(ws, 6, cab, [20, 7, 9, 5, 11, 9, 7, 13, 7, 7, 7, 10, 10, 9, 9, 9, 9, 9, 9, 16, 12, 12, 52], E)
+    lib = f"Quimica_agentes!$G${fq['_libre']}"
+    for i, m in enumerate(MODELOS, 7):
+        ag = _agente(m)
+        _, q, um, _, gas, *_ = carga(m)
+        tol, obj, _ = tolerancia(m)
+        V = m.geo["vol_dm3"]
+        vals = [m.codigo, ag, round(obj, 3), um, tol, V, _ps(m), gas]
+        for j, x in enumerate(vals, 1):
+            ws.cell(i, j, x)
+        if ag == "CO2":
+            ws.cell(i, 8, "- (autopresurizado)")
+            ws.cell(i, 23, f"Grado de llenado {_f(q / V, 3)} kg/dm³ (máx. 0,75 kg/dm³, R: IRAM 2533 / ADR P200)")
+        else:
+            f = fq[ag]
+            for j, col in ((9, "G"), (10, "H"), (11, "I")):
+                ws.cell(i, j, f"=Quimica_agentes!${col}${f}")
+            M = f"Quimica_agentes!$J${f}"
+            if um == "kg":
+                ws.cell(i, 12, f"=C{i}/J{i}")
+                vmin, vmax = f"C{i}/I{i}", f"C{i}/K{i}"
+            else:
+                ws.cell(i, 12, f"=C{i}")
+                vmin = vmax = f"C{i}"
+            ws.cell(i, 13, f"=F{i}-L{i}")
+            ws.cell(i, 14, f"=M{i}/F{i}")
+            ws.cell(i, 15, f"=(F{i}-{vmin})/F{i}")
+            ws.cell(i, 16, f"=(F{i}-{vmax})/F{i}")
+            k = "(G{i}+0.101)*1000000*{v}/1000/(8.314*293.15)*{M}*1000"
+            ws.cell(i, 17, "=" + k.format(i=i, v=f"M{i}", M=M))
+            ws.cell(i, 18, "=" + k.format(i=i, v=f"MAX(0,F{i}-{vmin})", M=M))
+            ws.cell(i, 19, "=" + k.format(i=i, v=f"(F{i}-{vmax})", M=M))
+            ws.cell(i, 20, f'=IF(O{i}<0,"NO ENTRA",IF(O{i}<{lib},"LIBRE INSUFICIENTE","OK"))')
+            if um == "kg":
+                ws.cell(i, 21, f"=C{i}/(F{i}*(1-{lib}))")
+                ws.cell(i, 22, f"=C{i}/I{i}/(1-{lib})")
+                ws.cell(i, 21).font = E["Font"](bold=True)
+            if m.codigo == "FL_MAT_CLASED_9l":
+                ws.cell(i, 23, "Capacidad en dm³ en el catálogo; IRAM 3523 la define en kg: definir 9 o 10 kg")
+        for j in range(1, 24):
+            ws.cell(i, j).border = E["borde"]
+        ws.cell(i, 21).number_format = "0.00"
+        ws.cell(i, 22).number_format = "0.00"
+        for j in (14, 15, 16):
+            ws.cell(i, j).number_format = "0.0%"
+        for j in (12, 13, 17, 18, 19):
+            ws.cell(i, j).number_format = "0.00"
+    from openpyxl.formatting.rule import CellIsRule
+    rojo = E["Fill"]("solid", fgColor="F4CCCC")
+    ws.conditional_formatting.add(f"T7:T{6 + len(MODELOS)}",
+                                  CellIsRule(operator="notEqual", formula=['"OK"'], fill=rojo))
+    ws.freeze_panes = "C7"
+    return ws
+
+
+MERCADO = [
+    # (plano, referencia, peso cargado kg, fuente)
+    ("FL_MAT_ABC_10kg", "Fadesa (catálogo de referencia)", 16.50, "Catálogo pág. 4"),
+    ("FL_MAT_ABC_10kg", "Georgia", 14.50, "matafuegosbiston.com.ar"),
+    ("FL_MAT_ABC_10kg", "Melisam", 15.50, "melisam.com"),
+    ("FL_MAT_ABC_10kg", "otros comercializadores", 15.95, "búsqueda de mercado (MercadoLibre / Sodimac)"),
+    ("FL_MAT_ABC_10kg", "otros comercializadores", 16.30, "búsqueda de mercado"),
+    ("FL_MAT_SALESK_6l", "Fadesa (catálogo de referencia)", 8.25, "Catálogo pág. 15"),
+    ("FL_MAT_SALESK_6l", "otra marca (acero inoxidable)", 11.30, "búsqueda de mercado"),
+]
+DUPLICADOS = ("En el catálogo de referencia el peso cargado de HCFC, HFC 236fa, BC y clase D es idéntico al de ABC "
+              "(1,90 / 4,60 / 8,50 / 16,50 kg) y el de agua pulverizada 10 dm³ es igual al de acetato 10 dm³ (13,00 kg): "
+              "son valores repetidos entre tablas, no pesadas. Un HCFC 5 kg (densidad 1,48) no puede pesar lo mismo que un "
+              "ABC 5 kg en el mismo recipiente salvo por casualidad. Por eso el desvío contra catálogo no puede "
+              "exigirse en 0: sirve como orden de magnitud y se valida con el rango de mercado.")
+
+
+def _mercado(wb, E, term):
+    ws = wb.create_sheet("Mercado")
+    ws["A1"] = "Validación contra mercado: peso cargado real de otros fabricantes"
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    ws["A2"] = DUPLICADOS
+    ws["A2"].alignment = E["Al"](wrap_text=True, vertical="top")
+    ws.merge_cells("A2:F2")
+    ws.row_dimensions[2].height = 60
+    _cab(ws, 4, ["Plano", "Referencia", "Peso cargado (kg)", "Fuente", "FLAMA modelo (kg)", "Diferencia"],
+         [22, 34, 12, 44, 14, 11], E, 30)
+    for i, (cod, ref, kg, fte) in enumerate(MERCADO, 5):
+        sh = cod[:31]
+        for j, x in enumerate([cod, ref, kg, fte, f"='{sh}'!G4", f"=E{i}/C{i}-1"], 1):
+            ws.cell(i, j, x).border = E["borde"]
+        ws.cell(i, 5).number_format = "0.00"
+        ws.cell(i, 6).number_format = "0.0%"
     return ws
 
 
@@ -922,6 +1062,9 @@ def _leeme(wb, E, n_term, n_cil):
          ("Origen", "Generado por código (python generar.py --bom) a partir del MISMO modelo 3D que los planos "
                     "FL_MAT_* y FL_REC_*: código de pieza, posición, denominación y material son los de la lista de "
                     "piezas de cada plano; medida y peso se miden sobre el sólido."),
+         ("Química", "Quimica_agentes (ENTRADA: composición, mecanismo, saponificación y densidad de cada agente) -> "
+                     "Carga_N2 (fórmulas: volumen libre, gas impulsor y densidad mínima exigible al polvo para que el "
+                     "recipiente del plano alcance). Si la formulación cambia, se cambia la densidad y se ve el efecto."),
          ("Hojas", f"Resumen · BOM_Terminados ({n_term} productos, tabla plana filtrable) · BOM_Cilindros ({n_cil} "
                    "recipientes FL_REC) · una hoja por plano (BOM multinivel plegable) · Recargas · Explosion_MP · "
                    "Despiece (planos FL_DES)"),
@@ -943,7 +1086,10 @@ def _leeme(wb, E, n_term, n_cil):
                          "conviene pasarla a un único código comprado con su propio plano de proveedor."),
           ("3. Tercerizados", "Agua, AFFF, Sales K, CO₂ y HCFC se compran terminados (S4): su BOM es de referencia "
                               "para repuestos y recarga, no de fabricación."),
-          ("4. Recargas", "Mermas de polvo y HCFC (R) a medir. Ver hoja Recargas."),
+          ("4. Polvo", "Con densidad aparente típica 0,90 los ABC del plano quedan con ≈ 10 % de volumen libre; con "
+                       "0,72 no entran. Exigir densidad aparente mínima en la compra (Carga_N2 col. U) o agrandar el "
+                       "recipiente (col. V)."),
+          ("5. Recargas", "Mermas de polvo y HCFC (R) a medir. Ver hoja Recargas."),
           ("Normas", "IRAM 3517-2:2020, IRAM 3504:2001 y las IRAM de producto citadas. Los PDF de las normas tienen "
                      "licencia monousuario: se citan apartados, no se transcribe texto.")]
     for i, (a, b) in enumerate(t, 1):
@@ -980,13 +1126,15 @@ def excel(ruta):
     cil = [(m, bom_producto(m, cilindro=True)) for m in RC.modelos_abc()]
     _leeme(wb, E, len(term), len(cil))
     _resumen(wb, term, E)
-    _carga_n2(wb, E)
+    fq = _quimica(wb, E)
+    _carga_n2(wb, E, fq)
     _plana(wb, "BOM_Terminados", [(m.codigo, f) for m, f in term], E)
     _plana(wb, "BOM_Cilindros", [(RC.codigo_rec(m), f) for m, f in cil], E)
     for m, f in term:
         _hoja_producto(wb, m, f, E)
     for m, f in cil:
         _hoja_producto(wb, m, f, E, cilindro=True)
+    _mercado(wb, E, term)
     _recargas(wb, E)
     _explosion(wb, [(m.codigo, f) for m, f in term], E)
     _despiece_hoja(wb, term, E)
