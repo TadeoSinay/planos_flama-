@@ -492,6 +492,39 @@ def extintor_rodante(m, cD=0.0):
     return out, info
 
 
+def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
+    """Lámina curva sobre el cuerpo: sector de anillo de `ancho` mm de arco centrado en ang_c (grados)."""
+    ang = math.degrees(ancho / r_in)
+    ext = cq.Solid.makeCylinder(r_out, h, cq.Vector(xc, yc, z0), cq.Vector(0, 0, 1), ang)
+    inn = cq.Solid.makeCylinder(r_in, h, cq.Vector(xc, yc, z0), cq.Vector(0, 0, 1), ang)
+    sec = ext.cut(inn)
+    return sec.rotate(cq.Vector(xc, yc, 0), cq.Vector(xc, yc, 1), ang_c - ang / 2)
+
+
+def identificacion(m, p):
+    """Piezas de identificación y cierre que el conjunto lleva y la lista de piezas debe mostrar:
+    etiqueta de instrucciones (rotulado del extintor), sello IRAM de conformidad, junta tórica de asiento de
+    la válvula en el cuello y precinto numerado de la traba (IRAM 3517-2:2020 9.4.13)."""
+    cb = p["cuerpo"].BoundingBox()
+    R = (cb.xmax - cb.xmin) / 2
+    xc, yc = (cb.xmax + cb.xmin) / 2, (cb.ymax + cb.ymin) / 2
+    hb = cb.zmax - cb.zmin
+    ew = min(0.42 * math.pi * 2 * R, 240.0)
+    eh = min(0.45 * hb, 220.0)
+    z0 = cb.zmin + 0.52 * hb - eh / 2
+    p["etiqueta"] = _sector(R, R + 0.3, eh, z0, ew, xc, yc)
+    so = min(30.0, 0.25 * eh)
+    p["sello_iram"] = _sector(R, R + 0.3, so, z0 - so - 6, so, xc, yc)
+    eb = p["espiga"].BoundingBox()
+    ro = (eb.xmax - eb.xmin) / 2 + 1.5
+    ex, ey = (eb.xmax + eb.xmin) / 2, (eb.ymax + eb.ymin) / 2
+    p["junta_cuello"] = _cyl(ro, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)).cut(
+        _cyl(ro - 3.0, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)))
+    pb = p["pasador"].BoundingBox()
+    p["precinto"] = _cyl(2.5, 10.0, (pb.xmax, (pb.ymin + pb.ymax) / 2, (pb.zmin + pb.zmax) / 2), (1, 0, 0))
+    return p
+
+
 def construir(m):
     """Construye el conjunto y corrige (2 iteraciones) para que la caja
     envolvente coincida con altura/ancho/profundidad del catálogo."""
@@ -499,7 +532,7 @@ def construir(m):
         p, i = extintor_rodante(m)
         bb = bbox(p)
         p, i = extintor_rodante(m, cD=m.D - bb.ylen)
-        return p, i
+        return identificacion(m, p), i
     cW = cH = 0.0
     for _ in range(3):
         p, i = extintor_manual(m, cW, cH)
@@ -508,7 +541,7 @@ def construir(m):
         cH += m.H - bb.zmax
         if abs(m.W - bb.xlen) < 0.05 and abs(m.H - bb.zmax) < 0.05:
             break
-    return p, i
+    return identificacion(m, p), i
 
 
 def compuesto(piezas):

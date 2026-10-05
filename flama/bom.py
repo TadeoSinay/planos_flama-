@@ -20,6 +20,7 @@ from . import materiales as MAT
 from . import planos as P
 from .catalogo import MODELOS
 from . import accesorios as AC
+from . import agentes as AG
 
 # ------------------------------------------------------------------ datos de planta (planos_industrial_flama)
 # recorte del cuerpo en hoja estándar (FL_PI_04 hoja 2): formato, chapa, espesor, franja (alto), pieza (desarrollo),
@@ -54,6 +55,7 @@ SUB = {
     "racor": 3, "manguera": 3, "tobera": 3, "lanza": 3, "empunadura": 3, "brazo_difusor": 3, "difusor": 3,
     "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3, "soportes_manguera": 3,
     "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "bastidor": 4, "sunchos_bastidor": 4, "apoyo": 4,
+    "junta_cuello": 2, "etiqueta": 6, "sello_iram": 6, "precinto": 6,
 }
 NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Dispositivo de descarga",
               4: "Carro (bastidor y ruedas)", 5: "Carga: agente extintor y gas impulsor",
@@ -64,31 +66,38 @@ NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Disposi
 # típica entra al BOM; la mínima es el peor caso de volumen (el polvo más liviano ocupa más lugar).
 # (clave, nombre, composición, mecanismo, saponifica, gas impulsor, ρmín, ρtip, ρmáx, fuente)
 AGENTES = {
-    "ABC": ("Polvo ABC (fosfato monoamónico, MAP)", "MAP 40-90 % + sulfato de amonio + silicona hidrófuga + "
-            "carbonato de calcio / talco", "Captura de radicales; en clase A el MAP funde (≈190 °C) y forma una capa "
-            "vítrea de ácido polifosfórico que aísla las brasas: el potencial A depende del % de MAP",
-            "No. Es ácido (pH ≈ 4,5 en solución): no saponifica grasas, no apto clase K",
-            "N₂", 0.72, 0.90, 0.98, "HDS Buckeye/Equimiseg/Corponor: 0,72-0,98; mín. 0,82 g/cm³ en ficha NOM-104"),
-    "BC": ("Polvo BC (bicarbonato de sodio / de potasio Purple K / Monnex)", "NaHCO₃ ≥ 90 % (o KHCO₃) + "
-           "estearatos + sílice", "Captura de radicales y descomposición endotérmica (CO₂ + H₂O)",
-           "Leve: alcalino, saponifica superficialmente aceites de cocina (no reemplaza clase K)",
-           "N₂", 0.90, 1.00, 1.09, "Purple K: 62 ± 2 a 68 lb/ft³ (0,99-1,09); NaHCO₃ R"),
-    "D": ("Polvo clase D (cloruro de sodio)", "NaCl 80-90 % + aglutinante termoplástico + estearato de Mg",
-          "Forma costra sobre el metal fundido y lo aísla del aire", "No", "N₂", 1.10, 1.20, 1.30,
-          "HDS Met-L-X (composición); densidad R"),
-    "HCFC": ("HCFC Mezcla B (HCFC-123 base) / HFC-236fa", "HCFC-123 > 93 % + argón (mezcla B)",
-             "Enfriamiento y captura de radicales; no deja residuo", "No",
-             "Argón", 1.36, 1.48, 1.48, "Halotron I: 1,48 kg/L a 25 °C; HFC-236fa ≈ 1,36"),
-    "AGUA": ("Agua", "Agua potable (o destilada en agua pulverizada)", "Enfriamiento", "No",
-             "Aire comprimido", 1.00, 1.00, 1.00, "Catálogo: presurizado con aire comprimido"),
-    "AFFF": ("Agua + espumígeno AFFF al 3 %", "97 % agua + 3 % concentrado AFFF (IRAM 3515)",
-             "Película acuosa que sella vapores del combustible + enfriamiento", "No", "Aire comprimido",
-             1.00, 1.01, 1.02, "Catálogo: presurizado con aire comprimido; 3 % según concentrado"),
-    "K": ("Solución de acetato de potasio (clase K)", "Acetato de potasio (> 90 % de los sólidos) + citrato, "
-          "en solución acuosa", "SAPONIFICACIÓN: el K⁺ reacciona con los ácidos grasos del aceite caliente y forma "
-          "una espuma jabonosa que sella la superficie; más enfriamiento", "Sí: es su mecanismo principal",
-          "Aire comprimido", 1.19, 1.25, 1.30, "HDS Amerex CH530 ≈ 1,2; Buckeye 1,19-1,24; mezclado ≈ 1,3"),
+    "ABC": ("Polvo ABC (fosfato monoamónico) con Sello IRAM 3569 - DEMSA",
+            "MAP 40-90 % según grado (nominal ± 5 %) + sulfato de amonio 5-55 % + mica, sílice y silicona",
+            "Captura de radicales; en clase A el MAP funde (≈177-190 °C) y cubre las brasas con una capa vítrea: "
+            "el potencial A depende del grado (licencias IRAM 3523: 5 kg DEM-60 = 6A, DEM-90 = 10A)",
+            "No. Ácido (pH 6-7,5 al 1 % según DEMSA; 4-5 otras fichas): no saponifica, no apto clase K; con BC "
+            "reacciona (CO₂ + apelmazamiento)",
+            "N₂", 0.85, 0.90, 0.98,
+            "DEMSA HDS ABC: densidad aparente > 0,85 (piso garantizado) · típica 0,90 (ficha IZ; Corponor 0,85-0,98) "
+            "· IRAM 3569 no fija densidad: exigirla en la orden de compra"),
+    "BC": ("Polvo BC sódico con Sello IRAM 3566 - DEMSA", "NaHCO₃ ≥ 85,5 % (85,5-94,5) + estearatos, sílice, "
+           "silicona (Púrpura K: KHCO₃ 92 ± 5 %)", "Captura de radicales y descomposición endotérmica (CO₂ + H₂O)",
+           "Leve: alcalino (pH 8-9), saponifica superficialmente aceites; no reemplaza clase K",
+           "N₂", 0.85, 0.90, 1.00, "DEMSA HDS Púrpura K: > 0,85 · Buckeye estándar 0,90 · Purple K aireado 0,88"),
+    "D": ("Polvo clase D (cloruro de sodio) - DEMSA", "NaCl > 90 % + aditivos siliconados",
+          "Forma costra sobre el metal fundido y lo aísla del aire", "No (pH 6-7,5)", "N₂",
+          0.85, 1.00, 1.20, "DEMSA HDS polvo D: > 0,85 · típica R (pedir valor garantizado)"),
+    "HCFC": ("HCFC Mezcla B (HCFC-123 base)", "HCFC-123 > 93 % + mezcla de gases < 7 %",
+             "Enfriamiento y captura de radicales; no deja residuo", "No", "Argón", 1.47, 1.48, 1.48,
+             "Halotron I HDS: 1,48 kg/L a 25 °C; 655 kPa a 20 °C (IRAM 3526-1: pedir ficha local)"),
+    "AGUA": ("Agua", "Agua potable", "Enfriamiento", "No", "Aire comprimido", 1.00, 1.00, 1.00,
+             "Catálogo de referencia: aire comprimido"),
+    "AFFF": ("Agua + espumígeno AFFF 3 % (DEMSA 203 MN, IRAM 3515)", "97 % agua + 3 % concentrado (1,025 g/cm³)",
+             "Película acuosa que sella vapores + enfriamiento", "No", "Aire comprimido",
+             1.00, 1.00, 1.00, "DEMSA 203 MN: concentrado 1,025 g/cm³ → premezcla ≈ 1,001"),
+    "K": ("Acetato de potasio - DEMSA Kitchen (IRAM 3697)", "Sales orgánicas de potasio + aditivos en agua",
+          "SAPONIFICACIÓN y enfriamiento: el agente alcalino reacciona con los ácidos grasos del aceite caliente y "
+          "forma una espuma jabonosa que sella la superficie y evita la reignición",
+          "Sí: mecanismo principal (pH 8,5)", "N₂", 1.30, 1.30, 1.30,
+          "DEMSA Kitchen: 1,300 g/ml a 20 °C, pH 8,5; agente certificado en las licencias IRAM 3694 de Drago y "
+          "Georgia/Fadesa"),
 }
+COMPACTACION = 1.00   # ρ del polvo asentado en el recipiente / ρ aparente de ficha (R: medir con ensayo de llenado)
 RHO_AGENTE = {k: v[6] for k, v in AGENTES.items()}
 MOLAR = {"N₂": 0.028, "Argón": 0.040, "Aire comprimido": 0.029}
 LIBRE_MIN = 0.10    # fracción mínima de volumen libre para el gas (R: a validar con ensayo de descarga ≥ 85 %)
@@ -138,6 +147,15 @@ def medida(m, k, s, info):
     g = m.geo
     D = 2 * g["R"]
     L, A, H = _bbox(s)
+    if k in ("etiqueta", "sello_iram"):
+        bb = s.BoundingBox()
+        arco = s.Volume() / 0.3 / bb.zlen
+        return (f"{_f(arco, 0)} × {_f(bb.zlen, 0)} (desarrollo × alto), e ≈ 0,3" if k == "etiqueta" else
+                f"{_f(arco, 0)} × {_f(bb.zlen, 0)}")
+    if k == "junta_cuello":
+        return f"Ø{_f(L, 1)} ext. × cordón 3"
+    if k == "precinto":
+        return "Ø5 × 10, numerado, rotura 30-50 N"
     if k == "cuerpo":
         if m.familia == "co2":
             return f"Cilindro sin costura Ø{_f(D)} × e{_f(g['t'], 2)} × {_f(L)} de alto (cuello integral)"
@@ -224,7 +242,7 @@ def carga(m):
                   "D": "Polvo para metales combustibles clase D", "HCFC": "HCFC 123 / HFC 236fa (agente limpio)"}[ag]
         v_ag = kg / RHO_AGENTE[ag]
         gas = AGENTES[ag][4]
-        libre = V - v_ag
+        libre = max(0.0, V - v_ag)
         q, um = kg, "kg"
     elif ag == "CO2":
         kg = float(cap.split()[0])
@@ -348,35 +366,52 @@ def bom_producto(m, cilindro=False):
     add(1, f"{base}-S5", NOMBRE_SUB[5], 1, "u", ori="Carga en planta" if m.codigo in PROPIOS else "Compra",
         op=("18 Carga de polvo (T01) / C8 (T02)" if m.codigo in PROPIOS else ""), sub=5)
     tol, obj, ref_tol = tolerancia(m)
+    ag_m = AG.agente(m)
+    comp = ""
+    if ag_m["grado"] in AG.GRADOS_ABC:
+        g_ = AG.GRADOS_ABC[ag_m["grado"]]
+        k_map, k_rel, k_ad = AG.composicion_abc(ag_m["grado"], obj)
+        ag = f"Polvo químico seco {ag_m['grado']} (Sello IRAM 3569, DEMSA)"
+        comp = (f"MAP {_f(g_['map'], 0)} % (banda {_f(g_['banda'][0], 2)}-{_f(g_['banda'][1], 2)} %) = "
+                f"{_f(k_map, 3)} kg MAP + {_f(k_rel, 3)} kg {AG.RELLENO_ABC} + {_f(k_ad, 3)} kg aditivos · "
+                f"potencial {ag_m['potencial']}")
+        if ag_m.get("alternativa"):
+            comp += f" · alternativa {ag_m['alternativa']}"
+    elif _agente(m) in ("BC", "D", "K", "HCFC"):
+        ag = f"{ag[:ag.find('(')].strip() if '(' in ag else ag} - {ag_m['grado']}"
+        comp = f"potencial {ag_m['potencial']}" + (f" · alternativa {ag_m['alternativa']}" if ag_m.get("alternativa") else "")
     if _agente(m) == "AFFF":
         add(2, f"{base}-A1", "Agua potable (premezcla)", round(q * 0.97, 3), "L", "Agua", f"97 % de {_f(q)} L; "
             f"tolerancia {tol}", 1.0, "Red", "SP-1 premezcla", norma=ref_tol, fte="N", sub=5)
         ag, q, um = "Concentrado espumígeno AFFF 3 % (IRAM 3515)", round(q * 0.03, 3), "L"
     add(2, f"{base}-A1" + ("b" if _agente(m) == "AFFF" else ""), ag, q if _agente(m) == "AFFF" else round(obj, 3), um, ag,
         f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})", (RHO_AGENTE.get(_agente(m), 1.0) if um == "L" else 1.0),
-        "Compra", "SP-1 almacén previo a la carga", norma=f"IRAM {n_ag}" if n_ag != "-" else "", fte="C",
-        obs="Lote único por extintor; prohibido mezclar ABC con BC (3517-2 9.9.1.6)" if _agente(m) in ("ABC", "BC")
-        else "", sub=5)
-    if m_gas:
+        "Compra", "SP-1 almacén previo a la carga", norma=ag_m["norma"], fte="N",
+        obs=(comp + (" · " if comp else "") + ("Lote único por extintor; prohibido mezclar ABC con BC (3517-2 "
+             "9.9.1.6)" if _agente(m) in ("ABC", "BC") else "")).strip(" ·"), sub=5)
+    if not gas.startswith("-"):
+        if libre < LIBRE_MIN * m.geo["vol_dm3"]:
+            aviso = (f"VOLUMEN LIBRE INSUFICIENTE con ρ típica ({_f(libre, 2)} dm³): ver Carga_N2 - exigir densidad "
+                     "aparente mínima al polvo o agrandar el recipiente")
+        else:
+            aviso = "Batería en SP-1; punto de rocío ≤ -56,7 °C para gases limpios"
         add(2, f"{base}-A2", f"Gas impulsor: {gas}", round(m_gas, 4), "kg", gas,
             f"{_f(nm3 * 1000, 1)} L normales para {_f(_ps(m), 1)} MPa a 20 °C en {_f(libre, 2)} dm³ libres",
             1.0, "Compra", "20 Presurización (T05) / C10", norma="IRAM 3517-2 9.4.9 (tabla 2) · IRAM 3523 2.3 y 3.10", fte="C",
-            obs="Batería en SP-1; punto de rocío ≤ -56,7 °C para gases limpios", sub=5)
+            obs=aviso, sub=5)
     # ---- identificación, precinto y accesorios
     add(1, f"{base}-S6", NOMBRE_SUB[6], 1, "u", ori="Compra", op="22 Etiquetado (T07)", sub=6)
-    D = 2 * m.geo["R"]
-    alto_cuerpo = piezas["cuerpo"].BoundingBox().zlen
-    ew, eh = min(round(0.42 * math.pi * D), 240), min(round(0.45 * alto_cuerpo), 220)
-    add(2, f"{base}-I1", "Etiqueta frontal: instrucciones de uso, clases de fuego y datos del fabricante", 1, "u",
-        "Vinilo autoadhesivo laminado", f"{ew} × {eh}", 0.01, "Compra", "22 Etiquetado (T07)",
-        norma=f"IRAM {n_ext} (rotulado) · IRAM 3517-2 7.2.2", fte="R", sub=6)
-    add(2, f"{base}-I2", "Sello de conformidad IRAM (marca de certificación)", 1, "u", "Oblea de seguridad",
-        "según IRAM", 0.001, "Compra", "22 Etiquetado", norma="Marca IRAM", fte="R", sub=6)
+    norma_id = {"etiqueta": f"IRAM {n_ext} (rotulado) · IRAM 3517-2 7.2.2", "sello_iram": "Marca IRAM de conformidad",
+                "precinto": "IRAM 3517-2:2020 9.4.13"}
+    op_id = {"etiqueta": "22 Etiquetado (T07)", "sello_iram": "22 Etiquetado (T07)", "precinto": "20 Presurización (T05)"}
+    for fila, k in por_sub.get(6, []):
+        pos, cant, nom, cod, mat, _kg, obs = fila
+        kg = MAT.peso(piezas[k], MAT.especificacion(m, k)[2], MAT.especificacion(m, k)[3])
+        add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, "Compra", op_id[k], norma=norma_id[k],
+            fte="P", plano=f"FL_DES_{m.codigo[7:]}", obs=obs, sub=6)
     add(2, f"{base}-I3", "Tarjeta de control (registro de servicio)", 1, "u", "Cartulina plastificada",
-        "35 × 50 (celeste)", 0.002, "Compra", "22 Etiquetado", norma="IRAM 3517-2 8.3.3", fte="N", sub=6)
-    add(2, f"{base}-I4", "Precinto numerado (traba del pasador)", 1, "u", "Polipropileno",
-        "rompe entre 30 y 50 N; identifica fabricante y lote", 0.001, "Compra", "20 Presurización",
-        norma="IRAM 3517-2 9.4.13", fte="N", sub=6)
+        "35 × 50 (celeste)", 0.002, "Compra", "22 Etiquetado", norma="IRAM 3517-2 8.3.3", fte="N",
+        obs="No se dibuja (va colgada del cuello)", sub=6)
     sop = m.spec.get("Soporte pared"), m.spec.get("Soporte vehicular")
     if "Si" in sop or "Opcional" in sop:
         add(1, f"{base}-S8", NOMBRE_SUB[8], 1, "u", ori="Compra", op="23 Embalaje (va dentro de la caja)",
@@ -506,9 +541,7 @@ def _area(m, piezas):
 def internos_valvula(m):
     """Piezas internas de la válvula que el plano de conjunto no dibuja por separado."""
     dn = m.geo["cuello"][0]
-    out = [("V1", "Junta tórica de asiento del cuello", 1, "u", "NBR 70 Shore A",
-            f"para cuello Ø{_f(dn)} ({m.geo['cuello'][2]})", 0.002, "Compra", "19 Ensamblaje",
-            "", "R", "", "Se cambia en cada recarga")]
+    out = []   # la junta tórica de asiento del cuello ahora es pieza del plano (junta_cuello)
     if m.familia != "co2":
         out.append(("V2", "Resorte de retorno del vástago", 1, "u", "Alambre acero inox. AISI 302", "según válvula",
                     0.003, "Compra", "19 Ensamblaje", "", "R", "", ""))
@@ -652,7 +685,7 @@ def _tabla(ws, filas, r0, E, prod_col=False, outline=True):
                 c.font = E["Font"](bold=True)
             elif n == 3:
                 c.font = E["Font"](italic=True, color="555555")
-        ws.cell(r, 4 + off).number_format = "0.####"
+        ws.cell(r, 4 + off).number_format = "General"
         ws.cell(r, 6 + off).number_format = "0.000"
         ws.cell(r, 7 + off).number_format = "0.000"
         if outline and n >= 2:
@@ -795,7 +828,7 @@ def _explosion(wb, productos, E):
         for j, c in enumerate(cods, 3):
             v = tabla[kk].get(c)
             if v:
-                ws.cell(i, j, round(v, 4)).number_format = "0.###"
+                ws.cell(i, j, round(v, 4)).number_format = "General"
     ws.freeze_panes = "C4"
     ws.auto_filter.ref = f"A3:{ws.cell(3, len(cab)).column_letter}{3 + len(orden)}"
     return ws
@@ -884,17 +917,36 @@ def _quimica(wb, E):
     c.number_format = "0%"
     ws.cell(r, 8, "R: a validar con el ensayo de descarga continua ≥ 85 % de la masa (IRAM 3523 4.9.1)")
     filas["_libre"] = r
-    # potencial extintor según grado de polvo (catálogo de referencia, pág. 4 y 6)
-    r += 2
-    ws.cell(r, 1, "Grado del polvo y potencial extintor (catálogo de referencia, pág. 4 y 6)").font = E["Font"](bold=True)
     r += 1
-    _cab(ws, r, ["Grado", "1 kg", "2,5 kg", "5 kg", "10 kg", "Comentario"], [7, 34, 40, 50, 34, 14], E, 20)
-    for g, vals, com in (("ABC 60", ("1A-3B-C", "3A-20B-C", "6A-40B-C", "6A-60B-C"), "60 % MAP"),
-                         ("ABC 90", ("consultar", "3A-20B-C", "10A-40B-C", "10A-60B-C"), "90 % MAP: más potencial A"),
-                         ("BC Purple K", ("-", "20B", "40B", "consultar"), "bicarbonato de potasio"),
-                         ("BC sódico / Monnex", ("-", "-", "-", "-"), "sin potencial publicado")):
+    ws.cell(r, 1, "Factor de compactación en el recipiente (ρ asentado / ρ aparente de ficha)").font = E["Font"](bold=True)
+    c = ws.cell(r, 7, COMPACTACION)
+    c.fill = amarillo
+    ws.cell(r, 8, "R: 1,00 = criterio conservador. Medir: llenar un recipiente con el polvo comprado, vibrar como en la "
+                  "línea T01 y medir el volumen ocupado. La ficha da densidad aparente suelta; asentado ocupa menos.")
+    filas["_comp"] = r
+    # grado del polvo ABC: composición y potencial certificado (licencias IRAM 3523 + DEMSA)
+    r += 2
+    ws.cell(r, 1, "Grado del polvo ABC: la masa la fija la norma; el % de MAP fija el potencial A (licencias IRAM "
+                  "3523 Drago y Georgia/Fadesa)").font = E["Font"](bold=True)
+    r += 1
+    _cab(ws, r, ["Grado", "MAP nominal %", "Banda IRAM %", "Relleno", "1 kg", "2,5 kg", "5 kg", "10 kg", "Hoja técnica"],
+         [7, 34, 40, 50, 34, 14, 9, 9, 9], E, 20)
+    for g, d in AG.GRADOS_ABC.items():
         r += 1
-        for j, x in enumerate((g,) + vals + (com,), 1):
+        pot = [AG.POTENCIAL_ABC.get((g, c), "sin licencia relevada") for c in ("1 kg", "2,5 kg", "5 kg", "10 kg")]
+        for j, x in enumerate([g, d["map"], f"{_f(d['banda'][0], 2)} - {_f(d['banda'][1], 2)}",
+                               f"{AG.RELLENO_ABC} + {_f(AG.ADITIVOS_ABC, 0)} % aditivos"] + pot + [d["hoja"]], 1):
+            ws.cell(r, j, x).border = E["borde"]
+    r += 2
+    ws.cell(r, 1, "Agente y grado adoptado por modelo (DECISIÓN DE PRODUCTO a confirmar)").font = E["Font"](bold=True)
+    r += 1
+    _cab(ws, r, ["Plano", "Agente / grado", "Norma agente", "Gas", "Potencial", "Alternativa", "", "", ""],
+         [7, 34, 40, 50, 34, 14, 9, 9, 9], E, 20)
+    for m in MODELOS:
+        a_ = AG.agente(m)
+        r += 1
+        for j, x in enumerate([m.codigo, a_["grado"], a_["norma"], a_["gas"], a_["potencial"],
+                               a_.get("alternativa", "")], 1):
             ws.cell(r, j, x).border = E["borde"]
     return filas
 
@@ -935,8 +987,9 @@ def _carga_n2(wb, E, fq):
             ws.cell(i, 23, f"Grado de llenado {_f(q / V, 3)} kg/dm³ (máx. 0,75 kg/dm³, R: IRAM 2533 / ADR P200)")
         else:
             f = fq[ag]
+            fc = f"Quimica_agentes!$G${fq['_comp']}" if ag in ("ABC", "BC", "D") else "1"
             for j, col in ((9, "G"), (10, "H"), (11, "I")):
-                ws.cell(i, j, f"=Quimica_agentes!${col}${f}")
+                ws.cell(i, j, f"=Quimica_agentes!${col}${f}*{fc}")
             M = f"Quimica_agentes!$J${f}"
             if um == "kg":
                 ws.cell(i, 12, f"=C{i}/J{i}")
@@ -949,12 +1002,12 @@ def _carga_n2(wb, E, fq):
             ws.cell(i, 15, f"=(F{i}-{vmin})/F{i}")
             ws.cell(i, 16, f"=(F{i}-{vmax})/F{i}")
             k = "(G{i}+0.101)*1000000*{v}/1000/(8.314*293.15)*{M}*1000"
-            ws.cell(i, 17, "=" + k.format(i=i, v=f"M{i}", M=M))
+            ws.cell(i, 17, "=" + k.format(i=i, v=f"MAX(0,M{i})", M=M))
             ws.cell(i, 18, "=" + k.format(i=i, v=f"MAX(0,F{i}-{vmin})", M=M))
             ws.cell(i, 19, "=" + k.format(i=i, v=f"(F{i}-{vmax})", M=M))
             ws.cell(i, 20, f'=IF(O{i}<0,"NO ENTRA",IF(O{i}<{lib},"LIBRE INSUFICIENTE","OK"))')
-            if um == "kg":
-                ws.cell(i, 21, f"=C{i}/(F{i}*(1-{lib}))")
+            if ag in ("ABC", "BC", "D"):
+                ws.cell(i, 21, f"=C{i}/(F{i}*(1-{lib}))/{fc}")
                 ws.cell(i, 22, f"=C{i}/I{i}/(1-{lib})")
                 ws.cell(i, 21).font = E["Font"](bold=True)
             if m.codigo == "FL_MAT_CLASED_9l":
@@ -976,20 +1029,75 @@ def _carga_n2(wb, E, fq):
 
 
 MERCADO = [
-    # (plano, referencia, peso cargado kg, fuente)
-    ("FL_MAT_ABC_10kg", "Fadesa (catálogo de referencia)", 16.50, "Catálogo pág. 4"),
-    ("FL_MAT_ABC_10kg", "Georgia", 14.50, "matafuegosbiston.com.ar"),
-    ("FL_MAT_ABC_10kg", "Melisam", 15.50, "melisam.com"),
-    ("FL_MAT_ABC_10kg", "otros comercializadores", 15.95, "búsqueda de mercado (MercadoLibre / Sodimac)"),
-    ("FL_MAT_ABC_10kg", "otros comercializadores", 16.30, "búsqueda de mercado"),
-    ("FL_MAT_SALESK_6l", "Fadesa (catálogo de referencia)", 8.25, "Catálogo pág. 15"),
-    ("FL_MAT_SALESK_6l", "otra marca (acero inoxidable)", 11.30, "búsqueda de mercado"),
+    # (plano, referencia, peso cargado kg, fuente) - fabricantes argentinos con Sello IRAM
+    ("FL_MAT_ABC_1kg", "Georgia ABC 60 1 kg Ø3\" (330 × 76)", 1.82, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_1kg", "Fadesa 1 kg Ø3 (340 × 92)", 1.90, "Catálogo Fadesa pág. 4"),
+    ("FL_MAT_ABC_2.5kg", "Georgia ABC 60 2,5 kg (380 × 230 × 135)", 5.20, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_2.5kg", "Melisam ABC 2,5 kg (435 × 217 × 125)", 5.10, "Ficha técnica Melisam"),
+    ("FL_MAT_ABC_5kg", "Georgia ABC 90 5 kg (480 × 240 × 175)", 8.90, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_5kg", "Melisam ABC 5 kg (466 × 245 × 159)", 8.45, "Ficha técnica Melisam"),
+    ("FL_MAT_ABC_10kg", "Georgia ABC 90 10 kg (690 × 250 × 175)", 16.30, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_10kg", "Melisam ABC 10 kg (630 × 255 × 179)", 15.50, "Ficha técnica Melisam"),
+    ("FL_MAT_ABC_25kg", "Georgia ABC 90 25 kg", 55.0, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_50kg", "Georgia ABC 90 50 kg", 100.0, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_70kg", "Georgia ABC 90 70 kg", 140.0, "Ficha técnica Georgia"),
+    ("FL_MAT_ABC_100kg", "Georgia ABC 90 100 kg", 185.0, "Ficha técnica Georgia"),
+    ("FL_MAT_SALESK_6l", "Melisam acetato 6 L inox (450 × 235 × 179)", 9.50, "Ficha técnica Melisam"),
+    ("FL_MAT_SALESK_6l", "Georgia/Fadesa acetato 6 L (dato inconsistente con 1,30 g/ml)", 8.25,
+     "Ficha Georgia / catálogo Fadesa"),
+    ("FL_MAT_CLASED_9l", "Georgia clase D 5 kg (480 × 225 × 153)", 8.50, "Ficha técnica Georgia (otra capacidad)"),
 ]
 DUPLICADOS = ("En el catálogo de referencia el peso cargado de HCFC, HFC 236fa, BC y clase D es idéntico al de ABC "
               "(1,90 / 4,60 / 8,50 / 16,50 kg) y el de agua pulverizada 10 dm³ es igual al de acetato 10 dm³ (13,00 kg): "
               "son valores repetidos entre tablas, no pesadas. Un HCFC 5 kg (densidad 1,48) no puede pesar lo mismo que un "
               "ABC 5 kg en el mismo recipiente salvo por casualidad. Por eso el desvío contra catálogo no puede "
               "exigirse en 0: sirve como orden de magnitud y se valida con el rango de mercado.")
+
+
+FUENTES_DOC = [
+    # (id, documento, tipo, confianza, datos que aporta)
+    ("N1", "IRAM 3517-2:2020", "Norma IRAM (licencia)", "1 - manda",
+     "Tabla 2 gas impulsor; tabla 3 tolerancia de carga; 9.4.13 precinto; 9.9.1 agentes; 4.4.1 recuperación"),
+    ("N2", "IRAM 3523 (polvo bajo presión manuales)", "Norma IRAM", "1 - manda",
+     "2.2 capacidad = masa de polvo; 2.3 Ps a 20 °C; 3.10 N₂ seco; 4.6 tabla II tolerancia; 4.7 Ps < 1,7 MPa"),
+    ("N3", "IRAM 3569 / 3566 / 3697 / 3515 / 3526-1 (normas de AGENTE)", "Norma IRAM", "1 - FALTA",
+     "Requisitos y ensayos del agente: pedir"),
+    ("L1", "Licencia IRAM 3523 Drago/Norbco (Luis Pasquinelli e Hijos SA), anexo I 2008", "Certificado IRAM",
+     "2", "Potencial por grado: 1 kg DEM-60 1A-5B; 5 kg DEM-60 6A-40B / DEM-90 10A-40B; 10 kg DEM-60 6A-60B / "
+     "DEM-90 10A-60B"),
+    ("L2", "Licencia IRAM 3694 Drago y Georgia/Fadesa", "Certificado IRAM", "2",
+     "Agente clase K certificado: DEMSA KITCHEN (DEM S.A.) o Cookingwater (Quimex); 6 y 10 L; 1A-K"),
+    ("L3", "Licencia IRAM 3527 Drago 10 L", "Certificado IRAM", "2", "AFFF marca DEM S.A.; recipiente aluminio; 3A-10B"),
+    ("A1", "DEMSA ABC 40 / 55 / 55 Premium / 90 - hojas técnicas", "Fabricante argentino del agente (Sello IRAM "
+     "3569, BVQI)", "2", "MAP 40 / 55 (55,9-64,3 Premium) / 90 %; granulometría, repelencia ≥ 90-97, humedad ≤ 0,25"),
+    ("A2", "DEMSA hoja de seguridad ABC", "Fabricante argentino", "2",
+     "MAP 40-90 %, sulfato de amonio 5-55 %; densidad aparente > 0,85; pH 6-7,5"),
+    ("A3", "DEMSA catálogo", "Fabricante argentino", "2",
+     "Especificación IRAM por grado: ABC 55 52,25-57,75 %; ABC 90 85,5-94,5 %; BC 85,5-94,5 %; AFFF 3 % 1,025"),
+    ("A4", "DEMSA BC STD / Púrpura K (IRAM 3566), clase D, Kitchen (IRAM 3697), AFFF 203 MN (IRAM 3515)",
+     "Fabricante argentino", "2", "NaHCO₃ ≥ 85,5 %; KHCO₃ 92 ± 5 %; NaCl > 90 %; Kitchen 1,300 g/ml pH 8,5"),
+    ("F1", "Georgia fichas técnicas ABC 60 (1; 2,5 kg), ABC 90 (5 a 100 kg), clase D, acetato", "Fabricante "
+     "argentino del extintor", "3", "Pesos, medidas, potencial, gas (N₂ seco)"),
+    ("F2", "Melisam fichas ABC, HFC 236fa, acetato", "Fabricante argentino del extintor", "3",
+     "Pesos y medidas; acetato 6 L 9,5 kg (coherente con 1,30 g/ml)"),
+    ("C1", "Catálogo Fadesa 3", "Catálogo comercial", "4 - pesos repetidos entre tablas", "Dimensiones y Ps"),
+    ("X1", "HDS internacionales (Buckeye, Amerex, Badger, Brooks, Halotron, Met-L-X)", "HDS", "5 - respaldo",
+     "Química y mecanismo; sus valores no son especificación"),
+]
+
+
+def _fuentes(wb, E):
+    ws = wb.create_sheet("Fuentes")
+    ws["A1"] = ("Fuentes y jerarquía: 1 norma IRAM > 2 certificado IRAM y ficha del fabricante certificado local > "
+                "3 catálogo > 4 HDS internacional (las HDS aclaran que sus valores NO son especificación del producto)")
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    _cab(ws, 3, ["Id", "Documento", "Tipo", "Confianza", "Datos que aporta"], [6, 52, 26, 22, 90], E, 20)
+    for i, f in enumerate(FUENTES_DOC, 4):
+        for j, x in enumerate(f, 1):
+            c = ws.cell(i, j, x)
+            c.border = E["borde"]
+            c.alignment = E["Al"](wrap_text=True, vertical="top")
+    return ws
 
 
 def _mercado(wb, E, term):
@@ -1135,6 +1243,7 @@ def excel(ruta):
     for m, f in cil:
         _hoja_producto(wb, m, f, E, cilindro=True)
     _mercado(wb, E, term)
+    _fuentes(wb, E)
     _recargas(wb, E)
     _explosion(wb, [(m.codigo, f) for m, f in term], E)
     _despiece_hoja(wb, term, E)

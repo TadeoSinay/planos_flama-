@@ -108,7 +108,7 @@ def lista(m, piezas):
         if kg is not None:
             total += kg * cant
         filas.append([pos, cant, nom, codigo_pieza(m, pos) if rho else "Comercial", mat,
-                      _n(kg, 3 if kg < 1 else 2) if kg is not None else "-", obs or ""])
+                      ("<0,001" if kg < 0.0005 else _n(kg, 3 if kg < 1 else 2)) if kg is not None else "-", obs or ""])
     return filas, orden, total
 
 
@@ -623,7 +623,19 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
     ytop = h.fy1 - 8
     h.texto(m.nombre.upper(), (x0 + ancho_izq / 2, ytop), 5, A.MIDDLE_CENTER)
     g = m.geo
-    filas = [(k, str(v)) for k, v in m.spec.items()]
+    from . import agentes as AG
+    ag = AG.agente(m)
+    filas = []
+    for k, v in m.spec.items():
+        if k == "Norma IRAM agente extintor" and ag["norma"].split()[-1] not in str(v):
+            v = f"{ag['norma'].replace('IRAM ', '')} (catálogo: {v})"
+        filas.append((k, str(v)))
+    if "Norma IRAM agente extintor" not in m.spec and ag["norma"] != "-":
+        filas.append(("Norma IRAM agente extintor", ag["norma"].replace("IRAM ", "")))
+    grado = ag["grado"] if len(ag["grado"]) < 40 else ag["grado"][:ag["grado"].find("(")].strip()
+    filas.append(("Agente extintor (grado)", grado))
+    filas.append(("Potencial extintor", ag["potencial"] if ag["potencial"] != "-" else "según ensayo de tipo"))
+    filas.append(("Gas impulsor", ag["gas"]))
     filas.append(("Volumen interior del recipiente (dm³)", _n(g["vol_dm3"], 2)))
     filas.append(("Diámetro exterior del recipiente (mm)", _n(2 * g["R"])))
     filas.append(("Rosca de cuello", g["cuello"][2]))

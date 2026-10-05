@@ -55,6 +55,10 @@ PIEZAS = {
     "soportes_manguera": ("Soporte de manguera", "Planchuela acero SAE 1010", ACERO, 1.0, None),
     "valvula_esferica": ("Válvula esférica", "Latón cromado", LATON, 0.45, None),
     "tobera_campana": ("Tobera campana", "Polipropileno", PP, 1.0, None),
+    "etiqueta": ("Etiqueta de instrucciones", "Vinilo autoadhesivo laminado", PVC, 1.0, "rotulado"),
+    "sello_iram": ("Sello IRAM de conformidad", "Oblea de seguridad autoadhesiva", PVC, 1.0, "marca IRAM"),
+    "junta_cuello": ("Junta tórica de asiento", "NBR 70 Shore A", CAUCHO, 1.0, "cambio c/recarga"),
+    "precinto": ("Precinto numerado", "Polipropileno", PP, 1.0, "30-50 N"),
 }
 
 
@@ -99,6 +103,8 @@ def especificacion(m, clave):
         nom = {"tobera_chorro": "Tobera de chorro pleno", "tobera_1kg": "Tobera"}.get(m.descarga, "Tobera con portatobera")
     if clave == "manguera" and m.familia == "co2":
         mat = "Manga alta presión c/malla acero"
+    if clave == "junta_cuello" and m.codigo == "FL_MAT_HCFC-HFC_5kg":
+        mat = "EPDM (compatible con HCFC/HFC)"
     if clave == "suncho" and m.familia == "co2":
         nom = "Suncho soporte de difusor"
     return nom, mat, rho, fac, obs

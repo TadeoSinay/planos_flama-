@@ -49,9 +49,11 @@ AVISO_NORMAS = ("Las normas se citan por número y título; el texto normativo c
 
 
 def normas_producto(m):
+    from .agentes import agente
     s = m.spec
     res = []
-    if "Norma IRAM agente extintor" in s:
-        res.append(("Norma IRAM agente extintor", s["Norma IRAM agente extintor"]))
+    n_ag = agente(m)["norma"]
+    if n_ag.startswith("IRAM"):
+        res.append(("Norma IRAM agente extintor", n_ag.replace("IRAM ", "")))
     res.append(("Norma IRAM extintor", s["Norma IRAM extintor"]))
     return res
