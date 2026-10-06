@@ -185,7 +185,7 @@ mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, mat
 | `08_Quimica_Agentes` / `09_Carga_N2` | Densidades (aparente y empacada) y volumen libre, gas impulsor y control de llenado por fórmula |
 | `10_Proveedores` | Proveedores nacionales por ítem (principal y alternativa, domicilio, distancia a Avellaneda, precio de referencia, estado) y directorio |
 | `11_Validacion_MP` | Respaldo documental y estado de cada materia prima y componente |
-| `12_Explosion_MP` | Explosión por unidad de lo que entra en MRP (base del futuro archivo MRP_MATERIA_PRIMA) |
+| `12_Maestro_Consolidado_MP` | Todo lo que lleva cada matafuego, cilindro, sustituto y kit de recarga por unidad (con Entra MRP, rubro, proveedor y proceso) + insumos de cada proceso con su inductor |
 | `13_Fuentes` / `14_Comparacion_Mercado` / `15_Indice_Planos` | Documentos citados, peso contra fabricantes con sello IRAM, índice de planos |
 | `BOM_FL_MAT_*` / `BOM_FL_REC_*` | Una hoja por plano: BOM multinivel plegable con fórmulas de peso |
 

@@ -86,13 +86,10 @@ VALIDACION = [
      "IRAM 3550 3.2.1; 4.1.3.1 fórmula; 4.1.3.2 mínimos 2,9 / 4,5 mm", "Q-PACHECO · Q-PRADECON · R-FADESA",
      "VALIDADA CON CONDICIÓN", "4,75 cumple el mínimo de 4,5 (Ø > 320). 50 kg con 3,2 (igual que Fadesa G689) cumple "
      "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0."),
-    ("Semielaborado", "Tapas (cúpula y fondo) 70 / 100 kg", "Casquete embutido Ø350 / Ø390 × 4,75 tercerizado",
-     "IRAM 3550 3.2.1 / 4.1.3", "I-FLAMA · catálogo Stocco", "A VALIDAR",
-     "Stocco Hnos. (San Martín) embute desde Ø340 y e ≥ 3: cotizar con certificado de material."),
-    ("Semielaborado", "Tapas (cúpula y fondo) 25 / 50 kg", "Casquete embutido Ø276 / Ø320 × 3,2",
-     "IRAM 3550 3.2.1 / 4.1.3", "I-FLAMA", "NO CUMPLE / A DEFINIR",
-     "Sin proveedor nacional en catálogo para Ø < 340 (la planilla MP-15/16 lo daba importado): consultar a Stocco "
-     "fuera de catálogo o embutir en planta."),
+    ("Semielaborado", "Tapas (cúpula y fondo) de rodantes 25 / 50 / 70 / 100 kg", "Casquete embutido Ø276 / Ø320 × "
+     "3,2 y Ø350 / Ø390 × 4,75, embutido tercerizado en Gockel Ingeniería (Wilde, Avellaneda)",
+     "IRAM 3550 3.2.1 / 4.1.3", "Proveedor de FLAMA (Gockel)", "VALIDADA CON CONDICIÓN",
+     "Cotizar con matriz por diámetro y certificado de material de la chapa (σf ≥ 265 MPa)."),
     ("Semielaborado", "Cuello roscado de manuales", "Asiento mecanizado SAE 1020 M22 / M30 × 1,5 (Eli-Met)",
      "IRAM 3523 4.1.2 (Ø int. ≥ 19); roscas IRAM 5058 / 5063", "I-FLAMA · R-FADESA", "A VALIDAR",
      "Sin cotización (planilla MP-18/19): pedir a Eli-Met con material y calibre de rosca."),
