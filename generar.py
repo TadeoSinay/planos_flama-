@@ -5,6 +5,7 @@ Uso:  python generar.py [CODIGO ...]      (sin argumentos: todo)
       python generar.py --sustitutos       (salida/sustituto/: FL_SUS_* extintores sustitutos, IRAM 3517-2 9.4.5)
       python generar.py --complementarios  (señalética, accesorios, esquemas y documentos)
       python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM multinivel por plano)
+      python generar.py --mrp <Proyecciones.xlsx>   (salida/mrp/MRP_MP.xlsx: MRP de materias primas 2026-2035)
       python generar.py --despiece         (salida/despiece/FL_DES_*: vistas explosionadas con globos del BOM)
 Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
         salida/cilindros/, senaletica/, accesorios/, esquemas/, documentos/
@@ -107,6 +108,10 @@ if __name__ == "__main__":
         from flama import bom
         os.makedirs(os.path.join(BASE, "salida", "bom"), exist_ok=True)
         bom.excel(os.path.join(BASE, "salida", "bom", "FLAMA_BOM.xlsx"))
+    elif len(args) == 2 and args[0] == "--mrp":
+        from flama import mrp
+        os.makedirs(os.path.join(BASE, "salida", "mrp"), exist_ok=True)
+        print(mrp.excel(args[1], os.path.join(BASE, "salida", "mrp", "MRP_MP.xlsx")))
     elif args == ["--despiece"]:
         from flama import despiece
         despiece.generar(os.path.join(BASE, "salida", "despiece"))

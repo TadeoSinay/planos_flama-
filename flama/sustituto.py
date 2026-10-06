@@ -97,7 +97,7 @@ def bom_sustituto(m):
         "Etiqueta autoadhesiva AGC", "formato oficial", "Compra (organismo)", norma="Res. AGC 32/15 anexo II",
         fte="N", obs="Sólo CABA")
     add(2, f"{base}-04", "Remito de préstamo con membrete (n° de extintor, puesto, equipo retirado, fechas)", 1,
-        "u/préstamo", "Papel", "A5 duplicado", "Proceso", fte="I",
+        "u/préstamo", "Papel", "A5 duplicado", "Compra", fte="I",
         obs="Práctica de mercado relevada (Fullmat, Rodo, Eversafe)")
     return rows
 

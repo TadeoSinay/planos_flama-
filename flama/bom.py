@@ -237,7 +237,7 @@ def operacion(m, k):
         return "C9 armado" if rod else "19 Ensamblaje de válvula (T03/T04)"
     if SUB.get(k) == 3:
         return "C9 armado de ruedas y manguera" if rod else "19 Ensamblaje (T03/T04)"
-    if k in CARRO_FAB:
+    if k in CARRO_FAB or (k == "soportes_manguera" and rod):
         return ("Corte en sierra -> curvado / plegado -> soldadura MAG del carro -> C9 armado (S-TC); "
                 "puesto de soldadura de carros a incorporar al layout")
     if SUB.get(k) == 4:
@@ -256,7 +256,7 @@ def origen(m, k):
         return "Compra (tapa embutida tercerizada)"
     if k in KIT_VALVULA:
         return "Incluido en válvula HZ"
-    if m.familia == "rodante" and k in CARRO_FAB:
+    if m.familia == "rodante" and (k in CARRO_FAB or k == "soportes_manguera"):
         return "Fabricación"
     if k == "llanta_der":
         return "Incluido en rueda"
@@ -359,6 +359,10 @@ def _item(m, k):
     return ""
 
 
+# ítems oficiales que dependen de la jurisdicción donde se instala o se presta el servicio
+DESTINO = {"OBLEA-PBA": "PBA", "TARJETA-DPS": "PBA", "TARJETA-AGC": "CABA"}
+
+
 def _clasificar(rows, m, cilindro):
     """Completa Entra MRP, proveedores y estado (color) de cada fila."""
     propio = m.codigo in PROPIOS
@@ -377,6 +381,7 @@ def _clasificar(rows, m, cilindro):
         if r["mrp"] == "Sí" and r["item"]:
             prov, alt, est_p = PV.asignar(r["item"])
         r["prov"], r["alt"] = prov, alt
+        r["dest"] = DESTINO.get(r["item"], "")
         est = r["est"] or ("A" if r["fte"] == "V" else "V")
         if not propio and not cilindro and r["mrp"] == "No":
             est = "V"     # referencia: viene dentro del equipo terminado comprado
@@ -674,6 +679,9 @@ def materia_prima(m, k, s, kg):
         barra("MP-PLANCHUELA", f"Planchuela SAE 1010 {sec}", f"Planchuela SAE 1010 {sec}", s.Volume() / (ws * ts),
               ws * ts * 7.85e-3, "MP-PLANCHUELA", est="E",
               obs=f"Largo = volumen del plano / sección {sec}. Sección dimensionada para la masa de los planos Fadesa")
+    if k == "soportes_manguera":
+        barra("MP-PLANCHUELA", "Planchuela SAE 1010 30 × 3", "Planchuela SAE 1010 30 × 3", s.Volume() / 90,
+              30 * 3 * 7.85e-3, "MP-PLANCHUELA", obs="Largo = volumen del plano / sección 30 × 3")
     if k == "apoyo":
         out.append(("MP-CHAPA-APOYO", "Recorte de chapa LAC e=3,2 para el apoyo plegado", 1, "u", "Chapa LAC SAE 1010",
                     "desarrollo del apoyo + 15 % de recorte", round(kg * 1.15, 3), "Compra", "Corte y plegado", "",
@@ -773,6 +781,8 @@ def recargas():
     for m in MODELOS:
         ag = _agente(m)
         nombre, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
+        if ag == "ABC":
+            nombre = f"Polvo químico seco {AG.agente(m)['grado']} (Sello IRAM 3569)"
         base = P.codigo_pieza(m, 0)[:-3]
         rep = [("Precinto plástico numerado, color, con nombre del recargador", 1, "u", "Nuevo", "9.4.13"),
                ("Marbete (anillo, color del año)", 1, "u", "Nuevo", "9.4.14 · fig. 9 · tabla 4"),
@@ -789,7 +799,7 @@ def recargas():
                 "estampados en la ojiva)", 1, "u", "Proceso", "Res. 349/07 art. 29 · IRAM 3517-2"),
                ("Junta tórica de asiento del cuello", 1, "u", "Nuevo (R: cambio sistemático)", "-")]
         if m_gas:
-            rep.append((f"Gas impulsor {gas}", round(m_gas, 4), "kg", "Nuevo", "9.4.9 tabla 2"))
+            rep.append((f"Gas impulsor: {gas}", round(m_gas, 4), "kg", "Nuevo", "9.4.9 tabla 2"))
         if ag in ("ABC", "BC", "D"):
             casos = [
                 ("A - Extintor descargado (uso o descarga parcial)",
@@ -798,7 +808,7 @@ def recargas():
                  [(nombre + " recuperado", round(q * 0.97, 3), um, "Recuperado en sistema cerrado",
                    "4.4.1 y) sistema cerrado de recuperación con inspección; 9.9.3 control (puffer IRAM 3672, "
                    "fusión IRAM 3569 en ABC)"),
-                  (nombre + " de reposición de mermas", round(q * 0.03, 3), um, "Nuevo (R: 3 % de merma)",
+                  (nombre, round(q * 0.03, 3), um, "Nuevo: reposición de mermas (R: 3 %)",
                    "Mismo tipo y marca (prohibido mezclar ABC con BC, 9.9.1.6)")]),
                 ("C - Cambio obligatorio de polvo (versión anterior de la IRAM 3569)",
                  [(nombre, q, um, "Nuevo 100 %; el viejo va a residuos (RC-IR)", "9.9.4")]),
@@ -809,7 +819,7 @@ def recargas():
                 ("B - Mantenimiento con vaciado (control interior, PH)",
                  [(nombre + " recuperado", round(q * 0.98, 3), um, "Recuperado en circuito cerrado (no se ventea)",
                    "4.4.1 z) recuperación de gases limpios en sistema cerrado"),
-                  (nombre + " de reposición de pérdidas", round(q * 0.02, 3), um, "Nuevo o reciclado (R: 2 %)",
+                  (nombre, round(q * 0.02, 3), um, "Nuevo o reciclado: reposición de pérdidas (R: 2 %)",
                    "El agente fuera de especificación va a regeneración o destrucción por gestor habilitado")]),
             ]
         elif ag == "CO2":
@@ -821,11 +831,17 @@ def recargas():
                   ("Disco de seguridad", 1, "u", "Nuevo", "9.4.17 dispositivos")]),
             ]
         else:
+            if ag == "AFFF":      # se compra el concentrado; el agua es de red
+                carga_l = [("Concentrado espumígeno AFFF 3 % (IRAM 3515)", round(q * 0.03, 3), um, "Nuevo",
+                            "9.9 tabla 6"),
+                           ("Agua potable (premezcla)", round(q * 0.97, 3), um, "Red", "9.9 tabla 6")]
+            else:
+                carga_l = [(nombre, q, um, "Nuevo", "9.9 tabla 6")]
             casos = [
-                ("A - Extintor descargado", [(nombre, q, um, "Nuevo", "9.9 tabla 6")]),
+                ("A - Extintor descargado", carga_l),
                 ("B - Mantenimiento (PH cada 2 años en inoxidables y AFFF)",
-                 [(nombre, q, um, "Nuevo (R: la carga líquida no se recupera; confirmar vida útil del "
-                   "concentrado con el fabricante)", "9.9")]),
+                 [(c[0], c[1], c[2], c[3] if c[3] == "Red" else "Nuevo (R: la carga líquida no se recupera; "
+                   "confirmar vida útil del concentrado con el fabricante)", "9.9") for c in carga_l]),
             ]
         for caso, items in casos:
             for it in items + [(r[0], r[1], r[2], r[3], r[4]) for r in rep]:
@@ -1153,81 +1169,82 @@ PROCESOS = [
 ]
 
 
-def _maestro(wb, term, cil, E):
-    """12_Maestro_Consolidado_MP: todo lo que lleva cada producto, en una sola matriz, más los insumos de proceso."""
+def maestro_datos(term, cil):
+    """Coeficientes por unidad de todo lo que se COMPRA (Entra MRP = Sí) para cada producto: matafuegos, cilindros,
+    kits de sustituto y kits de recarga. Devuelve (columnas [(código, grupo)], datos {clave: {código: cant}},
+    meta {clave: dict(rubro, prov, proc, est, dest, item)}); clave = (ítem, UM)."""
     from . import sustituto as SU
     from . import recipientes as RC
-    from openpyxl.utils import get_column_letter as L
-    ws = wb.create_sheet(HOJAS["exp"])
-    columnas, datos = [], {}       # columnas: (código, grupo); datos[clave][código] = cantidad
-    meta = {}                      # clave -> dict(rubro, mrp, prov, proceso, est)
+    columnas, datos, meta = [], {}, {}
+
+    def sumar(cod, f, rubro):
+        nom, um, q = _clave_item(f)
+        k = (nom, um)
+        d = meta.setdefault(k, dict(rubro=rubro, prov=f.get("prov") or "", proc=f.get("op") or "",
+                                    est=f.get("est") or "V", dest=f.get("dest") or "", item=f.get("item") or ""))
+        if NIV_EST.get(f.get("est") or "V", 0) > NIV_EST[d["est"]]:
+            d["est"] = f["est"]
+        datos.setdefault(k, {})
+        datos[k][cod] = datos[k].get(cod, 0) + q
 
     def cargar(cod, grupo, filas, revendido=False):
         columnas.append((cod, grupo))
         for f in filas:
-            if f["nivel"] == 0 or (f["nivel"] == 1 and not (f["codigo"].endswith("-S0") or f.get("_sus"))):
+            if f["nivel"] == 0 or f.get("mrp") != "Sí" or f["cant"] in (None, 0, "-"):
                 continue
-            f = dict(f, _prod=cod)
-            if f["cant"] in (None, 0, "-"):
-                continue
-            nom, um, q = _clave_item(f)
-            mrp = f.get("mrp") or "No"
-            k = (nom, um, mrp)
-            d = meta.setdefault(k, dict(rubro=_rubro(f, revendido), prov=f.get("prov") or "", proc=f.get("op") or "",
-                                        est=f.get("est") or "V"))
-            if NIV_EST.get(f.get("est") or "V", 0) > NIV_EST[d["est"]]:
-                d["est"] = f["est"]
-            datos.setdefault(k, {})
-            datos[k][cod] = datos[k].get(cod, 0) + q
+            sumar(cod, dict(f, _prod=cod), _rubro(f, revendido))
 
     for m, f in term:
         cargar(m.codigo, "Matafuego FL_MAT", f, revendido=m.codigo not in PROPIOS)
     for m, f in cil:
         cargar(RC.codigo_rec(m), "Cilindro FL_REC", f)
     for m in MODELOS:
-        filas = _sustitutos(m)
-        for x in filas:
-            if x["nivel"] == 1 and x["codigo"] == m.codigo:
-                x["_sus"] = True
-                x["desc"] = "Extintor base del stock"
-                x["um"] = "u"
-        cargar(SU.codigo(m), "Sustituto FL_SUS", filas)
+        filas = [x for x in _sustitutos(m) if not (x["nivel"] == 1 and x["codigo"] == m.codigo)]
+        cargar(SU.codigo(m), "Kit de sustituto FL_SUS", filas)
     # recargas: un kit por modelo y caso
     kits = {}
     for f in recargas():
-        m = next(x for x in MODELOS if x.codigo == f[0])
         letra = f[2][0] if f[2][1:3] == " -" else "I"
-        kits.setdefault((m.codigo, letra), []).append(f)
+        kits.setdefault((f[0], letra), []).append(f)
     for (mc, letra), filas in kits.items():
         m = next(x for x in MODELOS if x.codigo == mc)
         cod = f"RK-{P.codigo_pieza(m, 0)[:-3]}-{letra}"
-        rows = []
+        columnas.append((cod, "Kit de recarga RK"))
         for f in filas:
             if not isinstance(f[4], (int, float)):
                 continue
             mrp, item = _item_recarga(m, str(f[3]))
-            prov = PV.asignar(item)[0] if item and mrp == "Sí" else ""
+            if mrp != "Sí":
+                continue
+            prov = PV.asignar(item)[0] if item else ""
             est = "E" if "R:" in str(f[6]) else "V"
-            rows.append(dict(nivel=2, codigo=cod + "-R", desc=str(f[3]), um=f[5], cant=f[4], mrp=mrp, prov=prov,
-                             op="Recarga", est=est, ori="Proceso" if mrp == "No" else "Compra", sub=0))
-        columnas.append((cod, "Kit de recarga RK"))
-        for r_ in rows:
-            nom, um = r_["desc"], r_["um"]
-            k = (nom, um, r_["mrp"])
-            meta.setdefault(k, dict(rubro="Recarga y mantenimiento" if r_["mrp"] == "Sí" else "Proceso (sin compra)",
-                                    prov=r_["prov"], proc="Recarga", est=r_["est"]))
-            datos.setdefault(k, {})
-            datos[k][cod] = datos[k].get(cod, 0) + r_["cant"]
+            if item:
+                p_est = PV.asignar(item)[2]
+                if p_est and NIV_EST[EST_PROV[p_est]] > NIV_EST[est]:
+                    est = EST_PROV[p_est]
+            sumar(cod, dict(nivel=2, codigo=cod + "-R", desc=str(f[3]), um=f[5], cant=f[4], mrp="Sí", prov=prov,
+                            op="Recarga", est=est, dest=DESTINO.get(item, ""), item=item, sub=0),
+                  "Recarga y mantenimiento")
+    return columnas, datos, meta
+
+
+def _maestro(wb, term, cil, E):
+    """12_Maestro_Consolidado_MP: todo lo que se compra para cada producto, por unidad, más los insumos de proceso."""
+    from . import recipientes as RC
+    from openpyxl.utils import get_column_letter as L
+    ws = wb.create_sheet(HOJAS["exp"])
+    columnas, datos, meta = maestro_datos(term, cil)
     # ---- escritura
-    ws["A1"] = ("Maestro consolidado de materias primas e insumos: todo lo que lleva cada producto (matafuegos, "
-                "cilindros, sustitutos y kits de recarga), por unidad")
+    ws["A1"] = ("Maestro consolidado de materias primas e insumos: todo lo que se COMPRA para cada producto "
+                "(matafuegos, cilindros, kits de sustituto y kits de recarga), por unidad")
     ws["A1"].font = E["Font"](bold=True, size=12)
-    ws["A2"] = ("Entra MRP = Sí: se compra. No: se fabrica (su materia prima está en las filas de Materia prima), viene "
-                "dentro de un conjunto comprado, es referencia del revendido o es un proceso. Filtrar por Rubro o por "
-                "Entra MRP. Al final: insumos de cada proceso que no van por unidad.")
+    ws["A2"] = ("Sólo ítems con Entra MRP = Sí. Lo que se fabrica figura por su materia prima; lo que viene dentro de "
+                "un conjunto comprado (válvula HZ, rueda) y las piezas internas de los revendidos no se compran y quedan "
+                "sólo en las hojas BOM_ de cada producto. Destino: CABA / PBA = el MRP aplica la proporción de destino "
+                "del año. Al final: insumos de cada proceso que no van por unidad.")
     _leyenda(ws, 3, 1, E)
-    fijas = ["Rubro", "Ítem", "UM", "Entra MRP", "Proveedor principal", "Proceso / operación"]
-    anchos = [24, 60, 9, 8, 28, 30]
+    fijas = ["Rubro", "Ítem", "UM", "Destino", "Proveedor principal", "Proceso / operación"]
+    anchos = [24, 60, 9, 9, 28, 30]
     r0 = 6
     for j, (cod, grupo) in enumerate(columnas, len(fijas) + 1):
         c = ws.cell(r0 - 1, j, grupo)
@@ -1248,7 +1265,7 @@ def _maestro(wb, term, cil, E):
     for k in orden:
         r += 1
         d = meta[k]
-        for j, v in enumerate([d["rubro"], k[0], k[1], k[2], d["prov"] or None, d["proc"] or None], 1):
+        for j, v in enumerate([d["rubro"], k[0], k[1], d["dest"] or "Todos", d["prov"] or None, d["proc"] or None], 1):
             ws.cell(r, j, v)
         for j, (cod, _) in enumerate(columnas, len(fijas) + 1):
             v = datos[k].get(cod)
@@ -1258,9 +1275,6 @@ def _maestro(wb, term, cil, E):
         if fill:
             for j in range(1, len(fijas) + 1):
                 ws.cell(r, j).fill = fill
-        if k[2] == "No":
-            for j in range(1, len(cab) + 1):
-                ws.cell(r, j).font = E["Font"](color="808080")
     ws.freeze_panes = ws.cell(r0 + 1, len(fijas) + 1)
     ws.auto_filter.ref = f"A{r0}:{L(len(cab))}{r}"
     # ---- insumos de proceso
@@ -1637,7 +1651,7 @@ ITEM_AGENTE_REC = {"ABC": "POLVO-ABC", "BC": "REC-BC", "D": "REC-D", "HCFC": "RE
 def _item_recarga(m, texto):
     """(Entra MRP, ítem de compra) de una fila de recarga."""
     t = texto
-    if "recuperado" in t or t.startswith(("Grabado", "Si hubo PH")):
+    if "recuperado" in t or t.startswith(("Grabado", "Si hubo PH", "Agua potable")):
         return "No", ""
     pre = [("Precinto", "PRECINTO"), ("Marbete", "MARBETE"), ("Etiqueta de servicio", "ETIQUETA"),
            ("Oblea PBA", "OBLEA-PBA"), ("Tarjeta de identificación AGC", "TARJETA-AGC"),
@@ -1930,6 +1944,7 @@ def _sustitutos(m):
             r["item"] = it.get(r["codigo"][-3:], "")
             r["mrp"] = "Sí"
         r["prov"], r["alt"], est_p = PV.asignar(r["item"]) if r["item"] else ("", "", "")
+        r["dest"] = DESTINO.get(r["item"], "")
         if est_p:
             r["est"] = EST_PROV[est_p]
     return rows
