@@ -151,7 +151,7 @@ def _elegir(m, ext):
 
 def rotulo_base(m, fmt, e, hoja, tipo, sub=""):
     return dict(titulo=m.nombre, subtitulo=sub or f"Agente: {m.agente}", codigo=m.codigo,
-                hoja=hoja, hojas=3, escala=escala_txt(e) if e else "-", material="Ver lista de piezas",
+                hoja=hoja, hojas=4, escala=escala_txt(e) if e else "-", material="Ver lista de piezas",
                 edicion="0", fecha=FECHA, dibujo=DIBUJO, reviso="", aprobo="",
                 tipo_doc=tipo, empresa="FLAMA S.A.")
 
@@ -228,6 +228,12 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
 
     R = info["recipiente"]["R"]
     zc = info["recipiente"]["z_cuello"]
+    # placa de características como superficie rayada (detalle en hoja 4)
+    import shapely.geometry as _sg
+    Wp, Hp, z0p, Rp, xcp, _ = M.placa_dim(m, piezas)
+    cu = 2 * Rp * math.sin(math.radians(M.ARCO_PLACA / 2))
+    h.rayado(_sg.box(x_front + (xcp - cu / 2) * f, y_front + z0p * f, x_front + (xcp + cu / 2) * f,
+                     y_front + (z0p + Hp) * f), 45, 1.2)
     # ejes y centros (IRAM 4502 línea F)
     for v, (ox_, oy_) in (("anterior", (x_front, y_front)), ("lat_izq", (x_lat, y_front)), ("superior", (x_front, y_top))):
         for (a1, b1), (a2, b2) in ejes(m, info, v):
@@ -329,9 +335,10 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
 
     # ---------------- notas
     notas = ["NOTAS: 1) Cotas en mm, medidas reales del conjunto. 2) Método de proyección ISO E (IRAM 4501).",
-             "3) Corte A-A y detalles A a E: hoja 2.  4) Especificaciones técnicas y normas: hoja 3."]
+             "3) Corte A-A y detalles: hoja 2.  4) Especificaciones: hoja 3.  5) Superficie rayada = placa de",
+             "características (arco 108°); rotulado, oblea, estampilla IRAM, precinto y marcado: hoja 4."]
     for i, s_ in enumerate(notas):
-        h.texto(s_, (h.fx0 + 4, h.fy0 + 8.5 - 4.5 * i), 2.5)
+        h.texto(s_, (h.fx0 + 4, h.fy0 + 12.5 - 4.5 * i), 2.5)
     return doc, dict(fmt=fmt, escala=e, k=k, T=Tf, detalles=detalles, masa=masa_vacio)
 
 
@@ -727,6 +734,9 @@ def generar(m):
     res1["proy"] = proy
     hoja2(m, piezas, info, res1, doc, ox2)
     hoja3(m, info, doc, ox3, res1["masa"])
+    from .rotulado import hoja4
+    ox4 = ox3 + FORMATOS["A3"][0] + SEPARACION
+    hoja4(m, piezas, info, proy, doc, ox4)
     hojas = [("Hoja1_Conjunto", res1["fmt"], 0.0), ("Hoja2_Corte_Detalles", "A2", ox2),
-             ("Hoja3_Especificaciones", "A3", ox3)]
+             ("Hoja3_Especificaciones", "A3", ox3), ("Hoja4_Rotulado", "A2", ox4)]
     return piezas, info, doc, hojas, res1

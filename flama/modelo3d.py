@@ -501,20 +501,38 @@ def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
     return sec.rotate(cq.Vector(xc, yc, 0), cq.Vector(xc, yc, 1), ang_c - ang / 2)
 
 
-def identificacion(m, p):
-    """Piezas de identificación y cierre que el conjunto lleva y la lista de piezas debe mostrar:
-    etiqueta de instrucciones (rotulado del extintor), sello IRAM de conformidad, junta tórica de asiento de
-    la válvula en el cuello y precinto numerado de la traba (IRAM 3517-2:2020 9.4.13)."""
+# medidas de identificación (ver flama/rotulado.py para las fuentes)
+ARCO_PLACA = 108.0          # IRAM 3534 2.2.4.3 d) / 3523 5.2.6.3 d): longitud máxima de la leyenda
+OBLEA_PBA = 46.0            # Res. OPDS 522/07 anexos 1 y 2: oblea de fabricación Ø 46 mm
+ESTAMPILLA_IRAM = (60.0, 40.0)   # estampilla IRAM extintor nuevo (Anexo R, proporción 3:2; medida a confirmar)
+
+
+def placa_dim(m, p):
+    """(ancho de arco, alto, z0, R, xc, yc) de la placa de características sobre el cuerpo."""
     cb = p["cuerpo"].BoundingBox()
     R = (cb.xmax - cb.xmin) / 2
     xc, yc = (cb.xmax + cb.xmin) / 2, (cb.ymax + cb.ymin) / 2
     hb = cb.zmax - cb.zmin
-    ew = min(0.42 * math.pi * 2 * R, 240.0)
-    eh = min(0.45 * hb, 220.0)
-    z0 = cb.zmin + 0.52 * hb - eh / 2
-    p["etiqueta"] = _sector(R, R + 0.3, eh, z0, ew, xc, yc)
-    so = min(30.0, 0.25 * eh)
-    p["sello_iram"] = _sector(R, R + 0.3, so, z0 - so - 6, so, xc, yc)
+    ancho = math.radians(ARCO_PLACA) * R
+    from .rotulado import disposicion
+    alto = disposicion(m, ancho)["H"]          # alto que pide el contenido obligatorio (IRAM 3534)
+    libre = hb - 20.0 - (OBLEA_PBA + 3)       # cuerpo disponible sobre el fondo, descontada la oblea
+    z0 = cb.zmin + 10.0 + (OBLEA_PBA + 3) + max(0.0, (libre - alto) / 2)
+    return ancho, alto, z0, R, xc, yc
+
+
+def identificacion(m, p):
+    """Identificación del extintor nuevo que el plano debe mostrar:
+    placa de características (IRAM 3534) de frente, sobre el eje del manómetro; oblea de fabricación de la
+    Provincia de Buenos Aires Ø 46 inmediatamente debajo (Res. OPDS 522/07 anexo 6); estampilla IRAM de
+    conformidad al costado; junta tórica de asiento de la válvula; precinto de fábrica de la traba."""
+    ancho, alto, z0, R, xc, yc = placa_dim(m, p)
+    p["etiqueta"] = _sector(R, R + 0.3, alto, z0, ancho, xc, yc)
+    zo = z0 - 3.0 - OBLEA_PBA
+    p["oblea_pba"] = _sector(R, R + 0.3, OBLEA_PBA, zo, OBLEA_PBA, xc, yc)
+    ew, eh = ESTAMPILLA_IRAM
+    ang_e = -90.0 + math.degrees((OBLEA_PBA / 2 + 6 + ew / 2) / R)
+    p["sello_iram"] = _sector(R, R + 0.3, eh, zo + (OBLEA_PBA - eh) / 2, ew, xc, yc, ang_e)
     eb = p["espiga"].BoundingBox()
     ro = (eb.xmax - eb.xmin) / 2 + 1.5
     ex, ey = (eb.xmax + eb.xmin) / 2, (eb.ymax + eb.ymin) / 2

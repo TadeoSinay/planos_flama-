@@ -55,7 +55,7 @@ SUB = {
     "racor": 3, "manguera": 3, "tobera": 3, "lanza": 3, "empunadura": 3, "brazo_difusor": 3, "difusor": 3,
     "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3, "soportes_manguera": 3,
     "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "bastidor": 4, "sunchos_bastidor": 4, "apoyo": 4,
-    "junta_cuello": 2, "etiqueta": 6, "sello_iram": 6, "precinto": 6,
+    "junta_cuello": 2, "etiqueta": 6, "oblea_pba": 6, "sello_iram": 6, "precinto": 6,
 }
 NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Dispositivo de descarga",
               4: "Carro (bastidor y ruedas)", 5: "Carga: agente extintor y gas impulsor",
@@ -147,6 +147,8 @@ def medida(m, k, s, info):
     g = m.geo
     D = 2 * g["R"]
     L, A, H = _bbox(s)
+    if k == "oblea_pba":
+        return "Ø46 (Res. OPDS 522/07), numerada, autodestructible"
     if k in ("etiqueta", "sello_iram"):
         bb = s.BoundingBox()
         arco = s.Volume() / 0.3 / bb.zlen
@@ -401,17 +403,18 @@ def bom_producto(m, cilindro=False):
             obs=aviso, sub=5)
     # ---- identificación, precinto y accesorios
     add(1, f"{base}-S6", NOMBRE_SUB[6], 1, "u", ori="Compra", op="22 Etiquetado (T07)", sub=6)
-    norma_id = {"etiqueta": f"IRAM {n_ext} (rotulado) · IRAM 3517-2 7.2.2", "sello_iram": "Marca IRAM de conformidad",
-                "precinto": "IRAM 3517-2:2020 9.4.13"}
-    op_id = {"etiqueta": "22 Etiquetado (T07)", "sello_iram": "22 Etiquetado (T07)", "precinto": "20 Presurización (T05)"}
+    norma_id = {"etiqueta": f"IRAM 3534 · IRAM {n_ext} cap. 5", "sello_iram": "IRAM Anexo R (DC-PG-129)",
+                "oblea_pba": "Res. OPDS 522/07 anexos 1, 2 y 6", "precinto": "IRAM 3523 3.3.2 · IRAM 3517-2:2020 9.4.13"}
+    op_id = {"etiqueta": "22 Etiquetado (T07)", "sello_iram": "22 Etiquetado (T07)", "oblea_pba": "22 Etiquetado (T07)",
+             "precinto": "20 Presurización (T05)"}
     for fila, k in por_sub.get(6, []):
         pos, cant, nom, cod, mat, _kg, obs = fila
         kg = MAT.peso(piezas[k], MAT.especificacion(m, k)[2], MAT.especificacion(m, k)[3])
         add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, "Compra", op_id[k], norma=norma_id[k],
             fte="P", plano=f"FL_DES_{m.codigo[7:]}", obs=obs, sub=6)
-    add(2, f"{base}-I3", "Tarjeta de control (registro de servicio)", 1, "u", "Cartulina plastificada",
-        "35 × 50 (celeste)", 0.002, "Compra", "22 Etiquetado", norma="IRAM 3517-2 8.3.3", fte="N",
-        obs="No se dibuja (va colgada del cuello)", sub=6)
+    add(2, f"{base}-I3", "Tarjeta oficial de vigencia (CABA)", 1, "u", "Formulario oficial",
+        "provista por DG Rentas GCBA", 0.002, "Compra", "22 Etiquetado", norma="Ordenanza 40.473 art. 6", fte="N",
+        obs="Clase, capacidad, fecha de carga y vencimiento, garantía; se anexa al matafuego (no se dibuja)", sub=6)
     sop = m.spec.get("Soporte pared"), m.spec.get("Soporte vehicular")
     if "Si" in sop or "Opcional" in sop:
         add(1, f"{base}-S8", NOMBRE_SUB[8], 1, "u", ori="Compra", op="23 Embalaje (va dentro de la caja)",

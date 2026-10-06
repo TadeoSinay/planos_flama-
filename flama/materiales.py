@@ -55,10 +55,11 @@ PIEZAS = {
     "soportes_manguera": ("Soporte de manguera", "Planchuela acero SAE 1010", ACERO, 1.0, None),
     "valvula_esferica": ("Válvula esférica", "Latón cromado", LATON, 0.45, None),
     "tobera_campana": ("Tobera campana", "Polipropileno", PP, 1.0, None),
-    "etiqueta": ("Etiqueta de instrucciones", "Vinilo autoadhesivo laminado", PVC, 1.0, "rotulado"),
-    "sello_iram": ("Sello IRAM de conformidad", "Oblea de seguridad autoadhesiva", PVC, 1.0, "marca IRAM"),
+    "etiqueta": ("Placa de características", "Vinilo autoadhesivo laminado", PVC, 1.0, "IRAM 3534"),
+    "sello_iram": ("Estampilla IRAM de conformidad", "Provista por IRAM (Anexo R)", PVC, 1.0, "numerada"),
+    "oblea_pba": ("Oblea de fabricación (PBA)", "Papel de seguridad autodestructible", PVC, 1.0, "Res. 522/07"),
     "junta_cuello": ("Junta tórica de asiento", "NBR 70 Shore A", CAUCHO, 1.0, "cambio c/recarga"),
-    "precinto": ("Precinto numerado", "Polipropileno", PP, 1.0, "30-50 N"),
+    "precinto": ("Precinto de fábrica", "Polipropileno", PP, 1.0, "id. FLAMA y lote"),
 }
 
 
