@@ -232,6 +232,9 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
     import shapely.geometry as _sg
     Wp, Hp, z0p, Rp, xcp, _ = M.placa_dim(m, piezas)
     cu = 2 * Rp * math.sin(math.radians(M.ARCO_PLACA / 2))
+    ap = Rp * min(1.0, math.sin(math.radians(M.ARCO_PLACA / 2 + M.arco_ala(Rp))))
+    h.rayado(_sg.box(x_front + (xcp - ap) * f, y_front + z0p * f, x_front + (xcp + ap) * f,
+                     y_front + (z0p + Hp) * f), 45, 3.0)
     h.rayado(_sg.box(x_front + (xcp - cu / 2) * f, y_front + z0p * f, x_front + (xcp + cu / 2) * f,
                      y_front + (z0p + Hp) * f), 45, 1.2)
     # ejes y centros (IRAM 4502 línea F)
@@ -335,8 +338,8 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
 
     # ---------------- notas
     notas = ["NOTAS: 1) Cotas en mm, medidas reales del conjunto. 2) Método de proyección ISO E (IRAM 4501).",
-             "3) Corte A-A y detalles: hoja 2.  4) Especificaciones: hoja 3.  5) Superficie rayada = placa de",
-             "características (arco 108°); rotulado, oblea, estampilla IRAM, precinto y marcado: hoja 4."]
+             "3) Corte A-A y detalles: hoja 2.  4) Especificaciones: hoja 3.  5) Rayado = etiqueta (fino: panel de",
+             "instrucciones 108°; ancho: alas); oblea, estampilla IRAM, tarjeta AGC, faja, precinto y marcado: hoja 4."]
     for i, s_ in enumerate(notas):
         h.texto(s_, (h.fx0 + 4, h.fy0 + 12.5 - 4.5 * i), 2.5)
     return doc, dict(fmt=fmt, escala=e, k=k, T=Tf, detalles=detalles, masa=masa_vacio)
@@ -610,7 +613,7 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None):
             h.rect(x, y - alto, x + w, y, "10-ROTULO")
             t = str(val)
             hj = hs[min(j, len(hs) - 1)]
-            hh = hj if len(t) * hj * 0.8 <= w - 3 else 1.8
+            hh = hj if len(t) * hj * 0.8 <= w - 3 else min(1.8, (w - 3) / (max(1, len(t)) * 0.8))
             if j == 0:
                 h.texto(t, (x + 1.5, y - alto / 2), hh, A.MIDDLE_LEFT)
             else:

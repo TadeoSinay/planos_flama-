@@ -55,11 +55,16 @@ PIEZAS = {
     "soportes_manguera": ("Soporte de manguera", "Planchuela acero SAE 1010", ACERO, 1.0, None),
     "valvula_esferica": ("Válvula esférica", "Latón cromado", LATON, 0.45, None),
     "tobera_campana": ("Tobera campana", "Polipropileno", PP, 1.0, None),
-    "etiqueta": ("Placa de características", "Vinilo autoadhesivo laminado", PVC, 1.0, "IRAM 3534"),
+    "etiqueta": ("Etiqueta / placa de características", "Vinilo autoadhesivo laminado", PVC, 1.0, "IRAM 3534"),
     "sello_iram": ("Estampilla IRAM de conformidad", "Provista por IRAM (Anexo R)", PVC, 1.0, "numerada"),
     "oblea_pba": ("Oblea de fabricación (PBA)", "Papel de seguridad autodestructible", PVC, 1.0, "Res. 522/07"),
     "junta_cuello": ("Junta tórica de asiento", "NBR 70 Shore A", CAUCHO, 1.0, "cambio c/recarga"),
-    "precinto": ("Precinto de fábrica", "Polipropileno", PP, 1.0, "id. FLAMA y lote"),
+    "precinto": ("Precinto de fábrica", "Polipropileno color", PP, 1.0, "id. FLAMA y lote"),
+    "faja_garantia": ("Faja de garantía válvula-cuello", "Vinilo destructible rayado rojo/blanco", PVC, 1.0,
+                      "nuevo sin abrir"),
+    "tarjeta_caba": ("Tarjeta de identificación AGC (CABA)", "Etiqueta autoadhesiva emitida por la AGC", PVC, 1.0,
+                     "sólo destino CABA"),
+    "etiqueta_serie": ("Etiqueta de n° de serie GS1", "Poliéster autoadhesivo impreso térmico", PVC, 1.0, "QR GTIN + serie"),
 }
 
 
@@ -77,8 +82,12 @@ def especificacion(m, clave):
             mat, rho = f"Chapa acero inox. AISI 304 e={e}", INOX
         elif m.familia == "co2":
             mat = f"Tubo acero 34CrMo4 sin costura e={e}"
+        elif m.familia == "rodante":
+            mat = f"Chapa LAC IRAM-IAS U 500-04 e={e}"    # IRAM 3550 3.2.1; cotizada Pacheco/Pradecon
+        elif clave == "cuerpo" and m.capacidad == "1 kg":
+            mat = f"Caño c-c LF Ø76,2 e={e} (SAE 1010)"    # cotizado Metalpri
         else:
-            mat = f"Chapa acero SAE 1010 e={e}"
+            mat = f"Chapa LAF IRAM-IAS U 500-05 e={e}"    # IRAM 3523 3.2.1 a); cotizada Pacheco/Pradecon
         if clave == "cuerpo":
             proc = m.soldadura
             obs = None if m.familia == "co2" else f"costura long. {proc[1]}"

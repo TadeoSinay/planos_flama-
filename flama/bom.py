@@ -44,8 +44,14 @@ DISCO = {
 CANO_1KG = dict(barra=6000, pieza=255, piezas=23, diam=76.2, esp=1.25)
 
 # familias que la planta fabrica (líneas S1, S2, S3) y las que revende (S4 tercerizados con sello IRAM)
+# Fabricación propia: SÓLO los ABC (decisión FLAMA). Todo el resto (BC, Clase D, agua, AFFF, Sales K, CO₂,
+# HCFC) se compra terminado al fabricante certificado y se revende.
 PROPIOS = {"FL_MAT_ABC_1kg", "FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg", "FL_MAT_ABC_25kg",
-           "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg", "FL_MAT_BC_5kg", "FL_MAT_CLASED_9l"}
+           "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg"}
+# Válvula HZ comprada armada (lista de precios Q-AGENTES): piezas del plano que vienen dentro del kit
+KIT_VALVULA = {"tuerca", "espiga", "cuerpo_valvula", "vastago", "cano_pesca"}
+# Carro de rodantes comprado armado (investigación FLAMA I-FLAMA)
+KIT_CARRO = {"rueda_der", "llanta_der", "eje_ruedas", "bastidor", "sunchos_bastidor", "apoyo"}
 
 # subconjuntos: clave de pieza del modelo -> subconjunto
 SUB = {
@@ -56,6 +62,7 @@ SUB = {
     "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3, "soportes_manguera": 3,
     "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "bastidor": 4, "sunchos_bastidor": 4, "apoyo": 4,
     "junta_cuello": 2, "etiqueta": 6, "oblea_pba": 6, "sello_iram": 6, "precinto": 6,
+    "faja_garantia": 6, "tarjeta_caba": 6, "etiqueta_serie": 6,
 }
 NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Dispositivo de descarga",
               4: "Carro (bastidor y ruedas)", 5: "Carga: agente extintor y gas impulsor",
@@ -149,11 +156,13 @@ def medida(m, k, s, info):
     L, A, H = _bbox(s)
     if k == "oblea_pba":
         return "Ø46 (Res. OPDS 522/07), numerada, autodestructible"
-    if k in ("etiqueta", "sello_iram"):
+    if k in ("etiqueta", "sello_iram", "tarjeta_caba", "etiqueta_serie", "faja_garantia"):
         bb = s.BoundingBox()
-        arco = s.Volume() / 0.3 / bb.zlen
-        return (f"{_f(arco, 0)} × {_f(bb.zlen, 0)} (desarrollo × alto), e ≈ 0,3" if k == "etiqueta" else
-                f"{_f(arco, 0)} × {_f(bb.zlen, 0)}")
+        arco = s.Volume() / (0.2 if k == "faja_garantia" else 0.3) / bb.zlen
+        if k == "etiqueta":
+            return (f"{_f(arco, 0)} × {_f(bb.zlen, 0)} (desarrollo × alto: panel central 108° + 2 alas laterales), "
+                    "e ≈ 0,3, laminado UV")
+        return f"{_f(arco, 0)} × {_f(bb.zlen, 0)}"
     if k == "junta_cuello":
         return f"Ø{_f(L, 1)} ext. × cordón 3"
     if k == "precinto":
@@ -210,7 +219,7 @@ def operacion(m, k):
     if k in ("cupula", "fondo"):
         return "Compra (casquetes de carros, rack RK1)" if rod else "6 Desbobinado + embutido (M06-M08)"
     if k == "cuello":
-        return "C2 punteo" if rod else "7 Preparación de cuello -> 8 soldadura de cuello"
+        return "Compra -> C2 punteo" if rod else "Compra -> 8 soldadura de cuello"
     if SUB.get(k) == 2:
         return "C9 armado" if rod else "19 Ensamblaje de válvula (T03/T04)"
     if SUB.get(k) == 3:
@@ -223,8 +232,16 @@ def operacion(m, k):
 def origen(m, k):
     if m.codigo not in PROPIOS:
         return "Compra (en el conjunto)"
-    if k in ("cuerpo", "cuello") or (k in ("cupula", "fondo") and m.familia != "rodante"):
+    if k == "cuello":
+        return "Compra (mecanizado, Eli-Met)"
+    if k == "cuerpo" or (k in ("cupula", "fondo") and m.familia != "rodante"):
         return "Fabricación"
+    if k in ("cupula", "fondo"):
+        return "Compra (tapa embutida tercerizada)"
+    if k in KIT_VALVULA:
+        return "Incluido en válvula HZ"
+    if m.familia == "rodante" and k in KIT_CARRO:
+        return "Incluido en carro armado"
     if k in ("bastidor", "sunchos_bastidor", "apoyo", "soportes_manguera", "suncho"):
         return "Compra (estructura)"
     return "Compra"
@@ -339,8 +356,8 @@ def bom_producto(m, cilindro=False):
             kg = MAT.peso(piezas[k], MAT.especificacion(m, k)[2], MAT.especificacion(m, k)[3])
             fte = "P"
             if kg is None:
-                kg = {28.0: 0.04, 38.0: 0.06, 50.0: 0.12}.get(round(info["valvula"]["man_d"]), 0.06)
-                fte = "R"
+                fte = "V"
+                obs = (obs + "; peso y precio A VALIDAR (sin cotización: I-FLAMA)").strip("; ")
             add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, origen(m, k), operacion(m, k),
                 norma=("IRAM 3533" if k == "manometro" else ""), fte=fte, plano=f"FL_DES_{m.codigo[7:]}", obs=obs,
                 sub=s_)
@@ -352,14 +369,34 @@ def bom_producto(m, cilindro=False):
             for r in consumibles_recipiente(m, piezas):
                 add(2, f"{base}-{r[0]}", *r[1:], sub=1)
         if s_ == 2:
+            if m.codigo in PROPIOS and not cilindro:
+                hz = {"1 kg": "M-22 1 kg c/tubo de pesca plástico", "25 kg": "de carro 25 kg c/traba, manija y resorte"}
+                add(2, f"{base}-K2", "Válvula HZ armada " + hz.get(m.capacidad, "M-30 c/resorte y tubo 7/8" if
+                    m.familia != "rodante" else "de carro 50-70-100 kg"), 1, "u", "Latón forjado (HZ)",
+                    f"rosca {m.geo['cuello'][2]}", None, "Compra", "19 Ensamblaje de válvula", norma="IRAM 3523 3.3",
+                    fte="Q", plano=f"FL_DES_{m.codigo[7:]}", obs="Lista de precios HZ (Q-AGENTES); plano Fadesa usa "
+                    "válvula HZ (R-FADESA). Trae las piezas marcadas «Incluido en válvula HZ»", sub=2)
             for r in internos_valvula(m):
                 add(2, f"{base}-{r[0]}", *r[1:], sub=2)
+        if s_ == 4 and m.codigo in PROPIOS:
+            add(2, f"{base}-K4", "Carro armado (bastidor, eje, ruedas, sunchos y apoyo)", 1, "u", "Acero / caucho",
+                "según plano FL_MAT hoja 1", None, "Compra", "C9 montaje del recipiente en el carro",
+                norma="IRAM 3550 3.12", fte="I", plano=f"FL_DES_{m.codigo[7:]}",
+                obs="A VALIDAR proveedor (Ruedar / Biston, sin cotización). Trae las piezas «Incluido en carro "
+                    "armado» (I-FLAMA)", sub=4)
     if cilindro:
         add(2, f"{base}-T1", "Tapón protector de rosca del cuello", 1, "u", "Polietileno",
-            f"para rosca {m.geo['cuello'][2]}", 0.005, "Compra", "Embalaje", fte="R", sub=1)
+            f"para rosca {m.geo['cuello'][2]} (plano {cod_plano} hoja 3, R4)", None, "Compra", "Embalaje", fte="P",
+            obs="Proveedor a cotizar", sub=1)
         add(2, f"{base}-T2", "Marcado del recipiente (estampado)", 1, "u", "-",
-            "N° de serie, año, presión de prueba, norma", None, "Proceso", "Marcado", norma="IRAM 3523 (marcado)",
-            fte="R", sub=1)
+            "Fabricante, n° de serie, año" + (", presión de ensayo" if m.familia == "rodante" else ""), None,
+            "Proceso", "Marcado", norma=f"IRAM {n_ext} 5.1", fte="N", sub=1)
+        add(2, f"{base}-T3", "Etiqueta de identificación del cilindro suelto", 1, "u", "Poliéster autoadhesivo "
+            "removible", "100 × 60, impresión térmica, QR GS1", None, "Compra", "Etiquetado", fte="P",
+            plano=f"{cod_plano} hoja 3", sub=1)
+        add(2, f"{base}-T4", "Protocolo de ensayo hidrostático (certificado que acompaña)", 1, "u", "Papel", "A5",
+            0.005, "Proceso", "Control de calidad", norma=f"IRAM {n_ext} 4.1 y cap. 6 · IRAM 2587", fte="N",
+            plano=f"{cod_plano} hoja 3", sub=1)
         emb = embalaje(m, M.bbox({k: v for k, v in piezas.items() if SUB.get(k) == 1}))
         _emb(add, base, emb, m, sub=7, cilindro=True)
         return rows
@@ -374,9 +411,11 @@ def bom_producto(m, cilindro=False):
         g_ = AG.GRADOS_ABC[ag_m["grado"]]
         k_map, k_rel, k_ad = AG.composicion_abc(ag_m["grado"], obj)
         ag = f"Polvo químico seco {ag_m['grado']} (Sello IRAM 3569, DEMSA)"
-        comp = (f"MAP {_f(g_['map'], 0)} % (banda {_f(g_['banda'][0], 2)}-{_f(g_['banda'][1], 2)} %) = "
-                f"{_f(k_map, 3)} kg MAP + {_f(k_rel, 3)} kg {AG.RELLENO_ABC} + {_f(k_ad, 3)} kg aditivos · "
-                f"potencial {ag_m['potencial']}")
+        comp = (f"Composición declarada del polvo {ag_m['grado']}: MAP {_f(g_['map'], 0)} % (IRAM 3569: "
+                f"{_f(g_['banda'][0], 2)}-{_f(g_['banda'][1], 2)} %) = {_f(k_map, 3)} kg MAP + {_f(k_rel, 3)} kg "
+                f"{AG.RELLENO_ABC} + {_f(k_ad, 3)} kg aditivos · potencial de referencia {ag_m['potencial']} (licencia "
+                "Drago con DEM-60/90, L-DRAGO); con otro polvo (p. ej. Sancibrao ABC 55/75/90, Q-AGENTES) el potencial "
+                "sale del ensayo de tipo de FLAMA (IRAM 3542/3543)")
         if ag_m.get("alternativa"):
             comp += f" · alternativa {ag_m['alternativa']}"
     elif _agente(m) in ("BC", "D", "K", "HCFC"):
@@ -396,25 +435,27 @@ def bom_producto(m, cilindro=False):
             aviso = (f"VOLUMEN LIBRE INSUFICIENTE con ρ típica ({_f(libre, 2)} dm³): ver Carga_N2 - exigir densidad "
                      "aparente mínima al polvo o agrandar el recipiente")
         else:
-            aviso = "Batería en SP-1; punto de rocío ≤ -56,7 °C para gases limpios"
+            aviso = ("N₂ ≥ 99,8 %, H₂O ≤ 40 ppm (Q-N2, Air Liquide)" if "N" in gas else
+                     "Batería en SP-1; punto de rocío ≤ -56,7 °C para gases limpios")
         add(2, f"{base}-A2", f"Gas impulsor: {gas}", round(m_gas, 4), "kg", gas,
             f"{_f(nm3 * 1000, 1)} L normales para {_f(_ps(m), 1)} MPa a 20 °C en {_f(libre, 2)} dm³ libres",
             1.0, "Compra", "20 Presurización (T05) / C10", norma="IRAM 3517-2 9.4.9 (tabla 2) · IRAM 3523 2.3 y 3.10", fte="C",
             obs=aviso, sub=5)
     # ---- identificación, precinto y accesorios
     add(1, f"{base}-S6", NOMBRE_SUB[6], 1, "u", ori="Compra", op="22 Etiquetado (T07)", sub=6)
-    norma_id = {"etiqueta": f"IRAM 3534 · IRAM {n_ext} cap. 5", "sello_iram": "IRAM Anexo R (DC-PG-129)",
-                "oblea_pba": "Res. OPDS 522/07 anexos 1, 2 y 6", "precinto": "IRAM 3523 3.3.2 · IRAM 3517-2:2020 9.4.13"}
-    op_id = {"etiqueta": "22 Etiquetado (T07)", "sello_iram": "22 Etiquetado (T07)", "oblea_pba": "22 Etiquetado (T07)",
-             "precinto": "20 Presurización (T05)"}
+    norma_id = {"etiqueta": f"IRAM 3534 · IRAM {n_ext} cap. 5 · relevamiento de mercado",
+                "sello_iram": "IRAM Anexo R (DC-PG-129)", "oblea_pba": "Res. OPDS 522/07 anexos 1, 2 y 6",
+                "precinto": "IRAM 3523 3.3.2 · IRAM 3517-2:2020 9.4.13",
+                "faja_garantia": "Sin norma: práctica de mercado (garantía de fábrica)",
+                "tarjeta_caba": "Ordenanza 40.473 art. 6 (formato AGC relevado)",
+                "etiqueta_serie": "GS1 Argentina (GTIN 779) · trazabilidad IRAM 3523 5.1"}
+    op_id = {k: "22 Etiquetado (T07)" for k in norma_id}
+    op_id["precinto"] = "20 Presurización (T05)"
     for fila, k in por_sub.get(6, []):
         pos, cant, nom, cod, mat, _kg, obs = fila
         kg = MAT.peso(piezas[k], MAT.especificacion(m, k)[2], MAT.especificacion(m, k)[3])
         add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, "Compra", op_id[k], norma=norma_id[k],
             fte="P", plano=f"FL_DES_{m.codigo[7:]}", obs=obs, sub=6)
-    add(2, f"{base}-I3", "Tarjeta oficial de vigencia (CABA)", 1, "u", "Formulario oficial",
-        "provista por DG Rentas GCBA", 0.002, "Compra", "22 Etiquetado", norma="Ordenanza 40.473 art. 6", fte="N",
-        obs="Clase, capacidad, fecha de carga y vencimiento, garantía; se anexa al matafuego (no se dibuja)", sub=6)
     sop = m.spec.get("Soporte pared"), m.spec.get("Soporte vehicular")
     if "Si" in sop or "Opcional" in sop:
         add(1, f"{base}-S8", NOMBRE_SUB[8], 1, "u", ori="Compra", op="23 Embalaje (va dentro de la caja)",
@@ -424,8 +465,9 @@ def bom_producto(m, cilindro=False):
         add(2, f"{base}-I5", "Soporte de pared (FL_ACC_01)", 1, "u", "Chapa acero SAE 1010 e=2 pintada",
             "placa 60 × 180, ala con ranura Ø cuello + 3", round(kg_s, 3), "Compra", "23 Embalaje",
             norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_01", sub=8)
-        add(2, f"{base}-I6", "Tornillo y tarugo de fijación", 2, "u", "Acero cincado / nylon", "M6 × 50 + tarugo 8",
-            0.01, "Compra", "23 Embalaje", fte="R", sub=8)
+        add(2, f"{base}-I6", "Tornillo y tarugo de fijación", 2, "u", "Acero cincado / nylon",
+            "2 agujeros Ø8,5 del plano FL_ACC_01 → tornillo M8 + tarugo", None, "Compra", "23 Embalaje", fte="P",
+            plano="FL_ACC_01", obs="Proveedor a cotizar", sub=8)
     if sop[1] == "Si":
         kg_s = AC.soporte_vehicular(g=m.geo, e=2.5)[0].Volume() * 1e-6 * MAT.ACERO
         add(2, f"{base}-I7", "Soporte vehicular con cierre rápido (FL_ACC_02)", 1, "u",
@@ -433,7 +475,7 @@ def bom_producto(m, cilindro=False):
             "23 Embalaje", norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_02", sub=8)
     if "Opcional" in sop:
         add(2, f"{base}-I8", "Soporte opcional (pared o vehicular, según pedido)", 0, "u", "-", "-", None,
-            "Compra", "", fte="C", obs="Sólo si el pedido lo incluye", sub=8)
+            "Compra", "", fte="N", norma="IRAM 3517-2 7.4", obs="Sólo si el pedido lo incluye", sub=8)
     # ---- embalaje
     emb = embalaje(m, M.bbox(piezas))
     _emb(add, base, emb, m, sub=7)
@@ -446,20 +488,24 @@ def _emb(add, base, emb, m, sub, cilindro=False):
     if emb["caja"]:
         cw, cd, ch, pared = emb["caja"]
         add(2, f"{base}-E1", f"Caja de cartón corrugado {pared}", 1, "u", "Cartón corrugado",
-            f"{_f(cw, 0)} × {_f(cd, 0)} × {_f(ch, 0)} interior", 0.25 if pared == "simple" else 0.5, "Compra",
-            "23 Embalaje", fte="R", sub=sub)
+            f"{_f(cw, 0)} × {_f(cd, 0)} × {_f(ch, 0)} interior (envolvente del plano + 15 por lado)", None, "Compra",
+            "23 Embalaje", fte="P", obs="Medida del plano; proveedor a cotizar", sub=sub)
         if not cilindro:
-            add(2, f"{base}-E2", "Instructivo de uso y mantenimiento", 1, "u", "Papel", "A5", 0.01, "Compra",
-                "23 Embalaje", norma="IRAM 3517-2 (información al usuario)", fte="R", sub=sub)
+            add(2, f"{base}-E2", "Instructivo de uso y mantenimiento", 1, "u", "Papel", "A5", None, "Compra",
+                "23 Embalaje", fte="V", obs="A VALIDAR: decisión comercial de FLAMA; no se verificó requisito "
+                "normativo que lo exija", sub=sub)
     else:
-        add(2, f"{base}-E1", "Esquineros y funda de polietileno", 1, "jgo", "PE / cartón", "a medida", 0.3,
-            "Compra", "23 Embalaje", fte="R", sub=sub)
+        add(2, f"{base}-E1", "Esquineros y funda de polietileno", 1, "jgo", "PE / cartón",
+            "a medida de la envolvente del plano", None, "Compra", "23 Embalaje", fte="P",
+            obs="Medida del plano; proveedor a cotizar", sub=sub)
     add(2, f"{base}-E3", "Pallet 1200 × 1000 (fracción)", round(1 / n, 4), "u", "Madera", f"{n} u por pallet",
-        round(22.0 / n, 3), "Compra", "23 Embalaje", fte="R", sub=sub)
-    add(2, f"{base}-E4", "Film stretch (fracción del pallet)", round(emb["film"], 4), "kg", "PE lineal 23 µm",
-        "envolvedora EDOS PS5", 1.0, "Compra", "24 Envolvedora (T11)", fte="R", sub=sub)
+        None, "Compra", "23 Embalaje", fte="C", obs="u por pallet = acomodo de la caja (plano) en 1200 × 1000 × "
+        "1450 de alto", sub=sub)
+    add(2, f"{base}-E4", "Film stretch (fracción del pallet)", None, "kg", "PE lineal 23 µm",
+        "envolvedora EDOS PS5", None, "Compra", "24 Envolvedora (T11)", fte="V",
+        obs="A VALIDAR: consumo de film por pallet no documentado; medir en la envolvedora (pre-estirado)", sub=sub)
     add(2, f"{base}-E5", "Etiqueta de pallet (lote y destino, fracción)", round(1 / n, 4), "u", "Papel térmico",
-        "100 × 150", 0.0, "Compra", "24 Envolvedora", fte="R", sub=sub)
+        "100 × 150", None, "Compra", "24 Envolvedora", fte="C", sub=sub)
 
 
 def materia_prima(m, k, s, kg):
@@ -479,7 +525,7 @@ def materia_prima(m, k, s, kg):
             fmt, e, alto, des, ap = HOJA_CUERPO[tam]
             bruto = alto * des * e * 7.85e-6 / (ap / 100)
             obs = "" if abs(e - g["t"]) < 0.01 else f"OJO: la hoja de corte usa e={_f(e, 2)} y el plano e={_f(g['t'], 2)}"
-            out.append(("MP-HOJA", f"Recorte de hoja {fmt} e={_f(e, 2)}", 1, "u", "Chapa SAE 1010 "
+            out.append(("MP-HOJA", f"Recorte de hoja {fmt} e={_f(e, 2)}", 1, "u", ("Chapa LAC IRAM-IAS U 500-04 " if m.familia == "rodante" else "Chapa LAF IRAM-IAS U 500-05 ")
                         + fmt.split()[0], f"{_f(alto)} × {_f(des)} (aprovech. {_f(ap)} %)", round(bruto, 3),
                         "Compra (Pradecon)", "AL-1H paquetes de hojas", "", "L", "FL_PI_04 h2", obs))
     if k in ("cupula", "fondo"):
@@ -501,35 +547,37 @@ def materia_prima(m, k, s, kg):
 
 
 def consumibles_recipiente(m, piezas):
-    """Soldadura (alambre y gas), granalla y pintura del recipiente, a partir del modelo."""
-    out = []
-    if m.familia == "co2":
-        out.append(("C3", "Pintura en polvo poliéster rojo (recipiente)", round(_area(m, piezas) * 0.185, 3), "kg",
-                    "Poliéster RAL 3000 / rojo 03-1-050", f"{_f(_area(m, piezas), 3)} m² × 80 µm, rendimiento 65 %",
-                    0.65, "Compra", "17 Pintura (S-P)", "DOC-01", "R", "", ""))
-        return out
+    """Consumibles del recipiente de fabricación propia (sólo ABC). Sin estimados: lo que no tiene documento queda
+    con cantidad vacía y fuente V (a validar), con el método de validación en Observaciones."""
+    if m.codigo not in PROPIOS:
+        return []
+    rod = m.familia == "rodante"
     v = piezas["soldaduras"].Volume() * 1e-6 * MAT.ACERO
-    if m.familia == "inox":
-        aporte, gas, rate, q_gas = "Varilla TIG ER308L Ø1,6", "Argón", 0.8, 10
-        dep = 0.95
-    else:
-        aporte, gas, rate, q_gas = "Alambre MAG ER70S-6 Ø0,9/1,2", "Arcal 21 (Ar + 18 % CO₂)", 2.0, 15
-        dep = 0.92
-    kg_al = v / dep
-    min_arco = kg_al / rate * 60
-    out.append(("C1", f"Aporte de soldadura: {aporte}", round(kg_al, 4), "kg", aporte.split(":")[0],
-                f"cordones del plano: {_f(v * 1000, 0)} g depositados (rend. {int(dep * 100)} %)", dep,
-                "Compra", "4 sold. long. / 8 cuello / 11 circunferencial", "ISO 4063 131 / 141", "P", "", ""))
-    out.append(("C2", f"Gas de protección: {gas}", round(min_arco * q_gas, 1), "L", gas,
-                f"{_f(min_arco, 1)} min de arco × {q_gas} L/min", None, "Compra",
-                "Colector SC" if m.familia != "inox" else "Botellón", "", "R", "", ""))
-    if m.familia != "inox":
-        a = _area(m, piezas)
-        out.append(("C3", "Granalla de acero (consumo)", round(a * 0.08, 3), "kg", "Granalla S-230",
-                    f"{_f(a, 3)} m² a Sa 2½", None, "Compra", "14 Granallado (B08)", "ISO 8501-1", "R", "", ""))
-        out.append(("C4", "Pintura en polvo poliéster rojo", round(a * 0.185, 3), "kg", "Poliéster rojo 03-1-050",
-                    f"{_f(a, 3)} m² × 80 µm (60-100 µm), rendimiento 65 %", 0.65, "Compra",
-                    "17 Pintura (S-P) / tercerizada en carros", "DOC-01 · IRAM 3517-2 9.10", "R", "", ""))
+    a = _area(m, piezas)
+    out = [("C1", "Alambre de soldadura ER70S-6 Ø0,9/1,2 (AWS A5.18)", round(v, 4), "kg", "ER70S-6",
+            f"metal depositado de los cordones del plano: {_f(v * 1000, 0)} g", 1.0, "Compra",
+            "4 sold. long. / 8 cuello / 11 circunferencial", "IRAM 3523 3.2.4.2 · IRAM 3550 4.1.2", "P", "",
+            "Cantidad = depositado (plano). Consumo real = depositado / rendimiento: medir el rendimiento en la prueba "
+            "de soldadura del proveedor del equipo (Getweld / Mitusa). Respaldo: I-FLAMA, Q-GETWELD"),
+           ("C2", "Gas de protección M20: Ar + 8 % CO₂ (ARCAL Speed)", None, "L", "EN ISO 14175 M20-ArC-8",
+            "L = caudal (L/min) × tiempo de arco; tiempo de arco = longitud de cordón / velocidad (Getweld 0-1500 "
+            "mm/min)", None, "Compra", "Colector SC", "IRAM 3523 3.2.4.2 c) / 3550 3.2.2.2 c)", "V", "",
+            "A VALIDAR: caudal no documentado (medir en prueba). NO CUMPLE / A DEFINIR: la norma pide atmósfera "
+            "inerte y M20 es activa (MAG): confirmar con el certificador o usar Ar puro. Respaldo: Q-ARCAL, Q-GETWELD")]
+    if not rod:
+        out.append(("C3", "Granalla de acero S330 / S390 (ISO 11124-3, SAE J444)", None, "kg", "Granalla esférica alto C",
+                    f"{_f(a, 3)} m² a granallar a Sa 2½ (ISO 8501-1)", None, "Compra", "14 Granallado (B08)", "DOC-01",
+                    "V", "", "A VALIDAR: consumo por unidad no documentado: pedirlo a CyM (ECO 100) / Airblast (G-100). "
+                    "Especificación: I-FLAMA"))
+    out.append(("C4", "Servicio de pintura en polvo al horno, rojo 03-1-050" + (" (con preparación por quemado)" if rod
+                else ""), 1, "u", "Servicio tercerizado", f"superficie exterior {_f(a, 3)} m²", None,
+                "Compra (servicio)", "17 Pintura tercerizada", "IRAM 3523 5.3 / IRAM 3550 3.11 · IRAM 121", "Q", "",
+                ("Q-CARROS (precio por carro)" if rod else "Q-PRYMAX (precio por cilindro)") +
+                "; exigir informe de niebla salina del sistema de pintura"))
+    if m.capacidad in ("70 kg", "100 kg"):
+        out.append(("C5", "Varilla de refuerzo interior longitudinal", None, "u", "Barra de acero", "a definir por cálculo",
+                    None, "Compra", "C2 punteo", "-", "V", "",
+                    "NO CUMPLE / A DEFINIR: figura en la investigación FLAMA (I-FLAMA) sin medida ni cálculo"))
     return out
 
 
@@ -546,9 +594,11 @@ def internos_valvula(m):
     dn = m.geo["cuello"][0]
     out = []   # la junta tórica de asiento del cuello ahora es pieza del plano (junta_cuello)
     if m.familia != "co2":
-        out.append(("V2", "Resorte de retorno del vástago", 1, "u", "Alambre acero inox. AISI 302", "según válvula",
-                    0.003, "Compra", "19 Ensamblaje", "", "R", "", ""))
-    out.append(("V3", "Junta tórica del vástago", 1, "u", "NBR 70 Shore A", "según válvula", 0.001, "Compra",
+        out.append(("V2", "Resorte de retorno del vástago", 1, "u", "Acero para resortes", "incluido en la válvula",
+                    None, "Incluido en válvula HZ" if m.codigo in PROPIOS else "Compra (en el conjunto)",
+                    "19 Ensamblaje", "", "Q", "", "Lista de precios HZ: válvula «c/resorte» (Q-AGENTES)"))
+    out.append(("V3", "Junta tórica del vástago", 1, "u", "NBR 70 Shore A", "incluida en la válvula", None,
+                "Incluido en válvula HZ" if m.codigo in PROPIOS else "Compra (en el conjunto)",
                 "19 Ensamblaje", "", "P", "", "Figura en el plano como «vástago con junta tórica»"))
     return out
 
@@ -561,9 +611,19 @@ def recargas():
         ag = _agente(m)
         nombre, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
         base = P.codigo_pieza(m, 0)[:-3]
-        rep = [("Precinto numerado nuevo", 1, "u", "Nuevo", "9.4.13"),
+        rep = [("Precinto plástico numerado, color, con nombre del recargador", 1, "u", "Nuevo", "9.4.13"),
                ("Marbete (anillo, color del año)", 1, "u", "Nuevo", "9.4.14 · fig. 9 · tabla 4"),
-               ("Tarjeta / etiqueta de control", 1, "u", "Nuevo", "8.3.3"),
+               ("Etiqueta de servicio del recargador (extintor n°, serie, próxima recarga y PH)", 1, "u", "Nuevo",
+                "8.3.3 · relevado Suyai/Firegram"),
+               ("Oblea PBA de recarga Ø46 + estampilla precinto 1\" × 200 mm válvula-cuerpo", 1, "u",
+                "Nuevo (venta en PBA)", "Res. OPDS 522/07"),
+               ("Tarjeta de identificación AGC (módulo papel con QR + etiqueta AGC)", 1, "u", "Nuevo (destino CABA)",
+                "Ord. 40.473 art. 6 · Res. AGC 32/15"),
+               ("Tarjeta de identificación DPS de revisión / recarga", 1, "u", "Nuevo (PBA)", "Res. 349/07 art. 21"),
+               ("Grabado de la fecha del servicio en el tubo de pesca (lápiz vibratorio; en polvo, marcador "
+                "indeleble)", 1, "u", "Proceso", "Res. 349/07 art. 28"),
+               ("Si hubo PH: oblea de vencimiento de PH + «PH» y fecha grabados en el tubo de pesca (CO₂: fecha y logo "
+                "estampados en la ojiva)", 1, "u", "Proceso", "Res. 349/07 art. 29 · IRAM 3517-2"),
                ("Junta tórica de asiento del cuello", 1, "u", "Nuevo (R: cambio sistemático)", "-")]
         if m_gas:
             rep.append((f"Gas impulsor {gas}", round(m_gas, 4), "kg", "Nuevo", "9.4.9 tabla 2"))
@@ -622,10 +682,12 @@ COLS = [("Nivel", 6), ("Código", 17), ("Descripción", 52), ("Cant.", 9), ("UM"
 CLAVES = ["nivel", "codigo", "desc", "cant", "um", "peso", None, "mat", "med", "ori", "op", "norma", "fte", "plano",
           "obs"]
 FUENTES = {"P": "Plano / modelo 3D (misma geometría que el plano FL_MAT / FL_REC)",
-           "C": "Catálogo técnico (flama/catalogo.py)",
+           "C": "Cálculo declarado con datos del plano, del catálogo y de la norma (fórmula en la columna Medida)",
            "N": "Norma IRAM (se cita el apartado; texto no transcripto por licencia)",
-           "L": "Layout de planta FLAMA (FL_PI_04: aprovechamiento de chapa, proveedores, ubicaciones)",
-           "R": "Valor de referencia a confirmar con proveedor o en planta"}
+           "L": "Layout de planta FLAMA (FL_PI_04) cruzado con la cotización de chapa (Pacheco / Pradecon)",
+           "Q": "Cotización o ficha técnica recibida del proveedor (ver hoja Validacion_MP)",
+           "I": "Investigación de mercado FLAMA (planillas entregadas; ver hoja Validacion_MP)",
+           "V": "A VALIDAR: sin documento de respaldo; la cantidad queda vacía y se indica cómo validarla"}
 
 
 def _estilos():
@@ -1063,11 +1125,22 @@ FUENTES_DOC = [
      "Tabla 2 gas impulsor; tabla 3 tolerancia de carga; 9.4.13 precinto; 9.9.1 agentes; 4.4.1 recuperación"),
     ("N2", "IRAM 3523 (polvo bajo presión manuales)", "Norma IRAM", "1 - manda",
      "2.2 capacidad = masa de polvo; 2.3 Ps a 20 °C; 3.10 N₂ seco; 4.6 tabla II tolerancia; 4.7 Ps < 1,7 MPa"),
-    ("N3", "IRAM 3569 / 3566 / 3697 / 3515 / 3526-1 (normas de AGENTE)", "Norma IRAM", "1 - FALTA",
-     "Requisitos y ensayos del agente: pedir"),
+    ("N3", "IRAM 3569:1996 (polvos ABC)", "Norma IRAM", "1 - manda",
+     "No fija el % de MAP: composición declarada por el fabricante del polvo (± 5 % / ± 10 % relativo) ligada al "
+     "polvo con que se calificó el potencial; color grisáceo; humedad ≤ 0,25; higroscopicidad ≤ 3"),
+    ("N4", "IRAM 3550:1981 (polvo sobre ruedas)", "Norma IRAM", "1 - manda",
+     "3.2 recipiente; 4.1.3 espesor (fórmula y mínimos 2,9 / 4,5 mm); 4.1.4-4.1.6 estanquidad y expansión; 4.5 "
+     "niebla salina 240 h"),
+    ("N5", "IRAM 3566 / 3697 / 3515 / 3526-1 (normas de agente de los revendidos)", "Norma IRAM", "1 - no "
+     "necesarias", "Los revendidos llegan con el agente cargado por el fabricante certificado"),
     ("L1", "Licencia IRAM 3523 Drago/Norbco (Luis Pasquinelli e Hijos SA), anexo I 2008", "Certificado IRAM",
      "2", "Potencial por grado: 1 kg DEM-60 1A-5B; 5 kg DEM-60 6A-40B / DEM-90 10A-40B; 10 kg DEM-60 6A-60B / "
      "DEM-90 10A-60B"),
+    ("M0", "Relevamiento fotográfico de equipos instalados y línea de etiquetado (2026): Georgia, Melisam, Fadesa, "
+     "Horizonte, De León, Maxiseguridad; recargadores Suyai y Firegram", "Mercado (observación directa)", "3",
+     "Diagramación de etiqueta (panel 108° + alas de datos y mantenimiento), textos de instrucciones, estampilla IRAM "
+     "(n° vertical, guilloche rosa, QR), oblea PBA (anillo, n°, próxima revisión), tarjeta AGC autoadhesiva con QR, "
+     "etiqueta GS1 de serie, faja de garantía, precinto de color, alternativa BV «Modelo aprobado»"),
     ("L2", "Licencia IRAM 3694 Drago y Georgia/Fadesa", "Certificado IRAM", "2",
      "Agente clase K certificado: DEMSA KITCHEN (DEM S.A.) o Cookingwater (Quimex); 6 y 10 L; 1A-K"),
     ("L3", "Licencia IRAM 3527 Drago 10 L", "Certificado IRAM", "2", "AFFF marca DEM S.A.; recipiente aluminio; 3A-10B"),
@@ -1098,6 +1171,39 @@ def _fuentes(wb, E):
     for i, f in enumerate(FUENTES_DOC, 4):
         for j, x in enumerate(f, 1):
             c = ws.cell(i, j, x)
+            c.border = E["borde"]
+            c.alignment = E["Al"](wrap_text=True, vertical="top")
+    return ws
+
+
+def _validacion(wb, E):
+    """Hoja Validacion_MP: cada materia prima / componente comprado con su respaldo documental y estado."""
+    from . import validacion as VA
+    ws = wb.create_sheet("Validacion_MP")
+    ws["A1"] = ("Validación documental de materias primas, consumibles y componentes (sólo documentos entregados; lo "
+                "que no tiene respaldo NO se estima)")
+    ws["A1"].font = E["Font"](bold=True, size=12)
+    _cab(ws, 3, ["Rubro", "Ítem", "Especificación adoptada en el BOM", "Requisito normativo", "Respaldo (ver tabla "
+                 "de documentos)", "Estado", "Acción para cerrar"], [13, 26, 46, 40, 30, 20, 70], E, 32)
+    color = {"VALIDADA": "C6EFCE", "VALIDADA CON CONDICIÓN": "FFF2CC", "A VALIDAR": "FCE4D6",
+             "NO CUMPLE / A DEFINIR": "FFC7CE"}
+    r = 4
+    for f in VA.VALIDACION:
+        for j, x in enumerate(f, 1):
+            c = ws.cell(r, j, x)
+            c.border = E["borde"]
+            c.alignment = E["Al"](wrap_text=True, vertical="top")
+            if j == 6:
+                c.fill = E["Fill"]("solid", fgColor=color[x])
+        r += 1
+    r += 1
+    ws.cell(r, 1, "Documentos citados").font = E["Font"](bold=True)
+    r += 1
+    _cab(ws, r, ["Id", "Documento", "Qué respalda"], [13, 26, 46], E, 20)
+    for k, (doc, dato) in VA.DOCS.items():
+        r += 1
+        for j, x in enumerate((k, doc, dato), 1):
+            c = ws.cell(r, j, x)
             c.border = E["borde"]
             c.alignment = E["Al"](wrap_text=True, vertical="top")
     return ws
@@ -1176,23 +1282,32 @@ def _leeme(wb, E, n_term, n_cil):
          ("Química", "Quimica_agentes (ENTRADA: composición, mecanismo, saponificación y densidad de cada agente) -> "
                      "Carga_N2 (fórmulas: volumen libre, gas impulsor y densidad mínima exigible al polvo para que el "
                      "recipiente del plano alcance). Si la formulación cambia, se cambia la densidad y se ve el efecto."),
+         ("Categorías", "Producto: matafuego terminado FL_MAT · cilindro suelto FL_REC · extintor sustituto FL_SUS "
+                        "(IRAM 3517-2:2020 9.4.5) · kit de recarga RK. Origen: PROPIO = sólo los ABC (1 a 100 kg); "
+                        "REVENDIDO = BC, Clase D, agua, AFFF, Sales K, CO₂ y HCFC (se compran terminados)."),
          ("Hojas", f"Resumen · BOM_Terminados ({n_term} productos, tabla plana filtrable) · BOM_Cilindros ({n_cil} "
-                   "recipientes FL_REC) · una hoja por plano (BOM multinivel plegable) · Recargas · Explosion_MP · "
-                   "Despiece (planos FL_DES)"),
+                   "recipientes FL_REC) · BOM_Sustitutos (extintores sustitutos FL_SUS) · una hoja por plano (BOM "
+                   "multinivel plegable) · Validacion_MP (respaldo documental de cada materia prima) · Recargas · "
+                   "Explosion_MP · Despiece (planos FL_DES)"),
+         ("Regla de datos", "Ningún dato se estima: cada fila cita su fuente (columna Fuente: P plano, C cálculo "
+                            "declarado, N norma, L layout + cotización, Q cotización o ficha del proveedor, I "
+                            "investigación FLAMA, V A VALIDAR). Las filas V tienen la cantidad vacía y dicen cómo "
+                            "validarlas."),
          ("Niveles", "0 producto (= plano) · 1 subconjunto · 2 pieza o insumo · 3 materia prima de la pieza "
                      "fabricada (gris; NO suma al peso porque ya está en la pieza)"),
          ("Subconjuntos", " · ".join(f"S{k} {v}" for k, v in NOMBRE_SUB.items()) +
           ". En los ABC el S1 es el plano FL_REC_* (el mismo recipiente que se vende suelto)."),
          ("Peso unitario", "kg por unidad de medida. Peso total = Cant. × Peso unit. (fórmula). Subconjunto = "
-                           "suma de sus piezas. Consumibles: aporte = fracción depositada, pintura = 65 % depositado, "
-                           "granalla y gas de protección no quedan en el producto."),
-         ("Códigos", "ABC10-01… = pieza del plano (posición 01). ABC10-S1…S7 subconjuntos. Sufijos: C consumible "
+                           "suma de sus piezas. Componentes comprados sin ficha (válvula, manómetro, carro, embalaje) "
+                           "quedan sin peso hasta tener el dato del proveedor."),
+         ("Códigos", "ABC10-01… = pieza del plano (posición 01). ABC10-S1…S7 subconjuntos. K2 válvula HZ armada, K4 carro armado. Sufijos: C consumible "
                      "de recipiente, V interno de válvula (no dibujado), A carga, I identificación, E embalaje, "
                      "T cilindro suelto. MP-* materia prima. RK-*-A/B/C kits de recarga.")]
     t += [(f"Fuente {k}", v) for k, v in FUENTES.items()]
     t += [("Para definir", None),
-          ("1. Espesores", "Hoja de corte (layout) vs plano: cuerpo 70 y 100 kg LAC e=4,75 en la hoja de corte y "
-                           "e=3,2 en el plano; cúpula 10 kg fleje e=2,0 y plano e=1,6. Marcado «OJO» en el nivel 3."),
+          ("1. Espesores", "RESUELTO 70 y 100 kg: IRAM 3550 4.1.3.2 exige ≥ 4,5 mm para Ø ext. > 320 → chapa 4,75 en "
+                           "plano y hoja de corte. 50 kg (Ø 320) con 3,2 cumple la fórmula de 4.1.3.1 sólo con chapa de "
+                           "σf ≥ 265 MPa (IRAM-IAS U 500-506). Pendiente: cúpula 10 kg fleje e=2,0 y plano e=1,6."),
           ("2. Válvula", "Hoy la válvula es un subconjunto (S2) con sus piezas. Si se compra armada (lo habitual) "
                          "conviene pasarla a un único código comprado con su propio plano de proveedor."),
           ("3. Tercerizados", "Agua, AFFF, Sales K, CO₂ y HCFC se compran terminados (S4): su BOM es de referencia "
@@ -1241,12 +1356,15 @@ def excel(ruta):
     _carga_n2(wb, E, fq)
     _plana(wb, "BOM_Terminados", [(m.codigo, f) for m, f in term], E)
     _plana(wb, "BOM_Cilindros", [(RC.codigo_rec(m), f) for m, f in cil], E)
+    from . import sustituto as SU
+    _plana(wb, "BOM_Sustitutos", [(SU.codigo(m), SU.bom_sustituto(m)) for m in MODELOS], E)
     for m, f in term:
         _hoja_producto(wb, m, f, E)
     for m, f in cil:
         _hoja_producto(wb, m, f, E, cilindro=True)
     _mercado(wb, E, term)
     _fuentes(wb, E)
+    _validacion(wb, E)
     _recargas(wb, E)
     _explosion(wb, [(m.codigo, f) for m, f in term], E)
     _despiece_hoja(wb, term, E)

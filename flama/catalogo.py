@@ -102,16 +102,17 @@ def _vol_rodante(R, hd, vol):
     return (vol * 1e6 - v_cab) / (math.pi * R * R)
 
 
-def _g_rodante(D, vol):
+def _g_rodante(D, vol, t=3.2):
+    """IRAM 3550 4.1.3.2: espesor mínimo 2,9 mm hasta Ø ext. 320 y 4,5 mm por encima (70 y 100 kg: chapa 4,75)."""
     R = D / 2
     hd = round(0.656 * R, 1)
-    hc = round(_vol_rodante(R - 3.2, hd - 3.2, vol), 0)
-    return dict(R=R, hc=hc, hd=hd, t=3.2, td=3.2, tf=3.2, tipo_fondo="cabezal",
+    hc = round(_vol_rodante(R - t, hd - t, vol), 0)
+    return dict(R=R, hc=hc, hd=hd, t=t, td=t, tf=t, tipo_fondo="cabezal",
                 cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=vol)
 
 
-G_70KG = _g_rodante(350, 86.0)
-G_100KG = _g_rodante(390, 123.0)
+G_70KG = _g_rodante(350, 86.0, 4.75)
+G_100KG = _g_rodante(390, 123.0, 4.75)
 
 
 def _g_inox(H, R=95.0, hd=60.0, h_valv=100.0):

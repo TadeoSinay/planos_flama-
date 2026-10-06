@@ -502,42 +502,88 @@ def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
 
 
 # medidas de identificación (ver flama/rotulado.py para las fuentes)
-ARCO_PLACA = 108.0          # IRAM 3534 2.2.4.3 d) / 3523 5.2.6.3 d): longitud máxima de la leyenda
+ARCO_PLACA = 108.0          # IRAM 3534 2.2.4.3 d) / 3523 5.2.6.3 d): longitud máxima de las instrucciones
+ARCO_ALA = 54.0             # alas laterales de datos y mantenimiento (relevamiento de mercado: etiqueta ≈ 216°)
 OBLEA_PBA = 46.0            # Res. OPDS 522/07 anexos 1 y 2: oblea de fabricación Ø 46 mm
-ESTAMPILLA_IRAM = (60.0, 40.0)   # estampilla IRAM extintor nuevo (Anexo R, proporción 3:2; medida a confirmar)
+ESTAMPILLA_IRAM = (60.0, 40.0)   # estampilla IRAM extintor nuevo (Anexo R + relevada, proporción 3:2; a confirmar)
+TARJETA_CABA = (140.0, 55.0)     # tarjeta AGC autoadhesiva relevada en un 10 kg (a confirmar con la AGC)
+ETIQUETA_SERIE = (45.0, 25.0)    # etiqueta GS1 de n° de serie con QR (relevada en Melisam)
+FAJA_GARANTIA = (30.0, 40.0)     # faja de garantía rayada (relevada en la línea Georgia)
+GAP_ID = 4.0
+
+
+def arco_ala(R):
+    """Arco de cada ala: 54° en general; 72° en cuerpos chicos (Ø < 100), donde el mercado envuelve casi todo."""
+    return ARCO_ALA if R >= 50 else 72.0
+
+
+def ala_dim(R):
+    return math.radians(arco_ala(R)) * R
 
 
 def placa_dim(m, p):
-    """(ancho de arco, alto, z0, R, xc, yc) de la placa de características sobre el cuerpo."""
+    """(ancho del panel central, alto, z0, R, xc, yc) de la etiqueta sobre el cuerpo. Debajo de la etiqueta
+    va la fila de la oblea PBA (con la estampilla IRAM al costado y, si entra en el perímetro, la tarjeta AGC
+    al otro costado); si la tarjeta no entra, va en una segunda fila debajo."""
     cb = p["cuerpo"].BoundingBox()
     R = (cb.xmax - cb.xmin) / 2
     xc, yc = (cb.xmax + cb.xmin) / 2, (cb.ymax + cb.ymin) / 2
     hb = cb.zmax - cb.zmin
     ancho = math.radians(ARCO_PLACA) * R
     from .rotulado import disposicion
-    alto = disposicion(m, ancho)["H"]          # alto que pide el contenido obligatorio (IRAM 3534)
-    libre = hb - 20.0 - (OBLEA_PBA + 3)       # cuerpo disponible sobre el fondo, descontada la oblea
-    z0 = cb.zmin + 10.0 + (OBLEA_PBA + 3) + max(0.0, (libre - alto) / 2)
+    alto = disposicion(m, ancho, ala_dim(R))["H"]      # alto que pide el contenido (IRAM 3534 + mercado)
+    fila = OBLEA_PBA + 3 + (0 if lleva_tarjeta(m, p) != "debajo" else TARJETA_CABA[1] + GAP_ID)
+    libre = hb - 20.0 - fila
+    z0 = cb.zmin + 10.0 + fila + max(0.0, (libre - alto) / 2)
     return ancho, alto, z0, R, xc, yc
+
+
+def tarjeta_al_costado(R):
+    ocupa = OBLEA_PBA + ESTAMPILLA_IRAM[0] + TARJETA_CABA[0] + 4 * GAP_ID
+    return ocupa <= 2 * math.pi * R * 0.92
+
+
+def lleva_tarjeta(m, p):
+    """'costado', 'debajo' o '' (no entra en el cuerpo: matafuego de 1 kg de uso vehicular, a confirmar con la AGC)."""
+    cb = p["cuerpo"].BoundingBox()
+    R = (cb.xmax - cb.xmin) / 2
+    if tarjeta_al_costado(R):
+        return "costado"
+    from .rotulado import disposicion
+    alto = disposicion(m, math.radians(ARCO_PLACA) * R, ala_dim(R))["H"]
+    return "debajo" if alto + OBLEA_PBA + 3 + TARJETA_CABA[1] + GAP_ID + 20 <= cb.zmax - cb.zmin else ""
 
 
 def identificacion(m, p):
     """Identificación del extintor nuevo que el plano debe mostrar:
-    placa de características (IRAM 3534) de frente, sobre el eje del manómetro; oblea de fabricación de la
-    Provincia de Buenos Aires Ø 46 inmediatamente debajo (Res. OPDS 522/07 anexo 6); estampilla IRAM de
-    conformidad al costado; junta tórica de asiento de la válvula; precinto de fábrica de la traba."""
+    etiqueta (IRAM 3534) de frente, sobre el eje del manómetro: panel central de 108° y alas de 54° (72° si Ø < 100); oblea de
+    fabricación de la Provincia de Buenos Aires Ø 46 inmediatamente debajo (Res. OPDS 522/07 anexo 6);
+    estampilla IRAM de conformidad al costado; tarjeta AGC (CABA) al otro costado o debajo; etiqueta de serie
+    GS1 a 180°; junta tórica de asiento de la válvula; precinto de la traba y faja de garantía válvula-cuello."""
     ancho, alto, z0, R, xc, yc = placa_dim(m, p)
-    p["etiqueta"] = _sector(R, R + 0.3, alto, z0, ancho, xc, yc)
+    p["etiqueta"] = _sector(R, R + 0.3, alto, z0, ancho + 2 * ala_dim(R), xc, yc)
     zo = z0 - 3.0 - OBLEA_PBA
     p["oblea_pba"] = _sector(R, R + 0.3, OBLEA_PBA, zo, OBLEA_PBA, xc, yc)
     ew, eh = ESTAMPILLA_IRAM
-    ang_e = -90.0 + math.degrees((OBLEA_PBA / 2 + 6 + ew / 2) / R)
+    ang_e = -90.0 + math.degrees((OBLEA_PBA / 2 + GAP_ID + ew / 2) / R)
     p["sello_iram"] = _sector(R, R + 0.3, eh, zo + (OBLEA_PBA - eh) / 2, ew, xc, yc, ang_e)
+    tw, th = TARJETA_CABA
+    lt = lleva_tarjeta(m, p)
+    if lt == "costado":
+        ang_t = -90.0 - math.degrees((OBLEA_PBA / 2 + GAP_ID + tw / 2) / R)
+        p["tarjeta_caba"] = _sector(R, R + 0.3, th, zo + (OBLEA_PBA - th) / 2, tw, xc, yc, ang_t)
+    elif lt == "debajo":
+        p["tarjeta_caba"] = _sector(R, R + 0.3, th, zo - GAP_ID - th, tw, xc, yc)
+    gw, gh = ETIQUETA_SERIE
+    p["etiqueta_serie"] = _sector(R, R + 0.3, gh, z0 + alto / 2 - gh / 2, gw, xc, yc, 90.0)
     eb = p["espiga"].BoundingBox()
     ro = (eb.xmax - eb.xmin) / 2 + 1.5
     ex, ey = (eb.xmax + eb.xmin) / 2, (eb.ymax + eb.ymin) / 2
     p["junta_cuello"] = _cyl(ro, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)).cut(
         _cyl(ro - 3.0, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)))
+    fw, fh = FAJA_GARANTIA
+    rf = ro + 0.5
+    p["faja_garantia"] = _sector(rf, rf + 0.2, fh, eb.zmax - fh * 0.6, min(fw, math.pi * rf), ex, ey)
     pb = p["pasador"].BoundingBox()
     p["precinto"] = _cyl(2.5, 10.0, (pb.xmax, (pb.ymin + pb.ymax) / 2, (pb.zmin + pb.zmax) / 2), (1, 0, 0))
     return p

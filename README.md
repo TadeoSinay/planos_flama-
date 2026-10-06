@@ -43,7 +43,8 @@ Se generan con `python generar.py --complementarios` (o con `python generar.py` 
 
 | Carpeta | Código | Contenido |
 |---|---|---|
-| `salida/recipientes/` | `FL_REC_ABC_1kg` … `FL_REC_ABC_100kg` | **Recipientes ABC para venta suelta**: vista, corte A-A, vista superior, detalles de cuello y soldaduras, cotas con tolerancias, datos (volumen, masa, espesores, presiones, rosca). DXF + PDF + STEP |
+| `salida/cilindros/` | `FL_REC_ABC_1kg` … `FL_REC_ABC_100kg` + `despiece/FL_DES_REC_*` + `FLAMA_cilindros.pdf` | **Cilindros (recipientes ABC sueltos)**, plano de 3 hojas: (1) fabricación: vista, corte A-A, vista D, detalles, cotas con tolerancias; (2) verificación normativa contra IRAM 3523 / 3550 (material, espesor y fórmula 3550 4.1.3, costuras, abertura, estanquidad, expansión, rotura, niebla salina, marcado) y plan de inspección y ensayos por lote; (3) identificación, tapón, protocolo de ensayo y embalaje. Despiece con globos ligado al BOM. DXF + PDF + STEP |
+| `salida/sustituto/` | `FL_SUS_00` … `FL_SUS_<tipo>` + `FLAMA_sustitutos.pdf` | **Extintores sustitutos** (IRAM 3517-2:2020 9.4.5; Res. 349/07 art. 32; Res. AGC 32/15): por modelo, faja amarilla ≤ 40 mm en la pollera acotada y desarrollada con sus 3 leyendas, isometría y lista; tarjeta DPS «sustituto habilitado» (PBA) y AGC «Es sustituto» (CABA). FL_SUS_00: equivalencias (igual clase, capacidad ≥) y ciclo de préstamo |
 | `salida/senaletica/` | `FL_SEN_01` | Chapa baliza vertical 350 × 870 (y 260 × 870): franjas de 100 mm a 45°, borde fotoluminiscente de 15 mm, tipos de fuego 140 × 140, datos del PRS y n° de puesto (7.2.5, fig. 3); puesto de incendio con alturas (6.2.14, 7.3) |
 | | `FL_SEN_02` | Cartel tridimensional de señalización en altura, caras ≥ 280 × 220 a 2,0-2,5 m (7.3, fig. 5) |
 | | `FL_SEN_03` | Tipos de fuego: símbolo (letra en contorno) + pictograma, colores IRAM-DEF D 1054 (7.2.2, fig. 1); clases por modelo |
@@ -179,6 +180,8 @@ mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, mat
 | `LEEME` | Niveles, subconjuntos, fuentes de cada dato (P plano, C catálogo, N norma, L layout, R referencia a confirmar) y puntos abiertos |
 | `Resumen` | Los 17 productos: agente, carga, gas impulsor, peso vacío y cargado calculados frente al catálogo |
 | `BOM_Terminados` / `BOM_Cilindros` | Tabla plana filtrable de los 17 matafuegos terminados y de los 8 recipientes ABC FL_REC sueltos |
+| `BOM_Sustitutos` | Extintores sustitutos FL_SUS_* (uno por tipo): extintor base del mismo modelo + faja amarilla, tarjetas DPS / AGC de sustituto y remito |
+| `Validacion_MP` | Cada materia prima, consumible y componente comprado con su requisito normativo, el documento que lo respalda (cotizaciones, fichas, licencias, planos Fadesa, investigación FLAMA) y su estado: VALIDADA / VALIDADA CON CONDICIÓN / A VALIDAR / NO CUMPLE - A DEFINIR |
 | `FL_MAT_*` / `FL_REC_*` | Una hoja por plano: BOM multinivel plegable (0 producto · 1 subconjunto · 2 pieza/insumo · 3 materia prima), con fórmulas de peso |
 | `Recargas` | Kits de servicio RK-*-A/B/C por extintor: polvo nuevo o recuperado (IRAM 3517-2 9.9.1.4, 4.4.1 y, 9.9.4), HCFC recuperado en circuito cerrado (4.4.1 z), CO₂, repuestos |
 | `Explosion_MP` | Materia prima e insumos por unidad de cada producto (chapa, fleje, caño, polvo, N₂, alambre, gas, pintura, embalaje) |

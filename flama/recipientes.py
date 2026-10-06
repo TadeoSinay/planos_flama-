@@ -39,7 +39,7 @@ def tolerancias(R, Htot, rodante):
     return tD, tH, tC
 
 
-def generar_recipiente(m):
+def generar_recipiente(m, hojas=1):
     g = dict(m.geo)
     piezas, dr = M.recipiente(g, 0.0, costura=True)
     piezas = {k: v for k, v in piezas.items() if k in PIEZAS_REC}
@@ -74,7 +74,8 @@ def generar_recipiente(m):
     h.formato()
     W, H = FORMATOS[fmt]
     rot = dict(titulo=f"Recipiente {m.nombre.replace('Extintor ', '').replace(' sobre ruedas', ' rodante')}", subtitulo="Repuesto - recipiente vacío sin válvula",
-               codigo=codigo_rec(m), hoja=1, hojas=1, escala=escala_txt(e), material="Chapa acero SAE 1010",
+               codigo=codigo_rec(m), hoja=1, hojas=hojas, escala=escala_txt(e),
+               material="Chapa LAF IRAM-IAS U 500-05" if not rod else "Chapa LAC IRAM-IAS U 500-04",
                edicion="0", fecha=FECHA, dibujo=DIBUJO, reviso="", aprobo="", tipo_doc="Plano de fabricación",
                empresa="FLAMA S.A.")
     h.rotulo(rot)
@@ -198,14 +199,15 @@ def generar_recipiente(m):
              ("Volumen interior", f"{_n(g['vol_dm3'], 2)} dm³"),
              ("Masa del recipiente (calculada)", f"{_n(masa, 2)} kg"),
              ("Espesor cuerpo / cúpula / fondo", f"{_n(g['t'], 2)} / {_n(g['td'], 2)} / {_n(g['tf'], 2)} mm"),
-             ("Material", "Chapa acero SAE 1010"),
-             ("Soldadura", "MIG, proceso 131 (ISO 4063)"),
+             ("Material", "Chapa LAF IRAM-IAS U 500-05" if not rod else "Chapa LAC IRAM-IAS U 500-04 (σf ≥ 265 MPa)"),
+             ("Soldadura", "MAG 135 con M20 (a confirmar: norma pide atm. inerte)"),
              ("Presión de servicio / ensayo", f"{s_['Presión de servicio (MPa)']} / {s_['Presión de ensayo (MPa)']} MPa"),
              ("Rosca de cuello", g["cuello"][2]),
              ("Norma IRAM extintor", s_["Norma IRAM extintor"]),
              ("Tratamiento superficial", "según DOC-01 FLAMA"),
              ("Ensayo 100 %", "prueba hidráulica según DOC-02"),
-             ("Marcado en cúpula", "FLAMA S.A. - N° serie - mes/año - PE")]
+             ("Marcado en cúpula", "FLAMA S.A. - N° serie - año" + (" - PE" if rod else "")),
+             ("Verificación normativa", "hoja 2" if hojas > 1 else "-")]
     xt = h.fx0 + 4
     _tabla(h, xt, h.fy0 + 4 + 5.0 * len(datos), datos, [80, 70], alto=5.0, hs=(2.5, 2.5))
     notas = ["NOTAS:", "1) Cotas en mm; tolerancias no indicadas", "    según ISO 2768-m.",

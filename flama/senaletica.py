@@ -580,7 +580,9 @@ def sen06():
                "    máx. con: EXTINTOR SUSTITUTO, que reemplaza al equipo del puesto en mantenimiento, y datos del",
                "    PRS (9.4.5). Igual clasificación y al menos igual capacidad.",
                "4) Placa según IRAM 3534; si se reemplaza en el servicio: marca del PRS y leyenda",
-               "    SERVICIO DE MANTENIMIENTO (9.4.15). Instrucciones legibles y dando cara al usuario (8.3.2)."],
+               "    SERVICIO DE MANTENIMIENTO (9.4.15). Instrucciones legibles y dando cara al usuario (8.3.2).",
+               "5) Sustituto: PBA tarjeta DPS con sello SUSTITUTO HABILITADO y n° en el libro de actas (Res. 349/07",
+               "    art. 32); CABA tarjeta AGC con «Es sustituto», sin domicilio (Res. AGC 32/15). Ver FL_SUS_*."],
            h.fy0 + 62, paso=4.4)
     return doc
 
@@ -829,6 +831,63 @@ def sen05():
     return doc
 
 
+# ------------------------------------------------------------------ SEN-09 identificación de recarga
+def sen09():
+    """Todo lo que el recargador (FLAMA como prestador) coloca o graba en un extintor recargado, con su fuente."""
+    doc, h = _hoja("FL_SEN_09", "Identificación de recarga", "IRAM 3517-2 · Res. 349/07, 522/07 · AGC 32/15",
+                   "1:5")
+    s = 0.2
+    D, H = 181.5, 562.5                     # ABC 10 kg como ejemplo
+    x, y0 = h.fx0 + 60, h.fy0 + 70
+    r = D / 2 * s
+    cuerpo = sg.box(x - r, y0, x + r, y0 + (H - D / 2) * s).union(sg.Point(x, y0 + (H - D / 2) * s).buffer(r, 48))
+    _relleno(h, cuerpo, ROJO)
+    _contorno(h, cuerpo)
+    yv = y0 + H * s
+    h.rect(x - 8 * s, yv, x + 8 * s, yv + 25 * s, "01-VISIBLE")            # válvula
+    h.rect(x - 2, yv + 25 * s, x + 26, yv + 25 * s + 3, "01-VISIBLE")         # palanca
+    # 1 precinto, 2 marbete, 3 estampilla-precinto PBA, 4 placa, 5 etiqueta de servicio, 6 oblea PBA de recarga,
+    # 7 tarjeta DPS, 8 tarjeta AGC, 9 grabado en tubo de pesca (oculto)
+    yp = y0 + (H - 160) * s
+    zonas = {1: (x + 22, yv + 25 * s + 1.5), 2: (x, yv - 0.5), 3: (x + 3, yv - 9),
+             4: (x, y0 + (H - 300) * s), 5: (x + r * 0.4, y0 + (H - 200) * s), 6: (x, y0 + 105 * s),
+             7: (x + r * 0.45, y0 + 60 * s), 8: (x - r * 0.45, y0 + 60 * s), 9: (x, y0 + 200 * s)}
+    est = sg.box(x - 2.5, yv - 20, x + 2.5, yv + 2)
+    _relleno(h, est, BLANCO)
+    _contorno(h, est, "08-FINA")
+    h.msp.add_circle(zonas[6], 23 * s, dxfattribs={"layer": "01-VISIBLE"})
+    h.linea((x, y0 + 8), (x, yv - 2), "02-OCULTA")
+    for n, (px, py) in zonas.items():
+        lado = 1 if n in (1, 3, 5, 7, 9) else -1
+        h.globo(n, (px, py), (x + lado * (r + 22), py + (4 if n == 2 else 0)), r=3.8)
+    filas = [("N°", "Elemento", "Contenido / requisito", "Fuente", "Ver"),
+             ("1", "Precinto del recargador", "numerado, con nombre del recargador; se rompe al tirar", "IRAM 3517-2 9.4.13",
+              "SEN-08"),
+             ("2", "Marbete", "anillo de color del año entre válvula y cuello", "IRAM 3517-2 9.4.14, tabla 4", "SEN-08"),
+             ("3", "Estampilla-precinto PBA", "1\" × 200 mm entre válvula y cuerpo", "Res. OPDS 522/07", "-"),
+             ("4", "Placa", "la original; si se reemplaza: marca del prestador + SERVICIO DE MANTENIMIENTO",
+              "IRAM 3517-2 9.4.15", "SEN-06"),
+             ("5", "Etiqueta / oblea del prestador", "próximo mantenimiento, n° de serie, vencimiento de PH, prestador",
+              "IRAM 3517-2 9.4.14", "SEN-04"),
+             ("6", "Oblea PBA de recarga Ø46", "numerada, próxima revisión de carga", "Res. OPDS 522/07", "-"),
+             ("7", "Tarjeta DPS de recarga", "completa, letra imprenta, sin enmiendas; n° en el libro", "Res. 349/07 art. "
+              "21, 45", "-"),
+             ("8", "Tarjeta AGC (CABA)", "papel con QR + etiqueta AGC; actividad «Recarga»", "Res. AGC 32/15", "-"),
+             ("9", "Grabado en el tubo de pesca", "fecha del servicio; con PH: «PH» + fecha. CO₂: PH y logo en la ojiva",
+              "Res. 349/07 art. 28-29", "-")]
+    _tabla(h, h.fx0 + 125, h.fy1 - 10, filas, [8, 44, 120, 46, 14], alto=6.0, hs=(2.2, 2.0, 1.8, 1.8, 1.8),
+           encabezado="IDENTIFICACIÓN DEL EXTINTOR RECARGADO (ejemplo ABC 10 kg)")
+    _notas(h, ["NOTAS",
+               "1) Lo de PBA (3, 6, 7) sólo para equipos instalados en la Provincia de Buenos Aires; lo de CABA (8)",
+               "    sólo en la Ciudad. Lo de IRAM 3517-2 (1, 2, 4, 5, 9) siempre.",
+               "2) Las etiquetas de servicio anteriores se retiran; nada tapa la placa ni las instrucciones.",
+               "3) Si el equipo no se puede recargar: etiqueta «fuera de servicio» (IRAM 3517-2 figura 8) y, si superó",
+               "    la vida útil (20 años; CO₂ 30), inutilización por aplastamiento o corte de rosca (Res. 349/07 art. 26-27).",
+               "4) Extintor sustituto mientras dura el servicio: ver FL_SUS_* y SEN-06."],
+           h.fy0 + 92, x=h.fx0 + 125, paso=4.6)
+    return doc
+
+
 LAMINAS = [("FL_SEN_01", sen01, "A3"), ("FL_SEN_02", sen02, "A3"), ("FL_SEN_03", sen03, "A3"),
            ("FL_SEN_04", sen04, "A3"), ("FL_SEN_05", sen05, "A3"), ("FL_SEN_06", sen06, "A3"),
-           ("FL_SEN_07", sen07, "A3"), ("FL_SEN_08", sen08, "A3")]
+           ("FL_SEN_07", sen07, "A3"), ("FL_SEN_08", sen08, "A3"), ("FL_SEN_09", sen09, "A3")]

@@ -1,11 +1,13 @@
 """Genera todos los planos FLAMA S.A.
 
 Uso:  python generar.py [CODIGO ...]      (sin argumentos: todo)
-      python generar.py --complementarios  (sólo recipientes, señalética, accesorios, esquemas y documentos)
+      python generar.py --cilindros        (salida/cilindros/: FL_REC_* de 3 hojas + despiece FL_DES_REC_*)
+      python generar.py --sustitutos       (salida/sustituto/: FL_SUS_* extintores sustitutos, IRAM 3517-2 9.4.5)
+      python generar.py --complementarios  (señalética, accesorios, esquemas y documentos)
       python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM multinivel por plano)
       python generar.py --despiece         (salida/despiece/FL_DES_*: vistas explosionadas con globos del BOM)
 Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
-        salida/recipientes/, senaletica/, accesorios/, esquemas/, documentos/
+        salida/cilindros/, senaletica/, accesorios/, esquemas/, documentos/
 """
 
 import os
@@ -16,7 +18,7 @@ import pymupdf
 
 from flama.catalogo import MODELOS
 from flama import planos as P, exportar as X, modelo3d as M
-from flama import recipientes as RC, senaletica as SN, accesorios as AC, esquemas as ES, documentos as DO
+from flama import cilindros as CI, sustituto as SU, senaletica as SN, accesorios as AC, esquemas as ES, documentos as DO
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 
@@ -68,18 +70,9 @@ def _lamina(doc, fmt, carpeta, cod, titulo, color=False):
 
 
 def complementarios():
-    """Recipientes ABC sueltos, señalética, accesorios, esquemas de ensayo y documentos."""
+    """Señalética, accesorios, esquemas de ensayo y documentos (los cilindros van en salida/cilindros/)."""
     salida = os.path.join(BASE, "salida")
     total = pymupdf.open()
-    # recipientes ABC para venta suelta
-    for m in RC.modelos_abc():
-        cod = RC.codigo_rec(m)
-        d = os.path.join(salida, "recipientes", cod)
-        os.makedirs(d, exist_ok=True)
-        doc, fmt, inf = RC.generar_recipiente(m)
-        total.insert_pdf(_lamina(doc, fmt, d, cod, "Recipiente " + m.nombre.replace("Extintor ", "")))
-        X.step(inf["piezas"], os.path.join(d, f"{cod}.step"))
-        print(cod, flush=True)
     # señalética (en color), accesorios y esquemas
     for carpeta, mod, color in (("senaletica", SN, True), ("accesorios", AC, False), ("esquemas", ES, False)):
         d = os.path.join(salida, carpeta)
@@ -106,6 +99,10 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if args == ["--complementarios"]:
         complementarios()
+    elif args == ["--sustitutos"]:
+        SU.generar(os.path.join(BASE, "salida"))
+    elif args == ["--cilindros"]:
+        CI.generar(os.path.join(BASE, "salida"))
     elif args == ["--bom"]:
         from flama import bom
         os.makedirs(os.path.join(BASE, "salida", "bom"), exist_ok=True)
@@ -116,4 +113,6 @@ if __name__ == "__main__":
     else:
         main(args)
         if not args:
+            CI.generar(os.path.join(BASE, "salida"))
+            SU.generar(os.path.join(BASE, "salida"))
             complementarios()

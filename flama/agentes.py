@@ -10,11 +10,14 @@ se certifica con distinto potencial según el grado del polvo. Ejemplo: 5 kg con
 potencial A. Por eso el grado es una DECISIÓN DE PRODUCTO, no un dato de cálculo.
 """
 
-# Grados de polvo ABC (Industrias Químicas DEM S.A., Sello IRAM 3569/2009 y BVQI): % de fosfato monoamónico
-# (MAP) nominal y banda de especificación (catálogo DEMSA: nominal ± 5 % relativo). El resto es sulfato de
-# amonio (relleno, 5-55 %) + mica/sílice + silicona hidrófuga (≈ 2-3 %), según hoja de seguridad DEMSA ABC.
+# Grados de polvo ABC (Industrias Químicas DEM S.A., Sello IRAM 3569 y BVQI): % de fosfato monoamónico (MAP)
+# DECLARADO por el fabricante del polvo. IRAM 3569 (tabla de requisitos) NO fija el % de MAP: exige que cada
+# componente esté dentro de ± 5 % relativo del valor declarado si supera el 50 % del polvo, o ± 10 % si no lo
+# supera, y que lo declarado sea el polvo con que se calificó el potencial. Banda = esa tolerancia aplicada al MAP.
+# El resto es sulfato de amonio (relleno) + mica/sílice + silicona hidrófuga (≈ 2-3 %), según HDS DEMSA ABC.
+# Proveedor cotizado (lista de precios 2026): Sancibrao ABC 55 / 75 / 90 (no ofrece ABC 60).
 GRADOS_ABC = {
-    "ABC 40": dict(map=40.0, banda=(38.0, 42.0), color="amarillo", hoja="DEMSA ABC 40 (Rev 02, 2019)"),
+    "ABC 40": dict(map=40.0, banda=(36.0, 44.0), color="amarillo", hoja="DEMSA ABC 40 (Rev 02, 2019)"),
     "ABC 55": dict(map=55.0, banda=(52.25, 57.75), color="verde", hoja="DEMSA ABC 55 (Rev 02, 2019)"),
     "ABC 60": dict(map=60.0, banda=(57.0, 63.0), color="verde", hoja="DEMSA catálogo (ABC 60)"),
     "ABC 75": dict(map=75.0, banda=(71.25, 78.75), color="amarillo", hoja="DEMSA catálogo (ABC 75)"),
@@ -26,7 +29,7 @@ ADITIVOS_ABC = 3.0   # % mica + sílice + silicona (HDS DEMSA ABC: metilhidróge
 # Potencial extintor certificado según grado y capacidad (licencias IRAM 3523: Drago anexo I 2008 con DEM-60 /
 # DEM-90; Georgia/Fadesa fichas técnicas y catálogo). "-" = no publicado / consultar.
 POTENCIAL_ABC = {
-    ("ABC 60", "1 kg"): "1A-3B:C",   ("ABC 90", "1 kg"): "-",
+    ("ABC 60", "1 kg"): "1A-5B:C",   ("ABC 90", "1 kg"): "-",
     ("ABC 60", "2,5 kg"): "3A-20B:C", ("ABC 90", "2,5 kg"): "3A-20B:C",
     ("ABC 60", "5 kg"): "6A-40B:C",  ("ABC 90", "5 kg"): "10A-40B:C",
     ("ABC 60", "10 kg"): "6A-60B:C", ("ABC 90", "10 kg"): "10A-60B:C",
