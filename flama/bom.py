@@ -335,7 +335,7 @@ def embalaje(m, bb):
 
 # ------------------------------------------------------------------ BOM de un producto
 NIV_EST = {"V": 0, "E": 1, "A": 2, "X": 3}
-EST_PROV = {"VALIDADO": "V", "ESTIMADO": "E", "A VALIDAR": "A", "NO CUMPLE / A DEFINIR": "X"}
+EST_PROV = {"COTIZADO": "V", "A COTIZAR": "V", "ESTIMADO": "E", "A VALIDAR": "A", "NO CUMPLE / A DEFINIR": "X"}
 ID_PIEZA = {"etiqueta": "ETIQUETA", "oblea_pba": "OBLEA-PBA", "sello_iram": "ESTAMPILLA", "tarjeta_caba": "TARJETA-AGC",
             "etiqueta_serie": "ETIQ-SERIE", "faja_garantia": "FAJA", "precinto": "PRECINTO", "manometro": "MANOMETRO",
             "junta_cuello": "ORING"}
@@ -443,8 +443,7 @@ def bom_producto(m, cilindro=False):
             kg = MAT.peso(piezas[k], MAT.especificacion(m, k)[2], MAT.especificacion(m, k)[3])
             fte, est = "P", ""
             if kg is None:
-                fte, est = "V", "A"
-                obs = (obs + "; sin peso: pedir ficha al proveedor").strip("; ")
+                obs = (obs + "; peso: completar con la ficha del proveedor (no afecta el MRP)").strip("; ")
             if k == "varilla":
                 est = "E"
                 obs = ("Interior, detrás de la costura longitudinal; se puntea antes de la soldadura longitudinal "
@@ -470,8 +469,8 @@ def bom_producto(m, cilindro=False):
                     m.familia != "rodante" else "de carro 50-70-100 kg"), 1, "u", "Latón forjado (HZ)",
                     f"rosca {m.geo['cuello'][2]}", None, "Compra", "19 Ensamblaje de válvula", norma="IRAM 3523 3.3",
                     fte="Q", plano=f"FL_DES_{m.codigo[7:]}", obs="Lista de precios HZ (Q-AGENTES); plano Fadesa usa "
-                    "válvula HZ (R-FADESA). Trae las piezas marcadas «Incluido en válvula HZ»; sin peso: pedir ficha",
-                    sub=2, item=vi, est="A")
+                    "válvula HZ (R-FADESA). Trae las piezas marcadas «Incluido en válvula HZ»",
+                    sub=2, item=vi)
             for r in internos_valvula(m):
                 add(2, f"{base}-{r[0]}", *r[1:], sub=2)
     if cilindro:
@@ -594,8 +593,8 @@ def _emb(add, base, emb, m, sub, cilindro=False):
             "23 Embalaje", fte="P", obs="Medida del plano", sub=sub, item="CAJA")
         if not cilindro:
             add(2, f"{base}-E2", "Instructivo de uso y mantenimiento", 1, "u", "Papel", "A5", None, "Compra",
-                "23 Embalaje", fte="V", obs="Decisión comercial de FLAMA: no se halló requisito normativo que lo "
-                "exija (las instrucciones de uso van en la etiqueta, IRAM 3534)", sub=sub, item="IMPRESOS")
+                "23 Embalaje", fte="I", obs="Decisión comercial de FLAMA (las instrucciones de uso obligatorias van en la "
+                "etiqueta, IRAM 3534)", sub=sub, item="IMPRESOS")
     else:
         add(2, f"{base}-E1", "Esquineros y funda de polietileno", 1, "jgo", "PE / cartón",
             "a medida de la envolvente del plano", None, "Compra", "23 Embalaje", fte="P",
@@ -836,7 +835,8 @@ FUENTES = {"P": "Plano / modelo 3D (misma geometría que el plano FL_MAT / FL_RE
            "I": "Investigación de mercado FLAMA (planillas entregadas; ver 11_Validacion_MP)",
            "V": "Sin documento de respaldo (la fila queda en naranja con lo que falta en Observaciones)"}
 # estado de la fila -> (color, significado)
-COLOR_EST = {"V": (None, "Validado: plano, norma, cotización o documento"),
+COLOR_EST = {"V": (None, "Validado: especificación respaldada por plano, norma, cotización o proveedor nacional con el "
+                         "producto exacto (la falta de precio no cambia el color: ver 10_Proveedores)"),
              "E": ("FFF2CC", "Estimado: valor justificado con norma o fuente técnica citada, sin medición ni cotización "
                              "propia (corregir con dato real)"),
              "A": ("F8CBAD", "A validar: falta el dato, la cotización o la confirmación del proveedor"),
@@ -1040,6 +1040,8 @@ def _mp_clave(f):
         return (d.split(" (tramo")[0], "barra 6 m" if um == "barra" else um, f["cant"])
     if f["nivel"] == 1:
         return (f"{d}: {f['_prod'] if '_prod' in f else ''}", um, f["cant"])
+    if f["codigo"].split("-")[-1].isdigit():          # pieza del plano: la medida distingue el ítem
+        return (f"{d} — {f['med']}", um, f["cant"])
     return (d, um, f["cant"])
 
 
@@ -1088,7 +1090,93 @@ def _explosion(wb, productos, E):
                 ws.cell(i, j).fill = fill
     ws.freeze_panes = "D4"
     ws.auto_filter.ref = f"A3:{ws.cell(3, len(cab)).column_letter}{3 + len(orden)}"
+    r = 3 + len(orden) + 3
+    r = _explosion_recargas(ws, r, E)
+    _indirectos(ws, r + 3, productos, E)
     return ws
+
+
+def _explosion_recargas(ws, r, E):
+    """Compras por kit de recarga (caso A: extintor descargado, el más frecuente), por modelo."""
+    ws.cell(r, 1, "Recargas: compras por kit RK caso A (extintor descargado: agente nuevo 100 %, IRAM 3517-2:2020 "
+                  "9.9.1.4). Casos B y C en 07_BOM_Recargas").font = E["Font"](bold=True, size=12)
+    r += 1
+    tabla, orden, prov = {}, [], {}
+    mods = [m for m in MODELOS]
+    for f in recargas():
+        if not f[2].startswith("A -"):
+            continue
+        m = next(x for x in mods if x.codigo == f[0])
+        mrp, item = _item_recarga(m, str(f[3]))
+        if mrp != "Sí" or f[4] in ("-", None):
+            continue
+        k = (str(f[3]), f[5])
+        if k not in tabla:
+            tabla[k] = {}
+            orden.append(k)
+            prov[k] = PV.asignar(item)[0] if item else ""
+        tabla[k][m.codigo] = tabla[k].get(m.codigo, 0) + f[4]
+    cab = ["Ítem de recarga (caso A)", "UM", "Proveedor principal"] + [m.codigo.replace("FL_MAT_", "") for m in mods]
+    for j, t in enumerate(cab, 1):
+        c = ws.cell(r, j, t)
+        c.font = E["Font"](bold=True, color="FFFFFF")
+        c.fill = E["cab"]
+        c.alignment = E["Al"](wrap_text=True, vertical="center")
+    for k in orden:
+        r += 1
+        ws.cell(r, 1, k[0])
+        ws.cell(r, 2, k[1])
+        ws.cell(r, 3, prov[k] or None)
+        for j, m in enumerate(mods, 4):
+            v = tabla[k].get(m.codigo)
+            if v:
+                ws.cell(r, j, round(v, 4))
+    return r
+
+
+# insumos indirectos de la planilla de materias primas de FLAMA: se planifican por consumo de planta (inductor),
+# no por unidad de producto
+INDIRECTOS = [
+    ("MP-26", "Puntas de contacto CuCrZr Ø0,9 / Ø1,2 y toberas MAG", "Minutos de arco (columna por producto)",
+     "ESAB / Binzel vía distribuidor", "arco"),
+    ("MP-27", "Discos de amolado y corte Ø115 (grano 60 / corte 1,0)", "Horas de reparación de defectos y despunte",
+     "Norton / Pferd / 3M vía distribuidor", ""),
+    ("MP-32", "Tapones cónicos de silicona 250 °C para enmascarar roscas (reutilizables)", "Cuellos granallados "
+     "por turno (ciclos de vida del tapón)", "Distribuidor de enmascarado", ""),
+    ("MP-61", "Separador de capa de cartón 1200 × 1000 para pallets", "Capas por pallet de cilindros sueltos",
+     "Cartocor / Smurfit", ""),
+    ("MP-64", "Esquineros de cartón 50 × 50 × 1200", "4 por pallet despachado", "Cartocor / Smurfit", ""),
+    ("MP-65", "Esmalte rojo de retoque (recargas)", "Equipos recargados con daño de pintura", "Sinteplast / Tersuave",
+     ""),
+]
+
+
+def _indirectos(ws, r, productos, E):
+    ws.cell(r, 1, "Insumos indirectos (planilla de materias primas FLAMA): no van por unidad; se planifican por su "
+                  "inductor de consumo").font = E["Font"](bold=True, size=12)
+    r += 1
+    cab = ["Insumo", "UM", "Planilla", "Inductor de consumo", "Proveedor"] + [c.replace("FL_MAT_", "") for c, _ in
+                                                                             productos]
+    for j, t in enumerate(cab, 1):
+        c = ws.cell(r, j, t)
+        c.font = E["Font"](bold=True, color="FFFFFF")
+        c.fill = E["cab"]
+        c.alignment = E["Al"](wrap_text=True, vertical="center")
+    arco = {}
+    for cod, filas in productos:
+        for f in filas:
+            if f["codigo"].endswith("-C2") and f["cant"]:
+                arco[cod] = round(f["cant"] / CAUDAL_GAS, 2)
+    for mp, desc, ind, prov, tipo in INDIRECTOS:
+        r += 1
+        for j, v in enumerate([desc, "según inductor", mp, ind, prov], 1):
+            ws.cell(r, j, v).alignment = E["Al"](wrap_text=True, vertical="top")
+        if tipo == "arco":
+            ws.cell(r, 2, "min de arco / u")
+            for j, (cod, _) in enumerate(productos, 6):
+                if cod in arco:
+                    ws.cell(r, j, arco[cod])
+    return r
 
 
 def _resumen(wb, productos, E):
