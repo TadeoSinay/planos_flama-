@@ -49,20 +49,19 @@ def ancla(key, piezas, info):
     return ax, az
 
 
-def colocar_globos(h, anclas, x_eje, x_izq, x_der, y_max, y_min, paso_min=9.0, prohibidas=None):
+def colocar_globos(h, anclas, x_eje, x_izq, x_der, y_max, y_min, paso_min=9.0, prohibidas=None, y_lim=None):
     """Globos en columna a cada lado de la vista, ordenados por altura, con paso
     mínimo y evitando las franjas `prohibidas` {'izq': [(y0, y1)], 'der': [...]}
-    (cifras de cotas verticales)."""
+    (cifras de cotas verticales). Si la columna no entra por debajo de `y_lim` (marco),
+    los globos se escalonan en dos columnas separadas 10 mm (paso vertical a la mitad)."""
     prohibidas = prohibidas or {}
     izq = sorted([a for a in anclas if a[2] < x_eje], key=lambda a: -a[3])
     der = sorted([a for a in anclas if a[2] >= x_eje], key=lambda a: -a[3])
-    for lado, grupo, xg in (("izq", izq, x_izq), ("der", der, x_der)):
-        if not grupo:
-            continue
-        bandas = prohibidas.get(lado, [])
+
+    def columna(grupo, bandas, paso):
         ys = []
         for a in grupo:
-            yy = min(a[3], y_max) if not ys else min(a[3], ys[-1] - paso_min)
+            yy = min(a[3], y_max) if not ys else min(a[3], ys[-1] - paso)
             for (b0, b1) in bandas:
                 if b0 - 5 < yy < b1 + 5:
                     yy = b0 - 5
@@ -71,10 +70,24 @@ def colocar_globos(h, anclas, x_eje, x_izq, x_der, y_max, y_min, paso_min=9.0, p
             dsh = y_min - ys[-1]
             ys = [y + dsh for y in ys]
             for j in range(len(ys) - 2, -1, -1):
-                if ys[j] < ys[j + 1] + paso_min:
-                    ys[j] = ys[j + 1] + paso_min
-        for a, yy in zip(grupo, ys):
-            h.globo(a[0], (a[2], a[3]), (xg, yy))
+                if ys[j] < ys[j + 1] + paso:
+                    ys[j] = ys[j + 1] + paso
+        return ys
+
+    for lado, grupo, xg in (("izq", izq, x_izq), ("der", der, x_der)):
+        if not grupo:
+            continue
+        bandas = prohibidas.get(lado, [])
+        ys = columna(grupo, bandas, paso_min)
+        dx = [0.0] * len(ys)
+        if y_lim is not None and ys[0] + 4 > y_lim:
+            ys = columna(grupo, bandas, max(paso_min / 2, 5.0))
+            sg = -1 if lado == "izq" else 1
+            dx = [sg * 10.0 * (i % 2) for i in range(len(ys))]
+            if ys[0] + 4 > y_lim:
+                ys = [y - (ys[0] + 4 - y_lim) for y in ys]
+        for a, yy, d in zip(grupo, ys, dx):
+            h.globo(a[0], (a[2], a[3]), (xg + d, yy))
 
 
 def _n(v, dec=1):
@@ -306,7 +319,7 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
         ysu = y_front + info["suncho_z"] * f
         banda_der.append(((yb + ysu) / 2 - 7, (yb + ysu) / 2 + 7))
     colocar_globos(h, anclas, x_front, xl - 31, xr + 19, yt - 2, yb + 6, 10.0,
-                   {"izq": banda_izq, "der": banda_der})
+                   {"izq": banda_izq, "der": banda_der}, y_lim=h.fy1 - 6)
 
     # ---------------- isometría: en la zona libre donde resulte más grande
     #   (a) columna derecha, sobre la lista de materiales

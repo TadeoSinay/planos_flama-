@@ -41,10 +41,10 @@ HOJA_CUERPO = {
 }
 # discos de cúpula y fondo en fleje a medida (CC Nesting): Ø disco, espesor, ancho de fleje; paso = Ø + 3
 DISCO = {
-    ("cupula", "1 kg"): (108, 0.9, 114), ("fondo", "1 kg"): (100, 0.9, 106),
+    ("cupula", "1 kg"): (108, 0.9, 114), ("fondo", "1 kg"): (100, 1.25, 106),
     ("cupula", "2,5 kg"): (179, 1.25, 200), ("fondo", "2,5 kg"): (148, 1.25, 200),
     ("cupula", "5 kg"): (221, 1.6, 250), ("fondo", "5 kg"): (177, 1.6, 200),
-    ("cupula", "10 kg"): (258, 2.0, 300), ("fondo", "10 kg"): (205, 2.0, 249),
+    ("cupula", "10 kg"): (258, 1.6, 300), ("fondo", "10 kg"): (205, 2.0, 249),
 }
 CANO_1KG = dict(barra=6000, pieza=255, piezas=23, diam=76.2, esp=1.25)
 
@@ -669,8 +669,11 @@ def materia_prima(m, k, s, kg):
               s.Volume() / (math.pi * 12.7 ** 2), math.pi / 4 * (25.4 ** 2 - 22.2 ** 2) * 7.85e-3, "MP-CANO-CARRO",
               obs="Largo desarrollado del plano + curvado")
     if k == "sunchos_bastidor":
-        barra("MP-PLANCHUELA", "Planchuela SAE 1010 40 × 6", "Planchuela SAE 1010 40 × 6", s.Volume() / 240,
-              40 * 6 * 7.85e-3, "MP-PLANCHUELA", obs="Largo = volumen del plano / sección 40 × 6")
+        ws, ts = M.planchuela(g["R"])
+        sec = f"{_f(ws, 0)} × {_f(ts, 0)}"
+        barra("MP-PLANCHUELA", f"Planchuela SAE 1010 {sec}", f"Planchuela SAE 1010 {sec}", s.Volume() / (ws * ts),
+              ws * ts * 7.85e-3, "MP-PLANCHUELA", est="E",
+              obs=f"Largo = volumen del plano / sección {sec}. Sección dimensionada para la masa de los planos Fadesa")
     if k == "apoyo":
         out.append(("MP-CHAPA-APOYO", "Recorte de chapa LAC e=3,2 para el apoyo plegado", 1, "u", "Chapa LAC SAE 1010",
                     "desarrollo del apoyo + 15 % de recorte", round(kg * 1.15, 3), "Compra", "Corte y plegado", "",
@@ -970,6 +973,28 @@ def _leyenda(ws, fila, col, E):
         x.border = E["borde"]
 
 
+# Peso cargado de referencia: masa total de los planos Fadesa (mismo diseño del que salen las medidas) cuando existe;
+# si no, la ficha técnica de un fabricante con Sello IRAM; si no, el catálogo Fadesa 3 (repite pesos entre tablas).
+REF_PESO = {
+    "FL_MAT_ABC_1kg": (1.84, "Plano Fadesa «Extintor 1 kg Ø76 (válvula HZ) R1»"),
+    "FL_MAT_ABC_2.5kg": (4.62, "Plano Fadesa «Extintor 2,5 kg válvula HZ R1»"),
+    "FL_MAT_ABC_5kg": (8.40, "Plano Fadesa «Extintor 5 kg válvula HZ R1»"),
+    "FL_MAT_ABC_10kg": (16.40, "Plano Fadesa «Extintor 10 kg HZ R1»"),
+    "FL_MAT_ABC_25kg": (53.2, "Plano Fadesa «Extintor rodante 25 kg R1»"),
+    "FL_MAT_ABC_50kg": (94.0, "Plano Fadesa «Extintor rodante 50 kg R1»"),
+    "FL_MAT_ABC_70kg": (140.0, "Ficha técnica Georgia ABC 90 70 kg"),
+    "FL_MAT_ABC_100kg": (187.6, "Plano Fadesa «Extintor rodante 100 kg R1»"),
+    "FL_MAT_SALESK_6l": (9.5, "Ficha técnica Melisam acetato 6 L"),
+}
+
+
+def peso_ref(m):
+    if m.codigo in REF_PESO:
+        return REF_PESO[m.codigo]
+    return (float(m.spec["Peso cargado (kg)"].replace(",", ".")),
+            "Catálogo Fadesa 3 (repite pesos entre tablas: sólo orientativo)")
+
+
 def _hoja_producto(wb, m, filas, E, cilindro=False):
     cod = filas[0]["codigo"]
     ws = wb.create_sheet(hoja(cod))
@@ -984,7 +1009,7 @@ def _hoja_producto(wb, m, filas, E, cilindro=False):
               (" hoja 3" if cilindro else " (salida/despiece/)")),
              ("Norma del producto", filas[0]["norma"]),
              ("Fabricación", filas[0]["obs"]),
-             ("Peso catálogo cargado (kg)", None if cilindro else float(m.spec["Peso cargado (kg)"].replace(",", ".")))]
+             ("Peso cargado de referencia (kg)", None if cilindro else peso_ref(m)[0])]
     for i, (k, v) in enumerate(datos, 3):
         ws.cell(i, 1, k).font = E["Font"](bold=True)
         ws.cell(i, 3, v)
@@ -1004,7 +1029,9 @@ def _hoja_producto(wb, m, filas, E, cilindro=False):
     ws["G5"] = "=" + "+".join(f"G{x}" for x in tot)
     ws[f"G{raiz}"] = "=G5"
     if not cilindro:
-        ws["E6"] = "Desvío cargado vs catálogo"
+        ws["E6"] = "Desvío cargado vs referencia"
+        ws["E7"] = "Referencia: " + peso_ref(m)[1]
+        ws["E7"].font = E["Font"](italic=True, size=9)
         ws["G6"] = "=G4/C7-1"
         ws["G6"].number_format = "0.0%"
     for c in ("E3", "E4", "E5", "E6"):
@@ -1269,17 +1296,18 @@ def _maestro(wb, term, cil, E):
 def _resumen(wb, productos, E):
     ws = wb.create_sheet(HOJAS["res"])
     cab = ["Plano", "Producto", "Familia", "Fabricación", "Norma IRAM", "Agente", "Carga", "UM", "Gas impulsor",
-           "Gas (kg)", "Peso vacío S1-S4 (kg)", "Peso cargado (kg)", "Peso catálogo (kg)", "Desvío", "Piezas del plano",
+           "Gas (kg)", "Peso vacío S1-S4 (kg)", "Peso cargado (kg)", "Peso de referencia (kg)", "Desvío", "Piezas del plano",
            "Ítems BOM", "Ítems que entran en MRP", "Recipiente suelto", "Hoja BOM",
-           "Tara catálogo (kg) = catálogo - carga - gas", "Desvío de tara (modelo vs catálogo)"]
-    _cab(ws, 1, cab, [18, 40, 9, 16, 11, 40, 7, 5, 13, 8, 10, 10, 10, 8, 8, 8, 9, 18, 8, 14, 12], E, 32)
+           "Tara de referencia (kg) = referencia - carga - gas", "Desvío de tara (modelo vs referencia)",
+           "Fuente del peso de referencia"]
+    _cab(ws, 1, cab, [18, 40, 9, 16, 11, 40, 7, 5, 13, 8, 10, 10, 10, 8, 8, 8, 9, 18, 8, 14, 12, 46], E, 32)
     for i, (m, filas) in enumerate(productos, 2):
         ag, q, um, n_ag, gas, m_gas, nm3, libre = carga(m)
         n_p = sum(1 for f in filas if f["nivel"] == 2 and f["codigo"][-2:].isdigit())
         sh = _ref(hoja(m.codigo))
         vals = [m.codigo, m.nombre, m.familia, "Propia" if m.codigo in PROPIOS else "Revendido",
                 m.spec["Norma IRAM extintor"], ag, q, um, gas, round(m_gas, 4) or None,
-                f"={sh}!G3", f"={sh}!G4", float(m.spec["Peso cargado (kg)"].replace(",", ".")),
+                f"={sh}!G3", f"={sh}!G4", peso_ref(m)[0],
                 f"=L{i}/M{i}-1", n_p, len(filas), sum(1 for f in filas if f.get("mrp") == "Sí"),
                 m.codigo.replace("FL_MAT_", "FL_REC_") if m.codigo in PROPIOS else "-", None]
         for j, v in enumerate(vals, 1):
@@ -1291,13 +1319,14 @@ def _resumen(wb, productos, E):
         ws.cell(i, 21, f"=(L{i}-{round(kg_carga, 3)}-J{i})/T{i}-1" if m_gas else f"=(L{i}-{round(kg_carga, 3)})/T{i}-1")
         ws.cell(i, 20).number_format = "0.00"
         ws.cell(i, 21).number_format = "0.0%"
+        ws.cell(i, 22, peso_ref(m)[1])
         ws.cell(i, 19).hyperlink = f"#{sh}!A1"
         ws.cell(i, 19, "ir »").font = E["Font"](color="0563C1", underline="single")
         for j in (11, 12):
             ws.cell(i, j).number_format = "0.00"
         ws.cell(i, 14).number_format = "0.0%"
     ws.freeze_panes = "C2"
-    ws.auto_filter.ref = f"A1:U{1 + len(productos)}"
+    ws.auto_filter.ref = f"A1:V{1 + len(productos)}"
     return ws
 
 
@@ -1446,6 +1475,14 @@ def _carga_n2(wb, E, fq):
 
 
 MERCADO = [
+    # planos Fadesa (masa total indicada en el rótulo): mismo diseño del que salen las medidas de FLAMA
+    ("FL_MAT_ABC_1kg", "Plano Fadesa extintor 1 kg Ø76 válvula HZ R1", 1.84, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_2.5kg", "Plano Fadesa extintor 2,5 kg válvula HZ R1", 4.62, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_5kg", "Plano Fadesa extintor 5 kg válvula HZ R1", 8.40, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_10kg", "Plano Fadesa extintor 10 kg HZ R1", 16.40, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_25kg", "Plano Fadesa extintor rodante 25 kg R1", 53.2, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_50kg", "Plano Fadesa extintor rodante 50 kg R1", 94.0, "Plano Fadesa (masa total)"),
+    ("FL_MAT_ABC_100kg", "Plano Fadesa extintor rodante 100 kg R1", 187.6, "Plano Fadesa (masa total)"),
     # (plano, referencia, peso cargado kg, fuente) - fabricantes argentinos con Sello IRAM
     ("FL_MAT_ABC_1kg", "Georgia ABC 60 1 kg Ø3\" (330 × 76)", 1.82, "Ficha técnica Georgia"),
     ("FL_MAT_ABC_1kg", "Fadesa 1 kg Ø3 (340 × 92)", 1.90, "Catálogo Fadesa pág. 4"),
@@ -1462,7 +1499,6 @@ MERCADO = [
     ("FL_MAT_SALESK_6l", "Melisam acetato 6 L inox (450 × 235 × 179)", 9.50, "Ficha técnica Melisam"),
     ("FL_MAT_SALESK_6l", "Georgia/Fadesa acetato 6 L (dato inconsistente con 1,30 g/ml)", 8.25,
      "Ficha Georgia / catálogo Fadesa"),
-    ("FL_MAT_CLASED_9l", "Georgia clase D 5 kg (480 × 225 × 153)", 8.50, "Ficha técnica Georgia (otra capacidad)"),
 ]
 DUPLICADOS = ("En el catálogo de referencia el peso cargado de HCFC, HFC 236fa, BC y clase D es idéntico al de ABC "
               "(1,90 / 4,60 / 8,50 / 16,50 kg) y el de agua pulverizada 10 dm³ es igual al de acetato 10 dm³ (13,00 kg): "

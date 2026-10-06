@@ -191,7 +191,7 @@ ITEMS = {
                "Confirmar SAE 1045 con certificado"),
     "MP-CANO-CARRO": ("Caño del bastidor", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",
                       "Sin cotizar (mismo proveedor que el caño del 1 kg)", "-"),
-    "MP-PLANCHUELA": ("Planchuela de sunchos", "Planchuela SAE 1010 40 × 6, barra 6 m", "PARROTTA", None,
+    "MP-PLANCHUELA": ("Planchuela de sunchos", "Planchuela SAE 1010 30 × 3 (25/50 kg) y 40 × 4 (70/100 kg), barra 6 m", "PARROTTA", None,
                       "A COTIZAR", "Sin cotizar", "-"),
     "MP-CHAPA-APOYO": ("Chapa del apoyo", "Chapa LAC e=3,2 (recorte de la hoja de rodantes)", "PRADECON", "PACHECO",
                        "COTIZADO", "Mismo material que la planilla MP-11", "-"),

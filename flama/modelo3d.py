@@ -377,6 +377,13 @@ def extintor_manual(m, cW=0.0, cH=0.0):
     return out, info
 
 
+def planchuela(R):
+    """Sección (ancho, espesor) de la planchuela de sunchos: 30 × 3 hasta Ø330 (25 y 50 kg), 40 × 4 por encima.
+    Dimensionada para que el carro dé la masa total de los planos Fadesa (25 kg 53,2 kg; 50 kg 94 kg; 100 kg
+    187,6 kg) con el recipiente del plano; a confirmar en el prototipo."""
+    return (30.0, 3.0) if 2 * R <= 330 else (40.0, 4.0)
+
+
 def extintor_rodante(m, cD=0.0):
     g = dict(m.geo)
     H, W, D = m.H, m.W, m.D
@@ -400,8 +407,9 @@ def extintor_rodante(m, cD=0.0):
         # neumático macizo (anillo de caucho) + llanta de chapa (disco con cubo)
         tire = _cyl(Rw, bw_w, (c.x, c.y, c.z), (sgn, 0, 0))
         tire = tire.cut(_cyl(Rw * 0.72, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
-        llanta = _tube(Rw * 0.72, Rw * 0.72 - 3, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0))
-        llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 4, (c.x + sgn * (bw_w / 2 - 2), c.y, c.z), (sgn, 0, 0)))
+        # llanta de chapa estampada: aro e = 2, disco e = 2,5
+        llanta = _tube(Rw * 0.72, Rw * 0.72 - 2, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0))
+        llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 2.5, (c.x + sgn * (bw_w / 2 - 1.25), c.y, c.z), (sgn, 0, 0)))
         llanta = llanta.fuse(_tube(30, 13, bw_w + 10, (c.x - sgn * 10, c.y, c.z), (sgn, 0, 0)))
         out["rueda_" + suf] = tire
         out["llanta_" + suf] = llanta.clean()
@@ -422,16 +430,17 @@ def extintor_rodante(m, cD=0.0):
     zs1 = dr["zb"] + 0.25 * g["hc"]
     zs2 = dr["zb"] + 0.85 * g["hc"]
     sun = None
+    ws, ts = planchuela(R)
     for zz in (zs1, zs2):
-        # abrazadera de planchuela 40 × 6 y brazos de planchuela hasta el bastidor
-        b = _tube(R + 6, R + 0.1, 40, (0, 0, zz - 20))
+        # abrazadera de planchuela y brazos de planchuela hasta el bastidor
+        b = _tube(R + ts, R + 0.1, ws, (0, 0, zz - ws / 2))
         for sg in (1, -1):
             if xa > R:
-                b = b.fuse(_box(xa - R + 10, 6, 40, sg * (R + xa) / 2, 0, zz - 20))
+                b = b.fuse(_box(xa - R + 10, ts, ws, sg * (R + xa) / 2, 0, zz - ws / 2))
                 y0 = 0.0
             else:
                 y0 = math.sqrt(R * R - xa * xa) - 2
-            b = b.fuse(_box(6, ya - y0 + 10, 40, sg * xa, (ya + y0) / 2, zz - 20))
+            b = b.fuse(_box(ts, ya - y0 + 10, ws, sg * xa, (ya + y0) / 2, zz - ws / 2))
         sun = b if sun is None else sun.fuse(b)
     out["sunchos_bastidor"] = sun.clean()
     # apoyo delantero
@@ -461,7 +470,7 @@ def extintor_rodante(m, cD=0.0):
     # soportes de manguera
     sop = None
     for zz in (z_lo + wl * 0.4, z_hi - wl * 0.4, (z_lo + z_hi) / 2):
-        b = _box(2 * wl + d_hose + 16, 8, 30, 0, y_loop, zz - 15)
+        b = _box(2 * wl + d_hose + 16, 3, 30, 0, y_loop, zz - 15)      # planchuela 30 × 3
         b = b.fuse(_box(20, abs(y_loop) - R + 4, 30, 0, (y_loop - R) / 2, zz - 15))
         sop = b if sop is None else sop.fuse(b)
     out["soportes_manguera"] = sop.clean()
