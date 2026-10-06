@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461320.0854282407
+2461320.185416667
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461320.0854398147
+2461320.185416667
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{22308969-758F-4AAF-82EF-6D3E75F7985C}
+{73AA04FB-1827-4E5E-B7B3-3E2A279EB0E5}
   9
 $VERSIONGUID
   2
-{381739D8-87C5-4913-8672-4EC621ECEA7F}
+{A0BE558A-DCDF-4BB5-8447-2C63CAA931D1}
   9
 $EXTNAMES
 290
@@ -63961,7 +63961,7 @@ AcDbText
  40
 2.0
   1
-Alambre de soldadura ER70S-6 Ø0,9/1,2 (AWS A5.
+Alambre MAG ER70S-6 Ø0,9 (AWS A5.18)
   7
 ISO3098
  72
@@ -64029,7 +64029,7 @@ AcDbText
  40
 1.8
   1
-0,0525 kg
+0,0553 kg
   7
 ISO3098
  72
@@ -64299,7 +64299,7 @@ AcDbText
  40
 2.0
   1
-Gas de protección M20: Ar + 8 % CO₂ (ARCAL Spe
+Gas de protección MAG Arcal 21 / ARCAL Speed (
   7
 ISO3098
  72
@@ -64367,7 +64367,7 @@ AcDbText
  40
 2.2
   1
-None L
+32,6 L
   7
 ISO3098
  72
@@ -64705,7 +64705,7 @@ AcDbText
  40
 2.2
   1
-None kg
+0,08 kg
   7
 ISO3098
  72
@@ -72411,7 +72411,7 @@ AcDbText
  40
 2.0
   1
-Polvo químico seco ABC 60 (Sello IRAM 3569, DE
+Polvo químico seco ABC 60 (Sello IRAM 3569)
   7
 ISO3098
  72
@@ -72817,7 +72817,7 @@ AcDbText
  40
 1.8
   1
-0,0077 kg
+0,0251 kg
   7
 ISO3098
  72
@@ -78563,7 +78563,7 @@ AcDbText
  40
 2.2
   1
-None kg
+0,003 kg
   7
 ISO3098
  72
@@ -79073,7 +79073,7 @@ AcDbText
  40
 2.5
   1
-    salida/bom/FLAMA_BOM.xlsx, hoja FL_MAT_ABC_5kg.
+    salida/bom/FLAMA_BOM.xlsx, hoja BOM_FL_MAT_ABC_5kg.
   7
 ISO3098
  11
@@ -82521,7 +82521,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T02:03:01.826801+00:00
+1.4.4 @ 2026-10-06T04:27:00.241674+00:00
   0
 LAYOUT
   5
@@ -82661,7 +82661,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T02:03:02.292891+00:00
+1.4.4 @ 2026-10-06T04:27:00.720547+00:00
   0
 ENDSEC
   0

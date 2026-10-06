@@ -70,7 +70,8 @@ def verificacion(m):
                   ok if min(t, td, tf) >= 0.71 else no))
         f.append(("Costuras", "3523 3.2.4.1", "≤ 1 longitudinal y ≤ 2 transversales", "1 long. + 2 transv.", ok))
         f.append(("Proceso de soldadura", "3523 3.2.4.2", "automático: arco sumergido, resistencia, atm. inerte o "
-                  "brazing", "MAG (135) con M20 Ar + 8-10 % CO₂ (Air Liquide / Getweld): no es inerte; confirmar con certificador o Ar puro", no))
+                  "brazing", "MAG (135) con Arcal 21 (Ar + 8 % CO₂, M20; Air Liquide): decisión FLAMA. La mezcla es activa: "
+                  "acreditar con el certificador en el ensayo de tipo (probetas IRAM 609 y PH)", rev))
         f.append(("Abertura roscada", "3523 4.1.2", "Ø interior ≥ 19 mm", f"{_n(ab, 1)} mm ({g['cuello'][2]})",
                   ok if ab >= 19 else no))
         f.append(("Fondo de apoyo", "3523 4.1.1", "si el fondo cóncavo apoya: e ≥ 1,5 × e cuerpo",
@@ -93,7 +94,8 @@ def verificacion(m):
                   f"LAC U 500-04 (cotizada); σf ≥ {SIGMA_F:.0f} MPa en certificado + pintura", ok))
         f.append(("Costuras", "3550 3.2.2.1", "≤ 1 longitudinal y ≤ 2 transversales", "1 long. + 2 transv.", ok))
         f.append(("Proceso de soldadura", "3550 3.2.2.2", "automático: arco sumergido, resistencia, atm. inerte o "
-                  "brazing", "MAG (135) con M20 Ar + 8-10 % CO₂: no es inerte; confirmar con certificador o Ar puro / arco sumergido", no))
+                  "brazing", "MAG (135) con Arcal 21 (Ar + 8 % CO₂, M20): decisión FLAMA. La mezcla es activa: acreditar con el "
+                  "certificador en el ensayo de tipo (tracción y plegado 4.1.2)", rev))
         f.append(("Soldadura: tracción", "3550 4.1.2.1", "≥ resistencia de la chapa (IRAM 609)", "probeta por lote", ok))
         f.append(("Soldadura: plegado", "3550 4.1.2.2", "sin fisuras (IRAM 609)", "probeta por lote", ok))
         f.append(("Espesor por cálculo", "3550 4.1.3.1", f"e ≥ {_n(ef, 2)} mm (D {D:.0f}, PE {_n(PE, 1)}, "
@@ -328,6 +330,8 @@ def despiece(m):
     d["tapon"] = (0, 0, 3 * gap)
     d["fondo"] = (0, 0, -gap)
     d["etiqueta_rec"] = (0, -1.2 * R, 0)
+    if "varilla" in piezas:
+        d["varilla"] = (-2.2 * R, 0, 0)
     mov = {k: s.translate(cq.Vector(*d[k])) for k, s in piezas.items() if k != "soldaduras"}
     proy = V.proyectar(cq.Compound.makeCompound(list(mov.values())), "iso", tol=0.4, ocultas=False)
     ex = V.extension(proy["vis"])
@@ -348,7 +352,7 @@ def despiece(m):
         if r["nivel"] == 2:
             sufijo.setdefault(r["desc"].strip().lower(), r["codigo"].split("-")[-1])
     nombre_bom = {"cuerpo": "cuerpo", "cupula": "cúpula", "fondo": "fondo", "cuello": "cuello", "tapon": "tapón",
-                  "etiqueta_rec": "etiqueta de identificación"}
+                  "etiqueta_rec": "etiqueta de identificación", "varilla": "varilla"}
     glob = {}
     for k in mov:
         for desc, suf in sufijo.items():

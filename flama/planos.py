@@ -581,7 +581,7 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
                     h.linea(T(*cs[0]), T(*cs[-1]), "08-FINA")
         pt = T(r["bore"] / 2, z1 - (z1 - z0) * 0.35)
         h.nota_referencia(rosca.replace("x", "×"), pt, (pt[0] - 22, pt[1] + 16))
-        # soldadura cuello-cúpula (filete, todo alrededor, MIG = 131)
+        # soldadura cuello-cúpula (filete, todo alrededor, MAG = 135)
         if m.familia != "co2":
             pw = T(r["dn"] / 2 + 0.6, r["z_cupula"] + 0.6)
             h.simbolo_soldadura(pw, (pw[0] + 14, pw[1] - 16), lado=1, proceso=proc)

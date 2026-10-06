@@ -21,7 +21,7 @@ from .lamina import Hoja, nuevo_doc, ESCALAS, AMPLIAC, FORMATOS, ROT_W, ROT_H, A
 from .lamina import recortar_circulo, transformar, transformar_poly, ancho_medio
 from .planos import FECHA, DIBUJO, _roscas_y_soldaduras, _n, _tabla
 
-PIEZAS_REC = ["cuerpo", "cupula", "fondo", "cuello", "soldaduras"]
+PIEZAS_REC = ["cuerpo", "cupula", "fondo", "cuello", "varilla", "soldaduras"]
 COLORES = {"cuerpo": 45, "cupula": 135, "fondo": 135, "cuello": 45}
 ABC = ["FL_MAT_ABC_1kg", "FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg",
        "FL_MAT_ABC_25kg", "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg"]
@@ -200,7 +200,7 @@ def generar_recipiente(m, hojas=1):
              ("Masa del recipiente (calculada)", f"{_n(masa, 2)} kg"),
              ("Espesor cuerpo / cúpula / fondo", f"{_n(g['t'], 2)} / {_n(g['td'], 2)} / {_n(g['tf'], 2)} mm"),
              ("Material", "Chapa LAF IRAM-IAS U 500-05" if not rod else "Chapa LAC IRAM-IAS U 500-04 (σf ≥ 265 MPa)"),
-             ("Soldadura", "MAG 135 con M20 (a confirmar: norma pide atm. inerte)"),
+             ("Soldadura", "MAG 135, Arcal 21 (Ar + 8 % CO₂, M20)"),
              ("Presión de servicio / ensayo", f"{s_['Presión de servicio (MPa)']} / {s_['Presión de ensayo (MPa)']} MPa"),
              ("Rosca de cuello", g["cuello"][2]),
              ("Norma IRAM extintor", s_["Norma IRAM extintor"]),
@@ -211,7 +211,7 @@ def generar_recipiente(m, hojas=1):
     xt = h.fx0 + 4
     _tabla(h, xt, h.fy0 + 4 + 5.0 * len(datos), datos, [80, 70], alto=5.0, hs=(2.5, 2.5))
     notas = ["NOTAS:", "1) Cotas en mm; tolerancias no indicadas", "    según ISO 2768-m.",
-             "2) Recipiente sin válvula ni agente.", "3) Cordones MIG continuos y estancos.",
+             "2) Recipiente sin válvula ni agente.", "3) Cordones MAG continuos y estancos.",
              "4) Prueba hidráulica 100 % antes de pintar."]
     for i, t in enumerate(notas):
         h.texto(t, (xt + 158, h.fy0 + 60 - 5 * i), 2.5)

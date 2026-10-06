@@ -35,8 +35,8 @@ class Modelo:
     @property
     def soldadura(self):
         """Proceso de soldadura del recipiente (ISO 4063): 141 TIG en inoxidable,
-        131 MIG en acero al carbono; el cilindro de CO2 es sin costura."""
-        return {"inox": ("141", "TIG")}.get(self.familia, ("131", "MIG"))
+        135 MAG (Arcal 21, Ar + 8 % CO2) en acero al carbono; el cilindro de CO2 es sin costura."""
+        return {"inox": ("141", "TIG")}.get(self.familia, ("135", "MAG"))
 
     # dimensiones totales (mm) que el modelo 3D debe respetar
     @property
@@ -108,7 +108,7 @@ def _g_rodante(D, vol, t=3.2):
     hd = round(0.656 * R, 1)
     hc = round(_vol_rodante(R - t, hd - t, vol), 0)
     return dict(R=R, hc=hc, hd=hd, t=t, td=t, tf=t, tipo_fondo="cabezal",
-                cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=vol)
+                cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=vol, **({"varilla": 8.0} if t > 4 else {}))
 
 
 G_70KG = _g_rodante(350, 86.0, 4.75)

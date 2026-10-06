@@ -177,15 +177,23 @@ mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, mat
 
 | Hoja del Excel | Contenido |
 |---|---|
-| `LEEME` | Niveles, subconjuntos, fuentes de cada dato (P plano, C catálogo, N norma, L layout, R referencia a confirmar) y puntos abiertos |
-| `Resumen` | Los 17 productos: agente, carga, gas impulsor, peso vacío y cargado calculados frente al catálogo |
-| `BOM_Terminados` / `BOM_Cilindros` | Tabla plana filtrable de los 17 matafuegos terminados y de los 8 recipientes ABC FL_REC sueltos |
-| `BOM_Sustitutos` | Extintores sustitutos FL_SUS_* (uno por tipo): extintor base del mismo modelo + faja amarilla, tarjetas DPS / AGC de sustituto y remito |
-| `Validacion_MP` | Cada materia prima, consumible y componente comprado con su requisito normativo, el documento que lo respalda (cotizaciones, fichas, licencias, planos Fadesa, investigación FLAMA) y su estado: VALIDADA / VALIDADA CON CONDICIÓN / A VALIDAR / NO CUMPLE - A DEFINIR |
-| `FL_MAT_*` / `FL_REC_*` | Una hoja por plano: BOM multinivel plegable (0 producto · 1 subconjunto · 2 pieza/insumo · 3 materia prima), con fórmulas de peso |
-| `Recargas` | Kits de servicio RK-*-A/B/C por extintor: polvo nuevo o recuperado (IRAM 3517-2 9.9.1.4, 4.4.1 y, 9.9.4), HCFC recuperado en circuito cerrado (4.4.1 z), CO₂, repuestos |
-| `Explosion_MP` | Materia prima e insumos por unidad de cada producto (chapa, fleje, caño, polvo, N₂, alambre, gas, pintura, embalaje) |
-| `Despiece` | Índice de planos FL_DES con globos = códigos BOM |
+| `01_Indice` | Origen, alcance, niveles, subconjuntos, regla «Entra MRP», códigos, fuentes y **colores de estado** |
+| `02_Decisiones` | Decisiones de diseño y abastecimiento con su fundamento (fabricación propia sólo ABC, MRP, polvo DEMSA / Polvex, MAG Arcal 21, varilla, carro propio, tapas, pintura, granallado, inoxidables) |
+| `03_Resumen_Productos` | Los 17 productos: agente, carga, gas, pesos frente al catálogo, ítems que entran en MRP |
+| `04_BOM_Matafuegos` / `05_BOM_Cilindros` / `06_BOM_Sustitutos` | Tablas planas filtrables (17 FL_MAT, 8 FL_REC, 17 FL_SUS) |
+| `07_BOM_Recargas` | Kits RK-*-A/B/C por extintor y caso (IRAM 3517-2:2020), con MRP y proveedor |
+| `08_Quimica_Agentes` / `09_Carga_N2` | Densidades (aparente y empacada) y volumen libre, gas impulsor y control de llenado por fórmula |
+| `10_Proveedores` | Proveedores nacionales por ítem (principal y alternativa, domicilio, distancia a Avellaneda, precio de referencia, estado) y directorio |
+| `11_Validacion_MP` | Respaldo documental y estado de cada materia prima y componente |
+| `12_Explosion_MP` | Explosión por unidad de lo que entra en MRP (base del futuro archivo MRP_MATERIA_PRIMA) |
+| `13_Fuentes` / `14_Comparacion_Mercado` / `15_Indice_Planos` | Documentos citados, peso contra fabricantes con sello IRAM, índice de planos |
+| `BOM_FL_MAT_*` / `BOM_FL_REC_*` | Una hoja por plano: BOM multinivel plegable con fórmulas de peso |
+
+Columnas del BOM: … Origen · **Entra MRP** · **Proveedor principal** · **Alternativa** · Operación · Norma · Fuente ·
+Plano · Observaciones. Colores de fila: sin color = validado · **amarillo** = estimado con justificación (norma o
+fuente técnica) · **naranja** = a validar (falta dato, cotización o confirmación) · **rojo** = no cumple o decisión
+pendiente. Revendidos: el BOM queda completo como referencia y en MRP entra sólo la fila S0 «Equipo terminado
+comprado». Proveedores en `flama/proveedores.py`.
 
 Subconjuntos: S1 recipiente (en los ABC = plano FL_REC) · S2 válvula · S3 descarga · S4 carro · S5 carga ·
-S6 identificación y precinto · S7 embalaje · S8 soporte.
+S6 identificación y precinto · S7 embalaje · S8 soporte · S0 equipo terminado comprado (revendidos).

@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461320.0785069442
+2461320.175949074
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461320.0785416667
+2461320.1759722224
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{3587E8E3-06AD-483C-BF37-6793C8713F61}
+{986DC9DA-E77F-40E8-BC7E-C47FFFE614F6}
   9
 $VERSIONGUID
   2
-{2F5AEC14-22FB-48F1-BB52-44D14CCCF23D}
+{94C31E4F-CB9B-4891-8BA8-D1904F497A24}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -13775,7 +13775,7 @@ AcDbText
  40
 1.8
   1
-costura long. MIG
+costura long. MAG
   7
 ISO3098
  11
@@ -328517,7 +328517,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  11
@@ -330573,7 +330573,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  11
@@ -334397,7 +334397,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  72
@@ -343707,7 +343707,7 @@ AcDbText
  40
 2.5
   1
-MIG, proceso 131 (ISO 4063)
+MAG, proceso 135 (ISO 4063)
   7
 ISO3098
  72
@@ -345877,7 +345877,7 @@ AcDbText
  40
 1.8
   1
-ISO 2553 - Representación simbólica de soldaduras: símbolo de filete, todo alrededor; proceso 131 (MIG, ISO 4063)
+ISO 2553 - Representación simbólica de soldaduras: símbolo de filete, todo alrededor; proceso 135 (MAG, ISO 4063)
   7
 ISO3098
  11
@@ -388039,7 +388039,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T01:53:03.530691+00:00
+1.4.4 @ 2026-10-06T04:13:22.487513+00:00
   0
 LAYOUT
   5
@@ -388563,7 +388563,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T01:53:06.024014+00:00
+1.4.4 @ 2026-10-06T04:13:24.823905+00:00
   0
 ENDSEC
   0

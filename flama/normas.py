@@ -41,7 +41,7 @@ DIBUJO = [
 ]
 
 SOLDADURA = ("ISO 2553", "Representación simbólica de soldaduras",
-             "Símbolo de filete, contorno en todo el perímetro; proceso 131 (MIG, ISO 4063).")
+             "Símbolo de filete, contorno en todo el perímetro; proceso 135 (MAG, ISO 4063).")
 TOLERANCIAS = ("ISO 2768-1", "Tolerancias generales", "clase m (media) salvo indicación")
 
 AVISO_NORMAS = ("Las normas se citan por número y título; el texto normativo completo "

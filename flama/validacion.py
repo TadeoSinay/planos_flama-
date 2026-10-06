@@ -67,7 +67,7 @@ DOCS = {
     "N-3517": ("IRAM 3517-2:2020", "5.3 dotación de reserva (del cliente); 9.4.5 extintores sustitutos (faja amarilla ≤ 40 mm); tabla 2 gas impulsor; 9.4.13 precinto."),
 }
 
-ESTADOS = ("VALIDADA", "VALIDADA CON CONDICIÓN", "A VALIDAR", "NO CUMPLE / A DEFINIR")
+ESTADOS = ("VALIDADA", "VALIDADA CON CONDICIÓN", "ESTIMADA", "A VALIDAR", "NO CUMPLE / A DEFINIR")
 
 # (rubro, ítem, especificación adoptada en el BOM, requisito normativo, respaldo, estado, acción para cerrar)
 VALIDACION = [
@@ -86,24 +86,32 @@ VALIDACION = [
      "IRAM 3550 3.2.1; 4.1.3.1 fórmula; 4.1.3.2 mínimos 2,9 / 4,5 mm", "Q-PACHECO · Q-PRADECON · R-FADESA",
      "VALIDADA CON CONDICIÓN", "4,75 cumple el mínimo de 4,5 (Ø > 320). 50 kg con 3,2 (igual que Fadesa G689) cumple "
      "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0."),
-    ("Semielaborado", "Tapas (cúpula y fondo) de rodantes", "Casquetes embutidos tercerizados, e = chapa del cuerpo",
-     "IRAM 3550 3.2.1 / 4.1.3", "I-FLAMA", "A VALIDAR", "Sin cotización: pedir a embutidor con certificado."),
-    ("Semielaborado", "Cuello roscado", "Pieza mecanizada comprada (Eli-Met): M22×1,5 / M30×1,5 / RBSP 2½\"",
-     "IRAM 3523 4.1.2 (Ø int. ≥ 19); IRAM 3550 4.1.5 (≥ 25 / 70); roscas IRAM 5058 / 5063", "I-FLAMA · R-FADESA",
-     "A VALIDAR", "Sin cotización: pedir a Eli-Met con material y calibre de rosca."),
-    ("Semielaborado", "Varilla de refuerzo interior 70 / 100 kg", "Barra de acero longitudinal (según investigación)",
-     "—", "I-FLAMA", "NO CUMPLE / A DEFINIR", "Medida sin cálculo: definir por cálculo estructural antes de "
-     "incluirla con cantidad."),
-    ("Consumible", "Alambre de soldadura", "ER70S-6 Ø0,9/1,2 (AWS A5.18)", "IRAM 3523 3.2.4.2 / 3550 4.1.2",
-     "I-FLAMA · Q-GETWELD", "VALIDADA CON CONDICIÓN", "Cantidad = metal depositado del plano; el rendimiento real "
-     "(salpicaduras) se mide en la prueba de soldadura del proveedor del equipo."),
-    ("Consumible", "Gas de protección", "Mezcla M20: Ar + 8 % CO₂ (ARCAL Speed) — Getweld especifica 90/10",
-     "IRAM 3523 3.2.4.2 c) y 3550 3.2.2.2 c): «atmósfera inerte»", "Q-ARCAL · Q-GETWELD",
-     "NO CUMPLE / A DEFINIR", "La mezcla con CO₂ es activa (MAG), no inerte. Confirmar con el certificador (IRAM / "
-     "BV) o usar Ar puro (MIG 131). Caudal no documentado: medir en la prueba de soldadura."),
-    ("Consumible", "Granalla", "S330 / S390 (ISO 11124-3, SAE J444) — sólo manuales; rodantes por quemado",
-     "DOC-01 (Sa 2½ ISO 8501-1)", "I-FLAMA", "VALIDADA CON CONDICIÓN",
-     "Especificación respaldada; consumo por unidad sin dato: pedir a CyM (ECO 100) / Airblast (G-100)."),
+    ("Semielaborado", "Tapas (cúpula y fondo) 70 / 100 kg", "Casquete embutido Ø350 / Ø390 × 4,75 tercerizado",
+     "IRAM 3550 3.2.1 / 4.1.3", "I-FLAMA · catálogo Stocco", "A VALIDAR",
+     "Stocco Hnos. (San Martín) embute desde Ø340 y e ≥ 3: cotizar con certificado de material."),
+    ("Semielaborado", "Tapas (cúpula y fondo) 25 / 50 kg", "Casquete embutido Ø276 / Ø320 × 3,2",
+     "IRAM 3550 3.2.1 / 4.1.3", "I-FLAMA", "NO CUMPLE / A DEFINIR",
+     "Sin proveedor nacional en catálogo para Ø < 340 (la planilla MP-15/16 lo daba importado): consultar a Stocco "
+     "fuera de catálogo o embutir en planta."),
+    ("Semielaborado", "Cuello roscado de manuales", "Asiento mecanizado SAE 1020 M22 / M30 × 1,5 (Eli-Met)",
+     "IRAM 3523 4.1.2 (Ø int. ≥ 19); roscas IRAM 5058 / 5063", "I-FLAMA · R-FADESA", "A VALIDAR",
+     "Sin cotización (planilla MP-18/19): pedir a Eli-Met con material y calibre de rosca."),
+    ("Semielaborado", "Cupla soldable de rodantes", "Cupla M30 × 1,5 (25/50 kg) / RBSP 2½\" (70/100 kg), Eli-Met",
+     "IRAM 3550 4.1.5", "Planilla MP-20/21", "VALIDADA", "Cotizada: $5.261 / $13.479 c/u + IVA, 35-40 días."),
+    ("Semielaborado", "Varilla de refuerzo interior 70 / 100 kg", "Redondo SAE 1010 Ø8, interior detrás de la "
+     "costura longitudinal, punteado antes de soldar", "—", "Decisión FLAMA · planilla MP-22", "ESTIMADA",
+     "Posición y función decididas por FLAMA (simetría del cilindrado). Ø8 = propuesta sin cálculo; Caseros la cotizó "
+     "como inoxidable: confirmar SAE 1010 (soldable con ER70S-6)."),
+    ("Consumible", "Alambre de soldadura", "ER70S-6 Ø0,9 / 1,2 (AWS A5.18); consumo = depositado / 0,95",
+     "IRAM 3523 3.2.4.2 / 3550 4.1.2", "I-FLAMA · Q-GETWELD · T2 (ESAB)", "ESTIMADA",
+     "Rendimiento 0,95 de fuente técnica (ESAB 90-97 %): medir en la prueba de soldadura del equipo."),
+    ("Consumible", "Gas de protección", "Arcal 21 / ARCAL Speed: Ar + 8 % CO₂ (M20) para MAG 135; 14 L/min × "
+     "tiempo de arco (cordón / 600 mm/min)", "IRAM 3523 3.2.4.2 c) y 3550 3.2.2.2 c): «atmósfera inerte»",
+     "Q-ARCAL · Q-GETWELD · T1", "VALIDADA CON CONDICIÓN", "Decisión FLAMA: MAG. Acreditar con el certificador "
+     "(IRAM / BV) en el ensayo de tipo (probetas IRAM 609 y PH). Caudal y velocidad: fuentes técnicas, medir."),
+    ("Consumible", "Granalla", "S330 / S390 (ISO 11124-3, SAE J444) — sólo manuales; rodantes por quemado; "
+     "3,4 kg/h ÷ 42,5 u/h = 0,08 kg/u", "DOC-01 (Sa 2½ ISO 8501-1)", "I-FLAMA · T3 (The Fabricator)", "ESTIMADA",
+     "Consumo por regla HP / 2 lb/h de la G-100: medir. El 1 kg (Ø76,2) está fuera del rango de la G-100 (Ø80-200)."),
     ("Servicio", "Pintura", "Servicio tercerizado de pintura en polvo al horno, rojo 03-1-050, por unidad",
      "IRAM 3523 5.3 / IRAM 3550 3.11; niebla salina IRAM 121 (3550 4.5: 240 h)", "Q-PRYMAX · Q-CARROS · N-349",
      "VALIDADA CON CONDICIÓN", "Res. 349/07 art. 18 d) lista cabina y equipo de pintura en el equipamiento del "
@@ -121,16 +129,24 @@ VALIDACION = [
      "Confirmar con el proveedor qué trae el kit (lista: resorte y tubo de pesca; vástago y junta se asumen "
      "incluidos)."),
     ("Componente", "Manómetro", "Manómetro con sello IRAM 3533", "IRAM 3523 4.5", "I-FLAMA", "A VALIDAR",
-     "Sin cotización ni ficha: cotizar (Georgia / repuestos)."),
+     "Sin cotización ni ficha: cotizar a Georgia (venta mayorista) o Mozart (Valentín Alsina)."),
     ("Componente", "Manga y tobera", "Manga de caucho + tobera", "IRAM 3523 4.2 (≥ 350 mm; PH 2 × Ps)", "I-FLAMA",
      "A VALIDAR", "Sin cotización: cotizar con ensayo de PH de la manga."),
-    ("Componente", "Carro de rodantes", "Carro armado comprado (bastidor, eje, ruedas, sunchos)",
-     "IRAM 3550 3.12 (tren de rodaje)", "I-FLAMA", "A VALIDAR", "Sin cotización: cotizar (Ruedar / Biston)."),
+    ("Componente", "Carro de rodantes", "Fabricado en planta: caño Ø25,4 × 1,6, eje SAE 1045 Ø25, planchuela 40 × 6, "
+     "apoyo de chapa; ruedas compradas", "IRAM 3550 3.12 y 4.8 (ruedas ≥ Ø300 × 50)", "Catálogo Ruedar / Escanort",
+     "A VALIDAR", "No hay proveedor nacional del carro armado. Ruedas: Ruedar Ø300 (buje 20: pedir 25) y Ø350 × 60 "
+     "(buje 25, 150 kg); Ø400 maciza sin proveedor nacional hallado (Escanort Ø400 neumática)."),
+    ("Referencia", "Recipiente inoxidable de revendidos (agua, AFFF 10 L, sales K)", "Chapa inoxidable 304 soldada, "
+     "TIG con Ar puro", "IRAM 3525 3.2.1 b) e ≥ 0,63; 3.2.2 ≤ 1 long. + 2 transv., automático, atmósfera inerte; "
+     "IRAM 3517-2 9.4.21", "T5 · mercado (recipientes soldados, PH 100 %)", "ESTIMADA",
+     "Soldado (no sin costura) confirmado por norma y mercado; proceso exacto no publicado por los fabricantes."),
     ("Identificación", "Etiqueta, oblea, estampilla, tarjeta, precinto, faja",
      "Según hoja 4 de cada plano FL_MAT", "IRAM 3534; Anexo R; Res. 522/07; Ord. 40.473; IRAM 3517-2 9.4.13",
      "N-3517 · fotos de mercado", "VALIDADA CON CONDICIÓN", "Formato respaldado; proveedor de etiquetas a cotizar."),
-    ("Embalaje", "Caja, pallet y film", "Caja a medida del modelo; pallet 1200 × 1000; film stretch", "—",
-     "Plano (medidas)", "A VALIDAR", "Consumo de film por pallet: medir en la envolvedora EDOS PS5."),
+    ("Embalaje", "Caja y pallet", "Caja a medida del modelo; pallet 1200 × 1000", "—", "Plano (medidas) · planilla "
+     "MP-59/60", "A VALIDAR", "Cotizar a Maxipack / Cartocan (Avellaneda) e IndusPallets (Lanús)."),
+    ("Embalaje", "Film stretch", "LLDPE 23 µm × 500 mm, 0,12 kg por pallet", "—", "Fichas de film · pre-estirado 250 %",
+     "ESTIMADA", "Cálculo 40 m aplicados / 3,5 × 0,5 m × 23 µm × 0,92: medir en la envolvedora EDOS PS5."),
 ]
 
 

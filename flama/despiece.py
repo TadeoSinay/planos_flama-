@@ -47,6 +47,8 @@ def explotar(m, piezas):
     for k in ("fondo", "pie"):
         if k in piezas:
             d[k][2] = (c.zmin - g) - _bb(piezas[k]).zmax
+    if "varilla" in piezas:                      # interior: se saca hacia el frente para verla
+        d["varilla"][1] = -(2.2 * R + g)
     # S2 válvula: arriba, abierta en altura
     val = [k for k in piezas if sub[k] == 2 and k != "cano_pesca" and k not in NO_DIBUJAR]
     if val:
@@ -208,7 +210,7 @@ def lamina(m):
             suf = r["codigo"].split("-")[-1]
             glo = str(int(suf)) if suf.isdigit() else "—"
             cant = r["cant"]
-            ct = (f"{cant:g}".replace(".", ",") if isinstance(cant, (int, float)) else str(cant)) + \
+            ct = (f"{cant:g}".replace(".", ",") if isinstance(cant, (int, float)) else "—") + \
                  ("" if r["um"] == "u" else " " + r["um"])
             filas_t.append((glo, r["codigo"], r["desc"][:46], ct, (r["mat"] or "")[:30]))
     alto = min(5.0, (h.fy1 - 8 - (h.fy0 + 51 + 30)) / (len(filas_t) + 1))
@@ -216,7 +218,7 @@ def lamina(m):
                encabezado=f"LISTA DE DESPIECE - BOM {m.codigo}")
     notas = ["NOTAS",
              "1) Lista completa con medidas, pesos, origen, operación y norma:",
-             "    salida/bom/FLAMA_BOM.xlsx, hoja " + m.codigo + ".",
+             "    salida/bom/FLAMA_BOM.xlsx, hoja BOM_" + m.codigo + ".",
              "2) «—» = ítem no dibujado (internos de válvula, carga, identificación, embalaje).",
              "3) S1 en los ABC = recipiente FL_REC (mismo plano que el cilindro de venta suelta).",
              "4) Ruedas: se dibujan ambas, el globo señala la derecha (cantidad 2)."

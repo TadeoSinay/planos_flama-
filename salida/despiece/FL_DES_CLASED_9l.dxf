@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461320.0865625
+2461320.186574074
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461320.086574074
+2461320.186574074
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-445
+44F
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{7E910893-E67B-40F4-A056-28AEC5D8C565}
+{F878AA25-5C3A-4A3B-B6AC-3DC30C75B654}
   9
 $VERSIONGUID
   2
-{515461BA-52EB-42B5-BBE1-97AD43193AD8}
+{32F25059-0E8C-40BE-A8DE-6ED3536B9A43}
   9
 $EXTNAMES
 290
@@ -2175,7 +2175,7 @@ AcAecLayerStandard
   0
 APPID
   5
-442
+44C
 330
 3
 100
@@ -2189,7 +2189,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-443
+44D
 330
 3
 100
@@ -2553,7 +2553,7 @@ IRAM_FLECHA
   0
 BLOCK_RECORD
   5
-43C
+446
 330
 9
 100
@@ -2563,7 +2563,7 @@ AcDbBlockTableRecord
   2
 *Paper_Space
 340
-43F
+449
  70
 0
 280
@@ -2693,9 +2693,9 @@ AcDbBlockEnd
   0
 BLOCK
   5
-43D
+447
 330
-43C
+446
 100
 AcDbEntity
   8
@@ -2719,9 +2719,9 @@ AcDbBlockBegin
   0
 ENDBLK
   5
-43E
+448
 330
-43C
+446
 100
 AcDbEntity
   8
@@ -66099,7 +66099,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S1
+CLASED9-S0
   7
 ISO3098
  72
@@ -66165,9 +66165,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-RECIPIENTE (CILINDRO)
+EQUIPO TERMINADO COMPRADO (FABRICANTE CON SELLO IRAM)
   7
 ISO3098
  72
@@ -66371,7 +66371,7 @@ AcDbText
  40
 2.5
   1
-1
+
   7
 ISO3098
  11
@@ -66437,7 +66437,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-01
+CLASED9-S1
   7
 ISO3098
  72
@@ -66505,7 +66505,7 @@ AcDbText
  40
 2.0
   1
-Cuerpo (virola)
+RECIPIENTE (CILINDRO)
   7
 ISO3098
  72
@@ -66573,7 +66573,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -66641,7 +66641,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+
   7
 ISO3098
  72
@@ -66709,7 +66709,7 @@ AcDbText
  40
 2.5
   1
-2
+1
   7
 ISO3098
  11
@@ -66775,7 +66775,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-02
+CLASED9-01
   7
 ISO3098
  72
@@ -66843,7 +66843,7 @@ AcDbText
  40
 2.0
   1
-Cúpula
+Cuerpo (virola)
   7
 ISO3098
  72
@@ -67047,7 +67047,7 @@ AcDbText
  40
 2.5
   1
-3
+2
   7
 ISO3098
  11
@@ -67113,7 +67113,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-03
+CLASED9-02
   7
 ISO3098
  72
@@ -67181,7 +67181,7 @@ AcDbText
  40
 2.0
   1
-Fondo
+Cúpula
   7
 ISO3098
  72
@@ -67385,7 +67385,7 @@ AcDbText
  40
 2.5
   1
-4
+3
   7
 ISO3098
  11
@@ -67451,7 +67451,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-04
+CLASED9-03
   7
 ISO3098
  72
@@ -67519,7 +67519,7 @@ AcDbText
  40
 2.0
   1
-Cuello roscado
+Fondo
   7
 ISO3098
  72
@@ -67655,7 +67655,7 @@ AcDbText
  40
 1.8
   1
-Acero SAE 1010
+Chapa LAF IRAM-IAS U 500-05 e=
   7
 ISO3098
  72
@@ -67723,7 +67723,7 @@ AcDbText
  40
 2.5
   1
-
+4
   7
 ISO3098
  11
@@ -67789,7 +67789,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S2
+CLASED9-04
   7
 ISO3098
  72
@@ -67857,7 +67857,7 @@ AcDbText
  40
 2.0
   1
-CONJUNTO DE VÁLVULA
+Cuello roscado
   7
 ISO3098
  72
@@ -67925,7 +67925,7 @@ AcDbText
  40
 2.2
   1
-
+1
   7
 ISO3098
  72
@@ -67993,7 +67993,7 @@ AcDbText
  40
 1.8
   1
-
+Acero SAE 1010
   7
 ISO3098
  72
@@ -68061,7 +68061,7 @@ AcDbText
  40
 2.5
   1
-5
+
   7
 ISO3098
  11
@@ -68127,7 +68127,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-05
+CLASED9-S2
   7
 ISO3098
  72
@@ -68195,7 +68195,7 @@ AcDbText
  40
 2.0
   1
-Collarín de válvula
+CONJUNTO DE VÁLVULA
   7
 ISO3098
  72
@@ -68263,7 +68263,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -68331,7 +68331,7 @@ AcDbText
  40
 1.8
   1
-Latón forjado
+
   7
 ISO3098
  72
@@ -68399,7 +68399,7 @@ AcDbText
  40
 2.5
   1
-6
+5
   7
 ISO3098
  11
@@ -68465,7 +68465,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-06
+CLASED9-05
   7
 ISO3098
  72
@@ -68533,7 +68533,7 @@ AcDbText
  40
 2.0
   1
-Espiga roscada
+Collarín de válvula
   7
 ISO3098
  72
@@ -68737,7 +68737,7 @@ AcDbText
  40
 2.5
   1
-7
+6
   7
 ISO3098
  11
@@ -68803,7 +68803,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-07
+CLASED9-06
   7
 ISO3098
  72
@@ -68871,7 +68871,7 @@ AcDbText
  40
 2.0
   1
-Cuerpo de válvula
+Espiga roscada
   7
 ISO3098
  72
@@ -69075,7 +69075,7 @@ AcDbText
  40
 2.5
   1
-8
+7
   7
 ISO3098
  11
@@ -69141,7 +69141,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-08
+CLASED9-07
   7
 ISO3098
  72
@@ -69209,7 +69209,7 @@ AcDbText
  40
 2.0
   1
-Manómetro
+Cuerpo de válvula
   7
 ISO3098
  72
@@ -69345,7 +69345,7 @@ AcDbText
  40
 1.8
   1
-Comercial
+Latón forjado
   7
 ISO3098
  72
@@ -69413,7 +69413,7 @@ AcDbText
  40
 2.5
   1
-9
+8
   7
 ISO3098
  11
@@ -69479,7 +69479,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-09
+CLASED9-08
   7
 ISO3098
  72
@@ -69547,7 +69547,7 @@ AcDbText
  40
 2.0
   1
-Manija de transporte
+Manómetro
   7
 ISO3098
  72
@@ -69683,7 +69683,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 pintada
+Comercial
   7
 ISO3098
  72
@@ -69751,7 +69751,7 @@ AcDbText
  40
 2.5
   1
-10
+9
   7
 ISO3098
  11
@@ -69817,7 +69817,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-10
+CLASED9-09
   7
 ISO3098
  72
@@ -69885,7 +69885,7 @@ AcDbText
  40
 2.0
   1
-Manija de accionamiento
+Manija de transporte
   7
 ISO3098
  72
@@ -70089,7 +70089,7 @@ AcDbText
  40
 2.5
   1
-11
+10
   7
 ISO3098
  11
@@ -70155,7 +70155,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-11
+CLASED9-10
   7
 ISO3098
  72
@@ -70223,7 +70223,7 @@ AcDbText
  40
 2.0
   1
-Eje de palanca
+Manija de accionamiento
   7
 ISO3098
  72
@@ -70359,7 +70359,7 @@ AcDbText
  40
 1.8
   1
-Acero inox. AISI 304
+Chapa acero SAE 1010 pintada
   7
 ISO3098
  72
@@ -70427,7 +70427,7 @@ AcDbText
  40
 2.5
   1
-12
+11
   7
 ISO3098
  11
@@ -70493,7 +70493,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-12
+CLASED9-11
   7
 ISO3098
  72
@@ -70561,7 +70561,7 @@ AcDbText
  40
 2.0
   1
-Vástago
+Eje de palanca
   7
 ISO3098
  72
@@ -70697,7 +70697,7 @@ AcDbText
  40
 1.8
   1
-Latón
+Acero inox. AISI 304
   7
 ISO3098
  72
@@ -70765,7 +70765,7 @@ AcDbText
  40
 2.5
   1
-13
+12
   7
 ISO3098
  11
@@ -70831,7 +70831,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-13
+CLASED9-12
   7
 ISO3098
  72
@@ -70899,7 +70899,7 @@ AcDbText
  40
 2.0
   1
-Pasador de seguridad
+Vástago
   7
 ISO3098
  72
@@ -71035,7 +71035,7 @@ AcDbText
  40
 1.8
   1
-Alambre acero inox. AISI 304
+Latón
   7
 ISO3098
  72
@@ -71103,7 +71103,7 @@ AcDbText
  40
 2.5
   1
-14
+13
   7
 ISO3098
  11
@@ -71169,7 +71169,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-14
+CLASED9-13
   7
 ISO3098
  72
@@ -71237,7 +71237,7 @@ AcDbText
  40
 2.0
   1
-Caño de pesca (sifón)
+Pasador de seguridad
   7
 ISO3098
  72
@@ -71373,7 +71373,7 @@ AcDbText
  40
 1.8
   1
-Tubo PVC rígido
+Alambre acero inox. AISI 304
   7
 ISO3098
  72
@@ -71441,7 +71441,7 @@ AcDbText
  40
 2.5
   1
-25
+14
   7
 ISO3098
  11
@@ -71507,7 +71507,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-25
+CLASED9-14
   7
 ISO3098
  72
@@ -71575,7 +71575,7 @@ AcDbText
  40
 2.0
   1
-Junta tórica de asiento
+Caño de pesca (sifón)
   7
 ISO3098
  72
@@ -71711,7 +71711,7 @@ AcDbText
  40
 1.8
   1
-NBR 70 Shore A
+Tubo PVC rígido
   7
 ISO3098
  72
@@ -71779,7 +71779,7 @@ AcDbText
  40
 2.5
   1
-—
+25
   7
 ISO3098
  11
@@ -71845,7 +71845,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-V2
+CLASED9-25
   7
 ISO3098
  72
@@ -71913,7 +71913,7 @@ AcDbText
  40
 2.0
   1
-Resorte de retorno del vástago
+Junta tórica de asiento
   7
 ISO3098
  72
@@ -72049,7 +72049,7 @@ AcDbText
  40
 1.8
   1
-Acero para resortes
+NBR 70 Shore A
   7
 ISO3098
  72
@@ -72183,7 +72183,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-V3
+CLASED9-V2
   7
 ISO3098
  72
@@ -72251,7 +72251,7 @@ AcDbText
  40
 2.0
   1
-Junta tórica del vástago
+Resorte de retorno del vástago
   7
 ISO3098
  72
@@ -72387,7 +72387,7 @@ AcDbText
  40
 1.8
   1
-NBR 70 Shore A
+Acero para resortes
   7
 ISO3098
  72
@@ -72455,7 +72455,7 @@ AcDbText
  40
 2.5
   1
-
+—
   7
 ISO3098
  11
@@ -72521,7 +72521,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S3
+CLASED9-V3
   7
 ISO3098
  72
@@ -72589,7 +72589,7 @@ AcDbText
  40
 2.0
   1
-DISPOSITIVO DE DESCARGA
+Junta tórica del vástago
   7
 ISO3098
  72
@@ -72657,7 +72657,7 @@ AcDbText
  40
 2.2
   1
-
+1
   7
 ISO3098
  72
@@ -72725,7 +72725,7 @@ AcDbText
  40
 1.8
   1
-
+NBR 70 Shore A
   7
 ISO3098
  72
@@ -72793,7 +72793,7 @@ AcDbText
  40
 2.5
   1
-15
+
   7
 ISO3098
  11
@@ -72859,7 +72859,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-15
+CLASED9-S3
   7
 ISO3098
  72
@@ -72927,7 +72927,7 @@ AcDbText
  40
 2.0
   1
-Racor de manguera
+DISPOSITIVO DE DESCARGA
   7
 ISO3098
  72
@@ -72995,7 +72995,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -73063,7 +73063,7 @@ AcDbText
  40
 1.8
   1
-Latón
+
   7
 ISO3098
  72
@@ -73131,7 +73131,7 @@ AcDbText
  40
 2.5
   1
-16
+15
   7
 ISO3098
  11
@@ -73197,7 +73197,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-16
+CLASED9-15
   7
 ISO3098
  72
@@ -73265,7 +73265,7 @@ AcDbText
  40
 2.0
   1
-Manguera
+Racor de manguera
   7
 ISO3098
  72
@@ -73401,7 +73401,7 @@ AcDbText
  40
 1.8
   1
-Caucho sintético
+Latón
   7
 ISO3098
  72
@@ -73469,7 +73469,7 @@ AcDbText
  40
 2.5
   1
-17
+16
   7
 ISO3098
  11
@@ -73535,7 +73535,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-17
+CLASED9-16
   7
 ISO3098
  72
@@ -73603,7 +73603,7 @@ AcDbText
  40
 2.0
   1
-Lanza aplicadora flujo suave
+Manguera
   7
 ISO3098
  72
@@ -73739,7 +73739,7 @@ AcDbText
  40
 1.8
   1
-Tubo aluminio
+Caucho sintético
   7
 ISO3098
  72
@@ -73807,7 +73807,7 @@ AcDbText
  40
 2.5
   1
-18
+17
   7
 ISO3098
  11
@@ -73873,7 +73873,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-18
+CLASED9-17
   7
 ISO3098
  72
@@ -73941,7 +73941,7 @@ AcDbText
  40
 2.0
   1
-Empuñadura
+Lanza aplicadora flujo suave
   7
 ISO3098
  72
@@ -74077,7 +74077,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno
+Tubo aluminio
   7
 ISO3098
  72
@@ -74145,7 +74145,7 @@ AcDbText
  40
 2.5
   1
-19
+18
   7
 ISO3098
  11
@@ -74211,7 +74211,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-19
+CLASED9-18
   7
 ISO3098
  72
@@ -74279,7 +74279,7 @@ AcDbText
  40
 2.0
   1
-Suncho portatobera
+Empuñadura
   7
 ISO3098
  72
@@ -74415,7 +74415,7 @@ AcDbText
  40
 1.8
   1
-Fleje acero SAE 1010 pintado
+Polipropileno
   7
 ISO3098
  72
@@ -74483,7 +74483,7 @@ AcDbText
  40
 2.5
   1
-
+19
   7
 ISO3098
  11
@@ -74549,7 +74549,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S5
+CLASED9-19
   7
 ISO3098
  72
@@ -74617,7 +74617,7 @@ AcDbText
  40
 2.0
   1
-CARGA: AGENTE EXTINTOR Y GAS IMPULSOR
+Suncho portatobera
   7
 ISO3098
  72
@@ -74685,7 +74685,7 @@ AcDbText
  40
 2.2
   1
-
+1
   7
 ISO3098
  72
@@ -74753,7 +74753,7 @@ AcDbText
  40
 1.8
   1
-
+Fleje acero SAE 1010 pintado
   7
 ISO3098
  72
@@ -74821,7 +74821,7 @@ AcDbText
  40
 2.5
   1
-—
+
   7
 ISO3098
  11
@@ -74887,7 +74887,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-A1
+CLASED9-S5
   7
 ISO3098
  72
@@ -74955,7 +74955,7 @@ AcDbText
  40
 2.0
   1
-Polvo para metales combustibles clase D - Clas
+CARGA: AGENTE EXTINTOR Y GAS IMPULSOR
   7
 ISO3098
  72
@@ -75023,7 +75023,7 @@ AcDbText
  40
 2.2
   1
-9,15 kg
+
   7
 ISO3098
  72
@@ -75091,7 +75091,7 @@ AcDbText
  40
 1.8
   1
-Polvo para metales combustible
+
   7
 ISO3098
  72
@@ -75225,7 +75225,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-A2
+CLASED9-A1
   7
 ISO3098
  72
@@ -75293,7 +75293,7 @@ AcDbText
  40
 2.0
   1
-Gas impulsor: N₂
+Polvo para metales combustibles clase D - Clas
   7
 ISO3098
  72
@@ -75359,9 +75359,9 @@ AcDbText
  30
 0.0
  40
-1.8
+2.2
   1
-0,0604 kg
+9,15 kg
   7
 ISO3098
  72
@@ -75429,7 +75429,7 @@ AcDbText
  40
 1.8
   1
-N₂
+Polvo para metales combustible
   7
 ISO3098
  72
@@ -75497,7 +75497,7 @@ AcDbText
  40
 2.5
   1
-
+—
   7
 ISO3098
  11
@@ -75563,7 +75563,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S6
+CLASED9-A2
   7
 ISO3098
  72
@@ -75631,7 +75631,7 @@ AcDbText
  40
 2.0
   1
-IDENTIFICACIÓN Y PRECINTO
+Gas impulsor: N₂
   7
 ISO3098
  72
@@ -75697,9 +75697,9 @@ AcDbText
  30
 0.0
  40
-2.2
+1.8
   1
-
+0,0604 kg
   7
 ISO3098
  72
@@ -75767,7 +75767,7 @@ AcDbText
  40
 1.8
   1
-
+N₂
   7
 ISO3098
  72
@@ -75835,7 +75835,7 @@ AcDbText
  40
 2.5
   1
-20
+
   7
 ISO3098
  11
@@ -75901,7 +75901,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-20
+CLASED9-S6
   7
 ISO3098
  72
@@ -75969,7 +75969,7 @@ AcDbText
  40
 2.0
   1
-Etiqueta / placa de características
+IDENTIFICACIÓN Y PRECINTO
   7
 ISO3098
  72
@@ -76037,7 +76037,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -76105,7 +76105,7 @@ AcDbText
  40
 1.8
   1
-Vinilo autoadhesivo laminado
+
   7
 ISO3098
  72
@@ -76173,7 +76173,7 @@ AcDbText
  40
 2.5
   1
-21
+20
   7
 ISO3098
  11
@@ -76239,7 +76239,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-21
+CLASED9-20
   7
 ISO3098
  72
@@ -76307,7 +76307,7 @@ AcDbText
  40
 2.0
   1
-Oblea de fabricación (PBA)
+Etiqueta / placa de características
   7
 ISO3098
  72
@@ -76443,7 +76443,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Vinilo autoadhesivo laminado
   7
 ISO3098
  72
@@ -76511,7 +76511,7 @@ AcDbText
  40
 2.5
   1
-22
+21
   7
 ISO3098
  11
@@ -76577,7 +76577,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-22
+CLASED9-21
   7
 ISO3098
  72
@@ -76645,7 +76645,7 @@ AcDbText
  40
 2.0
   1
-Estampilla IRAM de conformidad
+Oblea de fabricación (PBA)
   7
 ISO3098
  72
@@ -76781,7 +76781,7 @@ AcDbText
  40
 1.8
   1
-Provista por IRAM (Anexo R)
+Papel de seguridad autodestruc
   7
 ISO3098
  72
@@ -76849,7 +76849,7 @@ AcDbText
  40
 2.5
   1
-23
+22
   7
 ISO3098
  11
@@ -76915,7 +76915,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-23
+CLASED9-22
   7
 ISO3098
  72
@@ -76983,7 +76983,7 @@ AcDbText
  40
 2.0
   1
-Tarjeta de identificación AGC (CABA)
+Estampilla IRAM de conformidad
   7
 ISO3098
  72
@@ -77119,7 +77119,7 @@ AcDbText
  40
 1.8
   1
-Etiqueta autoadhesiva emitida 
+Provista por IRAM (Anexo R)
   7
 ISO3098
  72
@@ -77187,7 +77187,7 @@ AcDbText
  40
 2.5
   1
-24
+23
   7
 ISO3098
  11
@@ -77253,7 +77253,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-24
+CLASED9-23
   7
 ISO3098
  72
@@ -77321,7 +77321,7 @@ AcDbText
  40
 2.0
   1
-Etiqueta de n° de serie GS1
+Tarjeta de identificación AGC (CABA)
   7
 ISO3098
  72
@@ -77457,7 +77457,7 @@ AcDbText
  40
 1.8
   1
-Poliéster autoadhesivo impreso
+Etiqueta autoadhesiva emitida 
   7
 ISO3098
  72
@@ -77525,7 +77525,7 @@ AcDbText
  40
 2.5
   1
-26
+24
   7
 ISO3098
  11
@@ -77591,7 +77591,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-26
+CLASED9-24
   7
 ISO3098
  72
@@ -77659,7 +77659,7 @@ AcDbText
  40
 2.0
   1
-Faja de garantía válvula-cuello
+Etiqueta de n° de serie GS1
   7
 ISO3098
  72
@@ -77795,7 +77795,7 @@ AcDbText
  40
 1.8
   1
-Vinilo destructible rayado roj
+Poliéster autoadhesivo impreso
   7
 ISO3098
  72
@@ -77863,7 +77863,7 @@ AcDbText
  40
 2.5
   1
-27
+26
   7
 ISO3098
  11
@@ -77929,7 +77929,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-27
+CLASED9-26
   7
 ISO3098
  72
@@ -77997,7 +77997,7 @@ AcDbText
  40
 2.0
   1
-Precinto de fábrica
+Faja de garantía válvula-cuello
   7
 ISO3098
  72
@@ -78133,7 +78133,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno color
+Vinilo destructible rayado roj
   7
 ISO3098
  72
@@ -78201,7 +78201,7 @@ AcDbText
  40
 2.5
   1
-
+27
   7
 ISO3098
  11
@@ -78267,7 +78267,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S8
+CLASED9-27
   7
 ISO3098
  72
@@ -78335,7 +78335,7 @@ AcDbText
  40
 2.0
   1
-SOPORTE (ACCESORIO DE MONTAJE)
+Precinto de fábrica
   7
 ISO3098
  72
@@ -78403,7 +78403,7 @@ AcDbText
  40
 2.2
   1
-
+1
   7
 ISO3098
  72
@@ -78471,7 +78471,7 @@ AcDbText
  40
 1.8
   1
-
+Polipropileno color
   7
 ISO3098
  72
@@ -78539,7 +78539,7 @@ AcDbText
  40
 2.5
   1
-—
+
   7
 ISO3098
  11
@@ -78605,7 +78605,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-I5
+CLASED9-S8
   7
 ISO3098
  72
@@ -78673,7 +78673,7 @@ AcDbText
  40
 2.0
   1
-Soporte de pared (FL_ACC_01)
+SOPORTE (ACCESORIO DE MONTAJE)
   7
 ISO3098
  72
@@ -78741,7 +78741,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -78809,7 +78809,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+
   7
 ISO3098
  72
@@ -78943,7 +78943,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-I6
+CLASED9-I5
   7
 ISO3098
  72
@@ -79011,7 +79011,7 @@ AcDbText
  40
 2.0
   1
-Tornillo y tarugo de fijación
+Soporte de pared (FL_ACC_01)
   7
 ISO3098
  72
@@ -79079,7 +79079,7 @@ AcDbText
  40
 2.2
   1
-2
+1
   7
 ISO3098
  72
@@ -79147,7 +79147,7 @@ AcDbText
  40
 1.8
   1
-Acero cincado / nylon
+Chapa acero SAE 1010 e=2 pinta
   7
 ISO3098
  72
@@ -79215,7 +79215,7 @@ AcDbText
  40
 2.5
   1
-
+—
   7
 ISO3098
  11
@@ -79281,7 +79281,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-S7
+CLASED9-I6
   7
 ISO3098
  72
@@ -79349,7 +79349,7 @@ AcDbText
  40
 2.0
   1
-EMBALAJE
+Tornillo y tarugo de fijación
   7
 ISO3098
  72
@@ -79417,7 +79417,7 @@ AcDbText
  40
 2.2
   1
-
+2
   7
 ISO3098
  72
@@ -79485,7 +79485,7 @@ AcDbText
  40
 1.8
   1
-
+Acero cincado / nylon
   7
 ISO3098
  72
@@ -79553,7 +79553,7 @@ AcDbText
  40
 2.5
   1
-—
+
   7
 ISO3098
  11
@@ -79619,7 +79619,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-E1
+CLASED9-S7
   7
 ISO3098
  72
@@ -79687,7 +79687,7 @@ AcDbText
  40
 2.0
   1
-Caja de cartón corrugado doble
+EMBALAJE
   7
 ISO3098
  72
@@ -79755,7 +79755,7 @@ AcDbText
  40
 2.2
   1
-1
+
   7
 ISO3098
  72
@@ -79823,7 +79823,7 @@ AcDbText
  40
 1.8
   1
-Cartón corrugado
+
   7
 ISO3098
  72
@@ -79957,7 +79957,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-E2
+CLASED9-E1
   7
 ISO3098
  72
@@ -80025,7 +80025,7 @@ AcDbText
  40
 2.0
   1
-Instructivo de uso y mantenimiento
+Caja de cartón corrugado doble
   7
 ISO3098
  72
@@ -80161,7 +80161,7 @@ AcDbText
  40
 1.8
   1
-Papel
+Cartón corrugado
   7
 ISO3098
  72
@@ -80295,7 +80295,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-E3
+CLASED9-E2
   7
 ISO3098
  72
@@ -80363,7 +80363,7 @@ AcDbText
  40
 2.0
   1
-Pallet 1200 × 1000 (fracción)
+Instructivo de uso y mantenimiento
   7
 ISO3098
  72
@@ -80431,7 +80431,7 @@ AcDbText
  40
 2.2
   1
-0,0312
+1
   7
 ISO3098
  72
@@ -80499,7 +80499,7 @@ AcDbText
  40
 1.8
   1
-Madera
+Papel
   7
 ISO3098
  72
@@ -80633,7 +80633,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-E4
+CLASED9-E3
   7
 ISO3098
  72
@@ -80701,7 +80701,7 @@ AcDbText
  40
 2.0
   1
-Film stretch (fracción del pallet)
+Pallet 1200 × 1000 (fracción)
   7
 ISO3098
  72
@@ -80769,7 +80769,7 @@ AcDbText
  40
 2.2
   1
-None kg
+0,0312
   7
 ISO3098
  72
@@ -80837,7 +80837,7 @@ AcDbText
  40
 1.8
   1
-PE lineal 23 µm
+Madera
   7
 ISO3098
  72
@@ -80971,7 +80971,7 @@ AcDbText
  40
 2.2
   1
-CLASED9-E5
+CLASED9-E4
   7
 ISO3098
  72
@@ -81039,7 +81039,7 @@ AcDbText
  40
 2.0
   1
-Etiqueta de pallet (lote y destino, fracción)
+Film stretch (fracción del pallet)
   7
 ISO3098
  72
@@ -81105,9 +81105,9 @@ AcDbText
  30
 0.0
  40
-2.2
+1.8
   1
-0,0312
+0,0037 kg
   7
 ISO3098
  72
@@ -81175,7 +81175,7 @@ AcDbText
  40
 1.8
   1
-Papel térmico
+PE lineal 23 µm
   7
 ISO3098
  72
@@ -81191,7 +81191,7 @@ AcDbText
  73
 2
   0
-TEXT
+LWPOLYLINE
   5
 3F2
 330
@@ -81199,31 +81199,29 @@ TEXT
 100
 AcDbEntity
   8
-06-TEXTO
+10-ROTULO
 100
-AcDbText
+AcDbPolyline
+ 90
+4
+ 70
+1
  10
 392.0
  20
-165.0
- 30
-0.0
- 40
-3.5
-  1
-NOTAS
-  7
-ISO3098
- 11
+166.0
+ 10
+402.0
+ 20
+166.0
+ 10
+402.0
+ 20
+171.0
+ 10
 392.0
- 21
-165.0
- 31
-0.0
-100
-AcDbText
- 73
-1
+ 20
+171.0
   0
 TEXT
   5
@@ -81237,29 +81235,29 @@ AcDbEntity
 100
 AcDbText
  10
-392.0
+393.5
  20
-160.8
+168.5
  30
 0.0
  40
 2.5
   1
-1) Lista completa con medidas, pesos, origen, operación y norma:
+—
   7
 ISO3098
  11
-392.0
+393.5
  21
-160.8
+168.5
  31
 0.0
 100
 AcDbText
  73
-1
+2
   0
-TEXT
+LWPOLYLINE
   5
 3F4
 330
@@ -81267,31 +81265,29 @@ TEXT
 100
 AcDbEntity
   8
-06-TEXTO
+10-ROTULO
 100
-AcDbText
- 10
-392.0
- 20
-156.6
- 30
-0.0
- 40
-2.5
-  1
-    salida/bom/FLAMA_BOM.xlsx, hoja FL_MAT_CLASED_9l.
-  7
-ISO3098
- 11
-392.0
- 21
-156.6
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
+4
+ 70
 1
+ 10
+402.0
+ 20
+166.0
+ 10
+428.0
+ 20
+166.0
+ 10
+428.0
+ 20
+171.0
+ 10
+402.0
+ 20
+171.0
   0
 TEXT
   5
@@ -81305,29 +81301,31 @@ AcDbEntity
 100
 AcDbText
  10
-392.0
+415.0
  20
-152.4
+168.5
  30
 0.0
  40
-2.5
+2.2
   1
-2) «—» = ítem no dibujado (internos de válvula, carga, identificación, embalaje).
+CLASED9-E5
   7
 ISO3098
+ 72
+1
  11
-392.0
+415.0
  21
-152.4
+168.5
  31
 0.0
 100
 AcDbText
  73
-1
+2
   0
-TEXT
+LWPOLYLINE
   5
 3F6
 330
@@ -81335,31 +81333,29 @@ TEXT
 100
 AcDbEntity
   8
-06-TEXTO
+10-ROTULO
 100
-AcDbText
- 10
-392.0
- 20
-148.2
- 30
-0.0
- 40
-2.5
-  1
-3) S1 en los ABC = recipiente FL_REC (mismo plano que el cilindro de venta suelta).
-  7
-ISO3098
- 11
-392.0
- 21
-148.2
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
+4
+ 70
 1
+ 10
+428.0
+ 20
+166.0
+ 10
+510.0
+ 20
+166.0
+ 10
+510.0
+ 20
+171.0
+ 10
+428.0
+ 20
+171.0
   0
 TEXT
   5
@@ -81373,27 +81369,29 @@ AcDbEntity
 100
 AcDbText
  10
-392.0
+469.0
  20
-144.0
+168.5
  30
 0.0
  40
-2.5
+2.0
   1
-4) Piezas en posición relativa de montaje; desplazadas sólo para mostrarlas.
+Etiqueta de pallet (lote y destino, fracción)
   7
 ISO3098
+ 72
+1
  11
-392.0
+469.0
  21
-144.0
+168.5
  31
 0.0
 100
 AcDbText
  73
-1
+2
   0
 LWPOLYLINE
   5
@@ -81411,6 +81409,346 @@ AcDbPolyline
  70
 1
  10
+510.0
+ 20
+166.0
+ 10
+528.0
+ 20
+166.0
+ 10
+528.0
+ 20
+171.0
+ 10
+510.0
+ 20
+171.0
+  0
+TEXT
+  5
+3F9
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+519.0
+ 20
+168.5
+ 30
+0.0
+ 40
+2.2
+  1
+0,0312
+  7
+ISO3098
+ 72
+1
+ 11
+519.0
+ 21
+168.5
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+3FA
+330
+17
+100
+AcDbEntity
+  8
+10-ROTULO
+100
+AcDbPolyline
+ 90
+4
+ 70
+1
+ 10
+528.0
+ 20
+166.0
+ 10
+582.0
+ 20
+166.0
+ 10
+582.0
+ 20
+171.0
+ 10
+528.0
+ 20
+171.0
+  0
+TEXT
+  5
+3FB
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+555.0
+ 20
+168.5
+ 30
+0.0
+ 40
+1.8
+  1
+Papel térmico
+  7
+ISO3098
+ 72
+1
+ 11
+555.0
+ 21
+168.5
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+3FC
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+160.0
+ 30
+0.0
+ 40
+3.5
+  1
+NOTAS
+  7
+ISO3098
+ 11
+392.0
+ 21
+160.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+3FD
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+155.8
+ 30
+0.0
+ 40
+2.5
+  1
+1) Lista completa con medidas, pesos, origen, operación y norma:
+  7
+ISO3098
+ 11
+392.0
+ 21
+155.8
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+3FE
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+151.6
+ 30
+0.0
+ 40
+2.5
+  1
+    salida/bom/FLAMA_BOM.xlsx, hoja BOM_FL_MAT_CLASED_9l.
+  7
+ISO3098
+ 11
+392.0
+ 21
+151.6
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+3FF
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+147.4
+ 30
+0.0
+ 40
+2.5
+  1
+2) «—» = ítem no dibujado (internos de válvula, carga, identificación, embalaje).
+  7
+ISO3098
+ 11
+392.0
+ 21
+147.4
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+400
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+143.2
+ 30
+0.0
+ 40
+2.5
+  1
+3) S1 en los ABC = recipiente FL_REC (mismo plano que el cilindro de venta suelta).
+  7
+ISO3098
+ 11
+392.0
+ 21
+143.2
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+TEXT
+  5
+401
+330
+17
+100
+AcDbEntity
+  8
+06-TEXTO
+100
+AcDbText
+ 10
+392.0
+ 20
+139.0
+ 30
+0.0
+ 40
+2.5
+  1
+4) Piezas en posición relativa de montaje; desplazadas sólo para mostrarlas.
+  7
+ISO3098
+ 11
+392.0
+ 21
+139.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+LWPOLYLINE
+  5
+402
+330
+17
+100
+AcDbEntity
+  8
+10-ROTULO
+100
+AcDbPolyline
+ 90
+4
+ 70
+1
+ 10
 409.0
  20
 56.0
@@ -81429,7 +81767,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-3F9
+403
 330
 17
 100
@@ -81461,7 +81799,7 @@ AcDbPolyline
   0
 TEXT
   5
-3FA
+404
 330
 17
 100
@@ -81497,7 +81835,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-3FB
+405
 330
 17
 100
@@ -81529,7 +81867,7 @@ AcDbPolyline
   0
 TEXT
   5
-3FC
+406
 330
 17
 100
@@ -81565,7 +81903,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-3FD
+407
 330
 17
 100
@@ -81597,7 +81935,7 @@ AcDbPolyline
   0
 TEXT
   5
-3FE
+408
 330
 17
 100
@@ -81631,7 +81969,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-3FF
+409
 330
 17
 100
@@ -81663,7 +82001,7 @@ AcDbPolyline
   0
 TEXT
   5
-400
+40A
 330
 17
 100
@@ -81699,7 +82037,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-401
+40B
 330
 17
 100
@@ -81731,7 +82069,7 @@ AcDbPolyline
   0
 TEXT
   5
-402
+40C
 330
 17
 100
@@ -81767,7 +82105,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-403
+40D
 330
 17
 100
@@ -81799,7 +82137,7 @@ AcDbPolyline
   0
 TEXT
   5
-404
+40E
 330
 17
 100
@@ -81833,7 +82171,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-405
+40F
 330
 17
 100
@@ -81865,7 +82203,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-406
+410
 330
 17
 100
@@ -81897,7 +82235,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-407
+411
 330
 17
 100
@@ -81929,7 +82267,7 @@ AcDbPolyline
   0
 TEXT
   5
-408
+412
 330
 17
 100
@@ -81963,7 +82301,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-409
+413
 330
 17
 100
@@ -81995,7 +82333,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-40A
+414
 330
 17
 100
@@ -82027,7 +82365,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-40B
+415
 330
 17
 100
@@ -82059,7 +82397,7 @@ AcDbPolyline
   0
 TEXT
   5
-40C
+416
 330
 17
 100
@@ -82093,7 +82431,7 @@ AcDbText
   0
 TEXT
   5
-40D
+417
 330
 17
 100
@@ -82129,7 +82467,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-40E
+418
 330
 17
 100
@@ -82161,7 +82499,7 @@ AcDbPolyline
   0
 TEXT
   5
-40F
+419
 330
 17
 100
@@ -82195,7 +82533,7 @@ AcDbText
   0
 CIRCLE
   5
-410
+41A
 330
 17
 100
@@ -82215,7 +82553,7 @@ AcDbCircle
   0
 CIRCLE
   5
-411
+41B
 330
 17
 100
@@ -82235,7 +82573,7 @@ AcDbCircle
   0
 LWPOLYLINE
   5
-412
+41C
 330
 17
 100
@@ -82267,7 +82605,7 @@ AcDbPolyline
   0
 LINE
   5
-413
+41D
 330
 17
 100
@@ -82291,7 +82629,7 @@ AcDbLine
   0
 LINE
   5
-414
+41E
 330
 17
 100
@@ -82315,7 +82653,7 @@ AcDbLine
   0
 TEXT
   5
-415
+41F
 330
 17
 100
@@ -82351,7 +82689,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-416
+420
 330
 17
 100
@@ -82383,7 +82721,7 @@ AcDbPolyline
   0
 TEXT
   5
-417
+421
 330
 17
 100
@@ -82417,7 +82755,7 @@ AcDbText
   0
 TEXT
   5
-418
+422
 330
 17
 100
@@ -82453,7 +82791,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-419
+423
 330
 17
 100
@@ -82485,7 +82823,7 @@ AcDbPolyline
   0
 TEXT
   5
-41A
+424
 330
 17
 100
@@ -82519,7 +82857,7 @@ AcDbText
   0
 TEXT
   5
-41B
+425
 330
 17
 100
@@ -82555,7 +82893,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-41C
+426
 330
 17
 100
@@ -82587,7 +82925,7 @@ AcDbPolyline
   0
 TEXT
   5
-41D
+427
 330
 17
 100
@@ -82621,7 +82959,7 @@ AcDbText
   0
 TEXT
   5
-41E
+428
 330
 17
 100
@@ -82657,7 +82995,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-41F
+429
 330
 17
 100
@@ -82689,7 +83027,7 @@ AcDbPolyline
   0
 TEXT
   5
-420
+42A
 330
 17
 100
@@ -82723,7 +83061,7 @@ AcDbText
   0
 TEXT
   5
-421
+42B
 330
 17
 100
@@ -82759,7 +83097,7 @@ AcDbText
   0
 TEXT
   5
-422
+42C
 330
 17
 100
@@ -82795,7 +83133,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-423
+42D
 330
 17
 100
@@ -82827,7 +83165,7 @@ AcDbPolyline
   0
 TEXT
   5
-424
+42E
 330
 17
 100
@@ -82861,7 +83199,7 @@ AcDbText
   0
 TEXT
   5
-425
+42F
 330
 17
 100
@@ -82897,7 +83235,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-426
+430
 330
 17
 100
@@ -82929,7 +83267,7 @@ AcDbPolyline
   0
 TEXT
   5
-427
+431
 330
 17
 100
@@ -82963,7 +83301,7 @@ AcDbText
   0
 TEXT
   5
-428
+432
 330
 17
 100
@@ -82999,7 +83337,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-429
+433
 330
 17
 100
@@ -83031,7 +83369,7 @@ AcDbPolyline
   0
 TEXT
   5
-42A
+434
 330
 17
 100
@@ -83065,7 +83403,7 @@ AcDbText
   0
 TEXT
   5
-42B
+435
 330
 17
 100
@@ -83101,7 +83439,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-42C
+436
 330
 17
 100
@@ -83133,7 +83471,7 @@ AcDbPolyline
   0
 TEXT
   5
-42D
+437
 330
 17
 100
@@ -83167,7 +83505,7 @@ AcDbText
   0
 TEXT
   5
-42E
+438
 330
 17
 100
@@ -83203,7 +83541,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-42F
+439
 330
 17
 100
@@ -83235,7 +83573,7 @@ AcDbPolyline
   0
 TEXT
   5
-430
+43A
 330
 17
 100
@@ -83269,7 +83607,7 @@ AcDbText
   0
 TEXT
   5
-431
+43B
 330
 17
 100
@@ -83305,7 +83643,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-432
+43C
 330
 17
 100
@@ -83337,7 +83675,7 @@ AcDbPolyline
   0
 TEXT
   5
-433
+43D
 330
 17
 100
@@ -83371,7 +83709,7 @@ AcDbText
   0
 TEXT
   5
-434
+43E
 330
 17
 100
@@ -83407,7 +83745,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-435
+43F
 330
 17
 100
@@ -83439,7 +83777,7 @@ AcDbPolyline
   0
 TEXT
   5
-436
+440
 330
 17
 100
@@ -83473,7 +83811,7 @@ AcDbText
   0
 TEXT
   5
-437
+441
 330
 17
 100
@@ -83509,7 +83847,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-438
+442
 330
 17
 100
@@ -83541,7 +83879,7 @@ AcDbPolyline
   0
 TEXT
   5
-439
+443
 330
 17
 100
@@ -83575,7 +83913,7 @@ AcDbText
   0
 TEXT
   5
-43A
+444
 330
 17
 100
@@ -83611,7 +83949,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-43B
+445
 330
 17
 100
@@ -83643,9 +83981,9 @@ AcDbPolyline
   0
 VIEWPORT
   5
-440
+44A
 330
-43C
+446
 100
 AcDbEntity
  67
@@ -83747,9 +84085,9 @@ AcDbViewport
   0
 VIEWPORT
   5
-441
+44B
 330
-43C
+446
 100
 AcDbEntity
  67
@@ -83949,7 +84287,7 @@ Model
   3
 Lamina
 350
-43F
+449
   0
 DICTIONARY
   5
@@ -84715,7 +85053,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-444
+44E
   0
 DICTIONARYVAR
   5
@@ -84727,11 +85065,11 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T02:04:39.617863+00:00
+1.4.4 @ 2026-10-06T04:28:40.325858+00:00
   0
 LAYOUT
   5
-43F
+449
 330
 D
 100
@@ -84853,13 +85191,13 @@ Lamina
  76
 1
 330
-43C
+446
 331
-440
+44A
   0
 DICTIONARYVAR
   5
-444
+44E
 330
 2D
 100
@@ -84867,7 +85205,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T02:04:40.102867+00:00
+1.4.4 @ 2026-10-06T04:28:40.858978+00:00
   0
 ENDSEC
   0

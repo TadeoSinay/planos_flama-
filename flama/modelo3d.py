@@ -153,7 +153,7 @@ def recipiente(g, z0=0.0, costura=True):
     cu = cu.fuse(_tube(dn / 2, bore / 2, hn, (0, 0, zo)))
     piezas["cuello"] = cu.clean()
 
-    # --- cordones de soldadura (MIG) ----------------------------------------
+    # --- cordones de soldadura (MAG) ----------------------------------------
     sw = max(1.0, 0.8 * t)
     Rs = R - 0.5 * t          # cordón a tope, sobremonta exterior 0,3·t
     sold = []
@@ -167,6 +167,11 @@ def recipiente(g, z0=0.0, costura=True):
         sold.append(_torus(dn / 2, max(1.0, 0.8 * td), zo))    # cuello-cúpula
     if costura and tipo != "co2":
         sold.append(_box(3.0, 0.8 * t, hc - zb - 2, 0, -R + 0.1 * t, zb + 1))  # costura longitudinal
+    if g.get("varilla"):
+        # 70 y 100 kg: varilla de refuerzo interior, detrás de la costura longitudinal; se puntea antes de soldar
+        # para mantener la simetría del cilindrado (decisión de proceso FLAMA). Ø8, a 15 mm de las uniones.
+        dv = g["varilla"]
+        piezas["varilla"] = _cyl(dv / 2, hc - zb - 30, (0, -(R - t - dv / 2), zb + 15))
     if sold:
         s = sold[0]
         for x in sold[1:]:

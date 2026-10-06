@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461320.081516204
+2461320.1833912036
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461320.081527778
+2461320.1834027776
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{79FAA06E-CFEF-45BA-B4F3-1E65AD6099E6}
+{4232EF6E-4DF4-4F84-AEB8-94EA906F5B7A}
   9
 $VERSIONGUID
   2
-{153F3A93-92B2-45A3-9B8B-C3D76AF9455D}
+{D502D111-C2C6-47EC-ADFF-47E2B002E738}
   9
 $EXTNAMES
 290
@@ -61561,7 +61561,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  11
@@ -63445,7 +63445,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  11
@@ -66269,7 +66269,7 @@ AcDbText
  40
 2.5
   1
-131
+135
   7
 ISO3098
  11
@@ -67217,9 +67217,9 @@ AcDbText
  30
 0.0
  40
-1.5801886792452828
+1.8
   1
-MAG 135 con M20 (a confirmar: norma pide atm. inerte)
+MAG 135, Arcal 21 (Ar + 8 % CO₂, M20)
   7
 ISO3098
  72
@@ -68329,7 +68329,7 @@ AcDbText
  40
 2.5
   1
-3) Cordones MIG continuos y estancos.
+3) Cordones MAG continuos y estancos.
   7
 ISO3098
  11
@@ -73979,9 +73979,9 @@ AcDbText
  30
 0.0
  40
-1.25
+0.8062130177514791
   1
-MAG (135) con M20 Ar + 8-10 % CO₂ (Air Liquide / Getweld): no es inerte; confirmar con certificador o Ar puro
+MAG (135) con Arcal 21 (Ar + 8 % CO₂, M20; Air Liquide): decisión FLAMA. La mezcla es activa: acreditar con el certificador en el ensayo de tipo (probetas IRAM 609 y PH)
   7
 ISO3098
  72
@@ -74049,7 +74049,7 @@ AcDbText
  40
 2.0
   1
-NO CUMPLE
+VERIFICAR
   7
 ISO3098
  72
@@ -95861,7 +95861,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T01:57:23.497456+00:00
+1.4.4 @ 2026-10-06T04:24:05.911074+00:00
   0
 LAYOUT
   5
@@ -96257,7 +96257,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-06T01:57:24.280297+00:00
+1.4.4 @ 2026-10-06T04:24:06.653515+00:00
   0
 ENDSEC
   0

@@ -22,6 +22,8 @@ PIEZAS = {
     "cupula": ("Cúpula", "Chapa acero SAE 1010", ACERO, 1.0, "embutida"),
     "fondo": ("Fondo", "Chapa acero SAE 1010", ACERO, 1.0, "embutido"),
     "cuello": ("Cuello roscado", "Acero SAE 1010", ACERO, 1.0, None),
+    "varilla": ("Varilla de refuerzo interior", "Redondo liso SAE 1010 Ø8", ACERO, 1.0,
+                "punteada detrás de la costura long."),
     "soldaduras": None,
     "cano_pesca": ("Caño de pesca (sifón)", "Tubo PVC rígido", PVC, 1.0, None),
     "espiga": ("Espiga roscada", "Latón forjado", LATON, 1.0, None),
