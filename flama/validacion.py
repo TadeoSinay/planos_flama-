@@ -85,7 +85,8 @@ VALIDACION = [
     ("Acero", "Chapa del cuerpo rodantes", "LAC e = 3,2 (25 y 50 kg) / 4,75 (70 y 100 kg); IRAM-IAS U 500-04",
      "IRAM 3550 3.2.1; 4.1.3.1 fórmula; 4.1.3.2 mínimos 2,9 / 4,5 mm", "Q-PACHECO · Q-PRADECON · R-FADESA",
      "VALIDADA CON CONDICIÓN", "4,75 cumple el mínimo de 4,5 (Ø > 320). 50 kg con 3,2 (igual que Fadesa G689) cumple "
-     "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0."),
+     "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0. Recortes 70 / 100 kg: el "
+     "plano pide 798 × 1085 (Ø350) y 917 × 1210 (Ø390); los cotizados 680 / 900 × 1212 no sirven: recotizar."),
     ("Semielaborado", "Tapas (cúpula y fondo) de rodantes 25 / 50 / 70 / 100 kg", "Casquete embutido Ø276 / Ø320 × "
      "3,2 y Ø350 / Ø390 × 4,75, embutido tercerizado en Gockel Ingeniería (Wilde, Avellaneda)",
      "IRAM 3550 3.2.1 / 4.1.3", "Proveedor de FLAMA (Gockel)", "VALIDADA CON CONDICIÓN",

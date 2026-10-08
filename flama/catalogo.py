@@ -74,7 +74,7 @@ def _spec(cap, peso, alto, ancho, prof, desc, alc, temp, ps, pe, n_ag, n_ext, **
 
 # --- geometría de recipientes de referencia (planos de recipientes) --------
 # R: radio exterior, hc: altura del cuerpo cilíndrico medida desde el piso hasta
-# la unión con la cúpula, hd: altura de la cúpula, t: espesor de cuerpo,
+# la unión con la cúpula (rodantes: largo del cuerpo entre cabezales), hd: altura de la cúpula, t: espesor de cuerpo,
 # td: espesor de cúpula, tf: espesor de fondo, zf_borde / zf_centro: altura
 # del fondo (borde y centro) sobre el piso, cuello: (Ø ext, altura, rosca).
 G_1KG = dict(R=76.2 / 2, total=298.0, hc=0, hd=12.5, t=1.25, td=0.9, tf=1.25,

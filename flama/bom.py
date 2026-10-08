@@ -36,9 +36,12 @@ HOJA_CUERPO = {
     "10 kg": ("LAF 1500 × 3000", 2.0, 495.0, 563.0, 92.9),
     "25 kg": ("LAC 1500 × 3000", 3.2, 490.0, 858.0, 84.1),
     "50 kg": ("LAC 1500 × 3000", 3.2, 640.0, 994.0, 84.8),
-    "70 kg": ("LAC 1500 × 3000", 4.75, 680.0, 1212.0, 73.3),
-    "100 kg": ("LAC 1500 × 3000", 4.75, 900.0, 1212.0, 72.7),
+    # 70 y 100 kg: medidas del plano FL_REC (largo del cuerpo × desarrollo π·(Ø − e)), 3 piezas por hoja.
+    # Los recortes cotizados 680/900 × 1212 no corresponden al plano (el 70 kg es Ø350): recotizar.
+    "70 kg": ("LAC 1500 × 3000", 4.75, 798.0, 1085.0, 57.7),
+    "100 kg": ("LAC 1500 × 3000", 4.75, 917.0, 1210.0, 74.0),
 }
+CUERPO_PLANO = {"70 kg", "100 kg"}
 # discos de cúpula y fondo en fleje a medida (CC Nesting): Ø disco, espesor, ancho de fleje; paso = Ø + 3
 DISCO = {
     ("cupula", "1 kg"): (108, 0.9, 114), ("fondo", "1 kg"): (100, 1.25, 106),
@@ -658,10 +661,14 @@ def materia_prima(m, k, s, kg):
             fmt, e, alto, des, ap = HOJA_CUERPO[tam]
             bruto = alto * des * e * 7.85e-6 / (ap / 100)
             obs = "" if abs(e - g["t"]) < 0.01 else f"OJO: la hoja de corte usa e={_f(e, 2)} y el plano e={_f(g['t'], 2)}"
+            fuente = "FL_PI_04 h2"
+            if tam in CUERPO_PLANO:
+                fuente = "Plano " + m.codigo.replace("FL_MAT_", "FL_REC_")
+                obs = obs or "3 piezas por hoja 1500 × 3000; recotizar el recorte (cotizado 680 / 900 × 1212)"
             out.append(("MP-HOJA", f"Recorte de hoja {fmt} e={_f(e, 2)}", 1, "u",
                         ("Chapa LAC IRAM-IAS U 500-04 " if rod else "Chapa LAF IRAM-IAS U 500-05 ") + fmt.split()[0],
                         f"{_f(alto)} × {_f(des)} (aprovech. {_f(ap)} %)", round(bruto, 3), "Compra",
-                        "AL-1H paquetes de hojas", "", "L", "FL_PI_04 h2", obs,
+                        "AL-1H paquetes de hojas", "", "L", fuente, obs,
                         "MP-HOJA-LAC" if rod else "MP-HOJA-LAF", "X" if obs else ""))
     if k == "varilla":
         barra("MP-VARILLA", "Redondo liso SAE 1010 Ø8", "Redondo liso SAE 1010 Ø8", s.BoundingBox().zlen, 0.395,

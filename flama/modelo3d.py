@@ -117,6 +117,8 @@ def recipiente(g, z0=0.0, costura=True):
     ti = math.acos(min(1, rh / Ri))
     if "total" in g:  # altura total del recipiente (piso a cara superior del cuello)
         hc = g["total"] - hn - hd * math.sin(to)
+    if tipo == "cabezal":  # rodantes: hc = largo del cuerpo entre cabezales (planos Fadesa G690 493, G689 640)
+        hc = hd + hc
     zo = hc + hd * math.sin(to)
     zi = hc + (hd - td) * math.sin(ti)
     if tipo == "concavo":
