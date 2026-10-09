@@ -230,11 +230,10 @@ def hoja3(m, doc, ox):
     tb = piezas["tapon"].BoundingBox()
     h.nota_referencia("Tapón protector", (Tx, Ty + (tb.zmin + tb.zmax) / 2 * f), (Tx + dr["R"] * f + 8,
                       Ty + tb.zmax * f + 6), 2.2)
-    en_cupula = M.marcado(m)[0] == "cupula"
-    # franja superior del cuerpo, cara opuesta a la etiqueta; 1 kg: sobre la cúpula
-    zm = (dr["z_union"] + 0.45 * (dr["z_cupula"] - dr["z_union"])) if en_cupula else dr["z_union"] - 12.0
+    # marcado: siempre en el cuerpo (criterio FLAMA, también 1 kg y carros), franja superior, cara opuesta a la etiqueta
+    zm = dr["z_union"] - 12.0
     h.rect(Tx - 10 * f, Ty + (zm - 3) * f, Tx + 10 * f, Ty + (zm + 3) * f, "02-OCULTA")
-    h.nota_referencia("Marcado grabado en la cúpula" if en_cupula else "Marcado grabado en el cuerpo (cara posterior)",
+    h.nota_referencia("Marcado en el cuerpo",
                       (Tx + 10 * f, Ty + zm * f),
                       (Tx + dr["R"] * f + 8, Ty + dr["z_cuello"] * f + 4), 2.2)
     h.nota_referencia("Etiqueta (R2)", (Tx, Ty + (eb.zmin + eb.zmax) / 2 * f), (Tx - dr["R"] * f - 6,

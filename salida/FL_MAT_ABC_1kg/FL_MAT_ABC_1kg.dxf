@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.8646527776
+2461323.892696759
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.864675926
+2461323.892719907
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{B71C718A-2ABC-4C40-99AF-D08EF2B786F7}
+{8DB1BD00-B264-41C5-87E3-47D5178C0044}
   9
 $VERSIONGUID
   2
-{1C0A48C8-D60F-4FE1-B530-1062CFC43010}
+{CFCB3E63-5332-44B1-B152-FEC974A6D595}
   9
 $EXTNAMES
 290
@@ -348341,7 +348341,7 @@ AcDbText
  40
 1.8
   1
-Fabricante, n° de recipiente y año (2 díg.) - IRAM 3523 5.1 Grabado en la
+Fabricante, n° de recipiente y año (2 díg.) - IRAM 3523 5.1 Grabado en el
   7
 ISO3098
  11
@@ -348375,7 +348375,7 @@ AcDbText
  40
 1.8
   1
-CÚPULA (el cuerpo es caño cortado a láser), prensa Pannier del puesto de
+CUERPO (caño cortado a láser) en el puesto de numerado, antes del
   7
 ISO3098
  11
@@ -348409,7 +348409,7 @@ AcDbText
  40
 1.8
   1
-numerado antes de soldar el cuello; número hacia afuera; letra 5 mm
+encastre y el bordoneado; franja superior, opuesta a la etiqueta; letra 5
   7
 ISO3098
  11
@@ -348443,7 +348443,7 @@ AcDbText
  40
 1.8
   1
-(IRAM 4503); cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV, art. 24
+mm (IRAM 4503); cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV, art.
   7
 ISO3098
  11
@@ -348477,7 +348477,7 @@ AcDbText
  40
 1.8
   1
-mod. 717/07).
+24 mod. 717/07).
   7
 ISO3098
  11
@@ -360001,7 +360001,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T20:45:06.924007+00:00
+1.4.4 @ 2026-10-09T21:25:29.664112+00:00
   0
 LAYOUT
   5
@@ -360525,7 +360525,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T20:45:08.616978+00:00
+1.4.4 @ 2026-10-09T21:25:31.732000+00:00
   0
 ENDSEC
   0

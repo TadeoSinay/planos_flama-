@@ -238,7 +238,7 @@ def operacion(m, k):
         return "S4 - se compra terminado (tercerizado con sello IRAM)"
     if k == "cuerpo":
         if m.capacidad == "1 kg":
-            return "5 Corte láser de caño (M15/M16) -> 9 encastre -> 10 bordoneado (los dos extremos)"
+            return "5 Corte láser de caño (M15/M16) -> 2 numerado (en el cuerpo) -> 9 encastre -> 10 bordoneado (los dos extremos)"
         return ("1 Guillotina -> C1 cilindrado -> C2 punteo (y placas de refuerzo 70/100) -> C3 sold. long. -> "
                 "C7 marcado (después de la PH)" if rod else
                 "1 Guillotina -> 2 numerado -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> "
@@ -502,10 +502,7 @@ def bom_producto(m, cilindro=False):
         add(2, f"{base}-T1", "Tapón protector de rosca del cuello", 1, "u", "Polietileno",
             f"para rosca {m.geo['cuello'][2]} (plano {cod_plano} hoja 3, R4)", None, "Compra", "Embalaje", fte="P",
             sub=1, item="TAPON")
-        add(2, f"{base}-T2", "Marcado del recipiente (grabado en el cuerpo, puesto C7 después de la PH)" if
-            m.familia == "rodante" else ("Marcado del recipiente (grabado en la cúpula: el cuerpo es caño)" if
-                                         m.capacidad == "1 kg" else
-                                         "Marcado del recipiente (grabado en el cuerpo, puesto de numerado)"), 1, "u", "-",
+        add(2, f"{base}-T2", f"Marcado del recipiente: {M.marcado(m)[1]}", 1, "u", "-",
             "Fabricante, n° de serie, año" + (", presión de ensayo" if m.familia == "rodante" else "") +
             "; cuño DPS 15 × 7 junto al n°", None, "Proceso", "Marcado",
             norma=f"IRAM {n_ext} 5.1 · Res. 349/07 anexo IV", fte="N", sub=1)

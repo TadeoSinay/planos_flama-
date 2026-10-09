@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.873888889
+2461323.900023148
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.873900463
+2461323.9000347224
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{B906D787-D053-4629-A5C0-991E97D4743F}
+{B738310E-9E65-4F06-966F-1775849F45D9}
   9
 $VERSIONGUID
   2
-{1EA1F8C2-A6FC-4839-BF70-A950E17C7018}
+{98F9189C-74BA-4DFA-9B19-9CD186724984}
   9
 $EXTNAMES
 290
@@ -91049,7 +91049,7 @@ AcDbText
  40
 1.8
   1
-Marcado (grabado en la cúpula (puesto de numerado))
+Marcado: grabado en el cuerpo (puesto de numerado)
   7
 ISO3098
  11
@@ -99475,7 +99475,7 @@ AcDbText
  40
 1.8
   1
-grabado en la cúpula (puesto de numerado)
+grabado en el cuerpo (puesto de numerado)
   7
 ISO3098
  72
@@ -115625,19 +115625,19 @@ AcDbPolyline
  10
 1216.0
  20
-215.9197713503657
+207.1950388188467
  10
 1226.0
  20
-215.9197713503657
+207.1950388188467
  10
 1226.0
  20
-218.9197713503657
+210.1950388188467
  10
 1216.0
  20
-218.9197713503657
+210.1950388188467
   0
 LINE
   5
@@ -115653,7 +115653,7 @@ AcDbLine
  10
 1226.0
  20
-217.4197713503657
+208.6950388188467
  30
 0.0
  11
@@ -115707,15 +115707,15 @@ SOLID
  10
 1226.0
  20
-217.4197713503657
+208.6950388188467
  10
-1228.338433923206
+1228.0420402880802
  20
-218.39019743554647
+210.19172564709692
  10
-1227.9189095822096
+1227.473112589377
  20
-219.07137239641295
+210.7541501074901
  97
 0
  75
@@ -115743,7 +115743,7 @@ AcDbLine
  30
 0.0
  11
-1292.402
+1279.73
  21
 231.0
  31
@@ -115761,7 +115761,7 @@ AcDbEntity
 100
 AcDbText
  10
-1270.2259999999999
+1263.8899999999999
  20
 231.8
  30
@@ -115769,13 +115769,13 @@ AcDbText
  40
 1.8
   1
-Marcado grabado en la cúpula
+Marcado en el cuerpo
   7
 ISO3098
  72
 1
  11
-1270.2259999999999
+1263.8899999999999
  21
 231.8
  31
@@ -116801,7 +116801,7 @@ AcDbText
  40
 1.8
   1
-Grabado en la CÚPULA (el cuerpo es caño cortado a láser), prensa Pannier
+Grabado en el CUERPO (caño cortado a láser) en el puesto de numerado, antes
   7
 ISO3098
  11
@@ -116835,7 +116835,7 @@ AcDbText
  40
 1.8
   1
-del puesto de numerado antes de soldar el cuello; número hacia afuera; letra 5 mm IRAM 4503; legible después de pintar.
+del encastre y el bordoneado; franja superior, opuesta a la etiqueta; letra 5 mm IRAM 4503; legible después de pintar.
   7
 ISO3098
  11
@@ -119459,7 +119459,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T20:58:24.472852+00:00
+1.4.4 @ 2026-10-09T21:36:02.525041+00:00
   0
 LAYOUT
   5
@@ -119855,7 +119855,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T20:58:25.154300+00:00
+1.4.4 @ 2026-10-09T21:36:03.305919+00:00
   0
 ENDSEC
   0

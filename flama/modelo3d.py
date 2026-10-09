@@ -751,10 +751,11 @@ def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
 def marcado(m):
     """Dónde y cuándo se graba el marcado del recipiente (IRAM 3523 / 3550 5.1), según los procesos FLAMA.
     Devuelve (pieza, texto corto, texto de proceso en líneas)."""
+    # criterio FLAMA: el marcado va siempre en el cuerpo (también en el 1 kg y en los carros), nunca en la cúpula
     if m.capacidad == "1 kg":
-        return ("cupula", "grabado en la cúpula (puesto de numerado)",
-                ["Grabado en la CÚPULA (el cuerpo es caño cortado a láser), prensa Pannier",
-                 "del puesto de numerado antes de soldar el cuello; número hacia afuera;"])
+        return ("cuerpo", "grabado en el cuerpo (puesto de numerado)",
+                ["Grabado en el CUERPO (caño cortado a láser) en el puesto de numerado, antes",
+                 "del encastre y el bordoneado; franja superior, opuesta a la etiqueta;"])
     if m.familia == "rodante":
         return ("cuerpo", "grabado en el cuerpo (puesto C7 de marcado, después de la PH)",
                 ["Grabado en el CUERPO en el puesto C7 de marcado, después de la PH y el",

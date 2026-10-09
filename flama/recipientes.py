@@ -221,7 +221,7 @@ def generar_recipiente(m, hojas=1):
              ("Norma IRAM extintor", s_["Norma IRAM extintor"]),
              ("Tratamiento superficial", "según DOC-01 FLAMA"),
              ("Ensayo 100 %", "prueba hidráulica según DOC-02"),
-             ("Marcado (" + M.marcado(m)[1] + ")", "FLAMA S.A. - N° serie - año" + (" - PE" if rod else "")),
+             ("Marcado: " + M.marcado(m)[1], "FLAMA S.A. - N° serie - año" + (" - PE" if rod else "")),
              ("Verificación normativa", "hoja 2" if hojas > 1 else "-")]
     xt = h.fx0 + 4
     _tabla(h, xt, h.fy0 + 4 + 5.0 * len(datos), datos, [80, 70], alto=5.0, hs=(2.5, 2.5))
