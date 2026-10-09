@@ -180,9 +180,9 @@ ITEMS = {
     "RUEDA-350": ("Rueda Ø350 (carros 50 / 70 kg)", "Rueda goma maciza Ø350 × 60, buje 25, 150 kg", "RUEDAR",
                   "ESCANORT", "A COTIZAR", "Planilla MP-54: sin cotizar", "150 kg por rueda > carga por rueda del "
                   "70 kg cargado (≈ 70 kg)"),
-    "RUEDA-400": ("Rueda Ø400 (carro 100 kg)", "Rueda goma maciza Ø400, buje 25", "RUEDAR", "ESCANORT",
-                  "NO CUMPLE / A DEFINIR", "Sin cotizar",
-                  "No se halló Ø400 maciza nacional en catálogo; Escanort tiene Ø400 × 100 NEUMÁTICA (eje 25, 200 kg)"),
+    "RUEDA-400": ("Rueda Ø400 (carro 100 kg)", "Rueda Ø400 × 100 con cubierta neumática, eje 25, 200 kg", "ESCANORT",
+                  "RUEDAR", "A COTIZAR", "Sin cotizar",
+                  "IRAM 3550 3.12.1 admite cubiertas neumáticas; no se halló Ø400 maciza nacional en catálogo"),
     "MP-EJE": ("Eje de ruedas", "Redondo SAE 1045 Ø25, barra 6 m", "PARROTTA", None, "A COTIZAR", "Sin cotizar",
                "Confirmar SAE 1045 con certificado"),
     "MP-CANO-CARRO": ("Caño de la manija del carro", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",

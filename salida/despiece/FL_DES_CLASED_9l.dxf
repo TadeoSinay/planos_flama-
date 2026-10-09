@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.7731597223
+2461323.8339583334
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.7731597223
+2461323.8339699074
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{1A523BE7-0086-4E4C-98C5-0F9A1AD146E3}
+{FA1CBBFD-288E-4FF0-8E6E-B1671D212C0B}
   9
 $VERSIONGUID
   2
-{70EA51AE-20EA-4C55-AF04-FF4259B13312}
+{F7AE5CB2-6AF1-4D40-A3BF-2F6BAEE0C50E}
   9
 $EXTNAMES
 290
@@ -73035,7 +73035,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+Chapa LAF IRAM-IAS U 500-05 e=2
   7
 ISO3098
  72
@@ -73373,7 +73373,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+Chapa LAF IRAM-IAS U 500-05 e=1,6
   7
 ISO3098
  72
@@ -73711,7 +73711,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+Chapa LAF IRAM-IAS U 500-05 e=2
   7
 ISO3098
  72
@@ -81685,11 +81685,13 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Polvo para metales combustibles clase D - Clas
+Polvo para metales combustibles clase D - Clase D (NaCl > 90 %)
   7
 ISO3098
+ 41
+0.9166434605031095
  72
 1
  11
@@ -81821,11 +81823,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7752715121136176
   1
-Polvo para metales combustible
+Polvo para metales combustibles clase D - Clase D (NaCl > 90 %)
   7
 ISO3098
+ 41
+0.6
  72
 1
  11
@@ -83175,7 +83179,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -83849,11 +83853,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Etiqueta autoadhesiva emitida 
+Etiqueta autoadhesiva emitida por la AGC
   7
 ISO3098
+ 41
+0.9320175438596492
  72
 1
  11
@@ -84187,11 +84193,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -84525,11 +84533,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -85541,7 +85551,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+Chapa acero SAE 1010 e=2 pintada
   7
 ISO3098
  72
@@ -88245,7 +88255,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -88445,9 +88455,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -92135,7 +92145,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:33:21.163714+00:00
+1.4.4 @ 2026-10-09T20:00:54.662083+00:00
   0
 LAYOUT
   5
@@ -92275,7 +92285,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:33:21.509320+00:00
+1.4.4 @ 2026-10-09T20:00:55.046305+00:00
   0
 ENDSEC
   0

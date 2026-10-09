@@ -128,8 +128,9 @@ def encastre(g):
 def _lleno(dr):
     """Envolvente exterior maciza del recipiente (para recortar los accesorios soldados contra la chapa)."""
     R, zb, zu, hd, hf = dr["R"], dr["zb"], dr["z_union"], dr["hd"], dr["hf"]
-    s = _cyl(R, zu - zb, (0, 0, zb))
-    for zc, b, t1 in ((zu, hd, math.pi / 2), (zb, hf, -math.pi / 2)):
+    e_ = dr.get("encastre", (0.0, 0.0))[1]          # casquetes con escalón: la elipse arranca a «e_» de la unión
+    s = _cyl(R, zu - zb + 2 * e_, (0, 0, zb - e_))
+    for zc, b, t1 in ((zu + e_, hd - e_, math.pi / 2), (zb - e_, hf - e_, -math.pi / 2)):
         pts, _, _ = _ell(0, zc, R, b, 0, t1)
         s = s.fuse(cq.Workplane("XZ").moveTo(0, zc).polyline(pts, includeCurrent=True).close()
                    .revolve(360, (0, 0, 0), (0, 1, 0)).val())
@@ -287,8 +288,9 @@ VALVULAS = {
                  inf=((0.0, 50.0, 4.5), (50.0, 36.0, -16.5)), inf_h=6.0, lev_w=20.0, man_d=36.0, man_e=11.0,
                  res=(17.3, 28.8), vas=(6.0, 30.7, 14.0, 14.0), oring=(32.7, 3.6)),
     "G763": dict(esp_d=75.0, esp_h=17.6, cuello_d=83.0, cuello_h=12.0, bw=49.0, bd=40.0, bh=67.0, piv_h=67.0,
-                 boss_d=30.0, sal_d=26.0, sal_l=20.0, sal_z=40.0, sup_l=None, sup_h=10.0, sup_top=None,
-                 inf=None, inf_h=8.0, lev_w=27.0, man_d=47.0, man_e=14.0,
+                 boss_d=30.0, sal_d=26.0, sal_l=20.0, sal_z=40.0, sup_l=None, sup_h=16.0, sup_top=None,
+                 inf=None, inf_h=8.0, lev_w=10.0, man_d=47.0, man_e=14.0,
+                 torre=(30.0, 20.0, 37.0, 30.0), ranura=11.0, eje_d=8.0,
                  res=(27.0, 35.0), vas=(10.0, 36.0, 20.0, 8.0), oring=(81.0, 4.7)),
 }
 
@@ -323,12 +325,26 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
     p["tuerca"] = _tube(V["cuello_d"] / 2, max(bore / 2 - 2.5, V["esp_d"] / 2 - 4), V["cuello_h"], (0, 0, z0))
     zb0 = z0 + V["cuello_h"]
     # cuerpo forjado: bloque + horquilla del pivote (a la izquierda) + boca de manómetro (frente) + salida (-X)
-    cuerpo = cq.Solid.makeBox(bw, bd, bh, cq.Vector(-bw / 2, -bd / 2, zb0))
-    cuerpo = cq.Workplane().add(cuerpo).edges("|Z").fillet(min(4.0, bd / 6)).val()
+    if tipo == "G763":
+        # válvula de carro (plano Fadesa 50 / 100 kg): base 49 × 40, torre que se angosta a 37 × 30 y horquilla de dos
+        # brazos con ranura de 11 para la palanca; el eje (tornillo F840 + buje + arandela) cruza la horquilla según X
+        hb_, ht_, wt_, dt_ = V["torre"]
+        cuerpo = cq.Solid.makeBox(bw, bd, hb_, cq.Vector(-bw / 2, -bd / 2, zb0))
+        cuerpo = cq.Workplane().add(cuerpo).edges("|Z").fillet(5.0).val()
+        torre = (cq.Workplane("XY").workplane(offset=zb0 + hb_).rect(bw, bd).workplane(offset=ht_).rect(wt_, dt_)
+                 .loft().val())
+        cuerpo = cuerpo.fuse(torre)
+        hq = bh - hb_ - ht_
+        a_ = (wt_ - V["ranura"]) / 2
+        for sg in (1, -1):
+            cuerpo = cuerpo.fuse(_box(a_, dt_, hq, sg * (V["ranura"] / 2 + a_ / 2), 0, zb0 + hb_ + ht_))
+    else:
+        cuerpo = cq.Solid.makeBox(bw, bd, bh, cq.Vector(-bw / 2, -bd / 2, zb0))
+        cuerpo = cq.Workplane().add(cuerpo).edges("|Z").fillet(min(4.0, bd / 6)).val()
     if tipo != "G763":
         piv = cq.Solid.makeBox(4.0, bd, V["piv_h"] - bh, cq.Vector(-bw / 2, -bd / 2, zb0 + bh))
         cuerpo = cuerpo.fuse(piv)
-    zm = zb0 + (bh * 0.5 if tipo == "G763" else min(bh * 0.5, 6.4))
+    zm = zb0 + (max(V["torre"][0] * 0.55, man_d / 2 + 2) if tipo == "G763" else min(bh * 0.5, 6.4))
     cuerpo = cuerpo.fuse(_cyl(V["boss_d"] / 2, 5.0, (0, -bd / 2 + 1, zm), (0, -1, 0)))
     zs = zb0 + min(V["sal_z"], bh - V["sal_d"] / 2) if tipo != "G763" else zb0 + V["sal_z"]
     cuerpo = cuerpo.fuse(_cyl(V["sal_d"] / 2, V["sal_l"], (-bw / 2 + 1, 0, zs), (-1, 0, 0)))
@@ -343,23 +359,33 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
         p["manometro"] = gm.clean()
     # vástago (pasa por el cuerpo, asiento abajo) y resorte (debajo de la espiga, dentro del caño de pesca)
     vd, vl, ad, ah = V["vas"]
-    vas = _cyl(vd / 2, vl, (0, 0, zb0 + bh + 2 - vl))
-    vas = vas.fuse(_cyl(ad / 2, ah * 0.35, (0, 0, zb0 + bh + 2 - vl - ah * 0.35)))
+    # G763: el vástago apoya bajo la nariz de la palanca (pivote a bh - 6, palanca girada 8°)
+    z_vt = (zb0 + bh - 6.0 - V["sup_h"] / 2 - 8.0 * math.sin(math.radians(8.0)) - 0.5) if tipo == "G763" else zb0 + bh + 2
+    vas = _cyl(vd / 2, vl, (0, 0, z_vt - vl))
+    vas = vas.fuse(_cyl(ad / 2, ah * 0.35, (0, 0, z_vt - vl - ah * 0.35)))
     p["vastago"] = vas.clean()
     rd, rl = V["res"]
-    zr1 = zb0 + bh + 2 - vl - ah * 0.35
+    zr1 = z_vt - vl - ah * 0.35
     p["resorte"] = _tube(rd / 2, rd / 2 - 1.2, rl, (0, 0, zr1 - rl))
     lw = V["lev_w"]
     if tipo == "G763":
-        # palanca de accionamiento sobre el cuerpo (largo sin cota en Fadesa: 0,75·R) y manija de transporte
-        x_tip = x_tip or 110.0
-        x_piv = -bw / 2 - 5
-        zt = zb0 + bh + 3
-        p["manija_superior"] = _caja_rot(x_piv, x_tip, zt, V["sup_h"] * 0.5, lw, -7, x_piv, zt)
-        p["manija_inferior"] = _caja_rot(bw / 2 - 4, x_tip - 15, zb0 + bh * 0.62, V["inf_h"] * 0.6, lw, 6,
-                                         bw / 2, zb0 + bh * 0.62)
-        z_top = zt + V["sup_h"] * 0.5 + (x_tip - x_piv) * math.tan(math.radians(7))
-        x_eje, z_eje = x_piv + 3, zt - 2
+        # palanca en la ranura de la horquilla, pivote 8 mm detrás del vástago: al levantar la empuñadura (hacia
+        # atrás, del lado de la manija del carro) la nariz baja el vástago. Largo = 0,75·R (sin cota en Fadesa).
+        L_ = x_tip or 110.0
+        y_pv, z_pv = 8.0, zb0 + bh - 6.0
+        ang = 8.0
+        hl = V["sup_h"]
+        lev = cq.Solid.makeBox(lw, L_ + 12.0, hl, cq.Vector(-lw / 2, -12.0, z_pv - hl / 2))
+        lev = lev.fuse(_cyl(11.0, 44.0, (-22.0, L_, z_pv), (1, 0, 0)))          # empuñadura Ø22 × 44
+        p["manija_superior"] = lev.rotate(cq.Vector(0, y_pv, z_pv), cq.Vector(1, y_pv, z_pv), ang).clean()
+        z_top = p["manija_superior"].BoundingBox().zmax
+        x_piv = 0.0
+        e_d = V["eje_d"]
+        p["eje"] = _cyl(e_d / 2, V["torre"][2] + 10, (-(V["torre"][2] + 10) / 2, y_pv, z_pv), (1, 0, 0))
+        # traba (IRAM 3550 3.4.2): pasador que cruza horquilla y nariz de la palanca, con anilla y precinto
+        zp_, yp_ = z_pv - 1.0, -6.0
+        p["pasador"] = _cyl(1.6, V["torre"][2] + 16, (-(V["torre"][2] + 16) / 2, yp_, zp_), (1, 0, 0)).fuse(
+            _torus(9, 1.4, 0, 0, 0, (1, 0, 0)).translate(cq.Vector(V["torre"][2] / 2 + 8, yp_, zp_ - 9))).clean()
     else:
         # palanca de accionamiento (pivote en la horquilla, arriba a la izquierda) y manija fija de transporte
         x_piv = -bw / 2 + 2
@@ -375,13 +401,15 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
         p["manija_inferior"] = inf.clean()
         z_top = z_sup + V["sup_h"]
         x_eje, z_eje = x_piv + 2, zb0 + V["piv_h"] - 6
-    p["eje"] = _cyl(1.8 if tipo == "F510" else 2.0, bd + 6, (x_eje, -bd / 2 - 3, z_eje), (0, 1, 0))
-    # pasador de seguridad (traba) con anilla, a través de palanca y manija, delante del cuerpo
-    xs_ = bw / 2 + 7
-    zp = zb0 + bh + 2
-    p["pasador"] = _cyl(1.6, bd + 16, (xs_, -bd / 2 - 12, zp), (0, 1, 0)).fuse(
-        _torus(9, 1.4, 0, 0, 0, (0, 1, 0)).translate(cq.Vector(xs_, -bd / 2 - 12, zp - 9))).clean()
-    info = dict(z_salida=zs, x_salida=-bw / 2 - V["sal_l"] + 1, bw=bw, bd=bd, bh=bh, z_top=z_top,
+    if tipo != "G763":
+        p["eje"] = _cyl(1.8 if tipo == "F510" else 2.0, bd + 6, (x_eje, -bd / 2 - 3, z_eje), (0, 1, 0))
+        # pasador de seguridad (traba) con anilla, a través de palanca y manija, delante del cuerpo
+        xs_ = bw / 2 + 7 if man_d <= 40 else man_d / 2 + 16    # rodante 25 kg: anilla fuera del cubremanómetro
+        zp = zb0 + bh + 2
+        p["pasador"] = _cyl(1.6, bd + 16, (xs_, -bd / 2 - 12, zp), (0, 1, 0)).fuse(
+            _torus(9, 1.4, 0, 0, 0, (0, 1, 0)).translate(cq.Vector(xs_, -bd / 2 - 12, zp - 9))).clean()
+    y_tip = (x_tip or 110.0) + 11.0 if tipo == "G763" else bd / 2
+    info = dict(z_salida=zs, x_salida=-bw / 2 - V["sal_l"] + 1, bw=bw, bd=bd, bh=bh, z_top=z_top, y_tip=y_tip,
                 x_piv=x_piv, z_man=zm, y_man=y_man - V["man_e"], man_d=man_d, zb0=zb0,
                 s=1.0 if tipo == "F192" else (0.8 if tipo == "F510" else 1.35), tipo=tipo,
                 sal_d=V["sal_d"])
@@ -531,6 +559,11 @@ def extintor_manual(m, cW=0.0, cH=0.0):
 # la barra del eje y las arandelas de tope. El puesto 8.1 (fabricación de accesorios) no tiene medidas: las de abajo
 # son de diseño FLAMA, dimensionadas para que el kit pese 4,2-4,9 kg como dice el proceso (a validar en el prototipo).
 CARRO = dict(
+    banda={300: 60.0, 350: 60.0, 400: 100.0},  # ancho de rueda: IRAM 3550 tabla III ≥ 50 (Fadesa usa 49: no cumple);
+                                 # Ruedar Ø300 / Ø350 × 60 y Escanort Ø400 × 100 (proveedores relevados)
+    trocha_min=400.0,            # IRAM 3550 tabla III: trocha (entre centros de rueda) ≥ 400
+    luz_rueda=20.0,              # luz entre la cara interna de la rueda y el cuerpo
+    luz_eje=15.0,                # luz entre el eje y la pared trasera del cuerpo
     soporte=(80.0, 25.0),        # alto del soporte del eje y margen detrás del eje (mm)
     x_soporte=0.55,              # posición de los soportes: ± 0,55·R
     eje=25.0,                    # barra SAE 1045 Ø25
@@ -544,9 +577,9 @@ CARRO = dict(
 def extintor_rodante(m, cD=0.0):
     g = dict(m.geo)
     H, W, D = m.H, m.W, m.D
-    Dw = float(m.spec["Diámetro de rueda (mm)"])
+    Dw = float(m.spec["Diámetro de rueda (mm)"])           # catálogo (IRAM 3550 tabla III: Ø ≥ 300)
     Rw = Dw / 2
-    bw_w = 49.0 if Dw <= 350 else 76.0      # ancho de banda medido en planos Fadesa (25/50 kg: 49; 100 kg: 76)
+    bw_w = CARRO["banda"][int(Dw)]
     R = g["R"]
     t = g["t"]
     z0 = 45.0 + (g["hd"])  # el cabezal inferior queda a 45 mm del piso
@@ -561,14 +594,15 @@ def extintor_rodante(m, cD=0.0):
     zt_p = dr["zb"] - dr["hf"] * math.sqrt(max(0.0, 1 - pk * pk)) + 20
     pata = _box(pw, t, zt_p, 0, yp, 0).fuse(_box(pw, pv, t, 0, yp - pv / 2 + t / 2, 0))
     out["tercera_pata"] = pata.cut(lleno).clean()
-    y_min = yp - pv + t / 2
-    yw = y_min + D - Rw + cD
+    # ruedas al costado del cuerpo (trocha IRAM ≥ 400 y luz con el cuerpo) y eje recto detrás de la pared trasera,
+    # a la altura del centro de rueda: el carro apoya en las dos ruedas y la tercera pata (IRAM 3550 3.12.3)
     da, dia, ea = CARRO["arandela"]
-    xw = (W - bw_w) / 2 - (ea + 6)            # ancho del catálogo hasta la punta del eje
-    track = 2 * xw
+    track = max(CARRO["trocha_min"], math.ceil((2 * R + bw_w + 2 * CARRO["luz_rueda"]) / 10.0) * 10.0)
+    xw = track / 2
+    yw = R + CARRO["eje"] / 2 + CARRO["luz_eje"]
     # ruedas
     for sgn, suf in ((1, "der"), (-1, "izq")):
-        c = cq.Vector(sgn * (xw - bw_w / 2), yw, Rw)
+        c = cq.Vector(sgn * (xw - bw_w / 2), yw, Rw)              # cara interna; la rueda queda centrada en ±xw
         # neumático macizo (anillo de caucho) + llanta de chapa (disco con cubo)
         tire = _cyl(Rw, bw_w, (c.x, c.y, c.z), (sgn, 0, 0))
         tire = tire.cut(_cyl(Rw * 0.72, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
@@ -576,6 +610,7 @@ def extintor_rodante(m, cD=0.0):
         llanta = _tube(Rw * 0.72, Rw * 0.72 - 2, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0))
         llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 2.5, (c.x + sgn * (bw_w / 2 - 1.25), c.y, c.z), (sgn, 0, 0)))
         llanta = llanta.fuse(_tube(30, 13, bw_w + 10, (c.x - sgn * 10, c.y, c.z), (sgn, 0, 0)))
+        llanta = llanta.cut(_cyl(13, bw_w + 30, (c.x - sgn * 15, c.y, c.z), (sgn, 0, 0)))   # buje Ø26 para el eje
         out["rueda_" + suf] = tire
         out["llanta_" + suf] = llanta.clean()
     # eje y arandelas de tope (dentro y fuera de cada rueda)
@@ -601,8 +636,9 @@ def extintor_rodante(m, cD=0.0):
     # manija: caño en U soldado atrás, con las patas tangentes al cuerpo y el agarre a la altura del catálogo
     dm, em, km, rb = CARRO["manija"]
     rt = dm / 2
-    xm = km * R
-    ym = math.sqrt(R * R - xm * xm) + rt - 1.0
+    rc = R + rt - 0.5                         # patas tangentes al cuerpo en dirección radial (cordón de 0,5)
+    xm = km * rc
+    ym = math.sqrt(1 - km * km) * rc
     zg = H - rt
     zl0 = dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"])
     out["manija_carro"] = _sweep_circle([(-xm, ym, zl0), (-xm, ym, zg, rb), (xm, ym, zg, rb), (xm, ym, zl0)], rt)
@@ -611,7 +647,9 @@ def extintor_rodante(m, cD=0.0):
     vg = 2 * d_hose + gh                      # vuelo del gancho fuera del cuerpo
     xl = -(R + vg / 2 + 2)                    # plano de la manga enrollada
     L_c = dr["z_union"] - dr["zb"]
-    z_lo, z_hi = dr["zb"] + 0.12 * L_c, dr["zb"] + 0.90 * L_c
+    # el gancho de abajo queda por encima de la rueda para que la manga no la toque
+    z_lo = max(dr["zb"] + 0.12 * L_c, 2 * Rw + 20.0 + d_hose + t)
+    z_hi = dr["zb"] + 0.90 * L_c
     gan = None
     for zz, sgl in ((z_hi, 1), (z_lo, -1)):
         brazo = _box(vg + 20, gw, t, -(R + vg / 2 - 10), 0, zz - t / 2)
@@ -619,8 +657,9 @@ def extintor_rodante(m, cD=0.0):
         gan = brazo.fuse(labio) if gan is None else gan.fuse(brazo).fuse(labio)
     out["ganchos_manguera"] = gan.cut(lleno).clean()
     wl = 0.45 * R
-    zt_l = z_hi + t / 2 + d_hose / 2 - wl     # centro del arco superior: la manga apoya sobre el brazo de arriba
-    zb_l = z_lo - t / 2 - d_hose / 2 + wl     # centro del arco inferior: la manga pasa por debajo del brazo de abajo
+    ap = math.sqrt(wl * wl - (gw / 2) ** 2) - 1.0  # la manga apoya en los bordes del brazo de 40 de ancho
+    zt_l = z_hi + t / 2 + d_hose / 2 - ap     # centro del arco superior: la manga apoya sobre el brazo de arriba
+    zb_l = z_lo - t / 2 - d_hose / 2 + ap     # centro del arco inferior: la manga pasa por debajo del brazo de abajo
     e1 = cq.Edge.makeLine(cq.Vector(xl, -wl, zb_l), cq.Vector(xl, -wl, zt_l))
     a1 = cq.Edge.makeThreePointArc(cq.Vector(xl, -wl, zt_l), cq.Vector(xl, 0, zt_l + wl), cq.Vector(xl, wl, zt_l))
     e2 = cq.Edge.makeLine(cq.Vector(xl, wl, zt_l), cq.Vector(xl, wl, zb_l))
@@ -630,7 +669,9 @@ def extintor_rodante(m, cD=0.0):
         cq.Wire.makeCircle(d_hose / 2, cq.Vector(xl, -wl, zb_l), cq.Vector(0, 0, 1)), [], wire,
         transitionMode="round")
     # válvula
-    val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"], x_tip=R * 0.75,
+    # palanca de la G763 hacia atrás: 0,75·R, con 15 mm de luz entre la empuñadura (Ø22) y la manija del carro
+    val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"],
+                      x_tip=min(R * 0.75, ym - rt - 11.0 - 15.0),
                       man_d=47.0)             # manómetro con cubremanómetro G711: Ø47 (plano Fadesa 25 / 50 kg)
     s = vi["s"]
     out.update(val)
@@ -643,10 +684,10 @@ def extintor_rodante(m, cD=0.0):
     out["manguera"] = _sweep_circle([(xsal - 16, 0, zsal), (xl, 0, zsal, 60), (xl, 0, zt_l + wl)], d_hose / 2)
     # punta de la manga: válvula esférica + tobera colgadas delante del rollo
     xn = xl
-    yn = -(wl + d_hose / 2 + 32)
+    yn = -(wl + d_hose / 2 + 38)              # tobera (boca Ø68) colgada delante del rollo, sin tocarlo
     zn_top = (zt_l + zb_l) / 2 + 60
     ve = _box(40, 40, 60, xn, yn, zn_top)
-    ve = ve.fuse(_box(90, 14, 12, xn + 45, yn, zn_top + 24))
+    ve = ve.fuse(_box(14, 90, 12, xn, yn - 45, zn_top + 24))         # palanca hacia adelante, sin sumar ancho
     out["valvula_esferica"] = ve.clean()
     if m.descarga == "lanza_espuma_rodante":
         # lanza espumígena de rodante: tubo Ø40 con 4 tomas de aire y boca expandida
@@ -787,9 +828,9 @@ def construir(m):
     """Construye el conjunto y corrige (2 iteraciones) para que la caja
     envolvente coincida con altura/ancho/profundidad del catálogo."""
     if m.familia == "rodante":
+        # rodantes: tren de rodaje con criterio IRAM 3550 (trocha, banda, eje detrás del cuerpo); alto = catálogo
+        # (agarre de la manija); ancho y profundidad resultan del diseño y se comparan con el catálogo en la hoja 3
         p, i = extintor_rodante(m)
-        bb = bbox(p)
-        p, i = extintor_rodante(m, cD=m.D - bb.ylen)
         return identificacion(m, p), i
     # manuales: piezas con sus medidas reales (planos Fadesa); la envolvente resulta de ellas y se compara con
     # el catálogo en la hoja 3 (no se estira la válvula para alcanzar la altura del catálogo)

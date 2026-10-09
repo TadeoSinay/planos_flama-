@@ -122,6 +122,14 @@ def especificacion(m, clave):
         mat = "EPDM (compatible con HCFC/HFC)"
     if clave == "suncho" and m.familia == "co2":
         nom = "Suncho soporte de difusor"
+    if clave == "rueda_der":
+        # IRAM 3550 3.12.1: ruedas metálicas revestidas de caucho o con cubierta neumática
+        if float(m.spec.get("Diámetro de rueda (mm)", 0)) >= 400:
+            nom, obs = "Rueda con cubierta neumática", "llanta metálica"
+        else:
+            obs = "llanta metálica"
+    if clave == "manija_superior" and m.familia == "rodante" and m.geo["cuello"][2].startswith("RBSP"):
+        nom, mat = "Palanca de accionamiento", "Planchuela acero SAE 1010 10 × 16 pintada"
     return nom, mat, rho, fac, obs
 
 

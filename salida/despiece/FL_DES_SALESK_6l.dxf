@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.77287037
+2461323.8336805557
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.77287037
+2461323.8336921297
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{CF31E09E-6F35-403D-8460-A689AADE427E}
+{7A244BA9-5B7F-402A-B17A-BFB73920CD73}
   9
 $VERSIONGUID
   2
-{6EFAB1E9-7839-403F-8AEE-7B6B2D11C5EE}
+{BB27EB13-BD6C-424A-9B99-235896F6CE93}
   9
 $EXTNAMES
 290
@@ -73303,7 +73303,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -73641,7 +73641,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -73979,7 +73979,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -81615,11 +81615,13 @@ AcDbText
  30
 0.0
  40
-2.0
+1.7999999999999998
   1
-Acetato de potasio - DEMSA Kitchen - Acetato d
+Acetato de potasio - DEMSA Kitchen - Acetato de potasio (DEMSA Kitchen, 1,300 g/ml, pH 8,5)
   7
 ISO3098
+ 41
+0.6345993188098451
  72
 1
  11
@@ -81751,11 +81753,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.2290341237709659
   1
-Acetato de potasio - DEMSA Kit
+Acetato de potasio - DEMSA Kitchen - Acetato de potasio (DEMSA Kitchen, 1,300 g/ml, pH 8,5)
   7
 ISO3098
+ 41
+0.6
  72
 1
  11
@@ -83105,7 +83109,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -83779,11 +83783,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Etiqueta autoadhesiva emitida 
+Etiqueta autoadhesiva emitida por la AGC
   7
 ISO3098
+ 41
+0.9320175438596492
  72
 1
  11
@@ -84117,11 +84123,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -84455,11 +84463,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -85471,7 +85481,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+Chapa acero SAE 1010 e=2 pintada
   7
 ISO3098
  72
@@ -88175,7 +88185,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -88375,9 +88385,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -92065,7 +92075,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:56.477417+00:00
+1.4.4 @ 2026-10-09T20:00:30.713792+00:00
   0
 LAYOUT
   5
@@ -92205,7 +92215,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:56.865802+00:00
+1.4.4 @ 2026-10-09T20:00:31.051554+00:00
   0
 ENDSEC
   0

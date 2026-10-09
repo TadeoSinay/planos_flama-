@@ -266,7 +266,10 @@ class Hoja:
                 px = xs[j] + (w / 2 if centrado else 1.2)
                 s = str(val)
                 hh = 2.5 if len(s) * 2.5 * 0.80 <= w - 2 else 1.8
-                self.texto(s, (px, yy), hh, al, "11-TEXTO-ROTULO")
+                t = self.texto(s, (px, yy), hh, al, "11-TEXTO-ROTULO")
+                if len(s) * hh * 0.76 > w - 2:
+                    # no entra ni a 1,8: texto condensado (factor de ancho) para no invadir la celda vecina
+                    t.dxf.width = max(0.6, (w - 2) / (len(s) * hh * 0.76))
         return y_top
 
     # ------------------------------------------------------------ geometría

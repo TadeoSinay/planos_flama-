@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.7726157405
+2461323.833449074
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.7726157405
+2461323.833460648
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{E0D04C88-84EE-4DE3-9300-352711946745}
+{9F17D34D-23F7-4451-8B5A-396083AF27B0}
   9
 $VERSIONGUID
   2
-{DF12F17F-DFD1-4D4D-88D7-4F3F97D212D4}
+{B38025A1-6297-4A18-84C1-702A7C63533B}
   9
 $EXTNAMES
 290
@@ -73519,7 +73519,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -73857,7 +73857,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -74195,7 +74195,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -82307,9 +82307,11 @@ AcDbText
  40
 1.8
   1
-Concentrado espumígeno AFFF 3 
+Concentrado espumígeno AFFF 3 % (IRAM 3515)
   7
 ISO3098
+ 41
+0.8669930640554875
  72
 1
  11
@@ -83659,7 +83661,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -84333,11 +84335,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Etiqueta autoadhesiva emitida 
+Etiqueta autoadhesiva emitida por la AGC
   7
 ISO3098
+ 41
+0.9320175438596492
  72
 1
  11
@@ -84671,11 +84675,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -85009,11 +85015,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -86025,7 +86033,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+Chapa acero SAE 1010 e=2 pintada
   7
 ISO3098
  72
@@ -88729,7 +88737,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -88929,9 +88937,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -92619,7 +92627,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:34.605242+00:00
+1.4.4 @ 2026-10-09T20:00:10.767909+00:00
   0
 LAYOUT
   5
@@ -92759,7 +92767,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:34.967813+00:00
+1.4.4 @ 2026-10-09T20:00:11.110367+00:00
   0
 ENDSEC
   0

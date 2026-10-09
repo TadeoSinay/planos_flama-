@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.7725462965
+2461323.8333796295
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.7725462965
+2461323.8333912035
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{7BB6DE2A-C7EB-407D-8732-1E3E2D34FA4E}
+{AB2BDC29-DD8E-457B-B61D-39E99BE830D4}
   9
 $VERSIONGUID
   2
-{C8F03E44-E079-473B-AFDF-9C6E22618AAC}
+{28C9F522-8225-42D4-9C29-630A54367170}
   9
 $EXTNAMES
 290
@@ -71687,7 +71687,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -72025,7 +72025,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -72363,7 +72363,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero inox. AISI 304 e=0
+Chapa acero inox. AISI 304 e=0,8
   7
 ISO3098
  72
@@ -81489,7 +81489,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -82163,11 +82163,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Etiqueta autoadhesiva emitida 
+Etiqueta autoadhesiva emitida por la AGC
   7
 ISO3098
+ 41
+0.9320175438596492
  72
 1
  11
@@ -82501,11 +82503,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -82839,11 +82843,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -83855,7 +83861,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+Chapa acero SAE 1010 e=2 pintada
   7
 ISO3098
  72
@@ -86559,7 +86565,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -86759,9 +86765,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -90449,7 +90455,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:28.622453+00:00
+1.4.4 @ 2026-10-09T20:00:04.805045+00:00
   0
 LAYOUT
   5
@@ -90589,7 +90595,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:32:28.981622+00:00
+1.4.4 @ 2026-10-09T20:00:05.141727+00:00
   0
 ENDSEC
   0

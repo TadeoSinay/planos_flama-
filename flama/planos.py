@@ -8,6 +8,7 @@
 
 import math
 import datetime
+import re
 import shapely.geometry as sg
 
 from . import modelo3d as M
@@ -23,6 +24,19 @@ DIBUJO = "T. Sinay"
 NO_LISTAR = {"soldaduras", "rueda_izq", "llanta_izq"}
 VALVULA = {"espiga", "tuerca", "cuerpo_valvula", "vastago", "resorte", "eje", "manija_superior",
            "manija_inferior", "pasador", "manometro", "racor", "disco_seguridad"}
+
+
+def ancla_lateral(key, piezas):
+    """punto (-y, z) de referencia de la pieza en la vista lateral izquierda."""
+    sb = piezas[key].BoundingBox()
+    ay, az = (sb.ymin + sb.ymax) / 2, (sb.zmin + sb.zmax) / 2
+    if key == "manija_superior":
+        ay, az = sb.ymin + 0.6 * (sb.ymax - sb.ymin), sb.zmax - 4
+    elif key == "manometro":
+        ay = sb.ymin + 3
+    elif key == "pasador":
+        ay, az = sb.ymin + 2, sb.zmin + 1.5
+    return -ay, az
 
 
 def ancla(key, piezas, info):
@@ -91,13 +105,14 @@ def colocar_globos(h, anclas, x_eje, x_izq, x_der, y_max, y_min, paso_min=9.0, p
 
 
 def _n(v, dec=1):
-    s = f"{v:.{dec}f}".rstrip("0").rstrip(".")
+    s = f"{v:.{dec}f}"
+    if "." in s:  # sólo ceros decimales: con dec=0 «420» no debe quedar «42»
+        s = s.rstrip("0").rstrip(".")
     return s.replace(".", ",")
 
 
 def codigo_pieza(m, pos):
     """Código de pieza: abreviatura del modelo + posición (p. ej. ABC10-01)."""
-    import re
     base = re.sub(r"(kg|l)$", "", m.codigo.replace("FL_MAT_", "")).replace("_", "").replace("-", "")
     return f"{base}-{pos:02d}"
 
@@ -280,10 +295,10 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
                       (cxw, y_front - 9), 0, k, prefijo="%%c")
         h.eje((cxw - Rw * f - 4, y_front + Rw * f), (cxw + Rw * f + 4, y_front + Rw * f))
         h.eje((cxw, y_front - 4), (cxw, y_front + 2 * Rw * f + 4))
-        # trocha (vista superior)
-        xw, bw = info["xw"], info["bw_w"]
-        h.cota_lineal((x_front - (xw - bw / 2) * f, y_top + yw * f), (x_front + (xw - bw / 2) * f, y_top + yw * f),
-                      (x_front, y_top + yw * f + Rw * f + 10), 0, k)
+        # trocha entre centros de rueda (IRAM 3550 tabla III: ≥ 400) en la vista superior
+        xw = info["xw"]
+        h.cota_lineal((x_front - xw * f, y_top + yw * f), (x_front + xw * f, y_top + yw * f),
+                      (x_front, y_top + yw * f + Rw * f + 10), 0, k, prefijo="trocha ")
     else:
         # posición del suncho / tobera
         if "suncho_z" in info:
@@ -296,9 +311,9 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
     # ---------------- detalles marcados en vista anterior (ver hoja 2)
     detalles = definir_detalles(m, info)
     for d in detalles:
-        if d["origen"] != "anterior":
+        if d["origen"] not in ("anterior", "lateral"):
             continue
-        c = (x_front + d["c"][0] * f, y_front + d["c"][1] * f)
+        c = ((x_front if d["origen"] == "anterior" else x_lat) + d["c"][0] * f, y_front + d["c"][1] * f)
         h.msp.add_circle(c, d["r"] * f, dxfattribs={"layer": "08-FINA"})
         ang = math.radians(d.get("ang_letra", 45))
         h.texto(d["letra"], (c[0] + (d["r"] * f + 4) * math.cos(ang), c[1] + (d["r"] * f + 4) * math.sin(ang)),
@@ -413,8 +428,16 @@ def definir_detalles(m, info):
     xa1 = min(R * 1.25, v["bw"] / 2 + 60 * v["s"])
     cA = ((xa0 + xa1) / 2, (z0 + z1) / 2)
     rA = max((xa1 - xa0) / 2, (z1 - z0) / 2) + 6
-    D.append(dict(letra="A", origen="anterior", c=cA, r=rA, titulo=("Válvula, disco de seguridad y manijas" if m.familia == "co2" else "Válvula, manómetro y manijas"),
-                  ang_letra=150))
+    if v["tipo"] == "G763":
+        # válvula de carro: la palanca gira según X y se ve entera en la vista lateral
+        y0, y1 = v["y_man"] - 4, v["y_tip"] + 4
+        cA = (-(y0 + y1) / 2, (z0 + z1) / 2)
+        rA = max((y1 - y0) / 2, (z1 - z0) / 2) + 6
+        D.append(dict(letra="A", origen="lateral", c=cA, r=rA, titulo="Válvula, manómetro y palanca (vista lateral)",
+                      ang_letra=150))
+    else:
+        D.append(dict(letra="A", origen="anterior", c=cA, r=rA, titulo=("Válvula, disco de seguridad y manijas" if m.familia == "co2" else "Válvula, manómetro y manijas"),
+                      ang_letra=150))
     # B: cuello roscado y unión con la cúpula (corte)
     dn = r["dn"]
     cB = (dn / 2 * 0.6, (r["z_cuello"] + r["z_cupula"]) / 2 - 2)
@@ -520,6 +543,9 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
     proy_f = res1["proy"]["anterior"]
     pl_vis_f = V.a_polilineas(proy_f["vis"], 0.2)
     pl_oc_f = V.a_polilineas(proy_f["oc"], 0.2)
+    proy_l = res1["proy"]["lat_izq"]
+    pl_vis_l = V.a_polilineas(proy_l["vis"], 0.2)
+    pl_oc_l = V.a_polilineas(proy_l["oc"], 0.2)
     pl_vis_c = V.a_polilineas(proy_c["vis"], 0.1)
     for d in detalles:
         xc, yc, cwi = d["celda"]
@@ -531,6 +557,9 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
         if d["origen"] == "anterior":
             vis = recortar_circulo(pl_vis_f, d["c"], d["r"])
             oc = recortar_circulo(pl_oc_f, d["c"], d["r"])
+        elif d["origen"] == "lateral":
+            vis = recortar_circulo(pl_vis_l, d["c"], d["r"])
+            oc = recortar_circulo(pl_oc_l, d["c"], d["r"])
         else:
             vis = recortar_circulo(pl_vis_c, d["c"], d["r"])
             oc = []
@@ -545,7 +574,8 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
         h.polilineas(transformar(oc, d["c"], s, dest), "02-OCULTA")
         h.polilineas(transformar(vis, d["c"], s, dest), "01-VISIBLE")
         ej = [[a, b] for a, b in ejes(m, info, "anterior")] if d["origen"] == "anterior" else \
-            [[(0, info["recipiente"]["z_fondo"] - 3), (0, info["recipiente"]["z_cuello"] + 3)]]
+            ([[a, b] for a, b in ejes(m, info, "lat_izq")] if d["origen"] == "lateral" else
+             [[(0, info["recipiente"]["z_fondo"] - 3), (0, info["recipiente"]["z_cuello"] + 3)]])
         h.polilineas(transformar(recortar_circulo(ej, d["c"], d["r"]), d["c"], s, dest), "03-EJE")
         if d["origen"] == "corte":
             circ = sg.Point(d["c"]).buffer(d["r"], resolution=64)
@@ -565,9 +595,15 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
             for i, key in enumerate(orden):
                 if key not in VALVULA:
                     continue
-                ax, az = ancla(key, piezas, info)
+                lat = d["origen"] == "lateral"
+                ax, az = ancla(key, piezas, info) if not lat else ancla_lateral(key, piezas)
                 if math.hypot(ax - d["c"][0], az - d["c"][1]) > d["r"] * 0.95:
-                    continue
+                    # pieza larga que sale del círculo (palanca, manija): vértice propio más alejado dentro del detalle
+                    pts = [(-v.Y if lat else v.X, v.Z) for v in piezas[key].Vertices()]
+                    pts = [q for q in pts if math.hypot(q[0] - d["c"][0], q[1] - d["c"][1]) < d["r"] * 0.8]
+                    if not pts:
+                        continue
+                    ax, az = max(pts, key=lambda q: math.hypot(q[0] - d["c"][0], q[1] - d["c"][1]))
                 anc.append((i + 1, key, dest[0] + (ax - d["c"][0]) * s, dest[1] + (az - d["c"][1]) * s))
             colocar_globos(h, anc, dest[0], dest[0] - rp - 7, dest[0] + rp + 7, dest[1] + rp, dest[1] - rp, 8.5)
         h.msp.add_circle(dest, rp, dxfattribs={"layer": "08-FINA"})
@@ -617,8 +653,9 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
 
 
 # =================================================================== HOJA 3
-def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None):
-    """Tabla simple con celdas de línea media; devuelve la y inferior."""
+def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, condensar=False):
+    """Tabla simple con celdas de línea media; devuelve la y inferior.
+    condensar: el texto largo queda en 1,8 con factor de ancho (≥ 0,6) en vez de achicar la altura."""
     if encabezado:
         h.rect(x0, y - alto, x0 + sum(anchos), y, "10-ROTULO")
         h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5, A.MIDDLE_CENTER)
@@ -630,10 +667,17 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None):
             t = str(val)
             hj = hs[min(j, len(hs) - 1)]
             hh = hj if len(t) * hj * 0.8 <= w - 3 else min(1.8, (w - 3) / (max(1, len(t)) * 0.8))
+            wf = 1.0
+            if condensar and hh < min(hj, 1.8):
+                hh = min(hj, 1.8)
+                wf = max(0.6, (w - 3) / (max(1, len(t)) * hh * 0.76))
+                hh = min(hh, (w - 3) / (max(1, len(t)) * wf * 0.76))
             if j == 0:
-                h.texto(t, (x + 1.5, y - alto / 2), hh, A.MIDDLE_LEFT)
+                tx = h.texto(t, (x + 1.5, y - alto / 2), hh, A.MIDDLE_LEFT)
             else:
-                h.texto(t, (x + w / 2, y - alto / 2), hh, A.MIDDLE_CENTER)
+                tx = h.texto(t, (x + w / 2, y - alto / 2), hh, A.MIDDLE_CENTER)
+            if wf < 1.0:
+                tx.dxf.width = wf
             x += w
         y -= alto
     return y
@@ -649,8 +693,9 @@ def _fuente_valvula(m):
     plano = FADESA_EXT.get(m.capacidad) if m.codigo.startswith("FL_MAT_ABC") else None
     plano = plano or {"F510": FADESA_EXT["1 kg"], "F192": FADESA_EXT["5 kg"], "G763": FADESA_EXT["50 kg"]}[tv]
     if m.familia == "rodante":
-        return (f"Válvula {tv}, manómetro con cubremanómetro y ancho de ruedas medidos a escala en el plano Fadesa "
-                f"«{plano}»; altura, ancho y profundidad del catálogo.")
+        return (f"Válvula {tv} y manómetro con cubremanómetro medidos a escala en el plano Fadesa «{plano}». "
+                f"Tren de rodaje según IRAM 3550 tabla III (Fadesa no cumple la banda ≥ 50): ancho y profundidad "
+                f"resultan de la trocha; altura del catálogo (catálogo entre paréntesis).")
     return (f"Válvula {tv}, manómetro, resorte, vástago, racor, manguera, tobera, suncho y caño de pesca medidos a "
             f"escala en el plano Fadesa «{plano}». Altura, ancho y profundidad resultan de esas piezas (catálogo "
             f"entre paréntesis).")
@@ -673,10 +718,15 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
     for k, v in m.spec.items():
         if k == "Norma IRAM agente extintor" and ag["norma"].split()[-1] not in str(v):
             v = f"{ag['norma'].replace('IRAM ', '')} (catálogo: {v})"
-        if k in env and m.familia != "rodante":
-            # manuales: medida real del plano (piezas medidas en los planos Fadesa) y la del catálogo
-            v = f"{_n(env[k], 0)} (catálogo: {v})"
+        if k in env:
+            # medida real del plano y la del catálogo: manuales con las piezas medidas en Fadesa; rodantes con el tren
+            # de rodaje de la IRAM 3550 (trocha ≥ 400, banda ≥ 50; la altura es la del catálogo)
+            vc = re.sub(r"(\d)\.(\d{3})\b", r"\1\2", str(v))  # «1.210» → «1210», como la medida del plano
+            v = f"{_n(env[k], 0)} (catálogo: {vc})"
         filas.append((k, str(v)))
+    if m.familia == "rodante":
+        filas.append(("Trocha entre centros de rueda (mm)", f"{_n(info['track'], 0)} (IRAM 3550 tabla III: ≥ 400)"))
+        filas.append(("Ancho de banda de la rueda (mm)", f"{_n(info['bw_w'], 0)} (IRAM 3550 tabla III: ≥ 50)"))
     if "Norma IRAM agente extintor" not in m.spec and ag["norma"] != "-":
         filas.append(("Norma IRAM agente extintor", ag["norma"].replace("IRAM ", "")))
     grado = ag["grado"] if len(ag["grado"]) < 40 else ag["grado"][:ag["grado"].find("(")].strip()

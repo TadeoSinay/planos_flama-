@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.7729513887
+2461323.8337615742
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.7729513887
+2461323.8337615742
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{D68D9EFA-E080-45D6-A08B-CC74CB96ADB7}
+{223A02D6-2E1F-419F-9BB6-3A2F568E6411}
   9
 $VERSIONGUID
   2
-{2B4810FA-844F-48C0-A9AA-8BB043D8E2CF}
+{55C3E797-B2AB-4A55-84E7-447853199FFE}
   9
 $EXTNAMES
 290
@@ -44389,9 +44389,9 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999996
   1
-Tubo acero 34CrMo4 sin costura
+Tubo acero 34CrMo4 sin costura e=5,4
   7
 ISO3098
  72
@@ -51489,7 +51489,7 @@ AcDbText
  40
 1.8
   1
-Dióxido de carbono (IRAM 41170
+Dióxido de carbono (IRAM 41170)
   7
 ISO3098
  72
@@ -52503,7 +52503,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -53177,11 +53177,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Etiqueta autoadhesiva emitida 
+Etiqueta autoadhesiva emitida por la AGC
   7
 ISO3098
+ 41
+0.9320175438596492
  72
 1
  11
@@ -53515,11 +53517,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -53853,11 +53857,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -54869,7 +54875,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2 pinta
+Chapa acero SAE 1010 e=2 pintada
   7
 ISO3098
  72
@@ -57573,7 +57579,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -57773,9 +57779,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -61463,7 +61469,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:33:03.299853+00:00
+1.4.4 @ 2026-10-09T20:00:37.019397+00:00
   0
 LAYOUT
   5
@@ -61603,7 +61609,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:33:03.582617+00:00
+1.4.4 @ 2026-10-09T20:00:37.328047+00:00
   0
 ENDSEC
   0

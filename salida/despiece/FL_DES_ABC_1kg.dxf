@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.7844444443
+2461323.833113426
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.7844444443
+2461323.833113426
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{A6392282-73EB-4A57-90DA-50B723BE616E}
+{65828F3A-F86B-4536-89CE-941FCB86DD13}
   9
 $VERSIONGUID
   2
-{5C61727B-19FF-432F-91BA-C1F0AAA189B9}
+{F82C72E4-5081-46AA-849F-14D646DCB40B}
   9
 $EXTNAMES
 290
@@ -46217,7 +46217,7 @@ AcDbText
  40
 1.8
   1
-Caño c-c LF Ø76,2 e=1,25 (SAE 
+Caño c-c LF Ø76,2 e=1,25 (SAE 1010)
   7
 ISO3098
  72
@@ -46555,7 +46555,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+Chapa LAF IRAM-IAS U 500-05 e=0,9
   7
 ISO3098
  72
@@ -46893,7 +46893,7 @@ AcDbText
  40
 1.8
   1
-Chapa LAF IRAM-IAS U 500-05 e=
+Chapa LAF IRAM-IAS U 500-05 e=1,25
   7
 ISO3098
  72
@@ -47769,11 +47769,13 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Gas de protección MAG Arcal 21 / ARCAL Speed (
+Gas de protección MAG Arcal 21 / ARCAL Speed (Ar + 8 % CO₂, M20)
   7
 ISO3098
+ 41
+0.9023209064327484
  72
 1
  11
@@ -48107,9 +48109,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Granalla de acero S330 / S390 (ISO 11124-3, SA
+Granalla de acero S330 / S390 (ISO 11124-3, SAE J444)
   7
 ISO3098
  72
@@ -48445,9 +48447,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Servicio de pintura en polvo al horno, rojo 03
+Servicio de pintura en polvo al horno, rojo 03-1-050
   7
 ISO3098
  72
@@ -53177,9 +53179,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Válvula HZ armada M-22 1 kg c/tubo de pesca pl
+Válvula HZ armada M-22 1 kg c/tubo de pesca plástico
   7
 ISO3098
  72
@@ -55343,9 +55345,11 @@ AcDbText
  40
 1.8
   1
-Polvo químico seco ABC 60 (Sel
+Polvo químico seco ABC 60 (Sello IRAM 3569)
   7
 ISO3098
+ 41
+0.8669930640554875
  72
 1
  11
@@ -56695,7 +56699,7 @@ AcDbText
  40
 1.8
   1
-Papel de seguridad autodestruc
+Papel de seguridad autodestructible
   7
 ISO3098
  72
@@ -57369,11 +57373,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Poliéster autoadhesivo impreso
+Poliéster autoadhesivo impreso térmico
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -57707,11 +57713,13 @@ AcDbText
  30
 0.0
  40
-1.8
+1.7999999999999998
   1
-Vinilo destructible rayado roj
+Vinilo destructible rayado rojo/blanco
   7
 ISO3098
+ 41
+0.9810710987996306
  72
 1
  11
@@ -58587,7 +58595,7 @@ AcDbText
  40
 2.0
   1
-Soporte vehicular con cierre rápido (FL_ACC_02
+Soporte vehicular con cierre rápido (FL_ACC_02)
   7
 ISO3098
  72
@@ -58723,7 +58731,7 @@ AcDbText
  40
 1.8
   1
-Chapa acero SAE 1010 e=2,5 pin
+Chapa acero SAE 1010 e=2,5 pintada
   7
 ISO3098
  72
@@ -61089,7 +61097,7 @@ AcDbText
  40
 1.8
   1
-Polipropileno con adhesivo acr
+Polipropileno con adhesivo acrílico
   7
 ISO3098
  72
@@ -61289,9 +61297,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.8
   1
-Esquineros de cartón 50 × 50 × 1200 (fracción 
+Esquineros de cartón 50 × 50 × 1200 (fracción del pallet)
   7
 ISO3098
  72
@@ -64979,7 +64987,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:49:36.328866+00:00
+1.4.4 @ 2026-10-09T19:59:41.594312+00:00
   0
 LAYOUT
   5
@@ -65119,7 +65127,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T18:49:36.868675+00:00
+1.4.4 @ 2026-10-09T19:59:41.911198+00:00
   0
 ENDSEC
   0
