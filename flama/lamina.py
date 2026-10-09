@@ -86,6 +86,18 @@ def partir(s, w, h, max_lin=2):
 AVISOS = []
 
 
+# colores de la gráfica impresa (IRAM-DEF D 10-54 aproximados a RGB; NFPA 10 anexo B para pictogramas)
+ROJO = (200, 30, 45)          # rojo 03-1-050: cuadrado clase B, encabezados de etiqueta
+VERDE = (0, 145, 70)          # verde 01-1-150: triángulo clase A
+AZUL = (0, 94, 170)           # azul 08-1-070: círculo clase C; fondo de pictograma apto (NFPA 10 anexo B)
+AMARILLO = (255, 210, 0)      # amarillo 05-1-040: estrella clase D, faja de sustituto
+NEGRO = (25, 25, 25)
+BLANCO = (255, 255, 255)
+LILA = (215, 190, 235)        # oblea PBA (fondo guilloche lila)
+ROSA = (247, 200, 215)        # estampilla IRAM (fondo guilloche rosa)
+CELESTE = (200, 225, 245)
+
+
 def altura_norm(h):
     """altura de letra normalizada (IRAM 4503): la mayor de la serie que no supera h; mínimo 1,8 mm."""
     return max([a for a in ALTURAS if a <= h + 0.05], default=ALTURAS[0])
@@ -132,9 +144,9 @@ def nuevo_doc():
     ds.dxf.dimdec = 1
     ds.dxf.dimzin = 8
     ds.dxf.dimdsep = 44
-    ds.dxf.dimclrd = 3
-    ds.dxf.dimclre = 3
-    ds.dxf.dimclrt = 3
+    ds.dxf.dimclrd = 256           # por capa (en láminas a color se imprimen en negro)
+    ds.dxf.dimclre = 256
+    ds.dxf.dimclrt = 256
     ds.dxf.dimlwd = F
     ds.dxf.dimlwe = F
     ds.dxf.dimtix = 0
@@ -165,9 +177,36 @@ class Hoja:
         t.set_placement(p, align=al)
         return t
 
-    def grafica(self, s, p, h, al=A.BOTTOM_LEFT, rot=0):
+    def grafica(self, s, p, h, al=A.BOTTOM_LEFT, rot=0, rgb=None):
         """texto que forma parte del objeto dibujado (impresión de etiqueta, sello, señal) a su escala."""
-        return self.texto(s, p, h, al, "13-GRAFICA", rot)
+        t = self.texto(s, p, h, al, "13-GRAFICA", rot)
+        if t is not None and rgb is not None:
+            t.rgb = rgb
+        return t
+
+    def relleno(self, poly, rgb, capa="13-GRAFICA"):
+        """relleno sólido de color verdadero (gráfica impresa). poly: shapely (Multi)Polygon en mm de papel; los
+        huecos se resuelven en franjas, porque el render de PDF no respeta islas en sombreados sólidos."""
+        geoms = poly.geoms if hasattr(poly, "geoms") else [poly]
+        for g0 in geoms:
+            if g0.is_empty or g0.geom_type != "Polygon":
+                continue
+            partes = [g0]
+            if g0.interiors:
+                x0, y0, x1, y1 = g0.bounds
+                xs = sorted({x0, x1} | {v for it in g0.interiors for v in (sg.Polygon(it).bounds[0],
+                                                                            sg.Polygon(it).bounds[2])})
+                partes = []
+                for a_, b_ in zip(xs[:-1], xs[1:]):
+                    q = g0.intersection(sg.box(a_, y0 - 1, b_, y1 + 1))
+                    partes += [r for r in (q.geoms if hasattr(q, "geoms") else [q])
+                               if r.geom_type == "Polygon" and r.area > 1e-6]
+            for g in partes:
+                ht = self.msp.add_hatch(dxfattribs={"layer": capa})
+                ht.set_solid_fill(rgb=rgb)
+                ht.paths.add_polyline_path(list(g.exterior.coords)[:-1], is_closed=True, flags=1)
+                for it in g.interiors:
+                    ht.paths.add_polyline_path(list(it.coords)[:-1], is_closed=True, flags=0)
 
     def linea(self, a, b, capa="08-FINA"):
         return self.msp.add_line(a, b, dxfattribs={"layer": capa})
@@ -359,13 +398,15 @@ class Hoja:
             if len(pl) >= 2:
                 self.msp.add_lwpolyline(pl, dxfattribs={"layer": capa})
 
-    def rayado(self, poly, angulo=0, esp=2.5, solido=False, capa="05-RAYADO"):
-        """poly: shapely (Multi)Polygon en coordenadas de papel."""
+    def rayado(self, poly, angulo=0, esp=2.5, solido=False, capa="05-RAYADO", rgb=None):
+        """poly: shapely (Multi)Polygon en coordenadas de papel. rgb: color verdadero (etiquetas en láminas a color)."""
         geoms = poly.geoms if hasattr(poly, "geoms") else [poly]
         for g in geoms:
             if g.is_empty or g.area < 1e-3:
                 continue
             h = self.msp.add_hatch(color=7 if solido else 8, dxfattribs={"layer": capa})
+            if rgb is not None:
+                h.rgb = rgb
             if solido:
                 h.set_solid_fill(color=7)
             else:

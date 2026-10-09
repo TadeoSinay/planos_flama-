@@ -217,7 +217,8 @@ def medida(m, k, s, info):
     if k in ("soportes_eje", "ganchos_manguera"):
         return f"2 piezas de chapa e{_f(g['t'], 2)}; conjunto {_f(L)} × {_f(A)} × {_f(H)}"
     if k == "tercera_pata":
-        return f"chapa e{_f(g['t'], 2)} plegada en L; {_f(L)} × {_f(A)} × {_f(H)}"
+        pw, hp, tp = M.CARRO["pata"][0 if g["R"] < 170 else 1] + (M.CARRO["pata_e"],)
+        return f"planchuela {_f(pw)} × {_f(hp)} × e{_f(tp, 1)} (proceso FLAMA, puesto 2), de canto contra el fondo"
     if k == "manometro":
         return f"Ø{_f(L)} esfera, rango 0-{_f(_ps(m) * 2.5 if _ps(m) < 5 else 25, 1)} MPa, sector verde en {_f(_ps(m), 1)}"
     return f"{_f(L)} × {_f(A)} × {_f(H)}"
@@ -239,25 +240,27 @@ def operacion(m, k):
     if k == "cuerpo":
         if m.capacidad == "1 kg":
             return "5 Corte láser de caño (M15/M16) -> 2 numerado (en el cuerpo) -> 9 encastre -> 10 bordoneado (los dos extremos)"
-        return ("1 Guillotina -> C1 cilindrado -> C2 punteo (y placas de refuerzo 70/100) -> C3 sold. long. -> "
-                "C7 marcado (después de la PH)" if rod else
+        return ("2 Corte (guillotina) -> 3 cilindrado -> 4 punteo (modelo y lote con marcador; placas de refuerzo "
+                "70/100) -> 5 sold. longitudinal -> 7 armado y sold. circunferencial -> 8 sold. de accesorios -> 9 PH "
+                "-> 10 secado -> 11 marcado -> 12 pintura" if rod else
                 "1 Guillotina -> 2 numerado -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> "
                 "10 bordoneado")
     if k in ("cupula", "fondo"):
-        return "Compra (casquetes de carros, rack RK1)" if rod else "6 Desbobinado + embutido (M06-M08)"
+        return (("Compra -> 6 soldadura de cupla -> 7 armado y sold. circunferencial" if k == "cupula" else
+                 "Compra -> 7 armado y sold. circunferencial") if rod else "6 Desbobinado + embutido (M06-M08)")
     if k == "placas_refuerzo":
-        return "Tira de orilla 200 × 900 -> C1 rolado a Ø380 -> corte con amoladora -> C2 punteo interior (4 esquinas)"
+        return "2 Tira de orilla 200 × 900 -> 3 rolado a Ø380 -> corte con amoladora -> 4 punteo interior (4 esquinas)"
     if k == "cuello":
-        return "Compra -> C2 punteo" if rod else "Compra -> 8 soldadura de cuello"
+        return "Compra -> 6 soldadura de cupla en la cúpula (tapón plástico hasta la carga)" if rod else "Compra -> 8 soldadura de cuello"
     if SUB.get(k) == 2:
-        return "C9 armado" if rod else "19 Ensamblaje de válvula (T03/T04)"
+        return "13 carga de polvo y N₂: armado de válvula" if rod else "19 Ensamblaje de válvula (T03/T04)"
     if SUB.get(k) == 3:
-        return "C9 armado de ruedas y manguera" if rod else "19 Ensamblaje (T03/T04)"
+        return "Después de 12 pintura: manguera, válvula esférica y tobera" if rod else "19 Ensamblaje (T03/T04)"
     if k in CARRO_FAB:
         return ("8.1 fabricación de accesorios (orillas / caño / barra) -> 8 soldadura MAG al recipiente, antes de la "
-                "PH (IRAM 3550 6.1.1)" if k != "eje_ruedas" else "Corte de barra -> C9 armado de ruedas")
+                "PH (IRAM 3550 6.1.1)" if k != "eje_ruedas" else "8.1 corte de barra -> 8 soldadura de soportes")
     if SUB.get(k) == 4:
-        return "C9 armado de ruedas (S-TC)"
+        return "Después de 12 pintura: ruedas montadas sobre el eje"
     return ""
 
 
@@ -728,9 +731,10 @@ def consumibles_recipiente(m, piezas):
     lon, circ, cue = _cordon(m, piezas)
     largo = lon + circ + cue
     t_arco = largo / VEL_SOLD
-    out = [("C1", "Alambre MAG ER70S-6 " + ("Ø1,2" if rod else "Ø0,9") + " (AWS A5.18)", round(v / REND_ALAMBRE, 4),
+    out = [("C1", "Alambre MAG ER70S-6 " + ("Ø1,0" if rod else "Ø0,9") + " (AWS A5.18)", round(v / REND_ALAMBRE, 4),
             "kg", "ER70S-6", f"metal depositado de los cordones del plano {_f(v * 1000, 0)} g / rendimiento "
-            f"{_f(REND_ALAMBRE, 2)}", REND_ALAMBRE, "Compra", "4 sold. long. / 8 cuello / 11 circunferencial",
+            f"{_f(REND_ALAMBRE, 2)}", REND_ALAMBRE, "Compra", ("5 sold. long. / 6 cupla / 7 circunferencial" if rod else
+                                          "4 sold. long. / 8 cuello / 11 circunferencial"),
             "IRAM 3523 3.2.4.2 · IRAM 3550 4.1.2", "C", "",
             "Peso unit. = fracción que queda en la pieza (el resto es salpicadura). Depositado = volumen de los cordones del modelo × 7,85. Rendimiento de deposición del alambre macizo "
             "MAG 90-97 % (ESAB): se adopta 0,95. Medir en la prueba de soldadura del equipo (Getweld)", "C1", "E"),

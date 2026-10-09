@@ -38,7 +38,7 @@ def main(codigos):
         piezas, info, doc, hojas, res = P.generar(m)
         X.preparar_layouts(doc, hojas)
         doc.saveas(os.path.join(d, f"{m.codigo}.dxf"))
-        pdf_m = X.pdf_hojas(doc, hojas)
+        pdf_m = X.pdf_hojas(doc, hojas, color={"Hoja4_Rotulado"})     # etiquetas a color
         pdf_m.set_metadata({"title": f"{m.codigo} - {m.nombre}", "author": "FLAMA S.A.",
                             "subject": "Plano de conjunto, corte y detalles, especificaciones"})
         pdf_m.save(os.path.join(d, f"{m.codigo}.pdf"))

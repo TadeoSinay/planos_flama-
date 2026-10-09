@@ -73,11 +73,14 @@ def explotar(m, piezas):
     if des:
         xmax = max(_bb(piezas[k]).xmax for k in des)
         dx = (c.xmin - 1.2 * g) - xmax
-        frente = any(k in piezas for k in ("manguera_enrollada",))
+        # carros: manga, válvula esférica y tobera van adelante (+Y), detrás del cuerpo en la isometría: se traen al
+        # plano del eje y un poco hacia el observador para que se vean a la izquierda del recipiente
+        y_rollo = ((_bb(piezas["manguera_enrollada"]).ymin + _bb(piezas["manguera_enrollada"]).ymax) / 2
+                   if "manguera_enrollada" in piezas else None)
         for k in des:
             d[k][0] = dx
-            if frente:
-                d[k][1] = -g
+            if y_rollo is not None:
+                d[k][1] = -y_rollo - g
         for k in ("racor",):
             if k in d:
                 d[k][2] += 0.5 * g
@@ -94,16 +97,17 @@ def explotar(m, piezas):
             b = _bb(piezas[k])
             if k in ("rueda_der", "llanta_der", "rueda_izq", "llanta_izq"):
                 d[k][0] = (1 if b.xmin > 0 else -1) * (1.8 if "rueda" in k else 0.9) * g
-            elif k in ("manija_carro",):
-                d[k][1] = 2.2 * g
-            elif k in ("soportes_eje",):
-                d[k][1] = 1.1 * g
-            elif k in ("arandelas_tope",):
-                d[k][1] = 1.6 * g
-            elif k in ("ganchos_manguera",):
-                d[k][0] = -1.0 * g
-            elif k in ("tercera_pata",):
+            elif k in ("manija_carro",):                 # manija y eje atrás (-Y); ganchos y pata adelante (+Y)
+                d[k][0] += 1.2 * g
                 d[k][1] = -1.2 * g
+            elif k in ("soportes_eje",):
+                d[k][1] = -1.1 * g
+            elif k in ("arandelas_tope",):
+                d[k][1] = -1.6 * g
+            elif k in ("ganchos_manguera",):
+                d[k][1] = 1.0 * g
+            elif k in ("tercera_pata",):
+                d[k][1] = 1.2 * g
     return d, sub, g
 
 

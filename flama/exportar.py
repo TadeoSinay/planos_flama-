@@ -41,11 +41,13 @@ def _config(color=False):
 
 def pdf_hojas(doc, hojas, color=False):
     """PDF de varias páginas, una por lámina, a tamaño real.
-    color=True conserva los colores (señalética); si no, todo en negro."""
+    color=True conserva los colores en todas las láminas (señalética); color = conjunto de nombres de presentación:
+    sólo esas láminas van en color (las etiquetas), las demás en negro."""
     import pymupdf
     out = pymupdf.open()
     colores = {}
-    if color:  # sólo los rellenos con color verdadero: capas en negro (ACI 7)
+    en_color = (lambda n: True) if color is True else (lambda n: n in color) if color else (lambda n: False)
+    if color:  # sólo los rellenos y textos con color verdadero: capas en negro (ACI 7)
         for l in doc.layers:
             colores[l.dxf.name] = l.dxf.color
             l.dxf.color = 7
@@ -53,7 +55,7 @@ def pdf_hojas(doc, hojas, color=False):
     for nombre, fmt, ox in hojas:
         W, H = FORMATOS[fmt]
         back = pmb.PyMuPdfBackend()
-        Frontend(ctx, back, config=_config(color)).draw_layout(doc.layouts.get(nombre), finalize=True)
+        Frontend(ctx, back, config=_config(en_color(nombre))).draw_layout(doc.layouts.get(nombre), finalize=True)
         page = layout.Page(W, H, layout.Units.mm, margins=layout.Margins.all(0))
         data = back.get_pdf_bytes(page, settings=layout.Settings(fit_page=False, scale=1.0))
         out.insert_pdf(pymupdf.open("pdf", data))

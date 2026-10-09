@@ -81,9 +81,11 @@ def filas(m, info, piezas):
              OK),
             ("3550 3.4.2", "traba con precinto", "pasador Ø3,2 con anilla y precinto", OK),
             ("3550 3.8.1", "manga de una sola pieza", f"{m.spec.get('Longitud de manga (m)', '-')} m, una pieza", OK),
-            ("3550 3.8.2", "soporte firme para la manga", "2 ganchos soldados al cuerpo", OK),
-            ("3550 3.12.3", "estable y manejable por un operador", "3 apoyos: 2 ruedas + pata; manija", OK),
-            ("3550 6.1.1", "tren rodante soldado antes de formar el lote", "soldado antes de la PH (puesto C)", OK),
+            ("3550 3.8.2", "soporte firme para la manga", "2 ganchos soldados adelante, manga enrollada", OK),
+            ("3550 3.12.3", "estable y manejable por un operador", "3 apoyos: 2 ruedas atrás + pata adelante; "
+             "manija", OK),
+            ("3550 6.1.1", "tren rodante soldado antes de formar el lote", "soldado en el puesto 8, antes de la PH (9)",
+             OK),
         ]
         return f"IRAM 3550 (sobre ruedas){an}", out
     # manuales

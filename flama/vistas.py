@@ -75,6 +75,70 @@ def proyectar(shape, vista, tol=0.8, ocultas=True):
     return out
 
 
+def regiones_visibles(piezas, claves, vista="anterior", res=0.5, tol=0.6, sesgo=None):
+    """Parte visible de cada pieza en la vista (para colorearla): z-buffer sobre la malla de cada sólido con píxel
+    `res` mm reales y vectorizado por filas. sesgo: {clave: mm} que se acerca la pieza al observador (calcomanías de
+    0,3 mm sobre un cuerpo facetado con flecha mayor que su espesor). Devuelve {clave: (Multi)Polygon en mm reales}."""
+    sesgo = sesgo or {}
+    import shapely
+    from shapely import affinity
+    n, xd = VISTAS[vista]
+    n = np.array(n, float) / np.linalg.norm(n)
+    xd = np.array(xd, float) / np.linalg.norm(xd)
+    yd = np.cross(n, xd)
+    keys = [k for k in claves if k in piezas]
+    P, D, I = [], [], []
+    for i, k in enumerate(keys):
+        vs, tr = piezas[k].tessellate(tol, 0.5)
+        if not tr:
+            continue
+        tri = np.array([v.toTuple() for v in vs])[np.array(tr)]
+        P.append(np.stack([tri @ xd, tri @ yd], -1))
+        D.append(tri @ n + sesgo.get(k, 0.0))
+        I.append(np.full(len(tr), i))
+    if not P:
+        return {}
+    P, D, I = np.concatenate(P), np.concatenate(D), np.concatenate(I)
+    x0, y0 = P[..., 0].min() - res, P[..., 1].min() - res
+    G = (P - (x0, y0)) / res
+    W, H = int(G[..., 0].max()) + 2, int(G[..., 1].max()) + 2
+    zb = np.full((H, W), -np.inf)
+    ib = np.full((H, W), -1)
+    for t in range(len(G)):
+        (ax, ay), (bx, by), (cx, cy) = G[t]
+        den = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if abs(den) < 1e-9:
+            continue                                    # triángulo de canto: no cubre área
+        c0, c1 = max(int(min(ax, bx, cx)), 0), min(int(max(ax, bx, cx)) + 1, W)
+        r0, r1 = max(int(min(ay, by, cy)), 0), min(int(max(ay, by, cy)) + 1, H)
+        X, Y = np.meshgrid(np.arange(c0, c1) + 0.5, np.arange(r0, r1) + 0.5)
+        l1 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / den
+        l2 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / den
+        l3 = 1 - l1 - l2
+        z = l1 * D[t, 0] + l2 * D[t, 1] + l3 * D[t, 2]
+        sub = zb[r0:r1, c0:c1]
+        upd = (l1 >= -1e-6) & (l2 >= -1e-6) & (l3 >= -1e-6) & (z > sub)
+        sub[upd] = z[upd]
+        ib[r0:r1, c0:c1][upd] = I[t]
+    out = {}
+    for i, k in enumerate(keys):
+        mk = (ib == i).astype(np.int8)
+        if not mk.any():
+            continue
+        cajas = []
+        for r in np.nonzero(mk.any(1))[0]:
+            d = np.diff(np.concatenate(([0], mk[r], [0])))
+            for a, b in zip(np.nonzero(d == 1)[0], np.nonzero(d == -1)[0]):
+                cajas.append((a, r, b, r + 1))
+        B = np.array(cajas, float)
+        g = shapely.union_all(shapely.box(B[:, 0], B[:, 1], B[:, 2], B[:, 3]))
+        g = affinity.affine_transform(g, [res, 0, 0, res, x0, y0]).simplify(res * 0.7)
+        partes = [q for q in getattr(g, "geoms", [g]) if q.area > 4 * res * res]
+        if partes:
+            out[k] = shapely.union_all(partes)
+    return out
+
+
 def a_polilineas(prims, tol=0.5):
     """Convierte primitivas a listas de puntos (para recortes y extensiones)."""
     res = []

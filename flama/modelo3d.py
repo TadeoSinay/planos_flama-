@@ -390,7 +390,8 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
     lw = V["lev_w"]
     if tipo == "G763":
         # palanca en la ranura de la horquilla, pivote 8 mm detrás del vástago: al levantar la empuñadura (hacia
-        # atrás, del lado de la manija del carro) la nariz baja el vástago. Largo = 0,75·R (sin cota en Fadesa).
+        # adelante, del lado de la manga; el manómetro queda atrás, hacia la manija) la nariz baja el vástago.
+        # Largo = 0,75·R (sin cota en Fadesa).
         L_ = x_tip or 110.0
         y_pv, z_pv = 8.0, zb0 + bh - 6.0
         ang = 8.0
@@ -580,12 +581,16 @@ def extintor_manual(m, cW=0.0, cH=0.0):
 
 
 # Tren rodante soldado al recipiente (proceso FLAMA de carros, puesto 8): eje con sus soportes atrás y abajo, manija de
-# caño atrás y arriba (sube por encima de la cúpula), dos ganchos portamanguera en el costado de la salida de la
-# válvula (derecho visto desde la manija), uno arriba y otro abajo, con la manga enrollada entre los dos, y tercera
-# pata adelante en el fondo: el carro apoya en tres puntos. Todo se suelda antes de la prueba hidráulica (IRAM 3550
-# 6.1.1). Las piezas de chapa salen de orillas del corte del cuerpo (mismo espesor); se compran el caño de la manija,
-# la barra del eje y las arandelas de tope. El puesto 8.1 (fabricación de accesorios) no tiene medidas: las de abajo
-# son de diseño FLAMA, dimensionadas para que el kit pese 4,2-4,9 kg como dice el proceso (a validar en el prototipo).
+# caño atrás y arriba (sube por encima de la cúpula); adelante, los dos ganchos portamanguera (uno arriba y otro abajo)
+# con la manga enrollada entre los dos, la tobera colgada al lado del rollo y la tercera pata en el fondo: el carro
+# apoya en tres puntos. El proceso escrito pone los ganchos «en el costado derecho»; se corrigió: accesorios y manga van
+# en la parte delantera, como en la imagen de la tercera pata frontal del mismo proceso y en los carros relevados
+# (Georgia: manga al frente, etiqueta hacia la manija, del lado del operador). Ejes del modelo: -Y = atrás (manija,
+# eje, etiqueta y manómetro: es la vista anterior del plano); +Y = adelante (ganchos, manga, tobera y pata).
+# Todo se suelda antes de la prueba hidráulica (IRAM 3550 6.1.1). Las piezas de chapa salen de orillas del corte del
+# cuerpo; se compran el caño de la manija, la barra del eje y las arandelas de tope. El puesto 8.1 fija sólo la
+# tercera pata (80 × 60 en 25/50 kg y 100 × 80 en 70/100 kg, de la orilla de 3,2 mm de la hoja de 25 kg, puesto 2);
+# las demás medidas son de diseño FLAMA, dimensionadas para que el kit pese 4,2-4,9 kg como dice el proceso.
 CARRO = dict(
     banda={300: 60.0, 350: 60.0, 400: 100.0},  # ancho de rueda: IRAM 3550 tabla III ≥ 50 (Fadesa usa 49: no cumple);
                                  # Ruedar Ø300 / Ø350 × 60 y Escanort Ø400 × 100 (proveedores relevados)
@@ -598,7 +603,8 @@ CARRO = dict(
     arandela=(40.0, 13.0, 4.0),  # arandela de tope Ø40 × Ø26 × 4
     manija=(25.4, 1.6, 0.55, 40.0),  # caño Ø25,4 × 1,6; patas a ± 0,55·R; radio de curvado 40
     gancho=(40.0, 10.0, 30.0),   # ancho del gancho, holgura sobre 2 Ø de manga y alto del labio
-    pata=(80.0, 50.0, 0.75),     # ancho, vuelo del pie y posición (0,75·R adelante del eje)
+    pata=((80.0, 60.0), (100.0, 80.0)),   # proceso FLAMA puesto 2: 80 × 60 (25 y 50 kg), 100 × 80 (70 y 100 kg)
+    pata_e=3.2,                  # orilla de 3,2 mm de la hoja de 25 kg (todas las patas)
 )
 
 
@@ -616,18 +622,22 @@ def extintor_rodante(m, cD=0.0):
     info = dict(recipiente=dr)
     lleno = _lleno(dr)
     d_hose = 25.0
-    # tercera pata (adelante): alma vertical + pie, chapa del cuerpo
-    pw, pv, pk = CARRO["pata"]
-    yp = -pk * R
-    zt_p = dr["zb"] - dr["hf"] * math.sqrt(max(0.0, 1 - pk * pk)) + 20
-    pata = _box(pw, t, zt_p, 0, yp, 0).fuse(_box(pw, pv, t, 0, yp - pv / 2 + t / 2, 0))
-    out["tercera_pata"] = pata.cut(lleno).clean()
-    # ruedas al costado del cuerpo (trocha IRAM ≥ 400 y luz con el cuerpo) y eje recto detrás de la pared trasera,
+    # tercera pata (adelante, +Y): planchuela vertical apoyada de canto en el piso y soldada al fondo; se ubica donde
+    # sus dos esquinas superiores todavía tocan el casquete (el recorte contra el recipiente la ajusta a la curva)
+    pw, hp = CARRO["pata"][0 if R < 170 else 1]
+    tp = CARRO["pata_e"]
+    yp = 0.0
+    for i in range(1, int(R)):
+        if not lleno.isInside(cq.Vector(pw / 2, float(i), hp - 3.0)):
+            break
+        yp = float(i)
+    out["tercera_pata"] = _box(pw, tp, hp, 0, yp, 0).cut(lleno).clean()
+    # ruedas al costado del cuerpo (trocha IRAM ≥ 400 y luz con el cuerpo) y eje recto detrás de la pared trasera (-Y),
     # a la altura del centro de rueda: el carro apoya en las dos ruedas y la tercera pata (IRAM 3550 3.12.3)
     da, dia, ea = CARRO["arandela"]
     track = max(CARRO["trocha_min"], math.ceil((2 * R + bw_w + 2 * CARRO["luz_rueda"]) / 10.0) * 10.0)
     xw = track / 2
-    yw = R + CARRO["eje"] / 2 + CARRO["luz_eje"]
+    yw = -(R + CARRO["eje"] / 2 + CARRO["luz_eje"])
     # ruedas
     for sgn, suf in ((1, "der"), (-1, "izq")):
         c = cq.Vector(sgn * (xw - bw_w / 2), yw, Rw)              # cara interna; la rueda queda centrada en ±xw
@@ -656,66 +666,69 @@ def extintor_rodante(m, cD=0.0):
     xs = CARRO["x_soporte"] * R
     sop = None
     for sgn in (1, -1):
-        y0 = math.sqrt(R * R - xs * xs) - 15
-        b = _box(t, yw + ms - y0, hs, sgn * xs, (y0 + yw + ms) / 2, Rw - hs / 2)
+        y0 = -(math.sqrt(R * R - xs * xs) - 15)
+        b = _box(t, y0 - (yw - ms), hs, sgn * xs, (y0 + yw - ms) / 2, Rw - hs / 2)
         sop = b if sop is None else sop.fuse(b)
     sop = sop.cut(lleno).cut(_cyl(re + 0.5, 2 * R, (-R, yw, Rw), (1, 0, 0)))
     out["soportes_eje"] = sop.clean()
-    # manija: caño en U soldado atrás, con las patas tangentes al cuerpo y el agarre a la altura del catálogo
+    # manija: caño en U soldado atrás, con las patas tangentes al cuerpo por encima de la etiqueta (que mira hacia la
+    # manija, como en los carros relevados) y el agarre a la altura del catálogo
     dm, em, km, rb = CARRO["manija"]
     rt = dm / 2
     rc = R + rt - 0.5                         # patas tangentes al cuerpo en dirección radial (cordón de 0,5)
     xm = km * rc
-    ym = math.sqrt(1 - km * km) * rc
+    ym = -math.sqrt(1 - km * km) * rc
     zg = H - rt
-    zl0 = dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"])
+    _, alto_et, z_et, _, _, _ = placa_dim(m, out)
+    zl0 = max(dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"]), z_et + alto_et + 20.0)
     out["manija_carro"] = _sweep_circle([(-xm, ym, zl0), (-xm, ym, zg, rb), (xm, ym, zg, rb), (xm, ym, zl0)], rt)
-    # ganchos portamanguera (costado de la salida, -X) y manga enrollada entre los dos
-    gw, gh, gl = CARRO["gancho"]
-    vg = 2 * d_hose + gh                      # vuelo del gancho fuera del cuerpo
-    xl = -(R + vg / 2 + 2)                    # plano de la manga enrollada
-    L_c = dr["z_union"] - dr["zb"]
-    # el gancho de abajo queda por encima de la rueda para que la manga no la toque
-    z_lo = max(dr["zb"] + 0.12 * L_c, 2 * Rw + 20.0 + d_hose + t)
-    z_hi = dr["zb"] + 0.90 * L_c
-    gan = None
-    for zz, sgl in ((z_hi, 1), (z_lo, -1)):
-        brazo = _box(vg + 20, gw, t, -(R + vg / 2 - 10), 0, zz - t / 2)
-        labio = _box(t, gw, gl, -(R + vg - t / 2), 0, zz - t / 2 if sgl > 0 else zz + t / 2 - gl)
-        gan = brazo.fuse(labio) if gan is None else gan.fuse(brazo).fuse(labio)
-    out["ganchos_manguera"] = gan.cut(lleno).clean()
-    wl = 0.45 * R
-    ap = math.sqrt(wl * wl - (gw / 2) ** 2) - 1.0  # la manga apoya en los bordes del brazo de 40 de ancho
-    zt_l = z_hi + t / 2 + d_hose / 2 - ap     # centro del arco superior: la manga apoya sobre el brazo de arriba
-    zb_l = z_lo - t / 2 - d_hose / 2 + ap     # centro del arco inferior: la manga pasa por debajo del brazo de abajo
-    e1 = cq.Edge.makeLine(cq.Vector(xl, -wl, zb_l), cq.Vector(xl, -wl, zt_l))
-    a1 = cq.Edge.makeThreePointArc(cq.Vector(xl, -wl, zt_l), cq.Vector(xl, 0, zt_l + wl), cq.Vector(xl, wl, zt_l))
-    e2 = cq.Edge.makeLine(cq.Vector(xl, wl, zt_l), cq.Vector(xl, wl, zb_l))
-    a2 = cq.Edge.makeThreePointArc(cq.Vector(xl, wl, zb_l), cq.Vector(xl, 0, zb_l - wl), cq.Vector(xl, -wl, zb_l))
-    wire = cq.Wire.assembleEdges([e1, a1, e2, a2])
-    out["manguera_enrollada"] = cq.Solid.sweep(
-        cq.Wire.makeCircle(d_hose / 2, cq.Vector(xl, -wl, zb_l), cq.Vector(0, 0, 1)), [], wire,
-        transitionMode="round")
-    # válvula
-    # palanca de la G763 hacia atrás: 0,75·R, con 15 mm de luz entre la empuñadura (Ø22) y la manija del carro
-    val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"],
-                      x_tip=min(R * 0.75, ym - rt - 11.0 - 15.0),
+    # válvula: manómetro hacia atrás (lado de la etiqueta); palanca de la G763 hacia adelante, 0,75·R
+    val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"], x_tip=R * 0.75,
                       man_d=47.0)             # manómetro con cubremanómetro G711: Ø47 (plano Fadesa 25 / 50 kg)
     s = vi["s"]
     out.update(val)
     info["valvula"] = vi
     zf = dr["z_fondo"] + g["tf"] + 25
     out["cano_pesca"] = _tube(12, 9.5, dr["z_cuello"] - 12 * s - zf, (0, 0, zf))
-    # tramo válvula -> manga enrollada (entra por arriba del rollo)
     xsal, zsal = vi["x_salida"], vi["z_salida"]
     out["racor"] = _cyl(12, 16, (xsal, 0, zsal), (-1, 0, 0))
-    out["manguera"] = _sweep_circle([(xsal - 16, 0, zsal), (xl, 0, zsal, 60), (xl, 0, zt_l + wl)], d_hose / 2)
-    # punta de la manga: válvula esférica + tobera colgadas delante del rollo
-    xn = xl
-    yn = -(wl + d_hose / 2 + 38)              # tobera (boca Ø68) colgada delante del rollo, sin tocarlo
+    # ganchos portamanguera adelante (+Y), sobre el eje del cuerpo, y manga enrollada entre los dos en un plano
+    # paralelo al frente; el ancho del rollo deja llegar la manga desde la salida de la válvula con curvas suaves
+    gw, gh, gl = CARRO["gancho"]
+    vg = 2 * d_hose + gh                      # vuelo del gancho fuera del cuerpo
+    yl = R + vg / 2 + 2                       # plano de la manga enrollada
+    L_c = dr["z_union"] - dr["zb"]
+    wl = max(0.45 * R, 16.0 - xsal + 45.0)
+    ap = math.sqrt(wl * wl - (gw / 2) ** 2) - 1.0  # la manga apoya en los bordes del brazo de 40 de ancho
+    z_lo = max(dr["zb"] + 0.12 * L_c, hp + 30.0 + wl + d_hose - ap + t / 2)   # el rollo pasa por encima de la pata
+    z_hi = dr["zb"] + 0.90 * L_c
+    gan = None
+    for zz, sgl in ((z_hi, 1), (z_lo, -1)):
+        brazo = _box(gw, vg + 20, t, 0, R + vg / 2 - 10, zz - t / 2)
+        labio = _box(gw, t, gl, 0, R + vg - t / 2, zz - t / 2 if sgl > 0 else zz + t / 2 - gl)
+        gan = brazo.fuse(labio) if gan is None else gan.fuse(brazo).fuse(labio)
+    out["ganchos_manguera"] = gan.cut(lleno).clean()
+    zt_l = z_hi + t / 2 + d_hose / 2 - ap     # centro del arco superior: la manga apoya sobre el brazo de arriba
+    zb_l = z_lo - t / 2 - d_hose / 2 + ap     # centro del arco inferior: la manga pasa por debajo del brazo de abajo
+    e1 = cq.Edge.makeLine(cq.Vector(-wl, yl, zb_l), cq.Vector(-wl, yl, zt_l))
+    a1 = cq.Edge.makeThreePointArc(cq.Vector(-wl, yl, zt_l), cq.Vector(0, yl, zt_l + wl), cq.Vector(wl, yl, zt_l))
+    e2 = cq.Edge.makeLine(cq.Vector(wl, yl, zt_l), cq.Vector(wl, yl, zb_l))
+    a2 = cq.Edge.makeThreePointArc(cq.Vector(wl, yl, zb_l), cq.Vector(0, yl, zb_l - wl), cq.Vector(-wl, yl, zb_l))
+    wire = cq.Wire.assembleEdges([e1, a1, e2, a2])
+    out["manguera_enrollada"] = cq.Solid.sweep(
+        cq.Wire.makeCircle(d_hose / 2, cq.Vector(-wl, yl, zb_l), cq.Vector(0, 0, 1)), [], wire,
+        transitionMode="round")
+    # tramo válvula -> rollo: sale hacia el costado, pasa por encima de la cúpula hacia adelante y baja pegado al lado
+    # izquierdo del rollo (es la vuelta exterior) hasta el arco de abajo
+    xb_ = -(wl + d_hose)
+    out["manguera"] = _sweep_circle([(xsal - 16, 0, zsal), (xb_, 0, zsal, 35), (xb_, yl, zsal, 60), (xb_, yl, zb_l)],
+                                    d_hose / 2)
+    # punta de la manga: válvula esférica + tobera colgadas al costado del rollo, adelante
+    xn = wl + d_hose / 2 + 38                 # tobera (boca Ø68) colgada al lado del rollo, sin tocarlo
+    yn = yl
     zn_top = (zt_l + zb_l) / 2 + 60
     ve = _box(40, 40, 60, xn, yn, zn_top)
-    ve = ve.fuse(_box(14, 90, 12, xn, yn - 45, zn_top + 24))         # palanca hacia adelante, sin sumar ancho
+    ve = ve.fuse(_box(14, 90, 12, xn, yn + 45, zn_top + 24))         # palanca hacia adelante, sin sumar ancho
     out["valvula_esferica"] = ve.clean()
     if m.descarga == "lanza_espuma_rodante":
         # lanza espumígena de rodante: tubo Ø40 con 4 tomas de aire y boca expandida
@@ -735,7 +748,7 @@ def extintor_rodante(m, cD=0.0):
         out["tobera_campana"] = tb
     info["eje_tobera"] = (xn, zn_top - hn, zn_top + 60)
     info.update(dict(Rw=Rw, bw_w=bw_w, xw=xw, yw=yw, track=track, xm=xm, ym=ym, xs=xs, z_ganchos=(z_lo, z_hi),
-                     tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zn_top + 30)))
+                     tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zn_top + 30), pata=(pw, hp, tp, yp)))
     return out, info
 
 
@@ -757,9 +770,9 @@ def marcado(m):
                 ["Grabado en el CUERPO (caño cortado a láser) en el puesto de numerado, antes",
                  "del encastre y el bordoneado; franja superior, opuesta a la etiqueta;"])
     if m.familia == "rodante":
-        return ("cuerpo", "grabado en el cuerpo (puesto C7 de marcado, después de la PH)",
-                ["Grabado en el CUERPO en el puesto C7 de marcado, después de la PH y el",
-                 "secado; franja superior, cara opuesta a la etiqueta;"])
+        return ("cuerpo", "grabado en el cuerpo (puesto 11 de marcado, después de la PH y el secado)",
+                ["Grabado en el CUERPO en el puesto 11 (marcado), después de la PH (9) y el",
+                 "secado (10); franja superior, costado derecho (libre de manija y manga);"])
     return ("cuerpo", "grabado en el cuerpo (puesto de numerado)",
             ["Grabado en el CUERPO sobre el desarrollo plano (guillotina → numerado →",
              "cilindrado), número hacia afuera; franja superior, opuesta a la etiqueta;"])

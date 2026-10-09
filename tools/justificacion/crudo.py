@@ -359,8 +359,8 @@ for m in MODELOS:
                     continue
                 A_("Palanca largo × alto × espesor / empuñadura", f"{r1(info['valvula']['y_tip'] - 11)} × 16 × 10 / Ø22 × 44",
                    "mm", T_DIS, ["C:valvula", "FE:50 kg:valvula"],
-                   "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a "
-                   "la manija del carro; sin cota en Fadesa", ("modelo3d.py", "L_ = x_tip or 110.0"))
+                   "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), "
+                   "0,75·R; sin cota en Fadesa", ("modelo3d.py", "L_ = x_tip or 110.0"))
                 continue
             pts = PV.PERFILES[tv][0 if k == "manija_superior" else 1]
             xs_, zs_ = [q[0] for q in pts], [q[1] for q in pts]
@@ -475,13 +475,14 @@ for m in MODELOS:
                 continue
             if k == "ganchos_manguera":
                 A_("Ancho × vuelo × labio × e (2 u)", f"40 × {r1(2 * 25 + 10)} × 30 × {g['t']:g}", "mm", T_DIS,
-                   ["PC:accesorios"], "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de "
-                   "manga + 10", ("modelo3d.py", "gancho=(40.0"))
+                   ["PC:accesorios"], "Adelante (corrección del usuario al proceso, que decía costado derecho), "
+                   "arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10", ("modelo3d.py", "gancho=(40.0"))
                 continue
             if k == "tercera_pata":
-                A_("Ancho × pie × e", f"80 × 50 × {g['t']:g}", "mm", T_DIS, ["PC:accesorios"],
-                   "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
-                   ("modelo3d.py", "pata=(80.0"))
+                pw_, hp_, tp_, yp_ = info["pata"]
+                A_("Ancho × alto × e", f"{pw_:g} × {hp_:g} × {tp_:g}", "mm", T_PRO,
+                   ["PC:pata", "PC:accesorios"], f"Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; "
+                   f"adelante, de canto contra el fondo a {yp_:g} mm del eje del cuerpo", ("modelo3d.py", "pata=((80.0"))
                 continue
             if k == "valvula_esferica":
                 A_("Cuerpo × palanca", "40 × 40 × 60; palanca 90", "mm", T_DIS, ["C:rodante"], "Representativa (comercial)",

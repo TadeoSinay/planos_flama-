@@ -37,7 +37,13 @@ FIGS = [
              (3, "Hoja mixta 70 + 100 kg: lado de 1212, columnas de 680 y 900", ["PC:corte"]),
              (4, "Placas de refuerzo 200 × 100 × 4,75, Ø380, a 100 mm del borde", ["PC:refuerzo"]),
              (5, "Cupla apoyada por fuera y soldada con filete", ["PC:cupla"]),
-             (6, "Accesorios soldados: eje con soportes, manija, 2 ganchos, tercera pata", ["PC:accesorios"]),
+             (6, "Accesorios soldados: eje con soportes y manija atrás, tercera pata adelante; los 2 ganchos y la "
+                 "manga, que el documento pone en el costado derecho, van adelante (corrección del usuario)",
+              ["PC:accesorios"]),
+             (7, "Terceras patas 80 × 60 (25/50 kg) y 100 × 80 (70/100 kg) de la orilla de 3,2 de la hoja de 25 kg",
+              ["PC:pata"]),
+             (8, "Cilindro cerrado marcado con modelo y lote y con tapón plástico en la cupla", ["PC:tapon"]),
+             (9, "Soldadura de accesorios MIG/MAG manual, alambre ER70S-6 Ø1,0, gas 92 % Ar + 8 % CO₂", ["PC:mig"]),
          ],
          html=f"""<h1>Producción de carros — FLAMA S.A.</h1><div class="src">PROCESO_CARRO_EN_LIMPIO.docx (extractos)</div>
 {marca(1, '''<table><tr><th>Modelo</th><th>Ø (mm)</th><th>Chapa (mm)</th><th>Altura cuerpo (mm)</th></tr>
@@ -48,11 +54,15 @@ FIGS = [
 <p>{marca(2, e("Los fondos y las cúpulas se compran estampados, con tope de encastre y la cúpula ya perforada. […] 150 de 15″ (MP-17, 75 y 75) para los de 70 y 100 kg. […] El fondo y la cúpula vienen del proveedor con el borde reducido y un tope, así que entran dentro del cuerpo hasta apoyar el borde del cuerpo contra ese tope."))}</p>
 <h2>Puesto 2 — Corte de chapas</h2>
 <p>{marca(3, e("Carros de 70 y 100 kg. Se cortan juntos de la hoja mixta, porque los dos tienen un lado de 1212 mm […] En la primera fase se separan tres columnas de 680 mm y una de 900 mm."))}</p>
+<p>{marca(7, e("Terceras patas. Salen de la orilla de 426 × 1500 mm de la hoja de 25 kg, que es la orilla más grande de 3,2 mm. Con el tope se separan dos tiras de 80 × 1500 mm, para las patas de 80 × 60 mm de los carros de 25 y 50 kg (24 por tira), y una de 100 × 1500 mm, para las de 100 × 80 mm de los de 70 y 100 kg (18 por tira)."))}</p>
 <h2>Puesto 4 — Placas de refuerzo (70 y 100 kg)</h2>
 <p>{marca(4, e("Los cuerpos de 70 y 100 kg llevan dos placas de refuerzo de 200 × 100 × 4,75 mm, curvadas a Ø 380 mm, por dentro y sobre la junta longitudinal, una en cada extremo a 100 mm del borde."))}</p>
 <h2>Puesto 6 — Soldadura de cupla en la cúpula</h2>
 <p>{marca(5, e("La cupla se apoya por fuera, centrada sobre la boca, y se suelda con un cordón de filete alrededor."))} {e("Cupla M30 × 1,5 (25 y 50 kg); cupla 2½″ BSP (70 y 100 kg).")}</p>
+<h2>Puesto 7 — Salida</h2>
+<p>{marca(8, e("Sale el cilindro cerrado, con el fondo y la cúpula soldados e inspeccionados, marcado con modelo y lote y con el tapón plástico en la cupla."))}</p>
 <h2>Puesto 8 — Soldadura de accesorios</h2>
+<p>{marca(9, e("La soldadora es una MIG/MAG Pampa 300 trifásica, con alambre ER70S-6 de 1,0 mm y gas 92 % Ar + 8 % CO₂, los mismos de los puestos anteriores. Acá la soldadura es manual, con la torcha en la mano."))}</p>
 <p>{marca(6, e("El eje con sus soportes va atrás, en la parte baja del cuerpo; la manija va atrás, en la parte alta, y sube por encima de la cúpula; los dos ganchos portamanguera van en el costado derecho, uno arriba y otro abajo, y la manga se enrolla entre los dos; y la tercera pata va adelante, en el fondo […] Solo se compran el caño de la manija, la barra del eje y las arandelas de tope. […] Kit de accesorios: 4,2 a 4,9 kg."))}</p>"""),
     dict(id="F39", archivo="PROCESO DE MANUALES EXPLICATIVO + VIDEOS.docx",
          titulo="Proceso FLAMA de manuales (documento del usuario)",

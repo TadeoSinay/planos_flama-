@@ -654,15 +654,20 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
 
 
 # =================================================================== HOJA 3
-def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, max_lin=3):
+def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, max_lin=3, fondo=None, fondo_txt=None):
     """Tabla simple con celdas de línea media; devuelve la y inferior.
     Letra sólo de la serie IRAM 4503 (hs se lleva a la normalizada inferior, mínimo 1,8): lo que no entra en un
-    renglón se parte en renglones de 1,8 y la fila crece lo necesario (nunca se achica ni se condensa la letra)."""
+    renglón se parte en renglones de 1,8 y la fila crece lo necesario (nunca se achica ni se condensa la letra).
+    fondo: color del título y de la fila de encabezado (láminas a color), con letra fondo_txt."""
     if encabezado:
+        if fondo:
+            h.relleno(sg.box(x0, y - alto, x0 + sum(anchos), y), fondo)
         h.rect(x0, y - alto, x0 + sum(anchos), y, "10-ROTULO")
-        h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5, A.MIDDLE_CENTER)
+        t = h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5, A.MIDDLE_CENTER)
+        if fondo and fondo_txt and t is not None:
+            t.rgb = fondo_txt
         y -= alto
-    for fila in filas:
+    for nf, fila in enumerate(filas):
         celdas = []
         for j, (val, w) in enumerate(zip(fila, anchos)):
             t = str(val)
@@ -671,6 +676,8 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, ma
                 hj = 1.8 if ancho_texto(t, 2.5) > w - 3 else 2.5
             celdas.append((partir(t, w - 3, hj, max_lin), hj))
         alto_f = max([alto] + [(len(l) - 1) * hj * 1.3 + hj + 1.2 for l, hj in celdas])
+        if fondo and nf == 0:
+            h.relleno(sg.box(x0, y - alto_f, x0 + sum(anchos), y), (232, 232, 232))
         x = x0
         for j, ((lns, hj), w) in enumerate(zip(celdas, anchos)):
             h.rect(x, y - alto_f, x + w, y, "10-ROTULO")

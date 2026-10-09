@@ -25,7 +25,9 @@ from . import modelo3d as M
 from . import vistas as V
 from . import recipientes as RC
 from .lamina import Hoja, nuevo_doc, A, ESCALAS, FORMATOS, ROT_H
+from . import lamina as L
 from .planos import FECHA, DIBUJO, _tabla, _n
+from . import rotulado as RT
 
 SEPARACION = 60.0
 SIGMA_F = 265.0      # MPa: fluencia que debe acreditar el certificado de la chapa LAC de rodantes (50 kg con 3,2 mm)
@@ -184,7 +186,7 @@ def hoja2(m, doc, ox):
     return h
 
 
-def _vista_ubicacion(h, m, zona, piezas):
+def _vista_ubicacion(h, m, zona, piezas, color=False):
     comp = M.compuesto({k: v for k, v in piezas.items() if k != "soldaduras"})
     proy = V.proyectar(comp, "anterior", tol=0.4, ocultas=False)
     ex = V.extension(proy["vis"])
@@ -193,6 +195,15 @@ def _vista_ubicacion(h, m, zona, piezas):
              (ex[3] - ex[1]) * s <= y1 - y0 - 18)
     Tx = (x0 + x1) / 2 - (ex[0] + ex[2]) / 2 * f
     Ty = y0 + 8 - ex[1] * f
+    if color:
+        # recipiente pintado de rojo (R6), tapón de PE amarillo y etiqueta blanca con la franja de marca roja
+        cuerpo = RT.colores(m)["cuerpo"]
+        papel = RT.colorear(h, piezas, (Tx, Ty, f), 0.1 / f,
+                            lambda k: {"tapon": L.AMARILLO, "etiqueta_rec": L.BLANCO}.get(k, cuerpo))
+        if "etiqueta_rec" in papel:
+            g = papel["etiqueta_rec"]
+            bx0, by0, bx1, by1 = g.bounds
+            h.relleno(sg.box(bx0, by1 - 9 * f, bx1, by1).intersection(g), L.ROJO)
     h.prims(proy["vis"], "01-VISIBLE", (Tx, Ty, f))
     return Tx, Ty, f
 
@@ -223,18 +234,22 @@ def hoja3(m, doc, ox):
             4, A.MIDDLE_CENTER)
     piezas, dr = piezas_cilindro(m)
     # R1 ubicación
-    Tx, Ty, f = _vista_ubicacion(h, m, (X0 + 4, Y0 + 60, X0 + 120, Y1 - 12), piezas)
+    Tx, Ty, f = _vista_ubicacion(h, m, (X0 + 4, Y0 + 60, X0 + 120, Y1 - 12), piezas, color=True)
     eb = piezas["etiqueta_rec"].BoundingBox()
-    cu = 2 * dr["R"] * math.sin(ETIQ_REC[0] / 2 / dr["R"])
-    h.rayado(sg.box(Tx - cu / 2 * f, Ty + eb.zmin * f, Tx + cu / 2 * f, Ty + eb.zmax * f), 45, 1.5)
     tb = piezas["tapon"].BoundingBox()
     h.nota_referencia("Tapón protector", (Tx, Ty + (tb.zmin + tb.zmax) / 2 * f), (Tx + dr["R"] * f + 8,
                       Ty + tb.zmax * f + 6), 2.2)
-    # marcado: siempre en el cuerpo (criterio FLAMA, también 1 kg y carros), franja superior, cara opuesta a la etiqueta
+    # marcado: siempre en el cuerpo (criterio FLAMA, también 1 kg y carros), franja superior; cara opuesta a la
+    # etiqueta en los manuales; en los carros, costado derecho (atrás van la manija y la etiqueta, adelante la manga)
     zm = dr["z_union"] - 12.0
-    h.rect(Tx - 10 * f, Ty + (zm - 3) * f, Tx + 10 * f, Ty + (zm + 3) * f, "02-OCULTA")
+    if m.familia == "rodante":
+        h.rect(Tx + (dr["R"] - 4) * f, Ty + (zm - 3) * f, Tx + dr["R"] * f, Ty + (zm + 3) * f, "01-VISIBLE")
+        xr = Tx + dr["R"] * f
+    else:
+        h.rect(Tx - 10 * f, Ty + (zm - 3) * f, Tx + 10 * f, Ty + (zm + 3) * f, "02-OCULTA")
+        xr = Tx + 10 * f
     h.nota_referencia("Marcado en el cuerpo",
-                      (Tx + 10 * f, Ty + zm * f),
+                      (xr, Ty + zm * f),
                       (Tx + dr["R"] * f + 8, Ty + dr["z_cuello"] * f + 4), 2.2)
     h.nota_referencia("Etiqueta (R2)", (Tx, Ty + (eb.zmin + eb.zmax) / 2 * f), (Tx - dr["R"] * f - 6,
                       Ty + eb.zmin * f - 8), 2.2)
@@ -243,8 +258,9 @@ def hoja3(m, doc, ox):
     ex_, ey_ = X0 + 132, Y1 - 82
     w, hh = ETIQ_REC
     h.texto("R2 ETIQUETA DE IDENTIFICACIÓN DEL CILINDRO SUELTO (1:1)", (ex_ + w / 2, ey_ + hh + 6), 3, A.MIDDLE_CENTER)
+    h.relleno(sg.box(ex_, ey_ + hh - 9, ex_ + w, ey_ + hh), L.ROJO)          # franja de marca, como la placa
     h.rect(ex_, ey_, ex_ + w, ey_ + hh, "01-VISIBLE")
-    h.texto("FLAMA S.A.", (ex_ + 3, ey_ + hh - 3), 5, A.TOP_LEFT)
+    h.grafica("FLAMA S.A.", (ex_ + 3, ey_ + hh - 2), 5, A.TOP_LEFT, rgb=L.BLANCO)
     lin = [f"RECIPIENTE PARA MATAFUEGO DE POLVO {m.capacidad.upper()}",
            "SIN VÁLVULA NI CARGA - NO PRESURIZAR SIN VÁLVULA",
            f"CÓDIGO {RC.codigo_rec(m)}   N° SERIE ______   LOTE CHAPA ____",
@@ -255,10 +271,10 @@ def hoja3(m, doc, ox):
            "DEL ARMADOR. RETIRAR ESTA ETIQUETA AL ARMAR.",
            "INDUSTRIA ARGENTINA"]
     for i, t in enumerate(lin):
-        h.texto(t, (ex_ + 3, ey_ + hh - 12 - 5.0 * i), 2.0 if i < 6 else 1.8)
+        h.grafica(t, (ex_ + 3, ey_ + hh - 12 - 5.0 * i), 2.0 if i < 6 else 1.8,
+                  rgb=L.ROJO if ("NO PRESURIZAR" in t or "LICENCIA" in t) else None)
     q = 20
-    h.rect(ex_ + w - q - 3, ey_ + 3, ex_ + w - 3, ey_ + 3 + q, "08-FINA")
-    h.texto("QR GS1", (ex_ + w - 3 - q / 2, ey_ + 3 + q / 2), 2.0, A.MIDDLE_CENTER)
+    RT.qr(h, (ex_ + w - 3 - q / 2, ey_ + 3 + q / 2), q, 41)                 # QR GS1 (GTIN + n° de serie)
     h.cota_lineal((ex_, ey_), (ex_ + w, ey_), (ex_, ey_ - 6), 0, 1)
     h.cota_lineal((ex_ + w, ey_), (ex_ + w, ey_ + hh), (ex_ + w + 6, ey_), 90, 1)
     h.texto("Poliéster autoadhesivo removible, impresión térmica. Diseño FLAMA (sin norma: el recipiente suelto no",
@@ -269,27 +285,45 @@ def hoja3(m, doc, ox):
     mx, my = X0 + 132, Y0 + 116
     h.texto("R3 MARCADO GRABADO (IRAM " + s["Norma IRAM extintor"] + " 5.1)", (mx + 60, my + 30), 3, A.MIDDLE_CENTER)
     txt = "FLAMA S.A.  N° 000001  " + (f"PE {s['Presión de ensayo (MPa)']} MPa  " if rod else "") + "26"
+    h.relleno(sg.box(mx, my + 14, mx + 137, my + 24), RT.ROJO_CUERPO)        # grabado bajo la pintura del cuerpo
     h.rect(mx, my + 14, mx + 120, my + 24, "01-VISIBLE")
-    h.texto(txt, (mx + 60, my + 19), 3.5, A.MIDDLE_CENTER)
+    t_ = h.texto(txt, (mx + 60, my + 19), 3.5, A.MIDDLE_CENTER)
+    if t_ is not None:
+        t_.rgb = (90, 10, 15)
     h.texto(("Fabricante, n° de serie, presión de ensayo y año (2 díg.)" if rod else
              "Fabricante, n° de recipiente y año (2 díg.)"), (mx, my + 9), 1.9)
     l1, l2 = M.marcado(m)[2]
     h.texto(l1, (mx, my + 5.5), 1.9)
     h.texto(l2 + " letra 5 mm IRAM 4503; legible después de pintar.", (mx, my + 2), 1.9)
     h.rect(mx + 122, my + 15.5, mx + 137, my + 22.5, "01-VISIBLE")
-    h.texto("DPS", (mx + 129.5, my + 19), 3.0, A.MIDDLE_CENTER)
+    t_ = h.texto("DPS", (mx + 129.5, my + 19), 3.0, A.MIDDLE_CENTER)
+    if t_ is not None:
+        t_.rgb = (90, 10, 15)
     h.texto("cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV)", (mx, my - 1.5), 1.9)
+    if rod:
+        h.texto("Hasta el puesto 11 lleva modelo y lote escritos con marcador industrial (Edding 790), desde el "
+                "punteo (4).", (mx, my - 5), 1.9)
     # R4 tapón protector
     tx, ty = X0 + 262, Y1 - 50
     rt = m.geo["cuello"][0] / 2 + 1.5
     k = min(1.0, 30 / rt)
     h.texto("R4 TAPÓN PROTECTOR DE ROSCA", (tx + 35, ty + 34), 3, A.MIDDLE_CENTER)
+    h.relleno(sg.box(tx + 35 - rt * k, ty, tx + 35 + rt * k, ty + 18 * k), L.AMARILLO)
+    h.relleno(sg.box(tx + 35 - rt * 0.55 * k, ty + 18 * k, tx + 35 + rt * 0.55 * k, ty + 22 * k), L.AMARILLO)
     h.rect(tx + 35 - rt * k, ty, tx + 35 + rt * k, ty + 18 * k, "01-VISIBLE")
     h.rect(tx + 35 - rt * 0.55 * k, ty + 18 * k, tx + 35 + rt * 0.55 * k, ty + 22 * k, "01-VISIBLE")
     h.cota_lineal((tx + 35 - rt * k, ty), (tx + 35 + rt * k, ty), (tx, ty - 6), 0, 1 / k, prefijo="%%c")
     h.texto(f"PE baja densidad, a presión sobre {m.geo['cuello'][2]}; protege rosca e interior (polvo/humedad)",
             (tx - 4, ty - 12), 1.8)
-    h.texto("hasta el armado. Se coloca después del secado interior posterior a la PH.", (tx - 4, ty - 15.5), 1.8)
+    if rod:
+        # proceso FLAMA de carros, puesto 7: al terminar la soldadura circunferencial se marca modelo y lote con
+        # marcador y se pone el tapón; se saca para la PH (puesto 9) y vuelve después del secado (puesto 10)
+        h.texto("hasta el armado. Carros: se pone en el puesto 7 (después de la soldadura circunferencial), se saca",
+                (tx - 4, ty - 15.5), 1.8)
+        h.texto("para la PH (9) y vuelve después del secado (10). Forma de fijarlo: a definir en la línea.",
+                (tx - 4, ty - 19), 1.8)
+    else:
+        h.texto("hasta el armado. Se coloca después del secado interior posterior a la PH.", (tx - 4, ty - 15.5), 1.8)
     # R5 protocolo
     px, py = X0 + 248, Y0 + 150
     filas = [("Campo", "Dato"), ("Código / n° de serie", RC.codigo_rec(m) + " / ______"),
@@ -422,7 +456,7 @@ def generar(base):
         doc, hojas, inf = generar_cilindro(m)
         X.preparar_layouts(doc, hojas)
         doc.saveas(os.path.join(d, f"{cod}.dxf"))
-        p = X.pdf_hojas(doc, hojas)
+        p = X.pdf_hojas(doc, hojas, color={"Hoja3_Identificacion"})
         p.set_metadata({"title": f"{cod} - Cilindro {m.capacidad}", "author": "FLAMA S.A."})
         p.save(os.path.join(d, f"{cod}.pdf"))
         total.insert_pdf(p)

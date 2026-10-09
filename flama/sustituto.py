@@ -29,6 +29,7 @@ from . import modelo3d as M
 from . import vistas as V
 from .catalogo import MODELOS
 from .lamina import Hoja, nuevo_doc, A, ROT_H
+from . import lamina as L
 from .planos import FECHA, DIBUJO, _tabla
 
 FAJA_MAX = 40.0       # IRAM 3517-2:2020 9.4.5 b): alto máximo de la faja amarilla
@@ -110,9 +111,9 @@ def _rot(cod, tipo, sub, esc="-"):
 
 
 def _desarrollo(h, x, y, largo, alto, e):
-    """Desarrollo de la faja (rayado = amarillo) con las 3 leyendas en tamaño real repetidas a lo largo."""
+    """Desarrollo de la faja amarilla con las 3 leyendas negras en tamaño real repetidas a lo largo."""
+    h.relleno(sg.box(x, y, x + largo * e, y + alto * e), L.AMARILLO)
     h.rect(x, y, x + largo * e, y + alto * e, "01-VISIBLE")
-    h.rayado(sg.box(x, y, x + largo * e, y + alto * e), 45, 4.0)
     textos = ("EXTINTOR SUSTITUTO", "REEMPLAZA AL EQUIPO DE ESTE PUESTO, EN MANTENIMIENTO O RECARGA",
               "FLAMA S.A. - logo - tel.")
     k = alto / FAJA_MAX
@@ -122,7 +123,7 @@ def _desarrollo(h, x, y, largo, alto, e):
     for i in range(n):
         cx = x + (i + 0.5) * largo / n * e
         for j, (t, a) in enumerate(zip(textos, hs)):
-            h.texto(t, (cx, y + alto * e * (0.72 - 0.3 * j)), a * e, A.MIDDLE_CENTER)
+            h.grafica(t, (cx, y + alto * e * (0.72 - 0.3 * j)), a * e, A.MIDDLE_CENTER, rgb=L.NEGRO)
 
 
 def plano_modelo(m, doc):
@@ -145,9 +146,14 @@ def plano_modelo(m, doc):
              (ea[3] - ea[1]) * s <= zy1 - zy0 - 12)
     xa = (zx0 + zx1) / 2 - 10 - (ea[0] + ea[2]) / 2 * f
     ya = (zy0 + zy1) / 2 - (ea[1] + ea[3]) / 2 * f
+    # vista en colores reales (como la hoja 4 del modelo) con la faja amarilla de sustituto
+    from . import rotulado as RT
+    col = RT.colores(m)
+    pinta = (lambda k: L.AMARILLO if k == "faja_sustituto" else RT.color_pieza(k, col))
+    pegado = dict(RT.PEGADO, faja_sustituto=2.5)
+    RT.colorear(h, vis, (xa, ya, f), 0.1 / f, pinta, pegado)
     h.prims(pa["vis"], "01-VISIBLE", (xa, ya, f))
     x0b, x1b = xa + (xc - R) * f, xa + (xc + R) * f
-    h.rayado(sg.box(x0b, ya + zb * f, x1b, ya + (zb + alto) * f), 45, 1.0)
     h.cota_lineal((x1b, ya + zb * f), (x1b, ya + (zb + alto) * f), (x1b + 10, ya), 90, 1 / f)
     h.cota_lineal((x0b, ya + zb * f), (x1b, ya + zb * f), (x0b, ya + zb * f - 8), 0, 1 / f, prefijo="%%c")
     h.nota_referencia("1 Faja amarilla de sustituto", ((x0b + x1b) / 2, ya + (zb + alto / 2) * f),
@@ -165,6 +171,7 @@ def plano_modelo(m, doc):
               (ei[3] - ei[1]) * s <= iy1 - iy0 - 8)
     oxi = (ix0 + ix1) / 2 - 8 - (ei[0] + ei[2]) / 2 * fi
     oyi = (iy0 + iy1) / 2 - (ei[1] + ei[3]) / 2 * fi
+    RT.colorear(h, mov, (oxi, oyi, fi), 0.1 / fi, pinta, pegado, vista="iso")
     h.prims(pi["vis"], "01-VISIBLE", (oxi, oyi, fi))
     bb = mov["faja_sustituto"].BoundingBox()
     c = V.proyectar_punto((bb.xmax, (bb.ymin + bb.ymax) / 2, (bb.zmin + bb.zmax) / 2), "iso")
@@ -264,7 +271,7 @@ def generar(base):
         fn(doc)
         X.preparar_layouts(doc, hj)
         doc.saveas(os.path.join(d, f"{cod}.dxf"))
-        p = X.pdf_hojas(doc, hj)
+        p = X.pdf_hojas(doc, hj, color=True)                # faja amarilla a color
         p.set_metadata({"title": f"{cod} - Extintor sustituto", "author": "FLAMA S.A."})
         p.save(os.path.join(d, f"{cod}.pdf"))
         total.insert_pdf(p)
