@@ -90,8 +90,9 @@ def _contorno(h, poly, capa="01-VISIBLE"):
 
 
 def _texto_color(h, s, p, alt, rgb, al=A.MIDDLE_CENTER):
-    t = h.texto(s, p, alt, al)
-    t.rgb = rgb
+    t = h.grafica(s, p, alt, al)      # impresión de la señal: capa de gráfica, a su escala
+    if t is not None:
+        t.rgb = rgb
     return t
 
 
@@ -239,7 +240,7 @@ def _campo(h, caja, texto, alt):
     lineas = texto.split("\n")
     c = caja.centroid
     for i, t in enumerate(lineas):
-        h.texto(t, (c.x, c.y + (len(lineas) - 1) * alt * 0.7 - i * alt * 1.4), alt, A.MIDDLE_CENTER)
+        h.grafica(t, (c.x, c.y + (len(lineas) - 1) * alt * 0.7 - i * alt * 1.4), alt, A.MIDDLE_CENTER)
 
 
 def chapa_vertical(h, x0, y0, s, w=350.0, clases="ABC", numero="12", leyenda=None):
@@ -464,7 +465,7 @@ def sen04():
     for i, t in enumerate(["EQUIPO CONTROLADO POR:", "..................................",
                            "FRECUENCIA: [ ] Trimestral [ ] Mensual [ ] Otra", "FECHA: ...... / ......",
                            "EL PRÓXIMO CONTROL SE DEBE REALIZAR", "CONFORME A LA FRECUENCIA INDICADA"]):
-        h.texto(t, (x0 + 25 * k, y0 + (30.5 - 5.2 * i) * k), 2.5 if i != 2 else 2.2, A.MIDDLE_CENTER)
+        h.grafica(t, (x0 + 25 * k, y0 + (30.5 - 5.2 * i) * k), 2.5 if i != 2 else 2.2, A.MIDDLE_CENTER)
     h.cota_lineal((x0, y0 + 35 * k), (x0 + 50 * k, y0 + 35 * k), (x0, y0 + 35 * k + 7), 0, 1 / k)
     h.cota_lineal((x0 + 50 * k, y0), (x0 + 50 * k, y0 + 35 * k), (x0 + 50 * k + 7, y0), 90, 1 / k)
     h.texto("1  ETIQUETA DE CONTROL - 8.3.3 (2:1)", (x0, y0 - 7), 3.5)
@@ -475,7 +476,7 @@ def sen04():
     _contorno(h, ob)
     for i, t in enumerate(["PRESTADOR: ..........", "PRÓX. MANTENIMIENTO: ../..", "N° SERIE RECIPIENTE: ......",
                            "VENC. P. HIDROSTÁTICA: ../.."]):
-        h.texto(t, (xo + 30, y0 + 50 - 10 * i), 2.5, A.MIDDLE_CENTER)
+        h.grafica(t, (xo + 30, y0 + 50 - 10 * i), 2.5, A.MIDDLE_CENTER)
     h.texto("2  OBLEA - 9.4.14 (2:1)", (xo, y0 - 7), 3.5)
     # 3) numeración (figura 2): dígitos blancos sobre negro
     xn = xo + 80
@@ -494,7 +495,7 @@ def sen04():
     _campo(h, bl, "datos del PRS", 2.5)
     for i, (t, a) in enumerate([("ATENCIÓN", 5.0), ("NO USAR", 5.0), ("EXTINTOR", 3.5), ("FUERA DE", 3.5),
                                 ("SERVICIO", 3.5)]):
-        h.texto(t, (xf + 55 * s, yf + (135 - 20 * i) * s), a, A.MIDDLE_CENTER)
+        h.grafica(t, (xf + 55 * s, yf + (135 - 20 * i) * s), a, A.MIDDLE_CENTER)
     h.cota_lineal((xf, yf + 150 * s), (xf + 110 * s, yf + 150 * s), (xf, yf + 150 * s + 7), 0, 1 / s)
     h.cota_lineal((xf + 110 * s, yf), (xf + 110 * s, yf + 30 * s), (xf + 110 * s + 7, yf), 90, 1 / s)
     h.cota_lineal((xf + 110 * s, yf + 30 * s), (xf + 110 * s, yf + 150 * s), (xf + 110 * s + 7, yf), 90, 1 / s)
@@ -505,7 +506,7 @@ def sen04():
     _relleno(h, r, BLANCO)
     _contorno(h, r)
     for i, t in enumerate(["EXTINTOR N° ....", "PH: mes/año (punzonado)", "PRS: ........"]):
-        h.texto(t, (xr + 15 * k, yr + (15 - 5 * i) * k), 2.2, A.MIDDLE_CENTER)
+        h.grafica(t, (xr + 15 * k, yr + (15 - 5 * i) * k), 2.2, A.MIDDLE_CENTER)
     h.cota_lineal((xr, yr + 20 * k), (xr + 30 * k, yr + 20 * k), (xr, yr + 20 * k + 7), 0, 1 / k, texto="≥ 30")
     h.cota_lineal((xr + 30 * k, yr), (xr + 30 * k, yr + 20 * k), (xr + 30 * k + 7, yr), 90, 1 / k, texto="≥ 20")
     h.texto("5  RÓTULO DE MANGUERA - 9.7.1.4 (2:1)", (xr, yr - 7), 3.5)
@@ -551,12 +552,12 @@ def placa_instrucciones(h, x3, y3, we=110.0, he=160.0):
     pasos = ["MODO DE USO", "1. Retirar el extintor del soporte.", "2. Quitar el precinto y la traba.",
              "3. Apuntar a la base del fuego.", "4. Apretar la palanca y barrer.", "5. Recargar después de cada uso."]
     for i, t in enumerate(pasos):
-        h.texto(t, (x3 + 5, y3 + he - 70 - 5.5 * i), 3.5 if i == 0 else 2.5)
+        h.grafica(t, (x3 + 5, y3 + he - 70 - 5.5 * i), 3.5 if i == 0 else 2.5)
     datos = ["Agente: polvo ABC IRAM 3569 - 10 kg", "Gas impulsor: nitrógeno seco", "Ps: 1,4 MPa  -  Pe: 3,5 MPa",
              "Temperatura: -20 °C a +50 °C", "IRAM 3523 - placa según IRAM 3534"]
     h.linea((x3 + 4, y3 + 38), (x3 + we - 4, y3 + 38), "08-FINA")
     for i, t in enumerate(datos):
-        h.texto(t, (x3 + 5, y3 + 32 - 6 * i), 2.5)
+        h.grafica(t, (x3 + 5, y3 + 32 - 6 * i), 2.5)
 
 
 def sen06():

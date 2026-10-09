@@ -37,7 +37,7 @@ import shapely.geometry as sg
 from . import modelo3d as M
 from . import vistas as V
 from . import agentes as AG
-from .lamina import Hoja, A
+from .lamina import Hoja, A, partir
 from .planos import _tabla, rotulo_base
 
 PROPIOS_ROT = {"3523", "3550"}     # extintores que fabrica FLAMA: placa diseñada por FLAMA
@@ -266,16 +266,16 @@ def simbolo(h, letra, c, alto):
         ln = alto / math.sin(math.radians(60))
         _poly(h, [(x - ln / 2, y - alto / 2), (x + ln / 2, y - alto / 2), (x, y + alto / 2)])
         _poly(h, [(x - ln / 2 * 0.8, y - alto / 2 * 0.85), (x + ln / 2 * 0.8, y - alto / 2 * 0.85), (x, y + alto / 2 * 0.65)])
-        h.texto("A", (x, y - alto * 0.12), alto * 0.42, A.MIDDLE_CENTER)
+        h.grafica("A", (x, y - alto * 0.12), alto * 0.42, A.MIDDLE_CENTER)
     elif letra == "B":
         for k in (1.0, 0.84):
             a = alto / 2 * k
             _poly(h, [(x - a, y - a), (x + a, y - a), (x + a, y + a), (x - a, y + a)])
-        h.texto("B", (x, y), alto * 0.5, A.MIDDLE_CENTER)
+        h.grafica("B", (x, y), alto * 0.5, A.MIDDLE_CENTER)
     elif letra == "C":
         for k in (1.0, 0.86):
             h.msp.add_circle((x, y), alto / 2 * k, dxfattribs={"layer": "01-VISIBLE"})
-        h.texto("C", (x, y), alto * 0.5, A.MIDDLE_CENTER)
+        h.grafica("C", (x, y), alto * 0.5, A.MIDDLE_CENTER)
     elif letra == "D":
         pts = []
         for i in range(10):
@@ -283,18 +283,18 @@ def simbolo(h, letra, c, alto):
             a = math.radians(90 + 36 * i)
             pts.append((x + r * math.cos(a), y + r * math.sin(a)))
         _poly(h, pts)
-        h.texto("D", (x, y), alto * 0.38, A.MIDDLE_CENTER)
+        h.grafica("D", (x, y), alto * 0.38, A.MIDDLE_CENTER)
     elif letra == "K":
         a = alto / 2
         _poly(h, [(x - a, y - a), (x + a, y - a), (x + a, y + a), (x - a, y + a)])
-        h.texto("K", (x, y), alto * 0.5, A.MIDDLE_CENTER)
+        h.grafica("K", (x, y), alto * 0.5, A.MIDDLE_CENTER)
 
 
 def pictograma(h, c, lado, fuego, apto):
     x, y = c
     a = lado / 2
     _poly(h, [(x - a, y - a), (x + a, y - a), (x + a, y + a), (x - a, y + a)])
-    h.texto({"A": "sólido", "B": "líquido", "C": "eléctrico"}[fuego], (x, y), max(1.0, lado * 0.16), A.MIDDLE_CENTER)
+    h.grafica({"A": "sólido", "B": "líquido", "C": "eléctrico"}[fuego], (x, y), max(1.0, lado * 0.16), A.MIDDLE_CENTER)
     if not apto:
         h.linea((x - a, y + a), (x + a, y - a), "01-VISIBLE")
 
@@ -305,17 +305,17 @@ def _logo(h, nombre, c, lado):
     if nombre == "SELLO IRAM":
         h.msp.add_circle((x, y), a, dxfattribs={"layer": "01-VISIBLE"})
         h.msp.add_circle((x, y), a * 0.62, dxfattribs={"layer": "08-FINA"})
-        h.texto("IRAM", (x, y), lado * 0.2, A.MIDDLE_CENTER)
+        h.grafica("IRAM", (x, y), lado * 0.2, A.MIDDLE_CENTER)
     elif nombre == "QR":
         _poly(h, [(x - a, y - a), (x + a, y - a), (x + a, y + a), (x - a, y + a)], "08-FINA")
         for dx, dy in ((-1, 1), (1, 1), (-1, -1)):
             q = a * 0.3
             cx, cy = x + dx * (a - q - a * 0.08), y + dy * (a - q - a * 0.08)
             _poly(h, [(cx - q, cy - q), (cx + q, cy - q), (cx + q, cy + q), (cx - q, cy + q)], "08-FINA")
-        h.texto("QR", (x, y), lado * 0.2, A.MIDDLE_CENTER)
+        h.grafica("QR", (x, y), lado * 0.2, A.MIDDLE_CENTER)
     else:
         _poly(h, [(x - a, y - a * 0.6), (x + a, y - a * 0.6), (x + a, y + a * 0.6), (x - a, y + a * 0.6)], "08-FINA")
-        h.texto(nombre, (x, y), lado * 0.22, A.MIDDLE_CENTER)
+        h.grafica(nombre, (x, y), lado * 0.22, A.MIDDLE_CENTER)
 
 
 def _ilustracion(h, c, w, hh, n):
@@ -323,7 +323,7 @@ def _ilustracion(h, c, w, hh, n):
     x, y = c
     _poly(h, [(x - w / 2, y - hh / 2), (x + w / 2, y - hh / 2), (x + w / 2, y + hh / 2), (x - w / 2, y + hh / 2)], "08-FINA")
     h.linea((x - w / 2, y - hh / 2), (x + w / 2, y + hh / 2), "08-FINA")
-    h.texto(f"ilustr. {n}", (x, y - hh / 2 + max(0.8, hh * 0.08)), max(0.8, min(w, hh) * 0.12), A.BOTTOM_CENTER)
+    h.grafica(f"ilustr. {n}", (x, y - hh / 2 + max(0.8, hh * 0.08)), max(0.8, min(w, hh) * 0.12), A.BOTTOM_CENTER)
 
 
 # ------------------------------------------------------------------ diagramación de la etiqueta
@@ -423,22 +423,22 @@ def placa(h, m, zona, W, Wa, H):
     h.linea((xb, yp), (xb, top), "08-FINA")
     h.linea((ox, yp), (ox + w, yp), "08-FINA")
     h.texto(f"R1 ETIQUETA DESARROLLADA {_n(Wt, 0)} × {_n(H, 0)} mm (panel central {_n(W, 0)} = arco 108° + alas "
-            f"{_n(Wa, 0)}) - ESC. {'1:1' if esc == 1 else '1:' + _n(1 / esc, 1)}", ((x0 + x1) / 2, y1 - 3), 3.2,
+            f"{_n(Wa, 0)}) - ESC. {'1:1' if esc == 1 else '1:' + _n(1 / esc, 1)}", ((x0 + x1) / 2, y1 - 3), 2.5,
             A.MIDDLE_CENTER)
     cx = (xa + xb) / 2
     xl = xa + 3 * e
     u = (W - 6) * e
     y = top - 3 * e
     # encabezado: marca + tipo (zona 2 + 3° a)
-    h.texto("FLAMA" if _propio(m) else "MARCA DEL FABRICANTE", (cx, y), d["hm"] * e * (1 if _propio(m) else 0.45),
+    h.grafica("FLAMA" if _propio(m) else "MARCA DEL FABRICANTE", (cx, y), d["hm"] * e * (1 if _propio(m) else 0.45),
             A.TOP_CENTER)
     y -= (d["hm"] + 2) * e
     for ln in d["t_lin"]:
-        h.texto(ln, (cx, y), d["hti"] * e, A.TOP_CENTER)
+        h.grafica(ln, (cx, y), d["hti"] * e, A.TOP_CENTER)
         y -= d["hti"] * 1.4 * e
     y = top - d["z_enc"] * e
     h.linea((xa, y), (xb, y), "08-FINA")
-    h.texto("INSTRUCCIONES", (cx, y - 1 * e), d["ht"] * 1.3 * e, A.TOP_CENTER)
+    h.grafica("INSTRUCCIONES", (cx, y - 1 * e), d["ht"] * 1.3 * e, A.TOP_CENTER)
     y -= d["z_tit"] * e
     # pasos
     hl, ill = d["hl"] * e, d["ill"] * e
@@ -448,7 +448,7 @@ def placa(h, m, zona, W, Wa, H):
             xc_ = xl + cw * i
             yy = y
             for ln in lns:
-                h.texto(ln, (xc_ + 1 * e, yy), hl, A.TOP_LEFT)
+                h.grafica(ln, (xc_ + 1 * e, yy), hl, A.TOP_LEFT)
                 yy -= hl * 1.4
             yt = y - max(len(x) for x in d["p_lin"]) * hl * 1.4 - 2 * e
             _ilustracion(h, (xc_ + cw / 2, yt - ill * 0.375), ill, ill * 0.75, i + 1)
@@ -459,13 +459,13 @@ def placa(h, m, zona, W, Wa, H):
         for i, lns in enumerate(d["p_lin"]):
             alto = max(ill * 0.75, len(lns) * hl * 1.4)
             for k, ln in enumerate(lns):
-                h.texto(ln, (xl, yy - k * hl * 1.4), hl, A.TOP_LEFT)
+                h.grafica(ln, (xl, yy - k * hl * 1.4), hl, A.TOP_LEFT)
             _ilustracion(h, (xl + u - ill / 2, yy - ill * 0.375), ill, ill * 0.75, i + 1)
             yy -= alto + 2 * e
     y -= d["z_ins"] * e
     h.linea((xa, y), (xb, y), "08-FINA")
     # clases
-    h.texto("PARA FUEGOS CLASE", (xl, y - 0.6 * e), d["ht"] * e, A.TOP_LEFT)
+    h.grafica("PARA FUEGOS CLASE", (xl, y - 0.6 * e), d["ht"] * e, A.TOP_LEFT)
     y -= d["ht"] * 1.6 * e + 0.6 * e
     sym, pz = d["sym"] * e, d["pz"] * e
     pic = pictogramas(m)
@@ -475,7 +475,7 @@ def placa(h, m, zona, W, Wa, H):
         for c in cls:
             simbolo(h, c, (xx, y - sym / 2), sym)
             xx += sym * 1.3
-        h.texto({"D": "METALES COMBUSTIBLES", "K": "ACEITES Y GRASAS DE COCINA"}["D" if "D" in cls else "K"],
+        h.grafica({"D": "METALES COMBUSTIBLES", "K": "ACEITES Y GRASAS DE COCINA"}["D" if "D" in cls else "K"],
                 (xx - sym * 0.3, y - sym / 2), d["ht"] * e, A.MIDDLE_LEFT)
     elif d["dos"]:
         xx = xl + sym / 2
@@ -496,7 +496,7 @@ def placa(h, m, zona, W, Wa, H):
             xx += pz + 4 * e
     y = top - (d["z_enc"] + d["z_tit"] + d["z_ins"] + d["z_cls"]) * e
     for ln in d["e_lin"] + d["ley"]:
-        h.texto(ln, (cx, y), d["he"] * e, A.TOP_CENTER)
+        h.grafica(ln, (cx, y), d["he"] * e, A.TOP_CENTER)
         y -= d["he"] * 1.4 * e
     y -= 2 * e
     lg = d["lg"] * e
@@ -508,15 +508,15 @@ def placa(h, m, zona, W, Wa, H):
     ht = d["ht"] * e
     for titulo, lns, x_ in (("DATOS TÉCNICOS", d["i_lin"], ox + 2 * e), ("MANTENIMIENTO / ATENCIÓN", d["d_lin"], xb + 2 * e)):
         yy = top - 3 * e
-        h.texto(titulo, (x_, yy), min(ht * 1.15, (Wa - 4) * e / (CW * len(titulo))), A.TOP_LEFT)
+        h.grafica(titulo, (x_, yy), min(ht * 1.15, (Wa - 4) * e / (CW * len(titulo))), A.TOP_LEFT)
         yy -= ht * 1.6
         for ln in lns:
             if ln:
-                h.texto(ln, (x_, yy), ht, A.TOP_LEFT)
+                h.grafica(ln, (x_, yy), ht, A.TOP_LEFT)
             yy -= ht * 1.4
     yy = yp - 1.2 * e
     for ln in d["f_lin"]:
-        h.texto(ln, (ox + w / 2, yy), ht, A.TOP_CENTER)
+        h.grafica(ln, (ox + w / 2, yy), ht, A.TOP_CENTER)
         yy -= ht * 1.4
     h.cota_lineal((ox, oy), (ox + w, oy), (ox, oy - 7), 0, 1 / esc)
     h.cota_lineal((xa, top), (xb, top), (xa, top + 4), 0, 1 / esc)
@@ -528,7 +528,11 @@ def placa(h, m, zona, W, Wa, H):
 
 
 # ------------------------------------------------------------------ hoja 4
-def _bloque(h, txts, x, y, alto=1.6, paso=3.6):
+def _bloque(h, txts, x, y, alto=1.8, paso=3.6, ancho=None):
+    """nota de varias líneas; con `ancho` el texto se vuelve a partir para no salir de su recuadro."""
+    if ancho:
+        txts = partir(" ".join(txts), ancho, 1.8, 40)
+        paso = max(1.8 * 1.45, min(paso, 2.9))
     for i, t in enumerate(txts):
         h.texto(t, (x, y - paso * i), alto)
 
@@ -543,7 +547,7 @@ def hoja4(m, piezas, info, proy, doc, ox):
     h.texto(f"ROTULADO E IDENTIFICACIÓN - {m.nombre.upper()}", ((X0 + X1) / 2, Y1 - 7), 5, A.MIDDLE_CENTER)
     if rev:
         h.texto("PRODUCTO REVENDIDO: etiqueta, estampado y precinto los aplica el fabricante certificado; esta hoja es la "
-                "especificación de RECEPCIÓN de FLAMA (lo que el equipo debe traer).", ((X0 + X1) / 2, Y1 - 11.8), 2.3,
+                "especificación de RECEPCIÓN de FLAMA (lo que el equipo debe traer).", ((X0 + X1) / 2, Y1 - 11.8), 2.5,
                 A.MIDDLE_CENTER)
     W, H, z0, R, xc, yc = M.placa_dim(m, piezas)
     Wa = M.ala_dim(R)
@@ -583,15 +587,16 @@ def hoja4(m, piezas, info, proy, doc, ox):
         h.nota_referencia("Faja de garantía", (Tx + (bf.xmin + bf.xmax) / 2 * f, Ty + (bf.zmin + bf.zmax) / 2 * f),
                           (Tx + (xc + R) * f + 6, Ty + (bf.zmax + 25) * f), 2.2)
     h.eje((Tx + xc * f, Ty - 3), (Tx + xc * f, Ty + (z0 + H) * f + 3))
-    h.texto("R2 UBICACIÓN (vista anterior, esc. 1:" + _n(1 / f, 0) + ")", ((zx0 + zx1) / 2, zy1 - 3), 3.5,
+    h.texto("R2 UBICACIÓN (vista anterior, esc. 1:" + _n(1 / f, 0) + ")", ((zx0 + zx1) / 2, zy1 - 3), 2.5,
             A.MIDDLE_CENTER)
-    h.texto("Etiqueta de frente sobre el eje del manómetro; oblea inmediatamente debajo, sin otra identificación entre",
-            ((zx0 + zx1) / 2, zy0 + 5.5), 1.7, A.MIDDLE_CENTER)
-    h.texto("ambas (Res. 522/07 an. 6); estampilla IRAM al costado; etiqueta GS1 a 180° (posterior)",
-            ((zx0 + zx1) / 2, zy0 + 3), 1.7, A.MIDDLE_CENTER)
+    nota_r2 = partir("Etiqueta de frente sobre el eje del manómetro; oblea inmediatamente debajo, sin otra "
+                     "identificación entre ambas (Res. 522/07 an. 6); estampilla IRAM al costado; etiqueta GS1 a 180° "
+                     "(posterior).", zx1 - zx0, 1.8, 3)
+    for i, ln in enumerate(nota_r2):
+        h.texto(ln, ((zx0 + zx1) / 2, zy0 + 2.5 + 2.6 * (len(nota_r2) - 1 - i)), 1.8, A.MIDDLE_CENTER)
     # R3 símbolos acotados
     sx0, sy0, sx1, sy1 = X0 + 436, Y0 + 290, X1 - 4, Y1 - 14
-    h.texto("R3 SÍMBOLOS Y PICTOGRAMAS (IRAM 3534)", ((sx0 + sx1) / 2, sy1 - 3), 2.8, A.MIDDLE_CENTER)
+    h.texto("R3 SÍMBOLOS Y PICTOGRAMAS (IRAM 3534)", ((sx0 + sx1) / 2, sy1 - 3), 2.5, A.MIDDLE_CENTER)
     cls = clases(m)
     xs = sx0 + 14
     for c in cls:
@@ -612,74 +617,76 @@ def hoja4(m, piezas, info, proy, doc, ox):
         h.texto("Clases D/K: símbolo del producto (IRAM 3534 no prevé pictograma)", (sx0 + 2, sy0 + 20), 1.8)
     # R4 oblea PBA
     ox_, oy_ = X0 + 436, Y0 + 195
-    h.texto("R4 OBLEA FABRICACIÓN PBA (Res. 522/07)", ((ox_ + X1 - 4) / 2, oy_ + 90), 2.8, A.MIDDLE_CENTER)
+    h.texto("R4 OBLEA FABRICACIÓN PBA (Res. 522/07)", ((ox_ + X1 - 4) / 2, oy_ + 90), 2.5, A.MIDDLE_CENTER)
     c4 = (ox_ + 30, oy_ + 45)
     for rr in (23, 16):
         h.msp.add_circle(c4, rr, dxfattribs={"layer": "01-VISIBLE"})
-    h.texto("ÚNICO SELLO OFICIAL", (c4[0], c4[1] + 19.5), 1.15, A.MIDDLE_CENTER)
-    h.texto("LEY 19.587", (c4[0], c4[1] - 19.5), 1.15, A.MIDDLE_CENTER)
-    h.texto("DPS", (c4[0] - 19.5, c4[1]), 1.4, A.MIDDLE_CENTER, rot=90)
-    h.texto("DPS", (c4[0] + 19.5, c4[1]), 1.4, A.MIDDLE_CENTER, rot=-90)
-    h.texto("PROVINCIA DE BUENOS AIRES", (c4[0], c4[1] + 11), 1.3, A.MIDDLE_CENTER)
+    h.grafica("ÚNICO SELLO OFICIAL", (c4[0], c4[1] + 19.5), 1.15, A.MIDDLE_CENTER)
+    h.grafica("LEY 19.587", (c4[0], c4[1] - 19.5), 1.15, A.MIDDLE_CENTER)
+    h.grafica("DPS", (c4[0] - 19.5, c4[1]), 1.4, A.MIDDLE_CENTER, rot=90)
+    h.grafica("DPS", (c4[0] + 19.5, c4[1]), 1.4, A.MIDDLE_CENTER, rot=-90)
+    h.grafica("PROVINCIA DE BUENOS AIRES", (c4[0], c4[1] + 11), 1.3, A.MIDDLE_CENTER)
     h.rect(c4[0] - 12, c4[1] + 1, c4[0] + 12, c4[1] + 8, "08-FINA")
-    h.texto("PRÓXIMA REVISIÓN DE CARGA", (c4[0], c4[1] + 6.5), 1.1, A.MIDDLE_CENTER)
-    h.texto("MM / AAAA", (c4[0], c4[1] + 3), 1.6, A.MIDDLE_CENTER)
-    h.texto("1H0 0000000", (c4[0], c4[1] - 5), 2.0, A.MIDDLE_CENTER)
-    h.texto("LEY 11.459 - DTO. 4992/90", (c4[0], c4[1] - 10), 1.1, A.MIDDLE_CENTER)
+    h.grafica("PRÓXIMA REVISIÓN DE CARGA", (c4[0], c4[1] + 6.5), 1.1, A.MIDDLE_CENTER)
+    h.grafica("MM / AAAA", (c4[0], c4[1] + 3), 1.6, A.MIDDLE_CENTER)
+    h.grafica("1H0 0000000", (c4[0], c4[1] - 5), 2.0, A.MIDDLE_CENTER)
+    h.grafica("LEY 11.459 - DTO. 4992/90", (c4[0], c4[1] - 10), 1.1, A.MIDDLE_CENTER)
     h.cota_lineal((c4[0] - 23, c4[1] - 25), (c4[0] + 23, c4[1] - 25), (c4[0] - 23, c4[1] - 30), 0, 1, prefijo="%%c")
     _bloque(h, ["Autoadhesiva, autodestructible, fondo", "guilloche lila, imagen latente «válido»,",
                 "numerada (relevado: «1H01036888»).", "Anillo: único sello oficial obligatorio;",
                 "Sello DPS; Ley 19.587; Ley 11.459.", "Campo «próxima revisión de carga»", "completado (mes/año).",
                 "Ubicación: frente, eje del manómetro,", "inmediatamente debajo de la etiqueta.",
-                "Venta en Prov. de Bs. As.; la provee", "el organismo al fabricante inscripto."], ox_ + 57, oy_ + 80)
+                "Venta en Prov. de Bs. As.; la provee", "el organismo al fabricante inscripto."], ox_ + 57, oy_ + 80,
+            ancho=X1 - 4 - (ox_ + 57))
     # R5 estampilla IRAM
     ex_, ey_ = X0 + 385, Y0 + 125
     ew, eh = M.ESTAMPILLA_IRAM
-    h.texto("R5 ESTAMPILLA IRAM EXTINTOR NUEVO", (ex_ + 42, ey_ + 66), 2.8, A.MIDDLE_CENTER)
+    h.texto("R5 ESTAMPILLA IRAM EXTINTOR NUEVO", (ex_ + 42, ey_ + 66), 2.5, A.MIDDLE_CENTER)
     sx, sy = ex_ + 12, ey_ + 17
     h.rect(sx, sy, sx + ew, sy + eh, "01-VISIBLE")
-    h.texto("A 26 000000", (sx + 4, sy + eh / 2), 2.4, A.MIDDLE_CENTER, rot=90)
+    h.grafica("A 26 000000", (sx + 4, sy + eh / 2), 2.4, A.MIDDLE_CENTER, rot=90)
     for i, t in enumerate(["leyenda de conformidad con", "norma IRAM (lote aprobado,", "fabricación bajo control)"]):
-        h.texto(t, (sx + 9, sy + eh - 4 - 3 * i), 1.5)
-    h.texto("INSTITUTO ARGENTINO DE", (sx + 9, sy + eh - 15), 1.6)
-    h.texto("NORMALIZACIÓN Y CERTIF.", (sx + 9, sy + eh - 18), 1.6)
+        h.grafica(t, (sx + 9, sy + eh - 4 - 3 * i), 1.5)
+    h.grafica("INSTITUTO ARGENTINO DE", (sx + 9, sy + eh - 15), 1.6)
+    h.grafica("NORMALIZACIÓN Y CERTIF.", (sx + 9, sy + eh - 18), 1.6)
     for i, t in enumerate(["advertencia: la numeración", "identifica matafuego y", "fabricante; adulteración", "= acciones legales"]):
-        h.texto(t, (sx + 9, sy + 13 - 3 * i), 1.4)
+        h.grafica(t, (sx + 9, sy + 13 - 3 * i), 1.4)
     h.msp.add_circle((sx + ew - 11, sy + eh - 11), 8, dxfattribs={"layer": "08-FINA"})
-    h.texto("SELLO", (sx + ew - 11, sy + eh - 10), 1.4, A.MIDDLE_CENTER)
-    h.texto("IRAM", (sx + ew - 11, sy + eh - 12.5), 1.6, A.MIDDLE_CENTER)
+    h.grafica("SELLO", (sx + ew - 11, sy + eh - 10), 1.4, A.MIDDLE_CENTER)
+    h.grafica("IRAM", (sx + ew - 11, sy + eh - 12.5), 1.6, A.MIDDLE_CENTER)
     _logo(h, "QR", (sx + ew - 11, sy + 9), 12)
     _bloque(h, [f"≈ {_n(ew, 0)} × {_n(eh, 0)}, fondo guilloche rosa, sello azul; n° vertical",
                 "letra + año + n° (relevado «A 25 1111053»). La provee IRAM",
                 "numerada sólo al licenciatario; se aplica con etiquetadora.",
                 "Alternativa (certifica Bureau Veritas): etiqueta naranja",
-                "«MODELO APROBADO» con n° y QR."], ex_ + 2, ey_ + 13, 1.45, 2.9)
+                "«MODELO APROBADO» con n° y QR."], ex_ + 2, ey_ + 13, 1.8, 2.9, ancho=84)
     # R6 precinto y faja de garantía
     px, py = X0 + 472, Y0 + 125
-    h.texto("R6 PRECINTO Y FAJA DE GARANTÍA", (px + 42, py + 66), 2.8, A.MIDDLE_CENTER)
+    h.texto("R6 PRECINTO Y FAJA DE GARANTÍA", (px + 42, py + 66), 2.5, A.MIDDLE_CENTER)
     fab = "del fabricante" if rev else "FLAMA"
     h.msp.add_circle((px + 14, py + 46), 9, dxfattribs={"layer": "01-VISIBLE"})
     h.linea((px + 23, py + 46), (px + 46, py + 46), "01-VISIBLE")
     h.rect(px + 32, py + 42, px + 42, py + 50, "01-VISIBLE")
-    h.texto("FAB." if rev else "FLAMA", (px + 37, py + 47.2), 1.2, A.MIDDLE_CENTER)
-    h.texto("L 0000", (px + 37, py + 44.5), 1.2, A.MIDDLE_CENTER)
+    h.grafica("FAB." if rev else "FLAMA", (px + 37, py + 47.2), 1.2, A.MIDDLE_CENTER)
+    h.grafica("L 0000", (px + 37, py + 44.5), 1.2, A.MIDDLE_CENTER)
     fx, fy = px + 52, py + 34
     fw, fh = M.FAJA_GARANTIA
-    fw, fh = fw * 0.75, fh * 0.75
+    fw, fh = fw * 0.5, fh * 0.5                     # esc. 1:2 (IRAM 4505)
     h.rect(fx, fy, fx + fw, fy + fh, "01-VISIBLE")
     h.rayado(sg.box(fx, fy + fh * 0.5, fx + fw, fy + fh), -45, 2.2)
-    h.texto("LA ROTURA TOTAL DE ESTA", (fx + 1, fy + fh * 0.42), 1.0)
-    h.texto("CINTA INTERRUMPE LA GARANTÍA", (fx + 1, fy + fh * 0.30), 1.0)
-    h.texto("ATENCIÓN", (fx + fw / 2, fy + 1.5), 1.8, A.BOTTOM_CENTER)
+    h.grafica("LA ROTURA TOTAL DE ESTA", (fx + 1, fy + fh * 0.42), 1.0)
+    h.grafica("CINTA INTERRUMPE LA GARANTÍA", (fx + 1, fy + fh * 0.30), 1.0)
+    h.grafica("ATENCIÓN", (fx + fw / 2, fy + 1.5), 1.8, A.BOTTOM_CENTER)
     _bloque(h, ["Precinto: pasador alambre Ø 2,5-3,5 con ojal que deja pasar un",
                 "cilindro Ø 30 y precinto plástico de color que se rompe al tirar",
                 f"(IRAM 3517-2 9.4.13), con la id. {fab} y el lote (IRAM 3523 3.3.2).",
-                f"Faja de garantía {_n(M.FAJA_GARANTIA[0], 0)} × {_n(M.FAJA_GARANTIA[1], 0)} (esc. 3:4): vinilo destructible",
+                f"Faja de garantía {_n(M.FAJA_GARANTIA[0], 0)} × {_n(M.FAJA_GARANTIA[1], 0)} (esc. 1:2): vinilo destructible",
                 "rayado rojo/blanco, abraza la unión válvula-cuello; indica equipo",
-                "nuevo no abierto. Sin norma: práctica de mercado (Georgia)."], px + 2, py + 26, 1.5, 3.4)
+                "nuevo no abierto. Sin norma: práctica de mercado (Georgia)."], px + 2, py + 26, 1.8, 3.4,
+            ancho=X1 - 3 - (px + 2))
     # R7 marcado estampado y etiqueta de serie
     mx, my = X0 + 385, Y0 + 61
-    h.texto("R7 MARCADO GRABADO Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.8, A.MIDDLE_CENTER)
+    h.texto("R7 MARCADO GRABADO Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
     n_ext = m.spec["Norma IRAM extintor"]
     if rev:
         txt = "FABRICANTE  N° SERIE  AÑO"
@@ -695,46 +702,47 @@ def hoja4(m, piezas, info, proy, doc, ox):
                "letra 5 mm (IRAM 4503); cuño DPS 15 × 7 junto al n°",
                "(Res. 349/07 anexo IV, art. 24 mod. 717/07)."]
     h.rect(mx + 3, my + 42, mx + 82, my + 52, "01-VISIBLE" if not rev else "08-FINA")
-    h.texto(txt, (mx + 38, my + 47), 2.4, A.MIDDLE_CENTER)
+    h.grafica(txt, (mx + 38, my + 47), 2.4, A.MIDDLE_CENTER)
     if not rev:
         h.rect(mx + 66, my + 43.5, mx + 81, my + 50.5, "01-VISIBLE")
-        h.texto("DPS", (mx + 73.5, my + 47), 3.0, A.MIDDLE_CENTER)
-    _bloque(h, lin, mx + 3, my + 38, 1.5, 3.2)
+        h.grafica("DPS", (mx + 73.5, my + 47), 3.0, A.MIDDLE_CENTER)
+    _bloque(h, lin, mx + 3, my + 38, 1.8, 3.2, ancho=83)
     gw, gh = M.ETIQUETA_SERIE
     gx, gy = mx + 6, my + 6
-    h.rect(gx, gy, gx + gw * 0.6, gy + gh * 0.6, "01-VISIBLE")
-    _logo(h, "QR", (gx + gw * 0.3, gy + gh * 0.36), gh * 0.42)
-    h.texto("(01)779xxxxxxxxxx(21)000001", (gx + gw * 0.3, gy + 1), 1.0, A.BOTTOM_CENTER)
-    _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (esc. 3:5): QR con", "GTIN (prefijo 779 Argentina) + n° de serie,",
-                "a 180° de la etiqueta (relevado Melisam).", "Traza lote de polvo, PH y estampilla."], gx + gw * 0.6 + 3,
-            gy + gh * 0.6 - 1, 1.45, 3.0)
+    h.rect(gx, gy, gx + gw * 0.5, gy + gh * 0.5, "01-VISIBLE")
+    _logo(h, "QR", (gx + gw * 0.25, gy + gh * 0.3), gh * 0.35)
+    h.grafica("(01)779xxxxxxxxxx(21)000001", (gx + gw * 0.25, gy + 0.6), 0.8, A.BOTTOM_CENTER)
+    _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (esc. 1:2): QR con", "GTIN (prefijo 779 Argentina) + n° de serie,",
+                "a 180° de la etiqueta (relevado Melisam).", "Traza lote de polvo, PH y estampilla."], gx + gw * 0.5 + 3,
+            gy + gh * 0.5 + 6, 1.8, 3.0, ancho=mx + 86 - (gx + gw * 0.5 + 3))
     # R8 tarjeta CABA
     tx, ty = X0 + 472, Y0 + 61
-    h.texto("R8 TARJETA DE IDENTIFICACIÓN AGC (CABA)", (tx + 42, ty + 58), 2.6, A.MIDDLE_CENTER)
+    h.texto("R8 TARJETA DE IDENTIFICACIÓN AGC (CABA)", (tx + 42, ty + 58), 2.5, A.MIDDLE_CENTER)
     tw_, th_ = M.TARJETA_CABA
-    s8 = 0.55
+    s8 = 0.5                                         # esc. 1:2 (IRAM 4505)
     bx0, by0 = tx + 3, ty + 20
     h.rect(bx0, by0, bx0 + tw_ * s8, by0 + th_ * s8, "01-VISIBLE")
-    h.texto("Tarjeta de Identificación de Extintor", (bx0 + 1.5, by0 + th_ * s8 - 1.5), 1.3, A.TOP_LEFT)
-    h.texto("AGC · BA Ciudad", (bx0 + tw_ * s8 - 1.5, by0 + th_ * s8 - 1.5), 1.2, A.TOP_RIGHT)
+    h.grafica("Tarjeta de Identificación de Extintor", (bx0 + 1.5, by0 + th_ * s8 - 1.5), 1.3, A.TOP_LEFT)
+    h.grafica("AGC · BA Ciudad", (bx0 + tw_ * s8 - 1.5, by0 + th_ * s8 - 1.5), 1.2, A.TOP_RIGHT)
     for i, t in enumerate(["Domicilio instalación", "Empresa fabricante", "Empresa recargadora", "Venc. mantenim.",
                            "Fecha fab. / N° tarjeta", "Venc. VU / Agente", "Capacidad / Extintor N°"]):
-        h.texto(t + ":", (bx0 + 1.5, by0 + th_ * s8 - 5 - 3.05 * i), 1.1)
+        h.grafica(t + ":", (bx0 + 1.5, by0 + th_ * s8 - 5 - 3.05 * i), 1.1)
     _logo(h, "QR", (bx0 + tw_ * s8 - 9, by0 + 10), 14)
     ult = ("Ubicación: al costado de la oblea, opuesta a la estampilla." if "tarjeta_caba" in piezas and
            M.tarjeta_al_costado(M.placa_dim(m, piezas)[3]) else "Ubicación: debajo de la oblea." if "tarjeta_caba" in
            piezas else "NO ENTRA en el cuerpo: 1 kg vehicular sin tarjeta (confirmar con la AGC).")
-    _bloque(h, [f"≈ {_n(tw_, 0)} × {_n(th_, 0)} (proporción del modelo, Res. AGC 32/15 anexo I; medida a confirmar).",
+    _bloque(h, [f"≈ {_n(tw_, 0)} × {_n(th_, 0)}, esc. 1:2 (proporción del modelo, Res. AGC 32/15 anexo I; medida a "
+                "confirmar).",
                 "Dos módulos: papel con QR impreso por el inscripto en el sistema AGC + etiqueta",
                 "autoadhesiva provista por la AGC que lo fija (anexo II art. 3). Cada fabricación",
                 "se registra (art. 2). Sólo destino CABA. Venc. VU = fab. + 20 años (349/07 art. 26).", ult],
-            tx + 1, ty + 15, 1.4, 3.0)
+            tx + 1, ty + 15, 1.8, 3.0, ancho=X1 - 3 - (tx + 1))
     # tabla de contenido
     filas = [("Zona", "Ubic.", "Ítem", "Texto / dato de la etiqueta", "Referencia")]
     for z, ub, it, t, ref in contenido(m):
         filas.append((z, ub, it, t if len(t) <= 215 else t[:212] + "...", ref[:52]))
     alto = min(4.6, 176 / (len(filas) + 1))
-    _tabla(h, X0 + 6, Y0 + 186, filas, [9, 9, 33, 236, 75], alto=alto, hs=(1.9, 1.9, 1.7, 1.45, 1.45),
+    _tabla(h, X0 + 6, Y0 + 186, filas, [9, 9, 33, 236, 75], alto=alto, hs=(1.8, 1.8, 1.8, 1.8, 1.8),
            encabezado="CONTENIDO DE LA ETIQUETA (IRAM 3534 + norma del producto + relevamiento de mercado)")
     h.texto(f"Letra de instrucciones {_n(hl, 1)} mm (IRAM 3534 2.2.4.3: masa total "
             f"{'< 9 kg: 3-8 mm' if _masa(m) < 9 else '≥ 9 kg: 6,5-10 mm'}); mayúsculas IRAM 4503, color en contraste. "

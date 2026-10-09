@@ -19,7 +19,7 @@ MARGEN_IZQ, MARGEN = 25.0, 10.0          # IRAM 4504: 25 mm a la izquierda (arch
 ROT_W, ROT_H = 175.0, 51.0               # IRAM 4508: rótulo de 175 × 51 mm
 ESCALAS = [(1, 1), (1, 2), (1, 5), (1, 10), (1, 20)]      # IRAM 4505 / ISO 5455
 AMPLIAC = [(5, 1), (2, 1), (1, 1), (1, 2), (1, 5), (1, 10)]
-ALTURAS = (1.8, 2.5, 3.5, 5.0, 7.0, 10.0)                 # IRAM 4503, letra tipo B
+ALTURAS = (1.8, 2.5, 3.5, 5.0, 7.0, 10.0, 14.0, 20.0)     # IRAM 4503 / ISO 3098, letra tipo B
 
 A = TextEntityAlignment
 
@@ -39,7 +39,56 @@ CAPAS = {
     "10-ROTULO": (7, M_, "CONTINUOUS", "Rótulo y lista de materiales IRAM 4508"),
     "11-TEXTO-ROTULO": (7, 25, "CONTINUOUS", "Escritura del rótulo"),
     "12-SOLDADURA": (6, F, "CONTINUOUS", "Símbolos de soldadura"),
+    "13-GRAFICA": (30, F, "CONTINUOUS", "Gráfica impresa representada a escala (etiqueta, sellos, señales): "
+                                         "textos del objeto, no anotación del plano"),
 }
+
+
+ANCHO_LETRA = 0.70      # ancho medio de carácter / altura, sólo si no se puede medir con la fuente
+_FUENTES = {}
+
+
+def ancho_texto(s, h):
+    """ancho en mm del texto s a altura h con la fuente del estilo ISO3098 (isocpeur; en esta máquina se mide con
+    osifont, de proporciones ISO 3098 equivalentes) + 4 % de margen."""
+    try:
+        from ezdxf.fonts import fonts
+        if h not in _FUENTES:
+            _FUENTES[h] = fonts.make_font("isocpeur.ttf", h)
+        return _FUENTES[h].text_width(s) * 1.04
+    except Exception:
+        return len(s) * h * ANCHO_LETRA
+
+
+def partir(s, w, h, max_lin=2):
+    """reparte el texto s en renglones de ancho ≤ w a altura h; si no entra en max_lin renglones, el último
+    termina en «…» (se avisa)."""
+    if ancho_texto(s, h) <= w:
+        return [s]
+    lns, cur = [], ""
+    for pal in s.split():
+        prueba = (cur + " " + pal).strip()
+        if ancho_texto(prueba, h) <= w or not cur:
+            cur = prueba
+        else:
+            lns.append(cur)
+            cur = pal
+    lns.append(cur)
+    if len(lns) > max_lin:
+        AVISOS.append(f"texto recortado: {s!r}")
+        lns = lns[:max_lin]
+        while lns[-1] and ancho_texto(lns[-1] + "…", h) > w:
+            lns[-1] = lns[-1][:-1]
+        lns[-1] += "…"
+    return lns
+
+
+AVISOS = []
+
+
+def altura_norm(h):
+    """altura de letra normalizada (IRAM 4503): la mayor de la serie que no supera h; mínimo 1,8 mm."""
+    return max([a for a in ALTURAS if a <= h + 0.05], default=ALTURAS[0])
 
 
 def escala_txt(e):
@@ -57,6 +106,8 @@ def nuevo_doc():
                       description="IRAM 4502 E - trazos __ __ __")
     doc.linetypes.add("IRAM-F-TRAZO-PUNTO", pattern=[20.0, 15.0, -2.0, 1.0, -2.0],
                       description="IRAM 4502 F - trazo largo y trazo corto ____ _ ____")
+    doc.linetypes.add("ISO02-TRAZOS", pattern=[4.5, 3.0, -1.5],
+                      description="ISO 2553 / ISO 128 tipo 02 - línea de identificación de trazos")
     for n, (c, lw, lt, desc) in CAPAS.items():
         ly = doc.layers.add(n, color=c, lineweight=lw, linetype=lt)
         ly.description = desc
@@ -105,10 +156,18 @@ class Hoja:
 
     # ------------------------------------------------------------ básicos
     def texto(self, s, p, h=3.5, al=A.BOTTOM_LEFT, capa="06-TEXTO", rot=0):
+        if not str(s).strip():
+            return None                    # sin TEXT vacíos: AutoCAD puede rechazar el DXF («DXF read error»)
+        if capa != "13-GRAFICA":
+            h = altura_norm(h)             # anotación: sólo alturas de la serie IRAM 4503
         t = self.msp.add_text(s, height=h, rotation=rot,
                               dxfattribs={"layer": capa, "style": "ISO3098"})
         t.set_placement(p, align=al)
         return t
+
+    def grafica(self, s, p, h, al=A.BOTTOM_LEFT, rot=0):
+        """texto que forma parte del objeto dibujado (impresión de etiqueta, sello, señal) a su escala."""
+        return self.texto(s, p, h, al, "13-GRAFICA", rot)
 
     def linea(self, a, b, capa="08-FINA"):
         return self.msp.add_line(a, b, dxfattribs={"layer": capa})
@@ -258,6 +317,9 @@ class Hoja:
             self.linea((x, y_base), (x, y_top), "10-ROTULO")
         for (nom, w), x in zip(cols, xs):
             self.texto(nom, (x + w / 2, y_base + h_fila / 2), 2.5, A.MIDDLE_CENTER, "11-TEXTO-ROTULO")
+        # una sola altura por columna (IRAM 4503): 2,5 si entran todas las filas, si no 1,8
+        h_col = [2.5 if all(ancho_texto(str(f[j]), 2.5) <= w - 2 for f in filas) else 1.8
+                 for j, (_, w) in enumerate(cols)]
         for i, f in enumerate(filas):
             yy = y_base + h_fila * (i + 1) + h_fila / 2
             for j, (val, (nom, w)) in enumerate(zip(f, cols)):
@@ -265,11 +327,11 @@ class Hoja:
                 al = A.MIDDLE_CENTER if centrado else A.MIDDLE_LEFT
                 px = xs[j] + (w / 2 if centrado else 1.2)
                 s = str(val)
-                hh = 2.5 if len(s) * 2.5 * 0.80 <= w - 2 else 1.8
-                t = self.texto(s, (px, yy), hh, al, "11-TEXTO-ROTULO")
-                if len(s) * hh * 0.76 > w - 2:
-                    # no entra ni a 1,8: texto condensado (factor de ancho) para no invadir la celda vecina
-                    t.dxf.width = max(0.6, (w - 2) / (len(s) * hh * 0.76))
+                hh = h_col[j]
+                lns = partir(s, w - 2, hh, 2 if h_fila >= 4.4 else 1)
+                for k, ln in enumerate(lns):
+                    # si no entra en un renglón: dos renglones de 1,8 (IRAM 4503) dentro de la fila, sin achicar la letra
+                    self.texto(ln, (px, yy + (len(lns) - 1) * 1.15 - k * 2.3), hh, al, "11-TEXTO-ROTULO")
         return y_top
 
     # ------------------------------------------------------------ geometría

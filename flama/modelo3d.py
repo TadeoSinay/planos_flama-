@@ -11,6 +11,9 @@ referenciarla en el despiece, y el conjunto es un Compound sin fusionar.
 
 import math
 import cadquery as cq
+import shapely.geometry as sg
+
+from .perfiles_valvula import PERFILES
 
 AX_Y = cq.Vector(0, 1, 0)
 
@@ -279,13 +282,13 @@ def recipiente(g, z0=0.0, costura=True):
 #   F192: 2,5 a 10 kg y rodante 25 kg (planos «Extintor 2,5 / 5 / 10 kg HZ R1» y «Extintor rodante 25 kg R1»), M30.
 #   G763: rodantes 50 a 100 kg (planos «Extintor rodante 50 / 100 kg R1», esc. 1:7 y 1:8), cupla RBSP 2½".
 VALVULAS = {
-    "F510": dict(esp_d=21.0, esp_h=8.6, cuello_d=19.0, cuello_h=3.0, bw=31.0, bd=24.0, bh=12.0, piv_h=26.5,
-                 boss_d=16.8, sal_d=12.0, sal_l=9.0, sal_z=7.0, sup_l=67.0, sup_h=6.0, sup_top=27.0,
-                 inf=((0.0, 49.0, -2.0), (49.0, 27.0, -34.5)), inf_h=7.0, lev_w=14.0, man_d=36.0, man_e=11.0,
+    "F510": dict(esp_d=21.0, esp_h=8.6, cuello_d=19.0, cuello_h=3.0, bw=26.0, bd=24.0, bh=15.0,
+                 boss_d=16.8, sal_d=10.8, sal_l=7.3, sal_z=10.3, oreja=18.0, pasador=(15.5, 13.5),
+                 sup_h=16.0, lev_w=27.0, man_d=36.0, man_e=11.0,
                  res=(9.8, 19.9), vas=(5.0, 21.0, 9.0, 5.0), oring=(24.8, 3.5)),
-    "F192": dict(esp_d=29.8, esp_h=10.8, cuello_d=27.2, cuello_h=4.1, bw=38.0, bd=28.0, bh=12.8, piv_h=32.2,
-                 boss_d=15.0, sal_d=13.1, sal_l=8.9, sal_z=11.9, sup_l=127.0, sup_h=8.0, sup_top=41.5,
-                 inf=((0.0, 50.0, 4.5), (50.0, 36.0, -16.5)), inf_h=6.0, lev_w=20.0, man_d=36.0, man_e=11.0,
+    "F192": dict(esp_d=29.8, esp_h=10.8, cuello_d=27.2, cuello_h=4.1, bw=36.0, bd=28.0, bh=12.8,
+                 boss_d=15.0, sal_d=13.1, sal_l=8.9, sal_z=11.9, oreja=22.0, pasador=(21.0, 20.0),
+                 sup_h=20.0, lev_w=31.0, man_d=36.0, man_e=11.0,
                  res=(17.3, 28.8), vas=(6.0, 30.7, 14.0, 14.0), oring=(32.7, 3.6)),
     "G763": dict(esp_d=75.0, esp_h=17.6, cuello_d=83.0, cuello_h=12.0, bw=49.0, bd=40.0, bh=67.0, piv_h=67.0,
                  boss_d=30.0, sal_d=26.0, sal_l=20.0, sal_z=40.0, sup_l=None, sup_h=16.0, sup_top=None,
@@ -309,6 +312,12 @@ def _caja_rot(x0, x1, z0, h, w, ang, eje_x, eje_z):
     """Placa de largo x0..x1, alto h (desde z0) y ancho w (Y), girada `ang` grados alrededor de (eje_x, eje_z)."""
     b = cq.Solid.makeBox(x1 - x0, w, h, cq.Vector(x0, -w / 2, z0))
     return b.rotate(cq.Vector(eje_x, 0, eje_z), cq.Vector(eje_x, 1, eje_z), ang) if ang else b
+
+
+def _extruir_xz(pts, w, z0=0.0):
+    """perfil (x, z) del plano lateral extruido w según Y, centrado en y = 0 y subido z0."""
+    pts = [(x, z + z0) for x, z in list(pts)[:-1 if tuple(pts[0]) == tuple(pts[-1]) else None]]
+    return cq.Workplane("XZ").polyline(pts).close().extrude(w / 2, both=True).val()
 
 
 def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=None):
@@ -336,15 +345,18 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
         cuerpo = cuerpo.fuse(torre)
         hq = bh - hb_ - ht_
         a_ = (wt_ - V["ranura"]) / 2
-        for sg in (1, -1):
-            cuerpo = cuerpo.fuse(_box(a_, dt_, hq, sg * (V["ranura"] / 2 + a_ / 2), 0, zb0 + hb_ + ht_))
+        for sgn in (1, -1):
+            cuerpo = cuerpo.fuse(_box(a_, dt_, hq, sgn * (V["ranura"] / 2 + a_ / 2), 0, zb0 + hb_ + ht_))
     else:
         cuerpo = cq.Solid.makeBox(bw, bd, bh, cq.Vector(-bw / 2, -bd / 2, zb0))
         cuerpo = cq.Workplane().add(cuerpo).edges("|Z").fillet(min(4.0, bd / 6)).val()
     if tipo != "G763":
-        piv = cq.Solid.makeBox(4.0, bd, V["piv_h"] - bh, cq.Vector(-bw / 2, -bd / 2, zb0 + bh))
-        cuerpo = cuerpo.fuse(piv)
-    zm = zb0 + (max(V["torre"][0] * 0.55, man_d / 2 + 2) if tipo == "G763" else min(bh * 0.5, 6.4))
+        # oreja del pivote de la palanca (más angosta que el bloque), redondeada arriba
+        xpv, zpv = PERFILES[tipo][2]
+        tw = V["oreja"]
+        ore = cq.Solid.makeBox(9.0, tw, z0 + zpv - (zb0 + bh), cq.Vector(xpv - 4.5, -tw / 2, zb0 + bh))
+        cuerpo = cuerpo.fuse(ore).fuse(_cyl(4.5, tw, (xpv, -tw / 2, z0 + zpv), (0, 1, 0)))
+    zm = zb0 + (max(V["torre"][0] * 0.55, man_d / 2 + 2) if tipo == "G763" else max(min(bh * 0.5, 6.4), V["boss_d"] / 2))
     cuerpo = cuerpo.fuse(_cyl(V["boss_d"] / 2, 5.0, (0, -bd / 2 + 1, zm), (0, -1, 0)))
     zs = zb0 + min(V["sal_z"], bh - V["sal_d"] / 2) if tipo != "G763" else zb0 + V["sal_z"]
     cuerpo = cuerpo.fuse(_cyl(V["sal_d"] / 2, V["sal_l"], (-bw / 2 + 1, 0, zs), (-1, 0, 0)))
@@ -360,10 +372,18 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
     # vástago (pasa por el cuerpo, asiento abajo) y resorte (debajo de la espiga, dentro del caño de pesca)
     vd, vl, ad, ah = V["vas"]
     # G763: el vástago apoya bajo la nariz de la palanca (pivote a bh - 6, palanca girada 8°)
-    z_vt = (zb0 + bh - 6.0 - V["sup_h"] / 2 - 8.0 * math.sin(math.radians(8.0)) - 0.5) if tipo == "G763" else zb0 + bh + 2
+    if tipo == "G763":
+        z_vt = zb0 + bh - 6.0 - V["sup_h"] / 2 - 8.0 * math.sin(math.radians(8.0)) - 0.5
+    else:   # el vástago toca la cara inferior de la palanca sobre el eje de la válvula (en todo su Ø)
+        r_v = V["vas"][0] / 2 + 0.2
+        z_vt = z0 + sg.Polygon(PERFILES[tipo][0]).intersection(sg.box(-r_v, -50, r_v, 90)).bounds[1] - 0.3
     vas = _cyl(vd / 2, vl, (0, 0, z_vt - vl))
     vas = vas.fuse(_cyl(ad / 2, ah * 0.35, (0, 0, z_vt - vl - ah * 0.35)))
     p["vastago"] = vas.clean()
+    # agujero del vástago y rosca del manómetro en el cuerpo forjado
+    p["cuerpo_valvula"] = p["cuerpo_valvula"].cut(_cyl(vd / 2 + 0.2, vl + 60, (0, 0, zb0 - 30)))
+    if "manometro" in p:
+        p["cuerpo_valvula"] = p["cuerpo_valvula"].cut(p["manometro"])
     rd, rl = V["res"]
     zr1 = z_vt - vl - ah * 0.35
     p["resorte"] = _tube(rd / 2, rd / 2 - 1.2, rl, (0, 0, zr1 - rl))
@@ -386,28 +406,33 @@ def valvula(z0, tipo="F192", dn=37.0, bore=28.4, co2=False, x_tip=None, man_d=No
         zp_, yp_ = z_pv - 1.0, -6.0
         p["pasador"] = _cyl(1.6, V["torre"][2] + 16, (-(V["torre"][2] + 16) / 2, yp_, zp_), (1, 0, 0)).fuse(
             _torus(9, 1.4, 0, 0, 0, (1, 0, 0)).translate(cq.Vector(V["torre"][2] / 2 + 8, yp_, zp_ - 9))).clean()
+        # agujeros del eje y del pasador en horquilla y palanca; cámara del vástago y su asiento en el cuerpo
+        cv = p["cuerpo_valvula"].cut(p["eje"]).cut(p["pasador"]).cut(p["vastago"])
+        p["cuerpo_valvula"] = cv.clean()
+        p["manija_superior"] = p["manija_superior"].cut(p["eje"]).cut(p["pasador"]).cut(p["vastago"]).clean()
     else:
-        # palanca de accionamiento (pivote en la horquilla, arriba a la izquierda) y manija fija de transporte
-        x_piv = -bw / 2 + 2
-        z_sup = zb0 + V["sup_top"] - V["sup_h"]                       # cara inferior en el tramo largo
-        p["manija_superior"] = _caja_rot(x_piv, x_piv + V["sup_l"], z_sup, V["sup_h"], lw, 2, x_piv, z_sup)
-        inf = None
-        for xa, lx, dz in V["inf"]:
-            xa0 = bw / 2 - 2 + xa
-            ang = -math.degrees(math.atan2(dz, lx))
-            zi0 = zb0 + 2.0 + (sum(t[2] for t in V["inf"] if t[0] < xa))
-            seg = _caja_rot(xa0, xa0 + math.hypot(lx, dz), zi0, V["inf_h"], lw - 4, ang, xa0, zi0)
-            inf = seg if inf is None else inf.fuse(seg)
-        p["manija_inferior"] = inf.clean()
-        z_top = z_sup + V["sup_h"]
-        x_eje, z_eje = x_piv + 2, zb0 + V["piv_h"] - 6
-    if tipo != "G763":
-        p["eje"] = _cyl(1.8 if tipo == "F510" else 2.0, bd + 6, (x_eje, -bd / 2 - 3, z_eje), (0, 1, 0))
-        # pasador de seguridad (traba) con anilla, a través de palanca y manija, delante del cuerpo
-        xs_ = bw / 2 + 7 if man_d <= 40 else man_d / 2 + 16    # rodante 25 kg: anilla fuera del cubremanómetro
-        zp = zb0 + bh + 2
-        p["pasador"] = _cyl(1.6, bd + 16, (xs_, -bd / 2 - 12, zp), (0, 1, 0)).fuse(
-            _torus(9, 1.4, 0, 0, 0, (0, 1, 0)).translate(cq.Vector(xs_, -bd / 2 - 12, zp - 9))).clean()
+        # manijas con el perfil real del plano Fadesa (perfiles_valvula.py): palanca de accionamiento con pivote atrás
+        # (sobre la oreja del cuerpo) y manija fija de transporte que la abraza; chapa estampada en U, representada
+        # maciza (la masa se corrige en materiales.py con el factor de chapa)
+        p_sup, p_inf, (xpv, zpv) = PERFILES[tipo]
+        wu, wl = bd + 3.0, bd + 7.0      # palanca a horcajadas del cuerpo; manija a horcajadas de la palanca
+        sup = _extruir_xz(p_sup, wu, z0)
+        inf = _extruir_xz(p_inf, wl, z0).cut(_extruir_xz(sg.Polygon(p_sup).buffer(0.6).exterior.coords, wu + 1.0, z0))
+        z_top = z0 + max(z for _, z in p_sup)
+        x_piv, x_eje, z_eje = xpv, xpv, z0 + zpv
+        r_e = 1.8 if tipo == "F510" else 2.0
+        p["eje"] = _cyl(r_e, wu + 2, (x_eje, -wu / 2 - 1, z_eje), (0, 1, 0))
+        # pasador de seguridad (traba IRAM 3517-2 9.4.13) a través de la manija, bajo la palanca; anilla del lado de
+        # atrás (+Y) para no tocar el manómetro, que mira hacia adelante
+        xs_, zs_ = V["pasador"]
+        zp = z0 + zs_
+        p["pasador"] = _cyl(1.6, wl + 9.5, (xs_, -wl / 2 - 0.5, zp), (0, 1, 0)).fuse(
+            _torus(9, 1.4, 0, 0, 0, (0, 1, 0)).translate(cq.Vector(xs_, wl / 2 + 9, zp - 9))).clean()
+        # agujeros: eje en oreja y palanca; pasador en la manija; paso del vástago en la manija
+        paso_v = _cyl(V["vas"][0] / 2 + 0.5, 60, (0, 0, zb0))
+        p["cuerpo_valvula"] = p["cuerpo_valvula"].cut(_cyl(r_e + 0.1, wl + 10, (x_eje, -wl / 2 - 5, z_eje), (0, 1, 0)))
+        p["manija_superior"] = sup.cut(p["cuerpo_valvula"]).cut(p["eje"]).cut(paso_v).clean()
+        p["manija_inferior"] = inf.cut(p["cuerpo_valvula"]).cut(p["pasador"]).cut(paso_v).clean()
     y_tip = (x_tip or 110.0) + 11.0 if tipo == "G763" else bd / 2
     info = dict(z_salida=zs, x_salida=-bw / 2 - V["sal_l"] + 1, bw=bw, bd=bd, bh=bh, z_top=z_top, y_tip=y_tip,
                 x_piv=x_piv, z_man=zm, y_man=y_man - V["man_e"], man_d=man_d, zb0=zb0,
@@ -451,6 +476,9 @@ def extintor_manual(m, cW=0.0, cH=0.0):
         # caño de pesca: Ø21,3 (F682, válvula F192) / Ø14,4 (1 kg, F003/617), medidos en los planos Fadesa
         dp = 14.4 if tv == "F510" else 21.3
         out["cano_pesca"] = _tube(dp / 2, dp / 2 - 1.5, zs0 - zf, (0, 0, zf))
+        if fam == "inox":
+            # agua / AFFF / acetato: filtro en la entrada del tubo interior (IRAM 3525 3.6.1), PP perforado
+            out["filtro_pesca"] = _tube(dp / 2 + 1.5, dp / 2, 25.0, (0, 0, zf - 5.0))
     else:
         out["cano_pesca"] = _tube(5, 3.5, zs0 - zf, (0, 0, zf))
 
@@ -541,9 +569,9 @@ def extintor_manual(m, cW=0.0, cH=0.0):
         # radio exterior del cono a la altura del soporte
         r_dev = 10 + (d_dev / 2 - 10) * (z_top - zsu) / l_dev
     hb = 14.4 if tipo == "tobera_polvo" else 18.0       # suncho portamanguera F674: banda de 14,4 (plano Fadesa)
-    band = _tube(R + 1.5, R - 0.2, hb, (0, 0, zsu - hb / 2))
+    band = _tube(R + 1.5, R, hb, (0, 0, zsu - hb / 2))          # abraza el cuerpo (contacto, sin penetrarlo)
     clip = _box(abs(xh) - R + r_dev + 3, 12, hb, (xh + (-R)) / 2 - 1 + (d_dev / 2 - r_dev) / 2, 0, zsu - hb / 2)
-    clip = clip.cut(_cyl(r_dev + 0.2, hb, (xh, 0, zsu - hb / 2)))
+    clip = clip.cut(_cyl(r_dev + 0.2, hb, (xh, 0, zsu - hb / 2))).cut(_cyl(R, hb, (0, 0, zsu - hb / 2)))
     out["suncho"] = band.fuse(clip).clean()
     info["tobera"] = (xh, (z_bot + z_top) / 2)
     info["eje_tobera"] = (xh, z_bot, z_top)
@@ -618,18 +646,18 @@ def extintor_rodante(m, cD=0.0):
     x_in, x_out = xw - bw_w / 2 - 10, xw + bw_w / 2
     out["eje_ruedas"] = _cyl(re, 2 * (x_out + ea + 6), (-(x_out + ea + 6), yw, Rw), (1, 0, 0))
     ar = None
-    for sg in (1, -1):
+    for sgn in (1, -1):
         for xx in (x_in - ea, x_out):
-            a_ = _tube(da / 2, dia, ea, (sg * xx if sg > 0 else -xx - ea, yw, Rw), (1, 0, 0))
+            a_ = _tube(da / 2, dia, ea, (sgn * xx if sgn > 0 else -xx - ea, yw, Rw), (1, 0, 0))
             ar = a_ if ar is None else ar.fuse(a_)
     out["arandelas_tope"] = ar.clean()
     # soportes del eje: dos chapas verticales desde la pared trasera del recipiente hasta el eje
     hs, ms = CARRO["soporte"]
     xs = CARRO["x_soporte"] * R
     sop = None
-    for sg in (1, -1):
+    for sgn in (1, -1):
         y0 = math.sqrt(R * R - xs * xs) - 15
-        b = _box(t, yw + ms - y0, hs, sg * xs, (y0 + yw + ms) / 2, Rw - hs / 2)
+        b = _box(t, yw + ms - y0, hs, sgn * xs, (y0 + yw + ms) / 2, Rw - hs / 2)
         sop = b if sop is None else sop.fuse(b)
     sop = sop.cut(lleno).cut(_cyl(re + 0.5, 2 * R, (-R, yw, Rw), (1, 0, 0)))
     out["soportes_eje"] = sop.clean()

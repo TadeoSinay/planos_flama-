@@ -222,7 +222,7 @@ def lamina(m):
             filas_t.append((glo, r["codigo"], r["desc"], ct, r["mat"] or ""))
     alto = min(5.0, (h.fy1 - 8 - (h.fy0 + 51 + 30)) / (len(filas_t) + 1))
     y = _tabla(h, xt, h.fy1 - 4, filas_t, [10, 26, 82, 18, 54], alto=alto, hs=(2.5, 2.2, 2.0, 2.2, 1.8),
-               encabezado=f"LISTA DE DESPIECE - BOM {m.codigo}", condensar=True)
+               encabezado=f"LISTA DE DESPIECE - BOM {m.codigo}")
     notas = ["NOTAS",
              "1) Lista completa con medidas, pesos, origen, operación y norma:",
              "    salida/bom/FLAMA_BOM.xlsx, hoja BOM_" + m.codigo + ".",

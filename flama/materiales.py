@@ -26,6 +26,7 @@ PIEZAS = {
                         "sobre la costura long."),
     "soldaduras": None,
     "cano_pesca": ("Caño de pesca (sifón)", "Tubo PVC rígido", PVC, 1.0, None),
+    "filtro_pesca": ("Filtro del tubo de pesca", "Polipropileno perforado", PP, 0.6, "área ≥ 10 × boquilla"),
     "espiga": ("Espiga roscada", "Latón forjado", LATON, 1.0, None),
     "tuerca": ("Collarín de válvula", "Latón forjado", LATON, 1.0, None),
     "cuerpo_valvula": ("Cuerpo de válvula", "Latón forjado", LATON, 1.0, None),
@@ -128,6 +129,8 @@ def especificacion(m, clave):
             nom, obs = "Rueda con cubierta neumática", "llanta metálica"
         else:
             obs = "llanta metálica"
+    if clave in ("manija_superior", "manija_inferior") and not m.geo["cuello"][2].startswith("RBSP"):
+        fac = 0.3       # chapa estampada en U (≈ 1,2 mm) representada maciza con el perfil Fadesa
     if clave == "manija_superior" and m.familia == "rodante" and m.geo["cuello"][2].startswith("RBSP"):
         nom, mat = "Palanca de accionamiento", "Planchuela acero SAE 1010 10 × 16 pintada"
     return nom, mat, rho, fac, obs

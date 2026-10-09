@@ -16,7 +16,8 @@ from . import vistas as V
 from . import normas as N
 from . import materiales as MAT
 from .lamina import (Hoja, nuevo_doc, ESCALAS, AMPLIAC, FORMATOS, ROT_W, ROT_H, A,
-                     escala_txt, recortar_circulo, transformar, transformar_poly, ancho_medio)
+                     escala_txt, recortar_circulo, transformar, transformar_poly, ancho_medio,
+                     altura_norm, partir, ancho_texto)
 
 FECHA = "28/09/2026"
 DIBUJO = "T. Sinay"
@@ -653,33 +654,35 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
 
 
 # =================================================================== HOJA 3
-def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, condensar=False):
+def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, max_lin=3):
     """Tabla simple con celdas de línea media; devuelve la y inferior.
-    condensar: el texto largo queda en 1,8 con factor de ancho (≥ 0,6) en vez de achicar la altura."""
+    Letra sólo de la serie IRAM 4503 (hs se lleva a la normalizada inferior, mínimo 1,8): lo que no entra en un
+    renglón se parte en renglones de 1,8 y la fila crece lo necesario (nunca se achica ni se condensa la letra)."""
     if encabezado:
         h.rect(x0, y - alto, x0 + sum(anchos), y, "10-ROTULO")
         h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5, A.MIDDLE_CENTER)
         y -= alto
     for fila in filas:
-        x = x0
+        celdas = []
         for j, (val, w) in enumerate(zip(fila, anchos)):
-            h.rect(x, y - alto, x + w, y, "10-ROTULO")
             t = str(val)
-            hj = hs[min(j, len(hs) - 1)]
-            hh = hj if len(t) * hj * 0.8 <= w - 3 else min(1.8, (w - 3) / (max(1, len(t)) * 0.8))
-            wf = 1.0
-            if condensar and hh < min(hj, 1.8):
-                hh = min(hj, 1.8)
-                wf = max(0.6, (w - 3) / (max(1, len(t)) * hh * 0.76))
-                hh = min(hh, (w - 3) / (max(1, len(t)) * wf * 0.76))
-            if j == 0:
-                tx = h.texto(t, (x + 1.5, y - alto / 2), hh, A.MIDDLE_LEFT)
-            else:
-                tx = h.texto(t, (x + w / 2, y - alto / 2), hh, A.MIDDLE_CENTER)
-            if wf < 1.0:
-                tx.dxf.width = wf
+            hj = altura_norm(hs[min(j, len(hs) - 1)])
+            if ancho_texto(t, hj) > w - 3 and hj > 1.8:
+                hj = 1.8 if ancho_texto(t, 2.5) > w - 3 else 2.5
+            celdas.append((partir(t, w - 3, hj, max_lin), hj))
+        alto_f = max([alto] + [(len(l) - 1) * hj * 1.3 + hj + 1.2 for l, hj in celdas])
+        x = x0
+        for j, ((lns, hj), w) in enumerate(zip(celdas, anchos)):
+            h.rect(x, y - alto_f, x + w, y, "10-ROTULO")
+            paso = hj * 1.3
+            for k, ln in enumerate(lns):
+                yy = y - alto_f / 2 + (len(lns) - 1) * paso / 2 - k * paso
+                if j == 0:
+                    h.texto(ln, (x + 1.5, yy), hj, A.MIDDLE_LEFT)
+                else:
+                    h.texto(ln, (x + w / 2, yy), hj, A.MIDDLE_CENTER)
             x += w
-        y -= alto
+        y -= alto_f
     return y
 
 
@@ -701,7 +704,7 @@ def _fuente_valvula(m):
             f"entre paréntesis).")
 
 
-def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
+def hoja3(m, info, doc, ox=0.0, masa_vacio=None, piezas=None):
     h = Hoja(doc, "A3", ox)
     h.formato()
     h.rotulo(rotulo_base(m, "A3", None, 3, "Especificaciones y normas", "Datos técnicos y normativa aplicable"))
@@ -763,6 +766,14 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
             h.texto(parte, (x0, yy), 2.5)
             yy -= 4.2
         yy -= 1.0
+    # verificación contra la norma de producto (cláusula, requisito resumido, valor del plano, estado)
+    if piezas is not None:
+        from . import verificacion as VF
+        tit, fv = VF.filas(m, info, piezas)
+        fv = [("Cláusula", "Requisito (resumen)", "En el plano", "Estado")] + fv
+        alto_v = min(4.2, max(3.1, (yy - 2 - (h.fy0 + 2)) / (len(fv) + 1)))    # nunca por debajo del recuadro
+        _tabla(h, x0, yy - 2, fv, [22, 62, 70, 21], alto=alto_v, hs=(1.8, 1.8, 1.8, 1.8),
+               encabezado=f"VERIFICACIÓN - {tit.upper()}")
 
     # columna derecha: normativa
     y = ytop
@@ -826,7 +837,7 @@ def generar(m):
     ox3 = ox2 + FORMATOS["A2"][0] + SEPARACION
     res1["proy"] = proy
     hoja2(m, piezas, info, res1, doc, ox2)
-    hoja3(m, info, doc, ox3, res1["masa"])
+    hoja3(m, info, doc, ox3, res1["masa"], piezas)
     from .rotulado import hoja4
     ox4 = ox3 + FORMATOS["A3"][0] + SEPARACION
     hoja4(m, piezas, info, proy, doc, ox4)

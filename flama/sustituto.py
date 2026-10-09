@@ -190,7 +190,7 @@ def plano_modelo(m, doc):
     # desarrollo de la faja
     e = next(s for s in (1.0, 0.5, 0.4, 0.2, 0.1) if largo * s <= X1 - X0 - 20)
     dx, dy = X0 + 8, Y0 + 98
-    h.texto(f"DETALLE 1 - DESARROLLO DE LA FAJA {alto:.0f} × {largo:.0f} (esc. {'1:1' if e == 1 else '1:' + format(1 / e, 'g')})"
+    h.texto(f"DETALLE 1 - DESARROLLO DE LA FAJA {alto:.0f} × {largo:.0f} (esc. {'1:1' if e == 1 else '1:' + format(1 / e, 'g').replace('.', ',')})"
             " - amarillo; leyendas negras repetidas", (dx, dy + alto * e + 4), 2.6)
     _desarrollo(h, dx, dy, largo, alto, e)
     h.cota_lineal((dx, dy), (dx + largo * e, dy), (dx, dy - 6), 0, 1 / e)

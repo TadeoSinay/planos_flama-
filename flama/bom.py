@@ -68,6 +68,7 @@ SUB = {
     "cuerpo": 1, "cupula": 1, "fondo": 1, "cuello": 1, "pie": 1, "placas_refuerzo": 1,
     "tuerca": 2, "espiga": 2, "cuerpo_valvula": 2, "vastago": 2, "resorte": 2, "eje": 2, "manija_superior": 2,
     "manija_inferior": 2, "pasador": 2, "manometro": 2, "disco_seguridad": 2, "cano_pesca": 2,
+    "filtro_pesca": 2,
     "racor": 3, "manguera": 3, "tobera": 3, "lanza": 3, "empunadura": 3, "brazo_difusor": 3, "difusor": 3,
     "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3,
     "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "arandelas_tope": 4, "soportes_eje": 4, "manija_carro": 4,
