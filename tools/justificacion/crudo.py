@@ -10,6 +10,7 @@ import sys
 
 sys.path.insert(0, "/home/user/planos_flama-")
 os.chdir("/home/user/planos_flama-")
+from flama import perfiles_valvula as PV  # noqa: E402
 from flama import modelo3d as M, planos as P, materiales as MAT, bom as B  # noqa: E402
 from flama.catalogo import MODELOS  # noqa: E402
 
@@ -324,7 +325,10 @@ for m in MODELOS:
                f"Medido a escala en el plano Fadesa (válvula {tv})", ref_v)
             A_("Fondo del cuerpo", V["bd"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral Fadesa", ref_v)
             if tv != "G763":
-                A_("Horquilla del pivote (alto)", V["piv_h"], "mm", T_FAD, FE("valvula"), "Medido a escala", ref_v)
+                pv = PV.PERFILES[tv][2]
+                A_("Oreja del pivote: ancho / eje a (x, z)", f"{V['oreja']:g} / ({pv[0]:g}; {pv[1]:g})", "mm", T_FAD,
+                   FE("valvula"), "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
+                   ("perfiles_valvula.py", f"{tv}_PIVOTE = "))
             else:
                 A_("Torre / horquilla: base × alto, ranura", "49 × 30 → 37 × 30; horquilla 17, ranura 11", "mm", T_FAD,
                    FE("valvula"), "Medido a escala en el despiece de la válvula (plano Fadesa 50 / 100 kg)", ref_v)
@@ -346,8 +350,8 @@ for m in MODELOS:
                 A_("Ø × largo", f"8 × {V['torre'][2] + 10:g}", "mm", T_DIS, ["C:valvula", "FE:50 kg:valvula"],
                    "Tornillo F840 + buje + arandela del plano Fadesa, sin cota", ("modelo3d.py", 'e_d = V["eje_d"]'))
                 continue
-            A_("Ø × largo", f"{1.8 if tv == 'F510' else 2.0:g} × {V['bd'] + 6:g}", "mm", T_DIS, ["C:valvula"],
-               "Pasa por la horquilla; sin cota en Fadesa", ("modelo3d.py", 'p["eje"] = _cyl('))
+            A_("Ø × largo", f"{3.6 if tv == 'F510' else 4.0:g} × {V['bd'] + 5:g}", "mm", T_DIS, ["C:valvula"],
+               "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota", ("modelo3d.py", 'p["eje"] = _cyl(r_e'))
             continue
         if k in ("manija_superior", "manija_inferior"):
             if tv == "G763":
@@ -358,16 +362,18 @@ for m in MODELOS:
                    "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a "
                    "la manija del carro; sin cota en Fadesa", ("modelo3d.py", "L_ = x_tip or 110.0"))
                 continue
-            elif k == "manija_superior":
-                A_("Largo × alto (palanca)", f"{V['sup_l']:g} × {V['sup_h']:g}", "mm", T_FAD, FE("valvula"),
-                   f"Medido a escala; cara superior a {V['sup_top']:g} mm del cuerpo", ref_v)
-            else:
-                tr = " + ".join(f"{lx:g}" for _, lx, _ in V["inf"])
-                A_("Tramos de la manija fija", tr, "mm", T_FAD, FE("valvula"), "Medido a escala en el plano Fadesa", ref_v)
-            A_("Ancho de la chapa", V["lev_w"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral", ref_v)
+            pts = PV.PERFILES[tv][0 if k == "manija_superior" else 1]
+            xs_, zs_ = [q[0] for q in pts], [q[1] for q in pts]
+            A_("Perfil lateral: largo × alto (x / z extremos)", f"{r1(max(xs_) - min(xs_))} × {r1(max(zs_) - min(zs_))} "
+               f"({r1(min(xs_))} a {r1(max(xs_))} / {r1(min(zs_))} a {r1(max(zs_))})", "mm", T_FAD, FE("valvula"),
+               f"Contorno completo extraído del plano vectorial Fadesa ({len(pts)} puntos), no una caja",
+               ("perfiles_valvula.py", f"{tv}_{'SUP' if k == 'manija_superior' else 'INF'} = ("))
+            A_("Ancho (chapa estampada en U)", f"{V['bd'] + (3 if k == 'manija_superior' else 7):g}", "mm", T_DIS,
+               ["C:valvula"], "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+               ("modelo3d.py", "wu, wl = bd + 3.0, bd + 7.0"))
             continue
         if k == "pasador":
-            A_("Ø alambre × largo", f"3,2 × {(V['torre'][2] if tv == 'G763' else V['bd']) + 16:g}", "mm", T_DIS,
+            A_("Ø alambre × largo", f"3,2 × {(V['torre'][2] + 16) if tv == 'G763' else (V['bd'] + 16.5):g}", "mm", T_DIS,
                ["C:valvula", "N:3550"], "Traba con anilla Ø18 y precinto (IRAM 3550 3.4.2)" +
                ("; cruza horquilla y nariz de la palanca" if tv == "G763" else ""),
                ("modelo3d.py", 'p["pasador"] = _cyl(1.6'))

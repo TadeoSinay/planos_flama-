@@ -7,7 +7,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 328.0,
+"valor": 327.4,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -29,14 +29,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 133.5,
+"valor": 130.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:1 kg:valvula",
 "CAT:FL_MAT_ABC_1kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 92; diferencia +45 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 92; diferencia +41 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -94,7 +94,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 1.0,
+"valor": 0.98,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -749,7 +749,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "31 × 12",
+"valor": "26 × 15",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -790,17 +790,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 26.5,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "18 / (-10.4; 21.43)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:1 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F510\": dict("
+"perfiles_valvula.py",
+"F510_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -812,7 +812,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Salida a la manguera Ø × largo",
-"valor": "12 × 9",
+"valor": "10.8 × 7.3",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -913,116 +913,32 @@
 "modelo": "FL_MAT_ABC_1kg",
 "plano": "FL_MAT_ABC_1kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "67 × 6",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:1 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 27 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F510\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_1kg",
-"plano": "FL_MAT_ABC_1kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 14.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F510\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_1kg",
-"plano": "FL_MAT_ABC_1kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "49 + 27",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:1 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F510\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_1kg",
-"plano": "FL_MAT_ABC_1kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 14.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F510\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_1kg",
-"plano": "FL_MAT_ABC_1kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "1.8 × 30",
+"valor": "3.6 × 29",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_1kg",
 "plano": "FL_MAT_ABC_1kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 40",
+"valor": "3,2 × 40.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -1033,6 +949,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_1kg",
+"plano": "FL_MAT_ABC_1kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "67.1 × 11.0 (-15.8 a 51.3 / 16.0 a 27.0)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:1 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (31 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F510_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_1kg",
+"plano": "FL_MAT_ABC_1kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "27",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_1kg",
+"plano": "FL_MAT_ABC_1kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "91.6 × 60.0 (-0.2 a 91.5 / -30.7 a 29.3)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:1 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (40 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F510_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_1kg",
+"plano": "FL_MAT_ABC_1kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -1299,14 +1299,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 359.1,
+"valor": 358.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:2,5 kg:valvula",
 "CAT:FL_MAT_ABC_2.5kg:Altura"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 415; diferencia -13 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 415; diferencia -14 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -1321,14 +1321,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 202.2,
+"valor": 199.2,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:2,5 kg:valvula",
 "CAT:FL_MAT_ABC_2.5kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 220; diferencia -8 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 220; diferencia -9 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -1386,7 +1386,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 2.08,
+"valor": 2.0,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -2085,7 +2085,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -2126,17 +2126,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:2,5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -2249,116 +2249,32 @@
 "modelo": "FL_MAT_ABC_2.5kg",
 "plano": "FL_MAT_ABC_2.5kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:2,5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_2.5kg",
-"plano": "FL_MAT_ABC_2.5kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_2.5kg",
-"plano": "FL_MAT_ABC_2.5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:2,5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_2.5kg",
-"plano": "FL_MAT_ABC_2.5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_2.5kg",
-"plano": "FL_MAT_ABC_2.5kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_2.5kg",
 "plano": "FL_MAT_ABC_2.5kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -2369,6 +2285,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_2.5kg",
+"plano": "FL_MAT_ABC_2.5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:2,5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_2.5kg",
+"plano": "FL_MAT_ABC_2.5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_2.5kg",
+"plano": "FL_MAT_ABC_2.5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:2,5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_2.5kg",
+"plano": "FL_MAT_ABC_2.5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -2464,7 +2464,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 201.0,
+"valor": 202.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -2740,7 +2740,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 435.1,
+"valor": 434.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -2762,14 +2762,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 216.7,
+"valor": 213.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_ABC_5kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -4 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -5 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -2827,7 +2827,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.41,
+"valor": 3.32,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -3526,7 +3526,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -3567,17 +3567,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -3690,116 +3690,32 @@
 "modelo": "FL_MAT_ABC_5kg",
 "plano": "FL_MAT_ABC_5kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_5kg",
-"plano": "FL_MAT_ABC_5kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_5kg",
-"plano": "FL_MAT_ABC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_5kg",
-"plano": "FL_MAT_ABC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_5kg",
-"plano": "FL_MAT_ABC_5kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_5kg",
 "plano": "FL_MAT_ABC_5kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -3810,6 +3726,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_5kg",
+"plano": "FL_MAT_ABC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_5kg",
+"plano": "FL_MAT_ABC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_5kg",
+"plano": "FL_MAT_ABC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_5kg",
+"plano": "FL_MAT_ABC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -3905,7 +3905,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 278.0,
+"valor": 279.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -4181,7 +4181,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 608.1,
+"valor": 607.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -4203,14 +4203,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 230.9,
+"valor": 228.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:10 kg:valvula",
 "CAT:FL_MAT_ABC_10kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia +0 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia -1 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -4268,7 +4268,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 6.23,
+"valor": 6.14,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -4967,7 +4967,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -5008,17 +5008,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:10 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -5131,116 +5131,32 @@
 "modelo": "FL_MAT_ABC_10kg",
 "plano": "FL_MAT_ABC_10kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:10 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_10kg",
-"plano": "FL_MAT_ABC_10kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_10kg",
-"plano": "FL_MAT_ABC_10kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:10 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_10kg",
-"plano": "FL_MAT_ABC_10kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_10kg",
-"plano": "FL_MAT_ABC_10kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_10kg",
 "plano": "FL_MAT_ABC_10kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -5251,6 +5167,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_10kg",
+"plano": "FL_MAT_ABC_10kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:10 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_10kg",
+"plano": "FL_MAT_ABC_10kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_10kg",
+"plano": "FL_MAT_ABC_10kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:10 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_10kg",
+"plano": "FL_MAT_ABC_10kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -5346,7 +5346,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 437.0,
+"valor": 438.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -5622,7 +5622,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 594.7,
+"valor": 594.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -5644,14 +5644,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 231.2,
+"valor": 228.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_AGUA_10l:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -4 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -5 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -5709,7 +5709,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.16,
+"valor": 3.07,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -6175,7 +6175,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -6216,17 +6216,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -6339,116 +6339,32 @@
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_AGUA_10l",
-"plano": "FL_MAT_AGUA_10l",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AGUA_10l",
-"plano": "FL_MAT_AGUA_10l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_AGUA_10l",
-"plano": "FL_MAT_AGUA_10l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AGUA_10l",
-"plano": "FL_MAT_AGUA_10l",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -6459,6 +6375,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AGUA_10l",
+"plano": "FL_MAT_AGUA_10l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_AGUA_10l",
+"plano": "FL_MAT_AGUA_10l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AGUA_10l",
+"plano": "FL_MAT_AGUA_10l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_AGUA_10l",
+"plano": "FL_MAT_AGUA_10l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -6508,6 +6508,27 @@
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
 "pos": 16,
+"pieza": "Filtro del tubo de pesca",
+"cant": 1,
+"material": "Polipropileno perforado",
+"dim": "Envolvente L × A × H",
+"valor": "24.3 × 24.3 × 25.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:manual"
+],
+"calc": "Sólido dibujado",
+"code": [
+"modelo3d.py",
+"def extintor_manual"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AGUA_10l",
+"plano": "FL_MAT_AGUA_10l",
+"pos": 17,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -6528,7 +6549,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -6549,12 +6570,12 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 419.0,
+"valor": 420.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -6570,7 +6591,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 18,
+"pos": 19,
 "pieza": "Tobera de chorro pleno",
 "cant": 1,
 "material": "Polipropileno",
@@ -6591,7 +6612,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 19,
+"pos": 20,
 "pieza": "Suncho portatobera",
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
@@ -6612,7 +6633,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -6633,7 +6654,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -6654,7 +6675,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -6676,7 +6697,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 21,
+"pos": 22,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -6697,7 +6718,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 22,
+"pos": 23,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -6719,7 +6740,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 23,
+"pos": 24,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -6740,7 +6761,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 24,
+"pos": 25,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -6761,7 +6782,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 25,
+"pos": 26,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -6782,7 +6803,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 26,
+"pos": 27,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -6803,7 +6824,7 @@
 {
 "modelo": "FL_MAT_AGUA_10l",
 "plano": "FL_MAT_AGUA_10l",
-"pos": 27,
+"pos": 28,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -6830,7 +6851,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 594.7,
+"valor": 594.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -6852,14 +6873,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 241.2,
+"valor": 238.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_AFFF_10l:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia +1 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -1 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -6917,7 +6938,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.18,
+"valor": 3.08,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -7383,7 +7404,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -7424,17 +7445,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -7547,116 +7568,32 @@
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_AFFF_10l",
-"plano": "FL_MAT_AFFF_10l",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AFFF_10l",
-"plano": "FL_MAT_AFFF_10l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_AFFF_10l",
-"plano": "FL_MAT_AFFF_10l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AFFF_10l",
-"plano": "FL_MAT_AFFF_10l",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -7667,6 +7604,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_10l",
+"plano": "FL_MAT_AFFF_10l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_AFFF_10l",
+"plano": "FL_MAT_AFFF_10l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_10l",
+"plano": "FL_MAT_AFFF_10l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_AFFF_10l",
+"plano": "FL_MAT_AFFF_10l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -7716,6 +7737,27 @@
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
 "pos": 16,
+"pieza": "Filtro del tubo de pesca",
+"cant": 1,
+"material": "Polipropileno perforado",
+"dim": "Envolvente L × A × H",
+"valor": "24.3 × 24.3 × 25.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:manual"
+],
+"calc": "Sólido dibujado",
+"code": [
+"modelo3d.py",
+"def extintor_manual"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_10l",
+"plano": "FL_MAT_AFFF_10l",
+"pos": 17,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -7736,7 +7778,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -7757,12 +7799,12 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 299.0,
+"valor": 300.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -7778,7 +7820,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 18,
+"pos": 19,
 "pieza": "Lanza espumígena",
 "cant": 1,
 "material": "Polipropileno",
@@ -7799,7 +7841,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 19,
+"pos": 20,
 "pieza": "Suncho portatobera",
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
@@ -7820,7 +7862,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -7841,7 +7883,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -7862,7 +7904,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -7884,7 +7926,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 21,
+"pos": 22,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -7905,7 +7947,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 22,
+"pos": 23,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -7927,7 +7969,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 23,
+"pos": 24,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -7948,7 +7990,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 24,
+"pos": 25,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -7969,7 +8011,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 25,
+"pos": 26,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -7990,7 +8032,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 26,
+"pos": 27,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -8011,7 +8053,7 @@
 {
 "modelo": "FL_MAT_AFFF_10l",
 "plano": "FL_MAT_AFFF_10l",
-"pos": 27,
+"pos": 28,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -8124,7 +8166,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.66,
+"valor": 42.6,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -9690,7 +9732,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 435.1,
+"valor": 434.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -9712,14 +9754,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 216.7,
+"valor": 213.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_BC_5kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -4 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -5 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -9777,7 +9819,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.41,
+"valor": 3.32,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -10391,7 +10433,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -10432,17 +10474,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -10555,116 +10597,32 @@
 "modelo": "FL_MAT_BC_5kg",
 "plano": "FL_MAT_BC_5kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_BC_5kg",
-"plano": "FL_MAT_BC_5kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_BC_5kg",
-"plano": "FL_MAT_BC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_BC_5kg",
-"plano": "FL_MAT_BC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_BC_5kg",
-"plano": "FL_MAT_BC_5kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_BC_5kg",
 "plano": "FL_MAT_BC_5kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -10675,6 +10633,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_BC_5kg",
+"plano": "FL_MAT_BC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_BC_5kg",
+"plano": "FL_MAT_BC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_BC_5kg",
+"plano": "FL_MAT_BC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_BC_5kg",
+"plano": "FL_MAT_BC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -10770,7 +10812,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 278.0,
+"valor": 279.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -11046,7 +11088,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 414.7,
+"valor": 414.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -11068,14 +11110,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 232.2,
+"valor": 229.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_SALESK_6l:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 270; diferencia -14 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 270; diferencia -15 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -11133,7 +11175,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 2.65,
+"valor": 2.56,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -11620,7 +11662,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -11661,17 +11703,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -11784,116 +11826,32 @@
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_SALESK_6l",
-"plano": "FL_MAT_SALESK_6l",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_SALESK_6l",
-"plano": "FL_MAT_SALESK_6l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_SALESK_6l",
-"plano": "FL_MAT_SALESK_6l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_SALESK_6l",
-"plano": "FL_MAT_SALESK_6l",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -11904,6 +11862,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_SALESK_6l",
+"plano": "FL_MAT_SALESK_6l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_SALESK_6l",
+"plano": "FL_MAT_SALESK_6l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_SALESK_6l",
+"plano": "FL_MAT_SALESK_6l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_SALESK_6l",
+"plano": "FL_MAT_SALESK_6l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -11953,6 +11995,27 @@
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
 "pos": 16,
+"pieza": "Filtro del tubo de pesca",
+"cant": 1,
+"material": "Polipropileno perforado",
+"dim": "Envolvente L × A × H",
+"valor": "24.3 × 24.3 × 25.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:manual"
+],
+"calc": "Sólido dibujado",
+"code": [
+"modelo3d.py",
+"def extintor_manual"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_SALESK_6l",
+"plano": "FL_MAT_SALESK_6l",
+"pos": 17,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -11973,7 +12036,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -11994,12 +12057,12 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 17,
+"pos": 18,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 113.0,
+"valor": 114.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -12015,7 +12078,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 18,
+"pos": 19,
 "pieza": "Lanza aplicadora clase K",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -12036,7 +12099,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 19,
+"pos": 20,
 "pieza": "Suncho portatobera",
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
@@ -12057,7 +12120,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -12078,7 +12141,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -12099,7 +12162,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 20,
+"pos": 21,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -12121,7 +12184,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 21,
+"pos": 22,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -12142,7 +12205,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 22,
+"pos": 23,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -12164,7 +12227,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 23,
+"pos": 24,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -12185,7 +12248,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 24,
+"pos": 25,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -12206,7 +12269,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 25,
+"pos": 26,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -12227,7 +12290,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 26,
+"pos": 27,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -12248,7 +12311,7 @@
 {
 "modelo": "FL_MAT_SALESK_6l",
 "plano": "FL_MAT_SALESK_6l",
-"pos": 27,
+"pos": 28,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -12275,7 +12338,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 464.8,
+"valor": 464.4,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -12297,14 +12360,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 241.2,
+"valor": 238.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_CO2_2kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 254; diferencia -5 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 254; diferencia -6 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -12362,7 +12425,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 6.47,
+"valor": 6.4,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -12592,7 +12655,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -12633,17 +12696,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -12735,116 +12798,32 @@
 "modelo": "FL_MAT_CO2_2kg",
 "plano": "FL_MAT_CO2_2kg",
 "pos": 8,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CO2_2kg",
-"plano": "FL_MAT_CO2_2kg",
-"pos": 8,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CO2_2kg",
-"plano": "FL_MAT_CO2_2kg",
-"pos": 9,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CO2_2kg",
-"plano": "FL_MAT_CO2_2kg",
-"pos": 9,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CO2_2kg",
-"plano": "FL_MAT_CO2_2kg",
-"pos": 10,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_CO2_2kg",
 "plano": "FL_MAT_CO2_2kg",
-"pos": 11,
+"pos": 9,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -12855,6 +12834,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CO2_2kg",
+"plano": "FL_MAT_CO2_2kg",
+"pos": 10,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CO2_2kg",
+"plano": "FL_MAT_CO2_2kg",
+"pos": 10,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CO2_2kg",
+"plano": "FL_MAT_CO2_2kg",
+"pos": 11,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CO2_2kg",
+"plano": "FL_MAT_CO2_2kg",
+"pos": 11,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -12929,7 +12992,7 @@
 "cant": 1,
 "material": "Tubo acero SAE 1010",
 "dim": "Envolvente L × A × H",
-"valor": "75.1 × 12.0 × 61.0",
+"valor": "76.1 × 12.0 × 61.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -13205,7 +13268,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 735.0,
+"valor": 734.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -13227,7 +13290,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 274.2,
+"valor": 271.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -13292,7 +13355,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 14.27,
+"valor": 14.15,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -13522,7 +13585,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -13563,17 +13626,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -13665,116 +13728,32 @@
 "modelo": "FL_MAT_CO2_5kg",
 "plano": "FL_MAT_CO2_5kg",
 "pos": 8,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CO2_5kg",
-"plano": "FL_MAT_CO2_5kg",
-"pos": 8,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CO2_5kg",
-"plano": "FL_MAT_CO2_5kg",
-"pos": 9,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CO2_5kg",
-"plano": "FL_MAT_CO2_5kg",
-"pos": 9,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CO2_5kg",
-"plano": "FL_MAT_CO2_5kg",
-"pos": 10,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_CO2_5kg",
 "plano": "FL_MAT_CO2_5kg",
-"pos": 11,
+"pos": 9,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -13785,6 +13764,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CO2_5kg",
+"plano": "FL_MAT_CO2_5kg",
+"pos": 10,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CO2_5kg",
+"plano": "FL_MAT_CO2_5kg",
+"pos": 10,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CO2_5kg",
+"plano": "FL_MAT_CO2_5kg",
+"pos": 11,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CO2_5kg",
+"plano": "FL_MAT_CO2_5kg",
+"pos": 11,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -13901,7 +13964,7 @@
 "cant": 1,
 "material": "Manga alta presión c/malla acero",
 "dim": "Largo desarrollado dibujado",
-"valor": 371.0,
+"valor": 372.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -14198,7 +14261,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 435.1,
+"valor": 434.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -14220,14 +14283,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 216.7,
+"valor": 213.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_HCFC-HFC_5kg:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -4 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -5 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -14285,7 +14348,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.41,
+"valor": 3.33,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -14899,7 +14962,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -14940,17 +15003,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -15063,116 +15126,32 @@
 "modelo": "FL_MAT_HCFC-HFC_5kg",
 "plano": "FL_MAT_HCFC-HFC_5kg",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_HCFC-HFC_5kg",
-"plano": "FL_MAT_HCFC-HFC_5kg",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_HCFC-HFC_5kg",
-"plano": "FL_MAT_HCFC-HFC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_HCFC-HFC_5kg",
-"plano": "FL_MAT_HCFC-HFC_5kg",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_HCFC-HFC_5kg",
-"plano": "FL_MAT_HCFC-HFC_5kg",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_HCFC-HFC_5kg",
 "plano": "FL_MAT_HCFC-HFC_5kg",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -15183,6 +15162,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_HCFC-HFC_5kg",
+"plano": "FL_MAT_HCFC-HFC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_HCFC-HFC_5kg",
+"plano": "FL_MAT_HCFC-HFC_5kg",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_HCFC-HFC_5kg",
+"plano": "FL_MAT_HCFC-HFC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_HCFC-HFC_5kg",
+"plano": "FL_MAT_HCFC-HFC_5kg",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -15278,7 +15341,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 278.0,
+"valor": 279.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -15554,7 +15617,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Altura total",
-"valor": 608.1,
+"valor": 607.7,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -15576,14 +15639,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Ancho total",
-"valor": 245.0,
+"valor": 242.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_CLASED_9l:Ancho"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia +7 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia +5 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -15641,7 +15704,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 6.34,
+"valor": 6.24,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -16255,7 +16318,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -16296,17 +16359,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:5 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -16419,116 +16482,32 @@
 "modelo": "FL_MAT_CLASED_9l",
 "plano": "FL_MAT_CLASED_9l",
 "pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CLASED_9l",
-"plano": "FL_MAT_CLASED_9l",
-"pos": 11,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CLASED_9l",
-"plano": "FL_MAT_CLASED_9l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:5 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_CLASED_9l",
-"plano": "FL_MAT_CLASED_9l",
-"pos": 12,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_CLASED_9l",
-"plano": "FL_MAT_CLASED_9l",
-"pos": 13,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_CLASED_9l",
 "plano": "FL_MAT_CLASED_9l",
-"pos": 14,
+"pos": 12,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -16539,6 +16518,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CLASED_9l",
+"plano": "FL_MAT_CLASED_9l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CLASED_9l",
+"plano": "FL_MAT_CLASED_9l",
+"pos": 13,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_CLASED_9l",
+"plano": "FL_MAT_CLASED_9l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:5 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_CLASED_9l",
+"plano": "FL_MAT_CLASED_9l",
+"pos": 14,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -16634,7 +16697,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 162.0,
+"valor": 163.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -17017,7 +17080,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 31.22,
+"valor": 31.15,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -18076,7 +18139,7 @@
 "cant": 1,
 "material": "Latón forjado",
 "dim": "Cuerpo ancho × alto",
-"valor": "38 × 12.8",
+"valor": "36 × 12.8",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
@@ -18117,17 +18180,17 @@
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
-"dim": "Horquilla del pivote (alto)",
-"valor": 32.2,
+"dim": "Oreja del pivote: ancho / eje a (x, z)",
+"valor": "22 / (-10.73; 23.79)",
 "unidad": "mm",
 "tipo": "Plano Fadesa",
 "src": [
 "FE:25 kg:valvula"
 ],
-"calc": "Medido a escala",
+"calc": "Centro del agujero del pivote medido en el plano Fadesa; ancho de diseño",
 "code": [
-"modelo3d.py",
-"\"F192\": dict("
+"perfiles_valvula.py",
+"F192_PIVOTE = "
 ],
 "estado": "V"
 },
@@ -18240,116 +18303,32 @@
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
 "pos": 20,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Largo × alto (palanca)",
-"valor": "127 × 8",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:25 kg:valvula"
-],
-"calc": "Medido a escala; cara superior a 41.5 mm del cuerpo",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 20,
-"pieza": "Manija de accionamiento",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 21,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Tramos de la manija fija",
-"valor": "50 + 36",
-"unidad": "mm",
-"tipo": "Plano Fadesa",
-"src": [
-"FE:25 kg:valvula"
-],
-"calc": "Medido a escala en el plano Fadesa",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 21,
-"pieza": "Manija de transporte",
-"cant": 1,
-"material": "Chapa acero SAE 1010 pintada",
-"dim": "Ancho de la chapa",
-"valor": 20.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:valvula"
-],
-"calc": "No visible en la vista lateral",
-"code": [
-"modelo3d.py",
-"\"F192\": dict("
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 22,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
 "dim": "Ø × largo",
-"valor": "2 × 34",
+"valor": "4 × 33",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula"
 ],
-"calc": "Pasa por la horquilla; sin cota en Fadesa",
+"calc": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "code": [
 "modelo3d.py",
-"p[\"eje\"] = _cyl("
+"p[\"eje\"] = _cyl(r_e"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
 "dim": "Ø alambre × largo",
-"valor": "3,2 × 44",
+"valor": "3,2 × 44.5",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -18360,6 +18339,90 @@
 "code": [
 "modelo3d.py",
 "p[\"pasador\"] = _cyl(1.6"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 22,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "124.6 × 29.3 (-17.4 a 107.3 / 15.9 a 45.2)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:25 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (47 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_SUP = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 22,
+"pieza": "Manija de accionamiento",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "31",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 23,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Perfil lateral: largo × alto (x / z extremos)",
+"valor": "102.6 × 25.4 (1.1 a 103.7 / 4.7 a 30.1)",
+"unidad": "mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FE:25 kg:valvula"
+],
+"calc": "Contorno completo extraído del plano vectorial Fadesa (37 puntos), no una caja",
+"code": [
+"perfiles_valvula.py",
+"F192_INF = ("
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 23,
+"pieza": "Manija de transporte",
+"cant": 1,
+"material": "Chapa acero SAE 1010 pintada",
+"dim": "Ancho (chapa estampada en U)",
+"valor": "35",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:valvula"
+],
+"calc": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
+"code": [
+"modelo3d.py",
+"wu, wl = bd + 3.0, bd + 7.0"
 ],
 "estado": "E"
 },
@@ -18455,7 +18518,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 264.0,
+"valor": 265.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -18817,7 +18880,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.63,
+"valor": 42.57,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -20556,7 +20619,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 67.92,
+"valor": 67.86,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -22344,7 +22407,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 89.44,
+"valor": 89.38,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
