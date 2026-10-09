@@ -104,6 +104,8 @@ rec("F01", "1kg 3pulg R1.pdf", "G809", "1kg", [
     (9, (508, 740, 645, 755), "Espesor cúpula 0,9", ["td"]),
     (10, (518, 755, 635, 770), "Masa 0,76 kg — masa del recipiente", ["masa"]),
     (11, (505, 770, 650, 786), "Volumen 1,18 dm³", ["vol"]),
+    (12, (536, 445, 614, 523), "Detalle 2 (1:1): bordón del caño bajo la cúpula — labio ≈ 5,5, escalón ≈ 4,5", ["det2"]),
+    (13, (653, 445, 730, 523), "Detalle 3 (1:1): bordón inferior del caño, fondo por fuera", ["det3"]),
 ], nota="El plano no acota la altura del cuello por separado: se tomó 12,5 mm para completar la altura total de 298.")
 rec("F02", "Recipiente_2.5kg_R2_sin_logo.pdf", "G731", "2.5kg", [
     (1, (245, 52, 282, 70), "Ø37 — Ø exterior del cuello", ["cuello_d"]),
@@ -132,6 +134,8 @@ rec("F03", "Recipiente_5kg_R2_sin_logo.pdf", "G732", "5kg", [
     (10, (183, 801, 341, 816), "Espesor de chapa 1,6 (cuerpo, cúpula y fondo)", ["t", "td", "tf"]),
     (11, (205, 815, 318, 830), "Masa 2,78 kg", ["masa"]),
     (12, (205, 829, 320, 844), "Volumen 6 dm³", ["vol"]),
+    (13, (616, 636, 698, 718), "Detalle 2 (1:1): bordón del cuerpo, cúpula por fuera — labio ≈ 5,8, escalón ≈ 5,2", ["det2"]),
+    (14, (515, 745, 597, 827), "Detalle 3 (1:1): fondo encastrado con pestaña ≥ 10, filete por debajo", ["det3"]),
 ])
 pt = 100 / 72  # el 10 kg tiene capa de texto: cajas tomadas en pt con search
 rec("F04", "Recipiente_10kg_R2_sin_logo.pdf", "G733", "10kg", [
@@ -163,6 +167,8 @@ rec("F05", "Recipiente 25kg R3.pdf", "G690", "25kg", [
     (10, (430, 851, 552, 865), "Espesor de chapa 3,2", ["t", "td", "tf"]),
     (11, (440, 864, 545, 878), "Masa 15,92 kg", ["masa"]),
     (12, (430, 878, 552, 892), "Volumen 34,4 dm³", ["vol"]),
+    (13, (627, 647, 687, 707), "Detalle 2 (1:1): casquete con borde reducido y tope dentro del cuerpo", ["det2"]),
+    (14, (545, 752, 605, 812), "Detalle 3 (1:1): ídem en el casquete inferior", ["det3"]),
 ], nota="La altura total 696,5 no es igual a la suma de sus cotas parciales (87 + 493 + 87 + 35 = 702); el plano FLAMA usa las cotas parciales.")
 rec("F06", "Recipiente 50kg R2.pdf", "G689", "50kg", [
     (1, (285, 72, 318, 88), "Ø88 — Ø exterior del cuello (cupla)", ["cuello_d"]),
@@ -187,39 +193,106 @@ def ext(f, archivo, codigo, tam, marks, nota=""):
         [(n, b, e, cl) for n, b, e, cl in marks], K, tipo="Plano Fadesa", nota=nota)
 
 
-ext("F07", "Extintor 1kg #U00d876 (V#U00e1lvula HZ) R1.pdf", "A114/117/122/123/138", "1 kg", [
-    (1, (110, 902, 262, 920), "Masa total 1,84 kg (polvo) — referencia de verificación de masa", ["FE:1 kg:masa"]),
-    (2, (370, 1055, 472, 1073), "Válvula HZ — tipo de válvula adoptado", ["FE:HZ"]),
-])
-ext("F08", "Extintor_2.5kg_Valvula_HZ_R1_sin_logo.pdf", "A101/139/151/128/135", "2,5 kg", [
-    (1, (116, 902, 287, 920), "Masa total 4,62 kg (polvo)", ["FE:2,5 kg:masa"]),
-    (2, (350, 1055, 456, 1073), "Válvula HZ", ["FE:HZ"]),
-])
-ext("F09", "Extintor_5kg_Valvula_HZ_R1_sin_logo.pdf", "A102/116/140/163/152/111/129/136", "5 kg", [
-    (1, (106, 902, 258, 920), "Masa total 8,4 kg (polvo)", ["FE:5 kg:masa"]),
-    (2, (370, 1055, 472, 1073), "Válvula HZ", ["FE:HZ"]),
-])
-ext("F10", "Extintor_10kg_HZ_R1_sin_logo.pdf", "A103/141/164/153/112/130/137", "10 kg", [
-    (1, (113, 902, 270, 920), "Masa total 16,4 kg (polvo)", ["FE:10 kg:masa"]),
-    (2, (370, 1055, 473, 1073), "Válvula HZ", ["FE:HZ"]),
-])
-ext("F11", "Extintor rodante 25kg R1.pdf", "B202/204/217/225/229/235", "25 kg", [
-    (1, (110, 902, 226, 920), "Masa total 53,2 kg — referencia de masa (calibración de llanta y sunchos)", ["FE:25 kg:masa"]),
-    (2, (730, 450, 748, 480), "1140 — altura total (coincide con el catálogo)", ["FE:25 kg:H"]),
-    (3, (376, 720, 392, 760), "Ø300 — rueda (coincide con el catálogo)", ["FE:25 kg:rueda"]),
-])
-ext("F12", "Extintor rodante 50kg R1.pdf", "B206/216/222/230/232/236/247", "50 kg", [
-    (1, (110, 902, 216, 920), "Masa total 94 kg", ["FE:50 kg:masa"]),
-    (2, (405, 440, 422, 475), "1210 — altura total (coincide con el catálogo)", ["FE:50 kg:H"]),
-    (3, (437, 700, 453, 740), "Ø350 — rueda (coincide con el catálogo)", ["FE:50 kg:rueda"]),
-])
-ext("F13", "Extintor rodante 100kg R1.pdf", "B208/214/237/238/239/243/244/245", "100 kg", [
-    (1, (114, 897, 235, 914), "Masa total 187,6 kg", ["FE:100 kg:masa"]),
-    (2, (580, 839, 616, 853), "Ø390 — Ø exterior del recipiente de 100 kg", ["FE:100 kg:D"]),
-    (3, (392, 450, 410, 485), "1460 — altura total del plano Fadesa (el catálogo dice 1400)", ["FE:100 kg:H"]),
-    (4, (765, 730, 782, 770), "Ø400 — rueda (coincide con el catálogo)", ["FE:100 kg:rueda"]),
-], nota="Del plano de 100 kg sólo se tomó el Ø390 y la masa total: el plano no acota el recipiente; "
-        "cuerpo y cabezales del 100 kg se calcularon (ver figura del código _g_rodante).")
+def pt(x0, x1, y0, y1, pad=1.5):
+    """caja en pt del PDF (medida con las líneas del dibujo) -> px a 100 dpi"""
+    k = 100 / 72
+    return ((x0 - pad) * k, (y0 - pad) * k, (x1 + pad) * k, (y1 + pad) * k)
+
+
+def piezas_fe(tam, d, valv):
+    """marcas de las piezas medidas a escala; d: comp -> (caja pt, texto)"""
+    out = []
+    for comp, (caja, txt) in d.items():
+        out.append((caja, txt, [f"FE:{tam}:{comp}"]))
+    return out
+
+
+def ext2(f, archivo, codigo, tam, generales, piezas, nota=""):
+    marks = [(n, b, e, cl) for n, (b, e, cl) in enumerate(generales + piezas, 1)]
+    fig(f, f"Plano Fadesa «{archivo[:-4]}» (código {codigo})", f"Plano de conjunto Fadesa, archivo «{archivo}»",
+        "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala", pdf_img(f"{FAD}/{archivo}", 0),
+        marks, K, tipo="Plano Fadesa", nota=nota)
+
+
+NOTA_ESC = ("Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en "
+            "su plano de recipiente). Precisión ≈ ±0,5 mm.")
+ext2("F07", "Extintor 1kg #U00d876 (V#U00e1lvula HZ) R1.pdf", "A114/117/122/123/138", "1 kg", [
+    ((110, 902, 262, 920), "Masa total 1,84 kg (polvo) — referencia de verificación de masa", ["FE:1 kg:masa"]),
+    ((370, 1055, 472, 1073), "Válvula HZ", ["FE:HZ"])], piezas_fe("1 kg", {
+        "valvula": (pt(298.0, 422.3, 62.9, 131.2), "Válvula F510 (esc. 1:2,5): cuerpo 31 × 12 + horquilla 26,5; palanca 67; manija fija 49 + 27 (bajando 34,5); ancho de la válvula 109; espiga M22 Ø21 × 8,6"),
+        "manometro": (pt(218.8, 254.6, 63.8, 104.4), "Manómetro F645: Ø36"),
+        "oring": (pt(304.4, 332.5, 131.0, 135.0), "O-ring F656: Ø24,8 × 3,5"),
+        "vastago": (pt(314.6, 322.4, 169.3, 190.7), "Vástago F915: Ø5 × 21, asiento Ø9"),
+        "resorte": (pt(312.9, 324.1, 221.6, 244.2), "Resorte F139: Ø9,8 × 19,9"),
+        "cano": (pt(308.1, 328.6, 266.6, 304.7), "Tubo de pesca F003/617: cabeza Ø18,1, tubo Ø14,4"),
+    }, "F510"), nota=NOTA_ESC)
+ext2("F08", "Extintor_2.5kg_Valvula_HZ_R1_sin_logo.pdf", "A101/139/151/128/135", "2,5 kg", [
+    ((116, 902, 287, 920), "Masa total 4,62 kg (polvo)", ["FE:2,5 kg:masa"]),
+    ((350, 1055, 456, 1073), "Válvula HZ", ["FE:HZ"])], piezas_fe("2,5 kg", {
+        "valvula": (pt(375.6, 495.6, 69.2, 122.5), "Válvula F192 (esc. 1:3): igual a la del 5 y 10 kg"),
+        "racor": (pt(302.5, 333.3, 93.1, 110.9), "Racor: tuerca Ø18,8 × 5,9, casquillo Ø16,9 × 13,5, rosca Ø13,1 × 8,9"),
+        "manometro": (pt(513.6, 543.4, 117.4, 151.1), "Manómetro F645: Ø36 (35,7)"),
+        "oring": (pt(378.6, 409.5, 150.6, 154.0), "O-ring F646: Ø32,8 × 3,6"),
+        "vastago": (pt(387.4, 400.8, 181.7, 223.8), "Vástago F916: Ø6 × 30,6, asiento Ø14"),
+        "resorte": (pt(385.2, 401.5, 251.9, 279.1), "Resorte F653: Ø17,3 × 28,8"),
+        "cano": (pt(384.0, 404.1, 307.2, 320.9), "Caño de pesca F682: cabeza Ø21,3"),
+        "manguera": (pt(237.5, 257.5, 200.0, 240.0), "Manguera: Ø17,4"),
+        "tobera": (pt(238.2, 256.9, 306.8, 379.1), "Portatobera Ø18,8 × 13,4 + tobera Ø19,9 × 60,1"),
+    }, "F192"), nota=NOTA_ESC)
+ext2("F09", "Extintor_5kg_Valvula_HZ_R1_sin_logo.pdf", "A102/116/140/163/152/111/129/136", "5 kg", [
+    ((106, 902, 258, 920), "Masa total 8,4 kg (polvo)", ["FE:5 kg:masa"]),
+    ((370, 1055, 472, 1073), "Válvula HZ", ["FE:HZ"])], piezas_fe("5 kg", {
+        "valvula": (pt(415.8, 505.8, 85.1, 125.0), "Válvula F192 (esc. 1:4): palanca 127 de largo, 41,5 de alto sobre el cuerpo; cuerpo 38 × 12,8 + horquilla 32,2; espiga M30 Ø29,8 × 10,8; cuello Ø27,2 × 4,1; manija fija 50 + 36"),
+        "racor": (pt(322.5, 345.7, 101.5, 114.8), "Racor: tuerca Ø18,8 × 5,9, casquillo Ø16,9 × 13,5, rosca Ø13,1 × 8,9"),
+        "manometro": (pt(365.2, 387.7, 128.8, 154.1), "Manómetro F645: Ø36 (35,7)"),
+        "oring": (pt(418.0, 441.2, 153.1, 155.6), "O-ring F646: Ø32,7 × 3,6"),
+        "vastago": (pt(424.6, 434.6, 183.4, 215.0), "Vástago F916: Ø6 × 30,8, asiento Ø14"),
+        "resorte": (pt(423.0, 435.2, 243.1, 263.5), "Resorte F653: Ø17,3 × 28,8"),
+        "cano": (pt(422.0, 437.1, 291.7, 301.9), "Caño de pesca F682: cabeza Ø21,3"),
+        "manguera": (pt(273.5, 289.5, 220.0, 260.0), "Manguera: Ø17,4"),
+        "tobera": (pt(274.3, 288.4, 332.2, 386.3), "Portatobera Ø19 × 13,3 + tobera Ø19,9 × 60"),
+    }, "F192"), nota=NOTA_ESC + " Esta válvula F192 es la que se usa también en los manuales revendidos (BC, HCFC, agua, AFFF, Sales K, clase D, CO₂ como referencia).")
+ext2("F10", "Extintor_10kg_HZ_R1_sin_logo.pdf", "A103/141/164/153/112/130/137", "10 kg", [
+    ((113, 902, 270, 920), "Masa total 16,4 kg (polvo)", ["FE:10 kg:masa"]),
+    ((370, 1055, 473, 1073), "Válvula HZ", ["FE:HZ"])], piezas_fe("10 kg", {
+        "valvula": (pt(402.9, 493.0, 60.1, 100.1), "Válvula F192 (esc. 1:4): 127 × 41,5; espiga M30 Ø29,8 × 10,8"),
+        "racor": (pt(294.6, 317.8, 74.4, 87.7), "Racor: tuerca Ø18,8, casquillo Ø16,9, rosca Ø13,1"),
+        "manometro": (pt(333.6, 355.9, 119.0, 144.4), "Manómetro F645: Ø36 (35,7) × 31,5 con vástago"),
+        "oring": (pt(405.2, 428.4, 119.8, 122.3), "O-ring F646: Ø32,7 × 3,6"),
+        "vastago": (pt(411.8, 421.8, 141.6, 173.2), "Vástago F916: Ø6 × 30,6, asiento Ø14 × 14"),
+        "resorte": (pt(410.1, 422.4, 193.0, 213.4), "Resorte F653: Ø17,3 × 28,8"),
+        "cano": (pt(409.0, 424.5, 233.0, 257.3), "Caño de pesca F682: cabeza Ø21,3 × 14,4"),
+        "manguera": (pt(245.5, 261.5, 200.0, 240.0), "Manguera: Ø17,4 (líneas a 12,1 pt)"),
+        "tobera": (pt(246.4, 260.5, 340.2, 394.4), "Portatobera Ø18,8 × 13,4 + tobera Ø19,9 × 60,1"),
+        "suncho": (pt(332.4, 352.8, 537.0, 547.2), "Suncho portamanguera F674: banda 14,4, sobresale 28,8"),
+    }, "F192"), nota=NOTA_ESC)
+ext2("F11", "Extintor rodante 25kg R1.pdf", "B202/204/217/225/229/235", "25 kg", [
+    ((110, 902, 226, 920), "Masa total 53,2 kg — referencia de masa (calibración de llanta y sunchos)", ["FE:25 kg:masa"]),
+    ((730, 450, 748, 480), "1140 — altura total (coincide con el catálogo)", ["FE:25 kg:H"]),
+    ((376, 720, 392, 760), "Ø300 — rueda (coincide con el catálogo)", ["FE:25 kg:rueda"])], piezas_fe("25 kg", {
+        "valvula": (pt(347.4, 407.4, 103.3, 147.8), "Válvula F192 (esc. 1:6): la misma de los manuales (cuello M30)"),
+        "manometro": (pt(427.8, 445.2, 127.4, 149.4), "Manómetro F645 + cubremanómetro G711: Ø47"),
+        "oring": (pt(390.4, 405.9, 157.3, 158.9), "O-ring F646: Ø32,8"),
+        "vastago": (pt(394.9, 401.6, 168.1, 189.1), "Vástago F916: Ø6 × 30,6"),
+        "resorte": (pt(393.7, 402.0, 198.1, 211.8), "Resorte F653: Ø17,5 × 29"),
+        "cano": (pt(393.2, 403.3, 218.8, 225.6), "Caño de pesca F226: cabeza Ø21,3"),
+    }, "F192"), nota=NOTA_ESC)
+ext2("F12", "Extintor rodante 50kg R1.pdf", "B206/216/222/230/232/236/247", "50 kg", [
+    ((110, 902, 216, 920), "Masa total 94 kg", ["FE:50 kg:masa"]),
+    ((405, 440, 422, 475), "1210 — altura total (coincide con el catálogo)", ["FE:50 kg:H"]),
+    ((437, 700, 453, 740), "Ø350 — rueda (coincide con el catálogo)", ["FE:50 kg:rueda"])], piezas_fe("50 kg", {
+        "valvula": (pt(418.0, 451.8, 125.8, 172.3), "Válvula G763 (esc. 1:7): brida Ø83 × 12 + rosca 2½\" Ø75 × 17,6; cuerpo 49 × 67"),
+        "manometro": (pt(391.0, 405.9, 133.4, 156.4), "Manómetro F644 + cubremanómetro G711: Ø47"),
+        "rueda": (pt(505.0, 530.0, 438.0, 586.0), "Rueda Ø350: ancho de banda 48,9 (líneas a 19,8 pt)"),
+    }, "G763"), nota=NOTA_ESC + " Esta válvula y estas ruedas se usan también en el 70 kg y en el AFFF 50 l.")
+ext2("F13", "Extintor rodante 100kg R1.pdf", "B208/214/237/238/239/243/244/245", "100 kg", [
+    ((114, 897, 235, 914), "Masa total 187,6 kg", ["FE:100 kg:masa"]),
+    ((580, 839, 616, 853), "Ø390 — Ø exterior del recipiente de 100 kg", ["FE:100 kg:D"]),
+    ((392, 450, 410, 485), "1460 — altura total del plano Fadesa (el catálogo dice 1400)", ["FE:100 kg:H"])], piezas_fe("100 kg", {
+        "valvula": (pt(415.8, 445.3, 107.8, 148.6), "Válvula G763 (esc. 1:8): igual a la del 50 kg"),
+        "rueda": (pt(326.0, 357.0, 458.0, 601.0), "Rueda Ø400: ancho de banda 76 (líneas a 26,9 pt); trocha 500"),
+    }, "G763"), nota="Del plano de 100 kg se tomó el Ø390, la masa total y el ancho de rueda; el plano no acota el "
+        "recipiente: cuerpo y cabezales del 100 kg se calcularon (figura del código _g_rodante). " + NOTA_ESC)
 
 # =========================================================== catálogo Fadesa 3 (tablas)
 CATF = "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)"
@@ -461,81 +534,7 @@ def HL(archivo, pats):
     return {L(archivo, p) for p in pats}
 
 
-v0 = L("modelo3d.py", "def valvula(")
-codigo("F38", "modelo3d.py", [(v0, v0 + 58)], HL("modelo3d.py", [
-    "bw, bd = 30 * s", "hcol = 10 * s", "lev_t, lev_w = 4 * s", "bh = max(22 * s", "bh = 40 * s", 'p["tuerca"]',
-    'p["espiga"]', "gm = _cyl(man_d", 'p["eje"]', 'p["vastago"]', 'p["pasador"] = _cyl(1.6', "hexa = cq.Workplane"]),
-       ["C:valvula"], "Válvula HZ representativa: medidas en función de la escala s",
-       nota="La válvula se compra armada (kit HZ, ver F07-F10); el plano la dibuja con proporciones fijas × s (s = 0,8 en "
-            "1 kg, 1 en manuales, 1,35 en rodantes). Son valores de diseño sin documento: verificar con el kit real.")
-m0 = L("modelo3d.py", "def extintor_manual(")
-codigo("F39", "modelo3d.py", [(m0, m0 + 34), (L("modelo3d.py", 'l_dev = {"tobera_polvo"'), L("modelo3d.py", 'out["racor"] = cq.Solid.makeCylinder(9, 12')),
-                              (L("modelo3d.py", "band = _tube(R + 1.5") - 1, L("modelo3d.py", "band = _tube(R + 1.5") + 1)],
-       HL("modelo3d.py", ["s = 0.8 if chico", "d_hose = 0 if chico", "d_dev = {", '"lanza_d": 40.0, "difusor_brazo"',
-                          "man_d = 28.0", 'zf = dr["z_fondo"] + g["tf"] + 18', 'out["cano_pesca"] = _tube(6 * s',
-                          'out["cano_pesca"] = _tube(5, 3.5', 'l_dev = {"tobera_polvo"', '"lanza_d": 360.0',
-                          'out["racor"] = cq.Solid.makeCylinder(9, 12', "band = _tube(R + 1.5"]),
-       ["C:manual"], "Extintor manual: escala de válvula, manómetro, caño de pesca, manguera, tobera y suncho",
-       nota="Valores de diseño FLAMA sin documento (Ø de manguera, tobera, manómetro, caño de pesca, suncho).")
-r0 = L("modelo3d.py", "def planchuela(")
-codigo("F40", "modelo3d.py", [(r0, r0 + 4)], HL("modelo3d.py", ["return (30.0, 3.0)"]), ["C:planchuela"],
-       "Sección de la planchuela de sunchos de rodantes",
-       nota="30 × 3 hasta Ø330 y 40 × 4 por encima: elegidas para que el carro dé la masa de los planos Fadesa (figs. F11-F13).")
-x0 = L("modelo3d.py", "def extintor_rodante(")
-codigo("F41", "modelo3d.py", [(x0, x0 + 33), (x0 + 43, x0 + 69), (x0 + 83, x0 + 98), (x0 + 100, x0 + 115)],
-       HL("modelo3d.py", ["bw_w = 55.0", 'z0 = 45.0 + (g["hd"])', "d_hose = 25.0", "tire = _cyl(Rw, bw_w",
-                          "llanta = _tube(Rw * 0.72", "llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 2.5",
-                          "llanta = llanta.fuse(_tube(30, 13", 'out["eje_ruedas"] = _cyl(12.5', "rt = 12.7",
-                          "xa = min(R + 45", "ztop_arc = H - rt", 'zs1 = dr["zb"]', 'zs2 = dr["zb"]',
-                          "ws, ts = planchuela(R)", "if False else _box(70, 50, 55", "s = 1.35",
-                          "x_tip=R * 0.75, h_total=None, man_d=50.0", 'zf = dr["z_fondo"] + g["tf"] + 25',
-                          'out["cano_pesca"] = _tube(12, 9.5', "b = _box(2 * wl + d_hose + 16, 3, 30",
-                          'out["racor"] = _cyl(12, 16', "ve = _box(40, 40, 60", "ve = ve.fuse(_box(14, 90, 12",
-                          "hn = 380.0", "tubo = _tube(20, 17.5", "hn = 200.0", "tb = cq.Solid.makeCone(16, 34"]),
-       ["C:rodante"], "Extintor rodante: ruedas, llanta, eje, bastidor, sunchos, apoyo, válvula, manguera, soportes, "
-       "válvula esférica y tobera",
-       nota="Ø de rueda, altura del arco y ancho salen del catálogo (F15); el resto son valores de diseño FLAMA "
-            "(bandas 55/70/80, llanta e 2 / 2,5, eje Ø25, caño Ø25,4, apoyo 70 × 50 × 55, manguera Ø25, tobera Ø32→68 × 200).")
-c0 = L("modelo3d.py", "ARCO_PLACA = 108.0")
-codigo("F42", "modelo3d.py", [(c0 - 1, c0 + 16), (L("modelo3d.py", 'p["junta_cuello"] = _cyl'), L("modelo3d.py", 'p["precinto"] = _cyl'))],
-       set(range(c0, c0 + 7)) | HL("modelo3d.py", ["return ARCO_ALA if R >= 50", 'p["junta_cuello"] = _cyl',
-                                                    'p["precinto"] = _cyl']),
-       ["C:identificacion"], "Medidas de identificación: etiqueta, oblea, estampilla, tarjeta, etiqueta de serie y faja",
-       nota="Cada constante cita su fuente en el comentario (IRAM 3534, Res. 522/07, Anexo R, relevamiento: F27-F35).")
-k0 = L("modelo3d.py", "def recipiente(")
-codigo("F43", "modelo3d.py", [(k0, k0 + 29), (L("modelo3d.py", 'bore = {"M30x1,5"') - 1, L("modelo3d.py", 'bore = {"M30x1,5"')),
-                              (L("modelo3d.py", 'piezas["varilla"] = _cyl') - 4, L("modelo3d.py", 'piezas["varilla"] = _cyl'))],
-       HL("modelo3d.py", ['hc = g["total"] - hn', 'if tipo == "cabezal":  # rodantes', "hc = hd + hc", 'zb = g["hf"]',
-                          "        zb = hd", 'piezas["cuerpo"] = _tube(R, R - t, hc - zb', 'bore = {"M30x1,5"',
-                          'piezas["varilla"] = _cyl']),
-       ["C:recipiente"], "Recipiente: alturas a partir de las cotas (total, cúpula, cuello) y cuerpo de rodantes",
-       nota="Manuales: alto del cuerpo = altura total − cuello − cúpula. Rodantes: el cuerpo es el largo entre cabezales "
-            "(cota 493 / 640 de los planos Fadesa F05 y F06). Varilla Ø8 = decisión FLAMA (F37).")
-a0 = L("catalogo.py", "G_1KG = dict")
-codigo("F44", "catalogo.py", [(a0 - 4, L("catalogo.py", "G_100KG = _g_rodante"))],
-       HL("catalogo.py", ["G_1KG = dict", "G_2K5 = dict", "G_5KG = dict", "G_10KG = dict", "G_25KG = dict", "G_50KG = dict",
-                          "v_cab = 2 * (2 / 3)", "return (vol * 1e6 - v_cab)", "hd = round(0.656", "hc = round(_vol_rodante",
-                          "G_70KG = _g_rodante", "G_100KG = _g_rodante"]),
-       ["C:g_rodante", "C:geo"], "Geometría de recipientes cargada en el generador (valores de los planos Fadesa y cálculo de 70 / 100 kg)",
-       nota="1 a 50 kg: transcripción de las cotas de F01-F06. 70 y 100 kg: cabezal = 0,656·R (proporción del cabezal "
-            "Fadesa de 50 kg, 105/160); cuerpo = largo necesario para el volumen de diseño (86 y 123 dm³ = "
-            "61,8 dm³/50 kg × 70 y × 100).")
-i0 = L("catalogo.py", "def _g_inox(")
-codigo("F45", "catalogo.py", [(i0, i0 + 30)],
-       HL("catalogo.py", ["def _g_inox(H, R=95.0", "t = 0.8", "hn = 14.0", "hc = H - h_valv - hn - hd", "t = 5.4 if D < 130",
-                          "hombro = round(0.55 * R", "hn = 22.0", "z_pie = 8.0", "hc = H - h_valv - hn - hombro"]),
-       ["C:g_inox", "C:g_co2"], "Recipientes inox (agua, AFFF 10 l, Sales K) y cilindros de CO₂",
-       nota="Revendidos: Ø = profundidad del catálogo; altura derivada de la altura del catálogo; espesores y "
-            "proporciones son valores de diseño (0,8 inox ≥ 0,63 de IRAM 3525 F28; 5,4 / 6,0 CO₂).")
-b0 = L("modelo3d.py", "def construir(")
-codigo("F46", "modelo3d.py", [(b0, b0 + 16)], set(range(b0 + 3, b0 + 17)), ["C:construir"],
-       "Ajuste de la envolvente al catálogo (altura, ancho y profundidad)",
-       nota="El conjunto se corrige hasta que su caja envolvente coincide con altura, ancho y profundidad del catálogo.")
-t0 = L("materiales.py", "ACERO, INOX, LATON")
-p0 = L("materiales.py", "def peso(")
-codigo("F47", "materiales.py", [(t0 - 1, t0 + 1), (p0, p0 + 5)], {t0, t0 + 1, p0 + 5}, ["C:materiales"],
-       "Densidades y cálculo de masas",
-       nota="Masa de cada pieza = volumen del sólido × densidad × factor de llenado (piezas huecas modeladas macizas).")
+# Los valores de diseño FLAMA no llevan captura de código: van en la tabla del Word / Excel con el link a la línea.
 
 for f in figs:
     im = Image.open(f["png"]).convert("RGB")

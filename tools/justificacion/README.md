@@ -1,20 +1,20 @@
 # Justificación de medidas planos — herramientas
 
-Genera `salida/justificacion/Justificacion de medidas planos.docx` y `.xlsx`.
+Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 11 páginas) y `.xlsx` (matriz por familia).
 
-| Archivo | Qué hace |
-|---|---|
-| `crudo.py` | Saca del modelo 3D cada dimensión de cada pieza de los 17 planos → `crudo.json` (1101 filas) |
-| `figs.py` | Dibuja las marcas rojas numeradas sobre cada fuente → `figs/` + `figs.json` (47 figuras) |
-| `build_xlsx.py` | Excel (hojas Leyenda, Crudo, Fuentes, Resumen) |
-| `prep_word.py` → `word.json` | Arma el contenido del Word (qué marca se usa en qué pieza) |
-| `word.js` | Word con docx-js (`npm install docx`) |
+| Paso | Archivo | Qué hace |
+|---|---|---|
+| 1 | `crudo.py` | Saca del modelo 3D cada dimensión de cada pieza de los 17 planos → `crudo.json` |
+| 2 | `figs.py` | Marcas rojas numeradas sobre planos Fadesa, catálogo, fichas, normas, fotos y planilla MP → `figs/` + `figs.json` |
+| 3 | `proc_figs.py` | Capturas marcadas de los procesos FLAMA de carros y de manuales (F38, F39) |
+| 4 | `compacto.py <sha>` | Une todo en `compacto.json`: fuente «F10·3» de cada valor, lista D01… de valores de diseño con link a la línea del commit `<sha>`, pendientes |
+| 5 | `recorte.py` | Recorta cada captura a la zona de sus marcas (para el Word) |
+| 6 | `xlsx_compacto.py` | Excel: hojas «Cómo leer», «Manuales ABC», «Rodantes ABC», «Revendidos» (pieza × modelo: valor + fuente, color por estado) y «Fuentes» |
+| 7 | `word2.js` | Word con docx-js (`npm install docx`): capturas de a dos con sus marcas, pendientes y tabla de valores de diseño |
 
-`figs/` ya tiene las 47 capturas marcadas: para rearmar el Word alcanza con `word.json` + `figs/` + `word.js`
-(ajustar las rutas `SP` / `OUT` del principio de cada script a la máquina).
-Para volver a marcar desde cero, `figs.py` necesita las fuentes originales (planos Fadesa, catálogo Fadesa 3,
-normas IRAM, Res. 522/07, Anexo R, fotos del relevamiento, planilla MP), que no están en el repo
-(las normas no se suben).
+Colores (mismo criterio que el BOM): sin color = documento; amarillo = diseño FLAMA; naranja = a validar.
 
-Pendiente pedido por el usuario (09/10/2026): Word más compacto (sin perder marcas), Excel compacto
-(matriz pieza/dimensión × modelo en lugar de 1101 filas).
+`figs/` tiene las capturas ya marcadas. Para volver a marcar desde cero, `figs.py` necesita las fuentes originales
+(planos Fadesa, catálogo Fadesa 3, normas IRAM, Res. 522/07, Anexo R, fotos del relevamiento, planilla MP) y
+`proc_figs.py` los dos documentos de proceso; no están en el repo (las normas no se suben). Ajustar las rutas `SP` /
+`OUT` del principio de cada script a la máquina.

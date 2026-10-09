@@ -4,6 +4,7 @@
   "titulo": "Plano Fadesa «1kg 3pulg R1» (código G809)",
   "fuente": "Plano de recipiente Fadesa, archivo «1kg 3pulg R1.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F01.png",
   "w": 1240,
   "h": 1755,
   "link": "",
@@ -87,15 +88,30 @@
     "claves": [
      "FR:1kg:vol"
     ]
+   },
+   {
+    "n": 12,
+    "etiqueta": "Detalle 2 (1:1): bordón del caño bajo la cúpula — labio ≈ 5,5, escalón ≈ 4,5",
+    "claves": [
+     "FR:1kg:det2"
+    ]
+   },
+   {
+    "n": 13,
+    "etiqueta": "Detalle 3 (1:1): bordón inferior del caño, fondo por fuera",
+    "claves": [
+     "FR:1kg:det3"
+    ]
    }
   ],
-  "img": "figs/F01_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F01_q.png"
  },
  {
   "id": "F02",
   "titulo": "Plano Fadesa «Recipiente_2.5kg_R2_sin_logo» (código G731)",
   "fuente": "Plano de recipiente Fadesa, archivo «Recipiente_2.5kg_R2_sin_logo.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F02.png",
   "w": 1240,
   "h": 1755,
   "link": "",
@@ -189,13 +205,14 @@
     ]
    }
   ],
-  "img": "figs/F02_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F02_q.png"
  },
  {
   "id": "F03",
   "titulo": "Plano Fadesa «Recipiente_5kg_R2_sin_logo» (código G732)",
   "fuente": "Plano de recipiente Fadesa, archivo «Recipiente_5kg_R2_sin_logo.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F03.png",
   "w": 1241,
   "h": 1754,
   "link": "",
@@ -287,15 +304,30 @@
     "claves": [
      "FR:5kg:vol"
     ]
+   },
+   {
+    "n": 13,
+    "etiqueta": "Detalle 2 (1:1): bordón del cuerpo, cúpula por fuera — labio ≈ 5,8, escalón ≈ 5,2",
+    "claves": [
+     "FR:5kg:det2"
+    ]
+   },
+   {
+    "n": 14,
+    "etiqueta": "Detalle 3 (1:1): fondo encastrado con pestaña ≥ 10, filete por debajo",
+    "claves": [
+     "FR:5kg:det3"
+    ]
    }
   ],
-  "img": "figs/F03_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F03_q.png"
  },
  {
   "id": "F04",
   "titulo": "Plano Fadesa «Recipiente_10kg_R2_sin_logo» (código G733)",
   "fuente": "Plano de recipiente Fadesa, archivo «Recipiente_10kg_R2_sin_logo.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F04.png",
   "w": 1241,
   "h": 1754,
   "link": "",
@@ -401,13 +433,14 @@
     ]
    }
   ],
-  "img": "figs/F04_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F04_q.png"
  },
  {
   "id": "F05",
   "titulo": "Plano Fadesa «Recipiente 25kg R3» (código G690)",
   "fuente": "Plano de recipiente Fadesa, archivo «Recipiente 25kg R3.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F05.png",
   "w": 1240,
   "h": 1755,
   "link": "",
@@ -499,15 +532,30 @@
     "claves": [
      "FR:25kg:vol"
     ]
+   },
+   {
+    "n": 13,
+    "etiqueta": "Detalle 2 (1:1): casquete con borde reducido y tope dentro del cuerpo",
+    "claves": [
+     "FR:25kg:det2"
+    ]
+   },
+   {
+    "n": 14,
+    "etiqueta": "Detalle 3 (1:1): ídem en el casquete inferior",
+    "claves": [
+     "FR:25kg:det3"
+    ]
    }
   ],
-  "img": "figs/F05_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F05_q.png"
  },
  {
   "id": "F06",
   "titulo": "Plano Fadesa «Recipiente 50kg R2» (código G689)",
   "fuente": "Plano de recipiente Fadesa, archivo «Recipiente 50kg R2.pdf»",
   "ubic": "Página 1 (única), cotas y notas del plano",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F06.png",
   "w": 1240,
   "h": 1755,
   "link": "",
@@ -601,18 +649,19 @@
     ]
    }
   ],
-  "img": "figs/F06_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F06_q.png"
  },
  {
   "id": "F07",
   "titulo": "Plano Fadesa «Extintor 1kg Ø76 (Válvula HZ) R1» (código A114/117/122/123/138)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor 1kg Ø76 (Válvula HZ) R1.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F07.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -623,24 +672,67 @@
    },
    {
     "n": 2,
-    "etiqueta": "Válvula HZ — tipo de válvula adoptado",
+    "etiqueta": "Válvula HZ",
     "claves": [
      "FE:HZ"
     ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Válvula F510 (esc. 1:2,5): cuerpo 31 × 12 + horquilla 26,5; palanca 67; manija fija 49 + 27 (bajando 34,5); ancho de la válvula 109; espiga M22 Ø21 × 8,6",
+    "claves": [
+     "FE:1 kg:valvula"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Manómetro F645: Ø36",
+    "claves": [
+     "FE:1 kg:manometro"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "O-ring F656: Ø24,8 × 3,5",
+    "claves": [
+     "FE:1 kg:oring"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "Vástago F915: Ø5 × 21, asiento Ø9",
+    "claves": [
+     "FE:1 kg:vastago"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Resorte F139: Ø9,8 × 19,9",
+    "claves": [
+     "FE:1 kg:resorte"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Tubo de pesca F003/617: cabeza Ø18,1, tubo Ø14,4",
+    "claves": [
+     "FE:1 kg:cano"
+    ]
    }
   ],
-  "img": "figs/F07_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F07_q.png"
  },
  {
   "id": "F08",
   "titulo": "Plano Fadesa «Extintor_2.5kg_Valvula_HZ_R1_sin_logo» (código A101/139/151/128/135)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor_2.5kg_Valvula_HZ_R1_sin_logo.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F08.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -655,20 +747,84 @@
     "claves": [
      "FE:HZ"
     ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Válvula F192 (esc. 1:3): igual a la del 5 y 10 kg",
+    "claves": [
+     "FE:2,5 kg:valvula"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Racor: tuerca Ø18,8 × 5,9, casquillo Ø16,9 × 13,5, rosca Ø13,1 × 8,9",
+    "claves": [
+     "FE:2,5 kg:racor"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Manómetro F645: Ø36 (35,7)",
+    "claves": [
+     "FE:2,5 kg:manometro"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "O-ring F646: Ø32,8 × 3,6",
+    "claves": [
+     "FE:2,5 kg:oring"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Vástago F916: Ø6 × 30,6, asiento Ø14",
+    "claves": [
+     "FE:2,5 kg:vastago"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Resorte F653: Ø17,3 × 28,8",
+    "claves": [
+     "FE:2,5 kg:resorte"
+    ]
+   },
+   {
+    "n": 9,
+    "etiqueta": "Caño de pesca F682: cabeza Ø21,3",
+    "claves": [
+     "FE:2,5 kg:cano"
+    ]
+   },
+   {
+    "n": 10,
+    "etiqueta": "Manguera: Ø17,4",
+    "claves": [
+     "FE:2,5 kg:manguera"
+    ]
+   },
+   {
+    "n": 11,
+    "etiqueta": "Portatobera Ø18,8 × 13,4 + tobera Ø19,9 × 60,1",
+    "claves": [
+     "FE:2,5 kg:tobera"
+    ]
    }
   ],
-  "img": "figs/F08_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F08_q.png"
  },
  {
   "id": "F09",
   "titulo": "Plano Fadesa «Extintor_5kg_Valvula_HZ_R1_sin_logo» (código A102/116/140/163/152/111/129/136)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor_5kg_Valvula_HZ_R1_sin_logo.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F09.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm. Esta válvula F192 es la que se usa también en los manuales revendidos (BC, HCFC, agua, AFFF, Sales K, clase D, CO₂ como referencia).",
   "marcas": [
    {
     "n": 1,
@@ -683,20 +839,84 @@
     "claves": [
      "FE:HZ"
     ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Válvula F192 (esc. 1:4): palanca 127 de largo, 41,5 de alto sobre el cuerpo; cuerpo 38 × 12,8 + horquilla 32,2; espiga M30 Ø29,8 × 10,8; cuello Ø27,2 × 4,1; manija fija 50 + 36",
+    "claves": [
+     "FE:5 kg:valvula"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Racor: tuerca Ø18,8 × 5,9, casquillo Ø16,9 × 13,5, rosca Ø13,1 × 8,9",
+    "claves": [
+     "FE:5 kg:racor"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Manómetro F645: Ø36 (35,7)",
+    "claves": [
+     "FE:5 kg:manometro"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "O-ring F646: Ø32,7 × 3,6",
+    "claves": [
+     "FE:5 kg:oring"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Vástago F916: Ø6 × 30,8, asiento Ø14",
+    "claves": [
+     "FE:5 kg:vastago"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Resorte F653: Ø17,3 × 28,8",
+    "claves": [
+     "FE:5 kg:resorte"
+    ]
+   },
+   {
+    "n": 9,
+    "etiqueta": "Caño de pesca F682: cabeza Ø21,3",
+    "claves": [
+     "FE:5 kg:cano"
+    ]
+   },
+   {
+    "n": 10,
+    "etiqueta": "Manguera: Ø17,4",
+    "claves": [
+     "FE:5 kg:manguera"
+    ]
+   },
+   {
+    "n": 11,
+    "etiqueta": "Portatobera Ø19 × 13,3 + tobera Ø19,9 × 60",
+    "claves": [
+     "FE:5 kg:tobera"
+    ]
    }
   ],
-  "img": "figs/F09_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F09_q.png"
  },
  {
   "id": "F10",
   "titulo": "Plano Fadesa «Extintor_10kg_HZ_R1_sin_logo» (código A103/141/164/153/112/130/137)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor_10kg_HZ_R1_sin_logo.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F10.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -711,20 +931,91 @@
     "claves": [
      "FE:HZ"
     ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Válvula F192 (esc. 1:4): 127 × 41,5; espiga M30 Ø29,8 × 10,8",
+    "claves": [
+     "FE:10 kg:valvula"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Racor: tuerca Ø18,8, casquillo Ø16,9, rosca Ø13,1",
+    "claves": [
+     "FE:10 kg:racor"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Manómetro F645: Ø36 (35,7) × 31,5 con vástago",
+    "claves": [
+     "FE:10 kg:manometro"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "O-ring F646: Ø32,7 × 3,6",
+    "claves": [
+     "FE:10 kg:oring"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Vástago F916: Ø6 × 30,6, asiento Ø14 × 14",
+    "claves": [
+     "FE:10 kg:vastago"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Resorte F653: Ø17,3 × 28,8",
+    "claves": [
+     "FE:10 kg:resorte"
+    ]
+   },
+   {
+    "n": 9,
+    "etiqueta": "Caño de pesca F682: cabeza Ø21,3 × 14,4",
+    "claves": [
+     "FE:10 kg:cano"
+    ]
+   },
+   {
+    "n": 10,
+    "etiqueta": "Manguera: Ø17,4 (líneas a 12,1 pt)",
+    "claves": [
+     "FE:10 kg:manguera"
+    ]
+   },
+   {
+    "n": 11,
+    "etiqueta": "Portatobera Ø18,8 × 13,4 + tobera Ø19,9 × 60,1",
+    "claves": [
+     "FE:10 kg:tobera"
+    ]
+   },
+   {
+    "n": 12,
+    "etiqueta": "Suncho portamanguera F674: banda 14,4, sobresale 28,8",
+    "claves": [
+     "FE:10 kg:suncho"
+    ]
    }
   ],
-  "img": "figs/F10_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F10_q.png"
  },
  {
   "id": "F11",
   "titulo": "Plano Fadesa «Extintor rodante 25kg R1» (código B202/204/217/225/229/235)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor rodante 25kg R1.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F11.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -746,20 +1037,63 @@
     "claves": [
      "FE:25 kg:rueda"
     ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Válvula F192 (esc. 1:6): la misma de los manuales (cuello M30)",
+    "claves": [
+     "FE:25 kg:valvula"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Manómetro F645 + cubremanómetro G711: Ø47",
+    "claves": [
+     "FE:25 kg:manometro"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "O-ring F646: Ø32,8",
+    "claves": [
+     "FE:25 kg:oring"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Vástago F916: Ø6 × 30,6",
+    "claves": [
+     "FE:25 kg:vastago"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Resorte F653: Ø17,5 × 29",
+    "claves": [
+     "FE:25 kg:resorte"
+    ]
+   },
+   {
+    "n": 9,
+    "etiqueta": "Caño de pesca F226: cabeza Ø21,3",
+    "claves": [
+     "FE:25 kg:cano"
+    ]
    }
   ],
-  "img": "figs/F11_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F11_q.png"
  },
  {
   "id": "F12",
   "titulo": "Plano Fadesa «Extintor rodante 50kg R1» (código B206/216/222/230/232/236/247)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor rodante 50kg R1.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F12.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "",
+  "nota": "Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm. Esta válvula y estas ruedas se usan también en el 70 kg y en el AFFF 50 l.",
   "marcas": [
    {
     "n": 1,
@@ -781,20 +1115,42 @@
     "claves": [
      "FE:50 kg:rueda"
     ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Válvula G763 (esc. 1:7): brida Ø83 × 12 + rosca 2½\" Ø75 × 17,6; cuerpo 49 × 67",
+    "claves": [
+     "FE:50 kg:valvula"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Manómetro F644 + cubremanómetro G711: Ø47",
+    "claves": [
+     "FE:50 kg:manometro"
+    ]
+   },
+   {
+    "n": 6,
+    "etiqueta": "Rueda Ø350: ancho de banda 48,9 (líneas a 19,8 pt)",
+    "claves": [
+     "FE:50 kg:rueda"
+    ]
    }
   ],
-  "img": "figs/F12_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F12_q.png"
  },
  {
   "id": "F13",
   "titulo": "Plano Fadesa «Extintor rodante 100kg R1» (código B208/214/237/238/239/243/244/245)",
   "fuente": "Plano de conjunto Fadesa, archivo «Extintor rodante 100kg R1.pdf»",
-  "ubic": "Página 1 (única), notas y cotas generales",
+  "ubic": "Página 1 (única): notas, cotas generales y piezas del despiece medidas a escala",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F13.png",
   "w": 1240,
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "Del plano de 100 kg sólo se tomó el Ø390 y la masa total: el plano no acota el recipiente; cuerpo y cabezales del 100 kg se calcularon (ver figura del código _g_rodante).",
+  "nota": "Del plano de 100 kg se tomó el Ø390, la masa total y el ancho de rueda; el plano no acota el recipiente: cuerpo y cabezales del 100 kg se calcularon (figura del código _g_rodante). Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -819,19 +1175,27 @@
    },
    {
     "n": 4,
-    "etiqueta": "Ø400 — rueda (coincide con el catálogo)",
+    "etiqueta": "Válvula G763 (esc. 1:8): igual a la del 50 kg",
+    "claves": [
+     "FE:100 kg:valvula"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Rueda Ø400: ancho de banda 76 (líneas a 26,9 pt); trocha 500",
     "claves": [
      "FE:100 kg:rueda"
     ]
    }
   ],
-  "img": "figs/F13_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F13_q.png"
  },
  {
   "id": "F14",
   "titulo": "Catálogo Fadesa 3, pág. 4: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 4, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F14.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -911,13 +1275,14 @@
     ]
    }
   ],
-  "img": "figs/F14.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F14.jpg"
  },
  {
   "id": "F15",
   "titulo": "Catálogo Fadesa 3, pág. 5: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 5, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F15.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1005,13 +1370,14 @@
     ]
    }
   ],
-  "img": "figs/F15.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F15.jpg"
  },
  {
   "id": "F16",
   "titulo": "Catálogo Fadesa 3, pág. 6: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 6, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F16.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1037,13 +1403,14 @@
     ]
    }
   ],
-  "img": "figs/F16.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F16.jpg"
  },
  {
   "id": "F17",
   "titulo": "Catálogo Fadesa 3, pág. 8: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 8, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F17.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1069,13 +1436,14 @@
     ]
    }
   ],
-  "img": "figs/F17.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F17.jpg"
  },
  {
   "id": "F18",
   "titulo": "Catálogo Fadesa 3, pág. 10: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 10, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F18.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1101,13 +1469,14 @@
     ]
    }
   ],
-  "img": "figs/F18.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F18.jpg"
  },
  {
   "id": "F19",
   "titulo": "Catálogo Fadesa 3, pág. 11: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 11, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F19.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1135,13 +1504,14 @@
     ]
    }
   ],
-  "img": "figs/F19.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F19.jpg"
  },
  {
   "id": "F20",
   "titulo": "Catálogo Fadesa 3, pág. 13: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 13, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F20.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1167,13 +1537,14 @@
     ]
    }
   ],
-  "img": "figs/F20.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F20.jpg"
  },
  {
   "id": "F21",
   "titulo": "Catálogo Fadesa 3, pág. 15: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 15, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F21.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1199,13 +1570,14 @@
     ]
    }
   ],
-  "img": "figs/F21.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F21.jpg"
  },
  {
   "id": "F22",
   "titulo": "Catálogo Fadesa 3, pág. 16: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 16, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F22.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1249,13 +1621,14 @@
     ]
    }
   ],
-  "img": "figs/F22.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F22.jpg"
  },
  {
   "id": "F23",
   "titulo": "Catálogo Fadesa 3, pág. 17: tabla «Especificaciones»",
   "fuente": "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)",
   "ubic": "Página 17, tabla Especificaciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F23.png",
   "w": 1389,
   "h": 772,
   "link": "",
@@ -1281,13 +1654,14 @@
     ]
    }
   ],
-  "img": "figs/F23.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F23.jpg"
  },
  {
   "id": "F24",
   "titulo": "Ficha técnica Georgia ABC 90 — 70 kg",
   "fuente": "Ficha técnica publicada por Matafuegos Georgia (www.matafuegosgeorgia.com), archivo «8_Ficha-técnica-ABC90.pdf»",
   "ubic": "Página 1, recuadro de datos",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F24.png",
   "w": 900,
   "h": 854,
   "link": "",
@@ -1309,13 +1683,14 @@
     ]
    }
   ],
-  "img": "figs/F24_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F24_q.png"
  },
  {
   "id": "F25",
   "titulo": "Ficha técnica Melisam — acetato de potasio 6 L",
   "fuente": "Ficha técnica publicada por Melisam (www.melisam.com), archivo «Acetato-de-Potasio.pdf»",
   "ubic": "Página 2, tabla de especificaciones, fila «Peso bruto»",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F25.png",
   "w": 1240,
   "h": 300,
   "link": "",
@@ -1330,13 +1705,14 @@
     ]
    }
   ],
-  "img": "figs/F25_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F25_q.png"
  },
  {
   "id": "F26",
   "titulo": "IRAM 3550:1981, cláusula 4.1.3.2 (espesor mínimo del recipiente)",
   "fuente": "Norma IRAM 3550 (Dic. 1981), archivo «IRAM-3550.pdf»",
   "ubic": "Pág. 9 de la norma (hoja 11 del PDF), apartado 4.1.3.2",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F26.png",
   "w": 1140,
   "h": 930,
   "link": "",
@@ -1351,13 +1727,14 @@
     ]
    }
   ],
-  "img": "figs/F26_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F26_q.png"
  },
  {
   "id": "F27",
   "titulo": "IRAM 3534:1983, apartado 2.2.4.3 d) (longitud de la leyenda: arco de 108°)",
   "fuente": "Norma IRAM 3534 (Ago. 1983), archivo «IRAM-3534.pdf»",
   "ubic": "Pág. 8 de la norma (hoja 8 del PDF), apartado 2.2.4.3 d)",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F27.png",
   "w": 1125,
   "h": 438,
   "link": "",
@@ -1372,13 +1749,14 @@
     ]
    }
   ],
-  "img": "figs/F27_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F27_q.png"
  },
  {
   "id": "F28",
   "titulo": "IRAM 3525:1983, apartado 3.2.1 b) (espesor mínimo del recipiente inoxidable)",
   "fuente": "Norma IRAM 3525 (Dic. 1983), archivo «IRAM-3525.pdf»",
   "ubic": "Pág. 5 de la norma (hoja 5 del PDF), apartado 3.2.1 b)",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F28.png",
   "w": 915,
   "h": 502,
   "link": "",
@@ -1393,13 +1771,14 @@
     ]
    }
   ],
-  "img": "figs/F28_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F28_q.png"
  },
  {
   "id": "F29",
   "titulo": "Res. OPDS 522/07, Anexo 2 (oblea de fabricación de extintores de más de 1 kg)",
   "fuente": "Resolución 522/07 (Provincia de Buenos Aires), archivo «RESOLUCION 522 07.pdf»",
   "ubic": "Hoja 6 del PDF, Anexo 2, apartado «Oblea»",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F29.png",
   "w": 1095,
   "h": 360,
   "link": "",
@@ -1428,13 +1807,14 @@
     ]
    }
   ],
-  "img": "figs/F29_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F29_q.png"
  },
  {
   "id": "F30",
   "titulo": "IRAM Anexo R — estampilla de conformidad de extintor nuevo",
   "fuente": "IRAM, «Anexo R — Protección contra incendios» (DC-PG-129), archivo «Anexo_R-Proteccion_contra_Incendios.pdf»",
   "ubic": "Hoja 3 del PDF, «Conformidad con norma IRAM para la certificación de extintores nuevos»",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F30.png",
   "w": 1125,
   "h": 645,
   "link": "",
@@ -1456,13 +1836,14 @@
     ]
    }
   ],
-  "img": "figs/F30_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F30_q.png"
  },
  {
   "id": "F31",
   "titulo": "Relevamiento: tarjeta AGC (CABA) en un extintor de 10 kg",
   "fuente": "Relevamiento de mercado FLAMA 2026, foto «f01.jpg»",
   "ubic": "Foto completa",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F31.png",
   "w": 600,
   "h": 800,
   "link": "",
@@ -1477,13 +1858,14 @@
     ]
    }
   ],
-  "img": "figs/F31.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F31.jpg"
  },
  {
   "id": "F32",
   "titulo": "Relevamiento: etiqueta envolvente y estampilla IRAM (línea Georgia)",
   "fuente": "Relevamiento de mercado FLAMA 2026, foto «f08.jpg»",
   "ubic": "Foto completa",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F32.png",
   "w": 600,
   "h": 1066,
   "link": "",
@@ -1505,13 +1887,14 @@
     ]
    }
   ],
-  "img": "figs/F32.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F32.jpg"
  },
  {
   "id": "F33",
   "titulo": "Relevamiento: etiqueta de n° de serie GS1 (línea Melisam)",
   "fuente": "Relevamiento de mercado FLAMA 2026, foto «f13.jpg»",
   "ubic": "Foto completa",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F33.png",
   "w": 600,
   "h": 1066,
   "link": "",
@@ -1526,13 +1909,14 @@
     ]
    }
   ],
-  "img": "figs/F33.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F33.jpg"
  },
  {
   "id": "F34",
   "titulo": "Relevamiento: faja de garantía rayada (línea de etiquetado Georgia)",
   "fuente": "Relevamiento de mercado FLAMA 2026, foto «f19.jpg»",
   "ubic": "Foto completa",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F34.png",
   "w": 600,
   "h": 1066,
   "link": "",
@@ -1547,13 +1931,14 @@
     ]
    }
   ],
-  "img": "figs/F34.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F34.jpg"
  },
  {
   "id": "F35",
   "titulo": "Relevamiento: oblea circular PBA (DPS) aplicada",
   "fuente": "Relevamiento de mercado FLAMA 2026, foto «f15.jpg»",
   "ubic": "Foto completa",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F35.png",
   "w": 600,
   "h": 1066,
   "link": "",
@@ -1568,13 +1953,14 @@
     ]
    }
   ],
-  "img": "figs/F35.jpg"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F35.jpg"
  },
  {
   "id": "F36",
   "titulo": "Planilla MP FLAMA — geometría del acero por recipiente",
   "fuente": "Planilla FLAMA «MP_Abastecimiento_Almacenamiento_FLAMA_OpcionD.xlsx»",
   "ubic": "Hoja «Geometria Acero», celdas marcadas (reproducción de los valores de las celdas)",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F36.png",
   "w": 1204,
   "h": 310,
   "link": "",
@@ -1632,13 +2018,14 @@
     ]
    }
   ],
-  "img": "figs/F36_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F36_q.png"
  },
  {
   "id": "F37",
   "titulo": "Planilla MP FLAMA — MP-22 varilla de refuerzo",
   "fuente": "Planilla FLAMA «MP_Abastecimiento_Almacenamiento_FLAMA_OpcionD.xlsx»",
   "ubic": "Hoja «MP Abastecimiento», fila 25 (reproducción de los valores de las celdas)",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F37.png",
   "w": 1300,
   "h": 210,
   "link": "",
@@ -1660,578 +2047,106 @@
     ]
    }
   ],
-  "img": "figs/F37_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F37_q.png"
  },
  {
   "id": "F38",
-  "titulo": "Válvula HZ representativa: medidas en función de la escala s",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 195–253 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 1249,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L195-L253",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "La válvula se compra armada (kit HZ, ver F07-F10); el plano la dibuja con proporciones fijas × s (s = 0,8 en 1 kg, 1 en manuales, 1,35 en rodantes). Son valores de diseño sin documento: verificar con el kit real.",
+  "titulo": "Proceso FLAMA de carros (documento del usuario)",
+  "fuente": "Documento de proceso FLAMA «PROCESO_CARRO_EN_LIMPIO.docx»",
+  "ubic": "Tabla 0; puestos 1, 2, 4, 6, 7 y 8",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F38.png",
+  "w": 960,
+  "h": 630,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "Documento del usuario (no es la fuente de verdad: se usa para el paso a paso y las medidas que fija).",
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "líneas 199–201: bw, bd = 30 * s, 28 * s ⏎ hcol = 10 * s ⏎ lev_t, lev_w = 4 * s, 20 * s",
+    "etiqueta": "Tabla 0: Ø, chapa y alto del cuerpo de 25 / 50 / 70 / 100 kg",
     "claves": [
-     "C:valvula"
+     "PC:tabla0"
     ]
    },
    {
     "n": 2,
-    "etiqueta": "línea 207: bh = max(22 * s, min(bh, 75 * s))",
+    "etiqueta": "Casquetes estampados con borde reducido y tope (15\" para 70 y 100 kg)",
     "claves": [
-     "C:valvula"
+     "PC:casquete"
     ]
    },
    {
     "n": 3,
-    "etiqueta": "línea 209: bh = 40 * s",
+    "etiqueta": "Hoja mixta 70 + 100 kg: lado de 1212, columnas de 680 y 900",
     "claves": [
-     "C:valvula"
+     "PC:corte"
     ]
    },
    {
     "n": 4,
-    "etiqueta": "líneas 212–213: p[\"tuerca\"] = _cyl(dn / 2 + 3 * s, hcol, (0, 0, zc)).cut(_cyl(bore / 2 - 2, hcol, (0, 0, zc))) ⏎ p[\"espiga\"] = _tube(bore / 2, bore / 2 - 3 * s, 12 * s, (0, 0, zc - 12 * s))",
+    "etiqueta": "Placas de refuerzo 200 × 100 × 4,75, Ø380, a 100 mm del borde",
     "claves": [
-     "C:valvula"
+     "PC:refuerzo"
     ]
    },
    {
     "n": 5,
-    "etiqueta": "línea 227: hexa = cq.Workplane(\"XZ\", origin=(0, -bd / 2 + 1, zm)).polygon(6, 14 * s).extrude(9 * s).val()",
+    "etiqueta": "Cupla apoyada por fuera y soldada con filete",
     "claves": [
-     "C:valvula"
+     "PC:cupla"
     ]
    },
    {
     "n": 6,
-    "etiqueta": "línea 230: gm = _cyl(man_d / 2, 11 * s, (0, y_man, zm), (0, -1, 0))",
+    "etiqueta": "Accesorios soldados: eje con soportes, manija, 2 ganchos, tercera pata",
     "claves": [
-     "C:valvula"
-    ]
-   },
-   {
-    "n": 7,
-    "etiqueta": "líneas 244–245: p[\"eje\"] = _cyl(3 * s, bd + 8 * s, (x_piv + 3 * s, -bd / 2 - 4 * s, zt - 2 * s), (0, 1, 0)) ⏎ p[\"vastago\"] = _cyl(4 * s, 3 * s + 1, (0, 0, zb0 + bh - 1))",
-    "claves": [
-     "C:valvula"
-    ]
-   },
-   {
-    "n": 8,
-    "etiqueta": "línea 249: p[\"pasador\"] = _cyl(1.6 * s, bd + 16 * s, (xs, -bd / 2 - 12 * s, zp), (0, 1, 0)).fuse(",
-    "claves": [
-     "C:valvula"
+     "PC:accesorios"
     ]
    }
   ],
-  "img": "figs/F38_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F38_q.png"
  },
  {
   "id": "F39",
-  "titulo": "Extintor manual: escala de válvula, manómetro, caño de pesca, manguera, tobera y suncho",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 257–373 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 976,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L257-L373",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Valores de diseño FLAMA sin documento (Ø de manguera, tobera, manómetro, caño de pesca, suncho).",
+  "titulo": "Proceso FLAMA de manuales (documento del usuario)",
+  "fuente": "Documento de proceso FLAMA «PROCESO DE MANUALES EXPLICATIVO + VIDEOS.docx»",
+  "ubic": "Preparación de cuello, numerado, encastre de fondo y bordoneado",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F39.png",
+  "w": 960,
+  "h": 600,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "Documento del usuario (no es la fuente de verdad: se usa para el paso a paso y las medidas que fija).",
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "línea 263: s = 0.8 if chico else 1.0",
+    "etiqueta": "Numerado: desarrollo de 2,5-10 kg; en el 1 kg el número va en la cúpula",
     "claves": [
-     "C:manual"
+     "PM:numerado"
     ]
    },
    {
     "n": 2,
-    "etiqueta": "líneas 270–272: d_hose = 0 if chico else (14.0 if fam == \"co2\" else 16.0) ⏎ d_dev = {\"tobera_polvo\": 24.0, \"tobera_chorro\": 22.0, \"lanza_espuma\": 32.0, \"lanza_k\": 20.0, ⏎ \"lanza_d\": 40.0, \"difusor_brazo\": 70.0, \"difusor_manga\": 90.0, \"t",
+    "etiqueta": "Muesca de altura en el cuello (prensa Pannier)",
     "claves": [
-     "C:manual"
+     "PM:muesca"
     ]
    },
    {
     "n": 3,
-    "etiqueta": "línea 279: man_d = 28.0 if chico else 38.0",
+    "etiqueta": "Encastre: extremo del cuerpo reducido y fondo encastrado a presión",
     "claves": [
-     "C:manual"
+     "PM:encastre"
     ]
    },
    {
     "n": 4,
-    "etiqueta": "línea 286: zf = dr[\"z_fondo\"] + g[\"tf\"] + 18",
+    "etiqueta": "Bordoneado: bordoneadora SWM-400; profundidad y posición del bordón",
     "claves": [
-     "C:manual"
-    ]
-   },
-   {
-    "n": 5,
-    "etiqueta": "línea 289: out[\"cano_pesca\"] = _tube(6 * s, 4.5 * s, zs0 - zf, (0, 0, zf))",
-    "claves": [
-     "C:manual"
-    ]
-   },
-   {
-    "n": 6,
-    "etiqueta": "línea 291: out[\"cano_pesca\"] = _tube(5, 3.5, zs0 - zf, (0, 0, zf))",
-    "claves": [
-     "C:manual"
-    ]
-   },
-   {
-    "n": 7,
-    "etiqueta": "líneas 318–319: l_dev = {\"tobera_polvo\": 75.0, \"tobera_chorro\": 85.0, \"lanza_espuma\": 210.0, \"lanza_k\": 300.0, ⏎ \"lanza_d\": 360.0, \"difusor_manga\": 260.0}[tipo]",
-    "claves": [
-     "C:manual"
-    ]
-   },
-   {
-    "n": 8,
-    "etiqueta": "línea 323: out[\"racor\"] = cq.Solid.makeCylinder(9, 12, cq.Vector(xs, 0, zs), cq.Vector(-1, 0, 0))",
-    "claves": [
-     "C:manual"
-    ]
-   },
-   {
-    "n": 9,
-    "etiqueta": "línea 372: band = _tube(R + 1.5, R - 0.2, 18, (0, 0, zsu - 9))",
-    "claves": [
-     "C:manual"
+     "PM:bordoneado"
     ]
    }
   ],
-  "img": "figs/F39_q.png"
- },
- {
-  "id": "F40",
-  "titulo": "Sección de la planchuela de sunchos de rodantes",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 382–386 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 115,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L382-L386",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "30 × 3 hasta Ø330 y 40 × 4 por encima: elegidas para que el carro dé la masa de los planos Fadesa (figs. F11-F13).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "línea 386: return (30.0, 3.0) if 2 * R <= 330 else (40.0, 4.0)",
-    "claves": [
-     "C:planchuela"
-    ]
-   }
-  ],
-  "img": "figs/F40_q.png"
- },
- {
-  "id": "F41",
-  "titulo": "Extintor rodante: ruedas, llanta, eje, bastidor, sunchos, apoyo, válvula, manguera, soportes, válvula esférica y tobera",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 389–504 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 2026,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L389-L504",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Ø de rueda, altura del arco y ancho salen del catálogo (F15); el resto son valores de diseño FLAMA (bandas 55/70/80, llanta e 2 / 2,5, eje Ø25, caño Ø25,4, apoyo 70 × 50 × 55, manguera Ø25, tobera Ø32→68 × 200).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "línea 394: bw_w = 55.0 if Dw <= 300 else (70.0 if Dw <= 350 else 80.0)",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "línea 396: z0 = 45.0 + (g[\"hd\"])  # el cabezal inferior queda a 45 mm del piso",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 3,
-    "etiqueta": "línea 400: d_hose = 25.0",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 4,
-    "etiqueta": "línea 410: tire = _cyl(Rw, bw_w, (c.x, c.y, c.z), (sgn, 0, 0))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 5,
-    "etiqueta": "líneas 413–415: llanta = _tube(Rw * 0.72, Rw * 0.72 - 2, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0)) ⏎ llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 2.5, (c.x + sgn * (bw_w / 2 - 1.25), c.y, c.z), (sgn, 0, 0))) ⏎ llanta = llanta.fuse(_",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 6,
-    "etiqueta": "línea 418: out[\"eje_ruedas\"] = _cyl(12.5, track - bw_w + 20, (-(xw - bw_w / 2) + 10 - 10, yw, Rw), (1, 0, 0))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 7,
-    "etiqueta": "líneas 420–422: rt = 12.7 ⏎ xa = min(R + 45, xw - bw_w / 2 - 20) ⏎ ztop_arc = H - rt",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 8,
-    "etiqueta": "líneas 432–433: zs1 = dr[\"zb\"] + 0.25 * g[\"hc\"] ⏎ zs2 = dr[\"zb\"] + 0.85 * g[\"hc\"]",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 9,
-    "etiqueta": "línea 435: ws, ts = planchuela(R)",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 10,
-    "etiqueta": "línea 450: if False else _box(70, 50, 55, 0, -R * 0.30, 0)",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 11,
-    "etiqueta": "líneas 452–453: s = 1.35 ⏎ val, vi = valvula(dr[\"z_cuello\"], s=s, x_tip=R * 0.75, h_total=None, man_d=50.0,",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 12,
-    "etiqueta": "líneas 457–458: zf = dr[\"z_fondo\"] + g[\"tf\"] + 25 ⏎ out[\"cano_pesca\"] = _tube(12, 9.5, dr[\"z_cuello\"] - 12 * s - zf, (0, 0, zf))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 13,
-    "etiqueta": "línea 475: b = _box(2 * wl + d_hose + 16, 3, 30, 0, y_loop, zz - 15)      # planchuela 30 × 3",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 14,
-    "etiqueta": "línea 483: out[\"racor\"] = _cyl(12, 16, (xs, 0, zs), (-1, 0, 0))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 15,
-    "etiqueta": "líneas 486–487: ve = _box(40, 40, 60, xn, 0, zn_top) ⏎ ve = ve.fuse(_box(14, 90, 12, xn, -65, zn_top + 24))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 16,
-    "etiqueta": "líneas 491–492: hn = 380.0 ⏎ tubo = _tube(20, 17.5, hn - 40, (xn, 0, zn_top - hn + 40))",
-    "claves": [
-     "C:rodante"
-    ]
-   },
-   {
-    "n": 17,
-    "etiqueta": "líneas 501–502: hn = 200.0 ⏎ tb = cq.Solid.makeCone(16, 34, hn, cq.Vector(xn, 0, zn_top), cq.Vector(0, 0, -1))",
-    "claves": [
-     "C:rodante"
-    ]
-   }
-  ],
-  "img": "figs/F41_q.png"
- },
- {
-  "id": "F42",
-  "titulo": "Medidas de identificación: etiqueta, oblea, estampilla, tarjeta, etiqueta de serie y faja",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 520–604 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 556,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L520-L604",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Cada constante cita su fuente en el comentario (IRAM 3534, Res. 522/07, Anexo R, relevamiento: F27-F35).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "líneas 521–527: ARCO_PLACA = 108.0          # IRAM 3534 2.2.4.3 d) / 3523 5.2.6.3 d): longitud máxima de las instrucciones ⏎ ARCO_ALA = 54.0             # alas laterales de datos y mantenimiento (relevamiento de mercado: etiqueta ≈ 216°",
-    "claves": [
-     "C:identificacion"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "línea 533: return ARCO_ALA if R >= 50 else 72.0",
-    "claves": [
-     "C:identificacion"
-    ]
-   },
-   {
-    "n": 3,
-    "etiqueta": "línea 598: p[\"junta_cuello\"] = _cyl(ro, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)).cut(",
-    "claves": [
-     "C:identificacion"
-    ]
-   },
-   {
-    "n": 4,
-    "etiqueta": "línea 604: p[\"precinto\"] = _cyl(2.5, 10.0, (pb.xmax, (pb.ymin + pb.ymax) / 2, (pb.zmin + pb.zmax) / 2), (1, 0, 0))",
-    "claves": [
-     "C:identificacion"
-    ]
-   }
-  ],
-  "img": "figs/F42_q.png"
- },
- {
-  "id": "F43",
-  "titulo": "Recipiente: alturas a partir de las cotas (total, cúpula, cuello) y cuerpo de rodantes",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 106–176 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 829,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L106-L176",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Manuales: alto del cuerpo = altura total − cuello − cúpula. Rodantes: el cuerpo es el largo entre cabezales (cota 493 / 640 de los planos Fadesa F05 y F06). Varilla Ø8 = decisión FLAMA (F37).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "líneas 119–121: hc = g[\"total\"] - hn - hd * math.sin(to) ⏎ if tipo == \"cabezal\":  # rodantes: hc = largo del cuerpo entre cabezales (planos Fadesa G690 493, G689 640) ⏎ hc = hd + hc",
-    "claves": [
-     "C:recipiente"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "línea 127: zb = g[\"hf\"]",
-    "claves": [
-     "C:recipiente"
-    ]
-   },
-   {
-    "n": 3,
-    "etiqueta": "línea 129: zb = hd",
-    "claves": [
-     "C:recipiente"
-    ]
-   },
-   {
-    "n": 4,
-    "etiqueta": "línea 132: piezas[\"cuerpo\"] = _tube(R, R - t, hc - zb, (0, 0, zb))",
-    "claves": [
-     "C:recipiente"
-    ]
-   },
-   {
-    "n": 5,
-    "etiqueta": "línea 152: bore = {\"M30x1,5\": 28.376, \"M22x1,5\": 20.376}.get(rosca, dh - 7.8 if dh > 60 else dh - 6)",
-    "claves": [
-     "C:recipiente"
-    ]
-   },
-   {
-    "n": 6,
-    "etiqueta": "línea 176: piezas[\"varilla\"] = _cyl(dv / 2, hc - zb - 30, (0, -(R - t - dv / 2), zb + 15))",
-    "claves": [
-     "C:recipiente"
-    ]
-   }
-  ],
-  "img": "figs/F43_q.png"
- },
- {
-  "id": "F44",
-  "titulo": "Geometría de recipientes cargada en el generador (valores de los planos Fadesa y cálculo de 70 / 100 kg)",
-  "fuente": "Código del generador de planos FLAMA, «flama/catalogo.py» (commit ecef27b)",
-  "ubic": "Líneas 76–115 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 850,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/catalogo.py#L76-L115",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "1 a 50 kg: transcripción de las cotas de F01-F06. 70 y 100 kg: cabezal = 0,656·R (proporción del cabezal Fadesa de 50 kg, 105/160); cuerpo = largo necesario para el volumen de diseño (86 y 123 dm³ = 61,8 dm³/50 kg × 70 y × 100).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "línea 80: G_1KG = dict(R=76.2 / 2, total=298.0, hc=0, hd=12.5, t=1.25, td=0.9, tf=1.25,",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "línea 82: G_2K5 = dict(R=124 / 2, total=313.5, hc=0, hd=39.5, t=1.25, td=1.25, tf=1.25,",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 3,
-    "etiqueta": "línea 85: G_5KG = dict(R=153 / 2, total=389.5, hc=0, hd=54.5, t=1.6, td=1.6, tf=1.6,",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 4,
-    "etiqueta": "línea 88: G_10KG = dict(R=181.5 / 2, total=562.5, hc=0, hd=62.5, t=2.0, td=1.6, tf=2.0,",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 5,
-    "etiqueta": "línea 92: G_25KG = dict(R=276.5 / 2, hc=493, hd=87, t=3.2, td=3.2, tf=3.2, tipo_fondo=\"cabezal\",",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 6,
-    "etiqueta": "línea 94: G_50KG = dict(R=320 / 2, hc=640, hd=105, t=3.2, td=3.2, tf=3.2, tipo_fondo=\"cabezal\",",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 7,
-    "etiqueta": "líneas 101–102: v_cab = 2 * (2 / 3) * math.pi * R * R * hd  # dos semielipsoides ⏎ return (vol * 1e6 - v_cab) / (math.pi * R * R)",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 8,
-    "etiqueta": "líneas 108–109: hd = round(0.656 * R, 1) ⏎ hc = round(_vol_rodante(R - t, hd - t, vol), 0)",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   },
-   {
-    "n": 9,
-    "etiqueta": "líneas 114–115: G_70KG = _g_rodante(350, 86.0, 4.75) ⏎ G_100KG = _g_rodante(390, 123.0, 4.75)",
-    "claves": [
-     "C:g_rodante",
-     "C:geo"
-    ]
-   }
-  ],
-  "img": "figs/F44_q.png"
- },
- {
-  "id": "F45",
-  "titulo": "Recipientes inox (agua, AFFF 10 l, Sales K) y cilindros de CO₂",
-  "fuente": "Código del generador de planos FLAMA, «flama/catalogo.py» (commit ecef27b)",
-  "ubic": "Líneas 118–148 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 661,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/catalogo.py#L118-L148",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Revendidos: Ø = profundidad del catálogo; altura derivada de la altura del catálogo; espesores y proporciones son valores de diseño (0,8 inox ≥ 0,63 de IRAM 3525 F28; 5,4 / 6,0 CO₂).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "línea 118: def _g_inox(H, R=95.0, hd=60.0, h_valv=100.0):",
-    "claves": [
-     "C:g_inox",
-     "C:g_co2"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "líneas 122–124: t = 0.8  # chapa inoxidable habitual en extintores de 6 a 10 l ⏎ hn = 14.0 ⏎ hc = H - h_valv - hn - hd",
-    "claves": [
-     "C:g_inox",
-     "C:g_co2"
-    ]
-   },
-   {
-    "n": 3,
-    "etiqueta": "líneas 137–141: t = 5.4 if D < 130 else 6.0  # pared para 25 MPa de ensayo; masa coherente con el peso cargado ⏎ hombro = round(0.55 * R, 1) ⏎ hn = 22.0 ⏎ z_pie = 8.0 ⏎ hc = H - h_valv - hn - hombro  # altura (desde el piso) de la unión",
-    "claves": [
-     "C:g_inox",
-     "C:g_co2"
-    ]
-   }
-  ],
-  "img": "figs/F45_q.png"
- },
- {
-  "id": "F46",
-  "titulo": "Ajuste de la envolvente al catálogo (altura, ancho y profundidad)",
-  "fuente": "Código del generador de planos FLAMA, «flama/modelo3d.py» (commit ecef27b)",
-  "ubic": "Líneas 608–624 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 367,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/modelo3d.py#L608-L624",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "El conjunto se corrige hasta que su caja envolvente coincide con altura, ancho y profundidad del catálogo.",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "líneas 611–624: if m.familia == \"rodante\": ⏎ p, i = extintor_rodante(m) ⏎ bb = bbox(p) ⏎ p, i = extintor_rodante(m, cD=m.D - bb.ylen) ⏎ return identificacion(m, p), i ⏎ cW = cH = 0.0 ⏎ for _ in range(3): ⏎ p, i = extintor_manual(m, cW, ",
-    "claves": [
-     "C:construir"
-    ]
-   }
-  ],
-  "img": "figs/F46_q.png"
- },
- {
-  "id": "F47",
-  "titulo": "Densidades y cálculo de masas",
-  "fuente": "Código del generador de planos FLAMA, «flama/materiales.py» (commit ecef27b)",
-  "ubic": "Líneas 15–130 (resaltado: los valores tomados)",
-  "w": 1120,
-  "h": 220,
-  "link": "https://github.com/TadeoSinay/planos_flama-/blob/ecef27be9ab1983f1efbb3e894818ff574e64af7/flama/materiales.py#L15-L130",
-  "tipo": "Diseño FLAMA (supuesto)",
-  "nota": "Masa de cada pieza = volumen del sólido × densidad × factor de llenado (piezas huecas modeladas macizas).",
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "líneas 16–17: ACERO, INOX, LATON, ALUMINIO = 7.85, 7.93, 8.45, 2.70 ⏎ CAUCHO, PP, PE, PVC = 1.20, 0.90, 0.95, 1.40",
-    "claves": [
-     "C:materiales"
-    ]
-   },
-   {
-    "n": 2,
-    "etiqueta": "línea 130: ",
-    "claves": [
-     "C:materiales"
-    ]
-   }
-  ],
-  "img": "figs/F47_q.png"
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F39_q.png"
  }
 ]

@@ -20,11 +20,24 @@ REC_DE = {"FL_MAT_ABC_1kg": "1kg", "FL_MAT_ABC_2.5kg": "2.5kg", "FL_MAT_ABC_5kg"
           "FL_MAT_ABC_25kg": "25kg", "FL_MAT_ABC_50kg": "50kg", "FL_MAT_AFFF_50l": "50kg"}
 PROPIOS = B.PROPIOS
 
-T_FAD, T_CAT, T_NOR, T_MP, T_REL, T_CAL, T_DIS, T_DER, T_FIC = (
+T_FAD, T_CAT, T_NOR, T_MP, T_REL, T_CAL, T_DIS, T_DER, T_FIC, T_PRO = (
     "Plano Fadesa", "Catálogo Fadesa", "Norma / resolución", "Planilla MP FLAMA", "Relevamiento de mercado",
-    "Cálculo", "Diseño FLAMA (supuesto)", "Derivado (a validar)", "Ficha técnica de mercado")
+    "Cálculo", "Diseño FLAMA (supuesto)", "Derivado (a validar)", "Ficha técnica de mercado", "Proceso FLAMA")
+# tabla 0 del proceso de carros: Ø, chapa y alto del cuerpo
+PC_T0 = {"25 kg": (276.5, 3.2, 490), "50 kg": (320, 3.2, 640), "70 kg": (390, 4.75, 680), "100 kg": (390, 4.75, 900)}
+# detalle de las uniones medido en el plano Fadesa de recipiente (1:1)
+FD_DET = {"1kg": "1kg", "2.5kg": "5kg", "5kg": "5kg", "10kg": "5kg", "25kg": "25kg", "50kg": "25kg"}
 
 rows = []
+FE_PROPIO = {"FL_MAT_ABC_1kg": "1 kg", "FL_MAT_ABC_2.5kg": "2,5 kg", "FL_MAT_ABC_5kg": "5 kg", "FL_MAT_ABC_10kg": "10 kg",
+             "FL_MAT_ABC_25kg": "25 kg", "FL_MAT_ABC_50kg": "50 kg", "FL_MAT_ABC_70kg": "50 kg", "FL_MAT_ABC_100kg": "100 kg"}
+
+
+def plan_fe(m):
+    """Plano Fadesa de extintor completo del que se midieron válvula y accesorios."""
+    if m.codigo in FE_PROPIO:
+        return FE_PROPIO[m.codigo]
+    return {"F510": "1 kg", "F192": "5 kg", "G763": "50 kg"}[M.tipo_valvula(m)]
 
 
 def r1(v, d=1):
@@ -61,10 +74,16 @@ for m in MODELOS:
     bx = M.bbox(piezas)
     for dim, val, campo in (("Altura total", bx.zmax - bx.zmin, "Altura"), ("Ancho total", bx.xlen, "Ancho"),
                             ("Profundidad total", bx.ylen, "Profundidad")):
-        add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAT, [f"CAT:{cod}:{campo}"],
-            f"Envolvente del modelo ajustada al catálogo: válvula/palanca (manuales) o arco del bastidor y "
-            f"posición de ruedas (rodantes) se corrigen hasta igualar {campo} del catálogo",
-            ("modelo3d.py", "def construir"))
+        cat_v = {"Altura": m.H, "Ancho": m.W, "Profundidad": m.D}[campo]
+        if rod:
+            add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAT, [f"CAT:{cod}:{campo}"],
+                f"Manija (altura), trocha (ancho) y posición del eje (profundidad) ubicados para igualar {campo.lower()} del catálogo",
+                ("modelo3d.py", "def construir"))
+        else:
+            add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL,
+                [f"FE:{plan_fe(m)}:valvula", f"CAT:{cod}:{campo}"],
+                f"Resulta de las piezas medidas en el plano Fadesa (catálogo: {cat_v:g}; diferencia "
+                f"{100 * (val - cat_v) / cat_v:+.0f} %)", ("modelo3d.py", "def construir"))
     add(m, pl, "0", "Conjunto", 1, "-", "Peso cargado según catálogo", float(m.spec["Peso cargado (kg)"]
         .replace(".", "").replace(",", ".")), "kg", T_CAT, [f"CAT:{cod}:Peso"], "Transcripto del catálogo",
         ("catalogo.py", f'Modelo("{cod}"'))
@@ -99,10 +118,10 @@ for m in MODELOS:
                                                                      "10kg": "G_10KG", "25kg": "G_25KG",
                                                                      "50kg": "G_50KG"}[rec] + " = dict"))
     elif rod:
-        add(m, pl, "R", "Recipiente", 1, "-", "Volumen interior", g["vol_dm3"], "dm³", T_DER,
-            ["FR:50kg:vol", "C:g_rodante"],
-            f"Proporcional al recipiente Fadesa de 50 kg (61,8 dm³ / 50 kg = 1,236 dm³/kg) × {tam} ≈ {g['vol_dm3']}",
-            ("catalogo.py", f"G_{tam.split()[0]}KG = _g_rodante"))
+        add(m, pl, "R", "Recipiente", 1, "-", "Volumen interior", g["vol_dm3"], "dm³", T_CAL,
+            ["PC:tabla0", "C:g_rodante"],
+            "Calculado con Ø390 × cuerpo del proceso de carros y dos casquetes 0,656·R",
+            ("catalogo.py", "def _g_rodante"))
     else:
         add(m, pl, "R", "Recipiente", 1, "-", "Volumen interior", g["vol_dm3"], "dm³", T_CAL,
             [f"CAT:{cod}:Altura", "C:g_inox" if fam == "inox" else "C:g_co2"],
@@ -111,13 +130,14 @@ for m in MODELOS:
     htot = dr["z_cuello"] - dr["z_fondo"] if g["tipo_fondo"] != "concavo" else dr["z_cuello"]
     tsrc = fsrc("total") if rec in ("1kg", "2.5kg", "5kg", "10kg") else []
     add(m, pl, "R", "Recipiente", 1, "-", "Altura total del recipiente (apoyo a boca del cuello)", r1(htot), "mm",
-        T_FAD if tsrc else T_CAL, tsrc or ([f"FR:{rec}:hc", f"FR:{rec}:hd", f"FR:{rec}:cuello_h"] if rec else []),
+        T_FAD if tsrc else T_CAL, tsrc or ([f"FR:{rec}:hc", f"FR:{rec}:hd", f"FR:{rec}:cuello_h"] if rec else
+                                          (["PC:tabla0", "C:recipiente"] if tam in PC_T0 else [])),
         "Cota del plano Fadesa" if tsrc else "Suma: cabezal inferior + cuerpo + cúpula (truncada en la boca) + cuello",
         ("modelo3d.py", "def recipiente"))
     masa_rec = sum(MAT.peso(piezas[k], MAT.ACERO if fam != "inox" else MAT.INOX) for k in
-                   ("cuerpo", "cupula", "fondo", "cuello", "varilla") if k in piezas)
+                   ("cuerpo", "cupula", "fondo", "cuello", "placas_refuerzo") if k in piezas)
     add(m, pl, "R", "Recipiente", 1, "-", "Masa del recipiente (calculada, sin cordones)", r1(masa_rec, 2), "kg",
-        T_CAL, fsrc("masa"), "Σ volumen de cuerpo, cúpula, fondo, cuello y varilla × 7,85 kg/dm³"
+        T_CAL, fsrc("masa"), "Σ volumen de cuerpo, cúpula, fondo, cuello y placas × 7,85 kg/dm³"
         + ("; comparar con la masa del plano Fadesa" if rec else ""), ("materiales.py", "ACERO, INOX"))
 
     for pos, k in enumerate(orden, 1):
@@ -147,12 +167,10 @@ for m in MODELOS:
                 A_("Ø exterior", r1(D), "mm", T_FAD, fsrc("D"), "Cota del plano Fadesa",
                    ("catalogo.py", {"1kg": "G_1KG", "2.5kg": "G_2K5", "5kg": "G_5KG", "10kg": "G_10KG",
                                     "25kg": "G_25KG", "50kg": "G_50KG"}[rec] + " = dict"))
-            elif tam == "100 kg":
-                A_("Ø exterior", r1(D), "mm", T_FAD, ["FE:100 kg:D"], "Cota Ø390 del plano Fadesa del extintor de 100 kg",
-                   ("catalogo.py", "G_100KG = _g_rodante"))
             else:
-                A_("Ø exterior", r1(D), "mm", T_DER, ["C:g_rodante"],
-                   "Ø350 adoptado (sin plano de referencia); entre Ø320 (50 kg) y Ø390 (100 kg)",
+                A_("Ø exterior", r1(D), "mm", T_PRO, ["PC:tabla0"] + (["FE:100 kg:D"] if tam == "100 kg" else []),
+                   "Tabla 0 del proceso de carros (Ø390, casquete 15\" compartido)" +
+                   ("; coincide con el plano Fadesa del 100 kg" if tam == "100 kg" else ""),
                    ("catalogo.py", "G_70KG = _g_rodante"))
             e = {"cuerpo": g["t"], "cupula": g["td"], "fondo": g["tf"]}[k]
             if rec:
@@ -161,16 +179,20 @@ for m in MODELOS:
                    ("catalogo.py", {"1kg": "G_1KG", "2.5kg": "G_2K5", "5kg": "G_5KG", "10kg": "G_10KG",
                                     "25kg": "G_25KG", "50kg": "G_50KG"}[rec] + " = dict"))
             else:
-                A_("Espesor", e, "mm", T_NOR, ["N:3550", "MP:J32"],
-                   "IRAM 3550 4.1.3.2: mínimo 4,5 mm para Ø > 320 → chapa comercial 4,75 (planilla MP)",
+                A_("Espesor", e, "mm", T_NOR, ["N:3550", "PC:tabla0"],
+                   "IRAM 3550 4.1.3.2: mínimo 4,5 mm para Ø > 320 → chapa 4,75 (tabla 0 del proceso de carros)",
                    ("catalogo.py", "def _g_rodante"))
             if k == "cuerpo":
                 if rod:
-                    src = fsrc("hc") if rec else ["C:g_rodante", "C:recipiente"]
-                    A_("Largo del cuerpo entre cabezales", r1(H), "mm", T_FAD if rec else T_DER, src,
-                       "Cota del plano Fadesa" if rec else
-                       "Largo de cilindro para el volumen de diseño con dos cabezales semielípticos",
-                       ("modelo3d.py", "rodantes: hc = largo"))
+                    src = (fsrc("hc") if rec else []) + (["PC:tabla0"] if tam in PC_T0 else [])
+                    lc = r1(dr["z_union"] - dr["zb"])
+                    A_("Largo del cuerpo entre cabezales", lc, "mm", T_FAD if rec else T_PRO, src,
+                       ("Cota del plano Fadesa" + (f"; el proceso de carros dice {PC_T0[tam][2]:g}" if tam in PC_T0 else "")) if rec else
+                       "Tabla 0 del proceso de carros (alto del cuerpo)", ("catalogo.py", "G_70KG = _g_rodante"))
+                    A_("Encastre de los casquetes: labio × escalón", f"{r1(dr['encastre'][0])} × {r1(dr['encastre'][1])}",
+                       "mm", T_FAD, ["FR:25kg:det2"] + (["PC:casquete"] if cod in PROPIOS else []),
+                       "Casquete con borde reducido y tope que entra en el cuerpo (detalles 2 y 3 del plano Fadesa 25 kg; "
+                       "proceso de carros); labio 2,5·e, escalón 2·e", ("modelo3d.py", "def encastre"))
                 else:
                     ztop = dr["z_union"]
                     A_("Alto del cuerpo (piso o fondo a unión con la cúpula)", r1(H), "mm", T_CAL,
@@ -178,6 +200,13 @@ for m in MODELOS:
                        f"Altura total {g.get('total', '')} − cuello {g['cuello'][1]} − cúpula en la boca"
                        + (f" − fondo {g.get('hf', '')}" if g["tipo_fondo"] == "cupula" else ""),
                        ("modelo3d.py", 'if "total" in g'))
+                    if g["tipo_fondo"] in ("concavo", "cupula"):
+                        A_("Bordón (escalón × labio; escalón de 1 e)",
+                           f"{r1(dr['encastre'][1])} × {r1(dr['encastre'][0])}" +
+                           (" (los dos extremos)" if g["tipo_fondo"] == "cupula" else ""), "mm", T_FAD,
+                           [f"FR:{FD_DET[rec]}:det2", "PM:bordoneado"],
+                           "Medido a escala 1:1 en el detalle 2 del plano Fadesa (labio 5,5-5,8; escalón 4,5-5,2); "
+                           "lo forma la bordoneadora (proceso de manuales)", ("modelo3d.py", "def encastre"))
                     if tam == "1 kg" and cod in PROPIOS:
                         A_("Largo de corte del caño", 255, "mm", T_MP, ["MP:C35"], "Planilla MP (caño cortado a 255 mm)",
                            ("bom.py", "CANO_1KG = dict"))
@@ -188,8 +217,8 @@ for m in MODELOS:
                 if hc:
                     fmt, ee, alto, de, ap = hc
                     if tam in ("70 kg", "100 kg"):
-                        A_("Recorte de hoja (alto × desarrollo)", f"{alto:g} × {de:g}", "mm", T_CAL, ["CALC"],
-                           "Del plano: largo del cuerpo × π·(Ø − e); 3 piezas por hoja 1500 × 3000",
+                        A_("Recorte de hoja (alto × desarrollo)", f"{alto:g} × {de:g}", "mm", T_PRO, ["PC:corte"],
+                           "Proceso de carros: hoja mixta 3 × 680 + 1 × 900 con el lado de 1212 = π·(390 − 4,75) + luz",
                            ("bom.py", '"70 kg": ("LAC'))
                     else:
                         col = {"2,5 kg": "D", "5 kg": "E", "10 kg": "F", "25 kg": "G", "50 kg": "H"}[tam.replace(".", ",")]
@@ -204,13 +233,17 @@ for m in MODELOS:
                            ("catalogo.py", "G_" + {"1kg": "1KG", "2.5kg": "2K5", "5kg": "5KG", "10kg": "10KG",
                                                     "25kg": "25KG", "50kg": "50KG"}[rec] + " = dict"))
                     else:
-                        A_("Altura del casquete", g["hd"], "mm", T_DER if tam == "70 kg" else T_CAL,
-                           ["FR:50kg:hd", "FR:50kg:D", "C:g_rodante"],
+                        A_("Altura del casquete", g["hd"], "mm", T_DER,
+                           ["FR:50kg:hd", "FR:50kg:D", "PC:casquete"],
                            f"0,656 × R (relación del cabezal Fadesa 50 kg: 105 / 160) = 0,656 × {R:g}",
                            ("catalogo.py", "hd = round(0.656"))
                 if k == "fondo" and g["tipo_fondo"] == "concavo":
                     A_("Altura de la pollera (borde del fondo)", g["zf_borde"], "mm", T_FAD, fsrc("zf_borde"),
                        "Cota del plano Fadesa", ("catalogo.py", "zf_borde"))
+                    A_("Pestaña del fondo encastrado (contra la pared)", 10.0, "mm", T_FAD,
+                       [f"FR:{FD_DET[rec]}:det3", "PM:encastre"],
+                       "Detalle 3 del plano Fadesa (pestaña ≥ 10 a escala 1:1); fondo encastrado a presión (proceso de "
+                       "manuales); filete por debajo", ("modelo3d.py", "hp = 10.0"))
                     A_("Flecha del fondo cóncavo (centro sobre el piso)", g["zf_centro"], "mm", T_FAD,
                        fsrc("zf_centro"), "Cota del plano Fadesa", ("catalogo.py", "zf_centro"))
                 if k == "fondo" and g["tipo_fondo"] == "cupula":
@@ -237,12 +270,12 @@ for m in MODELOS:
         if k == "cuello":
             dn, hn, rosca, dh = g["cuello"]
             ftag = fsrc
-            tipo = T_FAD if rec else (T_CAT if fam in ("inox", "co2") else T_DER)
-            srcd = (lambda p: ftag(p)) if rec else (lambda p: ["FR:50kg:" + p] if rod else ["C:g_inox" if fam == "inox" else "C:g_co2"])
+            tipo = T_FAD if rec else (T_CAT if fam in ("inox", "co2") else T_PRO)
+            srcd = (lambda p: ftag(p)) if rec else (lambda p: ["FR:50kg:" + p, "PC:cupla"] if rod else ["C:g_inox" if fam == "inox" else "C:g_co2"])
             if fam in ("inox", "co2"):
                 tipo = T_DIS
             A_("Ø exterior", dn, "mm", tipo, srcd("cuello_d"), "Cota del plano Fadesa" if rec else
-               ("Igual al cuello del recipiente Fadesa de 50 kg (RBSP 2½\")" if rod else "Supuesto de diseño"),
+               ("Cupla 2½\" BSP del proceso de carros, igual a la del recipiente Fadesa de 50 kg" if rod else "Supuesto de diseño"),
                ("catalogo.py", "cuello=("))
             A_("Altura sobre la cúpula", hn, "mm", tipo, srcd("cuello_h"), "Cota del plano Fadesa" if rec else
                "Ídem 50 kg" if rod else "Supuesto de diseño", ("catalogo.py", "cuello=("))
@@ -251,96 +284,130 @@ for m in MODELOS:
                ("catalogo.py", "cuello=("))
             A_("Ø del asiento", dh, "mm", tipo, srcd("asiento"), "Cota del corte A-A del plano Fadesa" if rec else
                "Ídem 50 kg" if rod else "Supuesto de diseño", ("catalogo.py", "cuello=("))
+            if g["tipo_fondo"] in ("concavo", "cupula"):
+                A_("Muesca de altura (ancho × prof. × alto)", "2 × 1 × 2", "mm", T_DIS, ["PM:muesca", "C:recipiente"],
+                   "El proceso pide la muesca (prensa Pannier) sin medidas: valor de diseño", ("modelo3d.py", "# muesca"))
             continue
-        if k == "varilla":
-            A_("Ø", g["varilla"], "mm", T_DIS, ["MP:VARILLA", "C:recipiente"],
-               "Ø8 decidido por FLAMA (planilla MP-22); sin cálculo", ("modelo3d.py", "piezas[\"varilla\"]"))
-            A_("Largo", r1(H), "mm", T_CAL, ["CALC"], "Largo del cuerpo − 2 × 15 mm", ("modelo3d.py", "piezas[\"varilla\"]"))
+        if k == "placas_refuerzo":
+            A_("Placas (cant. × largo × arco × e)", "2 × 200 × 100 × 4,75", "mm", T_PRO, ["PC:refuerzo"],
+               "Proceso de carros: 200 a lo largo del cuerpo, 100 de arco", ("catalogo.py", "refuerzo=(200.0"))
+            A_("Curvado / posición", "Ø380 / a 100 mm de cada boca, sobre la costura", "mm", T_PRO, ["PC:refuerzo"],
+               "Curvadas al Ø interior, por dentro y punteadas en las 4 esquinas", ("modelo3d.py", "placas_refuerzo"))
             continue
 
-        # -------------------------------------------- válvula (kit comprado HZ; geometría representativa)
+        # -------------------------------------------- válvula y descarga: medidas a escala en planos Fadesa
         vi = info["valvula"]
-        sv = vi["s"]
+        tv = vi["tipo"]
+        V = M.VALVULAS[tv]
+        pf = plan_fe(m)
+        # pieza medida en otro plano Fadesa cuando el del tamaño no la muestra
+        ALT = {("2,5 kg", "suncho"): "10 kg", ("5 kg", "suncho"): "10 kg", ("25 kg", "racor"): "10 kg",
+               ("100 kg", "manometro"): "50 kg"}
+        FE = lambda comp: [f"FE:{ALT.get((pf, comp), pf)}:{comp}"]
+        g763 = tv == "G763"  # válvula de rodantes: el plano Fadesa sólo la muestra por fuera
+        ref_v = ("modelo3d.py", f'"{tv}": dict(')
         if k == "tuerca":
-            A_("Ø exterior", r1(g["cuello"][0] + 6 * sv), "mm", T_DIS, ["C:valvula"], f"Ø cuello + 6 × {sv}",
-               ("modelo3d.py", 'p["tuerca"]'))
-            A_("Alto", r1(10 * sv), "mm", T_DIS, ["C:valvula"], f"10 × {sv}", ("modelo3d.py", "hcol = 10 * s"))
+            A_("Cuello de la válvula Ø × alto", f"{V['cuello_d']:g} × {V['cuello_h']:g}", "mm", T_FAD, FE("valvula"),
+               f"Medido a escala en el plano Fadesa (válvula {tv})", ref_v)
             continue
         if k == "espiga":
-            A_("Ø exterior (núcleo de la rosca del cuello)", r1(dr["bore"], 2), "mm", T_CAL, fsrc("rosca") or ["C:recipiente"],
-               "Ø menor de la rosca del cuello (M30×1,5 → 28,376; M22×1,5 → 20,376)", ("modelo3d.py", "bore = {"))
-            A_("Largo roscado", r1(12 * sv), "mm", T_DIS, ["C:valvula"], f"12 × {sv}", ("modelo3d.py", 'p["espiga"]'))
+            A_("Espiga roscada Ø × largo", f"{V['esp_d']:g} × {V['esp_h']:g}", "mm", T_FAD, FE("valvula"),
+               f"Medido a escala en el plano Fadesa (válvula {tv})", ref_v)
             continue
         if k == "cuerpo_valvula":
-            A_("Ancho × fondo", f"{r1(vi['bw'])} × {r1(vi['bd'])}", "mm", T_DIS, ["C:valvula"],
-               f"30 × {sv} y 28 × {sv}", ("modelo3d.py", "bw, bd = 30 * s"))
-            A_("Alto del cuerpo", r1(vi["bh"]), "mm", T_CAL if not rod else T_DIS,
-               [f"CAT:{cod}:Altura", "C:construir"] if not rod else ["C:valvula"],
-               "Se ajusta para que la palanca llegue a la altura del catálogo (22·s a 75·s)" if not rod else "40 × 1,35",
-               ("modelo3d.py", "bh = h_total - hcol"))
+            A_("Cuerpo ancho × alto", f"{V['bw']:g} × {V['bh']:g}", "mm", T_FAD, FE("valvula"),
+               f"Medido a escala en el plano Fadesa (válvula {tv})", ref_v)
+            A_("Fondo del cuerpo", V["bd"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral Fadesa", ref_v)
+            if tv != "G763":
+                A_("Horquilla del pivote (alto)", V["piv_h"], "mm", T_FAD, FE("valvula"), "Medido a escala", ref_v)
+            A_("Salida a la manguera Ø × largo", f"{V['sal_d']:g} × {V['sal_l']:g}", "mm", T_FAD if tv == "F192" else T_DIS,
+               FE("racor") if tv == "F192" else ["C:valvula"], "Rosca del racor medida en Fadesa" if tv == "F192" else
+               ("Boquilla del 1 kg: sin cota en Fadesa" if tv == "F510" else "Sin cota en Fadesa"), ref_v)
             continue
         if k == "vastago":
-            A_("Ø × alto", f"{r1(8 * sv)} × {r1(3 * sv + 1)}", "mm", T_DIS, ["C:valvula"], f"Ø 8·s; alto 3·s + 1 (s = {sv})",
-               ("modelo3d.py", 'p["vastago"]'))
+            vd, vl, ad, ah = V["vas"]
+            A_("Vástago Ø × largo / asiento Ø", f"{vd:g} × {vl:g} / {ad:g}", "mm", T_DIS if g763 else T_FAD, ["C:valvula"] if g763 else FE("vastago"),
+               "Interno: no se ve en el plano Fadesa (G763)" if g763 else "Medido a escala en el plano Fadesa", ref_v)
+            continue
+        if k == "resorte":
+            A_("Resorte Ø × largo libre", f"{V['res'][0]:g} × {V['res'][1]:g}", "mm", T_DIS if g763 else T_FAD, ["C:valvula"] if g763 else FE("resorte"),
+               "Interno: no se ve en el plano Fadesa (G763)" if g763 else "Medido a escala en el plano Fadesa", ref_v)
             continue
         if k == "eje":
-            A_("Ø × largo", f"{r1(6 * sv)} × {r1(vi['bd'] + 8 * sv)}", "mm", T_DIS, ["C:valvula"],
-               "Ø 6·s; largo = fondo del cuerpo + 8·s", ("modelo3d.py", 'p["eje"]'))
+            A_("Ø × largo", f"{1.8 if tv == 'F510' else 2.0:g} × {V['bd'] + 6:g}", "mm", T_DIS, ["C:valvula"],
+               "Pasa por la horquilla; sin cota en Fadesa", ("modelo3d.py", 'p["eje"] = _cyl('))
             continue
         if k in ("manija_superior", "manija_inferior"):
-            A_("Largo", r1(L), "mm", T_CAL if not rod else T_DIS,
-               [f"CAT:{cod}:Ancho", "C:construir"] if not rod else ["C:valvula"],
-               "Llega hasta el ancho total del catálogo (ajuste de la envolvente)" if not rod else "x_tip = 0,75·R",
-               ("modelo3d.py", 'p["manija_superior"]' if k == "manija_superior" else 'p["manija_inferior"]'))
-            A_("Ancho × espesor", f"{r1(20 * sv)} × {r1(4 * sv)}", "mm", T_DIS, ["C:valvula"], f"20·s × 4·s (s = {sv})",
-               ("modelo3d.py", "lev_t, lev_w = 4 * s"))
+            if tv == "G763":
+                A_("Largo", r1(L), "mm", T_DIS, ["C:valvula"], "Palanca del rodante: 0,75·R (sin cota en Fadesa)",
+                   ("modelo3d.py", "x_tip = x_tip or 110.0"))
+            elif k == "manija_superior":
+                A_("Largo × alto (palanca)", f"{V['sup_l']:g} × {V['sup_h']:g}", "mm", T_FAD, FE("valvula"),
+                   f"Medido a escala; cara superior a {V['sup_top']:g} mm del cuerpo", ref_v)
+            else:
+                tr = " + ".join(f"{lx:g}" for _, lx, _ in V["inf"])
+                A_("Tramos de la manija fija", tr, "mm", T_FAD, FE("valvula"), "Medido a escala en el plano Fadesa", ref_v)
+            A_("Ancho de la chapa", V["lev_w"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral", ref_v)
             continue
         if k == "pasador":
-            A_("Ø alambre × largo", f"{r1(3.2 * sv)} × {r1(vi['bd'] + 16 * sv)}", "mm", T_DIS, ["C:valvula"],
-               "Ø 3,2·s; largo = fondo del cuerpo + 16·s; anilla Ø 18·s", ("modelo3d.py", 'p["pasador"]'))
+            A_("Ø alambre × largo", f"3,2 × {V['bd'] + 16:g}", "mm", T_DIS, ["C:valvula"], "Traba con anilla Ø18",
+               ("modelo3d.py", 'p["pasador"] = _cyl(1.6'))
             continue
         if k == "manometro":
-            A_("Ø de la esfera", vi["man_d"], "mm", T_DIS, ["C:manual" if not rod else "C:rodante"],
-               "28 (1 kg), 38 (manuales), 50 (rodantes)", ("modelo3d.py", "man_d = 28.0" if not rod else "man_d=50.0"))
+            A_("Ø de la esfera", vi["man_d"], "mm", T_FAD, FE("manometro"),
+               "Medido a escala (manómetro F645 en manuales; con cubremanómetro G711 en rodantes)", ref_v)
             ps = B._ps(m)
-            A_("Rango y sector verde", f"0-{ps * 2.5 if ps < 5 else 25:g} / {ps:g}", "MPa", T_CAL,
-               [f"CAT:{cod}:Ps", "N:3533"], "Rango = 2,5 × presión de servicio del catálogo; sello IRAM 3533",
+            A_("Rango y sector verde", f"0-{ps * 2.5 if ps < 5 else 25:g} / {ps:g}", "MPa", T_DIS,
+               [f"CAT:{cod}:Ps"], "Rango ≈ 2,5 × presión de servicio (criterio); sello IRAM 3533 exigido en la compra",
                ("bom.py", 'if k == "manometro"'))
             continue
         if k == "disco_seguridad":
-            A_("Tapón hexagonal (entre caras × alto)", f"{r1(14 * sv)} × {r1(9 * sv)}", "mm", T_DIS, ["C:valvula"],
-               "Hexágono 14·s × 9·s; rotura 18-21 MPa (materiales.py)", ("modelo3d.py", 'p["disco_seguridad"]'))
+            A_("Tapón hexagonal (entre caras × alto)", "14 × 9", "mm", T_DIS, ["C:valvula"],
+               "CO₂: disco de seguridad, rotura 18-21 MPa", ("modelo3d.py", 'p["disco_seguridad"]'))
             continue
         if k == "cano_pesca":
-            de, di = (A, A - 2 * (2.5 if rod else (1.5 * sv if fam != "co2" else 1.5)))
-            A_("Ø exterior", r1(de), "mm", T_DIS, ["C:manual" if not rod else "C:rodante"],
-               "12·s (manuales), 10 (CO₂), 24 (rodantes)", ("modelo3d.py", 'out["cano_pesca"]'))
+            if rod or fam == "co2":
+                A_("Ø exterior", r1(A), "mm", T_DIS, ["C:rodante" if rod else "C:manual"], "Sin cota en Fadesa",
+                   ("modelo3d.py", 'out["cano_pesca"]'))
+            else:
+                A_("Ø exterior", r1(A), "mm", T_FAD, FE("cano"), "Medido a escala (cabeza del caño de pesca)",
+                   ("modelo3d.py", "dp = 14.4 if tv"))
             A_("Largo", r1(H), "mm", T_CAL, ["C:manual" if not rod else "C:rodante"],
-               f"Desde {18 if not rod else 25} mm sobre el fondo hasta la válvula", ("modelo3d.py", "zf = dr[\"z_fondo\"] + g[\"tf\"]"))
+               f"Desde la espiga hasta {18 if not rod else 25} mm sobre el fondo", ("modelo3d.py", 'zf = dr["z_fondo"] + g["tf"]'))
+            continue
+        if k == "junta_cuello":
+            A_("O-ring Ø ext × cordón", f"{V['oring'][0]:g} × {V['oring'][1]:g}", "mm", T_DIS if g763 else T_FAD, ["C:valvula"] if g763 else FE("oring"),
+               "Interno: no se ve en el plano Fadesa (G763)" if g763 else "Medido a escala en el plano Fadesa", ref_v)
             continue
         if k == "racor":
-            A_("Ø × largo", f"{r1(min(A, H))} × {r1(L)}", "mm", T_DIS, ["C:manual" if not rod else "C:rodante"],
-               "Ø18 × 12 (manuales), Ø24 × 16 (rodantes)", ("modelo3d.py", 'out["racor"]'))
+            if m.descarga == "tobera_polvo":
+                A_("Tuerca Ø × largo / casquillo Ø × largo", "18,8 × 5,9 / 16,9 × 13,5", "mm", T_FAD, FE("racor"),
+                   "Medido a escala en el plano Fadesa", ("modelo3d.py", "rc = _cyl(9.4, 5.9"))
+            else:
+                A_("Ø × largo", f"{r1(min(A, H))} × {r1(L)}", "mm", T_DIS, ["C:manual" if not rod else "C:rodante"],
+                   "Sin cota en Fadesa", ("modelo3d.py", 'out["racor"]'))
             continue
         if k in ("manguera", "manguera_enrollada"):
-            r = 12.5 if (rod) else {"co2": 7.0}.get(fam, 8.0)
-            if k == "manguera" and not rod:
-                r = (A / 2) if A < 40 else r
+            r = 12.5 if rod else {"co2": 7.0}.get(fam, 8.7)
             largo = s.Volume() / (math.pi * r * r)
-            A_("Ø exterior", r1(2 * r), "mm", T_DIS, ["C:manual" if not rod else "C:rodante"],
-               "16 (manuales), 14 (CO₂), 25 (rodantes)", ("modelo3d.py", "d_hose = 0 if chico" if not rod else "d_hose = 25.0"))
+            if m.descarga == "tobera_polvo" and k == "manguera":
+                A_("Ø exterior", 17.4, "mm", T_FAD, FE("manguera"), "Medido a escala en el plano Fadesa",
+                   ("modelo3d.py", "d_hose = 0 if chico"))
+            else:
+                A_("Ø exterior", r1(2 * r), "mm", T_DIS, ["C:manual" if not rod else "C:rodante"], "Sin cota en Fadesa",
+                   ("modelo3d.py", "d_hose = 0 if chico" if not rod else "d_hose = 25.0"))
             A_("Largo desarrollado dibujado", r1(largo, 0), "mm", T_CAL, ["CALC"],
                "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo", ("bom.py", "largo = s.Volume()"))
             continue
         if k in ("tobera", "lanza", "difusor", "empunadura", "brazo_difusor", "tobera_campana", "suncho", "pie",
-                 "valvula_esferica", "apoyo", "soportes_manguera", "sunchos_bastidor", "bastidor", "eje_ruedas",
+                 "valvula_esferica", "soportes_eje", "manija_carro", "ganchos_manguera", "tercera_pata", "arandelas_tope", "eje_ruedas",
                  "rueda_der", "llanta_der"):
             if k == "rueda_der":
                 Dw = float(m.spec["Diámetro de rueda (mm)"])
                 A_("Ø exterior", Dw, "mm", T_CAT, [f"CAT:{cod}:Rueda"], "Diámetro de rueda del catálogo",
                    ("modelo3d.py", "Dw = float"))
-                A_("Ancho de banda", info["bw_w"], "mm", T_DIS, ["C:rodante"], "55 (Ø300), 70 (Ø350), 80 (Ø400)",
-                   ("modelo3d.py", "bw_w = 55.0"))
+                A_("Ancho de banda", info["bw_w"], "mm", T_FAD, [f"FE:{'100 kg' if Dw > 350 else '50 kg'}:rueda"],
+                   "Medido a escala en el plano Fadesa (49 en Ø300/Ø350; 76 en Ø400)", ("modelo3d.py", "bw_w = 49.0"))
                 A_("Ø interior del macizo", r1(0.72 * Dw), "mm", T_DIS, ["C:rodante"], "0,72 × Ø rueda", ("modelo3d.py", "Rw * 0.72"))
                 continue
             if k == "llanta_der":
@@ -351,34 +418,39 @@ for m in MODELOS:
                 A_("Cubo Ø ext / Ø int", "60 / 26", "mm", T_DIS, ["C:rodante"], "Cubo para eje Ø25", ("modelo3d.py", "_tube(30, 13"))
                 continue
             if k == "eje_ruedas":
-                A_("Ø × largo", f"25 × {r1(L)}", "mm", T_DIS, ["C:rodante", f"CAT:{cod}:Ancho"],
-                   "Ø25 SAE 1045; largo = trocha (ancho catálogo − banda) − banda + 20", ("modelo3d.py", 'out["eje_ruedas"]'))
+                A_("Ø × largo", f"25 × {r1(L)}", "mm", T_DIS, ["PC:accesorios", f"CAT:{cod}:Ancho"],
+                   "Barra SAE 1045 Ø25 comprada; largo = ancho del catálogo menos las bandas", ("modelo3d.py", 'out["eje_ruedas"]'))
                 continue
-            if k == "bastidor":
+            if k == "arandelas_tope":
+                A_("Ø ext × Ø int × e (4 u)", "40 × 26 × 4", "mm", T_DIS, ["PC:accesorios"],
+                   "El proceso las compra; medidas de diseño", ("modelo3d.py", "arandela=(40.0"))
+                continue
+            if k == "soportes_eje":
+                A_("Alto × largo × e (2 u)", f"80 × {r1(A)} × {g['t']:g}", "mm", T_DIS, ["PC:accesorios"],
+                   "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+                   ("modelo3d.py", "soporte=(80.0"))
+                A_("Separación de los soportes", r1(2 * info["xs"]), "mm", T_DIS, ["PC:accesorios"], "± 0,55·R",
+                   ("modelo3d.py", "x_soporte=0.55"))
+                continue
+            if k == "manija_carro":
                 largo = s.Volume() / (math.pi * 12.7 ** 2)
-                A_("Caño", "Ø25,4 × 1,6", "mm", T_DIS, ["C:rodante"], "Caño SAE 1010 (MP-CANO-CARRO)", ("modelo3d.py", "rt = 12.7"))
-                A_("Altura del arco (= altura total)", r1(m.H), "mm", T_CAT, [f"CAT:{cod}:Altura"],
-                   "Cota superior del arco = altura del catálogo", ("modelo3d.py", "ztop_arc = H - rt"))
-                A_("Separación de parantes (ejes)", r1(2 * info["xa"]), "mm", T_CAL, ["C:rodante", f"CAT:{cod}:Ancho"],
-                   "2 × min(R + 45; trocha/2 − banda/2 − 20)", ("modelo3d.py", "xa = min(R + 45"))
-                A_("Largo desarrollado", r1(largo, 0), "mm", T_CAL, ["CALC"], "Volumen del sólido / (π × 12,7²)",
-                   ("bom.py", "largo = s.Volume()"))
+                A_("Caño", "Ø25,4 × 1,6", "mm", T_DIS, ["PC:accesorios"], "El proceso compra el caño de la manija",
+                   ("modelo3d.py", "manija=(25.4"))
+                A_("Altura del agarre (= altura total)", r1(m.H), "mm", T_CAT, [f"CAT:{cod}:Altura", "PC:accesorios"],
+                   "Sube por encima de la cúpula hasta la altura del catálogo", ("modelo3d.py", "zg = H - rt"))
+                A_("Separación de las patas (ejes) / largo desarrollado", f"{r1(2 * info['xm'])} / {r1(largo, 0)}", "mm",
+                   T_DIS, ["PC:accesorios"], "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+                   ("modelo3d.py", "manija=(25.4"))
                 continue
-            if k == "sunchos_bastidor":
-                ws, ts = M.planchuela(R)
-                A_("Planchuela", f"{ws:g} × {ts:g}", "mm", T_DIS, ["C:planchuela", "FE:25 kg:masa"],
-                   "30 × 3 hasta Ø330; 40 × 4 por encima (ajustado a la masa de los planos Fadesa)", ("modelo3d.py", "def planchuela"))
-                A_("Ø interior de la abrazadera", r1(D), "mm", T_CAL, ["CALC"], "= Ø del recipiente", ("modelo3d.py", "b = _tube(R + ts"))
-                A_("Cantidad de abrazaderas y altura", "2 (a 25 % y 85 % del cuerpo)", "-", T_DIS, ["C:rodante"],
-                   "zb + 0,25·hc y zb + 0,85·hc", ("modelo3d.py", "zs1 = dr[\"zb\"]"))
+            if k == "ganchos_manguera":
+                A_("Ancho × vuelo × labio × e (2 u)", f"40 × {r1(2 * 25 + 10)} × 30 × {g['t']:g}", "mm", T_DIS,
+                   ["PC:accesorios"], "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de "
+                   "manga + 10", ("modelo3d.py", "gancho=(40.0"))
                 continue
-            if k == "soportes_manguera":
-                A_("Planchuela", "30 × 3", "mm", T_DIS, ["C:rodante"], "3 soportes de planchuela 30 × 3",
-                   ("modelo3d.py", "planchuela 30 × 3"))
-                continue
-            if k == "apoyo":
-                A_("Largo × ancho × alto", "70 × 50 × 55", "mm", T_DIS, ["C:rodante"], "Chapa plegada e≈3,2 (factor 0,20)",
-                   ("modelo3d.py", "_box(70, 50, 55"))
+            if k == "tercera_pata":
+                A_("Ancho × pie × e", f"80 × 50 × {g['t']:g}", "mm", T_DIS, ["PC:accesorios"],
+                   "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+                   ("modelo3d.py", "pata=(80.0"))
                 continue
             if k == "valvula_esferica":
                 A_("Cuerpo × palanca", "40 × 40 × 60; palanca 90", "mm", T_DIS, ["C:rodante"], "Representativa (comercial)",
@@ -395,10 +467,18 @@ for m in MODELOS:
             # dispositivos de descarga manuales y suncho
             d_dev = {"tobera_polvo": 24.0, "tobera_chorro": 22.0, "lanza_espuma": 32.0, "lanza_k": 20.0,
                      "lanza_d": 40.0, "difusor_brazo": 70.0, "difusor_manga": 90.0, "tobera_1kg": 0.0}.get(m.descarga, 0)
+            if k == "tobera" and m.descarga == "tobera_polvo":
+                A_("Portatobera Ø × largo / tobera Ø × largo", "18,8 × 13,4 / 19,9 × 60,1", "mm", T_FAD, FE("tobera"),
+                   "Medido a escala en el plano Fadesa", ("modelo3d.py", "body = _cyl(9.4, 13.4"))
+                continue
+            if k == "suncho" and m.descarga == "tobera_polvo":
+                A_("Banda (alto) / Ø interior", f"14,4 / {r1(D - 0.4)}", "mm", T_FAD, FE("suncho"),
+                   "Suncho portamanguera F674 medido a escala", ("modelo3d.py", "hb = 14.4 if tipo"))
+                continue
             if k == "tobera":
                 if m.descarga == "tobera_1kg":
-                    A_("Ø base / Ø punta × largo", f"{r1(12 * sv)} / {r1(8 * sv)} × 26", "mm", T_DIS, ["C:manual"],
-                       "Cono 6·s → 4·s de radio", ("modelo3d.py", "noz = cq.Solid.makeCone"))
+                    A_("Boquilla Ø base / Ø punta × largo", "12 / 9 × 10", "mm", T_DIS, ["C:manual"],
+                       "F510: el plano Fadesa no muestra tobera aparte", ("modelo3d.py", "noz = cq.Solid.makeCone"))
                 else:
                     A_("Ø mayor × largo", f"{d_dev:g} × {r1(H)}", "mm", T_DIS, ["C:manual"],
                        "Ø de tobera por tipo; largo limitado por la altura disponible", ("modelo3d.py", "d_dev = {"))
