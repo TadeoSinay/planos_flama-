@@ -57,7 +57,8 @@ FIGS = [
     dict(id="F39", archivo="PROCESO DE MANUALES EXPLICATIVO + VIDEOS.docx",
          titulo="Proceso FLAMA de manuales (documento del usuario)",
          ubic="Preparación de cuello, numerado, encastre de fondo y bordoneado", marcas=[
-             (1, "Numerado: desarrollo de 2,5-10 kg; en el 1 kg el número va en la cúpula", ["PM:numerado"]),
+             (1, "Numerado en el cuerpo (desarrollo de 2,5-10 kg). El documento pone el del 1 kg en la cúpula; "
+                "criterio FLAMA: va en el cuerpo en todos los modelos", ["PM:numerado"]),
              (2, "Muesca de altura en el cuello (prensa Pannier)", ["PM:muesca"]),
              (3, "Encastre: extremo del cuerpo reducido y fondo encastrado a presión", ["PM:encastre"]),
              (4, "Bordoneado: bordoneadora SWM-400; profundidad y posición del bordón", ["PM:bordoneado"]),
