@@ -1774,6 +1774,28 @@
   "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F28_q.png"
  },
  {
+  "id": "F40",
+  "titulo": "IRAM 3550:1981, 4.8.2 tabla III (medidas del tren de rodaje)",
+  "fuente": "Norma IRAM 3550 (Dic. 1981), archivo «IRAM-3550.pdf»",
+  "ubic": "Pág. 11 de la norma (hoja 13 del PDF), apartado 4.8.2, tabla III",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F40.png",
+  "w": 1140,
+  "h": 510,
+  "link": "",
+  "tipo": "Norma / resolución",
+  "nota": "",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Tabla III — rueda Ø ≥ 300, ancho de rodado ≥ 50, trocha entre centros ≥ 400 (Fadesa usa banda 49: no cumple)",
+    "claves": [
+     "N:3550T3"
+    ]
+   }
+  ],
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F40_q.png"
+ },
+ {
   "id": "F29",
   "titulo": "Res. OPDS 522/07, Anexo 2 (oblea de fabricación de extintores de más de 1 kg)",
   "fuente": "Resolución 522/07 (Provincia de Buenos Aires), archivo «RESOLUCION 522 07.pdf»",

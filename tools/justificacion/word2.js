@@ -74,7 +74,7 @@ const SECC = [
   ["1. Planos Fadesa de recipiente", "Cotas de los recipientes de 1 a 50 kg y detalles de unión (bordón, fondo encastrado, casquete con borde reducido).", rango(1, 6)],
   ["2. Planos Fadesa de extintor completo", "Válvula, manómetro, vástago, resorte, caño de pesca, racor, manguera, tobera y suncho medidos a escala; masa total.", rango(7, 13)],
   ["3. Catálogo Fadesa 3", "Peso, altura, ancho, profundidad, rueda, manga y presiones de cada modelo.", rango(14, 23)],
-  ["4. Fichas de mercado y normas", "Masas de referencia sin plano Fadesa; cláusulas IRAM y resoluciones usadas (se citan, no se transcriben).", rango(24, 30)],
+  ["4. Fichas de mercado y normas", "Masas de referencia sin plano Fadesa; cláusulas IRAM y resoluciones usadas (se citan, no se transcriben).", rango(24, 30).concat([porId.F40].filter(Boolean))],
   ["5. Relevamiento y planilla MP", "Identificación relevada en fotos (a validar) y celdas de la planilla de abastecimiento.", rango(31, 37)],
   ["6. Procesos FLAMA", "Documentos de proceso del usuario: medidas y uniones de carros, numerado, encastre y bordoneado de manuales.", rango(38, 39)],
 ];
@@ -87,6 +87,7 @@ hijos.push(p([t("FLAMA S.A. · origen de cada dimensión de los planos FL_MAT, F
   "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. En el Excel «Justificacion de medidas planos.xlsx» la fuente de cada valor se escribe «F10·3» (figura F10, marca 3).",
   "Lo que no sale de un documento es un valor de diseño FLAMA: figura en la tabla final (D01…) con el link a la línea del generador y en amarillo en el Excel. Naranja = a validar.",
   "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número en la cúpula del 1 kg.",
+  "Fadesa es referencia de medidas, no de criterio: donde no cumple la norma manda la IRAM. Ej.: el tren de rodaje sigue la IRAM 3550 tabla III (rueda ≥ Ø300, banda ≥ 50 —Fadesa usa 49—, trocha ≥ 400 entre centros) y no el ancho del catálogo.",
 ].forEach((x) => hijos.push(p(x, { bullet: true, after: 40 })));
 const n = C.n, e = C.estados;
 hijos.push(p([t(`${n} dimensiones: `, { bold: true }), t(`con documento ${e.V} (${Math.round(100 * e.V / n)} %), diseño FLAMA ${e.E} (${Math.round(100 * e.E / n)} %), a validar ${e.A || 0} (${Math.round(100 * (e.A || 0) / n)} %).`)], { before: 80, after: 120 }));

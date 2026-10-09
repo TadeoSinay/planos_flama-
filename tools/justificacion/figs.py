@@ -365,6 +365,11 @@ fig("F28", "IRAM 3525:1983, apartado 3.2.1 b) (espesor mínimo del recipiente in
     "archivo «IRAM-3525.pdf»", "Pág. 5 de la norma (hoja 5 del PDF), apartado 3.2.1 b)",
     pdf_img(f"{NOR}/959734356-IRAM-3525.pdf", 4), [(1, (155, 408, 698, 447), "3.2.1 b) — acero inoxidable de espesor no menor "
     "de 0,63 mm → se adoptó 0,8", ["N:3525"])], K, crop=(100, 120, 710, 455), tipo="Norma / resolución")
+fig("F40", "IRAM 3550:1981, 4.8.2 tabla III (medidas del tren de rodaje)", "Norma IRAM 3550 (Dic. 1981), "
+    "archivo «IRAM-3550.pdf»", "Pág. 11 de la norma (hoja 13 del PDF), apartado 4.8.2, tabla III",
+    pdf_img(f"{NOR}/1008147370-IRAM-3550.pdf", 12), [(1, (138, 268, 708, 470), "Tabla III — rueda Ø ≥ 300, ancho de rodado ≥ 50, "
+    "trocha entre centros ≥ 400 (Fadesa usa banda 49: no cumple)", ["N:3550T3"])], K, crop=(40, 150, 800, 490),
+    tipo="Norma / resolución")
 r5 = pymupdf.open(f"{RES}/RESOLUCION 522 07.pdf")
 pr = 100 / 72
 fig("F29", "Res. OPDS 522/07, Anexo 2 (oblea de fabricación de extintores de más de 1 kg)", "Resolución 522/07 "

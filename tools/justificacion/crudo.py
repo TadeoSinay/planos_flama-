@@ -75,10 +75,15 @@ for m in MODELOS:
     for dim, val, campo in (("Altura total", bx.zmax - bx.zmin, "Altura"), ("Ancho total", bx.xlen, "Ancho"),
                             ("Profundidad total", bx.ylen, "Profundidad")):
         cat_v = {"Altura": m.H, "Ancho": m.W, "Profundidad": m.D}[campo]
-        if rod:
+        if rod and campo == "Altura":
             add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAT, [f"CAT:{cod}:{campo}"],
-                f"Manija (altura), trocha (ancho) y posición del eje (profundidad) ubicados para igualar {campo.lower()} del catálogo",
-                ("modelo3d.py", "def construir"))
+                "Agarre de la manija del carro a la altura del catálogo", ("modelo3d.py", "zg = H - rt"))
+        elif rod:
+            dif = 100 * (val - cat_v) / cat_v
+            add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL, ["N:3550T3", f"CAT:{cod}:{campo}"],
+                (f"Resulta del tren de rodaje IRAM 3550 (trocha {info['track']:g}, banda {info['bw_w']:g})" if campo == "Ancho"
+                 else "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo") +
+                f" (catálogo: {cat_v:g}; diferencia {dif:+.0f} %)", ("modelo3d.py", "def construir"))
         else:
             add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL,
                 [f"FE:{plan_fe(m)}:valvula", f"CAT:{cod}:{campo}"],
@@ -320,6 +325,9 @@ for m in MODELOS:
             A_("Fondo del cuerpo", V["bd"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral Fadesa", ref_v)
             if tv != "G763":
                 A_("Horquilla del pivote (alto)", V["piv_h"], "mm", T_FAD, FE("valvula"), "Medido a escala", ref_v)
+            else:
+                A_("Torre / horquilla: base × alto, ranura", "49 × 30 → 37 × 30; horquilla 17, ranura 11", "mm", T_FAD,
+                   FE("valvula"), "Medido a escala en el despiece de la válvula (plano Fadesa 50 / 100 kg)", ref_v)
             A_("Salida a la manguera Ø × largo", f"{V['sal_d']:g} × {V['sal_l']:g}", "mm", T_FAD if tv == "F192" else T_DIS,
                FE("racor") if tv == "F192" else ["C:valvula"], "Rosca del racor medida en Fadesa" if tv == "F192" else
                ("Boquilla del 1 kg: sin cota en Fadesa" if tv == "F510" else "Sin cota en Fadesa"), ref_v)
@@ -334,13 +342,22 @@ for m in MODELOS:
                "Interno: no se ve en el plano Fadesa (G763)" if g763 else "Medido a escala en el plano Fadesa", ref_v)
             continue
         if k == "eje":
+            if tv == "G763":
+                A_("Ø × largo", f"8 × {V['torre'][2] + 10:g}", "mm", T_DIS, ["C:valvula", "FE:50 kg:valvula"],
+                   "Tornillo F840 + buje + arandela del plano Fadesa, sin cota", ("modelo3d.py", 'e_d = V["eje_d"]'))
+                continue
             A_("Ø × largo", f"{1.8 if tv == 'F510' else 2.0:g} × {V['bd'] + 6:g}", "mm", T_DIS, ["C:valvula"],
                "Pasa por la horquilla; sin cota en Fadesa", ("modelo3d.py", 'p["eje"] = _cyl('))
             continue
         if k in ("manija_superior", "manija_inferior"):
             if tv == "G763":
-                A_("Largo", r1(L), "mm", T_DIS, ["C:valvula"], "Palanca del rodante: 0,75·R (sin cota en Fadesa)",
-                   ("modelo3d.py", "x_tip = x_tip or 110.0"))
+                if k == "manija_inferior":
+                    continue
+                A_("Palanca largo × alto × espesor / empuñadura", f"{r1(info['valvula']['y_tip'] - 11)} × 16 × 10 / Ø22 × 44",
+                   "mm", T_DIS, ["C:valvula", "FE:50 kg:valvula"],
+                   "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a "
+                   "la manija del carro; sin cota en Fadesa", ("modelo3d.py", "L_ = x_tip or 110.0"))
+                continue
             elif k == "manija_superior":
                 A_("Largo × alto (palanca)", f"{V['sup_l']:g} × {V['sup_h']:g}", "mm", T_FAD, FE("valvula"),
                    f"Medido a escala; cara superior a {V['sup_top']:g} mm del cuerpo", ref_v)
@@ -350,7 +367,9 @@ for m in MODELOS:
             A_("Ancho de la chapa", V["lev_w"], "mm", T_DIS, ["C:valvula"], "No visible en la vista lateral", ref_v)
             continue
         if k == "pasador":
-            A_("Ø alambre × largo", f"3,2 × {V['bd'] + 16:g}", "mm", T_DIS, ["C:valvula"], "Traba con anilla Ø18",
+            A_("Ø alambre × largo", f"3,2 × {(V['torre'][2] if tv == 'G763' else V['bd']) + 16:g}", "mm", T_DIS,
+               ["C:valvula", "N:3550"], "Traba con anilla Ø18 y precinto (IRAM 3550 3.4.2)" +
+               ("; cruza horquilla y nariz de la palanca" if tv == "G763" else ""),
                ("modelo3d.py", 'p["pasador"] = _cyl(1.6'))
             continue
         if k == "manometro":
@@ -406,8 +425,12 @@ for m in MODELOS:
                 Dw = float(m.spec["Diámetro de rueda (mm)"])
                 A_("Ø exterior", Dw, "mm", T_CAT, [f"CAT:{cod}:Rueda"], "Diámetro de rueda del catálogo",
                    ("modelo3d.py", "Dw = float"))
-                A_("Ancho de banda", info["bw_w"], "mm", T_FAD, [f"FE:{'100 kg' if Dw > 350 else '50 kg'}:rueda"],
-                   "Medido a escala en el plano Fadesa (49 en Ø300/Ø350; 76 en Ø400)", ("modelo3d.py", "bw_w = 49.0"))
+                A_("Ancho de banda", info["bw_w"], "mm", T_NOR, ["N:3550T3", f"FE:{'100 kg' if Dw > 350 else '50 kg'}:rueda"],
+                   "IRAM 3550 tabla III: ≥ 50 (Fadesa usa 49: no cumple); Ruedar Ø300 / Ø350 × 60 y Escanort Ø400 × 100",
+                   ("modelo3d.py", "banda={300: 60.0"))
+                A_("Trocha entre centros de rueda", info["track"], "mm", T_NOR, ["N:3550T3"],
+                   "IRAM 3550 tabla III: ≥ 400; además Ø del cuerpo + banda + 2 × 20 de luz con el cuerpo",
+                   ("modelo3d.py", "trocha_min=400.0"))
                 A_("Ø interior del macizo", r1(0.72 * Dw), "mm", T_DIS, ["C:rodante"], "0,72 × Ø rueda", ("modelo3d.py", "Rw * 0.72"))
                 continue
             if k == "llanta_der":
@@ -418,8 +441,10 @@ for m in MODELOS:
                 A_("Cubo Ø ext / Ø int", "60 / 26", "mm", T_DIS, ["C:rodante"], "Cubo para eje Ø25", ("modelo3d.py", "_tube(30, 13"))
                 continue
             if k == "eje_ruedas":
-                A_("Ø × largo", f"25 × {r1(L)}", "mm", T_DIS, ["PC:accesorios", f"CAT:{cod}:Ancho"],
-                   "Barra SAE 1045 Ø25 comprada; largo = ancho del catálogo menos las bandas", ("modelo3d.py", 'out["eje_ruedas"]'))
+                A_("Ø × largo / posición", f"25 × {r1(L)} / {r1(info['yw'])} detrás del eje del cuerpo", "mm", T_DIS,
+                   ["PC:accesorios", "N:3550T3"], "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera "
+                   "(luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
+                   ("modelo3d.py", "yw = R + CARRO"))
                 continue
             if k == "arandelas_tope":
                 A_("Ø ext × Ø int × e (4 u)", "40 × 26 × 4", "mm", T_DIS, ["PC:accesorios"],
