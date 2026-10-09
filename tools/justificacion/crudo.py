@@ -450,7 +450,7 @@ for m in MODELOS:
                 A_("Ø × largo / posición", f"25 × {r1(L)} / {r1(info['yw'])} detrás del eje del cuerpo", "mm", T_DIS,
                    ["PC:accesorios", "N:3550T3"], "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera "
                    "(luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
-                   ("modelo3d.py", "yw = R + CARRO"))
+                   ("modelo3d.py", "yw = -(R + CARRO"))
                 continue
             if k == "arandelas_tope":
                 A_("Ø ext × Ø int × e (4 u)", "40 × 26 × 4", "mm", T_DIS, ["PC:accesorios"],

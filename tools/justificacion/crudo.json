@@ -1149,7 +1149,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 136.1,
+"valor": 136.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -2569,7 +2569,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 150.6,
+"valor": 151.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -2827,7 +2827,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.32,
+"valor": 3.33,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -4010,7 +4010,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 142.0,
+"valor": 144.4,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -5451,7 +5451,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 221.2,
+"valor": 223.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -6680,7 +6680,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 188.9,
+"valor": 191.3,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -7909,7 +7909,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 214.6,
+"valor": 217.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -8123,14 +8123,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 575.0,
+"valor": 644.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "N:3550T3",
 "CAT:FL_MAT_AFFF_50l:Profundidad"
 ],
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -14 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -4 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -8166,7 +8166,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.6,
+"valor": 42.48,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -8712,20 +8712,21 @@
 "pos": 5,
 "pieza": "Tercera pata",
 "cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × pie × e",
-"valor": "80 × 50 × 3.2",
+"material": "Chapa LAC 3,2 (orilla de la hoja de 25 kg)",
+"dim": "Ancho × alto × e",
+"valor": "80 × 60 × 3.2",
 "unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
+"tipo": "Proceso FLAMA",
 "src": [
+"PC:pata",
 "PC:accesorios"
 ],
-"calc": "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+"calc": "Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; adelante, de canto contra el fondo a 65 mm del eje del cuerpo",
 "code": [
 "modelo3d.py",
-"pata=(80.0"
+"pata=((80.0"
 ],
-"estado": "E"
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_AFFF_50l",
@@ -8884,7 +8885,7 @@
 "cant": 1,
 "material": "Barra acero SAE 1045 Ø25",
 "dim": "Ø × largo / posición",
-"valor": "25 × 500.0 / 187.5 detrás del eje del cuerpo",
+"valor": "25 × 500.0 / -187.5 detrás del eje del cuerpo",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -8894,7 +8895,7 @@
 "calc": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "code": [
 "modelo3d.py",
-"yw = R + CARRO"
+"yw = -(R + CARRO"
 ],
 "estado": "E"
 },
@@ -9012,7 +9013,7 @@
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "189.4 / 1674.0",
+"valor": "189.4 / 1304.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -9029,69 +9030,6 @@
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
 "pos": 12,
-"pieza": "Ganchos portamanguera (2)",
-"cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × vuelo × labio × e (2 u)",
-"valor": "40 × 60.0 × 30 × 3.2",
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"PC:accesorios"
-],
-"calc": "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de manga + 10",
-"code": [
-"modelo3d.py",
-"gancho=(40.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AFFF_50l",
-"plano": "FL_MAT_AFFF_50l",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Ø exterior",
-"valor": 25.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:rodante"
-],
-"calc": "Sin cota en Fadesa",
-"code": [
-"modelo3d.py",
-"d_hose = 25.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_AFFF_50l",
-"plano": "FL_MAT_AFFF_50l",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Largo desarrollado dibujado",
-"valor": 892.0,
-"unidad": "mm",
-"tipo": "Cálculo",
-"src": [
-"CALC"
-],
-"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
-"code": [
-"bom.py",
-"largo = s.Volume()"
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_AFFF_50l",
-"plano": "FL_MAT_AFFF_50l",
-"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -9112,7 +9050,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 15,
+"pos": 13,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9133,7 +9071,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9154,7 +9092,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9175,7 +9113,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9196,7 +9134,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9217,7 +9155,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -9238,7 +9176,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -9259,7 +9197,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 18,
+"pos": 16,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -9280,7 +9218,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 19,
+"pos": 17,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -9301,19 +9239,19 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 20,
+"pos": 18,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
 "dim": "Palanca largo × alto × espesor / empuñadura",
-"valor": "105.1 × 16 × 10 / Ø22 × 44",
+"valor": "120.0 × 16 × 10 / Ø22 × 44",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula",
 "FE:50 kg:valvula"
 ],
-"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a la manija del carro; sin cota en Fadesa",
+"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
 "code": [
 "modelo3d.py",
 "L_ = x_tip or 110.0"
@@ -9323,7 +9261,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 21,
+"pos": 19,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -9345,7 +9283,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 22,
+"pos": 20,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -9367,7 +9305,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 23,
+"pos": 21,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -9388,7 +9326,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 23,
+"pos": 21,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -9409,7 +9347,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 24,
+"pos": 22,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -9426,6 +9364,69 @@
 "out[\"racor\"]"
 ],
 "estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 23,
+"pieza": "Ganchos portamanguera (2)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla) plegada",
+"dim": "Ancho × vuelo × labio × e (2 u)",
+"valor": "40 × 60.0 × 30 × 3.2",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"PC:accesorios"
+],
+"calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
+"code": [
+"modelo3d.py",
+"gancho=(40.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 24,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Ø exterior",
+"valor": 25.0,
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:rodante"
+],
+"calc": "Sin cota en Fadesa",
+"code": [
+"modelo3d.py",
+"d_hose = 25.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 24,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Largo desarrollado dibujado",
+"valor": 1305.0,
+"unidad": "mm",
+"tipo": "Cálculo",
+"src": [
+"CALC"
+],
+"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
+"code": [
+"bom.py",
+"largo = s.Volume()"
+],
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_AFFF_50l",
@@ -9456,7 +9457,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 344.0,
+"valor": 888.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -9561,7 +9562,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 214.1,
+"valor": 216.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -9819,7 +9820,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 3.32,
+"valor": 3.33,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -10917,7 +10918,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 142.0,
+"valor": 144.4,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -12167,7 +12168,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 140.0,
+"valor": 140.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -13097,7 +13098,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 287.5,
+"valor": 290.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -14090,7 +14091,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 231.5,
+"valor": 234.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -15446,7 +15447,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 149.6,
+"valor": 152.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -16823,7 +16824,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 232.4,
+"valor": 234.8,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -17037,14 +17038,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 518.5,
+"valor": 576.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "N:3550T3",
 "CAT:FL_MAT_ABC_25kg:Profundidad"
 ],
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -14 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -4 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -17080,7 +17081,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 31.15,
+"valor": 30.98,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -17713,20 +17714,21 @@
 "pos": 5,
 "pieza": "Tercera pata",
 "cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × pie × e",
-"valor": "80 × 50 × 3.2",
+"material": "Chapa LAC 3,2 (orilla de la hoja de 25 kg)",
+"dim": "Ancho × alto × e",
+"valor": "80 × 60 × 3.2",
 "unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
+"tipo": "Proceso FLAMA",
 "src": [
+"PC:pata",
 "PC:accesorios"
 ],
-"calc": "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+"calc": "Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; adelante, de canto contra el fondo a 60 mm del eje del cuerpo",
 "code": [
 "modelo3d.py",
-"pata=(80.0"
+"pata=((80.0"
 ],
-"estado": "E"
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_25kg",
@@ -17885,7 +17887,7 @@
 "cant": 1,
 "material": "Barra acero SAE 1045 Ø25",
 "dim": "Ø × largo / posición",
-"valor": "25 × 480.0 / 165.8 detrás del eje del cuerpo",
+"valor": "25 × 480.0 / -165.8 detrás del eje del cuerpo",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -17895,7 +17897,7 @@
 "calc": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "code": [
 "modelo3d.py",
-"yw = R + CARRO"
+"yw = -(R + CARRO"
 ],
 "estado": "E"
 },
@@ -18013,7 +18015,7 @@
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "165.5 / 1678.0",
+"valor": "165.5 / 1329.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -18030,69 +18032,6 @@
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
 "pos": 12,
-"pieza": "Ganchos portamanguera (2)",
-"cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × vuelo × labio × e (2 u)",
-"valor": "40 × 60.0 × 30 × 3.2",
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"PC:accesorios"
-],
-"calc": "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de manga + 10",
-"code": [
-"modelo3d.py",
-"gancho=(40.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Ø exterior",
-"valor": 25.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:rodante"
-],
-"calc": "Sin cota en Fadesa",
-"code": [
-"modelo3d.py",
-"d_hose = 25.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Largo desarrollado dibujado",
-"valor": 671.0,
-"unidad": "mm",
-"tipo": "Cálculo",
-"src": [
-"CALC"
-],
-"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
-"code": [
-"bom.py",
-"largo = s.Volume()"
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_25kg",
-"plano": "FL_MAT_ABC_25kg",
-"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -18113,7 +18052,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 15,
+"pos": 13,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18134,7 +18073,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18155,7 +18094,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18176,7 +18115,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18197,7 +18136,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18218,7 +18157,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -18239,7 +18178,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -18260,7 +18199,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -18281,7 +18220,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 19,
+"pos": 17,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -18302,7 +18241,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 20,
+"pos": 18,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -18323,7 +18262,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 21,
+"pos": 19,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -18345,7 +18284,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 22,
+"pos": 20,
 "pieza": "Manija de accionamiento",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18366,7 +18305,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 22,
+"pos": 20,
 "pieza": "Manija de accionamiento",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18387,7 +18326,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Manija de transporte",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18408,7 +18347,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Manija de transporte",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18429,7 +18368,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -18450,7 +18389,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -18471,7 +18410,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 25,
+"pos": 23,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -18488,6 +18427,69 @@
 "out[\"racor\"]"
 ],
 "estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 24,
+"pieza": "Ganchos portamanguera (2)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla) plegada",
+"dim": "Ancho × vuelo × labio × e (2 u)",
+"valor": "40 × 60.0 × 30 × 3.2",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"PC:accesorios"
+],
+"calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
+"code": [
+"modelo3d.py",
+"gancho=(40.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Ø exterior",
+"valor": 25.0,
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:rodante"
+],
+"calc": "Sin cota en Fadesa",
+"code": [
+"modelo3d.py",
+"d_hose = 25.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Largo desarrollado dibujado",
+"valor": 1037.0,
+"unidad": "mm",
+"tipo": "Cálculo",
+"src": [
+"CALC"
+],
+"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
+"code": [
+"bom.py",
+"largo = s.Volume()"
+],
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_25kg",
@@ -18518,7 +18520,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 265.0,
+"valor": 696.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -18623,7 +18625,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 208.0,
+"valor": 210.4,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -18837,14 +18839,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 575.0,
+"valor": 644.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "N:3550T3",
 "CAT:FL_MAT_ABC_50kg:Profundidad"
 ],
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -14 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -4 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -18880,7 +18882,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.57,
+"valor": 42.46,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -19513,20 +19515,21 @@
 "pos": 5,
 "pieza": "Tercera pata",
 "cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × pie × e",
-"valor": "80 × 50 × 3.2",
+"material": "Chapa LAC 3,2 (orilla de la hoja de 25 kg)",
+"dim": "Ancho × alto × e",
+"valor": "80 × 60 × 3.2",
 "unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
+"tipo": "Proceso FLAMA",
 "src": [
+"PC:pata",
 "PC:accesorios"
 ],
-"calc": "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+"calc": "Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; adelante, de canto contra el fondo a 65 mm del eje del cuerpo",
 "code": [
 "modelo3d.py",
-"pata=(80.0"
+"pata=((80.0"
 ],
-"estado": "E"
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_50kg",
@@ -19685,7 +19688,7 @@
 "cant": 1,
 "material": "Barra acero SAE 1045 Ø25",
 "dim": "Ø × largo / posición",
-"valor": "25 × 500.0 / 187.5 detrás del eje del cuerpo",
+"valor": "25 × 500.0 / -187.5 detrás del eje del cuerpo",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -19695,7 +19698,7 @@
 "calc": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "code": [
 "modelo3d.py",
-"yw = R + CARRO"
+"yw = -(R + CARRO"
 ],
 "estado": "E"
 },
@@ -19813,7 +19816,7 @@
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "189.4 / 1674.0",
+"valor": "189.4 / 1314.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -19830,69 +19833,6 @@
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
 "pos": 12,
-"pieza": "Ganchos portamanguera (2)",
-"cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × vuelo × labio × e (2 u)",
-"valor": "40 × 60.0 × 30 × 3.2",
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"PC:accesorios"
-],
-"calc": "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de manga + 10",
-"code": [
-"modelo3d.py",
-"gancho=(40.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_50kg",
-"plano": "FL_MAT_ABC_50kg",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Ø exterior",
-"valor": 25.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:rodante"
-],
-"calc": "Sin cota en Fadesa",
-"code": [
-"modelo3d.py",
-"d_hose = 25.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_50kg",
-"plano": "FL_MAT_ABC_50kg",
-"pos": 13,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Largo desarrollado dibujado",
-"valor": 892.0,
-"unidad": "mm",
-"tipo": "Cálculo",
-"src": [
-"CALC"
-],
-"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
-"code": [
-"bom.py",
-"largo = s.Volume()"
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_50kg",
-"plano": "FL_MAT_ABC_50kg",
-"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -19913,7 +19853,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 15,
+"pos": 13,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19934,7 +19874,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19955,7 +19895,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19976,7 +19916,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19997,7 +19937,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -20018,7 +19958,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -20039,7 +19979,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -20060,7 +20000,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -20081,7 +20021,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 19,
+"pos": 17,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -20102,19 +20042,19 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 20,
+"pos": 18,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
 "dim": "Palanca largo × alto × espesor / empuñadura",
-"valor": "105.1 × 16 × 10 / Ø22 × 44",
+"valor": "120.0 × 16 × 10 / Ø22 × 44",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula",
 "FE:50 kg:valvula"
 ],
-"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a la manija del carro; sin cota en Fadesa",
+"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
 "code": [
 "modelo3d.py",
 "L_ = x_tip or 110.0"
@@ -20124,7 +20064,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 21,
+"pos": 19,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -20146,7 +20086,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 22,
+"pos": 20,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -20168,7 +20108,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -20189,7 +20129,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -20210,7 +20150,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -20227,6 +20167,69 @@
 "out[\"racor\"]"
 ],
 "estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 23,
+"pieza": "Ganchos portamanguera (2)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla) plegada",
+"dim": "Ancho × vuelo × labio × e (2 u)",
+"valor": "40 × 60.0 × 30 × 3.2",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"PC:accesorios"
+],
+"calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
+"code": [
+"modelo3d.py",
+"gancho=(40.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 24,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Ø exterior",
+"valor": 25.0,
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:rodante"
+],
+"calc": "Sin cota en Fadesa",
+"code": [
+"modelo3d.py",
+"d_hose = 25.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 24,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Largo desarrollado dibujado",
+"valor": 1305.0,
+"unidad": "mm",
+"tipo": "Cálculo",
+"src": [
+"CALC"
+],
+"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
+"code": [
+"bom.py",
+"largo = s.Volume()"
+],
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_50kg",
@@ -20257,7 +20260,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 344.0,
+"valor": 888.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -20362,7 +20365,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 204.4,
+"valor": 206.8,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -20576,14 +20579,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 625.8,
+"valor": 714.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "N:3550T3",
 "CAT:FL_MAT_ABC_70kg:Profundidad"
 ],
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 736; diferencia -15 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 736; diferencia -3 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -20619,7 +20622,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 67.86,
+"valor": 67.66,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -21301,20 +21304,21 @@
 "pos": 6,
 "pieza": "Tercera pata",
 "cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × pie × e",
-"valor": "80 × 50 × 4.75",
+"material": "Chapa LAC 3,2 (orilla de la hoja de 25 kg)",
+"dim": "Ancho × alto × e",
+"valor": "100 × 80 × 3.2",
 "unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
+"tipo": "Proceso FLAMA",
 "src": [
+"PC:pata",
 "PC:accesorios"
 ],
-"calc": "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+"calc": "Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; adelante, de canto contra el fondo a 123 mm del eje del cuerpo",
 "code": [
 "modelo3d.py",
-"pata=(80.0"
+"pata=((80.0"
 ],
-"estado": "E"
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_70kg",
@@ -21473,7 +21477,7 @@
 "cant": 1,
 "material": "Barra acero SAE 1045 Ø25",
 "dim": "Ø × largo / posición",
-"valor": "25 × 570.0 / 222.5 detrás del eje del cuerpo",
+"valor": "25 × 570.0 / -222.5 detrás del eje del cuerpo",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -21483,7 +21487,7 @@
 "calc": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "code": [
 "modelo3d.py",
-"yw = R + CARRO"
+"yw = -(R + CARRO"
 ],
 "estado": "E"
 },
@@ -21601,7 +21605,7 @@
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "227.9 / 1910.0",
+"valor": "227.9 / 1539.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -21618,69 +21622,6 @@
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
 "pos": 13,
-"pieza": "Ganchos portamanguera (2)",
-"cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × vuelo × labio × e (2 u)",
-"valor": "40 × 60.0 × 30 × 4.75",
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"PC:accesorios"
-],
-"calc": "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de manga + 10",
-"code": [
-"modelo3d.py",
-"gancho=(40.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_70kg",
-"plano": "FL_MAT_ABC_70kg",
-"pos": 14,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Ø exterior",
-"valor": 25.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:rodante"
-],
-"calc": "Sin cota en Fadesa",
-"code": [
-"modelo3d.py",
-"d_hose = 25.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_70kg",
-"plano": "FL_MAT_ABC_70kg",
-"pos": 14,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Largo desarrollado dibujado",
-"valor": 1043.0,
-"unidad": "mm",
-"tipo": "Cálculo",
-"src": [
-"CALC"
-],
-"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
-"code": [
-"bom.py",
-"largo = s.Volume()"
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_70kg",
-"plano": "FL_MAT_ABC_70kg",
-"pos": 15,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -21701,7 +21642,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21722,7 +21663,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21743,7 +21684,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21764,7 +21705,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21785,7 +21726,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21806,7 +21747,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -21827,7 +21768,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -21848,7 +21789,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 19,
+"pos": 17,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -21869,7 +21810,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 20,
+"pos": 18,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -21890,19 +21831,19 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 21,
+"pos": 19,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
 "dim": "Palanca largo × alto × espesor / empuñadura",
-"valor": "134.3 × 16 × 10 / Ø22 × 44",
+"valor": "146.2 × 16 × 10 / Ø22 × 44",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula",
 "FE:50 kg:valvula"
 ],
-"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a la manija del carro; sin cota en Fadesa",
+"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
 "code": [
 "modelo3d.py",
 "L_ = x_tip or 110.0"
@@ -21912,7 +21853,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 22,
+"pos": 20,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -21934,7 +21875,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -21956,7 +21897,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -21977,7 +21918,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -21998,7 +21939,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 25,
+"pos": 23,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -22015,6 +21956,69 @@
 "out[\"racor\"]"
 ],
 "estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 24,
+"pieza": "Ganchos portamanguera (2)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla) plegada",
+"dim": "Ancho × vuelo × labio × e (2 u)",
+"valor": "40 × 60.0 × 30 × 4.75",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"PC:accesorios"
+],
+"calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
+"code": [
+"modelo3d.py",
+"gancho=(40.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Ø exterior",
+"valor": 25.0,
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:rodante"
+],
+"calc": "Sin cota en Fadesa",
+"code": [
+"modelo3d.py",
+"d_hose = 25.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Largo desarrollado dibujado",
+"valor": 1371.0,
+"unidad": "mm",
+"tipo": "Cálculo",
+"src": [
+"CALC"
+],
+"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
+"code": [
+"bom.py",
+"largo = s.Volume()"
+],
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_70kg",
@@ -22045,7 +22049,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 406.0,
+"valor": 982.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -22150,7 +22154,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 210.9,
+"valor": 214.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -22364,14 +22368,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 650.8,
+"valor": 739.5,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "N:3550T3",
 "CAT:FL_MAT_ABC_100kg:Profundidad"
 ],
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 840; diferencia -23 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 840; diferencia -12 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -22407,7 +22411,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 89.38,
+"valor": 89.23,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -23092,20 +23096,21 @@
 "pos": 6,
 "pieza": "Tercera pata",
 "cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × pie × e",
-"valor": "80 × 50 × 4.75",
+"material": "Chapa LAC 3,2 (orilla de la hoja de 25 kg)",
+"dim": "Ancho × alto × e",
+"valor": "100 × 80 × 3.2",
 "unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
+"tipo": "Proceso FLAMA",
 "src": [
+"PC:pata",
 "PC:accesorios"
 ],
-"calc": "Chapa plegada en L, adelante a 0,75·R del eje, soldada al casquete inferior",
+"calc": "Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; adelante, de canto contra el fondo a 123 mm del eje del cuerpo",
 "code": [
 "modelo3d.py",
-"pata=(80.0"
+"pata=((80.0"
 ],
-"estado": "E"
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_100kg",
@@ -23264,7 +23269,7 @@
 "cant": 1,
 "material": "Barra acero SAE 1045 Ø25",
 "dim": "Ø × largo / posición",
-"valor": "25 × 650.0 / 222.5 detrás del eje del cuerpo",
+"valor": "25 × 650.0 / -222.5 detrás del eje del cuerpo",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -23274,7 +23279,7 @@
 "calc": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "code": [
 "modelo3d.py",
-"yw = R + CARRO"
+"yw = -(R + CARRO"
 ],
 "estado": "E"
 },
@@ -23392,7 +23397,7 @@
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "227.9 / 1812.0",
+"valor": "227.9 / 1419.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -23409,69 +23414,6 @@
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
 "pos": 13,
-"pieza": "Ganchos portamanguera (2)",
-"cant": 1,
-"material": "Chapa LAC del cuerpo (orilla) plegada",
-"dim": "Ancho × vuelo × labio × e (2 u)",
-"valor": "40 × 60.0 × 30 × 4.75",
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"PC:accesorios"
-],
-"calc": "Costado de la salida, arriba (12 %) y abajo (90 %) del cuerpo; vuelo = 2 Ø de manga + 10",
-"code": [
-"modelo3d.py",
-"gancho=(40.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_100kg",
-"plano": "FL_MAT_ABC_100kg",
-"pos": 14,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Ø exterior",
-"valor": 25.0,
-"unidad": "mm",
-"tipo": "Diseño FLAMA (supuesto)",
-"src": [
-"C:rodante"
-],
-"calc": "Sin cota en Fadesa",
-"code": [
-"modelo3d.py",
-"d_hose = 25.0"
-],
-"estado": "E"
-},
-{
-"modelo": "FL_MAT_ABC_100kg",
-"plano": "FL_MAT_ABC_100kg",
-"pos": 14,
-"pieza": "Manguera (tramo enrollado)",
-"cant": 1,
-"material": "Caucho sintético",
-"dim": "Largo desarrollado dibujado",
-"valor": 1339.0,
-"unidad": "mm",
-"tipo": "Cálculo",
-"src": [
-"CALC"
-],
-"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
-"code": [
-"bom.py",
-"largo = s.Volume()"
-],
-"estado": "V"
-},
-{
-"modelo": "FL_MAT_ABC_100kg",
-"plano": "FL_MAT_ABC_100kg",
-"pos": 15,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -23492,7 +23434,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 16,
+"pos": 14,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23513,7 +23455,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23534,7 +23476,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23555,7 +23497,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23576,7 +23518,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 17,
+"pos": 15,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23597,7 +23539,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -23618,7 +23560,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 18,
+"pos": 16,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -23639,7 +23581,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 19,
+"pos": 17,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -23660,7 +23602,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 20,
+"pos": 18,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -23681,19 +23623,19 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 21,
+"pos": 19,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
 "dim": "Palanca largo × alto × espesor / empuñadura",
-"valor": "134.3 × 16 × 10 / Ø22 × 44",
+"valor": "146.2 × 16 × 10 / Ø22 × 44",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:valvula",
 "FE:50 kg:valvula"
 ],
-"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia atrás, 0,75·R con 15 de luz a la manija del carro; sin cota en Fadesa",
+"calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
 "code": [
 "modelo3d.py",
 "L_ = x_tip or 110.0"
@@ -23703,7 +23645,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 22,
+"pos": 20,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -23725,7 +23667,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 23,
+"pos": 21,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -23747,7 +23689,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -23768,7 +23710,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 24,
+"pos": 22,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -23789,7 +23731,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 25,
+"pos": 23,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -23806,6 +23748,69 @@
 "out[\"racor\"]"
 ],
 "estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 24,
+"pieza": "Ganchos portamanguera (2)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla) plegada",
+"dim": "Ancho × vuelo × labio × e (2 u)",
+"valor": "40 × 60.0 × 30 × 4.75",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"PC:accesorios"
+],
+"calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
+"code": [
+"modelo3d.py",
+"gancho=(40.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Ø exterior",
+"valor": 25.0,
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"C:rodante"
+],
+"calc": "Sin cota en Fadesa",
+"code": [
+"modelo3d.py",
+"d_hose = 25.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 25,
+"pieza": "Manguera (tramo enrollado)",
+"cant": 1,
+"material": "Caucho sintético",
+"dim": "Largo desarrollado dibujado",
+"valor": 1714.0,
+"unidad": "mm",
+"tipo": "Cálculo",
+"src": [
+"CALC"
+],
+"calc": "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo",
+"code": [
+"bom.py",
+"largo = s.Volume()"
+],
+"estado": "V"
 },
 {
 "modelo": "FL_MAT_ABC_100kg",
@@ -23836,7 +23841,7 @@
 "cant": 1,
 "material": "Caucho sintético",
 "dim": "Largo desarrollado dibujado",
-"valor": 428.0,
+"valor": 1176.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -23941,7 +23946,7 @@
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
 "dim": "Alto",
-"valor": 210.9,
+"valor": 214.0,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [

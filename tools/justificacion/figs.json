@@ -2078,7 +2078,7 @@
   "ubic": "Tabla 0; puestos 1, 2, 4, 6, 7 y 8",
   "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F38.png",
   "w": 960,
-  "h": 630,
+  "h": 816,
   "link": "",
   "tipo": "Proceso FLAMA",
   "nota": "Documento del usuario (no es la fuente de verdad: se usa para el paso a paso y las medidas que fija).",
@@ -2120,9 +2120,30 @@
    },
    {
     "n": 6,
-    "etiqueta": "Accesorios soldados: eje con soportes, manija, 2 ganchos, tercera pata",
+    "etiqueta": "Accesorios soldados: eje con soportes y manija atrás, tercera pata adelante; los 2 ganchos y la manga, que el documento pone en el costado derecho, van adelante (corrección del usuario)",
     "claves": [
      "PC:accesorios"
+    ]
+   },
+   {
+    "n": 7,
+    "etiqueta": "Terceras patas 80 × 60 (25/50 kg) y 100 × 80 (70/100 kg) de la orilla de 3,2 de la hoja de 25 kg",
+    "claves": [
+     "PC:pata"
+    ]
+   },
+   {
+    "n": 8,
+    "etiqueta": "Cilindro cerrado marcado con modelo y lote y con tapón plástico en la cupla",
+    "claves": [
+     "PC:tapon"
+    ]
+   },
+   {
+    "n": 9,
+    "etiqueta": "Soldadura de accesorios MIG/MAG manual, alambre ER70S-6 Ø1,0, gas 92 % Ar + 8 % CO₂",
+    "claves": [
+     "PC:mig"
     ]
    }
   ],
