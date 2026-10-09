@@ -39,7 +39,7 @@ DOCS = {
                 "PH hasta 30 MPa con lectura de deformación; presurización con N₂ seco."),
     "I-FLAMA": ("Investigación de mercado FLAMA (Investigación mercado - maquinarias y MP.xlsx; Materias Primas.xlsx)",
                 "Chapa LAF/LAC SAE 1010 de Ternium; tubo Ø76 para 1 kg; tapas de rodantes y cuello roscado "
-                "tercerizados (Eli-Met); carro de rodantes comprado armado; varilla de refuerzo en 70/100 kg; "
+                "tercerizados (Eli-Met); carro de rodantes comprado armado (reemplazado por el tren soldado del proceso de carros); "
                 "alambre ER70S-6 AWS A5.18; granalla S330/S390 ISO 11124-3 / SAE J444; N₂ ≥ 99,9 % rocío "
                 "< -40 °C; manómetro IRAM 3533; pintura de rodantes tercerizada por quemado (sin granalla)."),
     "R-FADESA": ("Planos Fadesa / Cautio SRL (2015-2017)",
@@ -85,10 +85,10 @@ VALIDACION = [
     ("Acero", "Chapa del cuerpo rodantes", "LAC e = 3,2 (25 y 50 kg) / 4,75 (70 y 100 kg); IRAM-IAS U 500-04",
      "IRAM 3550 3.2.1; 4.1.3.1 fórmula; 4.1.3.2 mínimos 2,9 / 4,5 mm", "Q-PACHECO · Q-PRADECON · R-FADESA",
      "VALIDADA CON CONDICIÓN", "4,75 cumple el mínimo de 4,5 (Ø > 320). 50 kg con 3,2 (igual que Fadesa G689) cumple "
-     "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0. Recortes 70 / 100 kg: el "
-     "plano pide 798 × 1085 (Ø350) y 917 × 1210 (Ø390); los cotizados 680 / 900 × 1212 no sirven: recotizar."),
+     "la fórmula sólo con σf ≥ 265 MPa: exigirlo en el certificado o pasar a 4,0. Recortes 70 / 100 kg: "
+     "680 / 900 × 1212 (Ø390, proceso de carros) coinciden con el plano FL_REC."),
     ("Semielaborado", "Tapas (cúpula y fondo) de rodantes 25 / 50 / 70 / 100 kg", "Casquete embutido Ø276 / Ø320 × "
-     "3,2 y Ø350 / Ø390 × 4,75, embutido tercerizado en Gockel Ingeniería (Wilde, Avellaneda)",
+     "3,2 y Ø390 × 4,75 (15\", el mismo para 70 y 100 kg), embutido tercerizado en Gockel Ingeniería (Wilde, Avellaneda)",
      "IRAM 3550 3.2.1 / 4.1.3", "Proveedor de FLAMA (Gockel)", "VALIDADA CON CONDICIÓN",
      "Cotizar con matriz por diámetro y certificado de material de la chapa (σf ≥ 265 MPa)."),
     ("Semielaborado", "Cuello roscado de manuales", "Asiento mecanizado SAE 1020 M22 / M30 × 1,5 (Eli-Met)",
@@ -96,10 +96,9 @@ VALIDACION = [
      "Sin cotización (planilla MP-18/19): pedir a Eli-Met con material y calibre de rosca."),
     ("Semielaborado", "Cupla soldable de rodantes", "Cupla M30 × 1,5 (25/50 kg) / RBSP 2½\" (70/100 kg), Eli-Met",
      "IRAM 3550 4.1.5", "Planilla MP-20/21", "VALIDADA", "Cotizada: $5.261 / $13.479 c/u + IVA, 35-40 días."),
-    ("Semielaborado", "Varilla de refuerzo interior 70 / 100 kg", "Redondo SAE 1010 Ø8, interior detrás de la "
-     "costura longitudinal, punteado antes de soldar", "—", "Decisión FLAMA · planilla MP-22", "ESTIMADA",
-     "Posición y función decididas por FLAMA (simetría del cilindrado). Ø8 = propuesta sin cálculo; Caseros la cotizó "
-     "como inoxidable: confirmar SAE 1010 (soldable con ER70S-6)."),
+    ("Semielaborado", "Placas de refuerzo 70 / 100 kg", "2 placas 200 × 100 × 4,75 curvadas a Ø380, por dentro sobre "
+     "la costura longitudinal, a 100 mm de cada boca", "—", "Proceso FLAMA de carros (corte, cilindrado y punteo)",
+     "VALIDADA", "Salen de las orillas de 4,75 (sin compra)."),
     ("Consumible", "Alambre de soldadura", "ER70S-6 Ø0,9 / 1,2 (AWS A5.18); consumo = depositado / 0,95",
      "IRAM 3523 3.2.4.2 / 3550 4.1.2", "I-FLAMA · Q-GETWELD · T2 (ESAB)", "ESTIMADA",
      "Rendimiento 0,95 de fuente técnica (ESAB 90-97 %): medir en la prueba de soldadura del equipo."),
@@ -130,10 +129,11 @@ VALIDACION = [
      "Sin cotización ni ficha: cotizar a Georgia (venta mayorista) o Mozart (Valentín Alsina)."),
     ("Componente", "Manga y tobera", "Manga de caucho + tobera", "IRAM 3523 4.2 (≥ 350 mm; PH 2 × Ps)", "I-FLAMA",
      "A VALIDAR", "Sin cotización: cotizar con ensayo de PH de la manga."),
-    ("Componente", "Carro de rodantes", "Fabricado en planta: caño Ø25,4 × 1,6, eje SAE 1045 Ø25, planchuela 40 × 6, "
-     "apoyo de chapa; ruedas compradas", "IRAM 3550 3.12 y 4.8 (ruedas ≥ Ø300 × 50)", "Catálogo Ruedar / Escanort",
-     "A VALIDAR", "No hay proveedor nacional del carro armado. Ruedas: Ruedar Ø300 (buje 20: pedir 25) y Ø350 × 60 "
-     "(buje 25, 150 kg); Ø400 maciza sin proveedor nacional hallado (Escanort Ø400 neumática)."),
+    ("Componente", "Carro de rodantes", "Tren soldado al recipiente: eje SAE 1045 Ø25 con 2 soportes de chapa, manija de "
+     "caño Ø25,4 × 1,6, 2 ganchos portamanguera, tercera pata y 4 arandelas de tope; ruedas compradas",
+     "IRAM 3550 6.1.1, 3.12 y 4.8 (ruedas ≥ Ø300 × 50)", "Proceso FLAMA de carros · Catálogo Ruedar / Escanort",
+     "A VALIDAR", "Medidas de los accesorios = diseño FLAMA (kit 4,2-4,9 kg). Ruedas: Ruedar Ø300 (buje 20: pedir 25) "
+     "y Ø350 × 60 (buje 25, 150 kg); Ø400 maciza sin proveedor nacional hallado (Escanort Ø400 neumática)."),
     ("Referencia", "Recipiente inoxidable de revendidos (agua, AFFF 10 L, sales K)", "Chapa inoxidable 304 soldada, "
      "TIG con Ar puro", "IRAM 3525 3.2.1 b) e ≥ 0,63; 3.2.2 ≤ 1 long. + 2 transv., automático, atmósfera inerte; "
      "IRAM 3517-2 9.4.21", "T5 · mercado (recipientes soldados, PH 100 %)", "ESTIMADA",

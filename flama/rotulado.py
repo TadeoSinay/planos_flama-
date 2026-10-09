@@ -691,8 +691,9 @@ def hoja4(m, piezas, info, proy, doc, ox):
                + "26")
         lin = [("Fabricante, n° de " + ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") +
                 " y año (2 díg.) - IRAM " + n_ext + " 5.1"),
-               "Estampado en la cúpula junto al cuello, letra 5 mm (IRAM 4503);",
-               "cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV, art. 24 mod. 717/07)."]
+               *M.marcado(m)[2],
+               "letra 5 mm (IRAM 4503); cuño DPS 15 × 7 junto al n°",
+               "(Res. 349/07 anexo IV, art. 24 mod. 717/07)."]
     h.rect(mx + 3, my + 42, mx + 82, my + 52, "01-VISIBLE" if not rev else "08-FINA")
     h.texto(txt, (mx + 38, my + 47), 2.4, A.MIDDLE_CENTER)
     if not rev:

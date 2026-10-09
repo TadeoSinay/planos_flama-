@@ -95,24 +95,22 @@ G_50KG = dict(R=320 / 2, hc=640, hd=105, t=3.2, td=3.2, tf=3.2, tipo_fondo="cabe
               cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=61.8)
 
 
-def _vol_rodante(R, hd, vol):
-    """cilindro necesario para alcanzar `vol` dm³ con 2 cabezales semielípticos."""
+def _g_rodante(D, hc, t=4.75):
+    """70 y 100 kg (proceso FLAMA de carros, planta y planilla MP): Ø390, chapa LAC 4,75 (IRAM 3550 4.1.3.2: 4,5 mín.
+    por encima de Ø320), cuerpo de 680 / 900 mm entre casquetes 15" (MP-17, compartido) y cupla 2½" BSP.
+    Altura del casquete = 0,656·R, proporción del cabezal Fadesa de 50 kg (105 / 160). Dos placas de refuerzo
+    200 × 100 × 4,75 por dentro sobre la costura longitudinal."""
     import math
-    v_cab = 2 * (2 / 3) * math.pi * R * R * hd  # dos semielipsoides
-    return (vol * 1e6 - v_cab) / (math.pi * R * R)
-
-
-def _g_rodante(D, vol, t=3.2):
-    """IRAM 3550 4.1.3.2: espesor mínimo 2,9 mm hasta Ø ext. 320 y 4,5 mm por encima (70 y 100 kg: chapa 4,75)."""
     R = D / 2
     hd = round(0.656 * R, 1)
-    hc = round(_vol_rodante(R - t, hd - t, vol), 0)
+    ri, bi = R - t, hd - t
+    vol = round((math.pi * ri * ri * hc + 2 * (2 / 3) * math.pi * ri * ri * bi) / 1e6, 1)
     return dict(R=R, hc=hc, hd=hd, t=t, td=t, tf=t, tipo_fondo="cabezal",
-                cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=vol, **({"varilla": 8.0} if t > 4 else {}))
+                cuello=(88, 37, "RBSP 2 1/2\"-11 h", 80), vol_dm3=vol, refuerzo=(200.0, 100.0, 4.75))
 
 
-G_70KG = _g_rodante(350, 86.0, 4.75)
-G_100KG = _g_rodante(390, 123.0, 4.75)
+G_70KG = _g_rodante(390, 680)
+G_100KG = _g_rodante(390, 900)
 
 
 def _g_inox(H, R=95.0, hd=60.0, h_valv=100.0):

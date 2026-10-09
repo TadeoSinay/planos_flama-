@@ -128,17 +128,13 @@ ITEMS = {
     "MP-CANO": ("Caño del cuerpo 1 kg", "Caño c/costura ERW SAE 1010 Ø76,2 × 1,25, barra 6 m", "METALPRI", "MID",
                 "COTIZADO", "Planilla MP-01 (Metalprisa)", "MID cotizó 2½\" × 2,6 (más pesado): alternativa con "
                 "reserva; confirmar costura por resistencia (IRAM 3523 3.2.4.2 b)"),
-    "MP-VARILLA": ("Varilla de refuerzo interior 70 / 100 kg", "Redondo liso SAE 1010 Ø8, barra 6 m (soldable con "
-                   "ER70S-6)", "PARROTTA", "CASEROS", "ESTIMADO", "Planilla MP-22: $15.000/kg + IVA (Caseros)",
-                   "Ø8 = propuesta de diseño (sin cálculo). Caseros cotizó como acero inoxidable: confirmar SAE 1010; "
-                   "inoxidable no se suelda con ER70S-6"),
     "MP-CUELLO": ("Cuello roscado de manuales", "Asiento roscado SAE 1020 M22 (1 kg) / M30 × 1,5 (2,5-10 kg), "
                   "mecanizado bajo plano", "ELIMET", None, "A COTIZAR",
                   "Planilla MP-18/19: sin cotizar (Eli-Met cotizó la cupla M30 de carros)",
                   "Segundo tornero CNC a relevar"),
     "MP-CUPLA": ("Cupla soldable de rodantes", "Cupla SAE 1020 M30 × 1,5 (25/50 kg) / RBSP 2½\" (70/100 kg)",
                  "ELIMET", None, "COTIZADO", "Planilla MP-20/21: $5.261 / $13.479 c/u + IVA", "35-40 días"),
-    "TAPA-ROD-G": ("Tapas (cúpula y fondo) 70 / 100 kg", "Casquete embutido toriesférico Ø350 / Ø390 × 4,75 LAC",
+    "TAPA-ROD-G": ("Tapas (cúpula y fondo) 70 / 100 kg", "Casquete embutido toriesférico Ø390 × 4,75 LAC (15\", 70 y 100 kg)",
                    "GOCKEL", None, "A COTIZAR", "Sin cotizar (la planilla MP-17 lo daba importado)",
                    "Embutido con matriz propia de Gockel (Wilde); cotizar con certificado de material de la chapa"),
     "TAPA-ROD-C": ("Tapas (cúpula y fondo) 25 / 50 kg", "Casquete embutido Ø276 / Ø320 × 3,2 LAC", "GOCKEL", None,
@@ -189,12 +185,10 @@ ITEMS = {
                   "No se halló Ø400 maciza nacional en catálogo; Escanort tiene Ø400 × 100 NEUMÁTICA (eje 25, 200 kg)"),
     "MP-EJE": ("Eje de ruedas", "Redondo SAE 1045 Ø25, barra 6 m", "PARROTTA", None, "A COTIZAR", "Sin cotizar",
                "Confirmar SAE 1045 con certificado"),
-    "MP-CANO-CARRO": ("Caño del bastidor", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",
+    "MP-CANO-CARRO": ("Caño de la manija del carro", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",
                       "Sin cotizar (mismo proveedor que el caño del 1 kg)", "-"),
-    "MP-PLANCHUELA": ("Planchuela de sunchos", "Planchuela SAE 1010 30 × 3 (25/50 kg) y 40 × 4 (70/100 kg), barra 6 m", "PARROTTA", None,
-                      "A COTIZAR", "Sin cotizar", "-"),
-    "MP-CHAPA-APOYO": ("Chapa del apoyo", "Chapa LAC e=3,2 (recorte de la hoja de rodantes)", "PRADECON", "PACHECO",
-                       "COTIZADO", "Mismo material que la planilla MP-11", "-"),
+    "ARANDELA-TOPE": ("Arandela de tope del eje de carro", "Arandela SAE 1010 Ø40 × Ø26 × 4", "PARROTTA", None,
+                      "A COTIZAR", "Sin cotizar", "Se compran (proceso de carros, puesto 8.1)"),
     # ---------------- carga
     "POLVO-ABC": ("Polvo ABC", "Polvo ABC con Sello IRAM 3569, grado del modelo (DEM-60 / DEM-90), bolsa 25 kg",
                   "DEMSA", "POLVEX", "COTIZADO", "Lista Q-AGENTES (Sancibrao ABC 55/75/90)",

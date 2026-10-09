@@ -4,7 +4,7 @@ multinivel ligada al BOM (flama/bom.py, salida/bom/FLAMA_BOM.xlsx).
 Separados de los planos de fabricación FL_MAT_* (no los reemplazan). Las piezas son los mismos sólidos del
 modelo 3D; se desplazan por subconjunto: recipiente (S1) en su lugar con fondo, cúpula y cuello separados en
 el eje; válvula (S2) arriba con sus piezas abiertas en altura y el caño de pesca al costado; dispositivo de
-descarga (S3) a la izquierda; carro (S4) con ruedas hacia afuera y bastidor hacia atrás.
+descarga (S3) a la izquierda; carro (S4) con ruedas hacia afuera y manija hacia atrás.
 
 Globo = posición del plano FL_MAT (y sufijo del código BOM, p. ej. 07 -> ABC10-07). Lo que el modelo no
 dibuja (juntas, resorte, carga, identificación, embalaje) figura en la lista con «—» en la columna globo.
@@ -47,8 +47,8 @@ def explotar(m, piezas):
     for k in ("fondo", "pie"):
         if k in piezas:
             d[k][2] = (c.zmin - g) - _bb(piezas[k]).zmax
-    if "varilla" in piezas:                      # interior: se saca hacia el frente para verla
-        d["varilla"][1] = -(2.2 * R + g)
+    if "placas_refuerzo" in piezas:              # interior: se sacan hacia el frente para verlas
+        d["placas_refuerzo"][1] = -(2.2 * R + g)
     # S2 válvula: arriba, abierta en altura
     val = [k for k in piezas if sub[k] == 2 and k != "cano_pesca" and k not in NO_DIBUJAR]
     if val:
@@ -60,7 +60,8 @@ def explotar(m, piezas):
         for k, (dx, dy, dz) in {"manometro": (0, -1.6, 0.3), "disco_seguridad": (0, -1.4, 0),
                                 "pasador": (1.4, -0.6, 0), "manija_superior": (0.4, 0, 0.6),
                                 "manija_inferior": (0.6, 0, 0), "eje": (-1.0, 0, 0.3),
-                                "vastago": (0, 0, 0.25), "tuerca": (0, 0, 0.4), "espiga": (0, 0, 0)}.items():
+                                "vastago": (0, 0, 0.25), "resorte": (0, 0, -0.3), "tuerca": (0, 0, 0.4),
+                                "espiga": (0, 0, 0)}.items():
             if k in d:
                 d[k][0] += dx * g
                 d[k][1] += dy * g
@@ -84,8 +85,8 @@ def explotar(m, piezas):
     car = [k for k in piezas if sub[k] == 4]
     if car:
         x_lib = c.xmax + g + (_bb(piezas["cano_pesca"]).xlen + g if "cano_pesca" in piezas else 0)
-        dx = x_lib + 0.6 * g - min(_bb(piezas[k]).xmin for k in car if k in ("rueda_izq", "llanta_izq", "bastidor",
-                                                                              "eje_ruedas", "sunchos_bastidor"))
+        dx = x_lib + 0.6 * g - min(_bb(piezas[k]).xmin for k in car if k in ("rueda_izq", "llanta_izq", "manija_carro",
+                                                                              "eje_ruedas", "soportes_eje"))
         for k in car:
             d[k][0] += dx
     for k in piezas:
@@ -93,10 +94,16 @@ def explotar(m, piezas):
             b = _bb(piezas[k])
             if k in ("rueda_der", "llanta_der", "rueda_izq", "llanta_izq"):
                 d[k][0] = (1 if b.xmin > 0 else -1) * (1.8 if "rueda" in k else 0.9) * g
-            elif k in ("bastidor",):
+            elif k in ("manija_carro",):
                 d[k][1] = 2.2 * g
-            elif k in ("sunchos_bastidor",):
+            elif k in ("soportes_eje",):
                 d[k][1] = 1.1 * g
+            elif k in ("arandelas_tope",):
+                d[k][1] = 1.6 * g
+            elif k in ("ganchos_manguera",):
+                d[k][0] = -1.0 * g
+            elif k in ("tercera_pata",):
+                d[k][1] = -1.2 * g
     return d, sub, g
 
 

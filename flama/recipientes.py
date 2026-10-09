@@ -21,7 +21,7 @@ from .lamina import Hoja, nuevo_doc, ESCALAS, AMPLIAC, FORMATOS, ROT_W, ROT_H, A
 from .lamina import recortar_circulo, transformar, transformar_poly, ancho_medio
 from .planos import FECHA, DIBUJO, _roscas_y_soldaduras, _n, _tabla
 
-PIEZAS_REC = ["cuerpo", "cupula", "fondo", "cuello", "varilla", "soldaduras"]
+PIEZAS_REC = ["cuerpo", "cupula", "fondo", "cuello", "placas_refuerzo", "soldaduras"]
 COLORES = {"cuerpo": 45, "cupula": 135, "fondo": 135, "cuello": 45}
 ABC = ["FL_MAT_ABC_1kg", "FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg",
        "FL_MAT_ABC_25kg", "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg"]
@@ -145,16 +145,29 @@ def generar_recipiente(m, hojas=1):
     h.cota_lineal((xD - R * f, yD), (xD + R * f, yD), (xD, yD - R * f - 10), 0, k, texto=f"%%c<>{tD}")
 
     # ---- detalles en la columna derecha, sobre el rótulo
+    lab, esc = dr["encastre"]
+    rod_ = g["tipo_fondo"] == "cabezal"
+    t_ = _n(g["t"], 2)
     detalles = [
         dict(letra="B", c=(dr["dn"] / 2 * 0.6, (dr["z_cuello"] + dr["z_cupula"]) / 2 - 2),
-             r=max(dr["dn"] * 0.45, (dr["z_cuello"] - dr["z_cupula"]) * 0.75 + 5), titulo="Cuello roscado"),
-        dict(letra="C", c=(R - g["t"], dr["z_union"]), r=max(4 * g["t"], 6.0), titulo="Unión cúpula-cuerpo"),
+             r=max(dr["dn"] * 0.45, (dr["z_cuello"] - dr["z_cupula"]) * 0.75 + 5), titulo="Cuello roscado",
+             nota="muesca de altura 2 × 1 × 2 (prensa Pannier); filete exterior" if not rod_ else
+             "cupla soldada por fuera con filete (posicionador)"),
+        dict(letra="C", c=(R - g["t"], dr["z_union"]), r=max(4 * g["t"], 6.0),
+             titulo="Casquete con borde reducido y tope" if rod_ else "Bordón del cuerpo y cúpula",
+             nota=(f"labio {_n(lab, 1)} dentro del cuerpo, escalón {_n(esc, 1)} × e {t_}; cordón en el escalón" if rod_
+                   else f"escalón e {t_} × {_n(esc, 0)}, labio {_n(lab, 0)} (bordoneadora); cúpula por fuera")),
     ]
     if g["tipo_fondo"] == "concavo":
         detalles.append(dict(letra="D", c=(R - 6, g["zf_borde"] * 0.7), r=max(g["zf_borde"] + 6, 16),
-                             titulo="Fondo y pollera"))
+                             titulo="Fondo encastrado y pollera",
+                             nota="fondo a presión con pestaña de 10 contra la pared; filete por debajo"))
     else:
-        detalles.append(dict(letra="D", c=(R - g["t"], dr["zb"]), r=max(6 * g["t"], 12), titulo="Unión fondo-cuerpo"))
+        detalles.append(dict(letra="D", c=(R - g["t"], dr["zb"]), r=max(6 * g["t"], 12),
+                             titulo="Casquete inferior con borde reducido" if rod_ else "Bordón inferior y fondo",
+                             nota=(f"labio {_n(lab, 1)}, escalón {_n(esc, 1)}; mismo casquete que la cúpula" if rod_
+                                   else f"caño con los dos extremos reducidos: escalón e {t_} × {_n(esc, 0)}, "
+                                        f"labio {_n(lab, 0)}")))
     col_x = h.fx1 - w_det / 2 - 2
     col_y0, col_y1 = h.fy0 + ROT_H + 4, h.fy1 - 4
     ch = (col_y1 - col_y0) / 3
@@ -186,6 +199,8 @@ def generar_recipiente(m, hojas=1):
         h.msp.add_circle(dest, rp, dxfattribs={"layer": "08-FINA"})
         h.texto(f"DETALLE {d['letra']} ({escala_txt(sd)})", (col_x, dest[1] - rp - 5), 3.5, A.MIDDLE_CENTER)
         h.texto(d["titulo"], (col_x, dest[1] - rp - 9.5), 2.5, A.MIDDLE_CENTER)
+        if d.get("nota"):
+            h.texto(d["nota"], (col_x, dest[1] - rp - 13), 1.8, A.MIDDLE_CENTER)
         # marca en el corte
         rr = d["r"] * f
         c0 = (xC + d["c"][0] * f, cy0 + d["c"][1] * f)
@@ -206,7 +221,7 @@ def generar_recipiente(m, hojas=1):
              ("Norma IRAM extintor", s_["Norma IRAM extintor"]),
              ("Tratamiento superficial", "según DOC-01 FLAMA"),
              ("Ensayo 100 %", "prueba hidráulica según DOC-02"),
-             ("Marcado en cúpula", "FLAMA S.A. - N° serie - año" + (" - PE" if rod else "")),
+             ("Marcado (" + M.marcado(m)[1] + ")", "FLAMA S.A. - N° serie - año" + (" - PE" if rod else "")),
              ("Verificación normativa", "hoja 2" if hojas > 1 else "-")]
     xt = h.fx0 + 4
     _tabla(h, xt, h.fy0 + 4 + 5.0 * len(datos), datos, [80, 70], alto=5.0, hs=(2.5, 2.5))

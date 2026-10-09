@@ -86,7 +86,7 @@ def verificacion(m):
         f.append(("Corrosión", "3523 4.14", "niebla salina IRAM 121 sin corrosión del base",
                   "pintura tercerizada (Prymax): exigir informe IRAM 121", rev))
         f.append(("Pintura", "3523 5.3", "rojo 03-1-050 IRAM-DEF D 10-54", "rojo 03-1-050", ok))
-        f.append(("Marcado", "3523 5.1", "fabricante, n° de recipiente, año (2 díg.)", "estampado en cúpula", ok))
+        f.append(("Marcado", "3523 5.1", "fabricante, n° de recipiente, año (2 díg.)", M.marcado(m)[1], ok))
     else:
         emin = 2.9 if D <= 320 else 4.5
         ef = e_3550(D, PE)
@@ -114,7 +114,7 @@ def verificacion(m):
         f.append(("Niebla salina", "3550 4.5", "240 h IRAM 121 sin corrosión",
                   "pintura tercerizada de carros: exigir informe IRAM 121", rev))
         f.append(("Pintura", "3550 3.11", "rojo 03-1-050", "rojo 03-1-050", ok))
-        f.append(("Marcado", "3550 5.1", "fabricante, n° de serie, presión de ensayo, año", "estampado en cabezal", ok))
+        f.append(("Marcado", "3550 5.1", "fabricante, n° de serie, presión de ensayo, año", M.marcado(m)[1], ok))
     return f
 
 
@@ -230,8 +230,13 @@ def hoja3(m, doc, ox):
     tb = piezas["tapon"].BoundingBox()
     h.nota_referencia("Tapón protector", (Tx, Ty + (tb.zmin + tb.zmax) / 2 * f), (Tx + dr["R"] * f + 8,
                       Ty + tb.zmax * f + 6), 2.2)
-    h.nota_referencia("Marcado grabado", (Tx + dr["dn"] / 2 * f + 2, Ty + dr["z_cupula"] * f - 2),
-                      (Tx - dr["R"] * f - 6, Ty + dr["z_cuello"] * f + 4), 2.2)
+    en_cupula = M.marcado(m)[0] == "cupula"
+    # franja superior del cuerpo, cara opuesta a la etiqueta; 1 kg: sobre la cúpula
+    zm = (dr["z_union"] + 0.45 * (dr["z_cupula"] - dr["z_union"])) if en_cupula else dr["z_union"] - 12.0
+    h.rect(Tx - 10 * f, Ty + (zm - 3) * f, Tx + 10 * f, Ty + (zm + 3) * f, "02-OCULTA")
+    h.nota_referencia("Marcado grabado en la cúpula" if en_cupula else "Marcado grabado en el cuerpo (cara posterior)",
+                      (Tx + 10 * f, Ty + zm * f),
+                      (Tx + dr["R"] * f + 8, Ty + dr["z_cuello"] * f + 4), 2.2)
     h.nota_referencia("Etiqueta (R2)", (Tx, Ty + (eb.zmin + eb.zmax) / 2 * f), (Tx - dr["R"] * f - 6,
                       Ty + eb.zmin * f - 8), 2.2)
     h.texto(f"R1 UBICACIÓN (vista anterior, esc. 1:{_n(1 / f, 0)})", (X0 + 62, Y1 - 13), 3, A.MIDDLE_CENTER)
@@ -268,11 +273,13 @@ def hoja3(m, doc, ox):
     h.rect(mx, my + 14, mx + 120, my + 24, "01-VISIBLE")
     h.texto(txt, (mx + 60, my + 19), 3.5, A.MIDDLE_CENTER)
     h.texto(("Fabricante, n° de serie, presión de ensayo y año (2 díg.)" if rod else
-             "Fabricante, n° de recipiente y año (2 díg.)") + "; estampado en frío en la cúpula", (mx, my + 9), 1.9)
-    h.texto("junto al cuello, letra 5 mm IRAM 4503, antes de la PH; legible después de pintar.", (mx, my + 5.5), 1.9)
+             "Fabricante, n° de recipiente y año (2 díg.)"), (mx, my + 9), 1.9)
+    l1, l2 = M.marcado(m)[2]
+    h.texto(l1, (mx, my + 5.5), 1.9)
+    h.texto(l2 + " letra 5 mm IRAM 4503; legible después de pintar.", (mx, my + 2), 1.9)
     h.rect(mx + 122, my + 15.5, mx + 137, my + 22.5, "01-VISIBLE")
     h.texto("DPS", (mx + 129.5, my + 19), 3.0, A.MIDDLE_CENTER)
-    h.texto("cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV)", (mx, my + 2), 1.9)
+    h.texto("cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV)", (mx, my - 1.5), 1.9)
     # R4 tapón protector
     tx, ty = X0 + 262, Y1 - 50
     rt = m.geo["cuello"][0] / 2 + 1.5
@@ -330,8 +337,8 @@ def despiece(m):
     d["tapon"] = (0, 0, 3 * gap)
     d["fondo"] = (0, 0, -gap)
     d["etiqueta_rec"] = (0, -1.2 * R, 0)
-    if "varilla" in piezas:
-        d["varilla"] = (-2.2 * R, 0, 0)
+    if "placas_refuerzo" in piezas:
+        d["placas_refuerzo"] = (-2.2 * R, 0, 0)
     mov = {k: s.translate(cq.Vector(*d[k])) for k, s in piezas.items() if k != "soldaduras"}
     proy = V.proyectar(cq.Compound.makeCompound(list(mov.values())), "iso", tol=0.4, ocultas=False)
     ex = V.extension(proy["vis"])
@@ -352,7 +359,7 @@ def despiece(m):
         if r["nivel"] == 2:
             sufijo.setdefault(r["desc"].strip().lower(), r["codigo"].split("-")[-1])
     nombre_bom = {"cuerpo": "cuerpo", "cupula": "cúpula", "fondo": "fondo", "cuello": "cuello", "tapon": "tapón",
-                  "etiqueta_rec": "etiqueta de identificación", "varilla": "varilla"}
+                  "etiqueta_rec": "etiqueta de identificación", "placas_refuerzo": "placas de refuerzo"}
     glob = {}
     for k in mov:
         for desc, suf in sufijo.items():

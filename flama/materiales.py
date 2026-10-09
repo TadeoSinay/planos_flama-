@@ -2,7 +2,7 @@
 
 El peso de la lista de materiales se calcula con el volumen del sólido 3D por la
 densidad del material. Para piezas modeladas macizas pero que en la realidad son
-huecas (manguera, caño del bastidor, cuerpo de la válvula esférica) se aplica el
+huecas (manguera, caño de la manija del carro, cuerpo de la válvula esférica) se aplica el
 factor de llenado indicado.
 
 Los materiales que figuran en el catálogo de referencia se respetan (recipiente
@@ -22,14 +22,15 @@ PIEZAS = {
     "cupula": ("Cúpula", "Chapa acero SAE 1010", ACERO, 1.0, "embutida"),
     "fondo": ("Fondo", "Chapa acero SAE 1010", ACERO, 1.0, "embutido"),
     "cuello": ("Cuello roscado", "Acero SAE 1010", ACERO, 1.0, None),
-    "varilla": ("Varilla de refuerzo interior", "Redondo liso SAE 1010 Ø8", ACERO, 1.0,
-                "punteada detrás de la costura long."),
+    "placas_refuerzo": ("Placas de refuerzo (2)", "Chapa LAC 4,75 curvada a Ø380", ACERO, 1.0,
+                        "sobre la costura long."),
     "soldaduras": None,
     "cano_pesca": ("Caño de pesca (sifón)", "Tubo PVC rígido", PVC, 1.0, None),
     "espiga": ("Espiga roscada", "Latón forjado", LATON, 1.0, None),
     "tuerca": ("Collarín de válvula", "Latón forjado", LATON, 1.0, None),
     "cuerpo_valvula": ("Cuerpo de válvula", "Latón forjado", LATON, 1.0, None),
     "vastago": ("Vástago", "Latón", LATON, 1.0, "con junta tórica"),
+    "resorte": ("Resorte de válvula", "Alambre acero inox. AISI 302", INOX, 0.35, "cierre del vástago"),
     "eje": ("Eje de palanca", "Acero inox. AISI 304", INOX, 1.0, None),
     "manija_superior": ("Manija de accionamiento", "Chapa acero SAE 1010 pintada", ACERO, 1.0, None),
     "manija_inferior": ("Manija de transporte", "Chapa acero SAE 1010 pintada", ACERO, 1.0, None),
@@ -49,12 +50,14 @@ PIEZAS = {
     "rueda_izq": None,
     "llanta_der": ("Llanta con cubo", "Chapa acero SAE 1010", ACERO, 1.0, None),
     "llanta_izq": None,
-    "eje_ruedas": ("Eje de ruedas", "Acero SAE 1045", ACERO, 1.0, None),
-    "bastidor": ("Bastidor", "Caño acero SAE 1010 Ø25,4×1,6", ACERO, 0.24, None),
-    "sunchos_bastidor": ("Sunchos de fijación", "Planchuela acero SAE 1010", ACERO, 1.0, None),
-    "apoyo": ("Apoyo delantero", "Chapa acero SAE 1010 plegada", ACERO, 0.20, None),
+    "eje_ruedas": ("Eje de ruedas", "Barra acero SAE 1045 Ø25", ACERO, 1.0, "comprado"),
+    "arandelas_tope": ("Arandelas de tope (4)", "Acero SAE 1010 Ø40 × Ø26 × 4", ACERO, 1.0, "compradas"),
+    "soportes_eje": ("Soportes del eje (2)", "Chapa LAC del cuerpo (orilla)", ACERO, 1.0, "soldados al recipiente"),
+    "manija_carro": ("Manija del carro", "Caño acero SAE 1010 Ø25,4×1,6", ACERO, 0.24, "soldada al recipiente"),
+    "ganchos_manguera": ("Ganchos portamanguera (2)", "Chapa LAC del cuerpo (orilla) plegada", ACERO, 1.0,
+                         "soldados al recipiente"),
+    "tercera_pata": ("Tercera pata", "Chapa LAC del cuerpo (orilla) plegada", ACERO, 1.0, "soldada al fondo"),
     "manguera_enrollada": ("Manguera (tramo enrollado)", "Caucho sintético", CAUCHO, 0.64, None),
-    "soportes_manguera": ("Soporte de manguera", "Planchuela acero SAE 1010", ACERO, 1.0, None),
     "valvula_esferica": ("Válvula esférica", "Latón cromado", LATON, 0.45, None),
     "tobera_campana": ("Tobera campana", "Polipropileno", PP, 1.0, None),
     "etiqueta": ("Etiqueta / placa de características", "Vinilo autoadhesivo laminado", PVC, 1.0, "IRAM 3534"),

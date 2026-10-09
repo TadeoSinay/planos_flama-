@@ -21,7 +21,7 @@ FECHA = "28/09/2026"
 DIBUJO = "T. Sinay"
 
 NO_LISTAR = {"soldaduras", "rueda_izq", "llanta_izq"}
-VALVULA = {"espiga", "tuerca", "cuerpo_valvula", "vastago", "eje", "manija_superior",
+VALVULA = {"espiga", "tuerca", "cuerpo_valvula", "vastago", "resorte", "eje", "manija_superior",
            "manija_inferior", "pasador", "manometro", "racor", "disco_seguridad"}
 
 
@@ -419,18 +419,21 @@ def definir_detalles(m, info):
     dn = r["dn"]
     cB = (dn / 2 * 0.6, (r["z_cuello"] + r["z_cupula"]) / 2 - 2)
     rB = max(dn * 0.5, (r["z_cuello"] - r["z_cupula"]) * 0.75 + 5)
-    D.append(dict(letra="B", origen="corte", c=cB, r=rB, titulo="Cuello roscado"))
+    D.append(dict(letra="B", origen="corte", c=cB, r=rB,
+                  titulo="Cuello roscado con muesca" if m.geo["tipo_fondo"] in ("concavo", "cupula") else
+                  ("Cupla soldada" if m.familia == "rodante" else "Cuello roscado")))
     # C: unión cúpula-cuerpo (corte)
     if m.familia != "co2":
         t = m.geo["t"]
         rC = max(4 * t, 6.0)
-        D.append(dict(letra="C", origen="corte", c=(R - t, r["z_union"]), r=rC, titulo="Unión cúpula-cuerpo"))
+        D.append(dict(letra="C", origen="corte", c=(R - t, r["z_union"]), r=rC,
+                      titulo="Casquete con borde reducido y tope" if m.familia == "rodante" else "Bordón del cuerpo y cúpula"))
     # D: fondo
     g = m.geo
     if g["tipo_fondo"] == "concavo":
         cD = (R - 6, g["zf_borde"] * 0.7)
         rD = max(g["zf_borde"] + 6, 16)
-        tit = "Fondo y pollera"
+        tit = "Fondo encastrado y pollera"
     elif g["tipo_fondo"] == "co2":
         cD = (R * 0.75, g.get("z_pie", 0) + R * 0.35)
         rD = R * 0.55
@@ -438,7 +441,7 @@ def definir_detalles(m, info):
     else:
         cD = (R - m.geo["t"], r["zb"])
         rD = max(6 * m.geo["t"], 12)
-        tit = "Unión fondo-cuerpo"
+        tit = "Casquete inferior con borde reducido" if m.familia == "rodante" else "Bordón inferior y fondo"
     D.append(dict(letra="D", origen="corte", c=cD, r=rD, titulo=tit))
     # E: tobera / difusor / rueda
     if m.familia == "rodante":
@@ -636,6 +639,23 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None):
     return y
 
 
+FADESA_EXT = {"1 kg": "Extintor 1 kg Ø76 (válvula HZ) R1", "2,5 kg": "Extintor 2,5 kg válvula HZ R1",
+              "5 kg": "Extintor 5 kg válvula HZ R1", "10 kg": "Extintor 10 kg HZ R1", "25 kg": "Extintor rodante 25 kg R1",
+              "50 kg": "Extintor rodante 50 kg R1", "100 kg": "Extintor rodante 100 kg R1"}
+
+
+def _fuente_valvula(m):
+    tv = M.tipo_valvula(m)
+    plano = FADESA_EXT.get(m.capacidad) if m.codigo.startswith("FL_MAT_ABC") else None
+    plano = plano or {"F510": FADESA_EXT["1 kg"], "F192": FADESA_EXT["5 kg"], "G763": FADESA_EXT["50 kg"]}[tv]
+    if m.familia == "rodante":
+        return (f"Válvula {tv}, manómetro con cubremanómetro y ancho de ruedas medidos a escala en el plano Fadesa "
+                f"«{plano}»; altura, ancho y profundidad del catálogo.")
+    return (f"Válvula {tv}, manómetro, resorte, vástago, racor, manguera, tobera, suncho y caño de pesca medidos a "
+            f"escala en el plano Fadesa «{plano}». Altura, ancho y profundidad resultan de esas piezas (catálogo "
+            f"entre paréntesis).")
+
+
 def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
     h = Hoja(doc, "A3", ox)
     h.formato()
@@ -649,9 +669,13 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
     from . import agentes as AG
     ag = AG.agente(m)
     filas = []
+    env = info.get("envolvente", {})
     for k, v in m.spec.items():
         if k == "Norma IRAM agente extintor" and ag["norma"].split()[-1] not in str(v):
             v = f"{ag['norma'].replace('IRAM ', '')} (catálogo: {v})"
+        if k in env and m.familia != "rodante":
+            # manuales: medida real del plano (piezas medidas en los planos Fadesa) y la del catálogo
+            v = f"{_n(env[k], 0)} (catálogo: {v})"
         filas.append((k, str(v)))
     if "Norma IRAM agente extintor" not in m.spec and ag["norma"] != "-":
         filas.append(("Norma IRAM agente extintor", ag["norma"].replace("IRAM ", "")))
@@ -681,7 +705,8 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None):
     lineas = ["Fuente de especificaciones: catálogo técnico de referencia, " + m.fuente.replace("Catálogo ", "") + ".",
               "Geometría del recipiente: " + (m.geo_fuente + "." if m.geo_fuente != "derivado"
                                               else "derivada de capacidad y dimensiones totales."),
-              "Masas calculadas con el volumen de cada sólido y la densidad del material de la lista."]
+              "Masas calculadas con el volumen de cada sólido y la densidad del material de la lista.",
+              _fuente_valvula(m)]
     lineas += ["OBSERVACIÓN: " + o for o in m.observaciones]
     for ln in lineas:
         for parte in _partir(ln, 80):
@@ -741,6 +766,8 @@ def generar(m):
     """Un único dibujo por modelo: las 3 láminas lado a lado en el espacio modelo.
     Devuelve (piezas, info, doc, hojas, res1) con hojas = [(nombre, formato, ox)]."""
     piezas, info = M.construir(m)
+    _bb = M.bbox(piezas)
+    info["envolvente"] = {"Altura (mm)": _bb.zmax - _bb.zmin, "Ancho (mm)": _bb.xlen, "Profundidad (mm)": _bb.ylen}
     comp = M.compuesto(piezas)
     proy = {v: V.proyectar(comp, v, tol=0.5, ocultas=(v != "iso")) for v in V.VISTAS}
     doc = nuevo_doc()

@@ -36,12 +36,12 @@ HOJA_CUERPO = {
     "10 kg": ("LAF 1500 × 3000", 2.0, 495.0, 563.0, 92.9),
     "25 kg": ("LAC 1500 × 3000", 3.2, 490.0, 858.0, 84.1),
     "50 kg": ("LAC 1500 × 3000", 3.2, 640.0, 994.0, 84.8),
-    # 70 y 100 kg: medidas del plano FL_REC (largo del cuerpo × desarrollo π·(Ø − e)), 3 piezas por hoja.
-    # Los recortes cotizados 680/900 × 1212 no corresponden al plano (el 70 kg es Ø350): recotizar.
-    "70 kg": ("LAC 1500 × 3000", 4.75, 798.0, 1085.0, 57.7),
-    "100 kg": ("LAC 1500 × 3000", 4.75, 917.0, 1210.0, 74.0),
+    # 70 y 100 kg (Ø390): hoja mixta 3 × 680 + 1 × 900 con el lado de 1212 (proceso FLAMA de carros, corte de chapas);
+    # 1212 = desarrollo π·(390 − 4,75) + luz de la junta. Las orillas de 4,75 dan las placas de refuerzo.
+    "70 kg": ("LAC 1500 × 3000", 4.75, 680.0, 1212.0, 79.2),
+    "100 kg": ("LAC 1500 × 3000", 4.75, 900.0, 1212.0, 79.2),
 }
-CUERPO_PLANO = {"70 kg", "100 kg"}
+CUERPO_PLANO = set()
 # discos de cúpula y fondo en fleje a medida (CC Nesting): Ø disco, espesor, ancho de fleje; paso = Ø + 3
 DISCO = {
     ("cupula", "1 kg"): (108, 0.9, 114), ("fondo", "1 kg"): (100, 1.25, 106),
@@ -57,24 +57,26 @@ CANO_1KG = dict(barra=6000, pieza=255, piezas=23, diam=76.2, esp=1.25)
 PROPIOS = {"FL_MAT_ABC_1kg", "FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg", "FL_MAT_ABC_25kg",
            "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg"}
 # Válvula HZ comprada armada (lista de precios Q-AGENTES): piezas del plano que vienen dentro del kit
-KIT_VALVULA = {"tuerca", "espiga", "cuerpo_valvula", "vastago", "cano_pesca", "manija_superior", "manija_inferior", "eje",
+KIT_VALVULA = {"tuerca", "espiga", "cuerpo_valvula", "vastago", "resorte", "cano_pesca", "manija_superior", "manija_inferior", "eje",
                "pasador"}
 # Carro de rodantes: se fabrica en planta (no hay proveedor nacional del carro armado); las ruedas se compran
-CARRO_FAB = {"eje_ruedas", "bastidor", "sunchos_bastidor", "apoyo"}
+# (proceso FLAMA de carros, puesto 8.1: chapas de orillas del corte; se compran el caño, la barra del eje y las arandelas)
+CARRO_FAB = {"soportes_eje", "manija_carro", "ganchos_manguera", "tercera_pata", "eje_ruedas"}
 
 # subconjuntos: clave de pieza del modelo -> subconjunto
 SUB = {
-    "cuerpo": 1, "cupula": 1, "fondo": 1, "cuello": 1, "pie": 1, "varilla": 1,
-    "tuerca": 2, "espiga": 2, "cuerpo_valvula": 2, "vastago": 2, "eje": 2, "manija_superior": 2,
+    "cuerpo": 1, "cupula": 1, "fondo": 1, "cuello": 1, "pie": 1, "placas_refuerzo": 1,
+    "tuerca": 2, "espiga": 2, "cuerpo_valvula": 2, "vastago": 2, "resorte": 2, "eje": 2, "manija_superior": 2,
     "manija_inferior": 2, "pasador": 2, "manometro": 2, "disco_seguridad": 2, "cano_pesca": 2,
     "racor": 3, "manguera": 3, "tobera": 3, "lanza": 3, "empunadura": 3, "brazo_difusor": 3, "difusor": 3,
-    "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3, "soportes_manguera": 3,
-    "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "bastidor": 4, "sunchos_bastidor": 4, "apoyo": 4,
+    "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3,
+    "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "arandelas_tope": 4, "soportes_eje": 4, "manija_carro": 4,
+    "ganchos_manguera": 4, "tercera_pata": 4,
     "junta_cuello": 2, "etiqueta": 6, "oblea_pba": 6, "sello_iram": 6, "precinto": 6,
     "faja_garantia": 6, "tarjeta_caba": 6, "etiqueta_serie": 6,
 }
 NOMBRE_SUB = {1: "Recipiente (cilindro)", 2: "Conjunto de válvula", 3: "Dispositivo de descarga",
-              4: "Carro (bastidor y ruedas)", 5: "Carga: agente extintor y gas impulsor",
+              4: "Carro (tren rodante soldado y ruedas)", 5: "Carga: agente extintor y gas impulsor",
               6: "Identificación y precinto", 7: "Embalaje", 8: "Soporte (accesorio de montaje)"}
 
 # densidad aparente de los agentes (kg/dm³) y masa molar del gas impulsor (kg/mol): R = referencia
@@ -193,12 +195,12 @@ def medida(m, k, s, info):
     if k == "cuello":
         dn, hn, rosca, dh = g["cuello"]
         return f"Ø{_f(dn)} × {_f(hn)} de alto, rosca {rosca}, asiento Ø{_f(dh)}"
-    if k in ("manguera", "manguera_enrollada", "bastidor", "brazo_difusor"):
-        r = {"manguera": 8.0, "manguera_enrollada": 12.5, "bastidor": 12.7, "brazo_difusor": 6.0}[k]
+    if k in ("manguera", "manguera_enrollada", "manija_carro", "brazo_difusor"):
+        r = {"manguera": 8.0, "manguera_enrollada": 12.5, "manija_carro": 12.7, "brazo_difusor": 6.0}[k]
         if k == "manguera":
             r = (A / 2) if A < 40 else r
         largo = s.Volume() / (math.pi * r * r)
-        tubo = {"bastidor": "caño Ø25,4 × 1,6", "brazo_difusor": "tubo Ø12"}.get(k, f"Ø{_f(2 * r)}")
+        tubo = {"manija_carro": "caño Ø25,4 × 1,6", "brazo_difusor": "tubo Ø12"}.get(k, f"Ø{_f(2 * r)}")
         return f"{tubo} × {_f(largo, 0)} de largo desarrollado"
     if k == "cano_pesca":
         return f"Ø{_f(A)} × {_f(L)} de largo"
@@ -207,6 +209,14 @@ def medida(m, k, s, info):
         return f"Ø{_f(Dw if k == 'rueda_der' else Dw * 0.72)} × {_f(A if A < L else H)} de ancho"
     if k == "eje_ruedas":
         return f"Ø25 × {_f(L)} de largo"
+    if k == "arandelas_tope":
+        return "4 × Ø40 × Ø26 × 4"
+    if k == "placas_refuerzo":
+        return "2 × 200 × 100 × 4,75 curvadas a Ø380, a 100 mm de cada boca"
+    if k in ("soportes_eje", "ganchos_manguera"):
+        return f"2 piezas de chapa e{_f(g['t'], 2)}; conjunto {_f(L)} × {_f(A)} × {_f(H)}"
+    if k == "tercera_pata":
+        return f"chapa e{_f(g['t'], 2)} plegada en L; {_f(L)} × {_f(A)} × {_f(H)}"
     if k == "manometro":
         return f"Ø{_f(L)} esfera, rango 0-{_f(_ps(m) * 2.5 if _ps(m) < 5 else 25, 1)} MPa, sector verde en {_f(_ps(m), 1)}"
     return f"{_f(L)} × {_f(A)} × {_f(H)}"
@@ -227,22 +237,24 @@ def operacion(m, k):
         return "S4 - se compra terminado (tercerizado con sello IRAM)"
     if k == "cuerpo":
         if m.capacidad == "1 kg":
-            return "5 Corte láser de caño (M15/M16) -> 9 encastre"
-        return ("1 Guillotina -> C1 cilindrado -> C2 punteo -> C3 sold. long." if rod else
-                "1 Guillotina -> 2 numerado -> 3 cilindrado -> 4 soldadura longitudinal")
+            return "5 Corte láser de caño (M15/M16) -> 9 encastre -> 10 bordoneado (los dos extremos)"
+        return ("1 Guillotina -> C1 cilindrado -> C2 punteo (y placas de refuerzo 70/100) -> C3 sold. long. -> "
+                "C7 marcado (después de la PH)" if rod else
+                "1 Guillotina -> 2 numerado -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> "
+                "10 bordoneado")
     if k in ("cupula", "fondo"):
         return "Compra (casquetes de carros, rack RK1)" if rod else "6 Desbobinado + embutido (M06-M08)"
-    if k == "varilla":
-        return "Corte de barra -> C2 punteo interior antes de C3 soldadura longitudinal"
+    if k == "placas_refuerzo":
+        return "Tira de orilla 200 × 900 -> C1 rolado a Ø380 -> corte con amoladora -> C2 punteo interior (4 esquinas)"
     if k == "cuello":
         return "Compra -> C2 punteo" if rod else "Compra -> 8 soldadura de cuello"
     if SUB.get(k) == 2:
         return "C9 armado" if rod else "19 Ensamblaje de válvula (T03/T04)"
     if SUB.get(k) == 3:
         return "C9 armado de ruedas y manguera" if rod else "19 Ensamblaje (T03/T04)"
-    if k in CARRO_FAB or (k == "soportes_manguera" and rod):
-        return ("Corte en sierra -> curvado / plegado -> soldadura MAG del carro -> C9 armado (S-TC); "
-                "puesto de soldadura de carros a incorporar al layout")
+    if k in CARRO_FAB:
+        return ("8.1 fabricación de accesorios (orillas / caño / barra) -> 8 soldadura MAG al recipiente, antes de la "
+                "PH (IRAM 3550 6.1.1)" if k != "eje_ruedas" else "Corte de barra -> C9 armado de ruedas")
     if SUB.get(k) == 4:
         return "C9 armado de ruedas (S-TC)"
     return ""
@@ -253,17 +265,17 @@ def origen(m, k):
         return "Compra (en el conjunto)"
     if k == "cuello":
         return "Compra (mecanizado, Eli-Met)"
-    if k in ("cuerpo", "varilla") or (k in ("cupula", "fondo") and m.familia != "rodante"):
+    if k in ("cuerpo", "placas_refuerzo") or (k in ("cupula", "fondo") and m.familia != "rodante"):
         return "Fabricación"
     if k in ("cupula", "fondo"):
         return "Compra (tapa embutida tercerizada)"
     if k in KIT_VALVULA:
         return "Incluido en válvula HZ"
-    if m.familia == "rodante" and (k in CARRO_FAB or k == "soportes_manguera"):
+    if m.familia == "rodante" and k in CARRO_FAB:
         return "Fabricación"
     if k == "llanta_der":
         return "Incluido en rueda"
-    if k in ("soportes_manguera", "suncho"):
+    if k == "suncho":
         return "Compra (estructura)"
     return "Compra"
 
@@ -341,7 +353,7 @@ NIV_EST = {"V": 0, "E": 1, "A": 2, "X": 3}
 EST_PROV = {"COTIZADO": "V", "A COTIZAR": "V", "ESTIMADO": "E", "A VALIDAR": "A", "NO CUMPLE / A DEFINIR": "X"}
 ID_PIEZA = {"etiqueta": "ETIQUETA", "oblea_pba": "OBLEA-PBA", "sello_iram": "ESTAMPILLA", "tarjeta_caba": "TARJETA-AGC",
             "etiqueta_serie": "ETIQ-SERIE", "faja_garantia": "FAJA", "precinto": "PRECINTO", "manometro": "MANOMETRO",
-            "junta_cuello": "ORING"}
+            "junta_cuello": "ORING", "arandelas_tope": "ARANDELA-TOPE"}
 
 
 def _item(m, k):
@@ -452,11 +464,15 @@ def bom_producto(m, cilindro=False):
             fte, est = "P", ""
             if kg is None:
                 obs = (obs + "; peso: completar con la ficha del proveedor (no afecta el MRP)").strip("; ")
-            if k == "varilla":
+            if k == "placas_refuerzo":
+                obs = ("Proceso FLAMA de carros: por dentro sobre la costura longitudinal, una en cada extremo a 100 mm "
+                       "de la boca; salen de las orillas de 4,75 (sin compra)")
+            if k in ("soportes_eje", "manija_carro", "ganchos_manguera", "tercera_pata", "arandelas_tope"):
                 est = "E"
-                obs = ("Interior, detrás de la costura longitudinal; se puntea antes de la soldadura longitudinal "
-                       "para mantener la simetría del cilindrado (decisión FLAMA). Ø8 = propuesta de diseño, sin "
-                       "cálculo")
+                obs = ("Medidas de diseño FLAMA (el puesto 8.1 del proceso no las fija); kit dimensionado a 4,2-4,9 kg "
+                       "como el proceso; validar en el prototipo" +
+                       ("; chapa de las orillas del corte del cuerpo (sin compra)" if k in
+                        ("soportes_eje", "ganchos_manguera", "tercera_pata") else ""))
             if k == "rueda_der":
                 obs = (obs + "; IRAM 3550 4.8: Ø ≥ 300 y ancho ≥ 50").strip("; ")
             add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, origen(m, k), operacion(m, k),
@@ -485,7 +501,10 @@ def bom_producto(m, cilindro=False):
         add(2, f"{base}-T1", "Tapón protector de rosca del cuello", 1, "u", "Polietileno",
             f"para rosca {m.geo['cuello'][2]} (plano {cod_plano} hoja 3, R4)", None, "Compra", "Embalaje", fte="P",
             sub=1, item="TAPON")
-        add(2, f"{base}-T2", "Marcado del recipiente (estampado)", 1, "u", "-",
+        add(2, f"{base}-T2", "Marcado del recipiente (grabado en el cuerpo, puesto C7 después de la PH)" if
+            m.familia == "rodante" else ("Marcado del recipiente (grabado en la cúpula: el cuerpo es caño)" if
+                                         m.capacidad == "1 kg" else
+                                         "Marcado del recipiente (grabado en el cuerpo, puesto de numerado)"), 1, "u", "-",
             "Fabricante, n° de serie, año" + (", presión de ensayo" if m.familia == "rodante" else "") +
             "; cuño DPS 15 × 7 junto al n°", None, "Proceso", "Marcado",
             norma=f"IRAM {n_ext} 5.1 · Res. 349/07 anexo IV", fte="N", sub=1)
@@ -670,29 +689,14 @@ def materia_prima(m, k, s, kg):
                         f"{_f(alto)} × {_f(des)} (aprovech. {_f(ap)} %)", round(bruto, 3), "Compra",
                         "AL-1H paquetes de hojas", "", "L", fuente, obs,
                         "MP-HOJA-LAC" if rod else "MP-HOJA-LAF", "X" if obs else ""))
-    if k == "varilla":
-        barra("MP-VARILLA", "Redondo liso SAE 1010 Ø8", "Redondo liso SAE 1010 Ø8", s.BoundingBox().zlen, 0.395,
-              "MP-VARILLA", "E", "Ø8 = propuesta de diseño (sin cálculo)")
     if k == "eje_ruedas":
         barra("MP-EJE", "Redondo SAE 1045 Ø25", "Redondo SAE 1045 Ø25", s.BoundingBox().xlen,
               math.pi / 4 * 25 ** 2 * 7.85e-3, "MP-EJE")
-    if k == "bastidor":
+    if k == "manija_carro":
         barra("MP-CANO-CARRO", "Caño SAE 1010 Ø25,4 × 1,6", "Caño acero SAE 1010 Ø25,4 × 1,6",
               s.Volume() / (math.pi * 12.7 ** 2), math.pi / 4 * (25.4 ** 2 - 22.2 ** 2) * 7.85e-3, "MP-CANO-CARRO",
               obs="Largo desarrollado del plano + curvado")
-    if k == "sunchos_bastidor":
-        ws, ts = M.planchuela(g["R"])
-        sec = f"{_f(ws, 0)} × {_f(ts, 0)}"
-        barra("MP-PLANCHUELA", f"Planchuela SAE 1010 {sec}", f"Planchuela SAE 1010 {sec}", s.Volume() / (ws * ts),
-              ws * ts * 7.85e-3, "MP-PLANCHUELA", est="E",
-              obs=f"Largo = volumen del plano / sección {sec}. Sección dimensionada para la masa de los planos Fadesa")
-    if k == "soportes_manguera":
-        barra("MP-PLANCHUELA", "Planchuela SAE 1010 30 × 3", "Planchuela SAE 1010 30 × 3", s.Volume() / 90,
-              30 * 3 * 7.85e-3, "MP-PLANCHUELA", obs="Largo = volumen del plano / sección 30 × 3")
-    if k == "apoyo":
-        out.append(("MP-CHAPA-APOYO", "Recorte de chapa LAC e=3,2 para el apoyo plegado", 1, "u", "Chapa LAC SAE 1010",
-                    "desarrollo del apoyo + 15 % de recorte", round(kg * 1.15, 3), "Compra", "Corte y plegado", "",
-                    "C", "", "15 % de recorte: valor de taller sin medir", "MP-CHAPA-APOYO", "E"))
+    # soportes del eje, ganchos y tercera pata: salen de las orillas del corte del cuerpo (sin compra, no entran al MRP)
     if k in ("cupula", "fondo"):
         d = DISCO.get((k, tam))
         e = g["td"] if k == "cupula" else g["tf"]
@@ -1137,8 +1141,6 @@ def _clave_item(f):
             return f"Chapa {d.split('Recorte de hoja ')[1]}", "kg", f["peso"] * f["cant"]
         if f["codigo"] == "MP-FLEJE":
             return d.split(" (paso")[0], "m", f["cant"]
-        if f["codigo"] == "MP-CHAPA-APOYO":
-            return d, "kg", f["peso"] * f["cant"]
         return d.split(" (tramo")[0], ("barra 6 m" if um == "barra" else um), f["cant"]
     if f["nivel"] == 1:
         return f"{d}: {f['_prod']}", um, f["cant"]
@@ -1792,12 +1794,13 @@ DECISIONES = [
      "Decisión FLAMA. IRAM 3523 3.2.4.2 y 3550 3.2.2.2 nombran «atmósfera inerte»: acreditar con el certificador en "
      "el ensayo de tipo (probetas IRAM 609 y PH)", "Consumos C1 y C2 calculados por longitud de cordón; planos con "
      "símbolo 135.", "E"),
-    ("Varilla de refuerzo", "70 y 100 kg: varilla interior longitudinal detrás de la costura, punteada antes de la "
-     "soldadura longitudinal para mantener la simetría del cilindrado.", "Decisión de proceso FLAMA", "Pieza en S1 "
-     "(planos FL_MAT, FL_REC y FL_DES 70/100). Ø8 SAE 1010 = propuesta de diseño sin cálculo.", "E"),
-    ("Carro de rodantes", "Se fabrica en planta (bastidor de caño, eje SAE 1045, sunchos de planchuela, apoyo); se "
-     "compran las ruedas.", "Sin proveedor nacional del carro armado; IRAM 3550 3.12 y 4.8 (ruedas ≥ Ø300 × 50)",
-     "Materia prima del carro en nivel 3; puesto de soldadura de carros a incorporar al layout.", "A"),
+    ("Placas de refuerzo", "70 y 100 kg: dos placas 200 × 100 × 4,75 curvadas a Ø380, por dentro sobre la costura "
+     "longitudinal, una en cada extremo a 100 mm de la boca; salen de las orillas de 4,75.", "Proceso FLAMA de carros "
+     "(corte, cilindrado y punteo)", "Pieza en S1 (planos FL_MAT, FL_REC y FL_DES 70/100).", "V"),
+    ("Carro de rodantes", "Tren rodante soldado al recipiente antes de la PH: eje Ø25 con dos soportes de chapa, "
+     "manija de caño Ø25,4 × 1,6, dos ganchos portamanguera y tercera pata; se compran ruedas, caño, barra y "
+     "arandelas.", "Proceso FLAMA de carros (puestos 8 y 8.1); IRAM 3550 6.1.1, 3.12 y 4.8 (ruedas ≥ Ø300 × 50)",
+     "Medidas de los accesorios = diseño FLAMA (el puesto 8.1 no las fija); kit 4,2-4,9 kg como el proceso.", "E"),
     ("Tapas de rodantes", "Casquetes de 25, 50, 70 y 100 kg embutidos por Gockel Ingeniería (Wilde, Avellaneda).",
      "IRAM 3550 3.2.1 / 4.1.3; proveedor de FLAMA", "Ítem comprado (semielaborado); cotizar con certificado de "
      "material.", "V"),
