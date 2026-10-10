@@ -498,7 +498,7 @@ def _figura_extintor(c, k, col):
     pal = _trazo([(-0.02, 0.88), (0.30, 0.95)], 0.05)
     mang = _trazo([(0.06, 0.80), (0.24, 0.74), (0.26, 0.30)], 0.05)
     return [(_tf(cuerpo, c, k), col["cuerpo"]), (_tf(valv, c, k), LATON), (_tf(pal, c, k), L.NEGRO),
-            (_tf(mang, c, k), col["manguera"])]
+            (_tf(mang, c, k), L.NEGRO if col["manguera"] == GOMA else col["manguera"])]   # tinta negra salvo manga de color
 
 
 def _persona(c, k):
