@@ -290,6 +290,7 @@ def colores(m):
         enc, txt = L.AMARILLO, L.NEGRO
     ins, ins_txt = (L.NEGRO, L.AMARILLO) if enc == L.AMARILLO else (L.AMARILLO, L.NEGRO)   # franja de instrucciones
     return dict(cuerpo=INOX if inox else ROJO_CUERPO, enc=enc, enc_txt=txt, ins=ins, ins_txt=ins_txt,
+                manguera=L.VERDE if "HCFC" in c else GOMA,          # HCFC: manguera verde (relevado Georgia)
                 palanca=L.VERDE if "HCFC" in c else CROMO if inox else ROJO_CUERPO, valvula=CROMO if inox else LATON)
 
 
@@ -300,7 +301,9 @@ def color_pieza(k, col):
     """color de la pieza en la vista coloreada (None: pieza interior, no se ve)."""
     if k in _INTERNAS:
         return None
-    if k.startswith(("rueda", "manguera", "tobera", "suncho", "empunadura", "pie", "difusor", "lanza")):
+    if k.startswith("manguera"):
+        return col["manguera"]
+    if k.startswith(("rueda", "tobera", "suncho", "empunadura", "pie", "difusor", "lanza")):
         return GOMA
     if k.startswith("llanta"):
         return GRIS
@@ -495,7 +498,7 @@ def _figura_extintor(c, k, col):
     pal = _trazo([(-0.02, 0.88), (0.30, 0.95)], 0.05)
     mang = _trazo([(0.06, 0.80), (0.24, 0.74), (0.26, 0.30)], 0.05)
     return [(_tf(cuerpo, c, k), col["cuerpo"]), (_tf(valv, c, k), LATON), (_tf(pal, c, k), L.NEGRO),
-            (_tf(mang, c, k), L.NEGRO)]
+            (_tf(mang, c, k), col["manguera"])]
 
 
 def _persona(c, k):
