@@ -6617,16 +6617,16 @@
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
 "dim": "Fleje (alto × espesor) / Ø interior",
-"valor": "18 × 1,7 / 189.6",
+"valor": "18 × 1,5 / 190.6",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:manual"
 ],
-"calc": "Banda de 18 mm abrazando el cuerpo",
+"calc": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "code": [
 "modelo3d.py",
-"band = _tube(R + 1.5"
+"band = _tube(R + 1.8"
 ],
 "estado": "E"
 },
@@ -7846,16 +7846,16 @@
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
 "dim": "Fleje (alto × espesor) / Ø interior",
-"valor": "18 × 1,7 / 189.6",
+"valor": "18 × 1,5 / 190.6",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:manual"
 ],
-"calc": "Banda de 18 mm abrazando el cuerpo",
+"calc": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "code": [
 "modelo3d.py",
-"band = _tube(R + 1.5"
+"band = _tube(R + 1.8"
 ],
 "estado": "E"
 },
@@ -12172,16 +12172,16 @@
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
 "dim": "Fleje (alto × espesor) / Ø interior",
-"valor": "18 × 1,7 / 189.6",
+"valor": "18 × 1,5 / 190.6",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:manual"
 ],
-"calc": "Banda de 18 mm abrazando el cuerpo",
+"calc": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "code": [
 "modelo3d.py",
-"band = _tube(R + 1.5"
+"band = _tube(R + 1.8"
 ],
 "estado": "E"
 },
@@ -14095,16 +14095,16 @@
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
 "dim": "Fleje (alto × espesor) / Ø interior",
-"valor": "18 × 1,7 / 139.6",
+"valor": "18 × 1,5 / 140.6",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:manual"
 ],
-"calc": "Banda de 18 mm abrazando el cuerpo",
+"calc": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "code": [
 "modelo3d.py",
-"band = _tube(R + 1.5"
+"band = _tube(R + 1.8"
 ],
 "estado": "E"
 },
@@ -16828,16 +16828,16 @@
 "cant": 1,
 "material": "Fleje acero SAE 1010 pintado",
 "dim": "Fleje (alto × espesor) / Ø interior",
-"valor": "18 × 1,7 / 181.1",
+"valor": "18 × 1,5 / 182.1",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
 "C:manual"
 ],
-"calc": "Banda de 18 mm abrazando el cuerpo",
+"calc": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "code": [
 "modelo3d.py",
-"band = _tube(R + 1.5"
+"band = _tube(R + 1.8"
 ],
 "estado": "E"
 },

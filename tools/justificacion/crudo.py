@@ -535,8 +535,10 @@ for m in MODELOS:
                        "Ø de tobera por tipo; largo limitado por la altura disponible", ("modelo3d.py", "d_dev = {"))
                 continue
             if k == "suncho":
-                A_("Fleje (alto × espesor) / Ø interior", f"18 × 1,7 / {r1(D - 0.4)}", "mm", T_DIS, ["C:manual"],
-                   "Banda de 18 mm abrazando el cuerpo", ("modelo3d.py", "band = _tube(R + 1.5"))
+                hb_ = 14.4 if m.descarga == "tobera_polvo" else 18.0
+                A_("Fleje (alto × espesor) / Ø interior", f"{hb_:g} × 1,5 / {r1(D + 0.6)}", "mm", T_DIS, ["C:manual"],
+                   "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera "
+                   "F674 del plano Fadesa", ("modelo3d.py", "band = _tube(R + 1.8"))
                 continue
             if k == "pie":
                 A_("Ø × alto", f"{r1(D)} × {r1(0.55 * R)}", "mm", T_DIS, ["C:manual"], "Ø del cilindro × 0,55·R",
