@@ -335,13 +335,13 @@ def esq03():
              ("Clase D", "polvo clase D", "por peso, seco", "N2 a 1,4 MPa")]
     _tabla(h, h.fx0 + 150, h.fy1 - 14, filas, [26, 42, 46, 60], alto=5.5, hs=(2.5, 2.5, 1.8, 1.8),
            encabezado="CARGA SEGÚN TIPO")
-    _notas(h, ["NOTAS",
-               "1) IRAM 3517-2:2020: control trimestral, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua).",
-               "2) Presiones de servicio: catálogo FLAMA (Hoja 3 de cada plano FL_MAT).",
-               "3) El agente descargado se recupera; halogenados: prohibido liberarlos a la atmósfera.",
-               "4) Inutilización (9.12): 2 orificios Ø ≥ 10 mm, mangueras cortadas, acta del anexo G.",
-               "5) Gas impulsor según tabla 2; registro de trazabilidad 6 años (9.4.16); marbete por año (9.6)."],
-           h.fy1 - 75, h.fx0 + 150)
+    h.bloque_libre(["NOTAS",
+                    "1) IRAM 3517-2:2020: control trimestral, mantenimiento anual, PH 5 años (polvo, CO2) / 2 años (agua).",
+                    "2) Presiones de servicio: catálogo FLAMA (Hoja 3 de cada plano FL_MAT).",
+                    "3) El agente descargado se recupera; halogenados: prohibido liberarlos a la atmósfera.",
+                    "4) Inutilización (9.12): 2 orificios Ø ≥ 10 mm, mangueras cortadas, acta del anexo G.",
+                    "5) Gas impulsor según tabla 2; registro de trazabilidad 6 años (9.4.16); marbete por año (9.6)."],
+                   h.fx0 + 150, [h.fy1 - 75 - 4 * k for k in range(30)])
     return doc
 
 

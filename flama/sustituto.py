@@ -28,7 +28,7 @@ import shapely.geometry as sg
 from . import modelo3d as M
 from . import vistas as V
 from .catalogo import MODELOS
-from .lamina import Hoja, nuevo_doc, A, ROT_H
+from .lamina import Hoja, nuevo_doc, A, ROT_H, partir
 from . import lamina as L
 from .planos import FECHA, DIBUJO, _tabla
 
@@ -154,13 +154,13 @@ def plano_modelo(m, doc):
     RT.colorear(h, vis, (xa, ya, f), 0.1 / f, pinta, pegado)
     h.prims(pa["vis"], "01-VISIBLE", (xa, ya, f))
     x0b, x1b = xa + (xc - R) * f, xa + (xc + R) * f
-    h.cota_lineal((x1b, ya + zb * f), (x1b, ya + (zb + alto) * f), (x1b + 10, ya), 90, 1 / f)
-    h.cota_lineal((x0b, ya + zb * f), (x1b, ya + zb * f), (x0b, ya + zb * f - 8), 0, 1 / f, prefijo="%%c")
+    # alto de la faja: fuera de la vista entera (en los carros la rueda y la manija sobresalen del cuerpo)
+    h.cota_lineal((x1b, ya + zb * f), (x1b, ya + (zb + alto) * f), (max(x1b + 10, xa + ea[2] * f + 8), ya), 90, 1 / f)
+    h.cota_lineal((x0b, ya + zb * f), (x1b, ya + zb * f), (x0b, min(ya + zb * f, ya + ea[1] * f) - 7), 0, 1 / f,
+                  prefijo="%%c")                   # debajo del punto más bajo de la vista
     h.nota_referencia("1 Faja amarilla de sustituto", ((x0b + x1b) / 2, ya + (zb + alto / 2) * f),
                       (x0b - 4, ya + (zb + alto) * f + 22), 2.2)
     h.texto(f"VISTA ANTERIOR (esc. 1:{1 / f:.0f})", ((zx0 + zx1) / 2, zy1 - 2), 2.8, A.MIDDLE_CENTER)
-    h.texto(f"Faja en el borde inferior del cuerpo (pollera), alto {alto:.0f} mm (≤ 40, sin tapar la oblea PBA); "
-            "rodea todo el perímetro.", (zx0, zy0 - 3), 1.9)
     # isometría
     mov = dict(vis)
     mov["faja_sustituto"] = vis["faja_sustituto"].translate(cq.Vector(0, 0, -max(30.0, 0.25 * R)))
@@ -215,6 +215,24 @@ def plano_modelo(m, doc):
     h.texto(f"Clasificación {cls} · alternativa admisible: {alt}", (X0 + 6, Y0 + 4), 1.8)
     h.rotulo(_rot(cod, "Extintor sustituto", f"Identificación sobre {m.nombre.replace('Extintor ', '')}",
                   f"1:{1 / f:.0f}"))
+    # nota de la faja: al final, cuando ya está todo dibujado, en el primer lugar libre (izquierda o derecha de la vista)
+    nota = (f"Faja en el borde inferior del cuerpo (pollera), alto {alto:.0f} mm (≤ 40, sin tapar la oblea PBA); "
+            "rodea todo el perímetro.")
+    x_dib0, x_dib1 = xa + ea[0] * f, xa + ea[2] * f
+    puntos = []
+    for lado_x, ancho in ((zx0, x_dib0 - zx0 - 6), (x_dib1 + 6, zx1 - x_dib1 - 6), (zx0, zx1 - zx0 - 4)):
+        if ancho < 45:
+            continue
+        lns = partir(nota, ancho, 1.8, 4)
+        puntos.append((lns, [(lado_x, zy0 - 3 - 2.8 * k) for k in range(6)] +
+                       [(lado_x, zy0 + 70 - 3 * k) for k in range(24)]))
+    for lns, pts in puntos:
+        if any(all(h.libre(sg.box(x - 0.5, y - 2.8 * i - 0.7, x + L.ancho_texto(t, 1.8) + 0.5, y - 2.8 * i + 2.0))
+                   for i, t in enumerate(lns)) for x, y in pts):
+            h.bloque_libre(lns, None, pts, paso=2.8, h0=1.8, h=1.8)
+            break
+    else:
+        h.bloque_libre(puntos[-1][0], None, puntos[-1][1], paso=2.8, h0=1.8, h=1.8)
     return h
 
 

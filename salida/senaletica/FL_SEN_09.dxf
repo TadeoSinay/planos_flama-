@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.981736111
+2461324.194351852
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.981736111
+2461324.194351852
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{90452EED-4924-4464-BC5A-AA6C01ADEC1D}
+{91F5C921-E032-4B7D-B818-82B1CC03614B}
   9
 $VERSIONGUID
   2
-{4153C2F5-A2D4-4274-8509-E7C1CD658A7E}
+{21DE866A-4470-413D-8219-1499099D5EFE}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -12321,7 +12321,7 @@ AcDbText
  40
 1.8
   1
-fecha del servicio; con PH: «PH» + fecha. CO₂: PH y logo en la ojiva
+fecha del servicio; con PH: «PH» + fecha. CO2: PH y logo en la ojiva
   7
 ISO3098
  72
@@ -12663,7 +12663,7 @@ AcDbText
  40
 2.5
   1
-    la vida útil (20 años; CO₂ 30), inutilización por aplastamiento o corte de rosca (Res. 349/07 art. 26-27).
+    la vida útil (20 años; CO2 30), inutilización por aplastamiento o corte de rosca (Res. 349/07 art. 26-27).
   7
 ISO3098
  11
@@ -13797,7 +13797,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T23:33:42.557496+00:00
+1.4.4 @ 2026-10-10T04:39:52.517075+00:00
   0
 LAYOUT
   5
@@ -13937,7 +13937,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T23:33:42.574949+00:00
+1.4.4 @ 2026-10-10T04:39:52.531439+00:00
   0
 ENDSEC
   0

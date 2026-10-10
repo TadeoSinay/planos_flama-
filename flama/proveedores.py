@@ -187,6 +187,8 @@ ITEMS = {
                "Confirmar SAE 1045 con certificado"),
     "MP-CANO-CARRO": ("Caño de la manija del carro", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",
                       "Sin cotizar (mismo proveedor que el caño del 1 kg)", "-"),
+    "MP-PORTAEJE": ("Portaeje del carro", "Caño SAE 1010 Ø33,7 × 3,25 (1\"), barra 6 m", "METALPRI", "MID", "A COTIZAR",
+                    "Sin cotizar (mismo proveedor que el caño de la manija)", "-"),
     "ARANDELA-TOPE": ("Arandela de tope del eje de carro", "Arandela SAE 1010 Ø40 × Ø26 × 4", "PARROTTA", None,
                       "A COTIZAR", "Sin cotizar", "Se compran (proceso de carros, puesto 8.1)"),
     # ---------------- carga

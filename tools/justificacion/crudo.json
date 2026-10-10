@@ -1343,7 +1343,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 127.0,
+"valor": 127.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -2784,7 +2784,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 156.0,
+"valor": 156.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -4225,14 +4225,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 184.5,
+"valor": 185.1,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:10 kg:valvula",
 "CAT:FL_MAT_ABC_10kg:Profundidad"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +1 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +2 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -5666,7 +5666,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 193.0,
+"valor": 193.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -6895,7 +6895,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 193.0,
+"valor": 193.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -8166,7 +8166,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.48,
+"valor": 43.58,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -8903,6 +8903,28 @@
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
 "pos": 9,
+"pieza": "Portaeje",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø33,7 × 3,25",
+"dim": "Caño Ø × e × largo",
+"valor": "33.7 × 3.25 × 332.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"REL:carro:portaeje",
+"PC:accesorios"
+],
+"calc": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
+"code": [
+"modelo3d.py",
+"portaeje=(33.7"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 10,
 "pieza": "Arandelas de tope (4)",
 "cant": 1,
 "material": "Acero SAE 1010 Ø40 × Ø26 × 4",
@@ -8923,18 +8945,19 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Alto × largo × e (2 u)",
-"valor": "80 × 80.8 × 3.2",
+"dim": "Chapa triangular: catetos × e (2 u)",
+"valor": "102.8 × 111.1 × 3.2",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"REL:carro:chapa",
 "PC:accesorios"
 ],
-"calc": "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+"calc": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "code": [
 "modelo3d.py",
 "soporte=(80.0"
@@ -8944,28 +8967,28 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Separación de los soportes",
-"valor": 176.0,
+"dim": "Separación de las chapas",
+"valor": 224.0,
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
-"PC:accesorios"
+"REL:carro:chapa"
 ],
-"calc": "± 0,55·R",
+"calc": "± 0,7·R",
 "code": [
 "modelo3d.py",
-"x_soporte=0.55"
+"soporte=(80.0, 0.7)"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -8986,7 +9009,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -9008,18 +9031,19 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "189.4 / 1304.0",
+"valor": "375.4 / 1559.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"FR:800:oreja",
 "PC:accesorios"
 ],
-"calc": "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
 "code": [
 "modelo3d.py",
 "manija=(25.4"
@@ -9030,6 +9054,49 @@
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
 "pos": 12,
+"pieza": "Manija del carro",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø25,4×1,6",
+"dim": "Doblez del tramo superior / altura del doblez",
+"valor": "30° / 915.0",
+"unidad": "° / mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FR:800:manija"
+],
+"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"code": [
+"modelo3d.py",
+"z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 13,
+"pieza": "Orejas de la manija (4)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla)",
+"dim": "Chapita ancho × e (4 u) / alturas",
+"valor": "40 × 3.2 / 642.8 y 770.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"FR:800:oreja",
+"PC:accesorios"
+],
+"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"code": [
+"modelo3d.py",
+"z_or = [z_low + 20.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_AFFF_50l",
+"plano": "FL_MAT_AFFF_50l",
+"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -9050,7 +9117,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 13,
+"pos": 15,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9071,7 +9138,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9092,7 +9159,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9113,7 +9180,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9134,7 +9201,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -9155,7 +9222,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -9176,7 +9243,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -9197,7 +9264,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 16,
+"pos": 18,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -9218,7 +9285,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 17,
+"pos": 19,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -9239,7 +9306,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 18,
+"pos": 20,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
@@ -9261,7 +9328,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 19,
+"pos": 21,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -9283,7 +9350,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 20,
+"pos": 22,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -9305,7 +9372,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 21,
+"pos": 23,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -9326,7 +9393,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 21,
+"pos": 23,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -9347,7 +9414,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 22,
+"pos": 24,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -9368,7 +9435,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 23,
+"pos": 25,
 "pieza": "Ganchos portamanguera (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla) plegada",
@@ -9389,7 +9456,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 24,
+"pos": 26,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -9410,7 +9477,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 24,
+"pos": 26,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -9431,7 +9498,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -9452,7 +9519,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -9473,7 +9540,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 26,
+"pos": 28,
 "pieza": "Válvula esférica",
 "cant": 1,
 "material": "Latón cromado",
@@ -9494,7 +9561,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 27,
+"pos": 29,
 "pieza": "Lanza espumígena",
 "cant": 1,
 "material": "Polipropileno",
@@ -9515,7 +9582,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -9536,7 +9603,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -9557,7 +9624,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -9579,7 +9646,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 29,
+"pos": 31,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -9600,7 +9667,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 30,
+"pos": 32,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -9622,7 +9689,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 31,
+"pos": 33,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -9643,7 +9710,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 32,
+"pos": 34,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -9664,7 +9731,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 33,
+"pos": 35,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -9685,7 +9752,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 34,
+"pos": 36,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -9706,7 +9773,7 @@
 {
 "modelo": "FL_MAT_AFFF_50l",
 "plano": "FL_MAT_AFFF_50l",
-"pos": 35,
+"pos": 37,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -9777,7 +9844,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 156.0,
+"valor": 156.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -11133,7 +11200,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 193.0,
+"valor": 193.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -12383,14 +12450,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 114.6,
+"valor": 116.1,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_CO2_2kg:Profundidad"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +1 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +2 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -13035,7 +13102,7 @@
 "cant": 1,
 "material": "Polipropileno",
 "dim": "Envolvente L × A × H",
-"valor": "34.0 × 34.0 × 30.0",
+"valor": "43.1 × 43.1 × 30.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
@@ -13313,14 +13380,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 143.0,
+"valor": 143.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_CO2_5kg:Profundidad"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 140; diferencia +2 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 140; diferencia +3 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -14306,7 +14373,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 156.0,
+"valor": 156.6,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
@@ -15662,14 +15729,14 @@
 "cant": 1,
 "material": "-",
 "dim": "Profundidad total",
-"valor": 184.5,
+"valor": 185.1,
 "unidad": "mm",
 "tipo": "Cálculo",
 "src": [
 "FE:5 kg:valvula",
 "CAT:FL_MAT_CLASED_9l:Profundidad"
 ],
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +1 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +2 %)",
 "code": [
 "modelo3d.py",
 "def construir"
@@ -17081,7 +17148,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 30.98,
+"valor": 32.04,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -17905,6 +17972,28 @@
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
 "pos": 9,
+"pieza": "Portaeje",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø33,7 × 3,25",
+"dim": "Caño Ø × e × largo",
+"valor": "33.7 × 3.25 × 312.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"REL:carro:portaeje",
+"PC:accesorios"
+],
+"calc": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
+"code": [
+"modelo3d.py",
+"portaeje=(33.7"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 10,
 "pieza": "Arandelas de tope (4)",
 "cant": 1,
 "material": "Acero SAE 1010 Ø40 × Ø26 × 4",
@@ -17925,18 +18014,19 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Alto × largo × e (2 u)",
-"valor": "80 × 79.5 × 3.2",
+"dim": "Chapa triangular: catetos × e (2 u)",
+"valor": "102.8 × 104.9 × 3.2",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"REL:carro:chapa",
 "PC:accesorios"
 ],
-"calc": "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+"calc": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "code": [
 "modelo3d.py",
 "soporte=(80.0"
@@ -17946,28 +18036,28 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Separación de los soportes",
-"valor": 152.1,
+"dim": "Separación de las chapas",
+"valor": 193.5,
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
-"PC:accesorios"
+"REL:carro:chapa"
 ],
-"calc": "± 0,55·R",
+"calc": "± 0,7·R",
 "code": [
 "modelo3d.py",
-"x_soporte=0.55"
+"soporte=(80.0, 0.7)"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -17988,7 +18078,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -18010,18 +18100,19 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "165.5 / 1329.0",
+"valor": "331.9 / 1600.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"FR:800:oreja",
 "PC:accesorios"
 ],
-"calc": "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
 "code": [
 "modelo3d.py",
 "manija=(25.4"
@@ -18032,6 +18123,49 @@
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
 "pos": 12,
+"pieza": "Manija del carro",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø25,4×1,6",
+"dim": "Doblez del tramo superior / altura del doblez",
+"valor": "30° / 732.0",
+"unidad": "° / mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FR:800:manija"
+],
+"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"code": [
+"modelo3d.py",
+"z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 13,
+"pieza": "Orejas de la manija (4)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla)",
+"dim": "Chapita ancho × e (4 u) / alturas",
+"valor": "40 × 3.2 / 548.2 y 605.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"FR:800:oreja",
+"PC:accesorios"
+],
+"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"code": [
+"modelo3d.py",
+"z_or = [z_low + 20.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_25kg",
+"plano": "FL_MAT_ABC_25kg",
+"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -18052,7 +18186,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 13,
+"pos": 15,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18073,7 +18207,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18094,7 +18228,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18115,7 +18249,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18136,7 +18270,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -18157,7 +18291,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -18178,7 +18312,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -18199,7 +18333,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -18220,7 +18354,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 17,
+"pos": 19,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -18241,7 +18375,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 18,
+"pos": 20,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -18262,7 +18396,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 19,
+"pos": 21,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -18284,7 +18418,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 20,
+"pos": 22,
 "pieza": "Manija de accionamiento",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18305,7 +18439,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 20,
+"pos": 22,
 "pieza": "Manija de accionamiento",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18326,7 +18460,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Manija de transporte",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18347,7 +18481,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Manija de transporte",
 "cant": 1,
 "material": "Chapa acero SAE 1010 pintada",
@@ -18368,7 +18502,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -18389,7 +18523,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -18410,7 +18544,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 23,
+"pos": 25,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -18431,7 +18565,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 24,
+"pos": 26,
 "pieza": "Ganchos portamanguera (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla) plegada",
@@ -18452,7 +18586,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -18473,7 +18607,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -18494,7 +18628,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -18515,7 +18649,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -18536,7 +18670,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 27,
+"pos": 29,
 "pieza": "Válvula esférica",
 "cant": 1,
 "material": "Latón cromado",
@@ -18557,7 +18691,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Tobera campana",
 "cant": 1,
 "material": "Polipropileno",
@@ -18578,7 +18712,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -18599,7 +18733,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -18620,7 +18754,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -18642,7 +18776,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 30,
+"pos": 32,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -18663,7 +18797,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 31,
+"pos": 33,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -18685,7 +18819,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 32,
+"pos": 34,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -18706,7 +18840,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 33,
+"pos": 35,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -18727,7 +18861,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 34,
+"pos": 36,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -18748,7 +18882,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 35,
+"pos": 37,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -18769,7 +18903,7 @@
 {
 "modelo": "FL_MAT_ABC_25kg",
 "plano": "FL_MAT_ABC_25kg",
-"pos": 36,
+"pos": 38,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -18882,7 +19016,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 42.46,
+"valor": 43.56,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -19706,6 +19840,28 @@
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
 "pos": 9,
+"pieza": "Portaeje",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø33,7 × 3,25",
+"dim": "Caño Ø × e × largo",
+"valor": "33.7 × 3.25 × 332.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"REL:carro:portaeje",
+"PC:accesorios"
+],
+"calc": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
+"code": [
+"modelo3d.py",
+"portaeje=(33.7"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 10,
 "pieza": "Arandelas de tope (4)",
 "cant": 1,
 "material": "Acero SAE 1010 Ø40 × Ø26 × 4",
@@ -19726,18 +19882,19 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Alto × largo × e (2 u)",
-"valor": "80 × 80.8 × 3.2",
+"dim": "Chapa triangular: catetos × e (2 u)",
+"valor": "102.8 × 111.1 × 3.2",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"REL:carro:chapa",
 "PC:accesorios"
 ],
-"calc": "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+"calc": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "code": [
 "modelo3d.py",
 "soporte=(80.0"
@@ -19747,28 +19904,28 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 10,
-"pieza": "Soportes del eje (2)",
+"pos": 11,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Separación de los soportes",
-"valor": 176.0,
+"dim": "Separación de las chapas",
+"valor": 224.0,
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
-"PC:accesorios"
+"REL:carro:chapa"
 ],
-"calc": "± 0,55·R",
+"calc": "± 0,7·R",
 "code": [
 "modelo3d.py",
-"x_soporte=0.55"
+"soporte=(80.0, 0.7)"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -19789,7 +19946,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -19811,18 +19968,19 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 11,
+"pos": 12,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "189.4 / 1314.0",
+"valor": "375.4 / 1569.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"FR:800:oreja",
 "PC:accesorios"
 ],
-"calc": "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
 "code": [
 "modelo3d.py",
 "manija=(25.4"
@@ -19833,6 +19991,49 @@
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
 "pos": 12,
+"pieza": "Manija del carro",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø25,4×1,6",
+"dim": "Doblez del tramo superior / altura del doblez",
+"valor": "30° / 915.0",
+"unidad": "° / mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FR:800:manija"
+],
+"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"code": [
+"modelo3d.py",
+"z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 13,
+"pieza": "Orejas de la manija (4)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla)",
+"dim": "Chapita ancho × e (4 u) / alturas",
+"valor": "40 × 3.2 / 637.9 y 770.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"FR:800:oreja",
+"PC:accesorios"
+],
+"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"code": [
+"modelo3d.py",
+"z_or = [z_low + 20.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_50kg",
+"plano": "FL_MAT_ABC_50kg",
+"pos": 14,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -19853,7 +20054,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 13,
+"pos": 15,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19874,7 +20075,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19895,7 +20096,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19916,7 +20117,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19937,7 +20138,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -19958,7 +20159,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -19979,7 +20180,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -20000,7 +20201,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -20021,7 +20222,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 17,
+"pos": 19,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -20042,7 +20243,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 18,
+"pos": 20,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
@@ -20064,7 +20265,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 19,
+"pos": 21,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -20086,7 +20287,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 20,
+"pos": 22,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -20108,7 +20309,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -20129,7 +20330,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -20150,7 +20351,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -20171,7 +20372,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 23,
+"pos": 25,
 "pieza": "Ganchos portamanguera (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla) plegada",
@@ -20192,7 +20393,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 24,
+"pos": 26,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -20213,7 +20414,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 24,
+"pos": 26,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -20234,7 +20435,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -20255,7 +20456,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -20276,7 +20477,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Válvula esférica",
 "cant": 1,
 "material": "Latón cromado",
@@ -20297,7 +20498,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 27,
+"pos": 29,
 "pieza": "Tobera campana",
 "cant": 1,
 "material": "Polipropileno",
@@ -20318,7 +20519,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -20339,7 +20540,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -20360,7 +20561,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -20382,7 +20583,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -20403,7 +20604,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 30,
+"pos": 32,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -20425,7 +20626,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 31,
+"pos": 33,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -20446,7 +20647,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 32,
+"pos": 34,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -20467,7 +20668,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 33,
+"pos": 35,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -20488,7 +20689,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 34,
+"pos": 36,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -20509,7 +20710,7 @@
 {
 "modelo": "FL_MAT_ABC_50kg",
 "plano": "FL_MAT_ABC_50kg",
-"pos": 35,
+"pos": 37,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -20622,7 +20823,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 67.66,
+"valor": 68.99,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -21495,6 +21696,28 @@
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
 "pos": 10,
+"pieza": "Portaeje",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø33,7 × 3,25",
+"dim": "Caño Ø × e × largo",
+"valor": "33.7 × 3.25 × 402.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"REL:carro:portaeje",
+"PC:accesorios"
+],
+"calc": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
+"code": [
+"modelo3d.py",
+"portaeje=(33.7"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 11,
 "pieza": "Arandelas de tope (4)",
 "cant": 1,
 "material": "Acero SAE 1010 Ø40 × Ø26 × 4",
@@ -21515,18 +21738,19 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 11,
-"pieza": "Soportes del eje (2)",
+"pos": 12,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Alto × largo × e (2 u)",
-"valor": "80 × 93.5 × 4.75",
+"dim": "Chapa triangular: catetos × e (2 u)",
+"valor": "102.8 × 121.1 × 4.75",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"REL:carro:chapa",
 "PC:accesorios"
 ],
-"calc": "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+"calc": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "code": [
 "modelo3d.py",
 "soporte=(80.0"
@@ -21536,28 +21760,28 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 11,
-"pieza": "Soportes del eje (2)",
+"pos": 12,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Separación de los soportes",
-"valor": 214.5,
+"dim": "Separación de las chapas",
+"valor": 273.0,
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
-"PC:accesorios"
+"REL:carro:chapa"
 ],
-"calc": "± 0,55·R",
+"calc": "± 0,7·R",
 "code": [
 "modelo3d.py",
-"x_soporte=0.55"
+"soporte=(80.0, 0.7)"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -21578,7 +21802,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -21600,18 +21824,19 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "227.9 / 1539.0",
+"valor": "445.4 / 1843.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"FR:800:oreja",
 "PC:accesorios"
 ],
-"calc": "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
 "code": [
 "modelo3d.py",
 "manija=(25.4"
@@ -21622,6 +21847,49 @@
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
 "pos": 13,
+"pieza": "Manija del carro",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø25,4×1,6",
+"dim": "Doblez del tramo superior / altura del doblez",
+"valor": "30° / 1000.8",
+"unidad": "° / mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FR:800:manija"
+],
+"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"code": [
+"modelo3d.py",
+"z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 14,
+"pieza": "Orejas de la manija (4)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla)",
+"dim": "Chapita ancho × e (4 u) / alturas",
+"valor": "40 × 4.75 / 684.4 y 832.9",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"FR:800:oreja",
+"PC:accesorios"
+],
+"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"code": [
+"modelo3d.py",
+"z_or = [z_low + 20.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_70kg",
+"plano": "FL_MAT_ABC_70kg",
+"pos": 15,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -21642,7 +21910,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21663,7 +21931,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21684,7 +21952,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21705,7 +21973,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21726,7 +21994,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -21747,7 +22015,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -21768,7 +22036,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -21789,7 +22057,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 17,
+"pos": 19,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -21810,7 +22078,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 18,
+"pos": 20,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -21831,7 +22099,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 19,
+"pos": 21,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
@@ -21853,7 +22121,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 20,
+"pos": 22,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -21875,7 +22143,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -21897,7 +22165,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -21918,7 +22186,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -21939,7 +22207,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 23,
+"pos": 25,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -21960,7 +22228,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 24,
+"pos": 26,
 "pieza": "Ganchos portamanguera (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla) plegada",
@@ -21981,7 +22249,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -22002,7 +22270,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -22023,7 +22291,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -22044,7 +22312,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -22065,7 +22333,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 27,
+"pos": 29,
 "pieza": "Válvula esférica",
 "cant": 1,
 "material": "Latón cromado",
@@ -22086,7 +22354,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Tobera campana",
 "cant": 1,
 "material": "Polipropileno",
@@ -22107,7 +22375,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -22128,7 +22396,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -22149,7 +22417,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -22171,7 +22439,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 30,
+"pos": 32,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -22192,7 +22460,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 31,
+"pos": 33,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -22214,7 +22482,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 32,
+"pos": 34,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -22235,7 +22503,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 33,
+"pos": 35,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -22256,7 +22524,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 34,
+"pos": 36,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -22277,7 +22545,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 35,
+"pos": 37,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -22298,7 +22566,7 @@
 {
 "modelo": "FL_MAT_ABC_70kg",
 "plano": "FL_MAT_ABC_70kg",
-"pos": 36,
+"pos": 38,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",
@@ -22411,7 +22679,7 @@
 "cant": 1,
 "material": "-",
 "dim": "Equipo vacío (suma de la lista de materiales)",
-"valor": 89.23,
+"valor": 90.53,
 "unidad": "kg",
 "tipo": "Cálculo",
 "src": [
@@ -23287,6 +23555,28 @@
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
 "pos": 10,
+"pieza": "Portaeje",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø33,7 × 3,25",
+"dim": "Caño Ø × e × largo",
+"valor": "33.7 × 3.25 × 402.0",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"REL:carro:portaeje",
+"PC:accesorios"
+],
+"calc": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
+"code": [
+"modelo3d.py",
+"portaeje=(33.7"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 11,
 "pieza": "Arandelas de tope (4)",
 "cant": 1,
 "material": "Acero SAE 1010 Ø40 × Ø26 × 4",
@@ -23307,18 +23597,19 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 11,
-"pieza": "Soportes del eje (2)",
+"pos": 12,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Alto × largo × e (2 u)",
-"valor": "80 × 86.6 × 4.75",
+"dim": "Chapa triangular: catetos × e (2 u)",
+"valor": "102.8 × 121.1 × 4.75",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"REL:carro:chapa",
 "PC:accesorios"
 ],
-"calc": "Chapa de orilla soldada atrás y abajo; desde la pared hasta 25 mm detrás del eje",
+"calc": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "code": [
 "modelo3d.py",
 "soporte=(80.0"
@@ -23328,28 +23619,28 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 11,
-"pieza": "Soportes del eje (2)",
+"pos": 12,
+"pieza": "Chapas triangulares del portaeje (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla)",
-"dim": "Separación de los soportes",
-"valor": 214.5,
+"dim": "Separación de las chapas",
+"valor": 273.0,
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
-"PC:accesorios"
+"REL:carro:chapa"
 ],
-"calc": "± 0,55·R",
+"calc": "± 0,7·R",
 "code": [
 "modelo3d.py",
-"x_soporte=0.55"
+"soporte=(80.0, 0.7)"
 ],
 "estado": "E"
 },
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -23370,7 +23661,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
@@ -23392,18 +23683,19 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 12,
+"pos": 13,
 "pieza": "Manija del carro",
 "cant": 1,
 "material": "Caño acero SAE 1010 Ø25,4×1,6",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
-"valor": "227.9 / 1419.0",
+"valor": "445.4 / 1670.0",
 "unidad": "mm",
 "tipo": "Diseño FLAMA (supuesto)",
 "src": [
+"FR:800:oreja",
 "PC:accesorios"
 ],
-"calc": "Patas a ± 0,55·R, tangentes al cuerpo; radio de curvado 40",
+"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
 "code": [
 "modelo3d.py",
 "manija=(25.4"
@@ -23414,6 +23706,49 @@
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
 "pos": 13,
+"pieza": "Manija del carro",
+"cant": 1,
+"material": "Caño acero SAE 1010 Ø25,4×1,6",
+"dim": "Doblez del tramo superior / altura del doblez",
+"valor": "30° / 1220.8",
+"unidad": "° / mm",
+"tipo": "Plano Fadesa",
+"src": [
+"FR:800:manija"
+],
+"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"code": [
+"modelo3d.py",
+"z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"
+],
+"estado": "V"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 14,
+"pieza": "Orejas de la manija (4)",
+"cant": 1,
+"material": "Chapa LAC del cuerpo (orilla)",
+"dim": "Chapita ancho × e (4 u) / alturas",
+"valor": "40 × 4.75 / 794.4 y 1052.9",
+"unidad": "mm",
+"tipo": "Diseño FLAMA (supuesto)",
+"src": [
+"FR:800:oreja",
+"PC:accesorios"
+],
+"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"code": [
+"modelo3d.py",
+"z_or = [z_low + 20.0"
+],
+"estado": "E"
+},
+{
+"modelo": "FL_MAT_ABC_100kg",
+"plano": "FL_MAT_ABC_100kg",
+"pos": 15,
 "pieza": "Espiga roscada",
 "cant": 1,
 "material": "Latón forjado",
@@ -23434,7 +23769,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 14,
+"pos": 16,
 "pieza": "Collarín de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23455,7 +23790,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23476,7 +23811,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23497,7 +23832,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23518,7 +23853,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 15,
+"pos": 17,
 "pieza": "Cuerpo de válvula",
 "cant": 1,
 "material": "Latón forjado",
@@ -23539,7 +23874,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -23560,7 +23895,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 16,
+"pos": 18,
 "pieza": "Manómetro",
 "cant": 1,
 "material": "Comercial",
@@ -23581,7 +23916,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 17,
+"pos": 19,
 "pieza": "Vástago",
 "cant": 1,
 "material": "Latón",
@@ -23602,7 +23937,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 18,
+"pos": 20,
 "pieza": "Resorte de válvula",
 "cant": 1,
 "material": "Alambre acero inox. AISI 302",
@@ -23623,7 +23958,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 19,
+"pos": 21,
 "pieza": "Palanca de accionamiento",
 "cant": 1,
 "material": "Planchuela acero SAE 1010 10 × 16 pintada",
@@ -23645,7 +23980,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 20,
+"pos": 22,
 "pieza": "Eje de palanca",
 "cant": 1,
 "material": "Acero inox. AISI 304",
@@ -23667,7 +24002,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 21,
+"pos": 23,
 "pieza": "Pasador de seguridad",
 "cant": 1,
 "material": "Alambre acero inox. AISI 304",
@@ -23689,7 +24024,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -23710,7 +24045,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 22,
+"pos": 24,
 "pieza": "Caño de pesca (sifón)",
 "cant": 1,
 "material": "Tubo PVC rígido",
@@ -23731,7 +24066,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 23,
+"pos": 25,
 "pieza": "Racor de manguera",
 "cant": 1,
 "material": "Latón",
@@ -23752,7 +24087,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 24,
+"pos": 26,
 "pieza": "Ganchos portamanguera (2)",
 "cant": 1,
 "material": "Chapa LAC del cuerpo (orilla) plegada",
@@ -23773,7 +24108,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -23794,7 +24129,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 25,
+"pos": 27,
 "pieza": "Manguera (tramo enrollado)",
 "cant": 1,
 "material": "Caucho sintético",
@@ -23815,7 +24150,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -23836,7 +24171,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 26,
+"pos": 28,
 "pieza": "Manguera",
 "cant": 1,
 "material": "Caucho sintético",
@@ -23857,7 +24192,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 27,
+"pos": 29,
 "pieza": "Válvula esférica",
 "cant": 1,
 "material": "Latón cromado",
@@ -23878,7 +24213,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 28,
+"pos": 30,
 "pieza": "Tobera campana",
 "cant": 1,
 "material": "Polipropileno",
@@ -23899,7 +24234,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -23920,7 +24255,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -23941,7 +24276,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 29,
+"pos": 31,
 "pieza": "Etiqueta / placa de características",
 "cant": 1,
 "material": "Vinilo autoadhesivo laminado",
@@ -23963,7 +24298,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 30,
+"pos": 32,
 "pieza": "Oblea de fabricación (PBA)",
 "cant": 1,
 "material": "Papel de seguridad autodestructible",
@@ -23984,7 +24319,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 31,
+"pos": 33,
 "pieza": "Estampilla IRAM de conformidad",
 "cant": 1,
 "material": "Provista por IRAM (Anexo R)",
@@ -24006,7 +24341,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 32,
+"pos": 34,
 "pieza": "Tarjeta de identificación AGC (CABA)",
 "cant": 1,
 "material": "Etiqueta autoadhesiva emitida por la AGC",
@@ -24027,7 +24362,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 33,
+"pos": 35,
 "pieza": "Etiqueta de n° de serie GS1",
 "cant": 1,
 "material": "Poliéster autoadhesivo impreso térmico",
@@ -24048,7 +24383,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 34,
+"pos": 36,
 "pieza": "Junta tórica de asiento",
 "cant": 1,
 "material": "NBR 70 Shore A",
@@ -24069,7 +24404,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 35,
+"pos": 37,
 "pieza": "Faja de garantía válvula-cuello",
 "cant": 1,
 "material": "Vinilo destructible rayado rojo/blanco",
@@ -24090,7 +24425,7 @@
 {
 "modelo": "FL_MAT_ABC_100kg",
 "plano": "FL_MAT_ABC_100kg",
-"pos": 36,
+"pos": 38,
 "pieza": "Precinto de fábrica",
 "cant": 1,
 "material": "Polipropileno color",

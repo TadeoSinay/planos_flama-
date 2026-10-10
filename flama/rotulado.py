@@ -966,10 +966,12 @@ def hoja4(m, piezas, info, proy, doc, ox):
     vista_color(h, m, piezas, (Tx, Ty, f), 0.1 / f)
     h.prims(proy["anterior"]["vis"], "01-VISIBLE", (Tx, Ty, f))
     zo = z0 - 3 - M.OBLEA_PBA
+    # cotas de altura fuera de la vista entera (en los carros, la rueda y la manija sobresalen del cuerpo)
+    xcota = Tx + max(xc + R, ex[2]) * f + 8
     h.cota_lineal((Tx + (xc + cuerda / 2) * f, Ty), (Tx + (xc + cuerda / 2) * f, Ty + z0 * f),
-                  (Tx + (xc + R) * f + 10, Ty), 90, 1 / f)
+                  (xcota, Ty), 90, 1 / f)
     h.cota_lineal((Tx + (xc + cuerda / 2) * f, Ty + z0 * f), (Tx + (xc + cuerda / 2) * f, Ty + (z0 + H) * f),
-                  (Tx + (xc + R) * f + 10, Ty), 90, 1 / f)
+                  (xcota, Ty), 90, 1 / f)
     h.cota_lineal((Tx + (xc - cuerda / 2) * f, Ty + z0 * f), (Tx + (xc + cuerda / 2) * f, Ty + z0 * f),
                   (Tx, Ty - 8), 0, 1 / f)
     h.texto(f"cuerda {_n(cuerda, 0)} = panel central (arco 108° = {_n(W, 0)} mm desarrollados); colores reales",

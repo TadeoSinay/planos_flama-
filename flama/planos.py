@@ -7,6 +7,8 @@
 """
 
 import math
+
+import cadquery as cq
 import datetime
 import re
 import shapely.geometry as sg
@@ -299,7 +301,7 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
         # trocha entre centros de rueda (IRAM 3550 tabla III: ≥ 400) en la vista superior
         xw = info["xw"]
         h.cota_lineal((x_front - xw * f, y_top + yw * f), (x_front + xw * f, y_top + yw * f),
-                      (x_front, y_top + yw * f + Rw * f + 10), 0, k, prefijo="trocha ")
+                      (x_front, yd - 9), 0, k, prefijo="trocha ")
     else:
         # posición del suncho / tobera
         if "suncho_z" in info:
@@ -312,13 +314,17 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
     # ---------------- detalles marcados en vista anterior (ver hoja 2)
     detalles = definir_detalles(m, info)
     for d in detalles:
-        if d["origen"] not in ("anterior", "lateral"):
+        org = d.get("marca", d["origen"])
+        if org not in ("anterior", "lateral"):
             continue
-        c = ((x_front if d["origen"] == "anterior" else x_lat) + d["c"][0] * f, y_front + d["c"][1] * f)
+        cc = d.get("c_marca", d["c"])
+        c = ((x_front if org == "anterior" else x_lat) + cc[0] * f, y_front + cc[1] * f)
         h.msp.add_circle(c, d["r"] * f, dxfattribs={"layer": "08-FINA"})
-        ang = math.radians(d.get("ang_letra", 45))
-        h.texto(d["letra"], (c[0] + (d["r"] * f + 4) * math.cos(ang), c[1] + (d["r"] * f + 4) * math.sin(ang)),
-                5, A.MIDDLE_CENTER)
+        a0 = d.get("ang_letra", 45)
+        cands = [(c[0] + (d["r"] * f + rr) * math.cos(math.radians(a0 + da)),
+                  c[1] + (d["r"] * f + rr) * math.sin(math.radians(a0 + da)))
+                 for rr in (4.0, 6.5, 9.0, 12.0, 15.0) for da in (0, 25, -25, 50, -50, 75, -75, 100, -100, 135, -135, 180)]
+        h.texto_libre(d["letra"], cands, 5, A.MIDDLE_CENTER)
 
     # ---------------- números de posición (globos) en vista anterior
     # (los componentes de la válvula se referencian en el detalle A, hoja 2)
@@ -387,10 +393,14 @@ def _grilla_detalles(n=5):
     x1 = H2_W - 10 - 4
     y0 = 10.0 + ROT_H + 4
     y1 = H2_H - 10 - 4
-    cw, ch = (x1 - x0) / 3, (y1 - y0) / 2
-    # fila superior: A (doble) + B; fila inferior centrada según la cantidad restante
-    abajo = max(0, n - 2)
-    slots = [(0, 0, 2), (2, 0, 1)] + [((3 - abajo) / 2 + i, 1, 1) for i in range(abajo)]
+    filas = 2 if n <= 5 else 3
+    cw, ch = (x1 - x0) / 3, (y1 - y0) / filas
+    # fila superior: A (doble) + B; las demás centradas según la cantidad restante (de a 3)
+    resto = list(range(max(0, n - 2)))
+    slots = [(0, 0, 2), (2, 0, 1)]
+    for fi in range(1, filas):
+        fila = resto[(fi - 1) * 3:fi * 3]
+        slots += [((3 - len(fila)) / 2 + i, fi, 1) for i in range(len(fila))]
     celdas = [(x0 + cw * (c0 + nc / 2), y1 - ch * (fi + 0.5), cw * nc) for c0, fi, nc in slots]
     r_norm = min(cw / 2 - 12, ch / 2 - 20)
     r_doble = min(cw - 12, ch / 2 - 20)
@@ -482,6 +492,20 @@ def definir_detalles(m, info):
                "lanza_d": "Lanza de flujo suave", "difusor_brazo": "Difusor", "difusor_manga": "Difusor y soporte",
                "tobera_1kg": "Tobera"}.get(m.descarga, "Tobera")
         D.append(dict(letra="E", origen="anterior", c=(xt, zt), r=rr, titulo=tit, ang_letra=250))
+    if m.familia == "rodante" and "soporte_tri" in info:
+        # F: portaeje y chapa triangular, vista lateral sin la rueda; G: oreja de la manija, vista superior
+        h_tri, m_pe, y_in, xs = info["soporte_tri"]
+        yw, Rw = info["yw"], info["Rw"]
+        xv0, xv1 = -y_in, -(yw - m_pe)
+        cF = ((xv0 + xv1) / 2, Rw + (h_tri - m_pe) / 2)
+        D.append(dict(letra="F", origen="local", vista="lat_izq", marca="lateral", c_marca=cF, c=cF,
+                      r=max(abs(xv1 - xv0), h_tri + m_pe) / 2 + 14,
+                      piezas=("soportes_eje", "portaeje", "eje_ruedas", "cuerpo", "fondo"), corte=None,
+                      titulo="Portaeje y chapa triangular (vista lateral, sin rueda)", ang_letra=210))
+        xm, zo = info["xm"], info["z_orejas"][0]
+        D.append(dict(letra="G", origen="local", vista="superior", marca="anterior", c_marca=(xm - 12, zo),
+                      c=(xm - 14, 0.0), r=34, piezas=("orejas_manija", "manija_carro", "cuerpo"),
+                      corte=(zo - 10, zo + 10), titulo="Oreja de la manija (vista superior)", ang_letra=20))
     return _escalar_detalles(D)
 
 
@@ -561,23 +585,47 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
         elif d["origen"] == "lateral":
             vis = recortar_circulo(pl_vis_l, d["c"], d["r"])
             oc = recortar_circulo(pl_oc_l, d["c"], d["r"])
+        elif d["origen"] == "local":
+            # vista propia del detalle: sólo las piezas que importan (sin la rueda que las tapa) y, si corresponde,
+            # una rebanada horizontal (oreja)
+            sols = []
+            for k_ in d["piezas"]:
+                if k_ not in piezas:
+                    continue
+                so = piezas[k_]
+                if d["corte"]:
+                    za, zb_ = d["corte"]
+                    so = so.intersect(cq.Solid.makeBox(4000, 4000, zb_ - za, cq.Vector(-2000, -2000, za)))
+                if so.Volume() > 1e-6:
+                    sols.append(so)
+            pl_ = V.proyectar(cq.Compound.makeCompound(sols), d["vista"], tol=0.3, ocultas=True)
+            vis = recortar_circulo(V.a_polilineas(pl_["vis"], 0.2), d["c"], d["r"])
+            oc = recortar_circulo(V.a_polilineas(pl_["oc"], 0.2), d["c"], d["r"])
         else:
             vis = recortar_circulo(pl_vis_c, d["c"], d["r"])
             oc = []
             h.msp.add_circle((cx + d["c"][0] * fc, cy + d["c"][1] * fc), d["r"] * fc,
                              dxfattribs={"layer": "08-FINA"})
             rr_ = d["r"] * fc
-            if d["letra"] == "B":
-                pl = (cx + d["c"][0] * fc + rr_ * 0.75 + 4, cy + d["c"][1] * fc + rr_ * 0.75 + 4)
-            else:
-                pl = (cx + d["c"][0] * fc - rr_ * 0.75 - 4, cy + d["c"][1] * fc + rr_ * 0.75 + 4)
-            h.texto(d["letra"], pl, 5, A.MIDDLE_CENTER)
+            cc_ = (cx + d["c"][0] * fc, cy + d["c"][1] * fc)
+            a0 = 45 if d["letra"] == "B" else 135
+            cands = [(cc_[0] + (rr_ + rr) * math.cos(math.radians(a0 + da)),
+                      cc_[1] + (rr_ + rr) * math.sin(math.radians(a0 + da)))
+                     for rr in (4.0, 6.5, 9.0, 12.0, 15.0, 19.0, 24.0, 30.0) for da in range(0, 360, 20)]
+            h.texto_libre(d["letra"], cands, 5, A.MIDDLE_CENTER)
         h.polilineas(transformar(oc, d["c"], s, dest), "02-OCULTA")
         h.polilineas(transformar(vis, d["c"], s, dest), "01-VISIBLE")
-        ej = [[a, b] for a, b in ejes(m, info, "anterior")] if d["origen"] == "anterior" else \
-            ([[a, b] for a, b in ejes(m, info, "lat_izq")] if d["origen"] == "lateral" else
-             [[(0, info["recipiente"]["z_fondo"] - 3), (0, info["recipiente"]["z_cuello"] + 3)]])
+        if d["origen"] == "local":
+            c0 = (-info["yw"], info["Rw"]) if d["letra"] == "F" else (info["xm"], 0.0)
+            rr0 = (info["portaeje"][0] / 2 + 8) if d["letra"] == "F" else 20.0
+            ej = [[(c0[0] - rr0, c0[1]), (c0[0] + rr0, c0[1])], [(c0[0], c0[1] - rr0), (c0[0], c0[1] + rr0)]]
+        else:
+            ej = [[a, b] for a, b in ejes(m, info, "anterior")] if d["origen"] == "anterior" else \
+                ([[a, b] for a, b in ejes(m, info, "lat_izq")] if d["origen"] == "lateral" else
+                 [[(0, info["recipiente"]["z_fondo"] - 3), (0, info["recipiente"]["z_cuello"] + 3)]])
         h.polilineas(transformar(recortar_circulo(ej, d["c"], d["r"]), d["c"], s, dest), "03-EJE")
+        if d["origen"] == "local":
+            _carro_detalle(h, m, info, d, s, dest)
         if d["origen"] == "corte":
             circ = sg.Point(d["c"]).buffer(d["r"], resolution=64)
             for k_, polys in secc.items():
@@ -613,6 +661,38 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
     return doc
 
 
+def _carro_detalle(h, m, info, d, s, dest):
+    """notas y símbolos de soldadura de los detalles F (portaeje) y G (oreja) del carro."""
+    T = lambda x, z: (dest[0] + (x - d["c"][0]) * s, dest[1] + (z - d["c"][1]) * s)   # noqa: E731
+    t = m.geo["t"]
+    rp = d["rp"]
+    if d["letra"] == "F":
+        h_tri, m_pe, y_in, xs = info["soporte_tri"]
+        yw, Rw = info["yw"], info["Rw"]
+        dpe, epe, lpe = info["portaeje"]
+        pw = T(-y_in - 15 + 0.5, Rw + h_tri * 0.55)              # cateto vertical contra la pared del cuerpo
+        h.simbolo_soldadura(pw, (dest[0] - rp - 4, pw[1] + 10), lado=-1, proceso="135")
+        pt = T(-yw + dpe / 2 * 0.7, Rw + dpe / 2 * 0.7)          # punta abrazando el portaeje
+        h.simbolo_soldadura(pt, (dest[0] + rp * 0.55, dest[1] + rp * 0.75), lado=1, proceso="135")
+        h.nota_referencia(f"Portaeje Ø{_n(dpe)} × {_n(epe, 2)}", T(-yw - dpe / 2 * 0.7, Rw - dpe / 2 * 0.7),
+                          (dest[0] + rp * 0.55, dest[1] - rp - 3), 2.5)
+        h.nota_referencia("Eje Ø25", T(-yw + 25 / 2 * 0.5, Rw - 25 / 2 * 0.5), (dest[0] + rp + 3, dest[1] - rp * 0.45),
+                          2.5)
+        h.nota_referencia(f"Chapa triangular e{_n(t, 2)} (2)", T((-y_in - yw) / 2 - 5, Rw + h_tri * 0.25),
+                          (dest[0] - rp * 0.95, dest[1] - rp * 0.55), 2.5)
+    else:
+        xm = info["xm"]
+        R = info["recipiente"]["R"]
+        pw = T(R + 0.8, 20.5)                                     # oreja contra el cuerpo
+        h.simbolo_soldadura(pw, (dest[0] - rp - 2, dest[1] + rp * 0.85), lado=-1, proceso="135")
+        pt = T(xm - 12.7 * 0.7, 12.7 * 0.7)                       # oreja contra la pata de la manija
+        h.simbolo_soldadura(pt, (dest[0] + rp * 0.5, dest[1] + rp + 2), lado=1, proceso="135")
+        h.nota_referencia(f"Oreja e{_n(t, 2)} × 40 (4)", T((R + xm) / 2, -20), (dest[0] - rp * 0.9, dest[1] - rp * 0.85),
+                          2.5)
+        h.nota_referencia("Manija Ø25,4 × 1,6", T(xm + 12.7 * 0.7, -12.7 * 0.7),
+                          (dest[0] + rp * 0.35, dest[1] - rp * 0.9), 2.5)
+
+
 def _roscas_y_soldaduras(h, m, info, d, s, dest):
     proc = m.soldadura[0]
     r = info["recipiente"]
@@ -642,7 +722,9 @@ def _roscas_y_soldaduras(h, m, info, d, s, dest):
         pw = T(r["R"] + 0.3, r["z_union"] + 0.8)
         h.simbolo_soldadura(pw, (pw[0] + 12, pw[1] + 14), lado=1, proceso=proc)
         t = m.geo["t"]
-        h.texto(f"e = {_n(t)}", T(r["R"] - t / 2 - 2.5 * t, r["z_union"] - 4 * t), 2.5, A.MIDDLE_CENTER)
+        x0_, y0_ = T(r["R"] - t / 2 - 2.5 * t, r["z_union"] - 4 * t)
+        h.texto_libre(f"e = {_n(t)}", [(x0_ + dx_, y0_ + dy_) for dy_ in (0, -4, -8, -12, 4, 8)
+                                       for dx_ in (0, -6, -12, -18)], 2.5, A.MIDDLE_CENTER)
     elif d["letra"] == "D" and m.familia != "co2":
         g = m.geo
         if g["tipo_fondo"] == "concavo":
@@ -663,7 +745,7 @@ def _tabla(h, x0, y, filas, anchos, alto=5.5, hs=(2.5, 2.5), encabezado=None, ma
         if fondo:
             h.relleno(sg.box(x0, y - alto, x0 + sum(anchos), y), fondo)
         h.rect(x0, y - alto, x0 + sum(anchos), y, "10-ROTULO")
-        t = h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5, A.MIDDLE_CENTER)
+        t = h.texto(encabezado, (x0 + sum(anchos) / 2, y - alto / 2), 3.5 if alto >= 4.9 else 2.5, A.MIDDLE_CENTER)
         if fondo and fondo_txt and t is not None:
             t.rgb = fondo_txt
         y -= alto

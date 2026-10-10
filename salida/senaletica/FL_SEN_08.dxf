@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461323.981712963
+2461324.194328704
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461323.981712963
+2461324.194328704
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-243
+27E
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{DD286235-8860-4A3C-AEA4-52F253C3EFAF}
+{8CDBB73A-5840-4FF9-9B6D-1770267D3E9D}
   9
 $VERSIONGUID
   2
-{CE998D66-1227-4B5F-A104-AD93681296C4}
+{B625AF1C-5A70-4C34-AC96-3C99806B9F78}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -2235,7 +2235,7 @@ AcAecLayerStandard
   0
 APPID
   5
-240
+27B
 330
 3
 100
@@ -2249,7 +2249,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-241
+27C
 330
 3
 100
@@ -2773,7 +2773,7 @@ AcDbBlockTableRecord
   0
 BLOCK_RECORD
   5
-221
+25D
 330
 9
 100
@@ -2781,7 +2781,7 @@ AcDbSymbolTableRecord
 100
 AcDbBlockTableRecord
   2
-*D9
+*D13
 340
 0
  70
@@ -2793,7 +2793,7 @@ AcDbBlockTableRecord
   0
 BLOCK_RECORD
   5
-23A
+275
 330
 9
 100
@@ -2803,7 +2803,7 @@ AcDbBlockTableRecord
   2
 *Paper_Space
 340
-23D
+278
  70
 0
 280
@@ -5005,9 +5005,9 @@ AcDbBlockEnd
   0
 BLOCK
   5
-222
+25E
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5015,7 +5015,7 @@ AcDbEntity
 100
 AcDbBlockBegin
   2
-*D9
+*D13
  70
 1
  10
@@ -5025,15 +5025,15 @@ AcDbBlockBegin
  30
 0.0
   3
-*D9
+*D13
   1
 
   0
 LINE
   5
-224
+260
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5059,9 +5059,9 @@ AcDbLine
   0
 LINE
   5
-225
+261
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5087,9 +5087,9 @@ AcDbLine
   0
 INSERT
   5
-226
+262
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5115,9 +5115,9 @@ IRAM_FLECHA
   0
 INSERT
   5
-228
+264
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5141,39 +5141,11 @@ IRAM_FLECHA
  50
 270.0
   0
-LINE
-  5
-22A
-330
-221
-100
-AcDbEntity
-  8
-0
- 62
-7
-370
-18
-100
-AcDbLine
- 10
-383.0
- 20
-234.0
- 30
-0.0
- 11
-383.0
- 21
-237.0
- 31
-0.0
-  0
 MTEXT
   5
-22B
+266
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5183,9 +5155,9 @@ AcDbEntity
 100
 AcDbMText
  10
-378.25
+383.0
  20
-235.5
+253.04597682119203
  30
 0.0
  40
@@ -5201,9 +5173,9 @@ ISO3098
   0
 POINT
   5
-22C
+267
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5219,9 +5191,9 @@ AcDbPoint
   0
 POINT
   5
-22D
+268
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5237,9 +5209,9 @@ AcDbPoint
   0
 POINT
   5
-22E
+269
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5255,9 +5227,9 @@ AcDbPoint
   0
 ENDBLK
   5
-223
+25F
 330
-221
+25D
 100
 AcDbEntity
   8
@@ -5267,9 +5239,9 @@ AcDbBlockEnd
   0
 BLOCK
   5
-23B
+276
 330
-23A
+275
 100
 AcDbEntity
   8
@@ -5293,9 +5265,9 @@ AcDbBlockBegin
   0
 ENDBLK
   5
-23C
+277
 330
-23A
+275
 100
 AcDbEntity
   8
@@ -16929,7 +16901,7 @@ AcDbText
  30
 0.0
  40
-3.5
+2.5
   1
 MEDIDAS DEL MARBETE
   7
@@ -17801,7 +17773,7 @@ AcDbText
  30
 0.0
  40
-3.5
+2.5
   1
 COLOR ANUAL (tabla 4)
   7
@@ -27743,7 +27715,7 @@ AcDbText
  30
 0.0
  40
-3.5
+2.5
   1
 MARBETE POR MODELO
   7
@@ -31553,7 +31525,7 @@ DSTYLE
   0
 DIMENSION
   5
-220
+25C
 330
 17
 100
@@ -31565,7 +31537,7 @@ AcDbDimension
 280
 0
   2
-*D9
+*D13
   3
 FLAMA-IRAM
  10
@@ -31575,13 +31547,13 @@ FLAMA-IRAM
  30
 0.0
  11
-378.25
+383.0
  21
-235.5
+253.04597682119203
  31
 0.0
  70
-32
+160
  71
 5
   1
@@ -31614,12 +31586,16 @@ DSTYLE
 144
 1040
 0.5
+1070
+279
+1070
+2
 1002
 }
   0
 TEXT
   5
-22F
+26A
 330
 17
 100
@@ -31653,7 +31629,7 @@ AcDbText
   0
 TEXT
   5
-230
+26B
 330
 17
 100
@@ -31687,7 +31663,7 @@ AcDbText
   0
 TEXT
   5
-231
+26C
 330
 17
 100
@@ -31721,7 +31697,7 @@ AcDbText
   0
 TEXT
   5
-232
+26D
 330
 17
 100
@@ -31755,7 +31731,7 @@ AcDbText
   0
 TEXT
   5
-233
+26E
 330
 17
 100
@@ -31789,7 +31765,7 @@ AcDbText
   0
 TEXT
   5
-234
+26F
 330
 17
 100
@@ -31823,7 +31799,7 @@ AcDbText
   0
 TEXT
   5
-235
+270
 330
 17
 100
@@ -31857,7 +31833,7 @@ AcDbText
   0
 TEXT
   5
-236
+271
 330
 17
 100
@@ -31891,7 +31867,7 @@ AcDbText
   0
 TEXT
   5
-237
+272
 330
 17
 100
@@ -31925,7 +31901,7 @@ AcDbText
   0
 TEXT
   5
-238
+273
 330
 17
 100
@@ -31959,7 +31935,7 @@ AcDbText
   0
 TEXT
   5
-239
+274
 330
 17
 100
@@ -31993,9 +31969,9 @@ AcDbText
   0
 VIEWPORT
   5
-23E
+279
 330
-23A
+275
 100
 AcDbEntity
  67
@@ -32097,9 +32073,9 @@ AcDbViewport
   0
 VIEWPORT
   5
-23F
+27A
 330
-23A
+275
 100
 AcDbEntity
  67
@@ -32299,7 +32275,7 @@ Model
   3
 Lamina
 350
-23D
+278
   0
 DICTIONARY
   5
@@ -33065,7 +33041,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-242
+27D
   0
 DICTIONARYVAR
   5
@@ -33077,11 +33053,11 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T23:33:40.495339+00:00
+1.4.4 @ 2026-10-10T04:39:50.262487+00:00
   0
 LAYOUT
   5
-23D
+278
 330
 D
 100
@@ -33203,13 +33179,13 @@ Lamina
  76
 1
 330
-23A
+275
 331
-23E
+279
   0
 DICTIONARYVAR
   5
-242
+27D
 330
 2D
 100
@@ -33217,7 +33193,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-09T23:33:40.532807+00:00
+1.4.4 @ 2026-10-10T04:39:50.483333+00:00
   0
 ENDSEC
   0

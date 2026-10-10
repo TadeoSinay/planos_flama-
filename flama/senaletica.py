@@ -439,9 +439,11 @@ def sen03():
     for m in MODELOS:
         k = (m.nombre.replace("Extintor ", ""), " ".join(_clases(m)), "IRAM " + m.spec.get("Norma IRAM extintor", ""))
         vistos.append(k)
-    _tabla(h, h.fx0 + 5, y - 110, filas + vistos[:9], [60, 30, 30], alto=4.4, encabezado="TIPOS DE FUEGO POR MODELO")
-    _tabla(h, h.fx0 + 130, y - 110, [("Modelo FLAMA", "Tipos de fuego", "Norma")] + vistos[9:], [60, 30, 30],
-           alto=4.4, encabezado="(continuación)")
+    y_t1 = _tabla(h, h.fx0 + 5, y - 110, filas + vistos[:9], [60, 30, 30], alto=4.4,
+                  encabezado="TIPOS DE FUEGO POR MODELO")
+    y_t2 = _tabla(h, h.fx0 + 130, y - 110, [("Modelo FLAMA", "Tipos de fuego", "Norma")] + vistos[9:], [60, 30, 30],
+                  alto=4.4, encabezado="(continuación)")
+    y_notas = min(y_t1, y_t2) - 6                    # debajo de la tabla más larga
     _notas(h, ["NOTAS (IRAM 3517-2:2020)",
                "1) Cada tipo de fuego se indica con la letra y el pictograma simultáneamente (7.2.2).",
                "2) A triángulo equilátero, B cuadrado, C círculo, D estrella, K hexágono, con la letra adentro;",
@@ -449,7 +451,7 @@ def sen03():
                "3) Colores IRAM-DEF D 1054: A verde 01-1-150, B rojo 03-1-050, C azul 08-1-070, D amarillo 05-1-040,",
                "    K negro. Los RGB de esta lámina son sólo de presentación.",
                "4) Pictogramas esquemáticos: para producción reproducir la figura 1. NFPA 10: FL_SEN_05."],
-           h.fy0 + 75, x=h.fx0 + 5, paso=4.4)
+           y_notas, x=h.fx0 + 5, paso=4.4)
     return doc
 
 

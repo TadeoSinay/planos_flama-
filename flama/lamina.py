@@ -154,6 +154,9 @@ def nuevo_doc():
     return doc
 
 
+_SUBINDICES = str.maketrans("₀₁₂₃₄₅₆₇₈₉", "0123456789")
+
+
 class Hoja:
     def __init__(self, doc, formato, ox=0.0):
         """ox: desplazamiento en X de la lámina dentro del espacio modelo (varias
@@ -172,10 +175,99 @@ class Hoja:
             return None                    # sin TEXT vacíos: AutoCAD puede rechazar el DXF («DXF read error»)
         if capa != "13-GRAFICA":
             h = altura_norm(h)             # anotación: sólo alturas de la serie IRAM 4503
+        s = str(s).translate(_SUBINDICES)  # la letra ISO 3098 (isocpeur) no tiene ₂ ₃: CO2, N2, NaHCO3
         t = self.msp.add_text(s, height=h, rotation=rot,
                               dxfattribs={"layer": capa, "style": "ISO3098"})
         t.set_placement(p, align=al)
         return t
+
+    # ------------------------------------------------------------ textos sin superposición
+    def _indice(self):
+        """líneas del dibujo (visibles y ocultas) y cajas de los textos ya escritos, para no pisarlos."""
+        import shapely
+        from ezdxf import bbox as _bbox
+        n = len(self.msp)
+        if getattr(self, "_idx_n", None) == n:
+            return self._idx
+        geo = []
+        for e in self.msp:
+            ly, t = e.dxf.layer, e.dxftype()
+            try:
+                if ly in ("01-VISIBLE", "02-OCULTA"):
+                    if t == "LINE":
+                        geo.append(sg.LineString([e.dxf.start[:2], e.dxf.end[:2]]))
+                    elif t == "LWPOLYLINE":
+                        pts = [q[:2] for q in e.get_points("xy")] + ([e.get_points("xy")[0][:2]] if e.closed else [])
+                        if len(pts) > 1:
+                            geo.append(sg.LineString(pts))
+                    elif t in ("ARC", "CIRCLE"):
+                        pts = [v[:2] for v in e.flattening(0.3)]
+                        if len(pts) > 1:
+                            geo.append(sg.LineString(pts))
+                elif t == "TEXT":                  # también la gráfica impresa: una anotación no va encima
+                    b = _bbox.extents([e], fast=True)
+                    if b.has_data:
+                        geo.append(sg.box(b.extmin.x, b.extmin.y, b.extmax.x, b.extmax.y))
+                elif t == "HATCH":                 # rellenos de color y rayados
+                    for pth in e.paths:
+                        vs = getattr(pth, "vertices", None)
+                        if vs and len(vs) >= 3:
+                            pg = sg.Polygon([(v[0], v[1]) for v in vs])
+                            if pg.is_valid and pg.area > 0.5:
+                                geo.append(pg)
+            except Exception:
+                pass
+        self._idx = (geo, shapely.STRtree(geo) if geo else None)
+        self._idx_n = n
+        return self._idx
+
+    def libre(self, caja):
+        geo, arbol = self._indice()
+        if any(caja.intersects(c) for c in getattr(self, "_cotas", ())):
+            return False                   # texto de una cota ya puesta
+        return arbol is None or not any(caja.intersects(geo[i]) for i in arbol.query(caja))
+
+    def texto_libre(self, s, cands, h=3.5, al=A.MIDDLE_CENTER, capa="06-TEXTO"):
+        """escribe s en el primer punto de cands donde no pisa líneas del dibujo ni otros textos (si ninguno está
+        libre, en el primero)."""
+        hh = altura_norm(h)
+        w = ancho_texto(s, hh)
+        for p in cands:
+            x, y = p
+            # caja real de la letra ISO 3098 (medida con ezdxf): de 0,8 h debajo a 0,5 h encima del medio
+            if al == A.MIDDLE_CENTER:
+                caja = sg.box(x - w / 2 - 0.6, y - hh * 0.85, x + w / 2 + 0.6, y + hh * 0.6)
+            elif al == A.MIDDLE_LEFT:
+                caja = sg.box(x - 0.6, y - hh * 0.85, x + w + 0.6, y + hh * 0.6)
+            elif al == A.MIDDLE_RIGHT:
+                caja = sg.box(x - w - 0.6, y - hh * 0.85, x + 0.6, y + hh * 0.6)
+            else:
+                caja = sg.box(x - 0.6, y - hh * 0.35, x + w + 0.6, y + hh * 1.1)
+            if self.libre(caja):
+                return self.texto(s, p, h, al, capa)
+        return self.texto(s, cands[0], h, al, capa)
+
+    def bloque_libre(self, lineas, x, ys, paso=4.6, h0=3.5, h=2.5):
+        """notas de varios renglones (el primero de altura h0) en el primer punto donde ningún renglón pisa el
+        dibujo ni otro texto: (x, y) para cada y de ys, o los puntos (x, y) que vengan en ys si x es None. Si no hay
+        lugar libre, en el primero. Devuelve el punto elegido."""
+        puntos = list(ys) if x is None else [(x, y) for y in ys]
+        elegido = puntos[0]
+        for x, y in puntos:
+            ok = True
+            for i, t in enumerate(lineas):
+                hh = altura_norm(h0 if i == 0 else h)
+                yy = y - paso * i
+                if t.strip() and not self.libre(sg.box(x - 0.5, yy - hh * 0.35, x + ancho_texto(t, hh) + 0.5,
+                                                       yy + hh * 1.1)):
+                    ok = False
+                    break
+            if ok:
+                elegido = (x, y)
+                break
+        for i, t in enumerate(lineas):
+            self.texto(t, (elegido[0], elegido[1] - paso * i), h0 if i == 0 else h)
+        return elegido
 
     def grafica(self, s, p, h, al=A.BOTTOM_LEFT, rot=0, rgb=None):
         """texto que forma parte del objeto dibujado (impresión de etiqueta, sello, señal) a su escala."""
@@ -417,14 +509,81 @@ class Hoja:
 
     # ------------------------------------------------------------ cotas
     def cota_lineal(self, p1, p2, base, ang, k, prefijo="", texto=None):
+        """Cota lineal. Si su texto pisa el dibujo, un relleno u otro texto, o es más largo que la cota, se aleja la
+        línea de cota de la pieza (3, 6 y 9 mm) y, si no alcanza (texto encima de un rayado, cota chica), el texto sale
+        al costado sobre la prolongación de la línea de cota; si nada queda libre se deja la posición original."""
         ov = {"dimlfac": k}
         if prefijo:
             ov["dimpost"] = prefijo + "<>"
-        d = self.msp.add_linear_dim(base=base, p1=p1, p2=p2, angle=ang, dimstyle="FLAMA-IRAM",
-                                    override=ov, text=texto if texto else "<>",
-                                    dxfattribs={"layer": "04-COTA"})
+        vert = abs(ang % 180 - 90) < 1
+        i = 0 if vert else 1                        # coordenada en la que se aleja la línea de cota
+        ref = (p1[i] + p2[i]) / 2
+        sgn = 1 if base[i] >= ref else -1
+        cands = [(base, None)]
+        for dd in (3.0, 6.0, 9.0):
+            b2 = list(base)
+            b2[i] += sgn * dd
+            cands.append((tuple(b2), None))
+        j = 1 - i                                   # coordenada a lo largo de la línea de cota
+        lo, hi = min(p1[j], p2[j]), max(p1[j], p2[j])
+        for lado in (1, -1):
+            for dd in (0.0, 3.0):
+                b2 = list(base)
+                b2[i] += sgn * dd
+                cands.append((tuple(b2), lado))     # texto al costado: se ubica con su largo medido
+        primero, largo = None, 10.0
+        asz = self.doc.dimstyles.get("FLAMA-IRAM").dxf.get("dimasz", 2.5)
+        for b, loc in cands:
+            if loc is not None:                     # centro: medio largo + flecha exterior + 1,5 de la línea auxiliar
+                q = list(b)
+                sep = largo / 2 + asz + 1.5
+                q[j] = (hi + sep) if loc > 0 else (lo - sep)
+                loc = tuple(q)
+            d = self.msp.add_linear_dim(base=b, p1=p1, p2=p2, angle=ang, dimstyle="FLAMA-IRAM",
+                                        override=dict(ov, dimtmove=0) if loc else ov, location=loc,
+                                        text=texto if texto else "<>", dxfattribs={"layer": "04-COTA"})
+            d.render()
+            if primero is None:
+                primero = (b, loc)
+            caja = self._caja_cota(d.dimension)
+            if primero == (b, loc) and caja is not None:
+                largo = caja.bounds[j + 2] - caja.bounds[j] + 0.5
+            # el texto entre las líneas auxiliares sólo si cabe; si es más largo que la cota, al costado
+            cabe = loc is not None or caja is None or (caja.bounds[j] >= lo - 0.5 and caja.bounds[j + 2] <= hi + 0.5)
+            if caja is None or (cabe and self.libre(caja)):
+                if caja is not None:
+                    self._cotas = getattr(self, "_cotas", []) + [caja]
+                return d
+            self._borrar_cota(d.dimension)
+        b, loc = primero
+        d = self.msp.add_linear_dim(base=b, p1=p1, p2=p2, angle=ang, dimstyle="FLAMA-IRAM",
+                                    override=ov, text=texto if texto else "<>", dxfattribs={"layer": "04-COTA"})
         d.render()
+        caja = self._caja_cota(d.dimension)
+        if caja is not None:
+            self._cotas = getattr(self, "_cotas", []) + [caja]
         return d
+
+    @staticmethod
+    def _caja_cota(dim):
+        """caja del texto de la cota; ezdxf la mide sin girar, así que se gira acá (cotas verticales)."""
+        from ezdxf import bbox as _bbox
+        from shapely import affinity
+        for v in dim.virtual_entities():
+            if v.dxftype() == "MTEXT":
+                b = _bbox.extents([v], fast=False)
+                if b.has_data:
+                    c = sg.box(b.extmin.x + 0.25, b.extmin.y + 0.25, b.extmax.x - 0.25, b.extmax.y - 0.25)
+                    rot = v.dxf.get("rotation", 0.0) or 0.0
+                    ins = v.dxf.insert
+                    return affinity.rotate(c, rot, origin=(ins.x, ins.y)) if rot else c
+        return None
+
+    def _borrar_cota(self, dim):
+        blk = dim.dxf.get("geometry")
+        self.msp.delete_entity(dim)
+        if blk and blk in self.doc.blocks:
+            self.doc.blocks.delete_block(blk, safe=False)
 
     def eje(self, a, b):
         self.linea(a, b, "03-EJE")
@@ -500,7 +659,17 @@ class Hoja:
                    A.MIDDLE_LEFT if lado > 0 else A.MIDDLE_RIGHT, "12-SOLDADURA")
 
     def nota_referencia(self, texto, punto, codo, h=2.5):
+        """flecha + codo + texto. Si el texto pisa el dibujo u otro texto, el codo se corre en altura (hasta ±24 mm)
+        al primer lugar libre."""
         m = self.msp
+        w0 = len(texto) * h * 0.72
+        for dy in (0, 5, -5, 10, -10, 15, -15, 20, -20, 24, -24):
+            c_ = (codo[0], codo[1] + dy)
+            ld = 1 if c_[0] >= punto[0] else -1
+            x0_, x1_ = sorted((c_[0], c_[0] + ld * w0))
+            if self.libre(sg.box(x0_ - 0.5, c_[1] + 0.8 - h * 0.4, x1_ + 0.5, c_[1] + 0.8 + h * 1.1)):
+                codo = c_
+                break
         m.add_line(punto, codo, dxfattribs={"layer": "08-FINA"})
         dx, dy = punto[0] - codo[0], punto[1] - codo[1]
         L = math.hypot(dx, dy) or 1
