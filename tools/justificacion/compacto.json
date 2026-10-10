@@ -1,5 +1,5 @@
 {
-"sha": "b2269fe",
+"sha": "d596f17",
 "hojas": [
 {
 "nombre": "Manuales ABC",
@@ -204,7 +204,7 @@
 "tipo": "Cálculo"
 },
 {
-"v": 3.33,
+"v": 3.32,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -2714,41 +2714,41 @@ null,
 },
 {
 "pieza": "Faja de garantía válvula-cuello",
-"dim": "Ancho × alto",
+"dim": "Ancho × alto (relevada) / dibujada",
 "unidad": "mm",
-"criterio": "Relevada en la línea Georgia",
+"criterio": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "varia": false,
 "celdas": [
 {
-"v": "30 × 40",
+"v": "30 × 40 / 17,0 × 20,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 23,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 }
 ]
@@ -2856,7 +2856,7 @@ null,
 "pieza": "Conjunto",
 "dim": "Ancho total",
 "unidad": "mm",
-"criterio": "ABC 25 kg: Resulta del tren de rodaje IRAM 3550 (trocha 400, banda 60) (catálogo: 455; diferencia +5 %) · ABC 50 kg: Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +7 %) · ABC 70 kg: Resulta del tren de rodaje IRAM 3550 (trocha 490, banda 60) (catálogo: 575; diferencia -1 %) · ABC 100 kg: Resulta del tren de rodaje IRAM 3550 (trocha 530, banda 100) (catálogo: 630; diferencia +3 %)",
+"criterio": "ABC 25 kg: Resulta del tren de rodaje IRAM 3550 (trocha 400, banda 60) (catálogo: 455; diferencia +5 %) · ABC 50 kg: Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +8 %) · ABC 70 kg: Resulta del tren de rodaje IRAM 3550 (trocha 490, banda 60) (catálogo: 575; diferencia -1 %) · ABC 100 kg: Resulta del tren de rodaje IRAM 3550 (trocha 530, banda 100) (catálogo: 630; diferencia +3 %)",
 "varia": true,
 "celdas": [
 {
@@ -2868,11 +2868,11 @@ null,
 "tipo": "Cálculo"
 },
 {
-"v": 500.0,
+"v": 502.5,
 "f": "F40·1 + F15·3",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +7 %)",
+"calc": "Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +8 %)",
 "tipo": "Cálculo"
 },
 {
@@ -2897,39 +2897,39 @@ null,
 "pieza": "Conjunto",
 "dim": "Profundidad total",
 "unidad": "mm",
-"criterio": "ABC 25 kg: Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -4 %) (cada modelo con sus valores: ver el comentario)",
+"criterio": "ABC 25 kg: Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -13 %) (cada modelo con sus valores: ver el comentario)",
 "varia": true,
 "celdas": [
 {
-"v": 576.0,
+"v": 523.0,
 "f": "F40·1 + F15·1",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -4 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 600; diferencia -13 %)",
 "tipo": "Cálculo"
 },
 {
-"v": 644.5,
+"v": 591.5,
 "f": "F40·1 + F15·3",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -4 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -12 %)",
 "tipo": "Cálculo"
 },
 {
-"v": 714.5,
+"v": 661.5,
 "f": "F40·1 + F15·5",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 736; diferencia -3 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 736; diferencia -10 %)",
 "tipo": "Cálculo"
 },
 {
-"v": 739.5,
+"v": 686.5,
 "f": "F40·1 + F15·7",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 840; diferencia -12 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 840; diferencia -18 %)",
 "tipo": "Cálculo"
 }
 ]
@@ -2983,7 +2983,7 @@ null,
 "varia": false,
 "celdas": [
 {
-"v": 32.04,
+"v": 31.79,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -2991,7 +2991,7 @@ null,
 "tipo": "Cálculo"
 },
 {
-"v": 43.56,
+"v": 43.31,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -2999,7 +2999,7 @@ null,
 "tipo": "Cálculo"
 },
 {
-"v": 68.99,
+"v": 68.68,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -3007,7 +3007,7 @@ null,
 "tipo": "Cálculo"
 },
 {
-"v": 90.53,
+"v": 90.22,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -3763,32 +3763,32 @@ null,
 "celdas": [
 {
 "v": 358.3,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 410.8,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 507.3,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 507.3,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
@@ -3968,32 +3968,32 @@ null,
 "celdas": [
 {
 "v": 362.5,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 423.5,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 518.1,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
 },
 {
 "v": 518.1,
-"f": "D39",
-"dest": "D39",
+"f": "D40",
+"dest": "D40",
 "e": "E",
 "calc": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "tipo": "Cálculo"
@@ -4930,122 +4930,163 @@ null
 "pieza": "Manija del carro",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
 "unidad": "mm",
-"criterio": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"criterio": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "varia": false,
 "celdas": [
 {
-"v": "331,9 / 1600,0",
+"v": "307,9 / 1563,0",
 "f": "F41·2 + F38·6 + D26",
 "dest": "F41",
 "e": "E",
-"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"calc": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "375,4 / 1569,0",
+"v": "351,4 / 1533,0",
 "f": "F41·2 + F38·6 + D26",
 "dest": "F41",
 "e": "E",
-"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"calc": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "445,4 / 1843,0",
+"v": "421,4 / 1806,0",
 "f": "F41·2 + F38·6 + D26",
 "dest": "F41",
 "e": "E",
-"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"calc": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "445,4 / 1670,0",
+"v": "421,4 / 1634,0",
 "f": "F41·2 + F38·6 + D26",
 "dest": "F41",
 "e": "E",
-"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"calc": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "tipo": "Diseño FLAMA (supuesto)"
 }
 ]
 },
 {
 "pieza": "Manija del carro",
-"dim": "Doblez del tramo superior / altura del doblez",
-"unidad": "° / mm",
-"criterio": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"dim": "Extremo aplastado: ancho × e × largo / transición",
+"unidad": "mm",
+"criterio": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
 "varia": false,
 "celdas": [
 {
-"v": "30° / 732,0",
-"f": "F41·1",
+"v": "37 × 4,2 × 40 / 25",
+"f": "F41·2 + F43·1 + D27",
 "dest": "F41",
-"e": "V",
-"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
-"tipo": "Plano Fadesa"
+"e": "E",
+"calc": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
+"tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "30° / 915,0",
-"f": "F41·1",
+"v": "37 × 4,2 × 40 / 25",
+"f": "F41·2 + F43·1 + D27",
 "dest": "F41",
-"e": "V",
-"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
-"tipo": "Plano Fadesa"
+"e": "E",
+"calc": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
+"tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "30° / 1000,8",
-"f": "F41·1",
+"v": "37 × 4,2 × 40 / 25",
+"f": "F41·2 + F43·1 + D27",
 "dest": "F41",
-"e": "V",
-"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
-"tipo": "Plano Fadesa"
+"e": "E",
+"calc": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
+"tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "30° / 1220,8",
-"f": "F41·1",
+"v": "37 × 4,2 × 40 / 25",
+"f": "F41·2 + F43·1 + D27",
 "dest": "F41",
-"e": "V",
-"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
-"tipo": "Plano Fadesa"
+"e": "E",
+"calc": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
+"tipo": "Diseño FLAMA (supuesto)"
 }
 ]
 },
 {
-"pieza": "Orejas de la manija (4)",
-"dim": "Chapita ancho × e (4 u) / alturas",
+"pieza": "Manija del carro",
+"dim": "Altura de la punta soldada",
 "unidad": "mm",
-"criterio": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"criterio": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "varia": false,
 "celdas": [
 {
-"v": "40 × 3,2 / 548,2 y 605,0",
-"f": "F41·2 + F38·6 + D27",
+"v": 528.2,
+"f": "F41·2 + F43·1 + D28",
 "dest": "F41",
 "e": "E",
-"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"calc": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 3,2 / 637,9 y 770,0",
-"f": "F41·2 + F38·6 + D27",
+"v": 617.9,
+"f": "F41·2 + F43·1 + D28",
 "dest": "F41",
 "e": "E",
-"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"calc": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 4,75 / 684,4 y 832,9",
-"f": "F41·2 + F38·6 + D27",
+"v": 664.4,
+"f": "F41·2 + F43·1 + D28",
 "dest": "F41",
 "e": "E",
-"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"calc": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 4,75 / 794,4 y 1052,9",
-"f": "F41·2 + F38·6 + D27",
+"v": 774.4,
+"f": "F41·2 + F43·1 + D28",
 "dest": "F41",
 "e": "E",
-"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"calc": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "tipo": "Diseño FLAMA (supuesto)"
+}
+]
+},
+{
+"pieza": "Manija del carro",
+"dim": "Doblez del tramo superior / inicio del doblez",
+"unidad": "° / mm",
+"criterio": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"varia": false,
+"celdas": [
+{
+"v": "30° / 761,4",
+"f": "F41·1 + F44·1",
+"dest": "F41",
+"e": "V",
+"calc": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"tipo": "Plano Fadesa"
+},
+{
+"v": "30° / 943,9",
+"f": "F41·1 + F44·1",
+"dest": "F41",
+"e": "V",
+"calc": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"tipo": "Plano Fadesa"
+},
+{
+"v": "30° / 1030,3",
+"f": "F41·1 + F44·1",
+"dest": "F41",
+"e": "V",
+"calc": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"tipo": "Plano Fadesa"
+},
+{
+"v": "30° / 1250,3",
+"f": "F41·1 + F44·1",
+"dest": "F41",
+"e": "V",
+"calc": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"tipo": "Plano Fadesa"
 }
 ]
 },
@@ -5189,24 +5230,24 @@ null
 },
 {
 "v": 40.0,
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "No visible en la vista lateral Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 40.0,
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "No visible en la vista lateral Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 40.0,
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "No visible en la vista lateral Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5250,24 +5291,24 @@ null
 },
 {
 "v": "26 × 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "26 × 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "26 × 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5407,24 +5448,24 @@ null,
 },
 {
 "v": "10 × 36 / 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "10 × 36 / 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "10 × 36 / 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5448,24 +5489,24 @@ null,
 },
 {
 "v": "27 × 35",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "27 × 35",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "27 × 35",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5482,7 +5523,7 @@ null,
 null,
 {
 "v": "120,0 × 16 × 10 / Ø22 × 44",
-"f": "D29 + F12·4",
+"f": "D30 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
@@ -5490,7 +5531,7 @@ null,
 },
 {
 "v": "146,2 × 16 × 10 / Ø22 × 44",
-"f": "D29 + F12·4",
+"f": "D30 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
@@ -5498,7 +5539,7 @@ null,
 },
 {
 "v": "146,2 × 16 × 10 / Ø22 × 44",
-"f": "D29 + F12·4",
+"f": "D30 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
@@ -5523,7 +5564,7 @@ null,
 },
 {
 "v": "8 × 47",
-"f": "D30 + F12·4",
+"f": "D31 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Tornillo F840 + buje + arandela del plano Fadesa, sin cota",
@@ -5531,7 +5572,7 @@ null,
 },
 {
 "v": "8 × 47",
-"f": "D30 + F12·4",
+"f": "D31 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Tornillo F840 + buje + arandela del plano Fadesa, sin cota",
@@ -5539,7 +5580,7 @@ null,
 },
 {
 "v": "8 × 47",
-"f": "D30 + F12·4",
+"f": "D31 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Tornillo F840 + buje + arandela del plano Fadesa, sin cota",
@@ -5677,32 +5718,32 @@ null
 "celdas": [
 {
 "v": 24.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 24.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 24.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 24.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5800,7 +5841,7 @@ null
 "celdas": [
 {
 "v": "40 × 60,0 × 30 × 3,2",
-"f": "F38·6 + D32",
+"f": "F38·6 + D33",
 "dest": "F38",
 "e": "E",
 "calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
@@ -5808,7 +5849,7 @@ null
 },
 {
 "v": "40 × 60,0 × 30 × 3,2",
-"f": "F38·6 + D32",
+"f": "F38·6 + D33",
 "dest": "F38",
 "e": "E",
 "calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
@@ -5816,7 +5857,7 @@ null
 },
 {
 "v": "40 × 60,0 × 30 × 4,75",
-"f": "F38·6 + D32",
+"f": "F38·6 + D33",
 "dest": "F38",
 "e": "E",
 "calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
@@ -5824,7 +5865,7 @@ null
 },
 {
 "v": "40 × 60,0 × 30 × 4,75",
-"f": "F38·6 + D32",
+"f": "F38·6 + D33",
 "dest": "F38",
 "e": "E",
 "calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
@@ -5841,32 +5882,32 @@ null
 "celdas": [
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5923,32 +5964,32 @@ null
 "celdas": [
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -5963,7 +6004,7 @@ null
 "varia": false,
 "celdas": [
 {
-"v": 696.0,
+"v": 778.0,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -5971,7 +6012,7 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 888.0,
+"v": 970.0,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -5979,7 +6020,7 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 982.0,
+"v": 1065.0,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -5987,7 +6028,7 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 1176.0,
+"v": 1259.0,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -5998,41 +6039,41 @@ null
 },
 {
 "pieza": "Válvula esférica",
-"dim": "Cuerpo × palanca",
+"dim": "Cuerpo Ø × largo / palanca",
 "unidad": "mm",
-"criterio": "Representativa (comercial)",
+"criterio": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "varia": false,
 "celdas": [
 {
-"v": "40 × 40 × 60; palanca 90",
-"f": "D34",
-"dest": "D34",
+"v": "40 × 56 (hexágonos 46) / 105 con empuñadura 55",
+"f": "F45·1 + D35",
+"dest": "F45",
 "e": "E",
-"calc": "Representativa (comercial)",
+"calc": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 40 × 60; palanca 90",
-"f": "D34",
-"dest": "D34",
+"v": "40 × 56 (hexágonos 46) / 105 con empuñadura 55",
+"f": "F45·1 + D35",
+"dest": "F45",
 "e": "E",
-"calc": "Representativa (comercial)",
+"calc": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 40 × 60; palanca 90",
-"f": "D34",
-"dest": "D34",
+"v": "40 × 56 (hexágonos 46) / 105 con empuñadura 55",
+"f": "F45·1 + D35",
+"dest": "F45",
 "e": "E",
-"calc": "Representativa (comercial)",
+"calc": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
-"v": "40 × 40 × 60; palanca 90",
-"f": "D34",
-"dest": "D34",
+"v": "40 × 56 (hexágonos 46) / 105 con empuñadura 55",
+"f": "F45·1 + D35",
+"dest": "F45",
 "e": "E",
-"calc": "Representativa (comercial)",
+"calc": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "tipo": "Diseño FLAMA (supuesto)"
 }
 ]
@@ -6046,32 +6087,32 @@ null
 "celdas": [
 {
 "v": "32 / 68 × 200",
-"f": "D40",
-"dest": "D40",
+"f": "D41",
+"dest": "D41",
 "e": "E",
 "calc": "Cono 16→34 de radio, 200 de largo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "32 / 68 × 200",
-"f": "D40",
-"dest": "D40",
+"f": "D41",
+"dest": "D41",
 "e": "E",
 "calc": "Cono 16→34 de radio, 200 de largo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "32 / 68 × 200",
-"f": "D40",
-"dest": "D40",
+"f": "D41",
+"dest": "D41",
 "e": "E",
 "calc": "Cono 16→34 de radio, 200 de largo",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "32 / 68 × 200",
-"f": "D40",
-"dest": "D40",
+"f": "D41",
+"dest": "D41",
 "e": "E",
 "calc": "Cono 16→34 de radio, 200 de largo",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -6382,24 +6423,24 @@ null
 },
 {
 "v": "81 × 4,7",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "81 × 4,7",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "81 × 4,7",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -6408,41 +6449,41 @@ null
 },
 {
 "pieza": "Faja de garantía válvula-cuello",
-"dim": "Ancho × alto",
+"dim": "Ancho × alto (relevada) / dibujada",
 "unidad": "mm",
-"criterio": "Relevada en la línea Georgia",
+"criterio": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "varia": false,
 "celdas": [
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 32,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 47,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 47,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 47,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 }
 ]
@@ -6600,7 +6641,7 @@ null
 "pieza": "Conjunto",
 "dim": "Ancho total",
 "unidad": "mm",
-"criterio": "Agua 10 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -5 %) · AFFF 10 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -1 %) · AFFF 50 l: Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +7 %) · BC 5 kg, HCFC-HFC 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -5 %) · Sales K 6 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 270; diferencia -15 %) · CO2 2 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 254; diferencia -6 %) · CO2 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 310; diferencia -12 %) · Clase D 9 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia +5 %)",
+"criterio": "Agua 10 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -5 %) · AFFF 10 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 240; diferencia -1 %) · AFFF 50 l: Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +8 %) · BC 5 kg, HCFC-HFC 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 225; diferencia -5 %) · Sales K 6 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 270; diferencia -15 %) · CO2 2 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 254; diferencia -6 %) · CO2 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 310; diferencia -12 %) · Clase D 9 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 230; diferencia +5 %)",
 "varia": true,
 "celdas": [
 {
@@ -6620,11 +6661,11 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 500.0,
+"v": 502.5,
 "f": "F40·1 + F19·1",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +7 %)",
+"calc": "Resulta del tren de rodaje IRAM 3550 (trocha 420, banda 60) (catálogo: 466; diferencia +8 %)",
 "tipo": "Cálculo"
 },
 {
@@ -6681,7 +6722,7 @@ null
 "pieza": "Conjunto",
 "dim": "Profundidad total",
 "unidad": "mm",
-"criterio": "Agua 10 l, AFFF 10 l, Sales K 6 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 190; diferencia +2 %) · AFFF 50 l: Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -4 %) · BC 5 kg, HCFC-HFC 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 153; diferencia +2 %) · CO2 2 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +2 %) · CO2 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 140; diferencia +3 %) · Clase D 9 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +2 %)",
+"criterio": "Agua 10 l, AFFF 10 l, Sales K 6 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 190; diferencia +2 %) · AFFF 50 l: Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -12 %) · BC 5 kg, HCFC-HFC 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 153; diferencia +2 %) · CO2 2 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +1 %) · CO2 5 kg: Resulta de las piezas medidas en el plano Fadesa (catálogo: 140; diferencia +3 %) · Clase D 9 l: Resulta de las piezas medidas en el plano Fadesa (catálogo: 182; diferencia +2 %)",
 "varia": true,
 "celdas": [
 {
@@ -6701,11 +6742,11 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 644.5,
+"v": 591.5,
 "f": "F40·1 + F19·1",
 "dest": "F40",
 "e": "V",
-"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -4 %)",
+"calc": "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo (catálogo: 670; diferencia -12 %)",
 "tipo": "Cálculo"
 },
 {
@@ -6725,11 +6766,11 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 116.1,
+"v": 114.6,
 "f": "F09·3 + F22·1",
 "dest": "F09",
 "e": "V",
-"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +2 %)",
+"calc": "Resulta de las piezas medidas en el plano Fadesa (catálogo: 114; diferencia +1 %)",
 "tipo": "Cálculo"
 },
 {
@@ -6863,7 +6904,7 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 43.58,
+"v": 43.32,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -6871,7 +6912,7 @@ null
 "tipo": "Cálculo"
 },
 {
-"v": 3.33,
+"v": 3.32,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -7446,16 +7487,16 @@ null,
 null,
 {
 "v": 5.4,
-"f": "D36 + IRAM 2533",
-"dest": "D36",
+"f": "D37 + IRAM 2533",
+"dest": "D37",
 "e": "E",
 "calc": "Pared para presión de ensayo 25 MPa (supuesto)",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 6.0,
-"f": "D36 + IRAM 2533",
-"dest": "D36",
+"f": "D37 + IRAM 2533",
+"dest": "D37",
 "e": "E",
 "calc": "Pared para presión de ensayo 25 MPa (supuesto)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -9222,17 +9263,17 @@ null
 "pieza": "Manija del carro",
 "dim": "Separación de las patas (ejes) / largo desarrollado",
 "unidad": "mm",
-"criterio": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"criterio": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "varia": false,
 "celdas": [
 null,
 null,
 {
-"v": "375,4 / 1559,0",
+"v": "351,4 / 1523,0",
 "f": "F41·2 + F38·6 + D26",
 "dest": "F41",
 "e": "E",
-"calc": "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+"calc": "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 null,
@@ -9245,20 +9286,20 @@ null
 },
 {
 "pieza": "Manija del carro",
-"dim": "Doblez del tramo superior / altura del doblez",
-"unidad": "° / mm",
-"criterio": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
+"dim": "Extremo aplastado: ancho × e × largo / transición",
+"unidad": "mm",
+"criterio": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
 "varia": false,
 "celdas": [
 null,
 null,
 {
-"v": "30° / 915,0",
-"f": "F41·1",
+"v": "37 × 4,2 × 40 / 25",
+"f": "F41·2 + F43·1 + D27",
 "dest": "F41",
-"e": "V",
-"calc": "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°)",
-"tipo": "Plano Fadesa"
+"e": "E",
+"calc": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
+"tipo": "Diseño FLAMA (supuesto)"
 },
 null,
 null,
@@ -9269,21 +9310,46 @@ null
 ]
 },
 {
-"pieza": "Orejas de la manija (4)",
-"dim": "Chapita ancho × e (4 u) / alturas",
+"pieza": "Manija del carro",
+"dim": "Altura de la punta soldada",
 "unidad": "mm",
-"criterio": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"criterio": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "varia": false,
 "celdas": [
 null,
 null,
 {
-"v": "40 × 3,2 / 642,8 y 770,0",
-"f": "F41·2 + F38·6 + D27",
+"v": 622.8,
+"f": "F41·2 + F43·1 + D28",
 "dest": "F41",
 "e": "E",
-"calc": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"calc": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
 "tipo": "Diseño FLAMA (supuesto)"
+},
+null,
+null,
+null,
+null,
+null,
+null
+]
+},
+{
+"pieza": "Manija del carro",
+"dim": "Doblez del tramo superior / inicio del doblez",
+"unidad": "° / mm",
+"criterio": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"varia": false,
+"celdas": [
+null,
+null,
+{
+"v": "30° / 943,9",
+"f": "F41·1 + F44·1",
+"dest": "F41",
+"e": "V",
+"calc": "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+"tipo": "Plano Fadesa"
 },
 null,
 null,
@@ -9561,8 +9627,8 @@ null
 },
 {
 "v": 40.0,
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "No visible en la vista lateral Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -9716,8 +9782,8 @@ null,
 },
 {
 "v": "26 × 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -9811,16 +9877,16 @@ null,
 null,
 {
 "v": "14 × 9",
-"f": "D37",
-"dest": "D37",
+"f": "D38",
+"dest": "D38",
 "e": "E",
 "calc": "CO₂: disco de seguridad, rotura 18-21 MPa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "14 × 9",
-"f": "D37",
-"dest": "D37",
+"f": "D38",
+"dest": "D38",
 "e": "E",
 "calc": "CO₂: disco de seguridad, rotura 18-21 MPa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -9988,8 +10054,8 @@ null,
 },
 {
 "v": "10 × 36 / 20",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -10069,8 +10135,8 @@ null,
 },
 {
 "v": "27 × 35",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -10136,7 +10202,7 @@ null,
 null,
 {
 "v": "120,0 × 16 × 10 / Ø22 × 44",
-"f": "D29 + F12·4",
+"f": "D30 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
@@ -10175,7 +10241,7 @@ null
 },
 {
 "v": "8 × 47",
-"f": "D30 + F12·4",
+"f": "D31 + F12·4",
 "dest": "F12",
 "e": "E",
 "calc": "Tornillo F840 + buje + arandela del plano Fadesa, sin cota",
@@ -10633,8 +10699,8 @@ null,
 },
 {
 "v": 24.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -10657,16 +10723,16 @@ null,
 },
 {
 "v": 10.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": 10.0,
-"f": "D31",
-"dest": "D31",
+"f": "D32",
+"dest": "D32",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -10784,16 +10850,16 @@ null,
 null,
 {
 "v": "114,0 × 31,4",
-"f": "D38",
-"dest": "D38",
+"f": "D39",
+"dest": "D39",
 "e": "E",
 "calc": "Ø del cilindro × 0,55·R",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 {
 "v": "140,0 × 38,5",
-"f": "D38",
-"dest": "D38",
+"f": "D39",
+"dest": "D39",
 "e": "E",
 "calc": "Ø del cilindro × 0,55·R",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -11065,7 +11131,7 @@ null,
 null,
 {
 "v": "40 × 60,0 × 30 × 3,2",
-"f": "F38·6 + D32",
+"f": "F38·6 + D33",
 "dest": "F38",
 "e": "E",
 "calc": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
@@ -11090,8 +11156,8 @@ null,
 null,
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -11154,8 +11220,8 @@ null
 },
 {
 "v": 25.0,
-"f": "D33",
-"dest": "D33",
+"f": "D34",
+"dest": "D34",
 "e": "E",
 "calc": "Sin cota en Fadesa",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -11227,7 +11293,7 @@ null,
 "tipo": "Cálculo"
 },
 {
-"v": 888.0,
+"v": 970.0,
 "f": "cálculo",
 "dest": null,
 "e": "V",
@@ -11361,19 +11427,19 @@ null
 },
 {
 "pieza": "Válvula esférica",
-"dim": "Cuerpo × palanca",
+"dim": "Cuerpo Ø × largo / palanca",
 "unidad": "mm",
-"criterio": "Representativa (comercial)",
+"criterio": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "varia": false,
 "celdas": [
 null,
 null,
 {
-"v": "40 × 40 × 60; palanca 90",
-"f": "D34",
-"dest": "D34",
+"v": "40 × 56 (hexágonos 46) / 105 con empuñadura 55",
+"f": "F45·1 + D35",
+"dest": "F45",
 "e": "E",
-"calc": "Representativa (comercial)",
+"calc": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "tipo": "Diseño FLAMA (supuesto)"
 },
 null,
@@ -11420,8 +11486,8 @@ null,
 null,
 {
 "v": "40 × 380 (boca Ø56)",
-"f": "D35",
-"dest": "D35",
+"f": "D36",
+"dest": "D36",
 "e": "E",
 "calc": "Lanza espumígena de rodante",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -12129,8 +12195,8 @@ null
 },
 {
 "v": "81 × 4,7",
-"f": "D28",
-"dest": "D28",
+"f": "D29",
+"dest": "D29",
 "e": "E",
 "calc": "Interno: no se ve en el plano Fadesa (G763)",
 "tipo": "Diseño FLAMA (supuesto)"
@@ -12187,81 +12253,81 @@ null
 },
 {
 "pieza": "Faja de garantía válvula-cuello",
-"dim": "Ancho × alto",
+"dim": "Ancho × alto (relevada) / dibujada",
 "unidad": "mm",
-"criterio": "Relevada en la línea Georgia",
+"criterio": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "varia": false,
 "celdas": [
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 47,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 23,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 32,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 30,0 × 32,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 23,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 },
 {
-"v": "30 × 40",
+"v": "30 × 40 / 22,0 × 22,0",
 "f": "F34·1",
 "dest": "F34",
 "e": "A",
-"calc": "Relevada en la línea Georgia",
+"calc": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
 "tipo": "Relevamiento de mercado"
 }
 ]
@@ -12355,7 +12421,7 @@ null
 "id": "D01",
 "archivo": "modelo3d.py",
 "linea": 231,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L231",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L231",
 "que": "Cuello roscado: Muesca de altura (ancho × prof. × alto)",
 "criterio": "El proceso pide la muesca (prensa Pannier) sin medidas: valor de diseño",
 "modelos": "10 modelos",
@@ -12365,7 +12431,7 @@ null
 "id": "D02",
 "archivo": "modelo3d.py",
 "linea": 285,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L285",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L285",
 "que": "Cuerpo de válvula: Fondo del cuerpo; Cuerpo de válvula: Salida a la manguera Ø × largo",
 "criterio": "No visible en la vista lateral Fadesa",
 "modelos": "ABC 1 kg",
@@ -12374,8 +12440,8 @@ null
 {
 "id": "D03",
 "archivo": "bom.py",
-"linea": 236,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/bom.py#L236",
+"linea": 243,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/bom.py#L243",
 "que": "Manómetro: Rango y sector verde",
 "criterio": "Rango ≈ 2,5 × presión de servicio (criterio); sello IRAM 3533 exigido en la compra",
 "modelos": "15 modelos",
@@ -12385,7 +12451,7 @@ null
 "id": "D04",
 "archivo": "modelo3d.py",
 "linea": 428,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L428",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L428",
 "que": "Eje de palanca: Ø × largo",
 "criterio": "Pasa por la oreja y la palanca en el agujero del plano Fadesa; Ø sin cota",
 "modelos": "13 modelos",
@@ -12395,7 +12461,7 @@ null
 "id": "D05",
 "archivo": "modelo3d.py",
 "linea": 411,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L411",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L411",
 "que": "Pasador de seguridad: Ø alambre × largo",
 "criterio": "Traba con anilla Ø18 y precinto (IRAM 3550 3.4.2)",
 "modelos": "los 17",
@@ -12405,7 +12471,7 @@ null
 "id": "D06",
 "archivo": "modelo3d.py",
 "linea": 422,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L422",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L422",
 "que": "Manija de accionamiento: Ancho (chapa estampada en U); Manija de transporte: Ancho (chapa estampada en U)",
 "criterio": "No visible en la vista lateral: a horcajadas del cuerpo (palanca) y de la palanca (manija)",
 "modelos": "13 modelos",
@@ -12415,7 +12481,7 @@ null
 "id": "D07",
 "archivo": "modelo3d.py",
 "linea": 496,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L496",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L496",
 "que": "Tobera: Boquilla Ø base / Ø punta × largo",
 "criterio": "F510: el plano Fadesa no muestra tobera aparte",
 "modelos": "ABC 1 kg",
@@ -12424,8 +12490,8 @@ null
 {
 "id": "D08",
 "archivo": "modelo3d.py",
-"linea": 946,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L946",
+"linea": 1007,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L1007",
 "que": "Precinto de fábrica: Ø × largo",
 "criterio": "IRAM 3517-2 9.4.13 (precinto con id. del fabricante)",
 "modelos": "los 17",
@@ -12435,7 +12501,7 @@ null
 "id": "D09",
 "archivo": "modelo3d.py",
 "linea": 289,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L289",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L289",
 "que": "Cuerpo de válvula: Fondo del cuerpo",
 "criterio": "No visible en la vista lateral Fadesa",
 "modelos": "12 modelos",
@@ -12445,7 +12511,7 @@ null
 "id": "D10",
 "archivo": "catalogo.py",
 "linea": 120,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/catalogo.py#L120",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/catalogo.py#L120",
 "que": "Cuerpo (virola): Espesor; Cúpula: Espesor; Fondo: Espesor",
 "criterio": "Inox 0,8 (≥ 0,63 mín. IRAM 3525 3.2.1 b)",
 "modelos": "AFFF 10 l, Agua 10 l, Sales K 6 l",
@@ -12455,7 +12521,7 @@ null
 "id": "D11",
 "archivo": "catalogo.py",
 "linea": 81,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/catalogo.py#L81",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/catalogo.py#L81",
 "que": "Cuello roscado: Ø exterior; Cuello roscado: Altura sobre la cúpula; Cuello roscado: Rosca; Cuello roscado: Ø del asiento",
 "criterio": "Supuesto de diseño",
 "modelos": "AFFF 10 l, Agua 10 l, Sales K 6 l",
@@ -12465,7 +12531,7 @@ null
 "id": "D12",
 "archivo": "modelo3d.py",
 "linea": 449,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L449",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L449",
 "que": "Filtro del tubo de pesca: Envolvente L × A × H",
 "criterio": "Sólido dibujado",
 "modelos": "AFFF 10 l, Agua 10 l, Sales K 6 l",
@@ -12475,7 +12541,7 @@ null
 "id": "D13",
 "archivo": "modelo3d.py",
 "linea": 527,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L527",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L527",
 "que": "Racor de manguera: Ø × largo",
 "criterio": "Sin cota en Fadesa",
 "modelos": "10 modelos",
@@ -12485,7 +12551,7 @@ null
 "id": "D14",
 "archivo": "modelo3d.py",
 "linea": 462,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L462",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L462",
 "que": "Manguera: Ø exterior",
 "criterio": "Sin cota en Fadesa",
 "modelos": "5 modelos",
@@ -12495,7 +12561,7 @@ null
 "id": "D15",
 "archivo": "modelo3d.py",
 "linea": 463,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L463",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L463",
 "que": "Tobera de chorro pleno: Ø mayor × largo; Lanza espumígena: Envolvente L × A × H; Lanza aplicadora clase K: Envolvente L × A × H; Brazo giratorio: Envolvente L × A × H (+3)",
 "criterio": "Ø de tobera por tipo; largo limitado por la altura disponible",
 "modelos": "6 modelos",
@@ -12505,7 +12571,7 @@ null
 "id": "D16",
 "archivo": "modelo3d.py",
 "linea": 579,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L579",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L579",
 "que": "Suncho portatobera: Fleje (alto × espesor) / Ø interior; Suncho soporte de difusor: Fleje (alto × espesor) / Ø interior",
 "criterio": "Banda que abraza el cuerpo por encima de las calcomanías (0,3 mm); 14,4 en el suncho portamanguera F674 del plano Fadesa",
 "modelos": "5 modelos",
@@ -12514,8 +12580,8 @@ null
 {
 "id": "D17",
 "archivo": "modelo3d.py",
-"linea": 654,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L654",
+"linea": 659,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L659",
 "que": "Neumático macizo: Ø interior del macizo; Rueda con cubierta neumática: Ø interior del macizo",
 "criterio": "0,72 × Ø rueda",
 "modelos": "5 modelos",
@@ -12524,8 +12590,8 @@ null
 {
 "id": "D18",
 "archivo": "modelo3d.py",
-"linea": 656,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L656",
+"linea": 661,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L661",
 "que": "Llanta con cubo: Ø de la llanta",
 "criterio": "0,72 × Ø rueda",
 "modelos": "5 modelos",
@@ -12534,8 +12600,8 @@ null
 {
 "id": "D19",
 "archivo": "modelo3d.py",
-"linea": 655,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L655",
+"linea": 660,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L660",
 "que": "Llanta con cubo: Espesor aro / disco",
 "criterio": "Chapa estampada; ajustado a la masa de los planos Fadesa",
 "modelos": "5 modelos",
@@ -12544,8 +12610,8 @@ null
 {
 "id": "D20",
 "archivo": "modelo3d.py",
-"linea": 658,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L658",
+"linea": 663,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L663",
 "que": "Llanta con cubo: Cubo Ø ext / Ø int",
 "criterio": "Cubo para eje Ø25",
 "modelos": "5 modelos",
@@ -12554,8 +12620,8 @@ null
 {
 "id": "D21",
 "archivo": "modelo3d.py",
-"linea": 648,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L648",
+"linea": 653,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L653",
 "que": "Eje de ruedas: Ø × largo / posición",
 "criterio": "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera (luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
 "modelos": "5 modelos",
@@ -12564,8 +12630,8 @@ null
 {
 "id": "D22",
 "archivo": "modelo3d.py",
-"linea": 610,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L610",
+"linea": 612,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L612",
 "que": "Portaeje: Caño Ø × e × largo",
 "criterio": "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño llega a las arandelas interiores",
 "modelos": "5 modelos",
@@ -12574,8 +12640,8 @@ null
 {
 "id": "D23",
 "archivo": "modelo3d.py",
-"linea": 611,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L611",
+"linea": 613,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L613",
 "que": "Arandelas de tope (4): Ø ext × Ø int × e (4 u)",
 "criterio": "El proceso las compra; medidas de diseño",
 "modelos": "5 modelos",
@@ -12584,8 +12650,8 @@ null
 {
 "id": "D24",
 "archivo": "modelo3d.py",
-"linea": 608,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L608",
+"linea": 610,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L610",
 "que": "Chapas triangulares del portaeje (2): Chapa triangular: catetos × e (2 u)",
 "criterio": "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y punta redondeada que abraza el caño (carro relevado); chapa de orilla",
 "modelos": "5 modelos",
@@ -12594,8 +12660,8 @@ null
 {
 "id": "D25",
 "archivo": "modelo3d.py",
-"linea": 608,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L608",
+"linea": 610,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L610",
 "que": "Chapas triangulares del portaeje (2): Separación de las chapas",
 "criterio": "± 0,7·R",
 "modelos": "5 modelos",
@@ -12604,8 +12670,8 @@ null
 {
 "id": "D26",
 "archivo": "modelo3d.py",
-"linea": 612,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L612",
+"linea": 614,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L614",
 "que": "Manija del carro: Caño; Manija del carro: Separación de las patas (ejes) / largo desarrollado",
 "criterio": "El proceso compra el caño de la manija",
 "modelos": "5 modelos",
@@ -12614,138 +12680,148 @@ null
 {
 "id": "D27",
 "archivo": "modelo3d.py",
-"linea": 708,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L708",
-"que": "Orejas de la manija (4): Chapita ancho × e (4 u) / alturas",
-"criterio": "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa «Rodante 50kg 800mm R2»)",
+"linea": 615,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L615",
+"que": "Manija del carro: Extremo aplastado: ancho × e × largo / transición",
+"criterio": "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del caño, e = 2 paredes + 1",
 "modelos": "5 modelos",
 "estado": "E"
 },
 {
 "id": "D28",
 "archivo": "modelo3d.py",
+"linea": 709,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L709",
+"que": "Manija del carro: Altura de la punta soldada",
+"criterio": "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo",
+"modelos": "5 modelos",
+"estado": "E"
+},
+{
+"id": "D29",
+"archivo": "modelo3d.py",
 "linea": 293,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L293",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L293",
 "que": "Cuerpo de válvula: Fondo del cuerpo; Cuerpo de válvula: Salida a la manguera Ø × largo; Vástago: Vástago Ø × largo / asiento Ø; Resorte de válvula: Resorte Ø × largo libre (+1)",
 "criterio": "No visible en la vista lateral Fadesa",
 "modelos": "4 modelos",
 "estado": "E"
 },
 {
-"id": "D29",
+"id": "D30",
 "archivo": "modelo3d.py",
 "linea": 398,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L398",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L398",
 "que": "Palanca de accionamiento: Palanca largo × alto × espesor / empuñadura",
 "criterio": "Gira en la ranura de la horquilla (eje según X, plano Fadesa); hacia adelante (lado de la manga), 0,75·R; sin cota en Fadesa",
 "modelos": "4 modelos",
 "estado": "E"
 },
 {
-"id": "D30",
+"id": "D31",
 "archivo": "modelo3d.py",
 "linea": 407,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L407",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L407",
 "que": "Eje de palanca: Ø × largo",
 "criterio": "Tornillo F840 + buje + arandela del plano Fadesa, sin cota",
 "modelos": "4 modelos",
 "estado": "E"
 },
 {
-"id": "D31",
+"id": "D32",
 "archivo": "modelo3d.py",
 "linea": 482,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L482",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L482",
 "que": "Caño de pesca (sifón): Ø exterior",
 "criterio": "Sin cota en Fadesa",
 "modelos": "7 modelos",
 "estado": "E"
 },
 {
-"id": "D32",
+"id": "D33",
 "archivo": "modelo3d.py",
-"linea": 613,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L613",
+"linea": 618,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L618",
 "que": "Ganchos portamanguera (2): Ancho × vuelo × labio × e (2 u)",
 "criterio": "Adelante (corrección del usuario al proceso, que decía costado derecho), arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10",
 "modelos": "5 modelos",
 "estado": "E"
 },
 {
-"id": "D33",
+"id": "D34",
 "archivo": "modelo3d.py",
-"linea": 632,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L632",
+"linea": 637,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L637",
 "que": "Manguera (tramo enrollado): Ø exterior; Manguera: Ø exterior",
 "criterio": "Sin cota en Fadesa",
 "modelos": "5 modelos",
 "estado": "E"
 },
 {
-"id": "D34",
+"id": "D35",
 "archivo": "modelo3d.py",
-"linea": 768,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L768",
-"que": "Válvula esférica: Cuerpo × palanca",
-"criterio": "Representativa (comercial)",
+"linea": 777,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L777",
+"que": "Válvula esférica: Cuerpo Ø × largo / palanca",
+"criterio": "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, la palanca queda atravesada al caño; comercial",
 "modelos": "5 modelos",
 "estado": "E"
 },
 {
-"id": "D35",
+"id": "D36",
 "archivo": "modelo3d.py",
-"linea": 773,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L773",
+"linea": 793,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L793",
 "que": "Lanza espumígena: Ø × largo",
 "criterio": "Lanza espumígena de rodante",
 "modelos": "AFFF 50 l",
 "estado": "E"
 },
 {
-"id": "D36",
+"id": "D37",
 "archivo": "catalogo.py",
 "linea": 135,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/catalogo.py#L135",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/catalogo.py#L135",
 "que": "Cilindro sin costura: Espesor",
 "criterio": "Pared para presión de ensayo 25 MPa (supuesto)",
 "modelos": "CO2 2 kg, CO2 5 kg",
 "estado": "E"
 },
 {
-"id": "D37",
+"id": "D38",
 "archivo": "modelo3d.py",
 "linea": 368,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L368",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L368",
 "que": "Disco de seguridad: Tapón hexagonal (entre caras × alto)",
 "criterio": "CO₂: disco de seguridad, rotura 18-21 MPa",
 "modelos": "CO2 2 kg, CO2 5 kg",
 "estado": "E"
 },
 {
-"id": "D38",
+"id": "D39",
 "archivo": "modelo3d.py",
 "linea": 491,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L491",
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L491",
 "que": "Pie de apoyo: Ø × alto",
 "criterio": "Ø del cilindro × 0,55·R",
 "modelos": "CO2 2 kg, CO2 5 kg",
 "estado": "E"
 },
 {
-"id": "D39",
+"id": "D40",
 "archivo": "bom.py",
-"linea": 241,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/bom.py#L241",
+"linea": 248,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/bom.py#L248",
 "que": "Cúpula: Ø del disco (referencia; el casquete se compra embutido); Fondo: Ø del disco (referencia; el casquete se compra embutido)",
 "criterio": "Ø = 2·√(superficie media / π) × 1,03 (recorte de pestaña); la define Gockel",
 "modelos": "4 modelos",
 "estado": "E"
 },
 {
-"id": "D40",
+"id": "D41",
 "archivo": "modelo3d.py",
-"linea": 784,
-"link": "https://github.com/TadeoSinay/planos_flama-/blob/b2269fe/flama/modelo3d.py#L784",
+"linea": 804,
+"link": "https://github.com/TadeoSinay/planos_flama-/blob/d596f17/flama/modelo3d.py#L804",
 "que": "Tobera campana: Ø entrada / Ø boca × largo",
 "criterio": "Cono 16→34 de radio, 200 de largo",
 "modelos": "4 modelos",
@@ -12769,9 +12845,9 @@ null
 "criterio": "Relevada en Melisam"
 },
 {
-"que": "Faja de garantía válvula-cuello: Ancho × alto",
+"que": "Faja de garantía válvula-cuello: Ancho × alto (relevada) / dibujada",
 "modelos": "los 17",
-"criterio": "Relevada en la línea Georgia"
+"criterio": "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello"
 },
 {
 "que": "Tarjeta de identificación AGC (CABA): Ancho × alto",
@@ -15110,30 +15186,30 @@ null
 "ubic": "Página 1 (única): vista lateral, manija",
 "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F41.png",
 "w": 529,
-"h": 557,
+"h": 612,
 "link": "",
 "tipo": "Plano Fadesa",
-"nota": "Ángulo del tramo superior de la manija medido sobre el dibujo vectorial: 30.1° respecto de la vertical. El caño sube recto pegado al cuerpo, sujeto por la oreja a la altura de la unión cuerpo-cúpula, y se dobla por encima de la cúpula.",
+"nota": "Ángulo del tramo superior de la manija medido sobre el dibujo vectorial: 30.1° respecto de la vertical. El caño baja recto casi pegado al cuerpo y termina afinado (aplastado) contra la pared, donde se suelda; se dobla a la altura de la cupla. Fadesa además usa una oreja, que FLAMA no lleva (debilita la unión).",
 "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F41_q.png",
 "marcas": [
 {
 "n": 1,
-"etiqueta": "Manija: tramo superior doblado 30° hacia atrás por encima de la cúpula",
+"etiqueta": "Manija: tramo superior doblado 30° hacia atrás desde la altura de la cupla",
 "claves": [
 "FR:800:manija"
 ]
 },
 {
 "n": 2,
-"etiqueta": "Oreja que sujeta la pata de la manija al cuerpo",
+"etiqueta": "Extremo de la pata afinado (aplastado) y soldado al cuerpo",
 "claves": [
-"FR:800:oreja"
+"FR:800:aplastado"
 ]
 }
 ],
 "crop": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F41_c.png",
-"cw": 309,
-"ch": 424
+"cw": 301,
+"ch": 612
 },
 {
 "id": "F42",
@@ -15166,12 +15242,99 @@ null
 "crop": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F42_c.jpg",
 "cw": 828,
 "ch": 872
+},
+{
+"id": "F43",
+"titulo": "Carro Elisam marcado por el usuario: soldadura de la barra lateral",
+"fuente": "Foto enviada y marcada por el usuario",
+"ubic": "Costado del recipiente, debajo del hombro",
+"png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F43.png",
+"w": 891,
+"h": 663,
+"link": "",
+"tipo": "Relevamiento de mercado",
+"nota": "La barra lateral de la manija baja separada del cuerpo y su extremo se curva hacia la pared, se afina y se suelda directo al cuerpo (sin oreja).",
+"img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F43_q.png",
+"marcas": [
+{
+"n": 1,
+"etiqueta": "Extremo de la barra afinado y soldado al cuerpo",
+"claves": [
+"FU:elisam:soldadura"
+]
 }
 ],
-"n": 1152,
+"crop": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F43_c.jpg",
+"cw": 891,
+"ch": 663
+},
+{
+"id": "F44",
+"titulo": "Carro AFFF marcado por el usuario: altura del doblez de 30°",
+"fuente": "Foto enviada y marcada por el usuario",
+"ubic": "Parte superior del carro",
+"png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F44.png",
+"w": 1269,
+"h": 1185,
+"link": "",
+"tipo": "Relevamiento de mercado",
+"nota": "Las patas de la manija suben verticales y se doblan hacia atrás a la altura de la base de la válvula (línea azul del usuario).",
+"img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F44_q.png",
+"marcas": [
+{
+"n": 1,
+"etiqueta": "Doblez de la pata de la manija",
+"claves": [
+"FU:afff:doblez"
+]
+},
+{
+"n": 2,
+"etiqueta": "Base de la válvula (cupla): misma altura",
+"claves": []
+}
+],
+"crop": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F44_c.jpg",
+"cw": 1269,
+"ch": 1185
+},
+{
+"id": "F45",
+"titulo": "Lanza de carro con válvula esférica (foto del usuario)",
+"fuente": "Foto enviada por el usuario",
+"ubic": "Punta de la manga",
+"png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F45.png",
+"w": 564,
+"h": 468,
+"link": "",
+"tipo": "Relevamiento de mercado",
+"nota": "Entre la manga y la tobera cónica va una válvula esférica con palanca de accionamiento.",
+"img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F45_q.png",
+"marcas": [
+{
+"n": 1,
+"etiqueta": "Válvula esférica con palanca (empuñadura azul)",
+"claves": [
+"FU:lanza:valvula"
+]
+},
+{
+"n": 2,
+"etiqueta": "Tobera cónica de salida",
+"claves": [
+"FU:lanza:valvula"
+]
+}
+],
+"crop": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F45_c.jpg",
+"cw": 564,
+"ch": 468
+}
+],
+"n": 1157,
 "estados": {
 "V": 763,
-"E": 301,
+"E": 306,
 "A": 88
 },
 "tipos": [
@@ -15181,7 +15344,7 @@ null
 ],
 [
 "Diseño FLAMA (supuesto)",
-293
+298
 ],
 [
 "Cálculo",

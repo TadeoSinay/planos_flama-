@@ -2199,24 +2199,24 @@
   "ubic": "Página 1 (única): vista lateral, manija",
   "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F41.png",
   "w": 529,
-  "h": 557,
+  "h": 612,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "Ángulo del tramo superior de la manija medido sobre el dibujo vectorial: 30.1° respecto de la vertical. El caño sube recto pegado al cuerpo, sujeto por la oreja a la altura de la unión cuerpo-cúpula, y se dobla por encima de la cúpula.",
+  "nota": "Ángulo del tramo superior de la manija medido sobre el dibujo vectorial: 30.1° respecto de la vertical. El caño baja recto casi pegado al cuerpo y termina afinado (aplastado) contra la pared, donde se suelda; se dobla a la altura de la cupla. Fadesa además usa una oreja, que FLAMA no lleva (debilita la unión).",
   "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F41_q.png",
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Manija: tramo superior doblado 30° hacia atrás por encima de la cúpula",
+    "etiqueta": "Manija: tramo superior doblado 30° hacia atrás desde la altura de la cupla",
     "claves": [
      "FR:800:manija"
     ]
    },
    {
     "n": 2,
-    "etiqueta": "Oreja que sujeta la pata de la manija al cuerpo",
+    "etiqueta": "Extremo de la pata afinado (aplastado) y soldado al cuerpo",
     "claves": [
-     "FR:800:oreja"
+     "FR:800:aplastado"
     ]
    }
   ]
@@ -2246,6 +2246,84 @@
     "etiqueta": "Chapa triangular soldada al cuerpo y al portaeje",
     "claves": [
      "REL:carro:chapa"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F43",
+  "titulo": "Carro Elisam marcado por el usuario: soldadura de la barra lateral",
+  "fuente": "Foto enviada y marcada por el usuario",
+  "ubic": "Costado del recipiente, debajo del hombro",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F43.png",
+  "w": 891,
+  "h": 663,
+  "link": "",
+  "tipo": "Relevamiento de mercado",
+  "nota": "La barra lateral de la manija baja separada del cuerpo y su extremo se curva hacia la pared, se afina y se suelda directo al cuerpo (sin oreja).",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F43_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Extremo de la barra afinado y soldado al cuerpo",
+    "claves": [
+     "FU:elisam:soldadura"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F44",
+  "titulo": "Carro AFFF marcado por el usuario: altura del doblez de 30°",
+  "fuente": "Foto enviada y marcada por el usuario",
+  "ubic": "Parte superior del carro",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F44.png",
+  "w": 1269,
+  "h": 1185,
+  "link": "",
+  "tipo": "Relevamiento de mercado",
+  "nota": "Las patas de la manija suben verticales y se doblan hacia atrás a la altura de la base de la válvula (línea azul del usuario).",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F44_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Doblez de la pata de la manija",
+    "claves": [
+     "FU:afff:doblez"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Base de la válvula (cupla): misma altura",
+    "claves": []
+   }
+  ]
+ },
+ {
+  "id": "F45",
+  "titulo": "Lanza de carro con válvula esférica (foto del usuario)",
+  "fuente": "Foto enviada por el usuario",
+  "ubic": "Punta de la manga",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F45.png",
+  "w": 564,
+  "h": 468,
+  "link": "",
+  "tipo": "Relevamiento de mercado",
+  "nota": "Entre la manga y la tobera cónica va una válvula esférica con palanca de accionamiento.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F45_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Válvula esférica con palanca (empuñadura azul)",
+    "claves": [
+     "FU:lanza:valvula"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Tobera cónica de salida",
+    "claves": [
+     "FU:lanza:valvula"
     ]
    }
   ]
