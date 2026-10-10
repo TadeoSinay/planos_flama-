@@ -593,8 +593,10 @@ def extintor_manual(m, cW=0.0, cH=0.0):
 # en la parte delantera, como en la imagen de la tercera pata frontal del mismo proceso y en los carros relevados
 # (Georgia: manga al frente, etiqueta hacia la manija, del lado del operador). Ejes del modelo: -Y = atrás (manija,
 # eje, etiqueta y manómetro: es la vista anterior del plano); +Y = adelante (ganchos, manga, tobera y pata).
-# El eje pasa por un portaeje (caño) soldado a dos chapas triangulares que salen de la pared trasera; la manija se
-# sujeta con dos orejas por pata y se dobla 30° hacia atrás por encima de la cúpula (plano Fadesa y carro relevado).
+# El eje pasa por un portaeje (caño) soldado a dos chapas triangulares que salen de la pared trasera. La manija no
+# lleva orejas (una chapita con agujero debilita la unión): las patas bajan casi pegadas al cuerpo y el extremo de cada
+# una se aplasta (adelgaza) antes de soldarlo directo al cuerpo; el caño se dobla 30° hacia atrás a la altura de la
+# base de la válvula (plano Fadesa «Rodante 50kg 800mm», carro Elisam y AFFF relevados por el usuario).
 # Todo se suelda antes de la prueba hidráulica (IRAM 3550 6.1.1). Las piezas de chapa salen de orillas del corte del
 # cuerpo; se compran el caño de la manija, el caño del portaeje, la barra del eje y las arandelas de tope. El puesto 8.1 fija sólo la
 # tercera pata (80 × 60 en 25/50 kg y 100 × 80 en 70/100 kg, de la orilla de 3,2 mm de la hoja de 25 kg, puesto 2);
@@ -609,7 +611,10 @@ CARRO = dict(
     eje=25.0,                    # barra SAE 1045 Ø25
     portaeje=(33.7, 3.25),       # caño SAE 1010 Ø33,7 × 3,25 (1"): Ø int. 27,2 para el eje Ø25
     arandela=(40.0, 13.0, 4.0),  # arandela de tope Ø40 × Ø26 × 4
-    manija=(25.4, 1.6, 15.0, 40.0, 30.0),  # caño Ø25,4 × 1,6; luz de la oreja 15; radio de curvado 40; doblez 30°
+    manija=(25.4, 1.6, 3.0, 40.0, 30.0),   # caño Ø25,4 × 1,6; luz 3 entre caño y cuerpo; radio de curvado 40; doblez 30°
+    aplastado=(40.0, 25.0, 4.2, 37.0),     # extremo de la pata aplastado: largo plano 40, transición 25, e 4,2 (2 paredes
+                                           # + 1), ancho 37 (≈ media vuelta del caño); se suelda al cuerpo en todo su borde
+    doblez_sobre_cupla=15.0,               # el doblez empieza 15 mm por encima de la cupla (base de la válvula)
     gancho=(40.0, 10.0, 30.0),   # ancho del gancho, holgura sobre 2 Ø de manga y alto del labio
     pata=((80.0, 60.0), (100.0, 80.0)),   # proceso FLAMA puesto 2: 80 × 60 (25 y 50 kg), 100 × 80 (70 y 100 kg)
     pata_e=3.2,                  # orilla de 3,2 mm de la hoja de 25 kg (todas las patas)
@@ -690,35 +695,38 @@ def extintor_rodante(m, cD=0.0):
         sop = pl if sop is None else sop.fuse(pl)
     sop = sop.cut(lleno).cut(out["fondo"]).cut(out["cuerpo"]).cut(_cyl(rpe + 0.3, 2 * R, (-R, yw, Rw), (1, 0, 0)))
     out["soportes_eje"] = sop.clean()
-    # manija: caño en U con las patas a los costados del cuerpo (por encima de la etiqueta), sujetas por dos orejas
-    # cada una; sube vertical hasta pasar la cúpula y ahí se dobla 30° hacia atrás hasta el agarre (plano Fadesa
-    # «Rodante 50 kg 800 mm»), que queda a la altura del catálogo
+    # manija: caño en U con las patas a los costados del cuerpo, a 3 mm de la pared (por encima de la etiqueta). Cada
+    # pata termina en un extremo aplastado que se apoya en el cuerpo y se suelda en todo su borde (sin orejas); sube
+    # vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás hasta el agarre, que queda a la
+    # altura del catálogo
     dm, em, luz, rb, ang = CARRO["manija"]
+    lf, lt, tf, wf = CARRO["aplastado"]
     rt = dm / 2
-    xm = R + luz + rt                         # eje de las patas: luz de la oreja entre el cuerpo y el caño
+    xm = R + luz + rt                         # eje de las patas
     ym = 0.0
     zg = H - rt
     _, alto_et, z_et, _, _, _ = placa_dim(m, out)
-    z_low = max(dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"]), z_et + alto_et + 20.0)
-    z_bend = dr["z_union"] + dr["hd"] + 20.0  # el doblez queda por encima de la cúpula
+    z_low = max(dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"]), z_et + alto_et + 20.0)   # punta del extremo aplastado
+    z_tubo = z_low + lf + lt                  # donde el caño sigue redondo
+    # vértice del doblez: el arco (radio 40) arranca a 15 mm sobre la cupla
+    z_bend = dr["z_cuello"] + CARRO["doblez_sobre_cupla"] + rb * math.tan(math.radians(ang / 2))
     yg = -(zg - z_bend) * math.tan(math.radians(ang))
-    out["manija_carro"] = _sweep_circle([(-xm, ym, z_low), (-xm, ym, z_bend, rb), (-xm, yg, zg, 1.5 * rb),
-                                         (xm, yg, zg, 1.5 * rb), (xm, ym, z_bend, rb), (xm, ym, z_low)], rt)
-    # orejas: chapitas horizontales soldadas al cuerpo, con el agujero por donde pasa y se suelda la pata
-    z_or = [z_low + 20.0, max(z_low + 60.0, dr["z_union"] - 20.0)]
-    ore = None
+    man = _sweep_circle([(-xm, ym, z_tubo), (-xm, ym, z_bend, rb), (-xm, yg, zg, 1.5 * rb),
+                         (xm, yg, zg, 1.5 * rb), (xm, ym, z_bend, rb), (xm, ym, z_tubo)], rt)
+    MANIJA_LARGO[m.codigo] = man.Volume() / (math.pi * rt * rt) + 2 * (lf + lt)   # largo desarrollado del caño
     for sgn in (1, -1):
-        g_ = sg.box(R - 12.0, ym - 20.0, xm, ym + 20.0).union(sg.Point(xm, ym).buffer(rt + 7.0, 32))
-        if sgn < 0:
-            g_ = sg.Polygon([(-x, y) for x, y in g_.exterior.coords])
-        for zz in z_or:
-            o_ = cq.Workplane("XY").polyline(list(g_.exterior.coords)[:-1]).close().extrude(t).val()
-            o_ = o_.translate(cq.Vector(0, 0, zz - t / 2))
-            ore = o_ if ore is None else ore.fuse(o_)
-    for sgn in (1, -1):
-        ore = ore.cut(_cyl(rt + 0.3, 2 * H, (sgn * xm, ym, -H / 2)))
-    out["orejas_manija"] = ore.cut(lleno).clean()
-    info.update(dict(portaeje=(dpe, epe, 2 * lpe), z_orejas=z_or, z_doblez=z_bend, y_agarre=yg, angulo_manija=ang,
+        # transición redonda -> plana (se corre hacia el cuerpo) y tramo plano apoyado en la pared
+        xf = sgn * (R + 0.2 + tf / 2)
+        circ = cq.Wire.makeCircle(rt, cq.Vector(sgn * xm, ym, z_tubo), cq.Vector(0, 0, 1))
+        rect = cq.Wire.makePolygon([cq.Vector(xf - tf / 2, ym - wf / 2, z_low + lf),
+                                    cq.Vector(xf + tf / 2, ym - wf / 2, z_low + lf),
+                                    cq.Vector(xf + tf / 2, ym + wf / 2, z_low + lf),
+                                    cq.Vector(xf - tf / 2, ym + wf / 2, z_low + lf)], close=True)
+        man = man.fuse(cq.Solid.makeLoft([circ, rect], True))
+        man = man.fuse(_box(tf, wf, lf, xf, ym, z_low))
+    out["manija_carro"] = man.cut(lleno).clean()
+    info.update(dict(portaeje=(dpe, epe, 2 * lpe), aplastado=(z_low, lf, lt, tf, wf), z_doblez=z_bend,
+                     z_doblez_inicio=dr["z_cuello"] + CARRO["doblez_sobre_cupla"], y_agarre=yg, angulo_manija=ang,
                      soporte_tri=(h_tri, m_pe, y_in, xs)))
     # válvula: manómetro hacia atrás (lado de la etiqueta); palanca de la G763 hacia adelante, 0,75·R
     val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"], x_tip=R * 0.75,
@@ -761,13 +769,25 @@ def extintor_rodante(m, cD=0.0):
     xb_ = -(wl + d_hose)
     out["manguera"] = _sweep_circle([(xsal - 16, 0, zsal), (xb_, 0, zsal, 35), (xb_, yl, zsal, 60), (xb_, yl, zb_l)],
                                     d_hose / 2)
-    # punta de la manga: válvula esférica + tobera colgadas al costado del rollo, adelante
+    # punta de la manga: sale del lado derecho del rollo, arriba, y baja a la válvula esférica (de paso total, con
+    # palanca: abre girándola 90°, cerrada queda atravesada al caño) y a la tobera cónica, colgadas al costado del
+    # rollo, adelante (foto de la lanza con válvula del usuario)
     xn = wl + d_hose / 2 + 38                 # tobera (boca Ø68) colgada al lado del rollo, sin tocarlo
     yn = yl
-    zn_top = (zt_l + zb_l) / 2 + 60
-    ve = _box(40, 40, 60, xn, yn, zn_top)
-    ve = ve.fuse(_box(14, 90, 12, xn, yn + 45, zn_top + 24))         # palanca hacia adelante, sin sumar ancho
-    out["valvula_esferica"] = ve.clean()
+    hv = 56.0                                 # cuerpo de la válvula esférica Ø40 × 56 con dos hexágonos de 46
+    zj = zt_l - 15.0                          # la manga deja el rollo cerca del arco de arriba
+    zn_top = zj - 45.0 - hv - 12.0            # base de la válvula = boca de entrada de la tobera
+    ve = _cyl(20, hv, (xn, yn, zn_top))
+    for z_h in (zn_top, zn_top + hv - 10):
+        ve = ve.fuse(cq.Workplane("XY").polygon(6, 46).extrude(10).val().translate(cq.Vector(xn, yn, z_h)))
+    zm_v = zn_top + hv / 2
+    ve = ve.fuse(_cyl(7, 12, (xn, yn + 20, zm_v), (0, 1, 0)))       # cuello del vástago, hacia adelante
+    pal = _box(105, 3, 16, xn + 45, yn + 33.5, zm_v - 8)             # palanca de chapa, cerrada: atravesada al caño
+    pal = pal.fuse(_box(55, 7, 20, xn + 70, yn + 33.5, zm_v - 10))  # empuñadura plástica (azul en la foto)
+    ve = ve.fuse(_cyl(14, 12, (xn, yn, zn_top + hv)))                # espiga de la manga con abrazadera
+    out["valvula_esferica"] = ve.fuse(pal).clean()
+    out["manguera"] = out["manguera"].fuse(_sweep_circle([(wl, yl, zj), (xn, yn, zj, 30), (xn, yn, zn_top + hv + 12)],
+                                                         d_hose / 2)).clean()
     if m.descarga == "lanza_espuma_rodante":
         # lanza espumígena de rodante: tubo Ø40 con 4 tomas de aire y boca expandida
         hn = 380.0
@@ -786,7 +806,7 @@ def extintor_rodante(m, cD=0.0):
         out["tobera_campana"] = tb
     info["eje_tobera"] = (xn, zn_top - hn, zn_top + 60)
     info.update(dict(Rw=Rw, bw_w=bw_w, xw=xw, yw=yw, track=track, xm=xm, ym=ym, xs=xs, z_ganchos=(z_lo, z_hi),
-                     tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zn_top + 30), pata=(pw, hp, tp, yp)))
+                     tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zm_v), pata=(pw, hp, tp, yp)))
     return out, info
 
 
@@ -869,6 +889,81 @@ def lleva_tarjeta(m, p):
     return "debajo" if alto + OBLEA_PBA + 3 + TARJETA_CABA[1] + GAP_ID + 20 <= cb.zmax - cb.zmin else ""
 
 
+FAJA_MEDIDA = {}                 # código -> (ancho, largo desarrollado) de la faja dibujada
+MANIJA_LARGO = {}                # código -> largo desarrollado del caño de la manija del carro
+
+
+def _faja(p, ex, ey):
+    """Faja de garantía válvula-cuello (ver identificacion): perfil en el plano radial (u, z) a un ángulo a, extruido
+    al ancho de la faja; se toma el ángulo en que la tira queda libre y más pegada (menor salto entre válvula y cuello)."""
+    fw, fh = FAJA_GARANTIA
+    eb = p["espiga"].BoundingBox()
+    abajo = p.get("cuello") or p["cuerpo"]
+    vb = p["cuerpo_valvula"].BoundingBox()
+    zc = eb.zmax                              # cara de apoyo de la válvula (tope del cuello)
+    z_vb = vb.zmin                            # base del cuerpo de la válvula (arriba de la tuerca)
+    piso = max([p[k].BoundingBox().zmax for k in ("cupula",) if k in p] + [zc - 40.0])
+    libres = ("espiga", "tuerca", "junta_cuello", "cuello", "cupula", "cuerpo", "cuerpo_valvula", "etiqueta",
+              "oblea_pba", "sello_iram", "tarjeta_caba", "etiqueta_serie", "soldaduras", "cano_pesca")
+    cerca = [k for k, so in p.items() if k not in libres and so.BoundingBox().zmax > zc - 40 and
+             so.BoundingBox().zmin < z_vb + 40 and abs(so.BoundingBox().center.x - ex) < 150 and
+             abs(so.BoundingBox().center.y - ey) < 150]
+
+    def alcance(sol, a, w, z0, z1):
+        """lo que sobresale `sol` en la dirección a, dentro de la franja |v| <= w/2 y z0..z1 (None si nada)."""
+        caja = _box(400, w, z1 - z0, ex + 200, ey, z0).rotate(cq.Vector(ex, ey, 0), cq.Vector(ex, ey, 1), a)
+        q = sol.intersect(caja)
+        if q.Volume() < 1e-6:
+            return None
+        return q.rotate(cq.Vector(ex, ey, 0), cq.Vector(ex, ey, 1), -a).BoundingBox().xmax - ex
+
+    mejor = None
+    w0 = min(fw, (abajo.BoundingBox().xmax - abajo.BoundingBox().xmin) * 0.6)
+    for a, w in [(a_, w_) for w_ in (w0, 0.6 * w0) for a_ in range(-90, 270, 15)]:   # primero el frente, más ancha
+        if mejor is not None and w < w0 and mejor[2] >= w0:
+            break
+        h_max = min(fh / 2, zc - piso - 0.5)
+        for h_lo in [h_max - 3.0 * k for k in range(8) if h_max - 3.0 * k >= 6.0] or [h_max]:
+            r_c = alcance(abajo, a, w, zc - h_lo, zc - 0.2)
+            r_v = alcance(p["cuerpo_valvula"], a, w, z_vb + 0.2, z_vb + fh / 2)
+            if r_c is None or r_v is None:
+                break
+            r_t = alcance(p["tuerca"], a, w, zc + 0.2, z_vb - 0.2) if "tuerca" in p else None
+            h_up = 8.0                            # agarre sobre el cuerpo de la válvula, debajo de manijas y manómetro
+            r_v = max(r_v, alcance(p["cuerpo_valvula"], a, w, z_vb + 0.2, z_vb + h_up) or r_v)
+            # la cinta tensa sigue la envolvente convexa exterior de válvula, tuerca y cuello en el plano (u, z)
+            pts = [(r_v, z_vb + h_up), (r_v, z_vb), (r_c, zc), (r_c, zc - h_lo)]
+            if r_t is not None:
+                pts += [(r_t, z_vb), (r_t, zc)]
+            hull = sg.MultiPoint(pts + [(0.0, z_vb + h_up), (0.0, zc - h_lo)]).convex_hull
+            cad = [q for q in list(hull.exterior.coords)[:-1] if q[0] > 0.5]
+            i_top = max(range(len(cad)), key=lambda i: (cad[i][1], cad[i][0]))
+            cad = cad[i_top:] + cad[:i_top]
+            if len(cad) > 2 and cad[1][1] < cad[-1][1]:   # recorrer de arriba hacia abajo por el lado exterior
+                cad = [cad[0]] + cad[1:][::-1]
+            e_ = 0.2
+            # espesor hacia afuera (a la izquierda de la cinta, que se recorre hacia abajo)
+            poly = sg.LineString([(u + 0.03, z) for u, z in cad]).buffer(e_, single_sided=True, cap_style=2,
+                                                                          join_style=2)
+            pl = cq.Plane(origin=(ex, ey, 0), xDir=(1, 0, 0), normal=(0, -1, 0))
+            tira = cq.Workplane(pl).polyline(list(poly.exterior.coords)[:-1]).close().extrude(w / 2, both=True).val()
+            tira = tira.rotate(cq.Vector(ex, ey, 0), cq.Vector(ex, ey, 1), a)
+            choca = [k for k in cerca + ["cuerpo_valvula", "tuerca", "soldaduras"]
+                     if k in p and tira.intersect(p[k]).Volume() > 1e-3]
+            if choca == ["soldaduras"]:
+                continue                      # pisa el cordón de la cupla: se acorta la parte de abajo
+            if choca:
+                break
+            salto = abs(r_v - r_c)
+            if mejor is None or salto < mejor[0] - 1.0:
+                mejor = (salto, tira, w, sg.LineString(cad).length)
+            break
+    if mejor is None:                         # no debería pasar: tira chica pegada al cuello, adelante
+        r0 = (abajo.BoundingBox().xmax - abajo.BoundingBox().xmin) / 2
+        return _sector(r0 + 0.05, r0 + 0.25, 12.0, zc - 12.0, min(fw, r0), ex, ey, -90.0), (min(fw, r0), 12.0)
+    return mejor[1], (mejor[2], mejor[3])
+
+
 def identificacion(m, p):
     """Identificación del extintor nuevo que el plano debe mostrar:
     etiqueta (IRAM 3534) de frente, sobre el eje del manómetro: panel central de 108° y alas de 54° (72° si Ø < 100); oblea de
@@ -896,45 +991,11 @@ def identificacion(m, p):
     ex, ey = (eb.xmax + eb.xmin) / 2, (eb.ymax + eb.ymin) / 2
     p["junta_cuello"] = _cyl(ro, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)).cut(
         _cyl(ro - 3.0, 3.0, (ex, ey, eb.zmax - 3.0), (0, 0, 1)))
-    # faja de garantía: tira vertical que pasa de la cupla a la válvula; se ubica del lado donde queda más pegada sin
-    # pisar manómetro, palancas ni pasador (radio = lo que sobresale cada pieza en esa dirección + 0,4)
-    fw, fh = FAJA_GARANTIA
-    z_f = eb.zmax - fh * 0.6
-    zona = _box(1000, 1000, fh, ex, ey, z_f)
-    recip = ("cuerpo", "cupula", "fondo", "soldaduras", "cano_pesca", "etiqueta", "oblea_pba", "sello_iram",
-             "tarjeta_caba", "etiqueta_serie")
-    secs = []
-    for k, sol in p.items():
-        if k in recip:
-            continue
-        bb_ = sol.BoundingBox()
-        if bb_.zmax < z_f or bb_.zmin > z_f + fh or bb_.xmin > ex + 80 or bb_.xmax < ex - 80 or \
-                bb_.ymin > ey + 80 or bb_.ymax < ey - 80:
-            continue
-        s_ = sol.intersect(zona)
-        if s_.Volume() > 1e-6:
-            secs.append(s_)
-    mejor = None
-    for a in (-90.0, -45.0, -135.0, 0.0, 180.0, 45.0, 135.0, 90.0):
-        rf = ro + 0.5
-        for _ in range(3):                    # la ventana angular depende del radio: se itera
-            med = math.degrees(min(fw, math.pi * rf) / 2 / rf) + 3
-            rf_n = ro + 0.5
-            for s_ in secs:
-                for fi in range(int(-med), int(med) + 1, 4):
-                    rf_n = max(rf_n, s_.rotate(cq.Vector(ex, ey, 0), cq.Vector(ex, ey, 1), -(a + fi))
-                               .BoundingBox().xmax - ex + 0.4)
-            rf = rf_n
-        if mejor is None or rf < mejor[0] - 0.5:
-            mejor = (rf, a)
-    rf, a = mejor
-    faja = _sector(rf, rf + 0.2, fh, z_f, min(fw, math.pi * rf), ex, ey, a)
-    for k in ("cupula", "cuerpo"):            # la tira no se apoya sobre el casquete: se sube hasta despegarla
-        n_ = 0
-        while k in p and n_ < 30 and faja.intersect(p[k]).Volume() > 1e-6:
-            faja = faja.translate(cq.Vector(0, 0, 1.0))
-            n_ += 1
-    p["faja_garantia"] = faja
+    # faja de garantía: autoadhesivo destructible que puentea la unión roscada: la mitad de arriba pegada al costado
+    # del cuerpo de la válvula y la de abajo al cuello (o al cuello del cilindro de CO2), pasando por encima de la
+    # tuerca; si se desenrosca la válvula se rompe. Es una tira plana tangente a las dos superficies (no se despega de
+    # ellas) y va del lado donde no la tapan manómetro, palancas, tobera, salida ni pasador.
+    p["faja_garantia"], FAJA_MEDIDA[m.codigo] = _faja(p, ex, ey)
     pb = p["pasador"].BoundingBox()
     x_p = pb.xmax
     pre = _cyl(2.5, 10.0, (x_p, (pb.ymin + pb.ymax) / 2, (pb.zmin + pb.zmax) / 2), (1, 0, 0))

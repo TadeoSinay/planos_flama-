@@ -80,14 +80,14 @@
  {
   "codigo": "FL_MAT_AFFF_50l",
   "nombre": "Extintor AFFF 50 l sobre ruedas",
-  "formato_h1": "A2",
+  "formato_h1": "A3",
   "escala_h1": "1:10",
   "H_cat": 1210.0,
   "H_mod": 1210.0,
   "W_cat": 466.0,
-  "W_mod": 500.0,
+  "W_mod": 502.5,
   "D_cat": 670.0,
-  "D_mod": 644.5,
+  "D_mod": 591.5,
   "vol_dm3": 61.8
  },
  {
@@ -126,7 +126,7 @@
   "W_cat": 254.0,
   "W_mod": 238.3,
   "D_cat": 114.0,
-  "D_mod": 116.1,
+  "D_mod": 114.6,
   "vol_dm3": 2.96
  },
  {
@@ -178,20 +178,20 @@
   "W_cat": 455.0,
   "W_mod": 480.0,
   "D_cat": 600.0,
-  "D_mod": 576.0,
+  "D_mod": 523.0,
   "vol_dm3": 34.4
  },
  {
   "codigo": "FL_MAT_ABC_50kg",
   "nombre": "Extintor ABC 50 kg sobre ruedas",
-  "formato_h1": "A2",
+  "formato_h1": "A3",
   "escala_h1": "1:10",
   "H_cat": 1210.0,
   "H_mod": 1210.0,
   "W_cat": 466.0,
-  "W_mod": 500.0,
+  "W_mod": 502.5,
   "D_cat": 670.0,
-  "D_mod": 644.5,
+  "D_mod": 591.5,
   "vol_dm3": 61.8
  },
  {
@@ -204,7 +204,7 @@
   "W_cat": 575.0,
   "W_mod": 570.0,
   "D_cat": 736.0,
-  "D_mod": 714.5,
+  "D_mod": 661.5,
   "vol_dm3": 96.0
  },
  {
@@ -217,7 +217,7 @@
   "W_cat": 630.0,
   "W_mod": 650.0,
   "D_cat": 840.0,
-  "D_mod": 739.5,
+  "D_mod": 686.5,
   "vol_dm3": 121.0
  }
 ]

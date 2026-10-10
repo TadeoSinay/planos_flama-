@@ -426,7 +426,7 @@ for m in MODELOS:
             continue
         if k in ("tobera", "lanza", "difusor", "empunadura", "brazo_difusor", "tobera_campana", "suncho", "pie",
                  "valvula_esferica", "soportes_eje", "manija_carro", "ganchos_manguera", "tercera_pata", "arandelas_tope", "eje_ruedas",
-                 "portaeje", "orejas_manija",
+                 "portaeje",
                  "rueda_der", "llanta_der"):
             if k == "rueda_der":
                 Dw = float(m.spec["Diámetro de rueda (mm)"])
@@ -472,25 +472,29 @@ for m in MODELOS:
                    "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño "
                    "llega a las arandelas interiores", ("modelo3d.py", "portaeje=(33.7"))
                 continue
-            if k == "orejas_manija":
-                A_("Chapita ancho × e (4 u) / alturas", f"40 × {g['t']:g} / " + " y ".join(str(r1(z)) for z in info["z_orejas"]),
-                   "mm", T_DIS, ["FR:800:oreja", "PC:accesorios"],
-                   "Dos por pata, horizontales, soldadas al cuerpo; la pata pasa por el agujero y se suelda (plano Fadesa "
-                   "«Rodante 50kg 800mm R2»)", ("modelo3d.py", "z_or = [z_low + 20.0"))
-                continue
             if k == "manija_carro":
-                largo = s.Volume() / (math.pi * 12.7 ** 2)
+                z0, lf, lt, tf, wf = info["aplastado"]
                 A_("Caño", "Ø25,4 × 1,6", "mm", T_DIS, ["PC:accesorios"], "El proceso compra el caño de la manija",
                    ("modelo3d.py", "manija=(25.4"))
                 A_("Altura del agarre (= altura total)", r1(m.H), "mm", T_CAT, [f"CAT:{cod}:Altura", "PC:accesorios"],
                    "Sube por encima de la cúpula hasta la altura del catálogo", ("modelo3d.py", "zg = H - rt"))
-                A_("Separación de las patas (ejes) / largo desarrollado", f"{r1(2 * info['xm'])} / {r1(largo, 0)}", "mm",
-                   T_DIS, ["FR:800:oreja", "PC:accesorios"],
-                   "Patas a los costados del cuerpo, a 15 de la pared (luz de la oreja); radio de curvado 40",
+                A_("Separación de las patas (ejes) / largo desarrollado",
+                   f"{r1(2 * info['xm'])} / {r1(M.MANIJA_LARGO[m.codigo], 0)}", "mm", T_DIS,
+                   ["FR:800:aplastado", "PC:accesorios"],
+                   "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
                    ("modelo3d.py", "manija=(25.4"))
-                A_("Doblez del tramo superior / altura del doblez", f"30° / {r1(info['z_doblez'])}", "° / mm", T_FAD,
-                   ["FR:800:manija"], "Sube vertical hasta pasar la cúpula y se dobla 30° hacia atrás (ángulo medido "
-                   "en el plano Fadesa: 30,1°)", ("modelo3d.py", "z_bend = dr[\"z_union\"] + dr[\"hd\"] + 20.0"))
+                A_("Extremo aplastado: ancho × e × largo / transición", f"{wf:g} × {tf:g} × {lf:g} / {lt:g}", "mm",
+                   T_DIS, ["FR:800:aplastado", "FU:elisam:soldadura"],
+                   "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se "
+                   "aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del "
+                   "caño, e = 2 paredes + 1", ("modelo3d.py", "aplastado=(40.0"))
+                A_("Altura de la punta soldada", r1(z0), "mm", T_DIS, ["FR:800:aplastado", "FU:elisam:soldadura"],
+                   "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo", ("modelo3d.py", "z_low = max("))
+                A_("Doblez del tramo superior / inicio del doblez", f"30° / {r1(info['z_doblez_inicio'])}", "° / mm",
+                   T_FAD, ["FR:800:manija", "FU:afff:doblez"],
+                   "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido "
+                   "en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
+                   ("modelo3d.py", "doblez_sobre_cupla=15.0"))
                 continue
             if k == "ganchos_manguera":
                 A_("Ancho × vuelo × labio × e (2 u)", f"40 × {r1(2 * 25 + 10)} × 30 × {g['t']:g}", "mm", T_DIS,
@@ -504,8 +508,10 @@ for m in MODELOS:
                    f"adelante, de canto contra el fondo a {yp_:g} mm del eje del cuerpo", ("modelo3d.py", "pata=((80.0"))
                 continue
             if k == "valvula_esferica":
-                A_("Cuerpo × palanca", "40 × 40 × 60; palanca 90", "mm", T_DIS, ["C:rodante"], "Representativa (comercial)",
-                   ("modelo3d.py", "ve = _box(40, 40, 60"))
+                A_("Cuerpo Ø × largo / palanca", "40 × 56 (hexágonos 46) / 105 con empuñadura 55", "mm", T_DIS,
+                   ["FU:lanza:valvula", "C:rodante"],
+                   "Válvula esférica de paso total con palanca entre la manga y la tobera (foto del usuario); cerrada, "
+                   "la palanca queda atravesada al caño; comercial", ("modelo3d.py", "hv = 56.0"))
                 continue
             if k == "tobera_campana":
                 A_("Ø entrada / Ø boca × largo", "32 / 68 × 200", "mm", T_DIS, ["C:rodante"], "Cono 16→34 de radio, 200 de largo",
@@ -574,7 +580,11 @@ for m in MODELOS:
             A_("Ancho × alto", "45 × 25", "mm", T_REL, ["RV:serie"], "Relevada en Melisam", ("modelo3d.py", "ETIQUETA_SERIE = (45.0"))
             continue
         if k == "faja_garantia":
-            A_("Ancho × alto", "30 × 40", "mm", T_REL, ["RV:faja"], "Relevada en la línea Georgia", ("modelo3d.py", "FAJA_GARANTIA = (30.0"))
+            fa, fl = M.FAJA_MEDIDA[m.codigo]
+            A_("Ancho × alto (relevada) / dibujada", f"30 × 40 / {r1(fa, 0)} × {r1(fl, 0)}", "mm", T_REL, ["RV:faja"],
+               "Relevada en la línea Georgia; se dibuja pegada sobre la unión (cuerpo de la válvula, tuerca y cuello), "
+               "del lado donde no la tapan manómetro ni palancas; el ancho se limita al cuello",
+               ("modelo3d.py", "FAJA_GARANTIA = (30.0"))
             continue
         if k == "junta_cuello":
             A_("Ø exterior × cordón", f"{r1(L)} × 3", "mm", T_CAL, ["C:identificacion"], "Ø espiga + 3; cordón 3",

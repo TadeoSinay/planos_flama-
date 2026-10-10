@@ -659,10 +659,14 @@ class Hoja:
                    A.MIDDLE_LEFT if lado > 0 else A.MIDDLE_RIGHT, "12-SOLDADURA")
 
     def nota_referencia(self, texto, punto, codo, h=2.5):
-        """flecha + codo + texto. Si el texto pisa el dibujo u otro texto, el codo se corre en altura (hasta ±24 mm)
-        al primer lugar libre."""
+        """flecha + codo + texto. Si el texto saliera del recuadro va del otro lado del punto; si pisa el dibujo u otro
+        texto, el codo se corre en altura (hasta ±24 mm) al primer lugar libre."""
         m = self.msp
         w0 = len(texto) * h * 0.72
+        ld = 1 if codo[0] >= punto[0] else -1
+        x_fin = codo[0] + ld * w0
+        if hasattr(self, "fx0") and not (self.fx0 + 2 <= x_fin <= self.fx1 - 2):
+            codo = (2 * punto[0] - codo[0], codo[1])   # el texto saldría del recuadro: va del otro lado del punto
         for dy in (0, 5, -5, 10, -10, 15, -15, 20, -20, 24, -24):
             c_ = (codo[0], codo[1] + dy)
             ld = 1 if c_[0] >= punto[0] else -1

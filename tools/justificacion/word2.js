@@ -77,7 +77,7 @@ const SECC = [
   ["4. Fichas de mercado y normas", "Masas de referencia sin plano Fadesa; cláusulas IRAM y resoluciones usadas (se citan, no se transcriben).", rango(24, 30).concat([porId.F40].filter(Boolean))],
   ["5. Relevamiento y planilla MP", "Identificación relevada en fotos (a validar) y celdas de la planilla de abastecimiento.", rango(31, 37)],
   ["6. Procesos FLAMA", "Documentos de proceso del usuario: medidas y uniones de carros, numerado, encastre y bordoneado de manuales.", rango(38, 39)],
-  ["7. Carro: portaeje, chapa, orejas y manija", "Lo que los procesos no definen (el puesto 8.1 del proceso de carros está vacío): plano Fadesa del rodante de 800 mm (manija doblada 30°, oreja) y foto del carro relevado (portaeje y chapa triangular).", rango(41, 42)],
+  ["7. Carro: portaeje, chapa, manija y lanza", "Lo que los procesos no definen (el puesto 8.1 del proceso de carros está vacío): plano Fadesa del rodante de 800 mm (manija doblada 30°, pata afinada y soldada), foto del carro relevado (portaeje y chapa triangular) y las fotos que marcaste (soldadura de la barra lateral, altura del doblez y lanza con válvula esférica).", rango(41, 45)],
 ];
 
 const hijos = [];
@@ -88,7 +88,7 @@ hijos.push(p([t("FLAMA S.A. · origen de cada dimensión de los planos FL_MAT, F
   "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. En el Excel «Justificacion de medidas planos.xlsx» la fuente de cada valor se escribe «F10·3» (figura F10, marca 3).",
   "Lo que no sale de un documento es un valor de diseño FLAMA: figura en la tabla final (D01…) con el link a la línea del generador y en amarillo en el Excel. Naranja = a validar.",
   "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número en la cúpula del 1 kg.",
-  "El portaeje con el eje adentro, las chapas triangulares, las orejas de la manija y el doblez de 30° no figuran en los procesos: salen del plano Fadesa «Rodante 50kg 800mm R2» (F41, ángulo medido 30,1°) y de la foto del carro que mandaste (F42); sus medidas son de diseño (tabla D).",
+  "El portaeje con el eje adentro, las chapas triangulares, la manija y la lanza no figuran en los procesos: salen del plano Fadesa «Rodante 50kg 800mm R2» (F41, ángulo medido 30,1°) y de las fotos que mandaste (F42 a F45); sus medidas son de diseño (tabla D). La manija no lleva orejas: el extremo de cada pata se aplasta antes de soldarlo directo al cuerpo, y el doblez de 30° arranca a la altura de la base de la válvula.",
   "Fadesa es referencia de medidas, no de criterio: donde no cumple la norma manda la IRAM. Ej.: el tren de rodaje sigue la IRAM 3550 tabla III (rueda ≥ Ø300, banda ≥ 50 —Fadesa usa 49—, trocha ≥ 400 entre centros) y no el ancho del catálogo.",
 ].forEach((x) => hijos.push(p(x, { bullet: true, after: 40 })));
 const n = C.n, e = C.estados;

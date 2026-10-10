@@ -479,9 +479,15 @@ def definir_detalles(m, info):
     D.append(dict(letra="D", origen="corte", c=cD, r=rD, titulo=tit))
     # E: tobera / difusor / rueda
     if m.familia == "rodante":
+        # vista propia de la punta de la manga (sin el cuerpo ni el rollo, que la tapan en la vista anterior):
+        # válvula esférica con su palanca (cerrada, atravesada al caño) y tobera / lanza
         xn, zn = info["valv_esf"]
-        D.append(dict(letra="E", origen="anterior", c=(xn - 20, zn - 40), r=85, titulo="Válvula esférica y tobera",
-                      ang_letra=200))
+        z_bot = info["eje_tobera"][1]
+        z_top = zn + 28 + 12
+        D.append(dict(letra="E", origen="local", vista="anterior", marca="anterior", c_marca=(xn, zn),
+                      c=(xn + 35, (z_bot + z_top) / 2), r=(z_top - z_bot) / 2 + 12,
+                      piezas=("valvula_esferica", "tobera_campana", "lanza"), corte=None,
+                      titulo="Válvula esférica con palanca y tobera", ang_letra=200))
     elif "tobera" in info:
         xt, zt = info["tobera"]
         rr = 45 if m.familia != "co2" else 80
@@ -493,7 +499,8 @@ def definir_detalles(m, info):
                "tobera_1kg": "Tobera"}.get(m.descarga, "Tobera")
         D.append(dict(letra="E", origen="anterior", c=(xt, zt), r=rr, titulo=tit, ang_letra=250))
     if m.familia == "rodante" and "soporte_tri" in info:
-        # F: portaeje y chapa triangular, vista lateral sin la rueda; G: oreja de la manija, vista superior
+        # F: portaeje y chapa triangular, vista lateral sin la rueda; G: extremo aplastado de la pata de la manija
+        # soldado al cuerpo (sin orejas), vista anterior
         h_tri, m_pe, y_in, xs = info["soporte_tri"]
         yw, Rw = info["yw"], info["Rw"]
         xv0, xv1 = -y_in, -(yw - m_pe)
@@ -502,10 +509,12 @@ def definir_detalles(m, info):
                       r=max(abs(xv1 - xv0), h_tri + m_pe) / 2 + 14,
                       piezas=("soportes_eje", "portaeje", "eje_ruedas", "cuerpo", "fondo"), corte=None,
                       titulo="Portaeje y chapa triangular (vista lateral, sin rueda)", ang_letra=210))
-        xm, zo = info["xm"], info["z_orejas"][0]
-        D.append(dict(letra="G", origen="local", vista="superior", marca="anterior", c_marca=(xm - 12, zo),
-                      c=(xm - 14, 0.0), r=34, piezas=("orejas_manija", "manija_carro", "cuerpo"),
-                      corte=(zo - 10, zo + 10), titulo="Oreja de la manija (vista superior)", ang_letra=20))
+        xm, R_ = info["xm"], info["recipiente"]["R"]
+        z0, lf, lt, tf, wf = info["aplastado"]
+        cG = ((R_ + xm) / 2 + 2, z0 + (lf + lt) / 2 + 6)
+        D.append(dict(letra="G", origen="local", vista="anterior", marca="anterior", c_marca=cG, c=cG,
+                      r=(lf + lt) / 2 + 22, piezas=("manija_carro", "cuerpo"), corte=None,
+                      titulo="Extremo de la pata aplastado y soldado al cuerpo", ang_letra=20))
     return _escalar_detalles(D)
 
 
@@ -587,7 +596,7 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
             oc = recortar_circulo(pl_oc_l, d["c"], d["r"])
         elif d["origen"] == "local":
             # vista propia del detalle: sólo las piezas que importan (sin la rueda que las tapa) y, si corresponde,
-            # una rebanada horizontal (oreja)
+            # una rebanada horizontal si el detalle la pide
             sols = []
             for k_ in d["piezas"]:
                 if k_ not in piezas:
@@ -615,9 +624,14 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
             h.texto_libre(d["letra"], cands, 5, A.MIDDLE_CENTER)
         h.polilineas(transformar(oc, d["c"], s, dest), "02-OCULTA")
         h.polilineas(transformar(vis, d["c"], s, dest), "01-VISIBLE")
-        if d["origen"] == "local":
-            c0 = (-info["yw"], info["Rw"]) if d["letra"] == "F" else (info["xm"], 0.0)
-            rr0 = (info["portaeje"][0] / 2 + 8) if d["letra"] == "F" else 20.0
+        if d["origen"] == "local" and d["letra"] == "E":
+            xn_, zn_ = info["valv_esf"]
+            ej = [[(xn_, info["eje_tobera"][1] - 5), (xn_, zn_ + 45)]]       # eje de la válvula y la tobera
+        elif d["origen"] == "local" and d["letra"] == "G":
+            ej = []
+        elif d["origen"] == "local":
+            c0 = (-info["yw"], info["Rw"])
+            rr0 = info["portaeje"][0] / 2 + 8
             ej = [[(c0[0] - rr0, c0[1]), (c0[0] + rr0, c0[1])], [(c0[0], c0[1] - rr0), (c0[0], c0[1] + rr0)]]
         else:
             ej = [[a, b] for a, b in ejes(m, info, "anterior")] if d["origen"] == "anterior" else \
@@ -662,7 +676,7 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
 
 
 def _carro_detalle(h, m, info, d, s, dest):
-    """notas y símbolos de soldadura de los detalles F (portaeje) y G (oreja) del carro."""
+    """notas y símbolos de soldadura de los detalles F (portaeje) y G (extremo aplastado de la manija) del carro."""
     T = lambda x, z: (dest[0] + (x - d["c"][0]) * s, dest[1] + (z - d["c"][1]) * s)   # noqa: E731
     t = m.geo["t"]
     rp = d["rp"]
@@ -680,17 +694,28 @@ def _carro_detalle(h, m, info, d, s, dest):
                           2.5)
         h.nota_referencia(f"Chapa triangular e{_n(t, 2)} (2)", T((-y_in - yw) / 2 - 5, Rw + h_tri * 0.25),
                           (dest[0] - rp * 0.95, dest[1] - rp * 0.55), 2.5)
-    else:
+    elif d["letra"] == "E":
+        xn, zn = info["valv_esf"]
+        h.nota_referencia("Válvula esférica de paso total", T(xn - 12, zn + 6), (dest[0] - rp * 0.95, dest[1] + rp * 0.55),
+                          2.5)
+        h.nota_referencia("Palanca (cerrada)", T(xn + 80, zn + 4), (dest[0] + rp * 0.3, dest[1] + rp * 0.95), 2.5)
+        z_bot = info["eje_tobera"][1]
+        h.nota_referencia("Lanza espumígena" if m.descarga == "lanza_espuma_rodante" else "Tobera cónica",
+                          T(xn + 10, (zn + z_bot) / 2 - 20),
+                          (dest[0] + rp * 0.55, dest[1] - rp * 0.6), 2.5)
+    elif d["letra"] == "G":
         xm = info["xm"]
         R = info["recipiente"]["R"]
-        pw = T(R + 0.8, 20.5)                                     # oreja contra el cuerpo
-        h.simbolo_soldadura(pw, (dest[0] - rp - 2, dest[1] + rp * 0.85), lado=-1, proceso="135")
-        pt = T(xm - 12.7 * 0.7, 12.7 * 0.7)                       # oreja contra la pata de la manija
-        h.simbolo_soldadura(pt, (dest[0] + rp * 0.5, dest[1] + rp + 2), lado=1, proceso="135")
-        h.nota_referencia(f"Oreja e{_n(t, 2)} × 40 (4)", T((R + xm) / 2, -20), (dest[0] - rp * 0.9, dest[1] - rp * 0.85),
-                          2.5)
-        h.nota_referencia("Manija Ø25,4 × 1,6", T(xm + 12.7 * 0.7, -12.7 * 0.7),
-                          (dest[0] + rp * 0.35, dest[1] - rp * 0.9), 2.5)
+        z0, lf, lt, tf, wf = info["aplastado"]
+        pw = T(R + tf + 0.3, z0 + lf * 0.35)                      # borde del extremo aplastado contra el cuerpo
+        h.simbolo_soldadura(pw, (dest[0] + rp * 0.75, dest[1] - rp * 0.95), lado=1, proceso="135")
+        h.nota_referencia(f"Extremo aplastado {_n(wf, 0)} × {_n(tf, 1)} × {_n(lf, 0)} (antes de soldar)",
+                          T(R + tf / 2, z0 + lf * 0.7), (dest[0] + rp * 0.5, dest[1] - rp * 0.45), 2.5)
+        h.nota_referencia(f"Transición {_n(lt, 0)}", T((R + tf + xm) / 2, z0 + lf + lt * 0.5),
+                          (dest[0] + rp * 0.6, dest[1] + rp * 0.15), 2.5)
+        h.nota_referencia("Manija Ø25,4 × 1,6", T(xm + 12.7 * 0.7, z0 + lf + lt + 12),
+                          (dest[0] + rp * 0.45, dest[1] + rp * 0.85), 2.5)
+        h.nota_referencia("Cuerpo", T(R - 3, z0 + lf + lt + 10), (dest[0] - rp * 0.9, dest[1] + rp * 0.6), 2.5)
 
 
 def _roscas_y_soldaduras(h, m, info, d, s, dest):

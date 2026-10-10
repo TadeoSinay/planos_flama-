@@ -6,7 +6,7 @@ modelo 3D; se desplazan por subconjunto y cada pieza sólo a lo largo de su eje 
 lugar con fondo, cúpula y cuello separados en el eje; válvula (S2) arriba con sus piezas abiertas en altura y el
 caño de pesca (con su filtro) al costado; dispositivo de descarga (S3) a la izquierda; carro (S4) a la derecha, con
 portaeje, chapas, arandelas, llantas y cubiertas abiertas sobre el eje de las ruedas, la manija subiendo sobre sus
-patas (orejas en el mismo eje), los ganchos hacia adelante y la pata a lo largo de su soldadura, lo justo para que
+patas (con sus extremos aplastados), los ganchos hacia adelante y la pata a lo largo de su soldadura, lo justo para que
 la rueda no la tape. Los grupos se separan midiendo su extensión en la isometría. El punto de cada globo cae sobre la
 parte visible de su pieza (z-buffer), la guía evita cruzar otras piezas y dos guías nunca se cruzan. Los rótulos
 S1-S4 van en el lugar libre más cercano a la pieza principal de cada grupo, sin tocar líneas, globos, guías ni otros
@@ -125,7 +125,7 @@ def explotar(m, piezas):
             d[k][0] += dx3
     # S4 carro: el conjunto a la derecha del recipiente y del caño de pesca. Dentro del grupo, todo lo que va sobre el
     # eje se abre sólo a lo largo del eje (X): portaeje y chapas en su lugar, arandela interior, llanta, cubierta y
-    # arandela exterior hacia afuera; la manija sube a lo largo de sus patas (las orejas quedan sobre ese mismo eje),
+    # arandela exterior hacia afuera; la manija sube a lo largo de sus patas (sale de sus extremos soldados),
     # los ganchos salen hacia adelante a lo largo de sus brazos y la pata baja.
     car = [k for k in piezas if sub[k] == 4]
     if car:
