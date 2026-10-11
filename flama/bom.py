@@ -71,7 +71,8 @@ SUB = {
     "filtro_pesca": 2,
     "racor": 3, "manguera": 3, "tobera": 3, "lanza": 3, "empunadura": 3, "brazo_difusor": 3, "difusor": 3,
     "suncho": 3, "valvula_esferica": 3, "tobera_campana": 3, "manguera_enrollada": 3,
-    "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "portaeje": 4, "arandelas_tope": 4, "soportes_eje": 4,
+    "rueda_der": 4, "llanta_der": 4, "eje_ruedas": 4, "portaeje": 4, "arandelas_tope": 4, "pasadores_eje": 4,
+    "soportes_eje": 4,
     "manija_carro": 4, "ganchos_manguera": 4, "tercera_pata": 4,
     "junta_cuello": 2, "etiqueta": 6, "oblea_pba": 6, "sello_iram": 6, "precinto": 6,
     "faja_garantia": 6, "tarjeta_caba": 6, "etiqueta_serie": 6,
@@ -201,17 +202,23 @@ def medida(m, k, s, info):
         dn, hn, rosca, dh = g["cuello"]
         return f"Ø{_f(dn)} × {_f(hn)} de alto, rosca {rosca}, asiento Ø{_f(dh)}"
     if k in ("manguera", "manguera_enrollada", "manija_carro", "brazo_difusor"):
-        r = {"manguera": 8.0, "manguera_enrollada": 12.5, "manija_carro": 12.7, "brazo_difusor": 6.0}[k]
+        r = {"manguera": 8.0, "manguera_enrollada": 11.75, "manija_carro": 12.7, "brazo_difusor": 6.0}[k]
         if k == "manguera":
-            r = (A / 2) if A < 40 else r
+            r = 11.75 if m.familia == "rodante" else ((A / 2) if A < 40 else r)
         largo = s.Volume() / (math.pi * r * r)
-        tubo = {"manija_carro": "caño Ø25,4 × 1,6", "brazo_difusor": "tubo Ø12"}.get(k, f"Ø{_f(2 * r)}")
+        tubo = {"manija_carro": 'caño 1" (Ø25,4) × 2,0', "brazo_difusor": "tubo Ø12"}.get(k, f"Ø{_f(2 * r)}")
         if k == "manija_carro" and "angulo_manija" in info:
             z0, lf, lt, tf, wf = info["aplastado"]
-            return (f"{tubo} × {_f(M.MANIJA_LARGO.get(m.codigo, largo), 0)} de largo desarrollado; patas verticales a "
-                    f"3 del cuerpo con el extremo aplastado ({_f(wf, 0)} × {_f(tf, 1)} × {_f(lf, 0)} + transición "
-                    f"{_f(lt, 0)}) soldado al cuerpo a {_f(z0, 0)} del piso; doblez de {_f(info['angulo_manija'], 0)}° "
-                    f"hacia atrás a 15 sobre la cupla ({_f(info['z_doblez_inicio'], 0)} del piso)")
+            return (f"{tubo}, corte {_f(info['corte_manija'], 0)} (desarrollado del modelo "
+                    f"{_f(M.MANIJA_LARGO.get(m.codigo, largo), 0)}); puntas aplastadas en lengüetas {_f(wf, 0)} × "
+                    f"{_f(lf, 0)} × {_f(tf, 0)} soldadas a los costados, borde de abajo "
+                    f"{_f(M.CARRO['lengueta_bajo_cupula'], 0)} bajo la costura de la cúpula; 2 curvas de 90° y 2 de "
+                    f"{_f(info['angulo_manija'], 0)}° (doblez a {_f(info['z_doblez_inicio'], 0)} del piso), puño "
+                    f"hacia atrás a {_f(info['H_carro'], 0)}")
+        if k == "manguera_enrollada" and m.codigo in M.MANGA_CAPAS:
+            nv = M.MANGA_CAPAS[m.codigo][0] - 1
+            return (f"{tubo} × {_f(largo, 0)} de largo desarrollado: lazo vertical de {nv} vueltas alrededor de los "
+                    f"flejes, por afuera de las patas y detrás de las orejas")
         return f"{tubo} × {_f(largo, 0)} de largo desarrollado"
     if k == "valvula_esferica":
         return ("cuerpo Ø40 × 56 con hexágonos 46, paso total, rosca a la manga y a la tobera; palanca 105 con "
@@ -219,27 +226,44 @@ def medida(m, k, s, info):
     if k == "cano_pesca":
         return f"Ø{_f(A)} × {_f(L)} de largo"
     if k in ("rueda_der", "llanta_der"):
-        Dw = float(m.spec["Diámetro de rueda (mm)"])
+        Dw = M.rueda_d(m)
         return f"Ø{_f(Dw if k == 'rueda_der' else Dw * 0.72)} × {_f(A if A < L else H)} de ancho"
     if k == "eje_ruedas":
-        return f"Ø25 × {_f(L)} de largo"
+        de = info.get("eje_d", 25.4)
+        return (f"barra trefilada {'3/4' if de < 20 else '1'}\" (Ø{_f(de, 2)}) × {_f(L, 0)} de largo, con agujero Ø4,6 "
+                f"en cada punta para el pasador (montaje final)")
     if k == "arandelas_tope":
-        return "4 × Ø40 × Ø26 × 4"
+        return f"4 × Ø40 × Ø{_f(info.get('eje_d', 25) + 1)} × 4 (a cada lado de cada rueda)"
+    if k == "pasadores_eje":
+        return "2 pasadores partidos Ø4 × 40, uno en cada punta del eje, por fuera de la arandela"
     if k == "placas_refuerzo":
         return "2 × 200 × 100 × 4,75 curvadas a Ø380, a 100 mm de cada boca"
     if k == "soportes_eje" and "soporte_tri" in info:
-        h_tri, m_pe, y_in, xs = info["soporte_tri"]
-        return (f"2 chapas triangulares e{_f(g['t'], 2)}, catetos {_f(h_tri + m_pe, 0)} × "
-                f"{_f(y_in - info['yw'] + m_pe, 0)}, punta R{_f(m_pe, 1)} con agujero Ø{_f(info['portaeje'][0] + 0.6, 1)} para el "
-                f"portaeje; a ± {_f(xs, 0)} del eje del cuerpo")
+        a_t, xs, z_t, ys, u_a, s_fl, rce = info["soporte_tri"]
+        return (f"2 triángulos con V de 90° hacia atrás, chapa e4,75, cateto vertical {_f(a_t, 0)} de canto contra el "
+                f"cuerpo; separados {_f(2 * xs, 0)} (± {_f(M.CARRO['triangulo'][info['tam_carro']][1] / 2, 1)} en "
+                f"recta), borde de abajo a 20 de la costura del fondo; el caño apoya en la V")
     if k == "portaeje" and "portaeje" in info:
         dpe, epe, lpe = info["portaeje"]
-        return f"caño Ø{_f(dpe)} × {_f(epe, 2)} × {_f(lpe, 0)} de largo (Ø int. {_f(dpe - 2 * epe, 1)} para el eje Ø25)"
+        pulg = '1"' if info.get("tam_carro") == 0 else '1¼"'
+        return (f"caño {pulg} (Ø{_f(dpe, 2)}) × {_f(epe, 1)} × {_f(lpe, 0)} de largo, con marca de la mitad; apoyado en "
+                f"la V de los triángulos a 20 del cuerpo, no gira; adentro pasa el eje Ø{_f(info.get('eje_d', 25))}")
+    if k == "ganchos_manguera" and "z_ganchos" in info:
+        fa, fe, fl_, fo, lb_, corte_f = M.fleje_carro(m.codigo)
+        nf = len(info.get("z_flejes", (0, 0)))
+        return (f"{nf} flejes iguales 40 × 3,2 de {_f(corte_f, 0)} de corte, 4 dobleces de 90° (U abierta hacia "
+                f"afuera): base {_f(lb_, 0)} por fuera, soldada al cuerpo por el centro, patas {_f(fl_, 0)} (hasta "
+                f"delante de la última vuelta) y orejas {_f(fo, 0)} hacia los costados; superior a 40 bajo la costura de "
+                f"la cúpula, inferior a 40 sobre la del fondo"
+                + ("; el del medio, con las orejas hacia adentro: la manga pasa por adentro de sus patas, el paquete se "
+                   "cierra y los 12 m quedan tensados sin pandearse" if nf > 2 else "")
+                + "; la manga pasa por afuera de las patas y detrás de las orejas")
     if k in ("soportes_eje", "ganchos_manguera"):
         return f"2 piezas de chapa e{_f(g['t'], 2)}; conjunto {_f(L)} × {_f(A)} × {_f(H)}"
     if k == "tercera_pata":
-        pw, hp, tp = M.CARRO["pata"][0 if g["R"] < 170 else 1] + (M.CARRO["pata_e"],)
-        return f"planchuela {_f(pw)} × {_f(hp)} × e{_f(tp, 1)} (proceso FLAMA, puesto 2), de canto contra el fondo"
+        pw, hp, tp = M.CARRO["pata"][M.tam_carro(g["R"])] + (M.CARRO["pata_e"],)
+        return (f"planchuela {_f(pw)} × {_f(hp)} × e{_f(tp, 1)}, de canto en el frente del fondo, atravesada; borde de "
+                f"abajo = línea del piso")
     if k == "manometro":
         return f"Ø{_f(L)} esfera, rango 0-{_f(_ps(m) * 2.5 if _ps(m) < 5 else 25, 1)} MPa, sector verde en {_f(_ps(m), 1)}"
     return f"{_f(L)} × {_f(A)} × {_f(H)}"
@@ -378,7 +402,7 @@ NIV_EST = {"V": 0, "E": 1, "A": 2, "X": 3}
 EST_PROV = {"COTIZADO": "V", "A COTIZAR": "V", "ESTIMADO": "E", "A VALIDAR": "A", "NO CUMPLE / A DEFINIR": "X"}
 ID_PIEZA = {"etiqueta": "ETIQUETA", "oblea_pba": "OBLEA-PBA", "sello_iram": "ESTAMPILLA", "tarjeta_caba": "TARJETA-AGC",
             "etiqueta_serie": "ETIQ-SERIE", "faja_garantia": "FAJA", "precinto": "PRECINTO", "manometro": "MANOMETRO",
-            "junta_cuello": "ORING", "arandelas_tope": "ARANDELA-TOPE"}
+            "junta_cuello": "ORING", "arandelas_tope": "ARANDELA-TOPE", "pasadores_eje": "PASADOR-EJE"}
 
 
 def _item(m, k):
@@ -391,7 +415,7 @@ def _item(m, k):
     if k == "cuello":
         return "MP-CUPLA" if rod else "MP-CUELLO"
     if k == "rueda_der":
-        return f"RUEDA-{int(float(m.spec['Diámetro de rueda (mm)']))}"
+        return f"RUEDA-{int(M.rueda_d(m))}"
     if SUB.get(k) == 2 and k not in KIT_VALVULA:
         return "REP-VALV"
     if SUB.get(k) == 3:
@@ -492,19 +516,20 @@ def bom_producto(m, cilindro=False):
             if k == "placas_refuerzo":
                 obs = ("Proceso FLAMA de carros: por dentro sobre la costura longitudinal, una en cada extremo a 100 mm "
                        "de la boca; salen de las orillas de 4,75 (sin compra)")
-            if k in ("soportes_eje", "portaeje", "manija_carro", "ganchos_manguera", "arandelas_tope"):
-                est = "E"
-                obs = ("Medidas de diseño FLAMA (el puesto 8.1 del proceso no las fija); disposición según el plano "
-                       "Fadesa y los carros relevados (portaeje con chapas triangulares; manija sin orejas, con los "
-                       "extremos aplastados y soldados al cuerpo, doblada 30° a la altura de la base de la válvula); "
-                       "validar en el prototipo" +
-                       ("; chapa de las orillas del corte del cuerpo (sin compra)" if k in
-                        ("soportes_eje", "ganchos_manguera") else "") +
-                       ("; los extremos se aplastan en prensa antes de soldar (el cordón va sobre la chapa aplastada, "
-                        "no sobre una oreja)" if k == "manija_carro" else ""))
+            if k in ("soportes_eje", "portaeje", "manija_carro", "ganchos_manguera"):
+                obs = ("Proceso FLAMA de carros, puesto 8 (kit del 8.1): medidas y posición de la tabla del puesto; "
+                       "se suelda antes de la prueba hidráulica (IRAM 3550 6.1.1)" +
+                       ("; chapa de las orillas del corte (sin compra)" if k in ("soportes_eje", "ganchos_manguera")
+                        else "") +
+                       ("; las puntas se aplastan en lengüetas de 40 × 60 que se sueldan a los costados del cuerpo "
+                        "(filete en los dos lados largos y abajo; sin orejas)" if k == "manija_carro" else "") +
+                       ("; un cordón de cada lado; el caño se suelda en los dos flancos de cada V, de las dos caras"
+                        if k == "soportes_eje" else ""))
+            if k in ("arandelas_tope", "pasadores_eje", "eje_ruedas"):
+                obs = "Montaje final, después de la pintura, con las ruedas (proceso de carros, puesto 8)"
             if k == "tercera_pata":
-                obs = ("Proceso FLAMA de carros, puesto 2: 80 × 60 (25 y 50 kg) y 100 × 80 (70 y 100 kg), de la orilla "
-                       "de 3,2 de la hoja de 25 kg (sin compra)")
+                obs = ("Proceso FLAMA de carros: 80 × 60 (25 y 50 kg) y 100 × 80 (70 y 100 kg), de la orilla de 3,2 de "
+                       "la hoja de 25 kg (sin compra); se suelda con filete de los dos lados en el tramo central")
             if k == "rueda_der":
                 obs = (obs + "; IRAM 3550 4.8: Ø ≥ 300 y ancho ≥ 50").strip("; ")
             add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, origen(m, k), operacion(m, k),
@@ -718,18 +743,25 @@ def materia_prima(m, k, s, kg):
                         f"{_f(alto)} × {_f(des)} (aprovech. {_f(ap)} %)", round(bruto, 3), "Compra",
                         "AL-1H paquetes de hojas", "", "L", fuente, obs,
                         "MP-HOJA-LAC" if rod else "MP-HOJA-LAF", "X" if obs else ""))
+    if k in ("eje_ruedas", "manija_carro", "portaeje"):
+        kc = M.tam_carro(g["R"])
     if k == "eje_ruedas":
-        barra("MP-EJE", "Redondo SAE 1045 Ø25", "Redondo SAE 1045 Ø25", s.BoundingBox().xlen,
-              math.pi / 4 * 25 ** 2 * 7.85e-3, "MP-EJE")
+        de = M.CARRO["eje"][kc]
+        pul = '3/4"' if de < 20 else '1"'
+        barra("MP-EJE", f"Barra trefilada SAE 1045 {pul}", f"Barra trefilada SAE 1045 {pul}", M.CARRO_MOD[m.codigo]["eje_largo"],
+              math.pi / 4 * de ** 2 * 7.85e-3, "MP-EJE")
     if k == "manija_carro":
-        barra("MP-CANO-CARRO", "Caño SAE 1010 Ø25,4 × 1,6", "Caño acero SAE 1010 Ø25,4 × 1,6",
-              M.MANIJA_LARGO.get(m.codigo, s.Volume() / (math.pi * 12.7 ** 2)),
-              math.pi / 4 * (25.4 ** 2 - 22.2 ** 2) * 7.85e-3, "MP-CANO-CARRO",
-              obs="Largo desarrollado del plano (con los extremos a aplastar) + curvado")
+        barra("MP-CANO-CARRO", 'Caño SAE 1010 1" × 2,0', 'Caño acero SAE 1010 1" × 2,0', M.CARRO_MOD[m.codigo]["manija_corte"],
+              math.pi / 4 * (25.4 ** 2 - 21.4 ** 2) * 7.85e-3, "MP-CANO-CARRO",
+              obs="Largo de corte = desarrollo del modelo a 10 mm (kit del puesto 8.1), con las lengüetas a aplastar")
     if k == "portaeje":
-        barra("MP-PORTAEJE", "Caño SAE 1010 Ø33,7 × 3,25", "Caño acero SAE 1010 Ø33,7 × 3,25", s.BoundingBox().xlen,
-              math.pi / 4 * (33.7 ** 2 - 27.2 ** 2) * 7.85e-3, "MP-PORTAEJE")
-    # soportes del eje, ganchos y tercera pata: salen de las orillas del corte del cuerpo (sin compra, no entran al MRP)
+        dce, ece, _ = M.CARRO["cano_eje"][kc]
+        lce = M.CARRO_MOD[m.codigo]["cano_largo"]
+        pulg = '1"' if kc == 0 else '1¼"'
+        barra("MP-PORTAEJE", f"Caño SAE 1010 {pulg} × 2,0", f"Caño acero SAE 1010 {pulg} × 2,0", lce,
+              math.pi / 4 * (dce ** 2 - (dce - 2 * ece) ** 2) * 7.85e-3, "MP-PORTAEJE",
+              obs="Largo para la trocha del ancho de la hoja de especificaciones (kit 8.1), con marca de la mitad")
+    # triángulos, flejes y pata delantera: salen de las orillas del corte del cuerpo (sin compra, no entran al MRP)
     if k in ("cupula", "fondo"):
         d = DISCO.get((k, tam))
         e = g["td"] if k == "cupula" else g["tf"]
@@ -1831,10 +1863,11 @@ DECISIONES = [
     ("Placas de refuerzo", "70 y 100 kg: dos placas 200 × 100 × 4,75 curvadas a Ø380, por dentro sobre la costura "
      "longitudinal, una en cada extremo a 100 mm de la boca; salen de las orillas de 4,75.", "Proceso FLAMA de carros "
      "(corte, cilindrado y punteo)", "Pieza en S1 (planos FL_MAT, FL_REC y FL_DES 70/100).", "V"),
-    ("Carro de rodantes", "Tren rodante soldado al recipiente antes de la PH: eje Ø25 con dos soportes de chapa, "
-     "manija de caño Ø25,4 × 1,6, dos ganchos portamanguera y tercera pata; se compran ruedas, caño, barra y "
-     "arandelas.", "Proceso FLAMA de carros (puestos 8 y 8.1); IRAM 3550 6.1.1, 3.12 y 4.8 (ruedas ≥ Ø300 × 50)",
-     "Medidas de los accesorios = diseño FLAMA (el puesto 8.1 no las fija); kit 4,2-4,9 kg como el proceso.", "E"),
+    ("Carro de rodantes", "Accesorios soldados al recipiente antes de la PH: dos triángulos con V (chapa 4,75) con el "
+     "caño del eje 1\" / 1¼\" × 2,0 apoyado, manija de caño 1\" × 2,0 con lengüetas aplastadas 40 × 60, dos flejes "
+     "del soporte de manga y pata delantera; eje, ruedas, arandelas y pasadores al montaje final.", "Proceso FLAMA de "
+     "carros v2 (puesto 8 y kit del 8.1, tabla de posiciones); IRAM 3550 6.1.1, 3.8.2, 3.12.3 y 4.8.2",
+     "Medidas y posiciones del proceso; kit 2,8-3,7 kg (proceso: 2,9-3,8).", "V"),
     ("Tapas de rodantes", "Casquetes de 25, 50, 70 y 100 kg embutidos por Gockel Ingeniería (Wilde, Avellaneda).",
      "IRAM 3550 3.2.1 / 4.1.3; proveedor de FLAMA", "Ítem comprado (semielaborado); cotizar con certificado de "
      "material.", "V"),

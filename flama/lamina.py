@@ -204,6 +204,8 @@ class Hoja:
                         pts = [v[:2] for v in e.flattening(0.3)]
                         if len(pts) > 1:
                             geo.append(sg.LineString(pts))
+                elif t == "CIRCLE" and e.dxf.radius <= 5.0:   # globos de posición
+                    geo.append(sg.Point(e.dxf.center[:2]).buffer(e.dxf.radius))
                 elif t == "TEXT":                  # también la gráfica impresa: una anotación no va encima
                     b = _bbox.extents([e], fast=True)
                     if b.has_data:
@@ -631,20 +633,29 @@ class Hoja:
         h.paths.add_polyline_path(pts, is_closed=True)
 
     # ------------------------------------------------------------ soldadura (ISO 2553)
-    def simbolo_soldadura(self, flecha, codo, lado=1, todo_alrededor=True, proceso="131", a=None):
+    def simbolo_soldadura(self, flecha, codo, lado=1, todo_alrededor=True, proceso="131", a=None, ambos=False,
+                          flechas=()):
+        """ISO 2553: filete del lado de la flecha; ambos=True, filete doble (un cordón de cada lado: sin línea de
+        trazos, símbolo a los dos lados de la referencia); flechas: otras uniones iguales señaladas desde el codo."""
         m = self.msp
         L_ref = 16.0
-        m.add_line(codo, flecha, dxfattribs={"layer": "12-SOLDADURA"})
-        dx, dy = flecha[0] - codo[0], flecha[1] - codo[1]
-        LL = math.hypot(dx, dy)
-        self._flecha(flecha, (dx / LL, dy / LL))
+        for fl in (flecha,) + tuple(flechas):
+            m.add_line(codo, fl, dxfattribs={"layer": "12-SOLDADURA"})
+            dx, dy = fl[0] - codo[0], fl[1] - codo[1]
+            LL = math.hypot(dx, dy)
+            self._flecha(fl, (dx / LL, dy / LL))
         end = (codo[0] + lado * L_ref, codo[1])
         m.add_line(codo, end, dxfattribs={"layer": "12-SOLDADURA"})
-        # línea de identificación (trazos) — sistema A
-        m.add_line((codo[0], codo[1] + 1.5), (end[0], end[1] + 1.5),
-                   dxfattribs={"layer": "12-SOLDADURA", "linetype": "ISO02-TRAZOS"})
-        # símbolo de filete del lado de la flecha (bajo la línea de referencia llena)
         xs = codo[0] + lado * 5
+        if ambos:
+            # filete doble, simétrico: el símbolo va a los dos lados de la línea de referencia
+            m.add_lwpolyline([(xs, codo[1]), (xs, codo[1] + 3.5), (xs + lado * 3.5, codo[1])], close=True,
+                             dxfattribs={"layer": "12-SOLDADURA"})
+        else:
+            # línea de identificación (trazos) — sistema A
+            m.add_line((codo[0], codo[1] + 1.5), (end[0], end[1] + 1.5),
+                       dxfattribs={"layer": "12-SOLDADURA", "linetype": "ISO02-TRAZOS"})
+        # símbolo de filete del lado de la flecha (bajo la línea de referencia llena)
         m.add_lwpolyline([(xs, codo[1]), (xs, codo[1] - 3.5), (xs + lado * 3.5, codo[1])], close=True,
                          dxfattribs={"layer": "12-SOLDADURA"})
         if a:

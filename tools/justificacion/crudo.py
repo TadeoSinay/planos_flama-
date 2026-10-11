@@ -77,14 +77,19 @@ for m in MODELOS:
                             ("Profundidad total", bx.ylen, "Profundidad")):
         cat_v = {"Altura": m.H, "Ancho": m.W, "Profundidad": m.D}[campo]
         if rod and campo == "Altura":
-            add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAT, [f"CAT:{cod}:{campo}"],
-                "Agarre de la manija del carro a la altura del catálogo", ("modelo3d.py", "zg = H - rt"))
+            add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL, ["PC2:manija", f"CAT:{cod}:{campo}"],
+                f"Puño de la manija: la curva de 30° se ubica para dar la altura de la hoja de especificaciones "
+                f"(hoja: {cat_v:g}; diferencia {100 * (val - cat_v) / cat_v:+.1f} %)", ("modelo3d.py", "z_bend = H - rt"))
         elif rod:
             dif = 100 * (val - cat_v) / cat_v
             add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL, ["N:3550T3", f"CAT:{cod}:{campo}"],
-                (f"Resulta del tren de rodaje IRAM 3550 (trocha {info['track']:g}, banda {info['bw_w']:g})" if campo == "Ancho"
-                 else "Resulta de la tercera pata adelante y de la rueda con el eje detrás del cuerpo") +
-                f" (catálogo: {cat_v:g}; diferencia {dif:+.0f} %)", ("modelo3d.py", "def construir"))
+                (f"Largo del eje = ancho de la hoja de especificaciones (trocha {info['track']:g}, banda "
+                 f"{info['bw_w']:g}; IRAM 3550 tabla III: trocha ≥ 400)" if campo == "Ancho"
+                 else "De atrás de las ruedas a la punta de la palanca de la válvula esférica, que se orienta para "
+                      "llegar justo al frente de la hoja de especificaciones") +
+                f" (hoja: {cat_v:g}; diferencia {dif:+.1f} %)",
+                ("modelo3d.py", "l_eje = 2 * (x_pas + 7.0)") if campo == "Ancho" else
+                ("modelo3d.py", "y_frente = D + yw - Rw"))
         else:
             add(m, pl, "0", "Conjunto", 1, "-", dim, r1(val), "mm", T_CAL,
                 [f"FE:{plan_fe(m)}:valvula", f"CAT:{cod}:{campo}"],
@@ -413,99 +418,145 @@ for m in MODELOS:
                    "Sin cota en Fadesa", ("modelo3d.py", 'out["racor"]'))
             continue
         if k in ("manguera", "manguera_enrollada"):
-            r = 12.5 if rod else {"co2": 7.0}.get(fam, 8.7)
+            r = 11.75 if rod else {"co2": 7.0}.get(fam, 8.7)
             largo = s.Volume() / (math.pi * r * r)
             if m.descarga == "tobera_polvo" and k == "manguera":
                 A_("Ø exterior", 17.4, "mm", T_FAD, FE("manguera"), "Medido a escala en el plano Fadesa",
                    ("modelo3d.py", "d_hose = 0 if chico"))
             else:
                 A_("Ø exterior", r1(2 * r), "mm", T_DIS, ["C:manual" if not rod else "C:rodante"], "Sin cota en Fadesa",
-                   ("modelo3d.py", "d_hose = 0 if chico" if not rod else "d_hose = 25.0"))
+                   ("modelo3d.py", "d_hose = 0 if chico" if not rod else "d_hose = 23.5"))
             A_("Largo desarrollado dibujado", r1(largo, 0), "mm", T_CAL, ["CALC"],
-               "Volumen del sólido / (π r²); en rodantes la manga real es la del catálogo", ("bom.py", "largo = s.Volume()"))
+               "Volumen del sólido / (π r²)" + ("; manga + rollo ≈ largo del catálogo" if rod else ""),
+               ("bom.py", "largo = s.Volume()"))
+            if rod and k == "manguera_enrollada":
+                A_("Vueltas del lazo", M.MANGA_CAPAS[cod][0] - 1, "u", T_CAL, [f"CAT:{cod}:Manga", "PCF:fleje"],
+                   "Las vueltas que hacen falta para el largo de la norma / catálogo: lazo vertical alrededor de los "
+                   "flejes, por afuera de las patas y detrás de las orejas (dos en fondo; las que siguen, atadas al "
+                   "paquete); la manga se pandea entre soportes",
+                   ("modelo3d.py", "while n_v < 8 and _largo(ruta)"))
             continue
         if k in ("tobera", "lanza", "difusor", "empunadura", "brazo_difusor", "tobera_campana", "suncho", "pie",
                  "valvula_esferica", "soportes_eje", "manija_carro", "ganchos_manguera", "tercera_pata", "arandelas_tope", "eje_ruedas",
-                 "portaeje",
+                 "portaeje", "pasadores_eje",
                  "rueda_der", "llanta_der"):
             if k == "rueda_der":
-                Dw = float(m.spec["Diámetro de rueda (mm)"])
-                A_("Ø exterior", Dw, "mm", T_CAT, [f"CAT:{cod}:Rueda"], "Diámetro de rueda del catálogo",
-                   ("modelo3d.py", "Dw = float"))
-                A_("Ancho de banda", info["bw_w"], "mm", T_NOR, ["N:3550T3", f"FE:{'100 kg' if Dw > 350 else '50 kg'}:rueda"],
-                   "IRAM 3550 tabla III: ≥ 50 (Fadesa usa 49: no cumple); Ruedar Ø300 / Ø350 × 60 y Escanort Ø400 × 100",
-                   ("modelo3d.py", "banda={300: 60.0"))
-                A_("Trocha entre centros de rueda", info["track"], "mm", T_NOR, ["N:3550T3"],
-                   "IRAM 3550 tabla III: ≥ 400; además Ø del cuerpo + banda + 2 × 20 de luz con el cuerpo",
-                   ("modelo3d.py", "trocha_min=400.0"))
+                Dw = M.rueda_d(m)
+                Dcat = float(m.spec["Diámetro de rueda (mm)"])
+                A_("Ø exterior", Dw, "mm", T_CAT, [f"CAT:{cod}:Rueda", "PC2:piso"],
+                   "Hoja de especificaciones (25 kg Ø300, 50 y 70 kg Ø350, 100 kg Ø400); el recipiente se ubica para que "
+                   "el centro del caño del eje quede a la altura del centro de la rueda" +
+                   (f" (hoja: {Dcat:g})" if Dcat != Dw else ""), ("modelo3d.py", "def rueda_d"))
+                A_("Ancho de banda", info["bw_w"], "mm", T_PRO, ["PCF:tabla", "N:3550T3"],
+                   "Proceso final: ruedas de chapa y goma, buje liso, Ø300 × 50 / Ø350 × 60 / Ø400 × 60 (IRAM 3550 "
+                   "tabla III: ≥ 50)", ("modelo3d.py", "banda={300: 50.0"))
+                A_("Trocha entre centros de rueda", info["track"], "mm", T_CAL, [f"CAT:{cod}:Ancho", "N:3550T3"],
+                   "Ancho de la hoja − 2 × (7 + pasador + arandela) − banda; IRAM 3550 tabla III: ≥ 400",
+                   ("modelo3d.py", "xw = max(W / 2 - 7.0"))
                 A_("Ø interior del macizo", r1(0.72 * Dw), "mm", T_DIS, ["C:rodante"], "0,72 × Ø rueda", ("modelo3d.py", "Rw * 0.72"))
                 continue
             if k == "llanta_der":
-                A_("Ø de la llanta", r1(0.72 * float(m.spec['Diámetro de rueda (mm)'])), "mm", T_DIS, ["C:rodante"],
-                   "0,72 × Ø rueda", ("modelo3d.py", "llanta = _tube"))
+                A_("Ø de la llanta", r1(0.72 * M.rueda_d(m)), "mm", T_DIS, ["C:rodante"],
+                   "0,72 × Ø rueda", ("modelo3d.py", "Rw * 0.72"))
                 A_("Espesor aro / disco", "2 / 2,5", "mm", T_DIS, ["C:rodante", "FE:25 kg:masa"],
                    "Chapa estampada; ajustado a la masa de los planos Fadesa", ("modelo3d.py", "aro e = 2"))
-                A_("Cubo Ø ext / Ø int", "60 / 26", "mm", T_DIS, ["C:rodante"], "Cubo para eje Ø25", ("modelo3d.py", "_tube(30, 13"))
+                de_ = info["eje_d"]
+                A_("Cubo Ø ext / buje Ø int", f"{de_ + 34:g} / {de_ + 1:g}", "mm", T_DIS, ["C:rodante"],
+                   f"Cubo con buje para el eje Ø{de_:g}", ("modelo3d.py", "de_ / 2 + 17"))
                 continue
             if k == "eje_ruedas":
-                A_("Ø × largo / posición", f"25 × {r1(L)} / {r1(info['yw'])} detrás del eje del cuerpo", "mm", T_DIS,
-                   ["PC:accesorios", "N:3550T3"], "Barra SAE 1045 Ø25 comprada; recta, detrás de la pared trasera "
-                   "(luz 15) a la altura del centro de rueda; largo = trocha + banda + arandelas",
-                   ("modelo3d.py", "yw = -(R + CARRO"))
+                A_("Ø × largo", f"{'3/4' if info['eje_d'] < 20 else '1'}\" × {r1(L, 0):g}", "mm", T_CAL,
+                   ["PCF:tabla", f"CAT:{cod}:Ancho"],
+                   "Barra trefilada SAE 1045 (Ø del proceso final) cortada a largo en el 8.1: el largo es el ancho de la "
+                   "hoja de especificaciones; pasa suelta por adentro del caño del eje y va al montaje final",
+                   ("modelo3d.py", "l_eje = 2 * (x_pas + 7.0)"))
                 continue
             if k == "arandelas_tope":
-                A_("Ø ext × Ø int × e (4 u)", "40 × 26 × 4", "mm", T_DIS, ["PC:accesorios"],
-                   "El proceso las compra; medidas de diseño", ("modelo3d.py", "arandela=(40.0"))
+                A_("Ø ext × Ø int × e (4 u)", f"40 × {info['eje_d'] + 1:g} × 4", "mm", T_DIS, ["PC2:cano"],
+                   "Una a cada lado de cada rueda (montaje final); medidas de diseño", ("modelo3d.py", "arandela=(40.0"))
+                continue
+            if k == "pasadores_eje":
+                A_("Ø × largo (2 u)", "4 × 40", "mm", T_DIS, ["PC2:cano"],
+                   "Pasador partido en cada punta del eje, por fuera de la arandela exterior (montaje final)",
+                   ("modelo3d.py", "pasador=(4.0, 40.0)"))
                 continue
             if k == "soportes_eje":
-                h_tri, m_pe, y_in, xs_ = info["soporte_tri"]
-                A_("Chapa triangular: catetos × e (2 u)", f"{r1(h_tri + m_pe)} × {r1(y_in - info['yw'] + m_pe)} × {g['t']:g}",
-                   "mm", T_DIS, ["REL:carro:chapa", "PC:accesorios"],
-                   "Cateto vertical soldado a la pared trasera, cateto horizontal a la altura de la base del portaeje y "
-                   "punta redondeada que abraza el caño (carro relevado); chapa de orilla", ("modelo3d.py", "soporte=(80.0"))
-                A_("Separación de las chapas", r1(2 * xs_), "mm", T_DIS, ["REL:carro:chapa"], "± 0,7·R",
-                   ("modelo3d.py", "soporte=(80.0, 0.7)"))
+                a_t, xs_, z_t, ys_, u_a, s_fl, rce = info["soporte_tri"]
+                A_("Triángulo con V: cateto × e (2 u)", f"{a_t:g} × {M.CARRO['triangulo_e']:g}", "mm", T_PRO,
+                   ["PC2:tri", "PC2:tabla"],
+                   "Cateto vertical de canto contra el cuerpo; la V de 90° mira hacia atrás y el caño del eje se apoya "
+                   "en ella sin que la chapa lo envuelva (corrección del usuario); chapa de orilla 4,75",
+                   ("modelo3d.py", "triangulo=((70.0, 126.0)"))
+                A_("Separación recta / sobre el cuerpo desde la costura", f"{r1(2 * xs_)} / {r1(R * math.asin(xs_ / R))}",
+                   "mm", T_PRO, ["PC2:tabla"], "Tabla de posiciones del proceso (65 / 82 / 107 sobre el cuerpo, a cada "
+                   "lado de la costura longitudinal)", ("modelo3d.py", "triangulo=((70.0, 126.0)"))
+                A_("Borde de abajo sobre la costura del fondo", M.CARRO["triangulo_sobre_fondo"], "mm", T_PRO,
+                   ["PC2:tabla", "PC2:tri"], "Tabla de posiciones del proceso", ("modelo3d.py", "triangulo_sobre_fondo=20.0"))
                 continue
             if k == "portaeje":
                 dpe, epe, lpe = info["portaeje"]
-                A_("Caño Ø × e × largo", f"{dpe:g} × {epe:g} × {r1(lpe)}", "mm", T_DIS, ["REL:carro:portaeje", "PC:accesorios"],
-                   "Caño 1\" comprado, cruzado detrás del cuerpo; el eje Ø25 pasa por dentro (Ø int. 27,2) y el caño "
-                   "llega a las arandelas interiores", ("modelo3d.py", "portaeje=(33.7"))
+                a_t, xs_, *_ = info["soporte_tri"]
+                A_("Caño Ø × e × largo", f"{dpe:g} × {epe:g} × {r1(lpe, 0):g}", "mm", T_CAL, ["PC2:cano", "PC2:tri"],
+                   "Caño 1\" (25 kg) o 1¼\" × 2,0 comprado; largo = trocha − 2 arandelas − banda; apoyado en la V de "
+                   "los dos triángulos, soldado en los dos flancos de cada V; no gira: el eje pasa por adentro",
+                   ("modelo3d.py", "lce = 2 * (xw - ea - bw_w / 2)"))
+                A_("Sobresale de cada triángulo / luz al cuerpo", f"{r1((lpe - 2 * xs_) / 2)} / {M.CARRO['luz_cano']:g}",
+                   "mm", T_CAL, ["PC2:tabla", "PC2:tri"], "Resulta del largo del caño; la V deja el caño a 20 del cuerpo "
+                   "(proceso)", ("modelo3d.py", "luz_cano=20.0"))
                 continue
             if k == "manija_carro":
                 z0, lf, lt, tf, wf = info["aplastado"]
-                A_("Caño", "Ø25,4 × 1,6", "mm", T_DIS, ["PC:accesorios"], "El proceso compra el caño de la manija",
-                   ("modelo3d.py", "manija=(25.4"))
-                A_("Altura del agarre (= altura total)", r1(m.H), "mm", T_CAT, [f"CAT:{cod}:Altura", "PC:accesorios"],
-                   "Sube por encima de la cúpula hasta la altura del catálogo", ("modelo3d.py", "zg = H - rt"))
-                A_("Separación de las patas (ejes) / largo desarrollado",
-                   f"{r1(2 * info['xm'])} / {r1(M.MANIJA_LARGO[m.codigo], 0)}", "mm", T_DIS,
-                   ["FR:800:aplastado", "PC:accesorios"],
-                   "Patas casi pegadas a los costados del cuerpo (3 mm, como el plano Fadesa); radio de curvado 40",
-                   ("modelo3d.py", "manija=(25.4"))
-                A_("Extremo aplastado: ancho × e × largo / transición", f"{wf:g} × {tf:g} × {lf:g} / {lt:g}", "mm",
-                   T_DIS, ["FR:800:aplastado", "FU:elisam:soldadura"],
-                   "Sin orejas (una chapita con agujero debilita la unión: corrección del usuario): la punta del caño se "
-                   "aplasta en prensa antes de soldar y se suelda al cuerpo en todo su borde; ancho ≈ media vuelta del "
-                   "caño, e = 2 paredes + 1", ("modelo3d.py", "aplastado=(40.0"))
-                A_("Altura de la punta soldada", r1(z0), "mm", T_DIS, ["FR:800:aplastado", "FU:elisam:soldadura"],
-                   "Por encima de la etiqueta (+20) y no menos del 45 % del cuerpo", ("modelo3d.py", "z_low = max("))
-                A_("Doblez del tramo superior / inicio del doblez", f"30° / {r1(info['z_doblez_inicio'])}", "° / mm",
-                   T_FAD, ["FR:800:manija", "FU:afff:doblez"],
-                   "Sube vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás (ángulo medido "
-                   "en el plano Fadesa: 30,1°; altura como el carro AFFF marcado por el usuario)",
-                   ("modelo3d.py", "doblez_sobre_cupla=15.0"))
+                A_("Caño / largo de corte", f"Ø25,4 × 2,0 / {info['corte_manija']:g}", "mm", T_CAL, ["PCF:manija"],
+                   "2 curvas de 90° y 2 de 30°, radio de matriz 100 (proceso final); corte = desarrollo del modelo "
+                   "redondeado a 10", ("modelo3d.py", "corte = 10.0 * math.ceil"))
+                A_("A (entre ejes de las patas) / B (curva de 30° sobre la cúpula) / C (tramo inclinado)",
+                   f"{r1(2 * info['xm'], 0):g} / {r1(M.CARRO_MOD[cod]['manija_B'], 0):g} / {M.CARRO['manija_C']:g}",
+                   "mm", T_CAL, ["PCF:manija", f"CAT:{cod}:Altura"],
+                   "A y C del proceso final (el tramo inclinado sube 156 y se corre 90 hacia atrás); B se ubica para "
+                   "dar la altura de la hoja de especificaciones", ("modelo3d.py", "z_bend = H - rt"))
+                A_("Lengüeta aplastada ancho × largo × e", f"{wf:g} × {lf:g} × {tf:g}", "mm", T_PRO,
+                   ["PC2:manija", "FU:elisam:soldadura"],
+                   "Sin orejas: la punta del caño se aplasta antes de soldar y se suelda a los costados del cuerpo con "
+                   "filete en los dos lados largos y abajo", ("modelo3d.py", "lengueta=(60.0"))
+                A_("Borde de abajo de la lengüeta bajo la costura de la cúpula", M.CARRO["lengueta_bajo_cupula"], "mm",
+                   T_PRO, ["PC2:tabla"], "Tabla de posiciones del proceso (a los costados: 217 / 251 / 306 desde la "
+                   "costura longitudinal)", ("modelo3d.py", "lengueta_bajo_cupula=200.0"))
+                A_("Altura del puño (= altura total)", r1(info['H_carro']), "mm", T_CAL,
+                   ["PCF:manija", f"CAT:{cod}:Altura"],
+                   f"Costura de la cúpula + B + 156 + radio del caño; hoja: {m.H:g}", ("modelo3d.py", "manija_C=180.0"))
+                A_("Largo desarrollado del modelo", r1(M.MANIJA_LARGO[m.codigo], 0), "mm", T_CAL, ["PCF:manija"],
+                   "Volumen del caño curvado / sección + lengüetas (control contra el corte)",
+                   ("modelo3d.py", "MANIJA_LARGO[m.codigo] = man.Volume()"))
                 continue
             if k == "ganchos_manguera":
-                A_("Ancho × vuelo × labio × e (2 u)", f"40 × {r1(2 * 25 + 10)} × 30 × {g['t']:g}", "mm", T_DIS,
-                   ["PC:accesorios"], "Adelante (corrección del usuario al proceso, que decía costado derecho), "
-                   "arriba (90 %) y abajo (12 %) del cuerpo; vuelo = 2 Ø de manga + 10", ("modelo3d.py", "gancho=(40.0"))
+                fa, fe, fl_, fo, lb_, corte_f = M.fleje_carro(cod)
+                nfl = len(info["z_flejes"])
+                A_(f"Fleje Ω: ancho × e × corte ({nfl} u)", f"{fa:g} × {fe:g} × {corte_f:.0f}", "mm", T_CAL, ["PCF:fleje"],
+                   "U abierta hacia afuera (perfil sombrero), base recta soldada por el centro con un cordón corto arriba "
+                   "y otro abajo; corte = base + 2 patas + 2 orejas − 4 × 6 (estiramiento por doblez, proceso)"
+                   + ("; el de 100 kg lleva un tercero en el medio, el mismo fleje con las orejas hacia adentro: la "
+                      "manga pasa por adentro de sus patas y queda tensada (corrección del usuario)" if nfl > 2 else ""),
+                   ("modelo3d.py", "fleje_estiramiento=6.0"))
+                A_("Base por fuera / patas / orejas", f"{lb_:g} / {fl_:.0f} / {fo:g}", "mm", T_CAL, ["PCF:fleje"],
+                   f"Base del proceso; las patas llegan hasta delante de la última de las {M.MANGA_CAPAS[cod][0]} "
+                   "filas de manga (una por vuelta, Ø23,5 cada 24,5) para que la oreja no la deje salir (corrección "
+                   "del usuario: el esquema del proceso era orientativo)",
+                   ("modelo3d.py", "pata = filas[n_v] + rh + 0.5 + fe - R"))
+                A_("Superior: borde de arriba bajo la cúpula / inferior: borde de abajo sobre el fondo",
+                   f"{M.CARRO['fleje_bajo_cupula']:g} / {M.CARRO['fleje_sobre_fondo']:g}", "mm", T_PRO, ["PC2:tabla"],
+                   "Tabla de posiciones del proceso (al frente: 434 / 503 / 613 desde la costura longitudinal)",
+                   ("modelo3d.py", "fleje_bajo_cupula=40.0"))
                 continue
             if k == "tercera_pata":
                 pw_, hp_, tp_, yp_ = info["pata"]
                 A_("Ancho × alto × e", f"{pw_:g} × {hp_:g} × {tp_:g}", "mm", T_PRO,
-                   ["PC:pata", "PC:accesorios"], f"Proceso FLAMA (puesto 2): planchuela de la orilla de 3,2 de la hoja de 25 kg; "
-                   f"adelante, de canto contra el fondo a {yp_:g} mm del eje del cuerpo", ("modelo3d.py", "pata=((80.0"))
+                   ["PC2:pata", "PC:pata"], "Proceso FLAMA: orilla de 3,2 de la hoja de 25 kg; de canto en el frente "
+                   "del fondo, atravesada", ("modelo3d.py", "pata=((80.0, 60.0), (80.0, 60.0)"))
+                A_("Hacia adentro del frente / borde de abajo bajo la costura del fondo",
+                   f"{r1(R - yp_ - tp_)} / {r1(info['recipiente']['zb'])}", "mm", T_CAL, ["PC2:piso", "PC2:tabla"],
+                   "Se corre hacia adentro hasta que el borde de arriba toca el fondo en el centro; el borde de abajo es "
+                   "la línea del piso (tabla: 112 / 135 / 155; adentro ≈27 / 48 / 58)",
+                   ("modelo3d.py", "if not lleno.isInside(cq.Vector(0.0"))
                 continue
             if k == "valvula_esferica":
                 A_("Cuerpo Ø × largo / palanca", "40 × 56 (hexágonos 46) / 105 con empuñadura 55", "mm", T_DIS,
@@ -560,7 +611,7 @@ for m in MODELOS:
             ancho = math.radians(M.ARCO_PLACA) * R_
             A_("Panel central (arco 108°)", r1(ancho), "mm", T_NOR, ["N:3534"], f"108° × π/180 × R({R_:g})",
                ("modelo3d.py", "ARCO_PLACA = 108.0"))
-            A_("Alas laterales (arco c/u)", f"{M.arco_ala(R_):g}° = {r1(M.ala_dim(R_))}", "mm", T_REL, ["RV:etiqueta"],
+            A_("Alas laterales (arco c/u)", f"{r1(M.arco_ala(R_, m)):g}° = {r1(M.ala_dim(R_, m))}", "mm", T_REL, ["RV:etiqueta"],
                "Relevamiento: la etiqueta envuelve ≈ 216° (72° si Ø < 100)", ("modelo3d.py", "ARCO_ALA = 54.0"))
             A_("Alto", r1(H), "mm", T_CAL, ["N:3534", "C:identificacion"], "Alto que pide el contenido (rotulado.disposicion)",
                ("rotulado.py", "def disposicion"))

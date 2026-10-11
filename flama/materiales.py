@@ -51,16 +51,17 @@ PIEZAS = {
     "rueda_izq": None,
     "llanta_der": ("Llanta con cubo", "Chapa acero SAE 1010", ACERO, 1.0, None),
     "llanta_izq": None,
-    "eje_ruedas": ("Eje de ruedas", "Barra acero SAE 1045 Ø25", ACERO, 1.0, "comprado"),
-    "arandelas_tope": ("Arandelas de tope (4)", "Acero SAE 1010 Ø40 × Ø26 × 4", ACERO, 1.0, "compradas"),
-    "portaeje": ("Portaeje", "Caño acero SAE 1010 Ø33,7 × 3,25", ACERO, 1.0, "soldado a las chapas triangulares"),
-    "soportes_eje": ("Chapas triangulares del portaeje (2)", "Chapa LAC del cuerpo (orilla)", ACERO, 1.0,
-                     "soldadas al cuerpo y al portaeje"),
-    "manija_carro": ("Manija del carro", "Caño acero SAE 1010 Ø25,4×1,6", ACERO, 0.24,
-                     "doblez 30°, puntas aplastadas"),
-    "ganchos_manguera": ("Ganchos portamanguera (2)", "Chapa LAC del cuerpo (orilla) plegada", ACERO, 1.0,
+    "eje_ruedas": ("Eje de ruedas", "Barra acero SAE 1045", ACERO, 1.0, "montaje final"),
+    "arandelas_tope": ("Arandelas de tope (4)", "Acero SAE 1010 Ø40 × 4", ACERO, 1.0, "compradas"),
+    "pasadores_eje": ("Pasadores del eje (2)", "Pasador partido acero Ø4 × 40", ACERO, 1.0, "comprados"),
+    "portaeje": ("Caño del eje", "Caño acero SAE 1010 1¼\" × 2,0", ACERO, 1.0, "no gira"),
+    "soportes_eje": ("Triángulos con V (2)", "Chapa LAC 4,75 (orilla)", ACERO, 1.0,
+                     "V de 90° atrás"),
+    "manija_carro": ("Manija del carro", "Caño acero SAE 1010 1\" × 2,0", ACERO, 0.29,
+                     "lengüetas 40×60"),
+    "ganchos_manguera": ("Flejes del soporte de manga (2)", "Chapa LAC 3,2 × 40 plegada", ACERO, 1.0,
                          "soldados adelante"),
-    "tercera_pata": ("Tercera pata", "Chapa LAC 3,2 (orilla de la hoja de 25 kg)", ACERO, 1.0, "soldada al fondo, adelante"),
+    "tercera_pata": ("Pata delantera", "Chapa LAC 3,2 (orilla de la hoja de 25 kg)", ACERO, 1.0, "al fondo"),
     "manguera_enrollada": ("Manguera (tramo enrollado)", "Caucho sintético", CAUCHO, 0.64, None),
     "valvula_esferica": ("Válvula esférica", "Latón cromado", LATON, 0.45, None),
     "tobera_campana": ("Tobera campana", "Polipropileno", PP, 1.0, None),
@@ -126,12 +127,19 @@ def especificacion(m, clave):
         mat = "EPDM (compatible con HCFC/HFC)"
     if clave == "suncho" and m.familia == "co2":
         nom = "Suncho soporte de difusor"
+    if clave == "portaeje" and m.familia == "rodante":
+        from .modelo3d import CARRO, tam_carro
+        mat = "Caño acero SAE 1010 " + ('1"' if tam_carro(m.geo["R"]) == 0 else '1¼"') + " × 2,0"
+    if clave == "eje_ruedas" and m.familia == "rodante":
+        from .modelo3d import CARRO, tam_carro
+        mat = f"Barra acero SAE 1045 Ø{CARRO['eje'][tam_carro(m.geo['R'])]:g}"
+    if clave == "ganchos_manguera" and m.familia == "rodante" and \
+            float(m.spec.get("Longitud de manga (m)", "5").replace(",", ".")) > 8:
+        nom = "Flejes del soporte de manga (3)"             # 12 m de manga: un tercero en el medio, hacia adentro
     if clave == "rueda_der":
         # IRAM 3550 3.12.1: ruedas metálicas revestidas de caucho o con cubierta neumática
-        if float(m.spec.get("Diámetro de rueda (mm)", 0)) >= 400:
-            nom, obs = "Rueda con cubierta neumática", "llanta metálica"
-        else:
-            obs = "llanta metálica"
+        from .modelo3d import rueda_d
+        obs = "llanta de chapa"
     if clave in ("manija_superior", "manija_inferior") and not m.geo["cuello"][2].startswith("RBSP"):
         fac = 0.3       # chapa estampada en U (≈ 1,2 mm) representada maciza con el perfil Fadesa
     if clave == "manija_superior" and m.familia == "rodante" and m.geo["cuello"][2].startswith("RBSP"):

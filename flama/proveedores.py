@@ -20,6 +20,8 @@ PROV = {
                  "Bobinas de origen Ternium", "Q-PRADECON (173170 / 173195)"),
     "PARROTTA": ("Hierros Parrotta", "Chapa, hierros y redondos", "Av. Debenedetti 2851, Avellaneda", 3, "-",
                  "-", "Q-PARROTTA (00413329)"),
+    "VLADIMIRSKY": ("Vladimirsky", "Barra trefilada SAE 1045", "-", None, "-", "Barras de 4 m hasta Ø20 y de 6 m de "
+                    "21 a 30 mm; demora a confirmar", "Proceso de carros final (8.1)"),
     "METALPRI": ("Metalpri / Prilux", "Caño con costura", "Nueva Pompeya, CABA", 8, "-", "-",
                  "Q-METALPRI (mail 09/09/2026)"),
     "MID": ("Comercial MID", "Caños", "Don Torcuato, Tigre (PBA)", 40, "-", "-", "Q-MID (27626)"),
@@ -174,23 +176,27 @@ ITEMS = {
     "ORING": ("Junta tórica", "O-ring NBR 70 Shore A, medida del cuello", "ARGENSOLD", "IGLESIAS", "A COTIZAR",
               "Planilla MP-50: sin cotizar", "-"),
     # ---------------- carro (fabricación propia)
-    "RUEDA-300": ("Rueda Ø300 (carro 25 kg)", "Rueda goma maciza Ø300 × 60, buje para eje Ø25", "RUEDAR", None,
-                  "A VALIDAR", "Planilla MP-54: sin cotizar", "M-1509 de catálogo trae buje 20: pedir buje 25 o "
-                  "rebajar puntas de eje"),
-    "RUEDA-350": ("Rueda Ø350 (carros 50 / 70 kg)", "Rueda goma maciza Ø350 × 60, buje 25, 150 kg", "RUEDAR",
-                  "ESCANORT", "A COTIZAR", "Planilla MP-54: sin cotizar", "150 kg por rueda > carga por rueda del "
-                  "70 kg cargado (≈ 70 kg)"),
-    "RUEDA-400": ("Rueda Ø400 (carro 100 kg)", "Rueda Ø400 × 100 con cubierta neumática, eje 25, 200 kg", "ESCANORT",
-                  "RUEDAR", "A COTIZAR", "Sin cotizar",
-                  "IRAM 3550 3.12.1 admite cubiertas neumáticas; no se halló Ø400 maciza nacional en catálogo"),
-    "MP-EJE": ("Eje de ruedas", "Redondo SAE 1045 Ø25, barra 6 m", "PARROTTA", None, "A COTIZAR", "Sin cotizar",
-               "Confirmar SAE 1045 con certificado"),
-    "MP-CANO-CARRO": ("Caño de la manija del carro", "Caño SAE 1010 Ø25,4 × 1,6, barra 6 m", "METALPRI", "MID", "A COTIZAR",
-                      "Sin cotizar (mismo proveedor que el caño del 1 kg)", "-"),
-    "MP-PORTAEJE": ("Portaeje del carro", "Caño SAE 1010 Ø33,7 × 3,25 (1\"), barra 6 m", "METALPRI", "MID", "A COTIZAR",
-                    "Sin cotizar (mismo proveedor que el caño de la manija)", "-"),
-    "ARANDELA-TOPE": ("Arandela de tope del eje de carro", "Arandela SAE 1010 Ø40 × Ø26 × 4", "PARROTTA", None,
-                      "A COTIZAR", "Sin cotizar", "Se compran (proceso de carros, puesto 8.1)"),
+    "RUEDA-300": ("Rueda Ø300 (carro 25 kg)", "Rueda de chapa y goma Ø300 × 50, buje liso para eje 3/4\"", "RUEDAR",
+                  None, "A VALIDAR", "Planilla MP-54: sin cotizar", "Proceso de carros final (8.1): Ø300 × 50, agujero "
+                  "3/4\""),
+    "RUEDA-350": ("Rueda Ø350 (carro 50 kg)", "Rueda de chapa y goma Ø350 × 60, buje liso para eje 1\"", "RUEDAR",
+                  "ESCANORT", "A COTIZAR", "Planilla MP-54: sin cotizar", "Proceso de carros final (8.1): Ø350 × 60, "
+                  "agujero 1\""),
+    "RUEDA-400": ("Rueda Ø400 (carros 70 / 100 kg)", "Rueda de chapa y goma Ø400 × 60, buje liso para eje 1\"",
+                  "ESCANORT", "RUEDAR", "A COTIZAR", "Sin cotizar", "Proceso de carros final (8.1): Ø400 × 60, agujero "
+                  "1\""),
+    "MP-EJE": ("Eje de ruedas", "Barra trefilada SAE 1045 3/4\" (25 kg, barra 4 m) o 1\" (50 a 100 kg, barra 6 m)",
+               "VLADIMIRSKY", "PARROTTA", "A COTIZAR", "Sin cotizar", "Proceso de carros final (8.1): corte 490 / 510 / "
+               "590; va al montaje final con ruedas, arandelas y pasadores"),
+    "MP-CANO-CARRO": ("Caño de la manija del carro", "Caño SAE 1010 1\" × 2,0, barra 6 m", "METALPRI", "MID", "A COTIZAR",
+                      "Sin cotizar (mismo proveedor que el caño del 1 kg)", "Corte 1440 / 1520 / 1590 (proceso, kit 8.1)"),
+    "MP-PORTAEJE": ("Caño del eje del carro", "Caño SAE 1010 1¼\" × 2,0 (1\" × 2,0 en 25 kg), barra 6 m", "METALPRI",
+                    "MID", "A COTIZAR", "Sin cotizar (mismo proveedor que el caño de la manija)",
+                    "Largo 354 / 354 / 434 con marca de la mitad (proceso, kit 8.1)"),
+    "ARANDELA-TOPE": ("Arandela de tope del eje de carro", "Arandela SAE 1010 Ø40 × 4 (Ø int. eje + 1)", "PARROTTA", None,
+                      "A COTIZAR", "Sin cotizar", "Montaje final, con las ruedas (proceso de carros, puesto 8)"),
+    "PASADOR-EJE": ("Pasador del eje de carro", "Pasador partido acero Ø4 × 40", "PARROTTA", None,
+                    "A COTIZAR", "Sin cotizar", "Montaje final, con las ruedas (proceso de carros, puesto 8)"),
     # ---------------- carga
     "POLVO-ABC": ("Polvo ABC", "Polvo ABC con Sello IRAM 3569, grado del modelo (DEM-60 / DEM-90), bolsa 25 kg",
                   "DEMSA", "POLVEX", "COTIZADO", "Lista Q-AGENTES (Sancibrao ABC 55/75/90)",

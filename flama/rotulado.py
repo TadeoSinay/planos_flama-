@@ -875,7 +875,7 @@ def vista_color(h, m, piezas, T, res):
     col = colores(m)
     papel = colorear(h, piezas, T, res, lambda k: color_pieza(k, col))
     W, H, z0, R, xc, yc = M.placa_dim(m, piezas)
-    Wa = M.ala_dim(R)
+    Wa = M.ala_dim(R, m)
     Wt = W + 2 * Wa
     if "etiqueta" in papel:
         d = disposicion(m, W, Wa)
@@ -951,7 +951,7 @@ def hoja4(m, piezas, info, proy, doc, ox):
                 "especificación de RECEPCIÓN de FLAMA (lo que el equipo debe traer).", ((X0 + X1) / 2, Y1 - 11.8), 2.5,
                 A.MIDDLE_CENTER)
     W, H, z0, R, xc, yc = M.placa_dim(m, piezas)
-    Wa = M.ala_dim(R)
+    Wa = M.ala_dim(R, m)
     # R1 etiqueta
     esc, hl = placa(h, m, (X0 + 8, Y0 + 195, X0 + 290, Y1 - 14), W, Wa, H)
     # R2 ubicación (vista anterior)
@@ -991,7 +991,7 @@ def hoja4(m, piezas, info, proy, doc, ox):
     h.eje((Tx + xc * f, Ty - 3), (Tx + xc * f, Ty + (z0 + H) * f + 3))
     h.texto("R2 UBICACIÓN (vista anterior, esc. 1:" + _n(1 / f, 0) + ")", ((zx0 + zx1) / 2, zy1 - 3), 2.5,
             A.MIDDLE_CENTER)
-    nota_r2 = partir(("Carro: etiqueta del lado de la manija, hacia el operador; manga, ganchos y pata adelante. "
+    nota_r2 = partir(("Carro: etiqueta del lado de la manija, hacia el operador; manga, flejes y pata adelante. "
                       if m.familia == "rodante" else "") +
                      "Etiqueta de frente sobre el eje del manómetro; oblea inmediatamente debajo, sin otra "
                      "identificación entre ambas (Res. 522/07 an. 6); estampilla IRAM al costado; etiqueta GS1 a 180° "

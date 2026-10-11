@@ -22,7 +22,9 @@ VISTAS = {
     "superior": ((0, 0, 1), (1, 0, 0)),      # vista B: desde arriba (se ubica DEBAJO)
     "lat_izq": ((-1, 0, 0), (0, -1, 0)),     # vista C: desde la izquierda (se ubica a la DERECHA)
     "iso": ((1, -1, 1), (1, 1, 0)),          # isométrica (ISO 5456-3)
+    "iso_carro": ((1, 1, 1), (-1, 1, 0)),    # isométrica del carro desde adelante: manga, válvula esférica y tobera
 }
+PLANO = ("anterior", "superior", "lat_izq", "iso")   # vistas de la hoja 1
 
 
 def _prim(edge, tol):

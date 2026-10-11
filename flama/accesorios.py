@@ -111,7 +111,7 @@ def vistas_iso_e(h, solido, f, zona, gap=22.0, iso=True, iso_zona=None, iso_f=No
     """Dispone anterior (A), superior (B, debajo) y lateral izquierda (C, a la
     derecha) según ISO E, centradas en `zona` (x0, y0, x1, y1). Devuelve
     transformaciones {vista: (ox, oy, f)} y extensiones reales."""
-    proy = {v: V.proyectar(solido, v, tol=0.4, ocultas=(v != "iso")) for v in V.VISTAS}
+    proy = {v: V.proyectar(solido, v, tol=0.4, ocultas=(v != "iso")) for v in V.PLANO}
     ex = {v: V.extension(proy[v]["vis"]) for v in proy}
     wa, ha = ex["anterior"][2] - ex["anterior"][0], ex["anterior"][3] - ex["anterior"][1]
     hb = ex["superior"][3] - ex["superior"][1]

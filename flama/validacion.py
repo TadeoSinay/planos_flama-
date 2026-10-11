@@ -129,11 +129,13 @@ VALIDACION = [
      "Sin cotización ni ficha: cotizar a Georgia (venta mayorista) o Mozart (Valentín Alsina)."),
     ("Componente", "Manga y tobera", "Manga de caucho + tobera", "IRAM 3523 4.2 (≥ 350 mm; PH 2 × Ps)", "I-FLAMA",
      "A VALIDAR", "Sin cotización: cotizar con ensayo de PH de la manga."),
-    ("Componente", "Carro de rodantes", "Tren soldado al recipiente: eje SAE 1045 Ø25 con 2 soportes de chapa, manija de "
-     "caño Ø25,4 × 1,6, 2 ganchos portamanguera, tercera pata y 4 arandelas de tope; ruedas compradas",
+    ("Componente", "Carro de rodantes", "Accesorios soldados al recipiente: 2 triángulos con V y caño del eje 1\" / 1¼\" "
+     "× 2,0, manija de caño 1\" × 2,0 con lengüetas 40 × 60, 2 flejes del soporte de manga y pata delantera; eje SAE "
+     "1045 Ø20 / Ø25, 4 arandelas, 2 pasadores y ruedas compradas al montaje final",
      "IRAM 3550 6.1.1, 3.12 y 4.8 (ruedas ≥ Ø300 × 50)", "Proceso FLAMA de carros · Catálogo Ruedar / Escanort",
-     "A VALIDAR", "Medidas de los accesorios = diseño FLAMA (kit 4,2-4,9 kg). Ruedas: Ruedar Ø300 (buje 20: pedir 25) "
-     "y Ø350 × 60 (buje 25, 150 kg); Ø400 maciza sin proveedor nacional hallado (Escanort Ø400 neumática)."),
+     "A VALIDAR", "Medidas de los accesorios = proceso FLAMA de carros v2 (kit 2,9-3,8 kg). Ruedas: Ruedar Ø300 "
+     "(buje 20 = eje del 25 kg) y Ø350 × 60 (buje 25, 150 kg); Ø400 maciza sin proveedor nacional hallado (Escanort "
+     "Ø400 neumática)."),
     ("Referencia", "Recipiente inoxidable de revendidos (agua, AFFF 10 L, sales K)", "Chapa inoxidable 304 soldada, "
      "TIG con Ar puro", "IRAM 3525 3.2.1 b) e ≥ 0,63; 3.2.2 ≤ 1 long. + 2 transv., automático, atmósfera inerte; "
      "IRAM 3517-2 9.4.21", "T5 · mercado (recipientes soldados, PH 100 %)", "ESTIMADA",

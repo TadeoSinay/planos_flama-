@@ -5,8 +5,8 @@ Separados de los planos de fabricación FL_MAT_* (no los reemplazan). Las piezas
 modelo 3D; se desplazan por subconjunto y cada pieza sólo a lo largo de su eje de montaje: recipiente (S1) en su
 lugar con fondo, cúpula y cuello separados en el eje; válvula (S2) arriba con sus piezas abiertas en altura y el
 caño de pesca (con su filtro) al costado; dispositivo de descarga (S3) a la izquierda; carro (S4) a la derecha, con
-portaeje, chapas, arandelas, llantas y cubiertas abiertas sobre el eje de las ruedas, la manija subiendo sobre sus
-patas (con sus extremos aplastados), los ganchos hacia adelante y la pata a lo largo de su soldadura, lo justo para que
+caño del eje, triángulos, arandelas, llantas, cubiertas y pasadores abiertos sobre el eje de las ruedas, la manija subiendo
+sobre sus patas (con sus lengüetas), los flejes de la manga hacia adelante y la pata a lo largo de su soldadura, lo justo para que
 la rueda no la tape. Los grupos se separan midiendo su extensión en la isometría. El punto de cada globo cae sobre la
 parte visible de su pieza (z-buffer), la guía evita cruzar otras piezas y dos guías nunca se cruzan. Los rótulos
 S1-S4 van en el lugar libre más cercano a la pieza principal de cada grupo, sin tocar líneas, globos, guías ni otros
@@ -123,10 +123,15 @@ def explotar(m, piezas):
         dx3 = (_vx(s1, malla, d)[0] - 0.8 * g - _vx(des, malla, d)[1]) * _RAIZ2
         for k in des:
             d[k][0] += dx3
+        if "manguera_enrollada" in piezas:       # válvula esférica y tobera: afuera del rollo, que las tapa
+            bx = _bb(piezas["manguera_enrollada"])
+            for k in ("valvula_esferica", "tobera_campana", "lanza"):
+                if k in d:
+                    d[k][0] -= 0.6 * (bx.xmax - bx.xmin) + g
     # S4 carro: el conjunto a la derecha del recipiente y del caño de pesca. Dentro del grupo, todo lo que va sobre el
-    # eje se abre sólo a lo largo del eje (X): portaeje y chapas en su lugar, arandela interior, llanta, cubierta y
-    # arandela exterior hacia afuera; la manija sube a lo largo de sus patas (sale de sus extremos soldados),
-    # los ganchos salen hacia adelante a lo largo de sus brazos y la pata baja.
+    # eje se abre sólo a lo largo del eje (X): triángulos en su lugar, caño del eje hacia atrás (sale de la V),
+    # arandela interior, llanta, cubierta, arandela exterior y pasador hacia afuera; la manija sube a lo largo de sus patas (sale de sus extremos soldados),
+    # los flejes de la manga salen hacia adelante a lo largo de sus patas y la pata baja.
     car = [k for k in piezas if sub[k] == 4]
     if car:
         loc = {k: [0.0, 0.0, 0.0] for k in car}
@@ -142,6 +147,8 @@ def explotar(m, piezas):
                 loc[k][1] = 0.8 * g
             elif k == "tercera_pata":
                 loc[k][2] = -0.8 * g
+            elif k == "portaeje":
+                loc[k][1] = -0.6 * g          # el caño se apoya en la V desde atrás: sale hacia atrás y deja ver la V
         if "tercera_pata" in loc:
             # la pata se abre a lo largo de su soldadura (vertical); como va adelante y abajo, en la isometría la tapa
             # la rueda derecha: se toma el menor corrimiento (vertical y, si hace falta, hacia adelante, su normal)
@@ -157,13 +164,15 @@ def explotar(m, piezas):
                     break
             else:
                 from .lamina import AVISOS
-                AVISOS.append(f"{m.codigo}: la tercera pata queda tapada en el despiece")
+                AVISOS.append(f"{m.codigo}: la pata delantera queda tapada en el despiece")
         for k in car:
             d[k] = list(loc[k])
         resto = s1 + ints                          # el carro va abajo: se separa del recipiente y del caño de pesca
         v_min = _vx([k for k in car if k in malla], malla, d)[0]
         if "arandelas_tope" in malla:
             v_min = min(v_min, _vx(["arandelas_tope"], malla, d, (-2.8 * g, 0.0))[0])
+        if "pasadores_eje" in malla:
+            v_min = min(v_min, _vx(["pasadores_eje"], malla, d, (-3.4 * g, 0.0))[0])
         dx4 = (_vx(resto, malla, d)[1] + 0.8 * g - v_min) * _RAIZ2
         for k in car:
             d[k][0] += dx4
@@ -278,6 +287,15 @@ def lamina(m):
             partes.append(so.translate(cq.Vector(d["arandelas_tope"][0] + k_, d["arandelas_tope"][1],
                                                  d["arandelas_tope"][2])))
         mov["arandelas_tope"] = cq.Compound.makeCompound(partes)
+    if "pasadores_eje" in piezas:
+        # los pasadores salen de las puntas del eje, por fuera de la arandela exterior, y suben por su propio eje
+        partes = []
+        for so in piezas["pasadores_eje"].Solids():
+            bx = so.BoundingBox()
+            sx_ = 1 if (bx.xmin + bx.xmax) > 0 else -1
+            partes.append(so.translate(cq.Vector(d["pasadores_eje"][0] + sx_ * 3.4 * g, d["pasadores_eje"][1],
+                                                 d["pasadores_eje"][2] + 0.6 * g)))
+        mov["pasadores_eje"] = cq.Compound.makeCompound(partes)
     comp = cq.Compound.makeCompound(list(mov.values()))
     proy = V.proyectar(comp, "iso", tol=0.4, ocultas=False)
     ex = V.extension(proy["vis"])

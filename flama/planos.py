@@ -76,19 +76,35 @@ def colocar_globos(h, anclas, x_eje, x_izq, x_der, y_max, y_min, paso_min=9.0, p
     der = sorted([a for a in anclas if a[2] >= x_eje], key=lambda a: -a[3])
 
     def columna(grupo, bandas, paso):
+        # franjas solapadas (cifras de cotas vecinas) se juntan en una sola
+        bandas = sorted(bandas)
+        juntas = []
+        for b0, b1 in bandas:
+            if juntas and b0 - 10 <= juntas[-1][1]:
+                juntas[-1] = (juntas[-1][0], max(juntas[-1][1], b1))
+            else:
+                juntas.append((b0, b1))
+        bandas = juntas
         ys = []
         for a in grupo:
-            yy = min(a[3], y_max) if not ys else min(a[3], ys[-1] - paso)
+            tope = y_max if not ys else ys[-1] - paso
+            yy = min(a[3], tope)
             for (b0, b1) in bandas:
                 if b0 - 5 < yy < b1 + 5:
-                    yy = b0 - 5
+                    # fuera de la cifra de la cota, del lado del ancla: así la línea de referencia no la cruza
+                    yy = b1 + 5 if a[3] >= (b0 + b1) / 2 and b1 + 5 <= tope else b0 - 5
             ys.append(yy)
         if ys[-1] < y_min:
-            dsh = y_min - ys[-1]
-            ys = [y + dsh for y in ys]
+            # no entra abajo: se arma de abajo hacia arriba, esquivando otra vez las cifras de las cotas
+            ys[-1] = y_min
+            for (b0, b1) in bandas:
+                if b0 - 5 < ys[-1] < b1 + 5:
+                    ys[-1] = b1 + 5
             for j in range(len(ys) - 2, -1, -1):
-                if ys[j] < ys[j + 1] + paso:
-                    ys[j] = ys[j + 1] + paso
+                ys[j] = max(ys[j], ys[j + 1] + paso)
+                for (b0, b1) in bandas:
+                    if b0 - 5 < ys[j] < b1 + 5:
+                        ys[j] = b1 + 5
         return ys
 
     for lado, grupo, xg in (("izq", izq, x_izq), ("der", der, x_der)):
@@ -204,7 +220,10 @@ def ejes(m, info, vista):
         if "man_d" in v and m.familia != "co2":
             rm = v["man_d"] / 2 + e
             seg += [((-rm, v["z_man"]), (rm, v["z_man"])), ((0, v["z_man"] - rm), (0, v["z_man"] + rm))]
-        if "eje_tobera" in info:
+        if "eje_tobera_3d" in info:                                          # tobera del carro, inclinada
+            (xa, ya, za), (xb, yb, zb) = info["eje_tobera_3d"]
+            seg.append(((xa, za), (xb, zb)))
+        elif "eje_tobera" in info:
             xt, zb, zt = info["eje_tobera"]
             seg.append(((xt, zb - e), (xt, zt + e)))
         if m.familia == "rodante":
@@ -212,9 +231,15 @@ def ejes(m, info, vista):
     if vista == "lat_izq" and m.familia == "rodante":
         Rw, yw = info["Rw"], info["yw"]
         seg += [((-yw - Rw - e, Rw), (-yw + Rw + e, Rw)), ((-yw, -e), (-yw, 2 * Rw + e))]
+        if "eje_tobera_3d" in info:
+            (xa, ya, za), (xb, yb, zb) = info["eje_tobera_3d"]
+            seg.append(((-ya, za), (-yb, zb)))
     if vista == "superior":
         seg += [((-R - e, 0), (R + e, 0)), ((0, -R - e), (0, R + e))]
-        if "eje_tobera" in info:
+        if "eje_tobera_3d" in info:
+            (xa, ya, za), (xb, yb, zb) = info["eje_tobera_3d"]
+            seg.append(((xa, ya), (xb, yb)))
+        elif "eje_tobera" in info:
             xt = info["eje_tobera"][0]
             seg += [((xt - 16, 0), (xt + 16, 0)), ((xt, -16), (xt, 16))]
         if m.familia == "rodante":
@@ -263,7 +288,7 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
     import shapely.geometry as _sg
     Wp, Hp, z0p, Rp, xcp, _ = M.placa_dim(m, piezas)
     cu = 2 * Rp * math.sin(math.radians(M.ARCO_PLACA / 2))
-    ap = Rp * min(1.0, math.sin(math.radians(M.ARCO_PLACA / 2 + M.arco_ala(Rp))))
+    ap = Rp * min(1.0, math.sin(math.radians(M.ARCO_PLACA / 2 + M.arco_ala(Rp, m))))
     h.rayado(_sg.box(x_front + (xcp - ap) * f, y_front + z0p * f, x_front + (xcp + ap) * f,
                      y_front + (z0p + Hp) * f), 45, 3.0)
     h.rayado(_sg.box(x_front + (xcp - cu / 2) * f, y_front + z0p * f, x_front + (xcp + cu / 2) * f,
@@ -313,18 +338,20 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
 
     # ---------------- detalles marcados en vista anterior (ver hoja 2)
     detalles = definir_detalles(m, info)
+    letras = []                    # las letras van después de los globos, en un lugar que no pise ninguno
     for d in detalles:
         org = d.get("marca", d["origen"])
         if org not in ("anterior", "lateral"):
             continue
         cc = d.get("c_marca", d["c"])
         c = ((x_front if org == "anterior" else x_lat) + cc[0] * f, y_front + cc[1] * f)
-        h.msp.add_circle(c, d["r"] * f, dxfattribs={"layer": "08-FINA"})
+        r_m = d.get("r_marca", d["r"])            # los cortes horizontales marcan sólo el fleje en la lateral
+        h.msp.add_circle(c, r_m * f, dxfattribs={"layer": "08-FINA"})
         a0 = d.get("ang_letra", 45)
-        cands = [(c[0] + (d["r"] * f + rr) * math.cos(math.radians(a0 + da)),
-                  c[1] + (d["r"] * f + rr) * math.sin(math.radians(a0 + da)))
+        cands = [(c[0] + (r_m * f + rr) * math.cos(math.radians(a0 + da)),
+                  c[1] + (r_m * f + rr) * math.sin(math.radians(a0 + da)))
                  for rr in (4.0, 6.5, 9.0, 12.0, 15.0) for da in (0, 25, -25, 50, -50, 75, -75, 100, -100, 135, -135, 180)]
-        h.texto_libre(d["letra"], cands, 5, A.MIDDLE_CENTER)
+        letras.append((d["letra"], cands))
 
     # ---------------- números de posición (globos) en vista anterior
     # (los componentes de la válvula se referencian en el detalle A, hoja 2)
@@ -342,6 +369,8 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
         banda_der.append(((yb + ysu) / 2 - 7, (yb + ysu) / 2 + 7))
     colocar_globos(h, anclas, x_front, xl - 31, xr + 19, yt - 2, yb + 6, 10.0,
                    {"izq": banda_izq, "der": banda_der}, y_lim=h.fy1 - 6)
+    for letra, cands in letras:
+        h.texto_libre(letra, cands, 5, A.MIDDLE_CENTER)
 
     # ---------------- isometría: en la zona libre donde resulte más grande
     #   (a) columna derecha, sobre la lista de materiales
@@ -395,15 +424,19 @@ def _grilla_detalles(n=5):
     y1 = H2_H - 10 - 4
     filas = 2 if n <= 5 else 3
     cw, ch = (x1 - x0) / 3, (y1 - y0) / filas
-    # fila superior: A (doble) + B; las demás centradas según la cantidad restante (de a 3)
-    resto = list(range(max(0, n - 2)))
-    slots = [(0, 0, 2), (2, 0, 1)]
-    for fi in range(1, filas):
-        fila = resto[(fi - 1) * 3:fi * 3]
-        slots += [((3 - len(fila)) / 2 + i, fi, 1) for i in range(len(fila))]
+    if n > 8:
+        # 100 kg (fleje del medio): 3 × 3, A del mismo tamaño (con 3 filas la altura ya lo limita)
+        slots = [(i % 3, i // 3, 1) for i in range(n)]
+    else:
+        # fila superior: A (doble) + B; las demás centradas según la cantidad restante (de a 3)
+        resto = list(range(max(0, n - 2)))
+        slots = [(0, 0, 2), (2, 0, 1)]
+        for fi in range(1, filas):
+            fila = resto[(fi - 1) * 3:fi * 3]
+            slots += [((3 - len(fila)) / 2 + i, fi, 1) for i in range(len(fila))]
     celdas = [(x0 + cw * (c0 + nc / 2), y1 - ch * (fi + 0.5), cw * nc) for c0, fi, nc in slots]
     r_norm = min(cw / 2 - 12, ch / 2 - 20)
-    r_doble = min(cw - 12, ch / 2 - 20)
+    r_doble = min(cw - 12, ch / 2 - 20) if n <= 8 else r_norm
     return celdas, r_norm, r_doble
 
 
@@ -481,11 +514,12 @@ def definir_detalles(m, info):
     if m.familia == "rodante":
         # vista propia de la punta de la manga (sin el cuerpo ni el rollo, que la tapan en la vista anterior):
         # válvula esférica con su palanca (cerrada, atravesada al caño) y tobera / lanza
-        xn, zn = info["valv_esf"]
+        # vista lateral: la palanca de la válvula esférica apunta hacia adelante
+        xn, zn = -info["valv_esf_y"], info["valv_esf"][1]
         z_bot = info["eje_tobera"][1]
         z_top = zn + 28 + 12
-        D.append(dict(letra="E", origen="local", vista="anterior", marca="anterior", c_marca=(xn, zn),
-                      c=(xn + 35, (z_bot + z_top) / 2), r=(z_top - z_bot) / 2 + 12,
+        D.append(dict(letra="E", origen="local", vista="lat_izq", marca="lateral", c_marca=(xn, zn),
+                      c=(xn - 35, (z_bot + z_top) / 2), r=(z_top - z_bot) / 2 + 12,
                       piezas=("valvula_esferica", "tobera_campana", "lanza"), corte=None,
                       titulo="Válvula esférica con palanca y tobera", ang_letra=200))
     elif "tobera" in info:
@@ -499,22 +533,33 @@ def definir_detalles(m, info):
                "tobera_1kg": "Tobera"}.get(m.descarga, "Tobera")
         D.append(dict(letra="E", origen="anterior", c=(xt, zt), r=rr, titulo=tit, ang_letra=250))
     if m.familia == "rodante" and "soporte_tri" in info:
-        # F: portaeje y chapa triangular, vista lateral sin la rueda; G: extremo aplastado de la pata de la manija
-        # soldado al cuerpo (sin orejas), vista anterior
-        h_tri, m_pe, y_in, xs = info["soporte_tri"]
-        yw, Rw = info["yw"], info["Rw"]
-        xv0, xv1 = -y_in, -(yw - m_pe)
-        cF = ((xv0 + xv1) / 2, Rw + (h_tri - m_pe) / 2)
+        # F: corte por el plano de un triángulo (vista lateral): la V con el caño del eje apoyado y el eje adentro;
+        # G: lengüeta de la manija soldada al costado del cuerpo (vista anterior); H: fleje del soporte de manga
+        # (corte horizontal, vista superior) con la manga apoyada
+        a_t, xs, z_t, ys, u_a, s_fl, rce = info["soporte_tri"]
+        u_max = u_a + (a_t / 4)
+        cF = (-ys + u_max / 2 + 6, z_t + a_t / 2)
         D.append(dict(letra="F", origen="local", vista="lat_izq", marca="lateral", c_marca=cF, c=cF,
-                      r=max(abs(xv1 - xv0), h_tri + m_pe) / 2 + 14,
-                      piezas=("soportes_eje", "portaeje", "eje_ruedas", "cuerpo", "fondo"), corte=None,
-                      titulo="Portaeje y chapa triangular (vista lateral, sin rueda)", ang_letra=210))
+                      r=max(u_max + 14, a_t) / 2 + 12,
+                      piezas=("soportes_eje", "portaeje", "eje_ruedas", "cuerpo", "fondo"), corte=("x", -xs - 3, -xs + 3),
+                      titulo="Corte por el triángulo: caño del eje apoyado en la V", ang_letra=210))
         xm, R_ = info["xm"], info["recipiente"]["R"]
         z0, lf, lt, tf, wf = info["aplastado"]
         cG = ((R_ + xm) / 2 + 2, z0 + (lf + lt) / 2 + 6)
         D.append(dict(letra="G", origen="local", vista="anterior", marca="anterior", c_marca=cG, c=cG,
                       r=(lf + lt) / 2 + 22, piezas=("manija_carro", "cuerpo"), corte=None,
-                      titulo="Extremo de la pata aplastado y soldado al cuerpo", ang_letra=20))
+                      titulo="Lengüeta de la manija soldada al cuerpo", ang_letra=20))
+        # H (e I en el 100 kg): perfil del fleje soldado al cuerpo, cortado por el centro (plano x = 0) y visto de
+        # costado: base contra el cuerpo con un cordón corto arriba y otro abajo, la pata y la manga detrás
+        fa, fe, fl_, fo, lb, _ = M.fleje_carro(m.codigo)
+        rebanada = ("x", 0.0, lb / 2 + 32.0)          # mitad derecha: el corte (x = 0) queda adelante
+        for letra, zz, tit in [("H", info["z_flejes"][0], "Fleje hacia afuera: soldadura (perfil)")] + \
+                ([("I", sorted(info["z_flejes"])[1], "Fleje hacia adentro: soldadura (perfil)")]
+                 if M.FLEJE_MEDIO.get(m.codigo) else []):
+            cP = (-(R_ + 12.0), zz + fa / 2)
+            D.append(dict(letra=letra, origen="local", vista="lat_izq", marca="lateral", c_marca=cP, c=cP, r=34.0,
+                          piezas=("ganchos_manguera", "cuerpo"), corte=rebanada,
+                          titulo=tit, ang_letra=160 if letra == "H" else 200, z_fleje=zz))
     return _escalar_detalles(D)
 
 
@@ -602,7 +647,10 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
                 if k_ not in piezas:
                     continue
                 so = piezas[k_]
-                if d["corte"]:
+                if d["corte"] and d["corte"][0] == "x":              # rebanada vertical (plano de un triángulo)
+                    _, xa, xb_ = d["corte"]
+                    so = so.intersect(cq.Solid.makeBox(xb_ - xa, 4000, 4000, cq.Vector(xa, -2000, -2000)))
+                elif d["corte"]:
                     za, zb_ = d["corte"]
                     so = so.intersect(cq.Solid.makeBox(4000, 4000, zb_ - za, cq.Vector(-2000, -2000, za)))
                 if so.Volume() > 1e-6:
@@ -625,8 +673,10 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
         h.polilineas(transformar(oc, d["c"], s, dest), "02-OCULTA")
         h.polilineas(transformar(vis, d["c"], s, dest), "01-VISIBLE")
         if d["origen"] == "local" and d["letra"] == "E":
-            xn_, zn_ = info["valv_esf"]
-            ej = [[(xn_, info["eje_tobera"][1] - 5), (xn_, zn_ + 45)]]       # eje de la válvula y la tobera
+            (xa, ya, za), (xb, yb, zb) = info["eje_tobera_3d"]
+            ej = [[(-ya, za), (-yb, zb)]]                                     # eje de la válvula y la tobera
+        elif d["origen"] == "local" and d["letra"] in ("H", "I"):
+            ej = []
         elif d["origen"] == "local" and d["letra"] == "G":
             ej = []
         elif d["origen"] == "local":
@@ -638,7 +688,9 @@ def hoja2(m, piezas, info, res1, doc, ox=0.0):
                 ([[a, b] for a, b in ejes(m, info, "lat_izq")] if d["origen"] == "lateral" else
                  [[(0, info["recipiente"]["z_fondo"] - 3), (0, info["recipiente"]["z_cuello"] + 3)]])
         h.polilineas(transformar(recortar_circulo(ej, d["c"], d["r"]), d["c"], s, dest), "03-EJE")
-        if d["origen"] == "local":
+        if d["origen"] == "local" and d["letra"] == "I":
+            _fleje_medio_detalle(h, m, info, d, s, dest)
+        elif d["origen"] == "local":
             _carro_detalle(h, m, info, d, s, dest)
         if d["origen"] == "corte":
             circ = sg.Point(d["c"]).buffer(d["r"], resolution=64)
@@ -681,24 +733,40 @@ def _carro_detalle(h, m, info, d, s, dest):
     t = m.geo["t"]
     rp = d["rp"]
     if d["letra"] == "F":
-        h_tri, m_pe, y_in, xs = info["soporte_tri"]
+        a_t, xs, z_t, ys, u_a, s_fl, rce = info["soporte_tri"]
         yw, Rw = info["yw"], info["Rw"]
         dpe, epe, lpe = info["portaeje"]
-        pw = T(-y_in - 15 + 0.5, Rw + h_tri * 0.55)              # cateto vertical contra la pared del cuerpo
-        h.simbolo_soldadura(pw, (dest[0] - rp - 4, pw[1] + 10), lado=-1, proceso="135")
-        pt = T(-yw + dpe / 2 * 0.7, Rw + dpe / 2 * 0.7)          # punta abrazando el portaeje
-        h.simbolo_soldadura(pt, (dest[0] + rp * 0.55, dest[1] + rp * 0.75), lado=1, proceso="135")
-        h.nota_referencia(f"Portaeje Ø{_n(dpe)} × {_n(epe, 2)}", T(-yw - dpe / 2 * 0.7, Rw - dpe / 2 * 0.7),
-                          (dest[0] + rp * 0.55, dest[1] - rp - 3), 2.5)
-        h.nota_referencia("Eje Ø25", T(-yw + 25 / 2 * 0.5, Rw - 25 / 2 * 0.5), (dest[0] + rp + 3, dest[1] - rp * 0.45),
-                          2.5)
-        h.nota_referencia(f"Chapa triangular e{_n(t, 2)} (2)", T((-y_in - yw) / 2 - 5, Rw + h_tri * 0.25),
-                          (dest[0] - rp * 0.95, dest[1] - rp * 0.55), 2.5)
+        # cordones (proceso de carros): el triángulo contra el cuerpo con un filete de cada lado a lo largo de todo el
+        # cateto, y el caño en los flancos de arriba y de abajo de la V, de las dos caras (relleno negro, como B, C, D)
+        cat = 4.0                                                # cateto del filete (chapa 4,75)
+        cx0, cz0 = -yw, Rw                                       # centro del caño
+        bead = [sg.box(-ys - 0.3, z_t, -ys + cat, z_t + a_t)]
+        for ang in (135.0, 225.0):                               # puntos de apoyo del caño en los dos flancos
+            da = math.degrees(cat / rce)
+            arco = [(cx0 + rr * math.cos(math.radians(ang + k_ * da / 6)), cz0 + rr * math.sin(math.radians(ang + k_ * da / 6)))
+                    for rr, ks in ((rce, range(-6, 7)), (rce + cat, range(6, -7, -1))) for k_ in ks]
+            bead.append(sg.Polygon(arco))
+        for b_ in bead:
+            h.rayado(sg.Polygon([T(x_, z_) for x_, z_ in b_.exterior.coords]), solido=True)
+        pw = T(-ys + cat / 2, z_t + a_t * 0.7)                   # cateto vertical de canto contra el cuerpo
+        h.simbolo_soldadura(pw, (dest[0] - rp - 4, pw[1] + 10), lado=-1, proceso="135", todo_alrededor=False,
+                            ambos=True)
+        pt = T(cx0 + (rce + cat / 2) * math.cos(math.radians(135)), cz0 + (rce + cat / 2) * math.sin(math.radians(135)))
+        pb = T(cx0 + (rce + cat / 2) * math.cos(math.radians(225)), cz0 + (rce + cat / 2) * math.sin(math.radians(225)))
+        h.simbolo_soldadura(pt, (dest[0] - rp * 0.75, dest[1] - rp * 0.85), lado=-1, proceso="135",
+                            todo_alrededor=False, ambos=True, flechas=(pb,))   # desde abajo: no cruza el caño
+        pulg = '1"' if info.get("tam_carro") == 0 else '1¼"'
+        h.nota_referencia(f"Caño {pulg} × {epe:.1f}".replace(".", ","), T(-yw + rce * 0.7, Rw - rce * 0.7),
+                          (dest[0] + rp * 0.72, dest[1] - rp * 0.78), 2.5)   # a la derecha, lejos del título
+        h.nota_referencia(f"Eje {'3/4' if info.get('eje_d', 25.4) < 20 else '1'}\" (montaje final)", T(-yw, Rw),
+                          (dest[0] + rp * 0.35, dest[1] + rp + 5), 2.5)
+        h.nota_referencia("Triángulo con V 90°, e4,75 (2)", T(-ys + u_a * 0.4, z_t + a_t * 0.45),
+                          (dest[0] - rp * 0.95, dest[1] - rp * 0.3), 2.5)
     elif d["letra"] == "E":
-        xn, zn = info["valv_esf"]
-        h.nota_referencia("Válvula esférica de paso total", T(xn - 12, zn + 6), (dest[0] - rp * 0.95, dest[1] + rp * 0.55),
-                          2.5)
-        h.nota_referencia("Palanca (cerrada)", T(xn + 80, zn + 4), (dest[0] + rp * 0.3, dest[1] + rp * 0.95), 2.5)
+        xn, zn = -info["valv_esf_y"], info["valv_esf"][1]          # vista lateral: x de la vista = -y
+        h.nota_referencia("Válvula esférica", T(xn + 12, zn + 6), (dest[0] + rp * 0.6, dest[1] + rp * 0.95), 2.5)
+        pc_ = info.get("palanca_c", (0.0, -(xn - 80), zn + 4))
+        h.nota_referencia("Palanca (cerrada)", T(-pc_[1], pc_[2]), (dest[0] - rp * 0.3, dest[1] + rp * 0.95), 2.5)
         z_bot = info["eje_tobera"][1]
         h.nota_referencia("Lanza espumígena" if m.descarga == "lanza_espuma_rodante" else "Tobera cónica",
                           T(xn + 10, (zn + z_bot) / 2 - 20),
@@ -707,15 +775,54 @@ def _carro_detalle(h, m, info, d, s, dest):
         xm = info["xm"]
         R = info["recipiente"]["R"]
         z0, lf, lt, tf, wf = info["aplastado"]
-        pw = T(R + tf + 0.3, z0 + lf * 0.35)                      # borde del extremo aplastado contra el cuerpo
-        h.simbolo_soldadura(pw, (dest[0] + rp * 0.75, dest[1] - rp * 0.95), lado=1, proceso="135")
-        h.nota_referencia(f"Extremo aplastado {_n(wf, 0)} × {_n(tf, 1)} × {_n(lf, 0)} (antes de soldar)",
+        cat = 4.0
+        h.rayado(sg.Polygon([T(R - 0.3, z0), T(R + tf, z0), T(R - 0.3, z0 - cat)]), solido=True)   # cordón de abajo
+        pw = T(R + tf + 0.3, z0 + lf * 0.35)                      # lengüeta: filete en los dos lados largos y abajo
+        h.simbolo_soldadura(pw, (dest[0] + rp * 0.75, dest[1] - rp * 0.95), lado=1, proceso="135",
+                            todo_alrededor=False, ambos=True, flechas=(T(R + tf / 3, z0 - cat / 3),))
+        h.nota_referencia(f"Lengüeta aplastada {_n(wf, 0)} × {_n(lf, 0)} × {_n(tf, 0)}",
                           T(R + tf / 2, z0 + lf * 0.7), (dest[0] + rp * 0.5, dest[1] - rp * 0.45), 2.5)
         h.nota_referencia(f"Transición {_n(lt, 0)}", T((R + tf + xm) / 2, z0 + lf + lt * 0.5),
                           (dest[0] + rp * 0.6, dest[1] + rp * 0.15), 2.5)
-        h.nota_referencia("Manija Ø25,4 × 1,6", T(xm + 12.7 * 0.7, z0 + lf + lt + 12),
+        h.nota_referencia('Manija 1" × 2,0', T(xm + 12.7 * 0.7, z0 + lf + lt + 12),
                           (dest[0] + rp * 0.45, dest[1] + rp * 0.85), 2.5)
         h.nota_referencia("Cuerpo", T(R - 3, z0 + lf + lt + 10), (dest[0] - rp * 0.9, dest[1] + rp * 0.6), 2.5)
+
+
+    if d["letra"] == "H":
+        _fleje_perfil_detalle(h, m, info, d, s, dest, adentro=False)
+
+
+def _fleje_perfil_detalle(h, m, info, d, s, dest, adentro):
+    """notas de los detalles H / I: perfil del fleje por el centro, con los dos cordones (arriba y abajo)."""
+    T = lambda x, z: (dest[0] + (x - d["c"][0]) * s, dest[1] + (z - d["c"][1]) * s)   # noqa: E731
+    rp = d["rp"]
+    R = info["recipiente"]["R"]
+    fa, fe, fl_, fo, lb, corte_f = M.fleje_carro(m.codigo)
+    zz = d["z_fleje"]
+    t_c = m.geo["t"]
+    circ_ = sg.Point(d["c"]).buffer(d["r"] * 0.995)
+    for poly_, ang_ in ((sg.box(-(R + fe), zz, -R, zz + fa), 0), (sg.box(-R, zz - 200, -R + t_c, zz + fa + 200), 90)):
+        pc_ = poly_.intersection(circ_)                           # caras cortadas: fleje y pared del cuerpo
+        if not pc_.is_empty:
+            h.rayado(sg.Polygon([T(*q) for q in pc_.exterior.coords]), angulo=ang_, esp=1.5)
+    cat = 3.0                                                     # cateto del cordón (chapa de 3,2)
+    for z0, sg_ in ((zz + fa, 1.0), (zz, -1.0)):                  # cordón corto arriba y otro abajo, al centro
+        h.rayado(sg.Polygon([T(-R, z0), T(-R, z0 + sg_ * cat), T(-(R + cat), z0)]), solido=True)
+    pa, pb = T(-(R + cat / 3), zz + fa + cat / 3), T(-(R + cat / 3), zz - cat / 3)
+    h.simbolo_soldadura(pa, (dest[0] + rp * 0.55, dest[1] + rp * 0.95), lado=1, proceso="135", todo_alrededor=False,
+                        ambos=True, flechas=(pb,))
+    h.nota_referencia("Cordones de 40, al centro", pb, (dest[0] + rp * 0.7, dest[1] - rp * 0.75), 2.5)
+    h.nota_referencia(f"Fleje 40 × {_n(fe, 1)}, corte {_n(corte_f, 0)}", T(-(R + fe / 2), zz + fa * 0.3),
+                      (dest[0] - rp - 3, dest[1] + rp * 0.8), 2.5)
+    h.nota_referencia(f"Pata {_n(fl_, 0)}, oreja {_n(fo, 0)} hacia {'adentro' if adentro else 'afuera'}",
+                      T(-(R + 22.0), zz + fa), (dest[0] - rp - 3, dest[1] + rp * 0.3), 2.5)
+    h.nota_referencia("Cuerpo", T(-R + 1.0, zz + fa + 14.0), (dest[0] + rp * 0.8, dest[1] + rp * 0.45), 2.5)
+
+
+def _fleje_medio_detalle(h, m, info, d, s, dest):
+    """notas del detalle I: fleje del medio del 100 kg, hacia adentro (mismo perfil y la misma soldadura)."""
+    _fleje_perfil_detalle(h, m, info, d, s, dest, adentro=True)
 
 
 def _roscas_y_soldaduras(h, m, info, d, s, dest):
@@ -944,7 +1051,8 @@ def generar(m):
     _bb = M.bbox(piezas)
     info["envolvente"] = {"Altura (mm)": _bb.zmax - _bb.zmin, "Ancho (mm)": _bb.xlen, "Profundidad (mm)": _bb.ylen}
     comp = M.compuesto(piezas)
-    proy = {v: V.proyectar(comp, v, tol=0.5, ocultas=(v != "iso")) for v in V.VISTAS}
+    proy = {v: V.proyectar(comp, v if (v != "iso" or m.familia != "rodante") else "iso_carro", tol=0.5,
+                           ocultas=(v != "iso")) for v in V.PLANO}
     doc = nuevo_doc()
     _, res1 = hoja1(m, piezas, info, proy, doc, 0.0)
     ox2 = FORMATOS[res1["fmt"]][0] + SEPARACION

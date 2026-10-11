@@ -105,6 +105,56 @@ def _sweep_circle(path_pts, r, arcs=True):
     return cq.Solid.sweep(circ, [], path, transitionMode="round")
 
 
+def _tubo(path_pts, r):
+    """Caño o manga de radio r por una poligonal con las esquinas redondeadas (radio path_pts[i][3]), armada con
+    cilindros y toros exactos (las vistas con líneas ocultas salen limpias). Devuelve (sólido, largo del eje)."""
+    P = [cq.Vector(*p[:3]) for p in path_pts]
+    n = len(P)
+    rad = [p[3] if len(p) > 3 else 0.0 for p in path_pts]
+    ang, dist = [math.pi] * n, [0.0] * n
+    for i in range(1, n - 1):
+        if rad[i] > 0:
+            a_ = (P[i - 1] - P[i]).normalized()
+            b_ = (P[i + 1] - P[i]).normalized()
+            ang[i] = math.acos(max(-1.0, min(1.0, a_.dot(b_))))
+            if ang[i] < math.pi - 1e-3:
+                dist[i] = rad[i] / math.tan(ang[i] / 2)
+    for j in range(n - 1):                  # dos curvas vecinas se reparten el tramo que las une
+        L_ = (P[j + 1] - P[j]).Length * 0.999
+        if dist[j] + dist[j + 1] > L_:
+            f_ = L_ / (dist[j] + dist[j + 1])
+            dist[j] *= f_
+            dist[j + 1] *= f_
+    trozos, largo, cur = [], 0.0, P[0]
+
+    def _recto(a_, b_):
+        L_ = (b_ - a_).Length
+        if L_ > 1e-6:
+            trozos.append(cq.Solid.makeCylinder(r, L_, a_, (b_ - a_).normalized()))
+        return L_
+
+    for i in range(1, n):
+        if i < n - 1 and dist[i] > 1e-6:
+            a_ = (P[i - 1] - P[i]).normalized()
+            b_ = (P[i + 1] - P[i]).normalized()
+            rr = dist[i] * math.tan(ang[i] / 2)
+            t1, t2 = P[i] + a_ * dist[i], P[i] + b_ * dist[i]
+            c_ = P[i] + (a_ + b_).normalized() * (rr / math.sin(ang[i] / 2))
+            largo += _recto(cur, t1)
+            n_ = (t1 - c_).cross(t2 - c_).normalized()
+            cara = cq.Face.makeFromWires(cq.Wire.makeCircle(r, t1, -a_))
+            trozos.append(cq.Solid.revolve(cara, math.degrees(math.pi - ang[i]), c_, c_ + n_))
+            largo += rr * (math.pi - ang[i])
+            cur = t2
+            continue
+        largo += _recto(cur, P[i])
+        cur = P[i]
+    sol = trozos[0].fuse(*trozos[1:]).clean() if len(trozos) > 1 else trozos[0]
+    from OCP.BRepLib import BRepLib
+    BRepLib.EncodeRegularity_s(sol.wrapped, 0.03)   # uniones tangentes: aristas lisas (no se dibujan en las vistas)
+    return sol, largo
+
+
 # ---------------------------------------------------------------- recipientes
 def _anillo(pts):
     """Sólido de revolución de un polígono cerrado (r, z)."""
@@ -586,136 +636,209 @@ def extintor_manual(m, cW=0.0, cH=0.0):
     return out, info
 
 
-# Tren rodante soldado al recipiente (proceso FLAMA de carros, puesto 8): eje con sus soportes atrás y abajo, manija de
-# caño atrás y arriba (sube por encima de la cúpula); adelante, los dos ganchos portamanguera (uno arriba y otro abajo)
-# con la manga enrollada entre los dos, la tobera colgada al lado del rollo y la tercera pata en el fondo: el carro
-# apoya en tres puntos. El proceso escrito pone los ganchos «en el costado derecho»; se corrigió: accesorios y manga van
-# en la parte delantera, como en la imagen de la tercera pata frontal del mismo proceso y en los carros relevados
-# (Georgia: manga al frente, etiqueta hacia la manija, del lado del operador). Ejes del modelo: -Y = atrás (manija,
-# eje, etiqueta y manómetro: es la vista anterior del plano); +Y = adelante (ganchos, manga, tobera y pata).
-# El eje pasa por un portaeje (caño) soldado a dos chapas triangulares que salen de la pared trasera. La manija no
-# lleva orejas (una chapita con agujero debilita la unión): las patas bajan casi pegadas al cuerpo y el extremo de cada
-# una se aplasta (adelgaza) antes de soldarlo directo al cuerpo; el caño se dobla 30° hacia atrás a la altura de la
-# base de la válvula (plano Fadesa «Rodante 50kg 800mm», carro Elisam y AFFF relevados por el usuario).
-# Todo se suelda antes de la prueba hidráulica (IRAM 3550 6.1.1). Las piezas de chapa salen de orillas del corte del
-# cuerpo; se compran el caño de la manija, el caño del portaeje, la barra del eje y las arandelas de tope. El puesto 8.1 fija sólo la
-# tercera pata (80 × 60 en 25/50 kg y 100 × 80 en 70/100 kg, de la orilla de 3,2 mm de la hoja de 25 kg, puesto 2);
-# las demás medidas son de diseño FLAMA, dimensionadas para que el kit pese 4,2-4,9 kg como dice el proceso.
+# Tren rodante soldado al recipiente (proceso FLAMA de carros v2, puesto 8 «Soldadura de accesorios» y kit del puesto
+# 8.1). Ejes del modelo: -Y = atrás (costura longitudinal, triángulos y caño del eje, manija, etiqueta y manómetro: es la
+# vista anterior del plano); +Y = adelante (flejes del soporte de manga, manga, tobera y pata).
+#  - Triángulos con V (2), chapa 4,75, cateto 70 / 80 / 100: verticales y paralelos, con el cateto vertical de canto
+#    contra el cuerpo, a 65 / 82 / 107 mm (medidos sobre el cuerpo) de la costura longitudinal y el borde de abajo a 20
+#    de la costura del fondo; un cordón de cada lado. La V (90°) mira hacia atrás: el caño del eje se apoya en ella (no
+#    lo envuelve) y se suelda en el flanco de arriba y en el de abajo, de las dos caras; la V lo deja a 20 mm del cuerpo.
+#  - Medidas de conjunto: las de la hoja de especificaciones «Polvos carros» (alto, ancho, profundidad, Ø de rueda y
+#    largo de manga; corrección del usuario). El ancho es el largo del eje; de ahí salen la trocha (≥ 400, IRAM 3550
+#    tabla III) y el largo del caño del eje. El alto ubica la curva de 30° de la manija. La profundidad la marca la
+#    palanca de la válvula esférica (o la boca de la tobera), orientada para llegar justo al frente.
+#  - Caño del eje 1" / 1¼" / 1¼" × 2,0, centrado en la costura: no gira; por adentro pasa el eje (barra trefilada),
+#    que va al montaje final con las ruedas, las arandelas y los pasadores.
+#  - Manija de caño 1" × 2,0 (proceso final, 8.1): patas verticales separadas A = 304 / 348 / 418 entre ejes, curva de
+#    30° hacia atrás a la altura B que da el alto de la hoja, tramo inclinado C = 180 (sube 156 y se corre 90 hacia
+#    atrás) y dos curvas de 90° que cierran el puño; radio de matriz 100; corte = desarrollo redondeado a 10. Las
+#    puntas se aplastan en lengüetas de 40 × 60 soldadas a los costados (filete en los dos lados largos y abajo), con
+#    el borde de abajo 200 bajo la costura de la cúpula.
+#  - Flejes del soporte de manga, chapa 3,2 × 40: U abierta hacia afuera (perfil sombrero), base recta soldada al
+#    cuerpo por el centro con un cordón corto arriba y otro abajo, patas hasta delante de la última vuelta y orejas de
+#    20 hacia los costados; el superior con su borde de arriba 40 bajo la costura de la cúpula y el inferior con su
+#    borde de abajo 40 sobre la del fondo. La base sale del largo de manga de la hoja (vueltas enteras, curvas de radio
+#    ≥ 100). El de 100 kg (12 m) lleva un tercero en el medio, el mismo fleje con las orejas hacia adentro: la manga
+#    pasa por adentro de sus patas y queda tensada; en los de dos flejes se pandea hacia los costados.
+#  - Pata delantera, chapa 3,2, 80 × 60 / 80 × 60 / 100 × 80, de canto en el frente del fondo, atravesada; su borde de
+#    abajo es la línea del piso (112 / 135 / 155 bajo la costura del fondo), donde también apoyan las ruedas.
+# Las alturas cierran: el centro del caño (20 + cateto/4 sobre la costura del fondo) queda justo a la altura del centro
+# de la rueda. Todo se suelda antes de la prueba hidráulica (IRAM 3550 6.1.1).
 CARRO = dict(
-    banda={300: 60.0, 350: 60.0, 400: 100.0},  # ancho de rueda: IRAM 3550 tabla III ≥ 50 (Fadesa usa 49: no cumple);
-                                 # Ruedar Ø300 / Ø350 × 60 y Escanort Ø400 × 100 (proveedores relevados)
-    trocha_min=400.0,            # IRAM 3550 tabla III: trocha (entre centros de rueda) ≥ 400
-    luz_rueda=20.0,              # luz entre la cara interna de la rueda y el cuerpo
-    luz_eje=15.0,                # luz entre el eje y la pared trasera del cuerpo
-    soporte=(80.0, 0.7),         # chapas triangulares del portaeje: alto sobre el eje del caño y posición ± 0,7·R
-    eje=25.0,                    # barra SAE 1045 Ø25
-    portaeje=(33.7, 3.25),       # caño SAE 1010 Ø33,7 × 3,25 (1"): Ø int. 27,2 para el eje Ø25
-    arandela=(40.0, 13.0, 4.0),  # arandela de tope Ø40 × Ø26 × 4
-    manija=(25.4, 1.6, 3.0, 40.0, 30.0),   # caño Ø25,4 × 1,6; luz 3 entre caño y cuerpo; radio de curvado 40; doblez 30°
-    aplastado=(40.0, 25.0, 4.2, 37.0),     # extremo de la pata aplastado: largo plano 40, transición 25, e 4,2 (2 paredes
-                                           # + 1), ancho 37 (≈ media vuelta del caño); se suelda al cuerpo en todo su borde
-    doblez_sobre_cupla=15.0,               # el doblez empieza 15 mm por encima de la cupla (base de la válvula)
-    gancho=(40.0, 10.0, 30.0),   # ancho del gancho, holgura sobre 2 Ø de manga y alto del labio
-    pata=((80.0, 60.0), (100.0, 80.0)),   # proceso FLAMA puesto 2: 80 × 60 (25 y 50 kg), 100 × 80 (70 y 100 kg)
+    banda={300: 50.0, 350: 60.0, 400: 60.0},   # ruedas de chapa y goma, buje liso (proceso final): Ø300 × 50 (agujero
+                                 # 3/4"), Ø350 × 60 y Ø400 × 60 (agujero 1"); IRAM 3550 tabla III: banda ≥ 50
+    trocha_min=400.0,            # IRAM 3550 tabla III: trocha (entre centros de rueda) ≥ 400 (la fija el caño)
+    rueda=(300.0, 350.0, 400.0),  # Ø de rueda que cierra con la línea del piso del proceso (112 / 135 / 155 bajo el
+                                  # fondo = Rw - 20 - cateto/4): el 70 kg lleva Ø400 como el 100 kg (catálogo: 350)
+    # por tamaño de cuerpo: 0 = 25 kg (Ø276,5), 1 = 50 kg (Ø320), 2 = 70 y 100 kg (Ø390)
+    triangulo=((70.0, 126.0), (80.0, 157.0), (100.0, 203.0)),   # cateto / separación entre los dos (recta)
+    triangulo_e=4.75, triangulo_sobre_fondo=20.0,
+    cano_eje=((25.4, 2.0, 354.0), (31.75, 2.0, 354.0), (31.75, 2.0, 434.0)),   # 1" / 1¼" / 1¼" × 2,0 × largo
+    luz_cano=20.0,               # la V deja el caño a 20 mm del cuerpo (en la costura, atrás al centro)
+    eje=(19.05, 25.4, 25.4),     # barra trefilada SAE 1045 3/4" / 1" (montaje final): entra en el caño (Ø int. 21,4 /
+                                 # 27,75)
+    eje_largo=(490.0, 510.0, 590.0),
+    arandela=(40.0, 4.0),        # arandela de tope Ø40 × 4 (Ø int. = eje + 1)
+    pasador=(4.0, 40.0),         # pasador partido Ø4 × 40 en cada punta del eje
+    manija=(25.4, 2.0, 1.0, 100.0, 30.0),  # caño 1" × 2,0; luz 1 entre caño y cuerpo; radio de matriz 100; doblez 30°
+    manija_B=(231.0, 249.0, 249.0),        # curva de 30° sobre la costura de la cúpula
+    manija_C=180.0,                        # tramo inclinado (entre vértices)
+    manija_corte=(1440.0, 1520.0, 1590.0),
+    lengueta=(60.0, 15.0, 4.0, 40.0),      # lengüeta aplastada: largo 60, transición 15, e 4 (2 paredes), ancho 40
+    lengueta_bajo_cupula=200.0,            # borde de abajo de la lengüeta bajo la costura de la cúpula
+    fleje=(40.0, 3.2, 20.0),                # ancho de la chapa, espesor, orejas (por fuera, hacia los costados)
+    fleje_base=(166.0, 192.0, 234.0),       # base por fuera de las patas
+    fleje_estiramiento=6.0,                 # lo que se estira la chapa de 3,2 en cada doblez (r int. ≈ 3): se resta
+                                            # del largo de corte; las patas salen del paquete de manga (FLEJE)
+    fleje_bajo_cupula=40.0, fleje_sobre_fondo=40.0,
+    pata=((80.0, 60.0), (80.0, 60.0), (100.0, 80.0)),   # 80 × 60 (25 y 50 kg), 100 × 80 (70 y 100 kg)
     pata_e=3.2,                  # orilla de 3,2 mm de la hoja de 25 kg (todas las patas)
 )
+
+
+def fleje_carro(cod):
+    """(ancho, e, pata, oreja, base por fuera, corte) del fleje del soporte de manga del modelo (después del modelo 3D:
+    las patas llegan hasta delante de la última vuelta de la manga)."""
+    fa, fe, fo = CARRO["fleje"]
+    lb, pata, corte, _ = FLEJE[cod]
+    return fa, fe, pata, fo, lb, corte
+
+
+def tam_carro(R):
+    """0 = 25 kg, 1 = 50 kg, 2 = 70 y 100 kg (por el radio del cuerpo)."""
+    return 0 if R < 150 else (1 if R < 180 else 2)
+
+
+def rueda_d(m):
+    """Ø de rueda del carro: el de la hoja de especificaciones del modelo; si no la tiene, el del proceso (CARRO)."""
+    if m.spec.get("Diámetro de rueda (mm)"):
+        return float(str(m.spec["Diámetro de rueda (mm)"]).replace(".", ""))
+    return CARRO["rueda"][tam_carro(m.geo["R"])]
 
 
 def extintor_rodante(m, cD=0.0):
     g = dict(m.geo)
     H, W, D = m.H, m.W, m.D
-    Dw = float(m.spec["Diámetro de rueda (mm)"])           # catálogo (IRAM 3550 tabla III: Ø ≥ 300)
+    Dw = rueda_d(m)                                        # proceso (IRAM 3550 tabla III: Ø ≥ 300)
     Rw = Dw / 2
     bw_w = CARRO["banda"][int(Dw)]
     R = g["R"]
     t = g["t"]
-    z0 = 45.0 + (g["hd"])  # el cabezal inferior queda a 45 mm del piso
-    piezas, dr = recipiente(dict(g), z0 - g["hd"], costura=True)
+    k = tam_carro(R)
+    a_tri, sep_tri = CARRO["triangulo"][k]
+    # altura del recipiente: la costura del fondo queda a Rw - 20 - cateto/4 del piso, así el centro del caño del eje
+    # (apoyado en la V) coincide con el centro de la rueda y el carro apoya derecho en las ruedas y la pata
+    _, dr0 = recipiente(dict(g), 0.0, costura=False)
+    zb_obj = Rw - CARRO["triangulo_sobre_fondo"] - a_tri / 4
+    piezas, dr = recipiente(dict(g), zb_obj - dr0["zb"], costura=True)
     out = dict(piezas)
     info = dict(recipiente=dr)
     lleno = _lleno(dr)
-    d_hose = 25.0
-    # tercera pata (adelante, +Y): planchuela vertical apoyada de canto en el piso y soldada al fondo; se ubica donde
-    # sus dos esquinas superiores todavía tocan el casquete (el recorte contra el recipiente la ajusta a la curva)
-    pw, hp = CARRO["pata"][0 if R < 170 else 1]
+    d_hose = 23.5                             # manga: dos en fondo entre la base y la oreja del fleje (≈48)
+    zb, zu = dr["zb"], dr["z_union"]
+    # pata delantera (adelante, +Y): de canto, atravesada, apoyada en el piso y soldada al frente del fondo; se corre
+    # hacia adentro hasta que su borde de arriba toca el casquete (el recorte la ajusta a la curva)
+    pw, hp = CARRO["pata"][k]
     tp = CARRO["pata_e"]
     yp = 0.0
     for i in range(1, int(R)):
-        if not lleno.isInside(cq.Vector(pw / 2, float(i), hp - 3.0)):
-            break
+        if not lleno.isInside(cq.Vector(0.0, float(i) + tp, hp - 0.5)):   # el borde de arriba toca en el centro;
+            break                                                          # en las puntas queda luz (proceso)
         yp = float(i)
-    out["tercera_pata"] = _box(pw, tp, hp, 0, yp, 0).cut(lleno).cut(out["fondo"]).clean()
-    # ruedas al costado del cuerpo (trocha IRAM ≥ 400 y luz con el cuerpo) y eje recto detrás de la pared trasera (-Y),
-    # a la altura del centro de rueda: el carro apoya en las dos ruedas y la tercera pata (IRAM 3550 3.12.3)
-    da, dia, ea = CARRO["arandela"]
-    track = max(CARRO["trocha_min"], math.ceil((2 * R + bw_w + 2 * CARRO["luz_rueda"]) / 10.0) * 10.0)
-    xw = track / 2
-    yw = -(R + CARRO["eje"] / 2 + CARRO["luz_eje"])
-    # ruedas
+    out["tercera_pata"] = _box(pw, tp, hp, 0, yp + tp / 2, 0).cut(lleno).cut(out["fondo"]).clean()
+    # caño del eje apoyado en la V de los dos triángulos, a 20 del cuerpo en la costura (atrás al centro)
+    dce, ece, lce = CARRO["cano_eje"][k]
+    rce = dce / 2
+    z_tri = zb + CARRO["triangulo_sobre_fondo"]
+    zc = z_tri + a_tri / 4                     # centro del caño = vértice de la V = centro de la rueda (= Rw)
+    yc = -(R + CARRO["luz_cano"] + rce)
+    # triángulos con V: perfil en el plano del triángulo (u = distancia hacia atrás desde la pared, z)
+    et = CARRO["triangulo_e"]
+    xs = sep_tri / 2
+    ys = -math.sqrt(R * R - xs * xs)          # pared del cuerpo en el plano del triángulo
+    u_c = ys - yc                              # centro del caño, medido desde la pared
+    u_a = u_c - rce * math.sqrt(2)            # vértice de la V: el caño toca los dos flancos (V de 90°)
+    s_fl = 1.13 * rce                          # flanco de arriba (≈ 1,6 r): el caño apoya bien
+    perfil = [(-8.0, z_tri), (-8.0, z_tri + a_tri), (0.0, z_tri + a_tri), (u_a + s_fl, zc + s_fl), (u_a, zc),
+              (u_a + (zc - z_tri), z_tri)]
+    pts = [(ys - u, z) for u, z in perfil]
+    sop = None
+    for sgn in (1, -1):
+        pl = cq.Workplane("YZ").polyline(pts).close().extrude(et).val().translate(cq.Vector(sgn * xs - et / 2, 0, 0))
+        sop = pl if sop is None else sop.fuse(pl)
+    out["soportes_eje"] = sop.cut(lleno).cut(out["cuerpo"]).clean()
+    # etiqueta del carro: si con las alas de 54° no entra entre los triángulos y las lengüetas de la manija, las alas
+    # se acortan hasta terminar 4° antes de las lengüetas (que van a los costados, a 90° de la costura)
+    from .rotulado import disposicion
+    ALA_CARRO.pop(m.codigo, None)
+    alto_et = disposicion(m, math.radians(ARCO_PLACA) * R, ala_dim(R))["H"]
+    banda_et = (zu - CARRO["lengueta_bajo_cupula"] - 10.0) - (z_tri + a_tri + 10.0)
+    if alto_et > banda_et:
+        ALA_CARRO[m.codigo] = 90.0 - ARCO_PLACA / 2 - math.degrees(CARRO["lengueta"][3] / 2 / R) - 4.0
+    # ruedas: el ancho total de la hoja de especificaciones es el largo del eje (las puntas, 7 más allá del pasador);
+    # de ahí salen la trocha y el largo del caño (caño + arandela interior + medio ancho de rueda). La trocha no baja
+    # de 400 (IRAM 3550 tabla III)
+    de_ = CARRO["eje"][k]
+    da, ea = CARRO["arandela"]
+    dpa, lpa = CARRO["pasador"]
+    xw = max(W / 2 - 7.0 - dpa / 2 - 1.0 - ea - bw_w / 2, CARRO["trocha_min"] / 2)
+    lce = 2 * (xw - ea - bw_w / 2)
+    track = 2 * xw
+    out["portaeje"] = _tube(rce, rce - ece, lce, (-lce / 2, yc, zc), (1, 0, 0))
+    yw = yc
     for sgn, suf in ((1, "der"), (-1, "izq")):
-        c = cq.Vector(sgn * (xw - bw_w / 2), yw, Rw)              # cara interna; la rueda queda centrada en ±xw
+        c = cq.Vector(sgn * (xw - bw_w / 2), yw, zc)              # cara interna; la rueda queda centrada en ±xw
         # neumático macizo (anillo de caucho) + llanta de chapa (disco con cubo)
         tire = _cyl(Rw, bw_w, (c.x, c.y, c.z), (sgn, 0, 0))
         tire = tire.cut(_cyl(Rw * 0.72, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
-        # llanta de chapa estampada: aro e = 2, disco e = 2,5
+        # llanta de chapa estampada: aro e = 2, disco e = 2,5, cubo con buje para el eje
         llanta = _tube(Rw * 0.72, Rw * 0.72 - 2, bw_w - 6, (c.x + sgn * 3, c.y, c.z), (sgn, 0, 0))
         llanta = llanta.fuse(_cyl(Rw * 0.72 - 2, 2.5, (c.x + sgn * (bw_w / 2 - 1.25), c.y, c.z), (sgn, 0, 0)))
-        llanta = llanta.fuse(_tube(30, 13, bw_w + 10, (c.x - sgn * 10, c.y, c.z), (sgn, 0, 0)))
-        llanta = llanta.cut(_cyl(13, bw_w + 30, (c.x - sgn * 15, c.y, c.z), (sgn, 0, 0)))   # buje Ø26 para el eje
+        llanta = llanta.fuse(_tube(de_ / 2 + 17, de_ / 2 + 0.5, bw_w, (c.x, c.y, c.z), (sgn, 0, 0)))
+        llanta = llanta.cut(_cyl(de_ / 2 + 0.5, bw_w + 2, (c.x - sgn, c.y, c.z), (sgn, 0, 0)))   # buje para el eje
         out["rueda_" + suf] = tire
         out["llanta_" + suf] = llanta.clean()
-    # eje, portaeje y arandelas de tope: el eje (barra Ø25) pasa por el portaeje (caño soldado a dos chapas
-    # triangulares que salen de la pared trasera); entre cada punta del portaeje y el cubo de la rueda va una arandela,
-    # y otra afuera de la rueda (como en el carro relevado: portaeje cruzado atrás con sus chapas triangulares)
-    re = CARRO["eje"] / 2
-    x_in, x_out = xw - bw_w / 2 - 10, xw + bw_w / 2
-    out["eje_ruedas"] = _cyl(re, 2 * (x_out + ea + 6), (-(x_out + ea + 6), yw, Rw), (1, 0, 0))
-    dpe, epe = CARRO["portaeje"]
-    rpe = dpe / 2
-    lpe = x_in - ea                           # medio largo del portaeje: llega a la arandela interior
-    out["portaeje"] = _tube(rpe, rpe - epe, 2 * lpe, (-lpe, yw, Rw), (1, 0, 0))
+    # eje (barra) por adentro del caño, arandela a cada lado de la rueda y pasador partido en cada punta
+    x_out = xw + bw_w / 2
+    x_pas = x_out + ea + dpa / 2 + 1.0        # pasador por fuera de la arandela exterior
+    l_eje = 2 * (x_pas + 7.0)                 # barra cortada a largo en el puesto 8.1 (= ancho total)
+    out["eje_ruedas"] = _cyl(de_ / 2, l_eje, (-l_eje / 2, yw, zc), (1, 0, 0)).cut(
+        _cyl(dpa / 2 + 0.3, 2 * de_, (x_pas, yw, zc - de_), (0, 0, 1))).cut(
+        _cyl(dpa / 2 + 0.3, 2 * de_, (-x_pas, yw, zc - de_), (0, 0, 1))).clean()
     ar = None
     for sgn in (1, -1):
-        for xx in (x_in - ea, x_out):
-            a_ = _tube(da / 2, dia, ea, (sgn * xx if sgn > 0 else -xx - ea, yw, Rw), (1, 0, 0))
+        for xx in (lce / 2, x_out):
+            a_ = _tube(da / 2, de_ / 2 + 0.5, ea, (sgn * xx if sgn > 0 else -xx - ea, yw, zc), (1, 0, 0))
             ar = a_ if ar is None else ar.fuse(a_)
     out["arandelas_tope"] = ar.clean()
-    # chapas triangulares del portaeje: en los planos x = ±0,7·R, con el cateto vertical soldado a la pared trasera,
-    # el cateto horizontal a la altura de la base del portaeje y la punta redondeada abrazando el caño
-    h_tri, xs_k = CARRO["soporte"]
-    xs = xs_k * R
-    y_in = -math.sqrt(R * R - xs * xs) + 15.0  # 15 mm dentro de la pared: el recorte la ajusta a la curva
-    m_pe = rpe + 6.0
-    tri = sg.Polygon([(y_in, Rw + h_tri), (y_in, Rw - m_pe), (yw - m_pe, Rw - m_pe)]).union(
-        sg.Point(yw, Rw).buffer(m_pe, 32))
-    pts = list(tri.exterior.coords)[:-1]
-    sop = None
+    pas = None
     for sgn in (1, -1):
-        pl = cq.Workplane("YZ").polyline(pts).close().extrude(t).val().translate(cq.Vector(sgn * xs - t / 2, 0, 0))
-        sop = pl if sop is None else sop.fuse(pl)
-    sop = sop.cut(lleno).cut(out["fondo"]).cut(out["cuerpo"]).cut(_cyl(rpe + 0.3, 2 * R, (-R, yw, Rw), (1, 0, 0)))
-    out["soportes_eje"] = sop.clean()
-    # manija: caño en U con las patas a los costados del cuerpo, a 3 mm de la pared (por encima de la etiqueta). Cada
-    # pata termina en un extremo aplastado que se apoya en el cuerpo y se suelda en todo su borde (sin orejas); sube
-    # vertical y a 15 mm sobre la cupla (base de la válvula) se dobla 30° hacia atrás hasta el agarre, que queda a la
-    # altura del catálogo
+        p_ = _cyl(dpa / 2, lpa, (sgn * x_pas, yw, zc - lpa / 2 + de_ / 2 + 4), (0, 0, 1))
+        p_ = p_.fuse(_torus(dpa * 1.2, dpa / 2, zc + de_ / 2 + 4 + dpa, sgn * x_pas, yw, (1, 0, 0)))
+        pas = p_ if pas is None else pas.fuse(p_)
+    out["pasadores_eje"] = pas.clean()
+    # manija (proceso final): lengüetas aplastadas soldadas a los costados, patas verticales pegadas al cuerpo hasta la
+    # curva de 30° (B sobre la costura de la cúpula), tramo inclinado C hacia atrás y dos curvas de 90° que cierran el
+    # puño; todas las curvas con el radio de la matriz
     dm, em, luz, rb, ang = CARRO["manija"]
-    lf, lt, tf, wf = CARRO["aplastado"]
+    lf, lt, tf, wf = CARRO["lengueta"]
     rt = dm / 2
-    xm = R + luz + rt                         # eje de las patas
+    xm = R + luz + rt                         # eje de las patas (A = 2 xm)
     ym = 0.0
-    zg = H - rt
-    _, alto_et, z_et, _, _, _ = placa_dim(m, out)
-    z_low = max(dr["zb"] + 0.45 * (dr["z_union"] - dr["zb"]), z_et + alto_et + 20.0)   # punta del extremo aplastado
+    z_low = zu - CARRO["lengueta_bajo_cupula"]    # borde de abajo de la lengüeta
     z_tubo = z_low + lf + lt                  # donde el caño sigue redondo
-    # vértice del doblez: el arco (radio 40) arranca a 15 mm sobre la cupla
-    z_bend = dr["z_cuello"] + CARRO["doblez_sobre_cupla"] + rb * math.tan(math.radians(ang / 2))
-    yg = -(zg - z_bend) * math.tan(math.radians(ang))
-    man = _sweep_circle([(-xm, ym, z_tubo), (-xm, ym, z_bend, rb), (-xm, yg, zg, 1.5 * rb),
-                         (xm, yg, zg, 1.5 * rb), (xm, ym, z_bend, rb), (xm, ym, z_tubo)], rt)
+    cc_ = CARRO["manija_C"]
+    z_bend = H - rt - cc_ * math.cos(math.radians(ang))   # vértice de la curva de 30°: el puño queda a la altura
+    zg = z_bend + cc_ * math.cos(math.radians(ang))        # total de la hoja de especificaciones
+    yg = -cc_ * math.sin(math.radians(ang))
+    man = _sweep_circle([(-xm, ym, z_tubo), (-xm, ym, z_bend, rb), (-xm, yg, zg, rb),
+                         (xm, yg, zg, rb), (xm, ym, z_bend, rb), (xm, ym, z_tubo)], rt)
     MANIJA_LARGO[m.codigo] = man.Volume() / (math.pi * rt * rt) + 2 * (lf + lt)   # largo desarrollado del caño
+    corte = 10.0 * math.ceil(MANIJA_LARGO[m.codigo] / 10.0)                     # corte: desarrollo, a 10 mm
+    CARRO_MOD[m.codigo] = dict(rueda=Dw, eje_largo=l_eje, cano_largo=lce, manija_B=z_bend - zu, manija_corte=corte,
+                               trocha=track)
     for sgn in (1, -1):
-        # transición redonda -> plana (se corre hacia el cuerpo) y tramo plano apoyado en la pared
+        # transición redonda -> plana (se corre hacia el cuerpo) y lengüeta apoyada en la pared
         xf = sgn * (R + 0.2 + tf / 2)
         circ = cq.Wire.makeCircle(rt, cq.Vector(sgn * xm, ym, z_tubo), cq.Vector(0, 0, 1))
         rect = cq.Wire.makePolygon([cq.Vector(xf - tf / 2, ym - wf / 2, z_low + lf),
@@ -725,9 +848,10 @@ def extintor_rodante(m, cD=0.0):
         man = man.fuse(cq.Solid.makeLoft([circ, rect], True))
         man = man.fuse(_box(tf, wf, lf, xf, ym, z_low))
     out["manija_carro"] = man.cut(lleno).clean()
-    info.update(dict(portaeje=(dpe, epe, 2 * lpe), aplastado=(z_low, lf, lt, tf, wf), z_doblez=z_bend,
-                     z_doblez_inicio=dr["z_cuello"] + CARRO["doblez_sobre_cupla"], y_agarre=yg, angulo_manija=ang,
-                     soporte_tri=(h_tri, m_pe, y_in, xs)))
+    info.update(dict(portaeje=(dce, ece, lce), aplastado=(z_low, lf, lt, tf, wf), z_doblez=z_bend,
+                     z_doblez_inicio=z_bend - rb * math.tan(math.radians(ang / 2)), y_agarre=yg, angulo_manija=ang,
+                     corte_manija=corte, soporte_tri=(a_tri, xs, z_tri, ys, u_a, s_fl, rce), tam_carro=k,
+                     eje_d=de_, H_carro=zg + rt))
     # válvula: manómetro hacia atrás (lado de la etiqueta); palanca de la G763 hacia adelante, 0,75·R
     val, vi = valvula(dr["z_cuello"], tipo=tipo_valvula(m), dn=g["cuello"][0], bore=dr["bore"], x_tip=R * 0.75,
                       man_d=47.0)             # manómetro con cubremanómetro G711: Ø47 (plano Fadesa 25 / 50 kg)
@@ -738,75 +862,346 @@ def extintor_rodante(m, cD=0.0):
     out["cano_pesca"] = _tube(12, 9.5, dr["z_cuello"] - 12 * s - zf, (0, 0, zf))
     xsal, zsal = vi["x_salida"], vi["z_salida"]
     out["racor"] = _cyl(12, 16, (xsal, 0, zsal), (-1, 0, 0))
-    # ganchos portamanguera adelante (+Y), sobre el eje del cuerpo, y manga enrollada entre los dos en un plano
-    # paralelo al frente; el ancho del rollo deja llegar la manga desde la salida de la válvula con curvas suaves
-    gw, gh, gl = CARRO["gancho"]
-    vg = 2 * d_hose + gh                      # vuelo del gancho fuera del cuerpo
-    yl = R + vg / 2 + 2                       # plano de la manga enrollada
-    L_c = dr["z_union"] - dr["zb"]
-    wl = max(0.45 * R, 16.0 - xsal + 45.0)
-    ap = math.sqrt(wl * wl - (gw / 2) ** 2) - 1.0  # la manga apoya en los bordes del brazo de 40 de ancho
-    z_lo = max(dr["zb"] + 0.12 * L_c, hp + 30.0 + wl + d_hose - ap + t / 2)   # el rollo pasa por encima de la pata
-    z_hi = dr["zb"] + 0.90 * L_c
-    gan = None
-    for zz, sgl in ((z_hi, 1), (z_lo, -1)):
-        brazo = _box(gw, vg + 20, t, 0, R + vg / 2 - 10, zz - t / 2)
-        labio = _box(gw, t, gl, 0, R + vg - t / 2, zz - t / 2 if sgl > 0 else zz + t / 2 - gl)
-        gan = brazo.fuse(labio) if gan is None else gan.fuse(brazo).fuse(labio)
-    out["ganchos_manguera"] = gan.cut(lleno).clean()
-    zt_l = z_hi + t / 2 + d_hose / 2 - ap     # centro del arco superior: la manga apoya sobre el brazo de arriba
-    zb_l = z_lo - t / 2 - d_hose / 2 + ap     # centro del arco inferior: la manga pasa por debajo del brazo de abajo
-    e1 = cq.Edge.makeLine(cq.Vector(-wl, yl, zb_l), cq.Vector(-wl, yl, zt_l))
-    a1 = cq.Edge.makeThreePointArc(cq.Vector(-wl, yl, zt_l), cq.Vector(0, yl, zt_l + wl), cq.Vector(wl, yl, zt_l))
-    e2 = cq.Edge.makeLine(cq.Vector(wl, yl, zt_l), cq.Vector(wl, yl, zb_l))
-    a2 = cq.Edge.makeThreePointArc(cq.Vector(wl, yl, zb_l), cq.Vector(0, yl, zb_l - wl), cq.Vector(-wl, yl, zb_l))
-    wire = cq.Wire.assembleEdges([e1, a1, e2, a2])
-    out["manguera_enrollada"] = cq.Solid.sweep(
-        cq.Wire.makeCircle(d_hose / 2, cq.Vector(-wl, yl, zb_l), cq.Vector(0, 0, 1)), [], wire,
-        transitionMode="round")
-    # tramo válvula -> rollo: sale hacia el costado, pasa por encima de la cúpula hacia adelante y baja pegado al lado
-    # izquierdo del rollo (es la vuelta exterior) hasta el arco de abajo
-    xb_ = -(wl + d_hose)
-    out["manguera"] = _sweep_circle([(xsal - 16, 0, zsal), (xb_, 0, zsal, 35), (xb_, yl, zsal, 60), (xb_, yl, zb_l)],
-                                    d_hose / 2)
-    # punta de la manga: sale del lado derecho del rollo, arriba, y baja a la válvula esférica (de paso total, con
-    # palanca: abre girándola 90°, cerrada queda atravesada al caño) y a la tobera cónica, colgadas al costado del
-    # rollo, adelante (foto de la lanza con válvula del usuario)
-    xn = wl + d_hose / 2 + 38                 # tobera (boca Ø68) colgada al lado del rollo, sin tocarlo
-    yn = yl
+    # flejes del soporte de manga adelante (+Y), al centro: U de chapa abierta hacia afuera (perfil sombrero), base
+    # recta que toca el cuerpo en el centro y ahí se suelda, patas derechas hacia adelante y orejas hacia los costados.
+    # Las patas cubren todo el paquete de manga: la oreja queda por delante de la última vuelta y no la deja salirse.
+    # El de 100 kg (12 m) lleva un tercero en el medio: el mismo fleje con las orejas dobladas hacia adentro; la manga
+    # pasa por adentro de sus patas, más cerca del centro que en los de arriba y abajo, así que el paquete se cierra en
+    # el medio y queda tensado (corrección del usuario: el del medio comprime y no la deja pandear)
+    fa, fe, fo = CARRO["fleje"]
+    lb = CARRO["fleje_base"][k]               # base por fuera de las patas (de partida: sale del largo de manga, abajo)
+    z_fs = zu - CARRO["fleje_bajo_cupula"] - fa                  # fleje superior: borde de arriba 40 bajo la cúpula
+    z_fi = zb + CARRO["fleje_sobre_fondo"]                       # fleje inferior: borde de abajo 40 sobre el fondo
+    largo_cat = float(m.spec.get("Longitud de manga (m)", "5").replace(",", ".")) * 1000.0
+    tres = largo_cat >= 8000.0
+
+    def _fleje(zz, ancho, pata, adentro):
+        """U de chapa: base recta contra el frente, patas hacia adelante y orejas hacia los costados (hacia afuera) o
+        hacia el medio (hacia adentro: el fleje del medio del 100 kg, que encierra y cierra el paquete de manga)."""
+        f_ = _box(ancho, fe, fa, 0, R + fe / 2, zz)                                    # base
+        for sx in (1, -1):
+            f_ = f_.fuse(_box(fe, pata, fa, sx * (ancho / 2 - fe / 2), R + pata / 2, zz))   # pata
+            xo_ = ancho / 2 - fe - fo / 2 if adentro else ancho / 2 - fe + fo / 2
+            f_ = f_.fuse(_box(fo, fe, fa, sx * xo_, R + pata - fe / 2, zz))           # oreja
+        return f_
+    # manga: una sola, continua. Sale de la válvula, baja en una curva sobre la cúpula y se enrolla en un lazo vertical
+    # alrededor de los flejes, una vuelta delante de la otra (del cuerpo hacia adelante), por afuera de las patas y
+    # por detrás de las orejas. Con dos flejes la manga, rígida, se pandea hacia los costados entre ellos; con tres va
+    # tensa: de afuera de las patas (arriba y abajo) a adentro de las del medio. El giro de abajo cuelga bajo el fleje
+    # inferior y el de arriba apoya sobre el superior
+    V_ = cq.Vector
+    rh = d_hose / 2
+    z_ft = z_fs + fa
+    paso_r = d_hose + 1.0
+    filas = [R + fe + rh + 0.3 + i_ * paso_r for i_ in range(10)]   # una fila por vuelta, del cuerpo hacia adelante
+    y_f = (filas[0], filas[1])
+    x0 = lb / 2 + rh + 1.5                    # arriba y abajo: por afuera de las patas
+    x_m = lb / 2 - fe - 1.5 - rh              # en el medio: por adentro de las patas del fleje hacia adentro
+    lugar = [(x0, y_) for y_ in filas]
+    # punta (corrección del usuario): baja derecha por la izquierda en la última fila, sigue de largo y abajo se abre
+    # hacia afuera, al costado del paquete; la válvula esférica y la tobera siguen esa línea y apuntan hacia afuera y
+    # abajo, con la palanca hacia adelante. Todo queda dentro del ancho y la profundidad de la hoja de especificaciones
+    lanza = m.descarga == "lanza_espuma_rodante"
+    hn = 380.0 if lanza else 200.0
     hv = 56.0                                 # cuerpo de la válvula esférica Ø40 × 56 con dos hexágonos de 46
-    zj = zt_l - 15.0                          # la manga deja el rollo cerca del arco de arriba
-    zn_top = zj - 45.0 - hv - 12.0            # base de la válvula = boca de entrada de la tobera
-    ve = _cyl(20, hv, (xn, yn, zn_top))
-    for z_h in (zn_top, zn_top + hv - 10):
-        ve = ve.fuse(cq.Workplane("XY").polygon(6, 46).extrude(10).val().translate(cq.Vector(xn, yn, z_h)))
-    zm_v = zn_top + hv / 2
-    ve = ve.fuse(_cyl(7, 12, (xn, yn + 20, zm_v), (0, 1, 0)))       # cuello del vástago, hacia adelante
-    pal = _box(105, 3, 16, xn + 45, yn + 33.5, zm_v - 8)             # palanca de chapa, cerrada: atravesada al caño
-    pal = pal.fuse(_box(55, 7, 20, xn + 70, yn + 33.5, zm_v - 10))  # empuñadura plástica (azul en la foto)
-    ve = ve.fuse(_cyl(14, 12, (xn, yn, zn_top + hv)))                # espiga de la manga con abrazadera
-    out["valvula_esferica"] = ve.fuse(pal).clean()
-    out["manguera"] = out["manguera"].fuse(_sweep_circle([(wl, yl, zj), (xn, yn, zj, 30), (xn, yn, zn_top + hv + 12)],
-                                                         d_hose / 2)).clean()
-    if m.descarga == "lanza_espuma_rodante":
+    L_t = 12.0 + hv + hn                      # de la punta de la manga (espiga) a la boca
+    r_boca = 28.0 if lanza else 34.0
+    z_flejes = [z_fs, round((z_fs + z_fi) / 2), z_fi] if tres else [z_fs, z_fi]
+    z_m = z_flejes[1]
+    z_a = (z_m if tres else z_fs) - 2.0       # la punta deja el último fleje que atraviesa
+    y_frente = D + yw - Rw                    # frente del carro: profundidad de la hoja desde atrás de las ruedas
+    zc_f = sorted((zz + fa / 2 for zz in z_flejes), reverse=True)  # centros de los flejes, de arriba abajo
+    xs_f = [x0, x_m, x0] if tres else [x0, x0]
+
+    b_pand = min(40.0, max(16.0, 0.065 * (zc_f[0] - zc_f[-1])))   # dos flejes: flecha ≈ 6,5 % del tramo libre
+
+    def _pandeo(i_, lado):
+        """corrimiento hacia afuera de la manga en el medio, entre los dos flejes: la manga es rígida y se pandea."""
+        return b_pand * (0.85 + 0.3 * (i_ % 2)) * (1.0 if lado < 0 else 0.85 + 0.2 * ((i_ + 1) % 2))
+
+    def _z_ent():
+        """altura a la que la bajada de la válvula entra al lazo (arriba a la izquierda), siempre bajando."""
+        return max(z_ft + 30.0, min(z_ft + 4.0 + 0.97 * x0, zsal - 130.0))
+
+    def _bajada(i_, y_, lado, sube):
+        """vértices de un tramo vertical: derecho en cada fleje; entre ellos pandeado (dos flejes) o tenso (tres)."""
+        v_ = []
+        for t_, zc_ in enumerate(zc_f):
+            v_ += [(lado * xs_f[t_], y_, zc_ + fa / 2 + 2.0) + ((250.0,) if t_ else ()),
+                   (lado * xs_f[t_], y_, zc_ - fa / 2 - 2.0) + ((250.0,) if t_ < len(zc_f) - 1 else ())]
+            if not tres and t_ < len(zc_f) - 1:
+                # pandeo en un arco parejo: sale y llega derecho a los flejes (sen²), con curvas amplias
+                za_, zb_ = zc_ - fa / 2 - 2.0, zc_f[t_ + 1] + fa / 2 + 2.0
+                for k_ in range(1, 8):
+                    u_ = k_ / 8.0
+                    v_.append((lado * (xs_f[t_] + _pandeo(i_, lado) * math.sin(math.pi * u_) ** 2), y_,
+                               za_ - u_ * (za_ - zb_), 400.0))
+        return v_[::-1] if sube else v_
+
+    def _rollo(n_):
+        r_u0 = z_fi - 5.0 - (45.0 + rh)                          # el giro de abajo no llega al piso
+        v_ = []
+        for i_ in range(n_):
+            x_, y_ = lugar[i_]
+            xn_, yn_ = lugar[i_ + 1]
+            r_t = 0.97 * min(x_, xn_)
+            z_t = z_ft + 4.0 + r_t                               # el giro de arriba apoya sobre el fleje superior
+            r_u = min(0.97 * x_, r_u0)
+            z_u = z_fi - 5.0 - r_u                               # el giro de abajo cuelga bajo el fleje inferior
+            if i_ == 0:
+                v_.append((-x_, y_, _z_ent()))
+            v_ += _bajada(i_, y_, -1, False)
+            v_ += [(-x_, y_, z_u, r_u), (x_, y_, z_u, r_u)]
+            v_ += _bajada(i_, y_, 1, True)
+            v_ += [(x_, y_, z_t, r_t), (-xn_, yn_, z_t, r_t)]
+        v_.append((-lugar[n_][0], lugar[n_][1], z_ft + 2.0))
+        return v_
+
+    def _largo(v_):
+        L_ = 0.0
+        for i_ in range(1, len(v_)):
+            L_ += (V_(*v_[i_][:3]) - V_(*v_[i_ - 1][:3])).Length
+        for i_ in range(1, len(v_) - 1):
+            if len(v_[i_]) > 3:
+                a_ = (V_(*v_[i_ - 1][:3]) - V_(*v_[i_][:3])).normalized()
+                b_ = (V_(*v_[i_ + 1][:3]) - V_(*v_[i_][:3])).normalized()
+                an_ = math.acos(max(-1.0, min(1.0, a_.dot(b_))))
+                if an_ < math.pi - 1e-3:
+                    L_ -= 2 * v_[i_][3] / math.tan(an_ / 2) - v_[i_][3] * (math.pi - an_)
+        return L_
+
+    # bajada de la válvula: sale de costado, se curva hacia adelante y abajo por encima de la cúpula (con luz sobre
+    # la chapa) y entra vertical a la primera vuelta, arriba a la izquierda
+    xr0 = xsal - 16.0
+
+    def _libre(a_, b_):
+        for t_ in range(1, 25):
+            q_ = a_ + (b_ - a_) * (t_ / 25.0)
+            for dx_, dy_, dz_ in ((0, 0, -1), (0.7, -0.7, 0), (0, -1, 0), (0.7, 0, -0.7), (0, -0.7, -0.7)):
+                if lleno.isInside(V_(q_.x + dx_ * (rh + 6), q_.y + dy_ * (rh + 6), q_.z + dz_ * (rh + 6))):
+                    return False
+        return True
+
+    def _ruta():
+        """bajada de la válvula: sale de costado y baja siempre (sin ondas) en una curva amplia sobre la cúpula hasta
+        entrar vertical a la primera vuelta."""
+        x_0, y_0 = lugar[0]
+        z_e = _z_ent()
+        z_c = zsal - 10.0
+        for _ in range(12):
+            r_c = max(40.0, min(110.0, z_c - z_e - 5.0))
+            r_ = [(xr0, 0.0, zsal), (xr0 - 30.0, 0.0, zsal, 25.0), (-x_0, y_0, z_c, r_c), (-x_0, y_0, z_e)]
+            if _libre(V_(*r_[1][:3]), V_(*r_[2][:3])):
+                break
+            z_c += 5.0                        # no debería pasar: la cúpula queda por debajo
+        return r_
+
+    def _rot(v_, th_, ps_, ph_=0.0):
+        """giro de la válvula: ph_ sobre su eje (la palanca de adelante hacia afuera), ps_ hacia adelante, th_ hacia
+        afuera (-x). Con el eje local -z (la espiga arriba)."""
+        x_, y_, z_ = v_
+        x_, y_ = x_ * math.cos(ph_) - y_ * math.sin(ph_), x_ * math.sin(ph_) + y_ * math.cos(ph_)
+        y_, z_ = y_ * math.cos(ps_) - z_ * math.sin(ps_), y_ * math.sin(ps_) + z_ * math.cos(ps_)
+        return x_ * math.cos(th_) + z_ * math.sin(th_), y_, -x_ * math.sin(th_) + z_ * math.cos(th_)
+
+    # palanca (respecto del centro de la válvula): chapa y empuñadura; cuello del vástago
+    pal_pts = ([(x_, y_, z_) for x_ in (-35.0, -32.0) for y_ in (-7.5, 97.5) for z_ in (-8.0, 8.0)] +
+               [(x_, y_, z_) for x_ in (-37.0, -30.0) for y_ in (42.5, 97.5) for z_ in (-10.0, 10.0)] +
+               [(-32.0, 0.0, 7.0), (-32.0, 0.0, -7.0)])
+    R_b = 350.0 if tres else 450.0                                # única curva de la punta, amplia y pareja
+
+    def _fila_atras(n_, z_):
+        """x de la fila de atrás de la punta (la n-1, del lado izquierdo) a la altura z_."""
+        if tres:
+            if z_ >= z_m:
+                return x_m
+            f_ = (z_m - 2.0 - z_) / max(1.0, (z_m - 2.0) - (z_fi + fa + 2.0))
+            return x_m + (x0 - x_m) * min(1.0, max(0.0, f_))
+        zt_, zb_ = zc_f[0] - fa / 2 - 2.0, zc_f[-1] + fa / 2 + 2.0
+        b_ = b_pand * (0.85 + 0.3 * ((n_ - 1) % 2))
+        if zb_ < z_ < zt_:
+            return x0 + b_ * math.sin(math.pi * (zt_ - z_) / (zt_ - zb_)) ** 2
+        return x0
+
+    def _geo_punta(n_, th_, ps_, ph_):
+        """punta derecha desde abajo del último fleje que atraviesa: la manga, la válvula y la tobera en una línea."""
+        y_n = filas[n_]
+        u0 = x_m if tres else x0
+        a_ = _rot((0.0, 0.0, -1.0), th_, ps_)                     # eje (x, y, z); hacia afuera es -x
+        tilt = math.acos(-a_[2])
+        t_ = R_b * math.tan(tilt / 2)
+        V_z = z_a - t_ - 2.0
+        r_z0 = r_boca * math.sqrt(max(0.0, 1 - a_[2] ** 2))
+        L_ = (V_z - (60.0 + r_z0)) / -a_[2]                       # sigue de largo: la boca cerca del piso
+        L_h = max(L_ - L_t, t_ + 5.0)                             # tramo recto de manga hasta la espiga
+        P_ = lambda d_: (-u0 + a_[0] * d_, y_n + a_[1] * d_, V_z + a_[2] * d_)   # noqa: E731
+        vc = P_(L_h + 12.0 + hv / 2)
+        M_ = P_(L_h + L_t)
+        pal = [tuple(vc[i] + q[i] for i in range(3)) for q in (_rot(c_, th_, ps_, ph_) for c_ in pal_pts)]
+        r_u = r_boca * math.sqrt(max(0.0, 1 - a_[0] ** 2))
+        r_y = r_boca * math.sqrt(max(0.0, 1 - a_[1] ** 2))
+        r_z = r_boca * math.sqrt(max(0.0, 1 - a_[2] ** 2))
+        frente = max(max(q[1] for q in pal), M_[1] + r_y, vc[1] + 26.6)
+        ancho = max(max(-q[0] for q in pal), -M_[0] + r_u, -vc[0] + 26.6)
+        return dict(y_n=y_n, u0=u0, a=a_, V_z=V_z, L_h=L_h, vc=vc, M=M_, frente=frente, ancho=ancho, r_z=r_z,
+                    r_u=r_u, r_y=r_y, tilt=tilt)
+
+    def _ok_punta(n_, g_):
+        """libre de las filas, del fleje de abajo y del piso, y dentro del ancho de la hoja."""
+        if g_["ancho"] > W / 2 - 3.0 or g_["M"][2] - g_["r_z"] < 15.0:
+            return False
+        y_or = filas[n_] + rh + 0.5 + fe / 2                      # oreja del fleje de abajo (centro, en y)
+        u_or = (lb / 2 - fe, lb / 2 - fe + fo)
+        d_ = g_["L_h"] + 6.0
+        while d_ <= g_["L_h"] + L_t:
+            e_ = d_ - g_["L_h"] - 12.0
+            rr_ = 14.0 if e_ < 0 else (26.6 if e_ <= hv else (16.0 + (r_boca - 16.0) * (e_ - hv) / hn))
+            q_ = (-g_["u0"] + g_["a"][0] * d_, g_["y_n"] + g_["a"][1] * d_, g_["V_z"] + g_["a"][2] * d_)
+            if math.hypot(-q_[0] - _fila_atras(n_, q_[2]), q_[1] - (g_["y_n"] - paso_r)) < rr_ + rh + 2.0:
+                return False                                      # contra la fila de atrás
+            if z_fi - rr_ - 2.0 < q_[2] < z_fi + fa + rr_ + 2.0 and u_or[0] - rr_ - 2.0 < -q_[0] < u_or[1] + rr_ + 2.0 \
+                    and abs(q_[1] - y_or) < fe / 2 + rr_ + 2.0:
+                return False                                      # contra la oreja del fleje de abajo
+            d_ += 8.0
+        return True
+
+    def _punta(n_, exacta=True):
+        """recorrido de la punta y orientación de la válvula: la palanca lo más hacia adelante que deja la profundidad
+        de la hoja (girándola hacia afuera si hace falta), la tobera lo más hacia afuera que deja el ancho y hacia
+        adelante lo justo para que el frente coincida con la profundidad (si no entra, lo que menos se pasa)."""
+        sel = (math.radians(12.0), math.radians(5.0), math.radians(45.0))
+        if exacta:
+            mejor = None
+            for ph_g in range(0, 80, 5):
+                for th_g in range(25, -1, -1):
+                    ph_, th_ = math.radians(ph_g), math.radians(th_g)
+                    lo, hi = 0.0, math.radians(20.0)
+                    if _geo_punta(n_, th_, lo, ph_)["frente"] > y_frente + 0.5:
+                        ps0 = 0.0
+                    elif _geo_punta(n_, th_, hi, ph_)["frente"] < y_frente:
+                        ps0 = hi
+                    else:
+                        for _ in range(30):
+                            md = (lo + hi) / 2
+                            if _geo_punta(n_, th_, md, ph_)["frente"] < y_frente:
+                                lo = md
+                            else:
+                                hi = md
+                        ps0 = lo
+                    for k_ in range(151):                         # si choca, un poco más hacia adelante
+                        ps_ = ps0 + math.radians(0.1 * k_)
+                        g_ = _geo_punta(n_, th_, ps_, ph_)
+                        if _ok_punta(n_, g_):
+                            exc = g_["frente"] - y_frente
+                            exc = 0.0 if exc <= 0.5 else exc             # la profundidad de la hoja (± 0,5)
+                            if mejor is None or exc < mejor[0] - 0.5:
+                                mejor = (exc, (th_, ps_, ph_))
+                            break
+                    if mejor and mejor[0] == 0.0:
+                        break
+                if mejor and mejor[0] == 0.0:
+                    break
+            if mejor is None:
+                AVISOS_CARRO.append(f"{m.codigo}: la punta no entra sin tocar el paquete")
+                sel = (0.0, 0.0, math.radians(45.0))
+            else:
+                sel = mejor[1]
+                av_ = f"{m.codigo}: la palanca / tobera pasa {mejor[0]:.0f} mm la profundidad"
+                if mejor[0] > 0 and av_ not in AVISOS_CARRO:
+                    AVISOS_CARRO.append(av_)
+        th_, ps_, ph_ = sel
+        g_ = _geo_punta(n_, th_, ps_, ph_)
+        u0, y_n, a_ = g_["u0"], g_["y_n"], g_["a"]
+        v_ = [(-x0, y_n, z_ft + 2.0)]
+        if tres:                              # tensa hasta adentro de las patas del fleje del medio
+            v_ += [(-x0, y_n, z_fs - 2.0, 250.0), (-x_m, y_n, z_m + fa + 2.0, 250.0)]
+        v_ += [(-u0, y_n, g_["V_z"], R_b), (-u0 + a_[0] * g_["L_h"], y_n + a_[1] * g_["L_h"], g_["V_z"] + a_[2] * g_["L_h"])]
+        return v_[-1][0], v_[-1][1], v_, (v_[-1][2], th_, ps_, ph_)
+
+    # vueltas y base: la manga del catálogo da vueltas enteras. Se busca el menor número de vueltas y, con él, la base
+    # más chica que alcanza el largo, entre la curva mínima de la manga (radio ≥ 100 en los giros) y el ancho del cuerpo
+    # (el paquete no sale de la silueta). Menos vueltas = curvas más abiertas y patas más cortas
+    L_r = _largo(_ruta())
+    lb_min, lb_max = 2 * (100.0 - rh - 1.5), 2 * R - 2 * (1.5 + d_hose)
+    elegido = None
+    for n_v in range(1, 9):
+        for i_ in range(int((lb_max - lb_min) / 2) + 1):
+            lb = 2 * math.ceil(lb_min / 2) + 2 * i_
+            x0, x_m = lb / 2 + rh + 1.5, lb / 2 - fe - 1.5 - rh
+            lugar, xs_f = [(x0, y_) for y_ in filas], ([x0, x_m, x0] if tres else [x0, x0])
+            if L_r + _largo(_rollo(n_v)) + _largo(_punta(n_v, False)[2]) >= largo_cat:
+                elegido = (n_v, lb)
+                break
+        if elegido:
+            break
+    n_v, lb = elegido
+    while True:                               # con el tramo de la válvula real (cambia un poco con la base)
+        x0, x_m = lb / 2 + rh + 1.5, lb / 2 - fe - 1.5 - rh
+        lugar, xs_f = [(x0, y_) for y_ in filas], ([x0, x_m, x0] if tres else [x0, x0])
+        ruta = _ruta()
+        if _largo(ruta) + _largo(_rollo(n_v)) + _largo(_punta(n_v)[2]) >= largo_cat or lb + 2 > lb_max:
+            break
+        lb += 2
+    out["manguera_enrollada"], _ = _tubo(_rollo(n_v), rh)
+    xn, yn, v_p, (z_S, th, psi, phi) = _punta(n_v)
+    out["manguera"] = _tubo(ruta, rh)[0].fuse(_tubo(v_p, rh)[0]).clean()
+    MANGA_CAPAS[m.codigo] = (n_v + 1, len(lugar), y_f[0], y_f[1])
+    MANGA_LARGO[m.codigo] = _largo(ruta) + _largo(_rollo(n_v)) + _largo(v_p)
+    # flejes: todos iguales (base, patas hasta delante de la última fila); el del medio del 100 kg con las orejas
+    # hacia adentro
+    pata = filas[n_v] + rh + 0.5 + fe - R
+    FLEJE[m.codigo] = (lb, pata, lb + 2 * pata + 2 * fo - 4 * CARRO["fleje_estiramiento"], len(z_flejes))
+    FLEJE_MEDIO[m.codigo] = (lb, pata) if tres else None
+    gan = None
+    for zz in z_flejes:
+        medio = zz not in (z_flejes[0], z_flejes[-1])
+        f_ = _fleje(zz, lb, pata, medio)
+        gan = f_ if gan is None else gan.fuse(f_)
+    out["ganchos_manguera"] = gan.cut(lleno).clean()
+    # válvula esférica y tobera: armadas con el eje vertical (espiga arriba, en el origen) e inclinadas hacia afuera
+    zv0 = -12.0 - hv                          # base de la válvula = boca de entrada de la tobera
+    zm0 = -12.0 - hv / 2
+    ve = _cyl(20, hv, (0, 0, zv0))
+    for z_h in (zv0, zv0 + hv - 10):
+        ve = ve.fuse(cq.Workplane("XY").polygon(6, 46).extrude(10).val().translate(cq.Vector(0, 0, z_h)))
+    ve = ve.fuse(_cyl(7, 12, (-20, 0, zm0), (-1, 0, 0)))            # cuello del vástago, hacia afuera
+    pal = _box(3, 105, 16, -33.5, 45, zm0 - 8)                     # palanca de chapa, cerrada (atravesada al
+    pal = pal.fuse(_box(7, 55, 20, -33.5, 70, zm0 - 10))          # caño), hacia adelante; empuñadura (azul)
+    ve = ve.fuse(_cyl(14, 12, (0, 0, -12.0)))                      # espiga de la manga con abrazadera
+    ve = ve.fuse(pal).clean()
+    if lanza:
         # lanza espumígena de rodante: tubo Ø40 con 4 tomas de aire y boca expandida
-        hn = 380.0
-        tubo = _tube(20, 17.5, hn - 40, (xn, yn, zn_top - hn + 40))
-        boca = cq.Solid.makeCone(20, 28, 40, cq.Vector(xn, yn, zn_top - hn + 40), cq.Vector(0, 0, -1))
-        boca = boca.cut(cq.Solid.makeCone(17.5, 25.5, 40, cq.Vector(xn, yn, zn_top - hn + 40), cq.Vector(0, 0, -1)))
-        lz = tubo.fuse(boca)
+        tubo = _tube(20, 17.5, hn - 40, (0, 0, zv0 - hn + 40))
+        boca = cq.Solid.makeCone(20, 28, 40, cq.Vector(0, 0, zv0 - hn + 40), cq.Vector(0, 0, -1))
+        boca = boca.cut(cq.Solid.makeCone(17.5, 25.5, 40, cq.Vector(0, 0, zv0 - hn + 40), cq.Vector(0, 0, -1)))
+        tb = tubo.fuse(boca)
         for ang in (0, 90, 180, 270):
             dx, dy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
-            lz = lz.cut(_cyl(5, 12, (xn + dx * 14, yn + dy * 14, zn_top - 40), (dx, dy, 0)))
-        out["lanza"] = lz.clean()
+            tb = tb.cut(_cyl(5, 12, (dx * 14, dy * 14, zv0 - 40), (dx, dy, 0)))
+        tb = tb.clean()
     else:
-        hn = 200.0
-        tb = cq.Solid.makeCone(16, 34, hn, cq.Vector(xn, yn, zn_top), cq.Vector(0, 0, -1))
-        tb = tb.cut(cq.Solid.makeCone(13, 31, hn, cq.Vector(xn, yn, zn_top), cq.Vector(0, 0, -1)))
-        out["tobera_campana"] = tb
-    info["eje_tobera"] = (xn, zn_top - hn, zn_top + 60)
+        tb = cq.Solid.makeCone(16, 34, hn, cq.Vector(0, 0, zv0), cq.Vector(0, 0, -1))
+        tb = tb.cut(cq.Solid.makeCone(13, 31, hn, cq.Vector(0, 0, zv0), cq.Vector(0, 0, -1)))
+    giro = lambda sh: sh.rotate(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), math.degrees(phi)).rotate(  # noqa: E731
+        cq.Vector(0, 0, 0), cq.Vector(1, 0, 0), math.degrees(psi)).rotate(
+        cq.Vector(0, 0, 0), cq.Vector(0, 1, 0), math.degrees(th)).translate(cq.Vector(xn, yn, z_S))
+    out["valvula_esferica"] = giro(ve)
+    out["lanza" if lanza else "tobera_campana"] = giro(tb)
+    a_t = _rot((0.0, 0.0, -1.0), th, psi)                          # eje de la tobera (afuera, adelante y abajo)
+    pt = lambda d_: (xn + a_t[0] * d_, yn + a_t[1] * d_, z_S + a_t[2] * d_)   # noqa: E731
+    xv_, yv_, zm_v = pt(12.0 + hv / 2)
+    pal_c = tuple(pt(12.0 + hv / 2)[i] + _rot((-33.5, 70.0, 0.0), th, psi, phi)[i] for i in range(3))   # empuñadura
+    xb_, yb_, zb_ = pt(L_t)
+    MANGA_PUNTA[m.codigo] = dict(afuera=math.degrees(th), adelante=math.degrees(psi), palanca=math.degrees(phi),
+                                 espiga=(xn, yn, z_S),
+                                 boca=(xb_, yb_, zb_))
+    z_lo, z_hi = z_fi + fa / 2, z_fs + fa / 2
+    MANGA_VUELTAS[m.codigo] = n_v
+    info["eje_tobera"] = (xb_, zb_ - r_boca * math.sin(math.acos(-a_t[2])), z_S)
+    info["eje_tobera_3d"] = (pt(-10.0), pt(L_t + 10.0))
     info.update(dict(Rw=Rw, bw_w=bw_w, xw=xw, yw=yw, track=track, xm=xm, ym=ym, xs=xs, z_ganchos=(z_lo, z_hi),
-                     tobera=(xn, zn_top - hn / 2), valv_esf=(xn, zm_v), pata=(pw, hp, tp, yp)))
+                     tobera=pt(12.0 + hv + hn / 2)[::2], valv_esf=(xv_, zm_v), valv_esf_y=yv_, palanca_c=pal_c, pata=(pw, hp, tp, yp),
+                     z_flejes=z_flejes))
     return out, info
 
 
@@ -847,13 +1242,25 @@ FAJA_GARANTIA = (30.0, 40.0)     # faja de garantía rayada (relevada en la lín
 GAP_ID = 4.0
 
 
-def arco_ala(R):
-    """Arco de cada ala: 54° en general; 72° en cuerpos chicos (Ø < 100), donde el mercado envuelve casi todo."""
+MANGA_VUELTAS = {}               # código -> vueltas del rollo de la manga del carro
+MANGA_CAPAS = {}                 # código -> (capas usadas, lugares, fila 0, fila 1)
+FLEJE_MEDIO = {}                 # código -> (base por fuera, pata) del fleje del medio hacia adentro (100 kg) o None
+FLEJE = {}                       # código -> (base por fuera, pata, largo de corte, cantidad) de los flejes de manga
+MANGA_LARGO = {}                 # código -> largo de la manga del modelo (eje), mm
+ALA_CARRO = {}                   # código -> arco de cada ala (carro donde la etiqueta no entra bajo las lengüetas)
+
+
+def arco_ala(R, m=None):
+    """Arco de cada ala: 54° en general; 72° en cuerpos chicos (Ø < 100), donde el mercado envuelve casi todo. En un
+    carro cuya etiqueta no entra entre los triángulos del eje y las lengüetas de la manija, las alas se acortan hasta
+    terminar antes de las lengüetas (ver extintor_rodante)."""
+    if m is not None and m.codigo in ALA_CARRO:
+        return ALA_CARRO[m.codigo]
     return ARCO_ALA if R >= 50 else 72.0
 
 
-def ala_dim(R):
-    return math.radians(arco_ala(R)) * R
+def ala_dim(R, m=None):
+    return math.radians(arco_ala(R, m)) * R
 
 
 def placa_dim(m, p):
@@ -866,10 +1273,17 @@ def placa_dim(m, p):
     hb = cb.zmax - cb.zmin
     ancho = math.radians(ARCO_PLACA) * R
     from .rotulado import disposicion
-    alto = disposicion(m, ancho, ala_dim(R))["H"]      # alto que pide el contenido (IRAM 3534 + mercado)
+    alto = disposicion(m, ancho, ala_dim(R, m))["H"]   # alto que pide el contenido (IRAM 3534 + mercado)
     fila = OBLEA_PBA + 3 + (0 if lleva_tarjeta(m, p) != "debajo" else TARJETA_CABA[1] + GAP_ID)
     libre = hb - 20.0 - fila
     z0 = cb.zmin + 10.0 + fila + max(0.0, (libre - alto) / 2)
+    if "soportes_eje" in p and m.familia == "rodante":
+        # carro: la etiqueta queda por encima de los triángulos del eje y, si sus alas llegan a los costados, debajo de
+        # las lengüetas de la manija (proceso de carros, puesto 8); la oblea, debajo de la etiqueta, entre los dos
+        # triángulos, y la estampilla y la tarjeta, por fuera de ellos
+        lo = max(cb.zmin + 10.0 + fila, p["soportes_eje"].BoundingBox().zmax + 10.0)
+        hi = cb.zmax - 10.0 - (0.0 if m.codigo in ALA_CARRO else CARRO["lengueta_bajo_cupula"])
+        z0 = max(lo, min(lo + max(0.0, (hi - lo - alto) / 2), hi - alto))
     return ancho, alto, z0, R, xc, yc
 
 
@@ -885,12 +1299,15 @@ def lleva_tarjeta(m, p):
     if tarjeta_al_costado(R):
         return "costado"
     from .rotulado import disposicion
-    alto = disposicion(m, math.radians(ARCO_PLACA) * R, ala_dim(R))["H"]
+    alto = disposicion(m, math.radians(ARCO_PLACA) * R, ala_dim(R, m))["H"]
     return "debajo" if alto + OBLEA_PBA + 3 + TARJETA_CABA[1] + GAP_ID + 20 <= cb.zmax - cb.zmin else ""
 
 
 FAJA_MEDIDA = {}                 # código -> (ancho, largo desarrollado) de la faja dibujada
 MANIJA_LARGO = {}                # código -> largo desarrollado del caño de la manija del carro
+AVISOS_CARRO = []                # avisos del armado de los carros (lo que no entra en la hoja de especificaciones)
+MANGA_PUNTA = {}                 # código -> inclinación de la tobera, espiga y boca (carros)
+CARRO_MOD = {}                   # código -> medidas del carro que salen de la hoja de especificaciones del modelo
 
 
 def _faja(p, ex, ey):
@@ -971,16 +1388,20 @@ def identificacion(m, p):
     estampilla IRAM de conformidad al costado; tarjeta AGC (CABA) al otro costado o debajo; etiqueta de serie
     GS1 a 180°; junta tórica de asiento de la válvula; precinto de la traba y faja de garantía válvula-cuello."""
     ancho, alto, z0, R, xc, yc = placa_dim(m, p)
-    p["etiqueta"] = _sector(R, R + 0.3, alto, z0, ancho + 2 * ala_dim(R), xc, yc)
+    p["etiqueta"] = _sector(R, R + 0.3, alto, z0, ancho + 2 * ala_dim(R, m), xc, yc)
     zo = z0 - 3.0 - OBLEA_PBA
     p["oblea_pba"] = _sector(R, R + 0.3, OBLEA_PBA, zo, OBLEA_PBA, xc, yc)
     ew, eh = ESTAMPILLA_IRAM
-    ang_e = -90.0 + math.degrees((OBLEA_PBA / 2 + GAP_ID + ew / 2) / R)
+    base = OBLEA_PBA / 2                  # estampilla y tarjeta a los costados de la oblea
+    if "soportes_eje" in p:               # carro: por fuera de los triángulos del eje (la oblea queda entre los dos)
+        xt_ = p["soportes_eje"].BoundingBox().xmax
+        base = max(base, R * math.asin(min(1.0, xt_ / R)) + 1.0)
+    ang_e = -90.0 + math.degrees((base + GAP_ID + ew / 2) / R)
     p["sello_iram"] = _sector(R, R + 0.3, eh, zo + (OBLEA_PBA - eh) / 2, ew, xc, yc, ang_e)
     tw, th = TARJETA_CABA
     lt = lleva_tarjeta(m, p)
     if lt == "costado":
-        ang_t = -90.0 - math.degrees((OBLEA_PBA / 2 + GAP_ID + tw / 2) / R)
+        ang_t = -90.0 - math.degrees((base + GAP_ID + tw / 2) / R)
         p["tarjeta_caba"] = _sector(R, R + 0.3, th, zo + OBLEA_PBA - th, tw, xc, yc, ang_t)   # arriba a ras de la oblea
     elif lt == "debajo":
         p["tarjeta_caba"] = _sector(R, R + 0.3, th, zo - GAP_ID - th, tw, xc, yc)

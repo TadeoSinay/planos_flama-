@@ -8,6 +8,7 @@ equivalentes de IRAM 3525 y se indica «(analogía)».
 """
 
 import math
+from . import modelo3d as M
 
 OK, VER, NA = "cumple", "verificar", "no aplica"
 
@@ -75,7 +76,7 @@ def filas(m, info, piezas):
             ("3550 4.1.3.2", f"espesor de chapa ≥ {_n(e_min)} mm (Ø {'≤' if D <= 320 else '>'} 320)",
              f"{_n(t, 2)} mm, Ø{_n(D, 0)}", OK if t >= e_min else VER),
             ("3550 4.8.2", "tabla III: rueda Ø ≥ 300, banda ≥ 50, trocha ≥ 400",
-             f"Ø{m.spec.get('Diámetro de rueda (mm)')}, banda {_n(info['bw_w'], 0)}, trocha {_n(info['track'], 0)}",
+             f"Ø{_n(M.rueda_d(m), 0)} (catálogo {m.spec.get('Diámetro de rueda (mm)')}), banda {_n(info['bw_w'], 0)}, trocha {_n(info['track'], 0)}",
              OK if info["bw_w"] >= 50 and info["track"] >= 400 else VER),
             ("3550 3.12.1", "ruedas metálicas, con caucho o cubierta neumática", "llanta de chapa + caucho / neumático",
              OK),
