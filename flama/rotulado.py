@@ -938,6 +938,40 @@ def _bloque(h, txts, x, y, alto=1.8, paso=3.6, ancho=None):
         h.texto(t, (x, y - paso * i), alto)
 
 
+def marca_en_arco(h, m, c, s, fondo=None, oscuro=(90, 10, 15)):
+    """Vista superior del marcado estampado en la cúpula, en arco alrededor del cuello (proceso «numerado de
+    cúpula»), a escala s: cuello y su agujero, pie del cordón, franja, caracteres tangentes al arco con la cabeza
+    hacia el cuello y cuño DPS al final. fondo: color de la cúpula alrededor. Devuelve el radio dibujado (mm de papel)."""
+    mk = M.marca_cupula(m)
+    cx, cy = c
+    dn, _, rosca, dh = m.geo["cuello"]
+    boca = {"M30x1,5": 28.376, "M22x1,5": 20.376}.get(rosca, dh - 7.8 if dh > 60 else dh - 6)
+    r_ext = (mk["r_out"] + 4.0) * s
+    if fondo is not None:
+        h.relleno(sg.Point(cx, cy).buffer(r_ext, 96).difference(sg.Point(cx, cy).buffer(dn / 2 * s, 96)), fondo)
+    for r, capa in ((dn / 2, "01-VISIBLE"), (boca / 2, "01-VISIBLE"), (dn / 2 + 2.0, "08-FINA"), (r_ext / s, "08-FINA")):
+        h.msp.add_circle((cx, cy), r * s, dxfattribs={"layer": capa})
+    a1, a2 = mk["a0"], mk["a0"] + mk["a_tot"]
+    for r in (mk["r_in"], mk["r_out"]):
+        h.msp.add_arc((cx, cy), r * s, a1 % 360, a2 % 360, dxfattribs={"layer": "08-FINA"})
+    for i, ch in enumerate(mk["texto"]):
+        if ch.strip():
+            th = math.radians(a1) + (i + 0.5) * mk["paso"] / mk["rc"]
+            h.grafica(ch, (cx + mk["rc"] * s * math.cos(th), cy + mk["rc"] * s * math.sin(th)), M.MARCA_H * s,
+                      A.MIDDLE_CENTER, rot=math.degrees(th) + 90, rgb=oscuro)
+    ts = np.linspace(math.radians(mk["a_dps0"]), math.radians(mk["a_dps0"] + mk["a_dps"]), 12)
+    pts = ([(cx + mk["r_out"] * s * math.cos(t), cy + mk["r_out"] * s * math.sin(t)) for t in ts] +
+           [(cx + mk["r_in"] * s * math.cos(t), cy + mk["r_in"] * s * math.sin(t)) for t in ts[::-1]])
+    h.msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": "01-VISIBLE"})
+    tm = float(ts[len(ts) // 2])
+    h.grafica("DPS", (cx + mk["rc"] * s * math.cos(tm), cy + mk["rc"] * s * math.sin(tm)), 3.0 * s,
+              A.MIDDLE_CENTER, rot=math.degrees(tm) + 90, rgb=oscuro)
+    return r_ext
+
+
+ESC_MARCA = {1.0: "1:1", 0.5: "1:2", 0.4: "1:2,5", 0.2: "1:5"}
+
+
 def hoja4(m, piezas, info, proy, doc, ox):
     rev = not _propio(m)
     h = Hoja(doc, "A2", ox)
@@ -1114,41 +1148,47 @@ def hoja4(m, piezas, info, proy, doc, ox):
                 "rayado rojo/blanco, abraza la unión válvula-cuello; indica equipo",
                 "nuevo no abierto. Sin norma: práctica de mercado (Georgia)."], px + 2, py + 26, 1.8, 3.4,
             ancho=X1 - 3 - (px + 2))
-    # R7 marcado estampado y etiqueta de serie
+    # R7 marcado y etiqueta de serie: en los propios, estampado en la cúpula en arco junto al cuello (vista superior)
     mx, my = X0 + 385, Y0 + 61
-    h.texto("R7 MARCADO GRABADO Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
     n_ext = m.spec["Norma IRAM extintor"]
+    col = colores(m)
+    oscuro = (90, 10, 15) if col["cuerpo"] == ROJO_CUERPO else (60, 62, 66)
     if rev:
-        txt = "FABRICANTE  N° SERIE  AÑO"
+        h.texto("R7 MARCADO GRABADO Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
         ref = ("IRAM 2533 (cilindro CO₂ sin costura: estampado del fabricante)" if m.familia == "co2"
                else f"IRAM {n_ext} (norma del producto, aplicado por el fabricante)")
         lin = ["Grabado por el fabricante del equipo según", ref, "FLAMA verifica que exista y coincida con la etiqueta."]
-    else:
-        txt = ("FLAMA S.A.  N° 000001  " + ("PH " + m.spec["Presión de ensayo (MPa)"] + " MPa  " if n_ext == "3550" else "")
-               + "26")
-        lin = [("Fabricante, n° de " + ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") +
-                " y año (2 díg.) - IRAM " + n_ext + " 5.1"),
-               *M.marcado(m)[2],
-               "letra 5 mm (IRAM 4503); cuño DPS 15 × 7 junto al n°",
-               "(Res. 349/07 anexo IV, art. 24 mod. 717/07)."]
-    col = colores(m)
-    h.relleno(sg.box(mx + 3, my + 42, mx + 82, my + 52), col["cuerpo"])      # grabado bajo la pintura del cuerpo
-    h.rect(mx + 3, my + 42, mx + 82, my + 52, "01-VISIBLE" if not rev else "08-FINA")
-    oscuro = (90, 10, 15) if col["cuerpo"] == ROJO_CUERPO else (60, 62, 66)
-    h.grafica(txt, (mx + 38, my + 47), 2.4, A.MIDDLE_CENTER, rgb=oscuro)
-    if not rev:
-        h.rect(mx + 66, my + 43.5, mx + 81, my + 50.5, "01-VISIBLE")
-        h.grafica("DPS", (mx + 73.5, my + 47), 3.0, A.MIDDLE_CENTER, rgb=oscuro)
-    _bloque(h, lin, mx + 3, my + 38, 1.8, 3.2, ancho=83)
+        h.relleno(sg.box(mx + 3, my + 42, mx + 82, my + 52), col["cuerpo"])      # grabado bajo la pintura del cuerpo
+        h.rect(mx + 3, my + 42, mx + 82, my + 52, "08-FINA")
+        h.grafica("FABRICANTE  N° SERIE  AÑO", (mx + 38, my + 47), 2.4, A.MIDDLE_CENTER, rgb=oscuro)
+        _bloque(h, lin, mx + 3, my + 38, 1.8, 3.2, ancho=83)
     gw, gh = M.ETIQUETA_SERIE
-    gx, gy = mx + 6, my + 6
+    if rev:
+        gx, gy = mx + 6, my + 6
+        _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (esc. 1:2): QR con", "GTIN (prefijo 779 Argentina) + n° de serie,",
+                    "a 180° de la etiqueta (relevado Melisam).", "Traza lote de polvo, PH y estampilla."], gx + gw * 0.5 + 3,
+                gy + gh * 0.5 + 6, 1.8, 3.0, ancho=mx + 86 - (gx + gw * 0.5 + 3))
+    else:
+        # dos columnas: vista superior del arco a la izquierda; texto, etiqueta de serie y su nota a la derecha
+        h.texto("R7 MARCADO EN LA CÚPULA Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
+        mk = M.marca_cupula(m)
+        s7 = next(v for v in (0.5, 0.4, 0.2) if (mk["r_out"] + 4.0) * v <= 24.0)
+        r7 = marca_en_arco(h, m, (mx + 24, my + 30), s7, col["cuerpo"], oscuro)
+        h.texto("FRENTE", (mx + 24, my + 30 - r7 - 1.0), 1.8, A.TOP_CENTER)
+        corto = ("estampado en la cúpula, en arco junto al cuello, " +
+                 ("después de la PH (puesto 11)" if m.familia == "rodante" else "antes de soldar el cuello"))
+        _bloque(h, [f"Vista superior, esc. {ESC_MARCA[s7]}. IRAM {n_ext} 5.1: fabricante, n° de " +
+                    ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") + " y año (2 díg.), " + corto + ".",
+                    f"Franja Ø{_n(2 * mk['r_in'], 0)}-{_n(2 * mk['r_out'], 0)}, arco {_n(mk['a_tot'], 0)}°; letra 5 mm "
+                    "(IRAM 4503); cuño DPS 15 × 7 (Res. 349/07 anexo IV). Detalle: FL_REC hoja 3."],
+                mx + 50, my + 53, 1.8, 3.2, ancho=36)
+        _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (1:2): QR GTIN + n° de serie, a 180° de la "
+                    "etiqueta."], mx + 50, my + 23.6, 1.8, 3.0, ancho=36)
+        gx, gy = mx + 52, my + 4
     h.relleno(sg.box(gx, gy, gx + gw * 0.5, gy + gh * 0.5), L.BLANCO)
     h.rect(gx, gy, gx + gw * 0.5, gy + gh * 0.5, "01-VISIBLE")
     qr(h, (gx + gw * 0.25, gy + gh * 0.3), gh * 0.35, 23)
     h.grafica("(01)779xxxxxxxxxx(21)000001", (gx + gw * 0.25, gy + 0.6), 0.8, A.BOTTOM_CENTER)
-    _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (esc. 1:2): QR con", "GTIN (prefijo 779 Argentina) + n° de serie,",
-                "a 180° de la etiqueta (relevado Melisam).", "Traza lote de polvo, PH y estampilla."], gx + gw * 0.5 + 3,
-            gy + gh * 0.5 + 6, 1.8, 3.0, ancho=mx + 86 - (gx + gw * 0.5 + 3))
     # R8 tarjeta CABA
     tx, ty = X0 + 472, Y0 + 61
     h.texto("R8 TARJETA DE IDENTIFICACIÓN AGC (CABA)", (tx + 42, ty + 58), 2.5, A.MIDDLE_CENTER)

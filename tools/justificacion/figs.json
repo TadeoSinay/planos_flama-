@@ -1292,82 +1292,42 @@
    {
     "n": 1,
     "etiqueta": "25 kg: peso cargado, altura, ancho, profundidad, Ø rueda, manga",
-    "claves": [
-     "CAT:FL_MAT_ABC_25kg:Peso",
-     "CAT:FL_MAT_ABC_25kg:Altura",
-     "CAT:FL_MAT_ABC_25kg:Ancho",
-     "CAT:FL_MAT_ABC_25kg:Profundidad",
-     "CAT:FL_MAT_ABC_25kg:Rueda",
-     "CAT:FL_MAT_ABC_25kg:Manga"
-    ]
+    "claves": []
    },
    {
     "n": 2,
     "etiqueta": "25 kg: presión de servicio y de ensayo (MPa)",
-    "claves": [
-     "CAT:FL_MAT_ABC_25kg:Ps",
-     "CAT:FL_MAT_ABC_25kg:Pe"
-    ]
+    "claves": []
    },
    {
     "n": 3,
     "etiqueta": "50 kg: peso cargado, altura, ancho, profundidad, Ø rueda, manga",
-    "claves": [
-     "CAT:FL_MAT_ABC_50kg:Peso",
-     "CAT:FL_MAT_ABC_50kg:Altura",
-     "CAT:FL_MAT_ABC_50kg:Ancho",
-     "CAT:FL_MAT_ABC_50kg:Profundidad",
-     "CAT:FL_MAT_ABC_50kg:Rueda",
-     "CAT:FL_MAT_ABC_50kg:Manga"
-    ]
+    "claves": []
    },
    {
     "n": 4,
     "etiqueta": "50 kg: presión de servicio y de ensayo (MPa)",
-    "claves": [
-     "CAT:FL_MAT_ABC_50kg:Ps",
-     "CAT:FL_MAT_ABC_50kg:Pe"
-    ]
+    "claves": []
    },
    {
     "n": 5,
     "etiqueta": "70 kg: peso cargado, altura, ancho, profundidad, Ø rueda, manga",
-    "claves": [
-     "CAT:FL_MAT_ABC_70kg:Peso",
-     "CAT:FL_MAT_ABC_70kg:Altura",
-     "CAT:FL_MAT_ABC_70kg:Ancho",
-     "CAT:FL_MAT_ABC_70kg:Profundidad",
-     "CAT:FL_MAT_ABC_70kg:Rueda",
-     "CAT:FL_MAT_ABC_70kg:Manga"
-    ]
+    "claves": []
    },
    {
     "n": 6,
     "etiqueta": "70 kg: presión de servicio y de ensayo (MPa)",
-    "claves": [
-     "CAT:FL_MAT_ABC_70kg:Ps",
-     "CAT:FL_MAT_ABC_70kg:Pe"
-    ]
+    "claves": []
    },
    {
     "n": 7,
     "etiqueta": "100 kg: peso cargado, altura, ancho, profundidad, Ø rueda, manga",
-    "claves": [
-     "CAT:FL_MAT_ABC_100kg:Peso",
-     "CAT:FL_MAT_ABC_100kg:Altura",
-     "CAT:FL_MAT_ABC_100kg:Ancho",
-     "CAT:FL_MAT_ABC_100kg:Profundidad",
-     "CAT:FL_MAT_ABC_100kg:Rueda",
-     "CAT:FL_MAT_ABC_100kg:Manga"
-    ]
+    "claves": []
    },
    {
     "n": 8,
     "etiqueta": "100 kg: presión de servicio y de ensayo (MPa)",
-    "claves": [
-     "CAT:FL_MAT_ABC_100kg:Ps",
-     "CAT:FL_MAT_ABC_100kg:Pe"
-    ]
+    "claves": []
    }
   ],
   "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F15.jpg"
@@ -2163,7 +2123,7 @@
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Numerado en el cuerpo (desarrollo de 2,5-10 kg). El documento pone el del 1 kg en la cúpula; criterio FLAMA: va en el cuerpo en todos los modelos",
+    "etiqueta": "Numerado: esta versión del documento lo hacía en el desarrollo del cuerpo (el 1 kg en la cúpula); la versión vigente lo estampa en la cúpula en todos los modelos (F53)",
     "claves": [
      "PM:numerado"
     ]
@@ -2324,6 +2284,399 @@
     "etiqueta": "Tobera cónica de salida",
     "claves": [
      "FU:lanza:valvula"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F46",
+  "titulo": "Proceso de carros v2: dónde va cada accesorio (vista de costado, 50 kg)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO_2.docx»",
+  "ubic": "Soldadura de accesorios, figura «Dónde va cada accesorio»",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F46.png",
+  "w": 663,
+  "h": 1080,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "La V de 90° de cada triángulo mira hacia atrás y el caño del eje se apoya en ella: la chapa no lo envuelve; el caño no gira y el eje pasa por adentro al montaje final.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F46_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Triángulo con V y caño del eje apoyado (20 del cuerpo)",
+    "claves": [
+     "PC2:tri"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Lengüeta aplastada 40 × 60 soldada al costado",
+    "claves": [
+     "PC2:manija"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Doblez de 30° hacia atrás y puño",
+    "claves": [
+     "PC2:manija"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Fleje del soporte de manga (Ω)",
+    "claves": [
+     "PC2:fleje"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Pata delantera de canto en el fondo",
+    "claves": [
+     "PC2:pata"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F47",
+  "titulo": "Proceso de carros v2: posiciones sobre el cuerpo desarrollado (50 kg)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO_2.docx»",
+  "ubic": "Soldadura de accesorios, plantilla y tabla de posiciones",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F47.png",
+  "w": 1470,
+  "h": 1140,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "Medidas desde la costura longitudinal (atrás) con la cinta envuelta y alturas desde las costuras del fondo y de la cúpula; los otros modelos, en la tabla de posiciones del proceso.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F47_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Triángulos a 82 de la costura, borde de abajo a 20 del fondo",
+    "claves": [
+     "PC2:tabla"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Lengüetas a 251 (costados), borde de abajo 200 bajo la cúpula",
+    "claves": [
+     "PC2:tabla"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Fleje superior: borde de arriba 40 bajo la cúpula",
+    "claves": [
+     "PC2:tabla"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Fleje inferior: borde de abajo 40 sobre el fondo",
+    "claves": [
+     "PC2:tabla"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Pata 48 hacia adentro; línea del piso a 135 bajo el fondo",
+    "claves": [
+     "PC2:piso"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F48",
+  "titulo": "Proceso de carros v2: piezas del kit (25 / 50 / 70 y 100 kg)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO_2.docx»",
+  "ubic": "Soldadura de accesorios, piezas de un kit (puesto 8.1)",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F48.png",
+  "w": 1625,
+  "h": 735,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "El eje no va en el kit: va al montaje final con las ruedas, las arandelas y los pasadores.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F48_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Manija: caño 1\" × 2,0, corte 1440 / 1520 / 1590",
+    "claves": [
+     "PC2:manija"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Caño del eje 1\" / 1¼\" × 2,0 × 354 / 354 / 434",
+    "claves": [
+     "PC2:cano"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Triángulos con V: chapa 4,75, cateto 70 / 80 / 100",
+    "claves": [
+     "PC2:tri"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Flejes: 3,2 × 40, corte 292 / 318 / 400",
+    "claves": [
+     "PC2:fleje"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Pata: 3,2, 80 × 60 / 100 × 80",
+    "claves": [
+     "PC2:pata"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F49",
+  "titulo": "Hoja de especificaciones «Polvos carros» (usuario)",
+  "fuente": "Tabla enviada por el usuario",
+  "ubic": "Columnas 25, 50, 70 (5 m) y 100 kg",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F49.png",
+  "w": 1354,
+  "h": 798,
+  "link": "",
+  "tipo": "Hoja de especificaciones",
+  "nota": "Alto, ancho, profundidad, Ø de rueda y largo de manga que el carro tiene que cumplir; el 70 kg va con 5 m de manga (la columna de 10 m no se fabrica).",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F49_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "ABC 25kg",
+    "claves": [
+     "CAT:FL_MAT_ABC_25kg:Peso",
+     "CAT:FL_MAT_ABC_25kg:Altura",
+     "CAT:FL_MAT_ABC_25kg:Ancho",
+     "CAT:FL_MAT_ABC_25kg:Profundidad",
+     "CAT:FL_MAT_ABC_25kg:Rueda",
+     "CAT:FL_MAT_ABC_25kg:Manga",
+     "CAT:FL_MAT_ABC_25kg:Ps",
+     "CAT:FL_MAT_ABC_25kg:Pe"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "ABC 50kg",
+    "claves": [
+     "CAT:FL_MAT_ABC_50kg:Peso",
+     "CAT:FL_MAT_ABC_50kg:Altura",
+     "CAT:FL_MAT_ABC_50kg:Ancho",
+     "CAT:FL_MAT_ABC_50kg:Profundidad",
+     "CAT:FL_MAT_ABC_50kg:Rueda",
+     "CAT:FL_MAT_ABC_50kg:Manga",
+     "CAT:FL_MAT_ABC_50kg:Ps",
+     "CAT:FL_MAT_ABC_50kg:Pe"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "ABC 70kg",
+    "claves": [
+     "CAT:FL_MAT_ABC_70kg:Peso",
+     "CAT:FL_MAT_ABC_70kg:Altura",
+     "CAT:FL_MAT_ABC_70kg:Ancho",
+     "CAT:FL_MAT_ABC_70kg:Profundidad",
+     "CAT:FL_MAT_ABC_70kg:Rueda",
+     "CAT:FL_MAT_ABC_70kg:Manga",
+     "CAT:FL_MAT_ABC_70kg:Ps",
+     "CAT:FL_MAT_ABC_70kg:Pe"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "ABC 100kg",
+    "claves": [
+     "CAT:FL_MAT_ABC_100kg:Peso",
+     "CAT:FL_MAT_ABC_100kg:Altura",
+     "CAT:FL_MAT_ABC_100kg:Ancho",
+     "CAT:FL_MAT_ABC_100kg:Profundidad",
+     "CAT:FL_MAT_ABC_100kg:Rueda",
+     "CAT:FL_MAT_ABC_100kg:Manga",
+     "CAT:FL_MAT_ABC_100kg:Ps",
+     "CAT:FL_MAT_ABC_100kg:Pe"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F50",
+  "titulo": "Proceso final de carros: manija (vistas y desarrollo)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO.pdf»",
+  "ubic": "Puesto 8.1, figura de la manija",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F50.png",
+  "w": 1760,
+  "h": 970,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "A entre ejes de las patas, tramo inclinado C = 180 (sube 156 y se corre 90) y curvas con la matriz de radio 100; la altura de la curva (B) se ajusta para dar el alto de la hoja de especificaciones.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F50_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "A entre ejes de las patas",
+    "claves": [
+     "PCF:manija"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Tramo inclinado C = 180 a 30°",
+    "claves": [
+     "PCF:manija"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Curva de 30° sobre la costura de la cúpula (B)",
+    "claves": [
+     "PCF:manija"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F51",
+  "titulo": "Proceso final de carros: carro armado (50 kg)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO.pdf»",
+  "ubic": "Figura «Carro de 50 kg armado»",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F51.png",
+  "w": 1820,
+  "h": 1330,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "Ruedas de chapa y goma con buje liso, eje de barra trefilada dentro del caño apoyado en los triángulos; la trocha sale del ancho de la hoja de especificaciones.",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F51_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Trocha entre centros de rueda",
+    "claves": [
+     "PCF:tabla"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Rueda Ø × banda (montaje final)",
+    "claves": [
+     "PCF:tabla"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Caño del eje con el eje adentro, sobre los triángulos",
+    "claves": [
+     "PCF:tabla"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Flejes superior e inferior adelante",
+    "claves": [
+     "PCF:fleje"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F52",
+  "titulo": "Proceso final de carros: fleje del soporte de manga (foto)",
+  "fuente": "Documento de proceso del usuario «PROCESO_CARRO_EN_LIMPIO.pdf»",
+  "ubic": "Figura de los flejes del soporte de manga",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F52.png",
+  "w": 1000,
+  "h": 393,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "nota": "U abierta hacia afuera con la base recta soldada al cuerpo por el centro; la manga pasa por afuera de las patas y la oreja no la deja salirse (las medidas del esquema del documento eran orientativas: salen del largo de manga).",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F52_q.png",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Base recta soldada al centro",
+    "claves": [
+     "PCF:fleje"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Pata y oreja (izquierda)",
+    "claves": [
+     "PCF:fleje"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "Pata y oreja (derecha)",
+    "claves": [
+     "PCF:fleje"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Manga por afuera de las patas",
+    "claves": [
+     "PCF:fleje"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "F53",
+  "titulo": "Proceso FLAMA de manuales: numerado de cúpula (documento del usuario)",
+  "fuente": "Documento de proceso FLAMA «PROCESO DE MANUALES EXPLICATIVO + VIDEOS.docx» (versión vigente)",
+  "ubic": "Apartado «Numerado de cúpula»: proceso, paso a paso y controles",
+  "png": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F53.png",
+  "w": 951,
+  "h": 1027,
+  "link": "",
+  "tipo": "Proceso FLAMA",
+  "img": "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad/jw/figs/F53_q.png",
+  "nota": "El número va estampado en la cúpula, en arco alrededor del cuello (micropercusión, un apoyo por modelo), antes de soldar el cuello y antes de la PH; el mismo criterio se aplica a los carros (puesto 11).",
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Fabricante, n° de recipiente y año estampados en frío en la cúpula",
+    "claves": [
+     "PM2:numerado"
+    ]
+   },
+   {
+    "n": 2,
+    "etiqueta": "Junto al cuello, letra de 5 mm (IRAM 4503) y cuño DPS al lado",
+    "claves": [
+     "PM2:numerado"
+    ]
+   },
+   {
+    "n": 3,
+    "etiqueta": "En arco alrededor del cuello: la aguja trabaja a la misma distancia",
+    "claves": [
+     "PM2:numerado"
+    ]
+   },
+   {
+    "n": 4,
+    "etiqueta": "Ciclo: fabricante, número, año y DPS en arco",
+    "claves": [
+     "PM2:numerado"
+    ]
+   },
+   {
+    "n": 5,
+    "etiqueta": "Control: junto al cuello y sin deformar la cúpula (IRAM 3523 5.1)",
+    "claves": [
+     "PM2:numerado"
     ]
    }
   ]

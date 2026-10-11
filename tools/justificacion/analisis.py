@@ -378,8 +378,76 @@ G.append(("D. Tren de rodaje", [
        "La barra trefilada se compra a medida y el caño del eje la protege: no hace falta mecanizarla.",
        "Justificado."),
 ]))
+# ------------------------------------------------------------------ marcado estampado en la cúpula (proceso «numerado
+# de cúpula»): tensión de membrana de la cúpula en la franja (elipse de semiejes R y hd − c0) frente a la tensión
+# circunferencial de la virola, a la presión de ensayo; la marca se toma como una ranura continua (cota superior)
+from flama import modelo3d as M3  # noqa: E402
+
+PROF_MARCA = {"1 kg": 0.10, "manual": 0.15, "rodante": 0.20}      # profundidad máxima de la marca (mm)
+
+
+def membrana(a, b, t, p, r):
+    """Tensiones de membrana (meridiana, circunferencial) de un casquete elipsoidal a la distancia r del eje."""
+    u = r / a
+    s_ = math.sqrt(1 - u * u)
+    zp, zpp = (b / a ** 2) * r / s_, (b / a ** 2) / s_ ** 3
+    r1, r2 = (1 + zp ** 2) ** 1.5 / zpp, r * math.sqrt(1 + zp ** 2) / zp
+    return p * r2 / (2 * t), p * r2 / t * (1 - r2 / (2 * r1))
+
+
+MK = {}
+for c in ("FL_MAT_ABC_1kg", "FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg", "FL_MAT_ABC_25kg",
+          "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg", "FL_MAT_ABC_100kg"):
+    m_, g_ = M[c], M[c].geo
+    rod_ = m_.familia == "rodante"
+    lab_, esc_ = M3.encastre(g_)
+    b_ = g_["hd"] - (esc_ if rod_ else lab_)
+    mk_ = M3.marca_cupula(m_)
+    sm = max(abs(v) for v in membrana(g_["R"], b_, g_["td"], pe(c), mk_["rc"]))
+    d_ = PROF_MARCA["1 kg" if m_.capacidad == "1 kg" else m_.familia]
+    MK[c] = dict(franja=(2 * mk_["r_in"], 2 * mk_["r_out"]), arco=mk_["a_tot"], b=b_, s=sm,
+                 s_marca=sm * g_["td"] / (g_["td"] - d_), s_cuerpo=pe(c) * g_["R"] / g_["t"], d=d_, td=g_["td"])
+
+
+def _cmp(cs):
+    return "; ".join(f"{M[c].capacidad}: {n(MK[c]['s'], 0)} ({n(MK[c]['s_marca'], 0)}) contra {n(MK[c]['s_cuerpo'], 0)}"
+                     for c in cs)
+
+
+MAN = ("FL_MAT_ABC_2.5kg", "FL_MAT_ABC_5kg", "FL_MAT_ABC_10kg")
+ROD = ("FL_MAT_ABC_25kg", "FL_MAT_ABC_50kg", "FL_MAT_ABC_70kg")
+m1 = MK["FL_MAT_ABC_1kg"]
 # ================================================================== E. identificación
 G.append(("E. Identificación", [
+    it("M1", "Marcado estampado en la cúpula, en arco junto al cuello", "8 ABC propios",
+       f"Franja Ø{n(m1['franja'][0], 0)}-{n(m1['franja'][1], 0)} (1 kg), "
+       f"Ø{n(MK['FL_MAT_ABC_10kg']['franja'][0], 0)}-{n(MK['FL_MAT_ABC_10kg']['franja'][1], 0)} (2,5-10 kg), "
+       f"Ø{n(MK['FL_MAT_ABC_25kg']['franja'][0], 0)}-{n(MK['FL_MAT_ABC_25kg']['franja'][1], 0)} (25 kg), "
+       f"Ø{n(MK['FL_MAT_ABC_100kg']['franja'][0], 0)}-{n(MK['FL_MAT_ABC_100kg']['franja'][1], 0)} (50-100 kg); "
+       "letra 5 mm; cuño DPS 15 × 7; arco de 169 a 270°",
+       "Va en la cúpula y no en el cuerpo: la etiqueta, la oblea y el soporte no la tapan y el recargador la lee junto "
+       "al cuello. Se marca en arco alrededor del eje porque en una pieza de revolución ese círculo está a una sola "
+       "altura: la aguja de micropercusión trabaja a distancia constante y la letra sale pareja. La franja empieza "
+       "4 mm afuera del cuello, fuera del pie del cordón cuello-cúpula. Tensión de membrana de la cúpula en la franja "
+       "a la presión de ensayo, en MPa (entre paréntesis, tomando la marca como una ranura continua, que es la cota "
+       f"superior) contra la tensión circunferencial de la virola: {_cmp(MAN)}; carros {_cmp(ROD)}. La franja queda "
+       "dentro de ± 10 % de la virola, que es la que manda en la prueba hidráulica; las marcas de micropercusión son "
+       "puntos redondeados, sin el filo de un cuño. En los manuales se marca antes de la PH, así que la prueba "
+       "verifica cada cúpula ya marcada. En los carros se marca después de la PH (puesto 11), pero la franja queda "
+       f"por debajo de la virola aun con la cota superior. La cúpula del 1 kg es casi plana ({n(m1['b'], 1)} mm de "
+       "curva sobre Ø76, 0,9 mm de espesor): trabaja como una placa anular entre el cuello y la pollera, la teoría de "
+       "membrana no aplica y lo que la verifica es la PH posterior al marcado.",
+       "IRAM 3523 5.1 e IRAM 3550 5.1 (fabricante, número y año sobre el recipiente; en los carros también la "
+       "presión de ensayo); IRAM 3523 5.2.4 3° l) (el número de la placa es el mismo del grabado); IRAM 4503 "
+       "(letra); Res. 349/07 anexo IV (cuño DPS).",
+       "Una marcadora de micropercusión (Pannier MarkFirst ADP120160D) con un apoyo por modelo hace los 4 manuales "
+       "cambiando el programa, sin cuños ni yunques por formato: 37,5 s por cúpula. La marcadora va al lado de la "
+       "prensa de muesca y de la soldadora de cuello: el mismo operario numera, marca el cuello y suelda, sin "
+       "transporte entre los tres puestos.",
+       "Justificado: marcado en la cúpula, en arco junto al cuello.",
+       f"Profundidad de marca: hasta {n(PROF_MARCA['1 kg'], 2)} mm en el 1 kg, {n(PROF_MARCA['manual'], 2)} mm en "
+       f"los demás manuales y {n(PROF_MARCA['rodante'], 1)} mm en los carros; controlarla en la primera pieza de "
+       "cada tanda."),
     it("I1", "Etiqueta: alas laterales", "los 17", "Panel frontal de 108° + 2 alas de 54° (72° si Ø < 100)",
        "El frente visible del cilindro son 180°. El panel de 108° lleva las instrucciones de uso dentro de ± 54°, "
        "donde el ancho aparente del texto es al menos 0,59 del real (cos 54°); las alas llevan los datos del fabricante y de la carga. "

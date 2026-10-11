@@ -10,7 +10,7 @@ const SP = "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77f
 const OUT = process.argv[2] || "/home/user/planos_flama-/salida/justificacion/Justificacion de medidas planos.docx";
 const C = JSON.parse(fs.readFileSync(`${SP}/jw/compacto.json`, "utf8"));
 const AN = JSON.parse(fs.readFileSync(`${SP}/jw/analisis.json`, "utf8"));
-// Escala por fila de figuras (clave: figura de la izquierda), calculada por ajuste.py para que no queden huecos al pie.
+// Escala de cada figura, calculada por ajuste.py para que no queden huecos al pie.
 const ESC = (() => { try { return JSON.parse(fs.readFileSync(`${SP}/jw/escala.json`, "utf8")); } catch (_) { return {}; } })();
 
 const W = 10306; // ancho útil (DXA): A4 con márgenes de 1,5 cm
@@ -72,11 +72,11 @@ const sep = () => new Paragraph({ spacing: { after: 0, before: 0, line: 20, line
 function grilla(figs) {
   const out = [];
   for (let i = 0; i < figs.length; i += 2) {
-    const par = [figs[i], figs[i + 1]], s = ESC[figs[i].id] || 1;
+    const par = [figs[i], figs[i + 1]];
     out.push(new Table({ width: { size: W, type: WidthType.DXA }, columnWidths: [CW, CW], borders: sinBordes,
       rows: [new TableRow({ cantSplit: true, children: par.map((f) => new TableCell({ width: { size: CW, type: WidthType.DXA },
         borders: sinBordes, margins: { top: 60, bottom: 60, left: 80, right: 80 },
-        children: f ? bloqueFigura(f, s) : [new Paragraph({ children: [] })] })) })] }), sep());
+        children: f ? bloqueFigura(f, ESC[f.id] || 1) : [new Paragraph({ children: [] })] })) })] }), sep());
   }
   return out;
 }
@@ -89,7 +89,7 @@ const SECC = [
   ["3. Catálogo Fadesa 3", "Peso, altura, ancho, profundidad, rueda, manga y presiones de cada modelo.", rango(14, 23)],
   ["4. Fichas de mercado y normas", "Masas de referencia sin plano Fadesa; cláusulas IRAM y resoluciones usadas (se citan, no se transcriben).", rango(24, 30).concat([porId.F40].filter(Boolean))],
   ["5. Relevamiento y planilla MP", "Identificación relevada en fotos (justificada en la sección 8) y celdas de la planilla de abastecimiento.", rango(31, 37)],
-  ["6. Procesos FLAMA", "Documentos de proceso del usuario: medidas y uniones de carros, numerado, encastre y bordoneado de manuales.", rango(38, 39)],
+  ["6. Procesos FLAMA", "Documentos de proceso del usuario: medidas y uniones de carros, numerado, encastre y bordoneado de manuales, y el numerado de cúpula de la versión vigente (F53).", rango(38, 39).concat([porId.F53].filter(Boolean))],
   ["7. Carro: triángulos con V, caño del eje, manija, flejes, pata y lanza", "Proceso de carros v2 que mandaste (dónde va cada accesorio, plantilla de posiciones y piezas del kit: F46 a F48), plano Fadesa del rodante de 800 mm (manija doblada 30°, pata afinada y soldada), foto del carro relevado y las fotos que marcaste (soldadura de la barra lateral, altura del doblez y lanza con válvula esférica), la hoja de especificaciones «Polvos carros» (F49) y el proceso final de carros (manija, carro armado y fleje: F50 a F52).", rango(41, 52)],
 ];
 
@@ -100,7 +100,7 @@ hijos.push(p([t("FLAMA S.A. · origen de cada dimensión de los planos FL_MAT, F
 [
   "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. La fuente de un valor se cita «F10·3» (figura F10, marca 3).",
   "Lo que no sale de un documento es una decisión de diseño FLAMA: la sección 8 justifica cada una con el cálculo de estática y resistencia, la cláusula de norma que la alcanza y su costo frente a la alternativa. Lo que depende del proveedor queda como condición de compra (tabla de abajo).",
-  "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número en la cúpula del 1 kg.",
+  "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número estampado en la cúpula, en arco junto al cuello, en todos los modelos (F53).",
   "El carro sigue el proceso de carros v2 (F46 a F48): dos triángulos de chapa 4,75 con una V de 90° hacia atrás donde se apoya el caño del eje (la chapa no lo envuelve; el caño no gira y el eje pasa por adentro al montaje final con arandelas y pasadores), manija de caño 1\" × 2,0 con las puntas aplastadas en lengüetas de 40 × 60 soldadas a los costados (sin orejas), flejes Ω para la manga y la pata delantera; las posiciones salen de la tabla del proceso. La válvula esférica con palanca de la lanza sale de tu foto (F45). Las medidas de conjunto de los carros de polvo (alto, ancho, profundidad, rueda y manga) son las de la hoja «Polvos carros» (F49): el ancho fija el largo del eje y la trocha, el alto ubica la curva de 30° de la manija y la profundidad la marca la palanca de la válvula. Los flejes tienen la base que da vueltas enteras con el largo de manga y patas hasta delante de la última vuelta; el de 100 kg lleva un tercero en el medio con las orejas hacia adentro, que cierra el paquete y deja la manga tensa.",
   "Fadesa es referencia de medidas, no de criterio: donde no cumple la norma manda la IRAM. Ej.: el tren de rodaje sigue la IRAM 3550 tabla III (rueda ≥ Ø300, banda ≥ 50 —Fadesa usa 49—, trocha ≥ 400 entre centros) y no el ancho del catálogo.",
 ].forEach((x) => hijos.push(p(x, { bullet: true, after: 40 })));

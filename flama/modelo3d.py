@@ -1217,18 +1217,48 @@ def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
 def marcado(m):
     """Dónde y cuándo se graba el marcado del recipiente (IRAM 3523 / 3550 5.1), según los procesos FLAMA.
     Devuelve (pieza, texto corto, texto de proceso en líneas)."""
-    # criterio FLAMA: el marcado va siempre en el cuerpo (también en el 1 kg y en los carros), nunca en la cúpula
-    if m.capacidad == "1 kg":
-        return ("cuerpo", "grabado en el cuerpo (puesto de numerado)",
-                ["Grabado en el CUERPO (caño cortado a láser) en el puesto de numerado, antes",
-                 "del encastre y el bordoneado; franja superior, opuesta a la etiqueta;"])
+    # proceso FLAMA de manuales, «numerado de cúpula»: fabricante, n° y año estampados en frío en la CÚPULA, en arco
+    # alrededor del cuello (micropercusión), con el cuño DPS al lado; el mismo criterio en los carros (ver marca_cupula)
     if m.familia == "rodante":
-        return ("cuerpo", "grabado en el cuerpo (puesto 11 de marcado, después de la PH y el secado)",
-                ["Grabado en el CUERPO en el puesto 11 (marcado), después de la PH (9) y el",
-                 "secado (10); franja superior, costado derecho (libre de manija y manga);"])
-    return ("cuerpo", "grabado en el cuerpo (puesto de numerado)",
-            ["Grabado en el CUERPO sobre el desarrollo plano (guillotina → numerado →",
-             "cilindrado), número hacia afuera; franja superior, opuesta a la etiqueta;"])
+        return ("cupula", "estampado en la cúpula, en arco junto al cuello (puesto 11, después de la PH y el secado)",
+                ["Estampado en la CÚPULA, en arco alrededor del cuello, en el puesto 11 (marcado),",
+                 "después de la PH (9) y el secado (10); centrado al costado derecho (libre de manija y manga);"])
+    return ("cupula", "estampado en la cúpula, en arco junto al cuello (puesto de numerado de cúpula)",
+            ["Estampado en la CÚPULA, en arco alrededor del cuello (micropercusión), después del",
+             "embutido y antes de soldar el cuello; centrado al frente, sobre la etiqueta;"])
+
+
+MARCA_H = 5.0               # letra del marcado estampado (IRAM 4503; proceso «numerado de cúpula»)
+CUNO_DPS = (15.0, 7.0)      # cuño DPS junto al n° (Res. 349/07 anexo IV)
+MARCA_ARCO_MAX = 270.0      # el arco no da la vuelta entera: el cuño queda separado del comienzo del texto
+
+
+def marca_cupula(m):
+    """Franja del marcado estampado en la cúpula, en arco alrededor del cuello: radios (desde el eje), texto, paso
+    entre caracteres y ángulos en grados (0° = costado derecho, -90° = frente). La franja arranca 4 mm afuera del
+    cuello (cordón cuello-cúpula + 2 mm libres) y tiene el alto del cuño DPS; si el arco pasara de 270° se aleja del
+    cuello hasta que entre."""
+    rod = m.familia == "rodante"
+    txt = "FLAMA S.A.  N° 000001  " + (f"PE {m.spec['Presión de ensayo (MPa)']} MPa  " if rod else "") + "26"
+    paso = 0.72 * MARCA_H
+    largo = len(txt) * paso + 4.0 + CUNO_DPS[0]
+    rc = max(m.geo["cuello"][0] / 2 + 4.0 + CUNO_DPS[1] / 2, largo / math.radians(MARCA_ARCO_MAX))
+    a_txt = math.degrees(len(txt) * paso / rc)
+    a_tot = math.degrees(largo / rc)
+    centro = 0.0 if rod else -90.0
+    a0 = centro - a_tot / 2                  # el texto avanza en sentido antihorario visto desde arriba
+    return dict(r_in=rc - CUNO_DPS[1] / 2, r_out=rc + CUNO_DPS[1] / 2, rc=rc, texto=txt, paso=paso, a0=a0,
+                a_tot=a_tot, a_dps0=a0 + a_txt + math.degrees(4.0 / rc), a_dps=math.degrees(CUNO_DPS[0] / rc),
+                centro=centro)
+
+
+def z_cupula_en(dr, r, rod=False):
+    """Altura de la cara exterior de la cúpula a la distancia r del eje: elipse de semiejes R y hd − c0 centrada c0
+    sobre la unión (c0 = pollera recta en los manuales, escalón del casquete en los carros; ver recipiente())."""
+    lab, esc = dr["encastre"]
+    c0 = esc if rod else lab
+    u = min(1.0, r / dr["R"])
+    return dr["z_union"] + c0 + (dr["hd"] - c0) * math.sqrt(1.0 - u * u)
 
 
 # medidas de identificación (ver flama/rotulado.py para las fuentes)

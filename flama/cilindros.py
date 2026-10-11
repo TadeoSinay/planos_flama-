@@ -239,18 +239,16 @@ def hoja3(m, doc, ox):
     tb = piezas["tapon"].BoundingBox()
     h.nota_referencia("Tapón protector", (Tx, Ty + (tb.zmin + tb.zmax) / 2 * f), (Tx + dr["R"] * f + 8,
                       Ty + tb.zmax * f + 6), 2.2)
-    # marcado: siempre en el cuerpo (criterio FLAMA, también 1 kg y carros), franja superior; cara opuesta a la
-    # etiqueta en los manuales; en los carros, costado derecho (atrás van la manija y la etiqueta, adelante la manga)
-    zm = dr["z_union"] - 12.0
-    if m.familia == "rodante":
-        h.rect(Tx + (dr["R"] - 4) * f, Ty + (zm - 3) * f, Tx + dr["R"] * f, Ty + (zm + 3) * f, "01-VISIBLE")
-        xr = Tx + dr["R"] * f
-    else:
-        h.rect(Tx - 10 * f, Ty + (zm - 3) * f, Tx + 10 * f, Ty + (zm + 3) * f, "02-OCULTA")
-        xr = Tx + 10 * f
-    h.nota_referencia("Marcado en el cuerpo",
-                      (xr, Ty + zm * f),
-                      (Tx + dr["R"] * f + 8, Ty + dr["z_cuello"] * f + 4), 2.2)
+    # marcado: estampado en la cúpula, en arco alrededor del cuello (proceso «numerado de cúpula»); en la vista
+    # anterior se ve la parte de la franja que da al frente, casi plana: se dibuja con 1,2 mm de alto como mínimo
+    mk = M.marca_cupula(m)
+    z_i, z_o = (M.z_cupula_en(dr, r, rod) for r in (mk["r_in"], mk["r_out"]))
+    angs = [math.radians(mk["a0"] + mk["a_tot"] * k / 180) for k in range(181)]
+    xs = [r * math.cos(a_) for a_ in angs if math.sin(a_) < 0 for r in (mk["r_in"], mk["r_out"])]
+    zc_, dz = (z_i + z_o) / 2, max((z_i - z_o) / 2, 0.6 / f)
+    h.rect(Tx + min(xs) * f, Ty + (zc_ - dz) * f, Tx + max(xs) * f, Ty + (zc_ + dz) * f, "01-VISIBLE")
+    h.nota_referencia("Marcado (R3)", (Tx + (min(xs) + max(xs)) / 2 * f, Ty + zc_ * f),
+                      (Tx + dr["R"] * f + 8, Ty + zc_ * f - 6), 2.2)
     h.nota_referencia("Etiqueta (R2)", (Tx, Ty + (eb.zmin + eb.zmax) / 2 * f), (Tx - dr["R"] * f - 6,
                       Ty + eb.zmin * f - 8), 2.2)
     h.texto(f"R1 UBICACIÓN (vista anterior, esc. 1:{_n(1 / f, 0)})", (X0 + 62, Y1 - 13), 3, A.MIDDLE_CENTER)
@@ -281,28 +279,28 @@ def hoja3(m, doc, ox):
             (ex_, ey_ - 13), 1.8)
     h.texto("lleva placa IRAM 3534; ésta la pone quien arma el matafuego). Va sobre el eje de la futura placa.",
             (ex_, ey_ - 16.5), 1.8)
-    # R3 marcado grabado
+    # R3 marcado estampado en la cúpula: texto a la izquierda y vista superior del arco a la derecha
     mx, my = X0 + 132, Y0 + 116
-    h.texto("R3 MARCADO GRABADO (IRAM " + s["Norma IRAM extintor"] + " 5.1)", (mx + 60, my + 30), 3, A.MIDDLE_CENTER)
-    txt = "FLAMA S.A.  N° 000001  " + (f"PE {s['Presión de ensayo (MPa)']} MPa  " if rod else "") + "26"
-    h.relleno(sg.box(mx, my + 14, mx + 137, my + 24), RT.ROJO_CUERPO)        # grabado bajo la pintura del cuerpo
-    h.rect(mx, my + 14, mx + 120, my + 24, "01-VISIBLE")
-    t_ = h.texto(txt, (mx + 60, my + 19), 3.5, A.MIDDLE_CENTER)
-    if t_ is not None:
-        t_.rgb = (90, 10, 15)
-    h.texto(("Fabricante, n° de serie, presión de ensayo y año (2 díg.)" if rod else
-             "Fabricante, n° de recipiente y año (2 díg.)"), (mx, my + 9), 1.9)
+    h.texto("R3 MARCADO ESTAMPADO EN LA CÚPULA (IRAM " + s["Norma IRAM extintor"] + " 5.1)", (mx + 60, my + 30), 3,
+            A.MIDDLE_CENTER)
     l1, l2 = M.marcado(m)[2]
-    h.texto(l1, (mx, my + 5.5), 1.9)
-    h.texto(l2 + " letra 5 mm IRAM 4503; legible después de pintar.", (mx, my + 2), 1.9)
-    h.rect(mx + 122, my + 15.5, mx + 137, my + 22.5, "01-VISIBLE")
-    t_ = h.texto("DPS", (mx + 129.5, my + 19), 3.0, A.MIDDLE_CENTER)
-    if t_ is not None:
-        t_.rgb = (90, 10, 15)
-    h.texto("cuño DPS 15 × 7 junto al n° (Res. 349/07 anexo IV)", (mx, my - 1.5), 1.9)
+    lin = [("Fabricante, n° de serie, presión de ensayo y año (2 díg.)" if rod else
+            "Fabricante, n° de recipiente y año (2 díg.)") + ", en arco alrededor del cuello:",
+           f"«{mk['texto']}» + cuño DPS 15 × 7 (Res. 349/07 anexo IV).", l1, l2,
+           "Letra 5 mm (IRAM 4503), legible después de pintar, sin deformar la cúpula.",
+           f"Franja Ø{_n(2 * mk['r_in'], 0)} a Ø{_n(2 * mk['r_out'], 0)} (desde el eje), arco de {_n(mk['a_tot'], 0)}°: "
+           "vista superior a la derecha."]
     if rod:
-        h.texto("Hasta el puesto 11 lleva modelo y lote escritos con marcador industrial (Edding 790), desde el "
-                "punteo (4).", (mx, my - 5), 1.9)
+        lin.append("Hasta el puesto 11 lleva modelo y lote escritos con marcador industrial (Edding 790), desde el "
+                   "punteo (4).")
+    for i, t in enumerate(lin):
+        h.texto(t, (mx, my + 22 - 3.5 * i), 1.9)
+    s3 = next(v for v in (1.0, 0.5, 0.4, 0.2) if (mk["r_out"] + 4.0) * v <= 34.0)
+    c3 = (X0 + 312, Y0 + 100)
+    r3 = RT.marca_en_arco(h, m, c3, s3, RT.ROJO_CUERPO)
+    h.texto(f"Vista superior de la cúpula junto al cuello (esc. {RT.ESC_MARCA[s3]})", (c3[0], c3[1] + r3 + 3), 2.5,
+            A.BOTTOM_CENTER)
+    h.texto("FRENTE (lado de la etiqueta)", (c3[0], c3[1] - r3 - 1.5), 1.8, A.TOP_CENTER)
     # R4 tapón protector
     tx, ty = X0 + 262, Y1 - 50
     rt = m.geo["cuello"][0] / 2 + 1.5
