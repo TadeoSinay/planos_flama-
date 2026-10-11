@@ -1,6 +1,6 @@
 # Justificación de medidas planos — herramientas
 
-Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 11 páginas, todo en el Word: no hay Excel).
+Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 16 páginas, todo en el Word: no hay Excel).
 
 | Paso | Archivo | Qué hace |
 |---|---|---|
@@ -10,9 +10,10 @@ Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 11 pági
 | 3b | `carro_figs.py` | Carro: plano Fadesa «Rodante 50kg 800mm R2» (manija doblada 30°), fotos del carro y de la lanza (F41 a F45) y figuras del proceso de carros v2 (accesorios, plantilla de posiciones, kit → F46 a F48), la hoja de especificaciones «Polvos carros» del usuario (F49) y el proceso final de carros (manija, carro armado, foto del fleje → F50 a F52) |
 | 4 | `compacto.py <sha>` | Une todo en `compacto.json`: fuente «F10·3» de cada valor, lista D01… de valores de diseño con la lógica que los justifica, pendientes |
 | 5 | `recorte.py` | Recorta cada captura a la zona de sus marcas (para el Word) |
-| 6 | `word2.js` | Word con docx-js (`npm install docx`): capturas de a dos con sus marcas, pendientes y, al final, «Observaciones a validar» (valores de diseño con su lógica, sin referencias al código) |
+| 5b | `analisis.py` | Análisis de cada medida de diseño FLAMA: cálculo de estática y resistencia (virola, casquete elipsoidal, cuello, válvula, pasadores, eje de rueda, CO₂ con CoolProp), cláusula de norma, costo y conclusión; condiciones de compra → `analisis.json` |
+| 6 | `word2.js` | Word con docx-js (`npm install docx`): capturas de a dos con sus marcas, condiciones de compra en la página 1 y, al final, la sección 8 «Análisis y justificación de las medidas de diseño» (sin referencias al código) |
 
-Colores (mismo criterio que el BOM): sin color = documento; amarillo = diseño FLAMA; naranja = a validar.
+Cada valor sale de un documento (figura y marca) o es una medida de diseño FLAMA justificada en la sección 8.
 
 `figs/` tiene las capturas ya marcadas. Para volver a marcar desde cero, `figs.py` necesita las fuentes originales
 (planos Fadesa, catálogo Fadesa 3, normas IRAM, Res. 522/07, Anexo R, fotos del relevamiento, planilla MP) y

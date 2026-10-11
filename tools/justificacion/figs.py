@@ -292,7 +292,7 @@ ext2("F13", "Extintor rodante 100kg R1.pdf", "B208/214/237/238/239/243/244/245",
         "valvula": (pt(415.8, 445.3, 107.8, 148.6), "Válvula G763 (esc. 1:8): igual a la del 50 kg"),
         "rueda": (pt(326.0, 357.0, 458.0, 601.0), "Rueda Ø400: ancho de banda 76 (líneas a 26,9 pt); trocha 500"),
     }, "G763"), nota="Del plano de 100 kg se tomó el Ø390, la masa total y el ancho de rueda; el plano no acota el "
-        "recipiente: cuerpo y cabezales del 100 kg se calcularon (figura del código _g_rodante). " + NOTA_ESC)
+        "recipiente: cuerpo y cabezales del 100 kg se calcularon con la relación de los cabezales Fadesa (casquete 0,656 R: sección 8, P1). " + NOTA_ESC)
 
 # =========================================================== catálogo Fadesa 3 (tablas)
 CATF = "Catálogo Fadesa 3, archivo «Cat_logo_Fadesa_3.pdf» (escaneo)"
@@ -334,7 +334,7 @@ cat("F22", "t16", 16, [("FL_MAT_CO2_2kg", "CO₂ 2 kg", (582, 95, 638, 235), (58
                        ("FL_MAT_CO2_5kg", "CO₂ 5 kg", (727, 95, 782, 235), (727, 395, 782, 445), False)])
 cat("F23", "t17", 17, [("FL_MAT_CLASED_9l", "Clase D (se usa la columna 10 kg)", (1060, 255, 1168, 400),
                         (1060, 492, 1168, 550), False)],
-    nota="El catálogo sólo lista clase D de 5 y 10 kg; el 9 l de la lista FLAMA usa la columna de 10 kg (a confirmar).")
+    nota="El catálogo sólo lista clase D de 5 y 10 kg; el 9 l de la lista FLAMA usa la columna de 10 kg: 9 l de polvo D pesan ≈ 10 kg (sección 8, CD).")
 
 # =========================================================== fichas de mercado
 g = pymupdf.open(f"{GEO}/8_Ficha-te#U00eccnica-ABC90.pdf")[0]
@@ -397,17 +397,17 @@ def foto(f, archivo, titulo, marks, nota=""):
 
 foto("F31", "f01.jpg", "Relevamiento: tarjeta AGC (CABA) en un extintor de 10 kg",
      [(1, (100, 295, 505, 500), "Tarjeta de identificación AGC autoadhesiva con QR → 140 × 55 mm", ["RV:tarjeta"])],
-     nota="Medida estimada por proporción con el Ø del recipiente de 10 kg (181,5 mm); confirmar con la AGC.")
+     nota="Medida estimada por proporción con el Ø del recipiente de 10 kg (181,5 mm); justificada en la sección 8 (I5).")
 foto("F32", "f08.jpg", "Relevamiento: etiqueta envolvente y estampilla IRAM (línea Georgia)",
      [(1, (150, 222, 462, 525), "Etiqueta envolvente: panel central + alas (≈ 216° en total)", ["RV:etiqueta"]),
       (2, (250, 540, 470, 670), "Estampilla IRAM con n° vertical, logo y QR → 60 × 40 mm", ["RV:estampilla"])],
-     nota="Medidas estimadas por proporción con el Ø del recipiente; confirmar.")
+     nota="Medidas estimadas por proporción con el Ø del recipiente; justificadas en la sección 8 (I1, I2).")
 foto("F33", "f13.jpg", "Relevamiento: etiqueta de n° de serie GS1 (línea Melisam)",
      [(1, (230, 360, 358, 447), "Etiqueta GS1 con QR «(01)779…» → 45 × 25 mm", ["RV:serie"])],
-     nota="Medida estimada por proporción; confirmar.")
+     nota="Medida estimada por proporción; justificada en la sección 8 (I3).")
 foto("F34", "f19.jpg", "Relevamiento: faja de garantía rayada (línea de etiquetado Georgia)",
      [(1, (60, 508, 268, 672), "Faja de garantía rayada roja/blanca → 30 × 40 mm", ["RV:faja"])],
-     nota="Medida estimada por proporción; confirmar.")
+     nota="Medida estimada por proporción; justificada en la sección 8 (I4).")
 foto("F35", "f15.jpg", "Relevamiento: oblea circular PBA (DPS) aplicada",
      [(1, (80, 212, 467, 612), "Oblea circular de la Provincia de Buenos Aires (ver Res. 522/07: Ø46)", ["N:522"])])
 

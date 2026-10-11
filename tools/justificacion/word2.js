@@ -1,5 +1,5 @@
-// Word «Justificación de medidas planos» (versión compacta): capturas marcadas de a dos y, al final, las observaciones
-// a validar (valores de diseño FLAMA con la lógica que los justifica).
+// Word «Justificación de medidas planos» (versión compacta): capturas marcadas de a dos y, al final, el análisis de
+// las medidas de diseño FLAMA (técnica, norma, economía y conclusión de cada una, de analisis.py).
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell, WidthType, ShadingType,
@@ -9,11 +9,11 @@ const {
 const SP = "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad";
 const OUT = process.argv[2] || "/home/user/planos_flama-/salida/justificacion/Justificacion de medidas planos.docx";
 const C = JSON.parse(fs.readFileSync(`${SP}/jw/compacto.json`, "utf8"));
+const AN = JSON.parse(fs.readFileSync(`${SP}/jw/analisis.json`, "utf8"));
 
 const W = 10306; // ancho útil (DXA): A4 con márgenes de 1,5 cm
 const FONT = "Arial";
 const AZUL = "1F3864";
-const EST = { V: undefined, E: "FFF2CC", A: "F8CBAD" };
 const fino = { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" };
 const bordes = { top: fino, bottom: fino, left: fino, right: fino };
 const nada = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
@@ -76,7 +76,7 @@ const SECC = [
   ["2. Planos Fadesa de extintor completo", "Válvula, manómetro, vástago, resorte, caño de pesca, racor, manguera, tobera y suncho medidos a escala; masa total.", rango(7, 13)],
   ["3. Catálogo Fadesa 3", "Peso, altura, ancho, profundidad, rueda, manga y presiones de cada modelo.", rango(14, 23)],
   ["4. Fichas de mercado y normas", "Masas de referencia sin plano Fadesa; cláusulas IRAM y resoluciones usadas (se citan, no se transcriben).", rango(24, 30).concat([porId.F40].filter(Boolean))],
-  ["5. Relevamiento y planilla MP", "Identificación relevada en fotos (a validar) y celdas de la planilla de abastecimiento.", rango(31, 37)],
+  ["5. Relevamiento y planilla MP", "Identificación relevada en fotos (justificada en la sección 8) y celdas de la planilla de abastecimiento.", rango(31, 37)],
   ["6. Procesos FLAMA", "Documentos de proceso del usuario: medidas y uniones de carros, numerado, encastre y bordoneado de manuales.", rango(38, 39)],
   ["7. Carro: triángulos con V, caño del eje, manija, flejes, pata y lanza", "Proceso de carros v2 que mandaste (dónde va cada accesorio, plantilla de posiciones y piezas del kit: F46 a F48), plano Fadesa del rodante de 800 mm (manija doblada 30°, pata afinada y soldada), foto del carro relevado y las fotos que marcaste (soldadura de la barra lateral, altura del doblez y lanza con válvula esférica), la hoja de especificaciones «Polvos carros» (F49) y el proceso final de carros (manija, carro armado y fleje: F50 a F52).", rango(41, 52)],
 ];
@@ -87,16 +87,18 @@ hijos.push(new Paragraph({ spacing: { after: 60 }, children: [new TextRun({ text
 hijos.push(p([t("FLAMA S.A. · origen de cada dimensión de los planos FL_MAT, FL_REC y FL_DES · octubre de 2026", { size: 18, color: "595959" })], { after: 160 }));
 [
   "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. La fuente de un valor se cita «F10·3» (figura F10, marca 3).",
-  "Lo que no sale de un documento es una decisión de diseño FLAMA: figura al final, en «Observaciones a validar», con la lógica que la justifica. Amarillo: confirmar con el proveedor o el prototipo; naranja: medir o validar antes de fabricar.",
+  "Lo que no sale de un documento es una decisión de diseño FLAMA: la sección 8 justifica cada una con el cálculo de estática y resistencia, la cláusula de norma que la alcanza y su costo frente a la alternativa. Lo que depende del proveedor queda como condición de compra (tabla de abajo).",
   "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número en la cúpula del 1 kg.",
   "El carro sigue el proceso de carros v2 (F46 a F48): dos triángulos de chapa 4,75 con una V de 90° hacia atrás donde se apoya el caño del eje (la chapa no lo envuelve; el caño no gira y el eje pasa por adentro al montaje final con arandelas y pasadores), manija de caño 1\" × 2,0 con las puntas aplastadas en lengüetas de 40 × 60 soldadas a los costados (sin orejas), flejes Ω para la manga y la pata delantera; las posiciones salen de la tabla del proceso. La válvula esférica con palanca de la lanza sale de tu foto (F45). Las medidas de conjunto de los carros de polvo (alto, ancho, profundidad, rueda y manga) son las de la hoja «Polvos carros» (F49): el ancho fija el largo del eje y la trocha, el alto ubica la curva de 30° de la manija y la profundidad la marca la palanca de la válvula. Los flejes tienen la base que da vueltas enteras con el largo de manga y patas hasta delante de la última vuelta; el de 100 kg lleva un tercero en el medio con las orejas hacia adentro, que cierra el paquete y deja la manga tensa.",
   "Fadesa es referencia de medidas, no de criterio: donde no cumple la norma manda la IRAM. Ej.: el tren de rodaje sigue la IRAM 3550 tabla III (rueda ≥ Ø300, banda ≥ 50 —Fadesa usa 49—, trocha ≥ 400 entre centros) y no el ancho del catálogo.",
 ].forEach((x) => hijos.push(p(x, { bullet: true, after: 40 })));
 const n = C.n, e = C.estados;
-hijos.push(p([t(`${n} dimensiones: `, { bold: true }), t(`con documento ${e.V} (${Math.round(100 * e.V / n)} %), diseño FLAMA ${e.E} (${Math.round(100 * e.E / n)} %), a validar ${e.A || 0} (${Math.round(100 * (e.A || 0) / n)} %).`)], { before: 80, after: 120 }));
-hijos.push(p("Lo que falta validar", { heading: HeadingLevel.HEADING_2 }));
-hijos.push(tabla([3700, 2300, 4306], C.pendientes.map((x) => [x.que, x.modelos, x.criterio]), ["Pieza: dimensión", "Modelos", "Criterio usado / qué confirmar"],
-  C.pendientes.map(() => EST.A)));
+const dis = e.E + (e.A || 0);
+hijos.push(p([t(`${n} dimensiones: `, { bold: true }), t(`con documento ${e.V} (${Math.round(100 * e.V / n)} %) y diseño FLAMA ${dis} (${Math.round(100 * dis / n)} %), justificado en la sección 8 con cálculo, norma y costo.`)], { before: 80, after: 120 }));
+const ITEMS = AN.grupos.flatMap((g) => g.items);
+const COND = ITEMS.filter((x) => x.condicion);
+hijos.push(p("Condiciones de compra que surgen del análisis", { heading: HeadingLevel.HEADING_2 }));
+hijos.push(tabla([700, 3500, 6106], COND.map((x) => [x.id, x.titulo, x.condicion]), ["Ítem", "Medida", "Condición para comprar o certificar"]));
 
 // ------------------------------------------------------------------ figuras
 SECC.forEach(([tit, intro, figs]) => {
@@ -105,11 +107,21 @@ SECC.forEach(([tit, intro, figs]) => {
   hijos.push(grilla(figs));
 });
 
-// ------------------------------------------------------------------ observaciones a validar
-hijos.push(p("8. Observaciones a validar", { heading: HeadingLevel.HEADING_1, keepNext: true, before: 160 }));
-hijos.push(p("Medidas que no salen de un documento: se fijaron al diseñar con la lógica indicada. Amarillo: decisión de diseño a confirmar con el proveedor o el prototipo; naranja: medir o validar antes de fabricar.", { size: 16, after: 80 }));
-hijos.push(tabla([560, 3500, 4900, 1346], C.disenos.map((d) => [d.id, d.que, d.criterio, d.modelos]),
-  ["Id", "Qué define", "Lógica que lo justifica", "Modelos"], C.disenos.map((d) => EST[d.estado])));
+// ------------------------------------------------------------------ análisis de las medidas de diseño
+hijos.push(p("8. Análisis y justificación de las medidas de diseño", { heading: HeadingLevel.HEADING_1, keepNext: true, before: 160 }));
+hijos.push(p("Medidas que no salen de un documento. Cada una se justifica con el cálculo de estática y resistencia de materiales (o la lógica de uso), la cláusula de la norma que la alcanza (se cita, no se transcribe), el costo frente a la alternativa y la conclusión; si algo depende del proveedor, la condición de compra que lo cierra.", { size: 16, after: 40 }));
+hijos.push(p([t("Bases de cálculo: ", { bold: true, size: 16 }), t("presiones de servicio / ensayo de la hoja de cada modelo (ABC manuales 1,4 / 3,5 MPa; rodantes 1,4 / 4,0; agua y espuma 0,8 / 2,0; CO₂ 15 / 25). Tensiones: virola σ = p·D / 2t; casquete elipsoidal con su factor de forma K; ejes y pasadores al corte doble; eje de rueda a flexión en voladizo. Materiales con su fluencia mínima: chapa del recipiente 265 MPa, SAE 1010 180, SAE 1045 trefilado 530, inoxidable 304 205 (σ0,2 de ASTM A240). CO₂ con su ecuación de estado (Span-Wagner). Precios: LAC USD 1,10/kg y lista HZ de válvulas.", { size: 16 })], { after: 80 }));
+const pc = (runs, after = 20) => new Paragraph({ children: runs, spacing: { after } });
+const ETQ = [["tecnica", "Técnica: "], ["norma", "Norma: "], ["economia", "Económica: "], ["conclusion", "Conclusión: "]];
+AN.grupos.forEach((g) => {
+  hijos.push(p(g.titulo, { heading: HeadingLevel.HEADING_2, keepNext: true, before: 140 }));
+  hijos.push(tabla([2500, 7806], g.items.map((x) => [
+    [pc([t(`${x.id} `, { bold: true, size: 14, color: AZUL }), t(x.titulo, { bold: true, size: 14 })]),
+      pc([t(x.valor, { size: 14 })]), pc([t(x.modelos, { size: 13, color: "595959" })], 0)],
+    [...ETQ.map(([k, e2], i) => pc([t(e2, { bold: true, size: 14 }), t(x[k], { size: 14 })], i === 3 && !x.condicion ? 0 : 20)),
+      ...(x.condicion ? [pc([t("Condición de compra: ", { bold: true, size: 14, color: "C00000" }), t(x.condicion, { size: 14 })], 0)] : [])],
+  ]), ["Medida y valor adoptado", "Justificación"]));
+});
 
 const doc = new Document({
   creator: "FLAMA S.A.", title: "Justificación de medidas planos",

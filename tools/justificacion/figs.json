@@ -1150,7 +1150,7 @@
   "h": 1755,
   "link": "",
   "tipo": "Plano Fadesa",
-  "nota": "Del plano de 100 kg se tomó el Ø390, la masa total y el ancho de rueda; el plano no acota el recipiente: cuerpo y cabezales del 100 kg se calcularon (figura del código _g_rodante). Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
+  "nota": "Del plano de 100 kg se tomó el Ø390, la masa total y el ancho de rueda; el plano no acota el recipiente: cuerpo y cabezales del 100 kg se calcularon con la relación de los cabezales Fadesa (casquete 0,656 R: sección 8, P1). Piezas medidas sobre el dibujo vectorial a la escala del rótulo (verificada con el Ø del recipiente acotado en su plano de recipiente). Precisión ≈ ±0,5 mm.",
   "marcas": [
    {
     "n": 1,
@@ -1633,7 +1633,7 @@
   "h": 772,
   "link": "",
   "tipo": "Catálogo Fadesa",
-  "nota": "El catálogo sólo lista clase D de 5 y 10 kg; el 9 l de la lista FLAMA usa la columna de 10 kg (a confirmar).",
+  "nota": "El catálogo sólo lista clase D de 5 y 10 kg; el 9 l de la lista FLAMA usa la columna de 10 kg: 9 l de polvo D pesan ≈ 10 kg (sección 8, CD).",
   "marcas": [
    {
     "n": 1,
@@ -1852,7 +1852,7 @@
    },
    {
     "n": 2,
-    "etiqueta": "Estampilla: proporción ≈ 3:2 → se adoptó 60 × 40 mm (sin cota en el documento; a confirmar con IRAM)",
+    "etiqueta": "Estampilla: proporción ≈ 3:2 → se adoptó 60 × 40 mm (sin cota en el documento; sección 8, I2)",
     "claves": [
      "N:AnexoR"
     ]
@@ -1870,7 +1870,7 @@
   "h": 800,
   "link": "",
   "tipo": "Relevamiento de mercado",
-  "nota": "Medida estimada por proporción con el Ø del recipiente de 10 kg (181,5 mm); confirmar con la AGC.",
+  "nota": "Medida estimada por proporción con el Ø del recipiente de 10 kg (181,5 mm); justificada en la sección 8 (I5).",
   "marcas": [
    {
     "n": 1,
@@ -1892,7 +1892,7 @@
   "h": 1066,
   "link": "",
   "tipo": "Relevamiento de mercado",
-  "nota": "Medidas estimadas por proporción con el Ø del recipiente; confirmar.",
+  "nota": "Medidas estimadas por proporción con el Ø del recipiente; justificadas en la sección 8 (I1, I2).",
   "marcas": [
    {
     "n": 1,
@@ -1921,7 +1921,7 @@
   "h": 1066,
   "link": "",
   "tipo": "Relevamiento de mercado",
-  "nota": "Medida estimada por proporción; confirmar.",
+  "nota": "Medida estimada por proporción; justificada en la sección 8 (I3).",
   "marcas": [
    {
     "n": 1,
@@ -1943,7 +1943,7 @@
   "h": 1066,
   "link": "",
   "tipo": "Relevamiento de mercado",
-  "nota": "Medida estimada por proporción; confirmar.",
+  "nota": "Medida estimada por proporción; justificada en la sección 8 (I4).",
   "marcas": [
    {
     "n": 1,

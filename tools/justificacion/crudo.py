@@ -620,7 +620,7 @@ for m in MODELOS:
             A_("Ø", M.OBLEA_PBA, "mm", T_NOR, ["N:522"], "Res. OPDS 522/07 anexos 1 y 2", ("modelo3d.py", "OBLEA_PBA = 46.0"))
             continue
         if k == "sello_iram":
-            A_("Ancho × alto", "60 × 40", "mm", T_REL, ["N:AnexoR", "RV:estampilla"], "Anexo R IRAM + relevada (a confirmar)",
+            A_("Ancho × alto", "60 × 40", "mm", T_REL, ["N:AnexoR", "RV:estampilla"], "Anexo R IRAM + relevada",
                ("modelo3d.py", "ESTAMPILLA_IRAM = (60.0"))
             continue
         if k == "tarjeta_caba":
