@@ -1,6 +1,6 @@
 """Datos comunes de la justificación compacta (Excel matriz por familia + Word con capturas de a dos).
 
-Uso: python compacto.py <sha>  ->  compacto.json (lo leen xlsx_compacto.py y node/word2.js)
+Uso: python compacto.py <sha>  ->  compacto.json (lo lee node/word2.js)
 """
 import collections
 import json

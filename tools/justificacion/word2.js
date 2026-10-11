@@ -1,4 +1,5 @@
-// Word «Justificación de medidas planos» (versión compacta): capturas marcadas de a dos y tabla de valores de diseño.
+// Word «Justificación de medidas planos» (versión compacta): capturas marcadas de a dos y, al final, las observaciones
+// a validar (valores de diseño FLAMA con la lógica que los justifica).
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell, WidthType, ShadingType,
@@ -85,8 +86,8 @@ const hijos = [];
 hijos.push(new Paragraph({ spacing: { after: 60 }, children: [new TextRun({ text: "Justificación de medidas planos", font: FONT, size: 40, bold: true, color: AZUL })] }));
 hijos.push(p([t("FLAMA S.A. · origen de cada dimensión de los planos FL_MAT, FL_REC y FL_DES · octubre de 2026", { size: 18, color: "595959" })], { after: 160 }));
 [
-  "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. En el Excel «Justificacion de medidas planos.xlsx» la fuente de cada valor se escribe «F10·3» (figura F10, marca 3).",
-  "Lo que no sale de un documento es un valor de diseño FLAMA: figura en la tabla final (D01…) con el link a la línea del generador y en amarillo en el Excel. Naranja = a validar.",
+  "Cada captura tiene marcas rojas numeradas sobre el dato tomado; debajo, qué dice cada marca. La fuente de un valor se cita «F10·3» (figura F10, marca 3).",
+  "Lo que no sale de un documento es una decisión de diseño FLAMA: figura al final, en «Observaciones a validar», con la lógica que la justifica. Amarillo: confirmar con el proveedor o el prototipo; naranja: medir o validar antes de fabricar.",
   "Los procesos FLAMA que mandaste (carros y manuales) fijan el 70 kg (Ø390 × 680), el 100 kg (900), las placas de refuerzo, el tren rodante soldado, el bordón, el encastre del fondo, la muesca del cuello y el número en la cúpula del 1 kg.",
   "El carro sigue el proceso de carros v2 (F46 a F48): dos triángulos de chapa 4,75 con una V de 90° hacia atrás donde se apoya el caño del eje (la chapa no lo envuelve; el caño no gira y el eje pasa por adentro al montaje final con arandelas y pasadores), manija de caño 1\" × 2,0 con las puntas aplastadas en lengüetas de 40 × 60 soldadas a los costados (sin orejas), flejes Ω para la manga y la pata delantera; las posiciones salen de la tabla del proceso. La válvula esférica con palanca de la lanza sale de tu foto (F45). Las medidas de conjunto de los carros de polvo (alto, ancho, profundidad, rueda y manga) son las de la hoja «Polvos carros» (F49): el ancho fija el largo del eje y la trocha, el alto ubica la curva de 30° de la manija y la profundidad la marca la palanca de la válvula. Los flejes tienen la base que da vueltas enteras con el largo de manga y patas hasta delante de la última vuelta; el de 100 kg lleva un tercero en el medio con las orejas hacia adentro, que cierra el paquete y deja la manga tensa.",
   "Fadesa es referencia de medidas, no de criterio: donde no cumple la norma manda la IRAM. Ej.: el tren de rodaje sigue la IRAM 3550 tabla III (rueda ≥ Ø300, banda ≥ 50 —Fadesa usa 49—, trocha ≥ 400 entre centros) y no el ancho del catálogo.",
@@ -104,12 +105,11 @@ SECC.forEach(([tit, intro, figs]) => {
   hijos.push(grilla(figs));
 });
 
-// ------------------------------------------------------------------ valores de diseño
-hijos.push(p("7. Valores de diseño FLAMA (sin documento)", { heading: HeadingLevel.HEADING_1, keepNext: true, before: 160 }));
-hijos.push(p(`Línea exacta del generador de planos (commit ${C.sha.slice(0, 7)}). Amarillo = decisión de diseño a confirmar con el proveedor o el prototipo; naranja = a validar.`, { size: 16, after: 80 }));
-hijos.push(tabla([560, 3700, 3600, 1246, 1200], C.disenos.map((d) => [d.id, d.que, d.criterio, d.modelos,
-  new Paragraph({ children: [link(`${d.archivo}:${d.linea}`, d.link, 13)] })]), ["Id", "Qué define", "Criterio", "Modelos", "Código"],
-  C.disenos.map((d) => EST[d.estado])));
+// ------------------------------------------------------------------ observaciones a validar
+hijos.push(p("8. Observaciones a validar", { heading: HeadingLevel.HEADING_1, keepNext: true, before: 160 }));
+hijos.push(p("Medidas que no salen de un documento: se fijaron al diseñar con la lógica indicada. Amarillo: decisión de diseño a confirmar con el proveedor o el prototipo; naranja: medir o validar antes de fabricar.", { size: 16, after: 80 }));
+hijos.push(tabla([560, 3500, 4900, 1346], C.disenos.map((d) => [d.id, d.que, d.criterio, d.modelos]),
+  ["Id", "Qué define", "Lógica que lo justifica", "Modelos"], C.disenos.map((d) => EST[d.estado])));
 
 const doc = new Document({
   creator: "FLAMA S.A.", title: "Justificación de medidas planos",
