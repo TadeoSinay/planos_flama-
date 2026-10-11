@@ -3,13 +3,15 @@
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell, WidthType, ShadingType,
-  HeadingLevel, AlignmentType, ExternalHyperlink, Footer, PageNumber, LevelFormat, BorderStyle, PageBreak,
+  HeadingLevel, AlignmentType, ExternalHyperlink, Footer, PageNumber, LevelFormat, BorderStyle, PageBreak, LineRuleType,
 } = require("docx");
 
 const SP = "/tmp/claude-0/-home-user-TP-optimizacion/15292aaf-e550-5dee-a83e-77fd9177a6ef/scratchpad";
 const OUT = process.argv[2] || "/home/user/planos_flama-/salida/justificacion/Justificacion de medidas planos.docx";
 const C = JSON.parse(fs.readFileSync(`${SP}/jw/compacto.json`, "utf8"));
 const AN = JSON.parse(fs.readFileSync(`${SP}/jw/analisis.json`, "utf8"));
+// Escala por fila de figuras (clave: figura de la izquierda), calculada por ajuste.py para que no queden huecos al pie.
+const ESC = (() => { try { return JSON.parse(fs.readFileSync(`${SP}/jw/escala.json`, "utf8")); } catch (_) { return {}; } })();
 
 const W = 10306; // ancho útil (DXA): A4 con márgenes de 1,5 cm
 const FONT = "Arial";
@@ -32,19 +34,25 @@ function celda(contenido, ancho, o = {}) {
     margins: { top: 25, bottom: 25, left: 70, right: 70 } });
 }
 
-function tabla(cols, filas, cab, fills = []) {
+// partir: las filas pueden cortarse entre páginas; titulo: fila de título a todo el ancho que se repite con el encabezado.
+function tabla(cols, filas, cab, fills = [], partir = false, titulo = null) {
   const head = new TableRow({ tableHeader: true, children: cab.map((h, i) => celda(h, cols[i], { bold: true, color: "FFFFFF", fill: AZUL })) });
+  const tit = titulo ? [new TableRow({ tableHeader: true, cantSplit: true, children: [new TableCell({ columnSpan: cols.length,
+    width: { size: W, type: WidthType.DXA }, borders: bordes, shading: { type: ShadingType.CLEAR, color: "auto", fill: "D9E2F3" },
+    margins: { top: 40, bottom: 40, left: 70, right: 70 },
+    children: [new Paragraph({ spacing: { after: 0 }, children: [t(titulo, { bold: true, size: 20, color: AZUL })] })] })] })] : [];
   return new Table({ width: { size: W, type: WidthType.DXA }, columnWidths: cols,
-    rows: [head, ...filas.map((f, j) => new TableRow({ cantSplit: true, children: f.map((c, i) => celda(c, cols[i], { fill: fills[j] })) }))] });
+    rows: [...tit, head, ...filas.map((f, j) => new TableRow({ cantSplit: !partir, children: f.map((c, i) => celda(c, cols[i], { fill: fills[j] })) }))] });
 }
 
 // ------------------------------------------------------------------ figura (celda de media página)
 const CW = Math.floor(W / 2);
-function bloqueFigura(f) {
+function bloqueFigura(f, s = 1) {
   const maxW = 330, maxH = { "Plano Fadesa": 315, "Catálogo Fadesa": 190, "Relevamiento de mercado": 235,
     "Norma / resolución": 230, "Ficha técnica de mercado": 250, "Planilla MP FLAMA": 150, "Proceso FLAMA": 290 }[f.tipo] || 300;
   let w = maxW, h = Math.round(f.ch * maxW / f.cw);
   if (h > maxH) { h = maxH; w = Math.round(f.cw * maxH / f.ch); }
+  w = Math.round(w * s); h = Math.round(h * s);
   const img = new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 30 },
     children: [new ImageRun({ type: f.crop.endsWith(".jpg") ? "jpg" : "png", data: fs.readFileSync(f.crop),
       transformation: { width: w, height: h }, altText: { title: f.id, description: f.titulo, name: f.id } })] });
@@ -58,15 +66,19 @@ function bloqueFigura(f) {
   return out;
 }
 
+// Una tabla por fila de figuras (separadas por un renglón de 1 pt): así el título de la sección queda unido sólo a la
+// primera fila, también en LibreOffice, que une un párrafo «conservar con el siguiente» a la tabla entera.
+const sep = () => new Paragraph({ spacing: { after: 0, before: 0, line: 20, lineRule: LineRuleType.EXACT }, children: [] });
 function grilla(figs) {
-  const filas = [];
+  const out = [];
   for (let i = 0; i < figs.length; i += 2) {
-    const par = [figs[i], figs[i + 1]];
-    filas.push(new TableRow({ cantSplit: true, children: par.map((f) => new TableCell({ width: { size: CW, type: WidthType.DXA },
-      borders: sinBordes, margins: { top: 60, bottom: 60, left: 80, right: 80 },
-      children: f ? bloqueFigura(f) : [new Paragraph({ children: [] })] })) }));
+    const par = [figs[i], figs[i + 1]], s = ESC[figs[i].id] || 1;
+    out.push(new Table({ width: { size: W, type: WidthType.DXA }, columnWidths: [CW, CW], borders: sinBordes,
+      rows: [new TableRow({ cantSplit: true, children: par.map((f) => new TableCell({ width: { size: CW, type: WidthType.DXA },
+        borders: sinBordes, margins: { top: 60, bottom: 60, left: 80, right: 80 },
+        children: f ? bloqueFigura(f, s) : [new Paragraph({ children: [] })] })) })] }), sep());
   }
-  return new Table({ width: { size: W, type: WidthType.DXA }, columnWidths: [CW, CW], borders: sinBordes, rows: filas });
+  return out;
 }
 
 const porId = Object.fromEntries(C.figs.map((f) => [f.id, f]));
@@ -104,7 +116,7 @@ hijos.push(tabla([700, 3500, 6106], COND.map((x) => [x.id, x.titulo, x.condicion
 SECC.forEach(([tit, intro, figs]) => {
   hijos.push(p(tit, { heading: HeadingLevel.HEADING_1, keepNext: true, before: 160 }));
   hijos.push(p(intro, { size: 16, after: 60, keepNext: true }));
-  hijos.push(grilla(figs));
+  hijos.push(...grilla(figs));
 });
 
 // ------------------------------------------------------------------ análisis de las medidas de diseño
@@ -113,14 +125,14 @@ hijos.push(p("Medidas que no salen de un documento. Cada una se justifica con el
 hijos.push(p([t("Bases de cálculo: ", { bold: true, size: 16 }), t("presiones de servicio / ensayo de la hoja de cada modelo (ABC manuales 1,4 / 3,5 MPa; rodantes 1,4 / 4,0; agua y espuma 0,8 / 2,0; CO₂ 15 / 25). Tensiones: virola σ = p·D / 2t; casquete elipsoidal con su factor de forma K; ejes y pasadores al corte doble; eje de rueda a flexión en voladizo. Materiales con su fluencia mínima: chapa del recipiente 265 MPa, SAE 1010 180, SAE 1045 trefilado 530, inoxidable 304 205 (σ0,2 de ASTM A240). CO₂ con su ecuación de estado (Span-Wagner). Precios: LAC USD 1,10/kg y lista HZ de válvulas.", { size: 16 })], { after: 80 }));
 const pc = (runs, after = 20) => new Paragraph({ children: runs, spacing: { after } });
 const ETQ = [["tecnica", "Técnica: "], ["norma", "Norma: "], ["economia", "Económica: "], ["conclusion", "Conclusión: "]];
-AN.grupos.forEach((g) => {
-  hijos.push(p(g.titulo, { heading: HeadingLevel.HEADING_2, keepNext: true, before: 140 }));
+AN.grupos.forEach((g, gi) => {
+  if (gi) hijos.push(p("", { after: 100 }));
   hijos.push(tabla([2500, 7806], g.items.map((x) => [
     [pc([t(`${x.id} `, { bold: true, size: 14, color: AZUL }), t(x.titulo, { bold: true, size: 14 })]),
       pc([t(x.valor, { size: 14 })]), pc([t(x.modelos, { size: 13, color: "595959" })], 0)],
     [...ETQ.map(([k, e2], i) => pc([t(e2, { bold: true, size: 14 }), t(x[k], { size: 14 })], i === 3 && !x.condicion ? 0 : 20)),
       ...(x.condicion ? [pc([t("Condición de compra: ", { bold: true, size: 14, color: "C00000" }), t(x.condicion, { size: 14 })], 0)] : [])],
-  ]), ["Medida y valor adoptado", "Justificación"]));
+  ]), ["Medida y valor adoptado", "Justificación"], [], true, g.titulo));
 });
 
 const doc = new Document({

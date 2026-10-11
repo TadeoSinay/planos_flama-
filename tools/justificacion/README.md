@@ -1,6 +1,6 @@
 # Justificación de medidas planos — herramientas
 
-Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 16 páginas, todo en el Word: no hay Excel).
+Genera `salida/justificacion/Justificacion de medidas planos.docx` (13 páginas sin huecos, todo en el Word: no hay Excel).
 
 | Paso | Archivo | Qué hace |
 |---|---|---|
@@ -11,7 +11,8 @@ Genera `salida/justificacion/Justificacion de medidas planos.docx` (≈ 16 pági
 | 4 | `compacto.py <sha>` | Une todo en `compacto.json`: fuente «F10·3» de cada valor, lista D01… de valores de diseño con la lógica que los justifica, pendientes |
 | 5 | `recorte.py` | Recorta cada captura a la zona de sus marcas (para el Word) |
 | 5b | `analisis.py` | Análisis de cada medida de diseño FLAMA: cálculo de estática y resistencia (virola, casquete elipsoidal, cuello, válvula, pasadores, eje de rueda, CO₂ con CoolProp), cláusula de norma, costo y conclusión; condiciones de compra → `analisis.json` |
-| 6 | `word2.js` | Word con docx-js (`npm install docx`): capturas de a dos con sus marcas, condiciones de compra en la página 1 y, al final, la sección 8 «Análisis y justificación de las medidas de diseño» (sin referencias al código) |
+| 6 | `word2.js` | Word con docx-js (`npm install docx`): capturas de a dos con sus marcas, condiciones de compra en la página 1 y, al final, la sección 8 «Análisis y justificación de las medidas de diseño» (sin referencias al código). Lee `escala.json` |
+| 7 | `ajuste.py` | Compaginación sin huecos: arma el Word, lo pasa a PDF (LibreOffice) y, página por página, sube la fila de figuras que saltó achicando un poco las imágenes (≥ 72 %) o, si no entra, agranda las de la página hasta llenarla; deja la escala de cada fila en `escala.json`; después se corre `word2.js` otra vez para el Word final |
 
 Cada valor sale de un documento (figura y marca) o es una medida de diseño FLAMA justificada en la sección 8.
 
