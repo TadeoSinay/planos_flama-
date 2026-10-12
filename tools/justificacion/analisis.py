@@ -100,10 +100,10 @@ def a_iso(D, Re, Ph=250.0, F=0.77):
 co2 = [(114.0, 5.4, a_iso(114.0, 350), a_iso(114.0, 450)), (140.0, 6.0, a_iso(140.0, 350), a_iso(140.0, 450))]
 try:
     from CoolProp.CoolProp import PropsSI
-    p_co2 = {T: PropsSI("P", "D", 667.0, "T", T + 273.15, "CO2") / 1e6 for T in (20, 50, 60, 65)}
+    p_co2 = {T: PropsSI("P", "D", 680.0, "T", T + 273.15, "CO2") / 1e6 for T in (20, 50, 60, 65)}
     p_co2_75 = PropsSI("P", "D", 750.0, "T", 60 + 273.15, "CO2") / 1e6
 except ImportError:                                   # valores de la ecuación de estado (Span-Wagner)
-    p_co2 = {20: 5.73, 50: 13.84, 60: 17.10, 65: 18.75}
+    p_co2 = {20: 5.73, 50: 14.26, 60: 17.66, 65: 19.38}
     p_co2_75 = 21.82
 
 
@@ -182,15 +182,17 @@ G.append(("A. Recipiente a presión", [
        "Justificado como envolvente conservadora.",
        "Cilindro con estampa de prueba a 25 MPa y fecha vigente."),
     it("D30", "Disco de seguridad del CO₂", "CO₂ 2 kg y 5 kg", "Rotura 18 a 21 MPa; tapón 14 × 9",
-       f"Con la relación de llenado habitual de 0,667 kg/L, la presión del CO₂ es {n(p_co2[20])} MPa a 20 °C, "
-       f"{n(p_co2[50])} MPa a 50 °C (tope del rango de uso), {n(p_co2[60])} MPa a 60 °C y {n(p_co2[65])} MPa a 65 °C "
-       "(ecuación de estado de Span-Wagner). El disco no abre en servicio y abre antes de que el cilindro llegue a la "
-       f"presión de prueba de 25 MPa. Si se llenara a 0,75 kg/L la presión a 60 °C sería {n(p_co2_75)} MPa y el "
-       "disco abriría: el disco también limita el sobrellenado.",
-       "IRAM 3509 (dispositivo de seguridad del cilindro).",
+       f"Con la relación de llenado máxima para elementos contra incendio (0,68 kg/L), la presión del CO₂ es "
+       f"{n(p_co2[20])} MPa a 20 °C, {n(p_co2[50])} MPa a 50 °C (tope del rango de uso), {n(p_co2[60])} MPa a 60 °C y "
+       f"{n(p_co2[65])} MPa a 65 °C (ecuación de estado de Span-Wagner). Los cilindros quedan en 0,676 kg/L (2 kg) y "
+       "0,631 kg/L (5 kg). El disco no abre en todo el rango de uso y abre antes de que el cilindro llegue a la "
+       f"presión de prueba de 25 MPa. A 0,75 kg/L (la relación de almacenamiento y transporte, hasta 45 °C) la "
+       f"presión a 60 °C sería {n(p_co2_75)} MPa y el disco abriría: el disco también limita el sobrellenado.",
+       "IRAM 2533 7.9 tabla 1 (relación de llenado 0,68 kg/L hasta 65 °C en elementos contra incendio); IRAM 3509 "
+       "(dispositivo de seguridad del cilindro).",
        "Disco comercial de válvula de CO₂; se repone en la recarga.",
        "Justificado.",
-       "En la recarga, relación de llenado ≤ 0,667 kg/L."),
+       "En la recarga, relación de llenado ≤ 0,68 kg/L (IRAM 2533 7.9): 2 kg en ≥ 2,94 L y 5 kg en ≥ 7,35 L."),
     it("D31", "Pie de apoyo del CO₂", "CO₂ 2 kg y 5 kg", "Ø114 × 31,4 y Ø140 × 38,5 mm (alto 0,55 R)",
        "El fondo del cilindro sin costura es convexo: el pie da una base plana del mismo Ø del cilindro. Con el "
        "centro de gravedad cerca del 45 % de la altura (520 y 790 mm), el ángulo de vuelco es atan(R / zG) ≈ 14° "

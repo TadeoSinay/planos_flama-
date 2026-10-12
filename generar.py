@@ -4,7 +4,7 @@ Uso:  python generar.py [CODIGO ...]      (sin argumentos: todo)
       python generar.py --cilindros        (salida/cilindros/: FL_REC_* de 3 hojas + despiece FL_DES_REC_*)
       python generar.py --sustitutos       (salida/sustituto/: FL_SUS_* extintores sustitutos, IRAM 3517-2 9.4.5)
       python generar.py --complementarios  (señalética, accesorios, esquemas y documentos)
-      python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM multinivel por plano)
+      python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM simple; respaldo/FLAMA_BOM_respaldo.xlsx)
       python generar.py --mrp <Proyecciones.xlsx>   (salida/mrp/MRP_MP.xlsx: MRP de materias primas 2026-2035)
       python generar.py --despiece         (salida/despiece/FL_DES_*: vistas explosionadas con globos del BOM)
 Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
@@ -105,9 +105,23 @@ if __name__ == "__main__":
     elif args == ["--cilindros"]:
         CI.generar(os.path.join(BASE, "salida"))
     elif args == ["--bom"]:
-        from flama import bom
-        os.makedirs(os.path.join(BASE, "salida", "bom"), exist_ok=True)
-        bom.excel(os.path.join(BASE, "salida", "bom", "FLAMA_BOM.xlsx"))
+        import copy
+        from flama import bom, bom_simple
+        memo = {}
+
+        def una_vez(f):          # el BOM simple y el respaldo leen la misma estructura: se arma una sola vez
+            def g(m, *a, **k):
+                clave = (f.__name__, m.codigo, a, tuple(sorted(k.items())))
+                if clave not in memo:
+                    memo[clave] = f(m, *a, **k)
+                return copy.deepcopy(memo[clave])
+            return g
+        bom.bom_producto = una_vez(bom.bom_producto)
+        SU.bom_sustituto = una_vez(SU.bom_sustituto)
+        d = os.path.join(BASE, "salida", "bom")
+        os.makedirs(os.path.join(d, "respaldo"), exist_ok=True)
+        print(bom_simple.excel(os.path.join(d, "FLAMA_BOM.xlsx")))
+        bom.excel(os.path.join(d, "respaldo", "FLAMA_BOM_respaldo.xlsx"))
     elif len(args) == 2 and args[0] == "--mrp":
         from flama import mrp
         os.makedirs(os.path.join(BASE, "salida", "mrp"), exist_ok=True)

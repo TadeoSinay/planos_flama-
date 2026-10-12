@@ -4,7 +4,7 @@ despiece FL_DES_REC_<tamaño>. Salida en salida/cilindros/ (separada de accesori
   Hoja 1  Plano de fabricación (flama/recipientes.py): vista, corte A-A, vista D, detalles, tolerancias.
   Hoja 2  Especificaciones, verificación normativa y plan de inspección y ensayos.
   Hoja 3  Identificación, protección, protocolo y embalaje del cilindro suelto.
-  Despiece  isometría explosionada con globos ligada al BOM (hoja FL_REC_* del Excel).
+  Despiece  isometría explosionada con globos ligada al BOM (FLAMA_BOM.xlsx, hoja Cilindros).
 
 Fuentes (se citan apartados, no se transcriben):
   IRAM 3523:1983 (manuales): 3.2.1 a) material y espesor mínimo; 3.2.4 costuras y procesos; 4.1.1 fondo de apoyo;
@@ -24,6 +24,7 @@ import shapely.geometry as sg
 from . import modelo3d as M
 from . import vistas as V
 from . import recipientes as RC
+from . import bom as B
 from .lamina import Hoja, nuevo_doc, A, ESCALAS, FORMATOS, ROT_H
 from . import lamina as L
 from .planos import FECHA, DIBUJO, _tabla, _n
@@ -414,8 +415,8 @@ def despiece(m):
         for it, y in zip(col, ys):
             h.globo(it[2], it[1], (xg, y), r=4.5)
     h.texto(f"DESPIECE - CILINDRO {m.capacidad.upper()}", (xc, h.fy1 - 7), 5, A.MIDDLE_CENTER)
-    h.texto(f"Isometría explosionada, esc. {esc[0]}:{esc[1]}. Globo = sufijo del código BOM (hoja "
-            f"{RC.codigo_rec(m)})", (xc, h.fy1 - 13), 2.5, A.MIDDLE_CENTER)
+    h.texto(f"Isometría explosionada, esc. {esc[0]}:{esc[1]}. Globo = sufijo del código BOM (FLAMA_BOM.xlsx, "
+            "hoja Cilindros)", (xc, h.fy1 - 13), 2.5, A.MIDDLE_CENTER)
     xt = h.fx1 - tabla_w - 2
     ft = [("Glo.", "Código BOM", "Denominación", "Cant.", "Material")]
     for r in filas:
@@ -430,7 +431,8 @@ def despiece(m):
     alto = min(4.6, (h.fy1 - 6 - (h.fy0 + ROT_H + 26)) / (len(ft) + 1))
     y = _tabla(h, xt, h.fy1 - 4, ft, [10, 24, 76, 17, 48], alto=alto, hs=(2.2, 2.0, 1.8, 2.0, 1.6),
                encabezado=f"LISTA DE DESPIECE - BOM {RC.codigo_rec(m)}")
-    for i, t in enumerate(["NOTAS: 1) Medidas, pesos y normas: salida/bom/FLAMA_BOM.xlsx, hoja " + RC.codigo_rec(m) + ".",
+    for i, t in enumerate(["NOTAS: 1) Masas: salida/bom/FLAMA_BOM.xlsx, hoja Cilindros; medidas y normas:",
+                           "   salida/bom/respaldo/FLAMA_BOM_respaldo.xlsx, hoja " + B.hoja(RC.codigo_rec(m)) + ".",
                            "2) Sin globo: consumibles, marcado, protocolo y embalaje (no dibujados).",
                            "3) Cordones de soldadura no se dibujan en el despiece."]):
         h.texto(t, (xt, y - 5 - 4 * i), 2.0)

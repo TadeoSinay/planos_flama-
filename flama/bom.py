@@ -14,7 +14,8 @@ naranja = a validar (falta dato, cotización o confirmación) · rojo = no cumpl
 El BOM es completo; la columna «Entra MRP» marca lo que se compra (lo fabricado se explota en su materia prima y lo
 que viene dentro de un conjunto comprado no se pide aparte). En los revendidos sólo entra el equipo terminado.
 
-Uso: python generar.py --bom   ->   salida/bom/FLAMA_BOM.xlsx
+Uso: python generar.py --bom   ->   salida/bom/respaldo/FLAMA_BOM_respaldo.xlsx (libro completo de respaldo; el BOM
+para leer, sólo con la estructura y sus números, lo arma bom_simple.py en salida/bom/FLAMA_BOM.xlsx)
 """
 
 import math
@@ -126,6 +127,7 @@ RHO_EMPACADA = {"ABC": 1.10}
 FUENTE_EMPACADA = ("NOM-104-STPS-2001 (México): polvo ABC, densidad empacada ≥ 1,10 g/cm³ (aparente ≥ 0,82). IRAM 3569 "
                    "no fija densidad: exigir el valor en la OC y verificar con descarga ≥ 85 % (IRAM 3523 4.9.1)")
 MOLAR = {"N₂": 0.028, "Argón": 0.040, "Aire comprimido": 0.029}
+RHO_AFFF_CONC = 1.025    # concentrado AFFF 3 % DEMSA 203 MN: peso específico 1,025 g/cm³ a 20 °C (hoja técnica Rev 04)
 
 
 def _f(v, d=1):
@@ -385,6 +387,26 @@ def tolerancia(m):
     return "-", q, ""
 
 
+# reposición de agente en el mantenimiento con apertura (sin descarga). Ninguna norma fija la merma: el agente se
+# recupera en sistema cerrado (IRAM 3517-2:2020 4.4.1 y) / z)), los ensayos de control de 9.9.3 usan muestras de gramos
+# (tabla 7) y el equipo vuelve a la carga objetivo. Lo más que puede faltar sin salir de la tolerancia de la tabla 3
+# (9.4.12) es la carga objetivo menos el límite inferior de la banda; si falta más, el anexo F lo trata como masa
+# inadecuada y se recarga. Esa diferencia se adopta como reposición (cota superior). Líquidos: carga entera (None).
+LIM_INF = {"3523": 0.0, "3550": -0.03, "3509": -0.05, "3565": -0.05}     # fracción de la carga nominal
+
+
+def reposicion(m):
+    """Agente nuevo que se repone en el mantenimiento (en la UM de la carga), o None si se cambia la carga entera."""
+    n = m.spec["Norma IRAM extintor"]
+    _, q, *_ = carga(m)
+    _, obj, _ = tolerancia(m)
+    if n == "3504":
+        return obj - q * (0.98 if q <= 2.5 else 0.97)
+    if n in LIM_INF:
+        return obj - q * (1 + LIM_INF[n])
+    return None
+
+
 # ------------------------------------------------------------------ embalaje
 def embalaje(m, bb):
     W, Dd, H = bb.xlen, bb.ylen, bb.zlen
@@ -475,11 +497,11 @@ def bom_producto(m, cilindro=False):
     rows = []
 
     def add(nivel, cod, desc, cant, um, mat="", med="", peso=None, ori="", op="", norma="", fte="", plano="",
-            obs="", sub=0, item="", est="", mrp=""):
+            obs="", sub=0, item="", est="", mrp="", rho=None):
         peso = None if peso is None else round(peso, 4)   # kg por unidad de medida
         rows.append(dict(nivel=nivel, codigo=cod, desc=desc, cant=cant, um=um, mat=mat, med=med, peso=peso,
                          ori=ori, op=op, norma=norma, fte=fte, plano=plano, obs=obs, sub=sub, item=item, est=est,
-                         mrp=mrp))
+                         mrp=mrp, rho=rho))     # rho: densidad del material (kg/L) de las piezas del modelo 3D
 
     nombre = (f"Cilindro (recipiente) {m.nombre.replace('Extintor ', '').replace(' sobre ruedas', ' rodante')} "
               "- repuesto vacío sin válvula") if cilindro else m.nombre
@@ -536,7 +558,7 @@ def bom_producto(m, cilindro=False):
                 obs = (obs + "; IRAM 3550 4.8: Ø ≥ 300 y ancho ≥ 50").strip("; ")
             add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, origen(m, k), operacion(m, k),
                 norma=("IRAM 3533" if k == "manometro" else ""), fte=fte, plano=f"FL_DES_{m.codigo[7:]}", obs=obs,
-                sub=s_, item=_item(m, k) if propio else "", est=est)
+                sub=s_, item=_item(m, k) if propio else "", est=est, rho=MAT.especificacion(m, k)[2])
             # materia prima de las piezas fabricadas
             if propio and origen(m, k) == "Fabricación":
                 for r in materia_prima(m, k, piezas[k], kg):
@@ -600,7 +622,8 @@ def bom_producto(m, cilindro=False):
             f"tolerancia {tol}", 1.0, "Red", "SP-1 premezcla", norma=ref_tol, fte="N", sub=5)
         ag, q, um = "Concentrado espumígeno AFFF 3 % (IRAM 3515)", round(q * 0.03, 3), "L"
     add(2, f"{base}-A1" + ("b" if _agente(m) == "AFFF" else ""), ag, q if _agente(m) == "AFFF" else round(obj, 3), um, ag,
-        f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})", (RHO_AGENTE.get(_agente(m), 1.0) if um == "L" else 1.0),
+        f"nominal {_f(q, 3)} {um}; tolerancia {tol} ({ref_tol})",
+        ((RHO_AFFF_CONC if _agente(m) == "AFFF" else RHO_AGENTE.get(_agente(m), 1.0)) if um == "L" else 1.0),
         "Compra", "SP-1 almacén previo a la carga", norma=ag_m["norma"], fte="N",
         obs=(comp + (" · " if comp else "") + ("Lote único por extintor; prohibido mezclar ABC con BC (3517-2 "
              "9.9.1.6)" if _agente(m) in ("ABC", "BC") else "")).strip(" ·"), sub=5,
@@ -636,7 +659,8 @@ def bom_producto(m, cilindro=False):
         rev_agc = not propio and k == "tarjeta_caba"
         add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, "Compra", op_id[k], norma=norma_id[k],
             fte="P", plano=f"FL_DES_{m.codigo[7:]}", obs=(obs + "; sólo destino CABA").strip("; ") if rev_agc else obs,
-            sub=6, item=_item(m, k) if (propio or rev_agc) else "", mrp="Sí" if rev_agc else "")
+            sub=6, item=_item(m, k) if (propio or rev_agc) else "", mrp="Sí" if rev_agc else "",
+            rho=MAT.especificacion(m, k)[2])
     sop = m.spec.get("Soporte pared"), m.spec.get("Soporte vehicular")
     if "Si" in sop or "Opcional" in sop:
         add(1, f"{base}-S8", NOMBRE_SUB[8], 1, "u", ori="Compra", op="23 Embalaje (va dentro de la caja)",
@@ -645,7 +669,7 @@ def bom_producto(m, cilindro=False):
         kg_s = AC.soporte_pared(g=m.geo, e=2.0)[0].Volume() * 1e-6 * MAT.ACERO
         add(2, f"{base}-I5", "Soporte de pared (FL_ACC_01)", 1, "u", "Chapa acero SAE 1010 e=2 pintada",
             "placa 60 × 180, ala con ranura Ø cuello + 3", round(kg_s, 3), "Compra", "23 Embalaje",
-            norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_01", sub=8, item="SOPORTE")
+            norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_01", sub=8, item="SOPORTE", rho=MAT.ACERO)
         add(2, f"{base}-I6", "Tornillo y tarugo de fijación", 2, "u", "Acero cincado / nylon",
             "2 agujeros Ø8,5 del plano FL_ACC_01 → tornillo M8 + tarugo", None, "Compra", "23 Embalaje", fte="P",
             plano="FL_ACC_01", sub=8, item="TORNILLERIA")
@@ -653,7 +677,7 @@ def bom_producto(m, cilindro=False):
         kg_s = AC.soporte_vehicular(g=m.geo, e=2.5)[0].Volume() * 1e-6 * MAT.ACERO
         add(2, f"{base}-I7", "Soporte vehicular con cierre rápido (FL_ACC_02)", 1, "u",
             "Chapa acero SAE 1010 e=2,5 pintada", "base 80 de ancho, 2 aros con hebilla", round(kg_s, 3), "Compra",
-            "23 Embalaje", norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_02", sub=8, item="SOPORTE")
+            "23 Embalaje", norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_02", sub=8, item="SOPORTE", rho=MAT.ACERO)
     if "Opcional" in sop:
         add(2, f"{base}-I8", "Soporte opcional (pared o vehicular, según pedido)", 0, "u", "-", "-", None,
             "Compra", "", fte="N", norma="IRAM 3517-2 7.4", obs="Sólo si el pedido lo incluye", sub=8, item="SOPORTE")
@@ -864,9 +888,9 @@ def recargas():
             nombre = f"Polvo químico seco {AG.agente(m)['grado']} (Sello IRAM 3569)"
         base = P.codigo_pieza(m, 0)[:-3]
         rep = [("Precinto plástico numerado, color, con nombre del recargador", 1, "u", "Nuevo", "9.4.13"),
-               ("Marbete (anillo, color del año)", 1, "u", "Nuevo", "9.4.14 · fig. 9 · tabla 4"),
+               ("Marbete (anillo, color del año)", 1, "u", "Nuevo", "9.6 · anexo E"),
                ("Etiqueta de servicio del recargador (extintor n°, serie, próxima recarga y PH)", 1, "u", "Nuevo",
-                "8.3.3 · relevado Suyai/Firegram"),
+                "9.4.14 · relevado Suyai/Firegram"),
                ("Oblea PBA de recarga Ø46 + estampilla precinto 1\" × 200 mm válvula-cuerpo", 1, "u",
                 "Nuevo (venta en PBA)", "Res. OPDS 522/07"),
                ("Tarjeta de identificación AGC (módulo papel con QR + etiqueta AGC)", 1, "u", "Nuevo (destino CABA)",
@@ -879,16 +903,18 @@ def recargas():
                ("Junta tórica de asiento del cuello", 1, "u", "Nuevo (R: cambio sistemático)", "-")]
         if m_gas:
             rep.append((f"Gas impulsor: {gas}", round(m_gas, 4), "kg", "Nuevo", "9.4.9 tabla 2"))
+        tol, q, _ = tolerancia(m)                   # carga objetivo (centro de la banda de la tabla 3)
+        r = reposicion(m)
         if ag in ("ABC", "BC", "D"):
             casos = [
                 ("A - Extintor descargado (uso o descarga parcial)",
                  [(nombre, q, um, "Nuevo 100 %", "9.9.1.4: el polvo de un extintor accionado no se reutiliza")]),
                 ("B - Mantenimiento con apertura sin descarga (control interior, PH)",
-                 [(nombre + " recuperado", round(q * 0.97, 3), um, "Recuperado en sistema cerrado",
+                 [(nombre + " recuperado", round(q - r, 3), um, "Recuperado en sistema cerrado",
                    "4.4.1 y) sistema cerrado de recuperación con inspección; 9.9.3 control (puffer IRAM 3672, "
                    "fusión IRAM 3569 en ABC)"),
-                  (nombre, round(q * 0.03, 3), um, "Nuevo: reposición de mermas (R: 3 %)",
-                   "Mismo tipo y marca (prohibido mezclar ABC con BC, 9.9.1.6)")]),
+                  (nombre, round(r, 3), um, f"Nuevo: reposición = carga objetivo − límite inferior de {tol} (cota superior)",
+                   "9.4.12 tabla 3 · anexo F; mismo tipo y marca (prohibido mezclar ABC con BC, 9.9.1.6)")]),
                 ("C - Cambio obligatorio de polvo (versión anterior de la IRAM 3569)",
                  [(nombre, q, um, "Nuevo 100 %; el viejo va a residuos (RC-IR)", "9.9.4")]),
             ]
@@ -896,10 +922,11 @@ def recargas():
             casos = [
                 ("A - Extintor descargado", [(nombre, q, um, "Nuevo o reciclado certificado", "9.9 tabla 6 · IRAM 3526")]),
                 ("B - Mantenimiento con vaciado (control interior, PH)",
-                 [(nombre + " recuperado", round(q * 0.98, 3), um, "Recuperado en circuito cerrado (no se ventea)",
+                 [(nombre + " recuperado", round(q - r, 3), um, "Recuperado en circuito cerrado (no se ventea)",
                    "4.4.1 z) recuperación de gases limpios en sistema cerrado"),
-                  (nombre, round(q * 0.02, 3), um, "Nuevo o reciclado: reposición de pérdidas (R: 2 %)",
-                   "El agente fuera de especificación va a regeneración o destrucción por gestor habilitado")]),
+                  (nombre, round(r, 3), um, f"Nuevo o reciclado: reposición = carga objetivo − límite inferior "
+                   f"de {tol} (cota superior)", "El agente fuera de especificación va a regeneración o destrucción por gestor "
+                   "habilitado · 9.4.12 tabla 3")]),
             ]
         elif ag == "CO2":
             casos = [

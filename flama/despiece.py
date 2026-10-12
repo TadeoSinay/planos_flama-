@@ -1,5 +1,5 @@
 """Planos de despiece FL_DES_<modelo>: vista isométrica explosionada por subconjunto con globos y lista
-multinivel ligada al BOM (flama/bom.py, salida/bom/FLAMA_BOM.xlsx).
+multinivel ligada al BOM (flama/bom.py; salida/bom/FLAMA_BOM.xlsx y su respaldo).
 
 Separados de los planos de fabricación FL_MAT_* (no los reemplazan). Las piezas son los mismos sólidos del
 modelo 3D; se desplazan por subconjunto y cada pieza sólo a lo largo de su eje de montaje: recipiente (S1) en su
@@ -475,8 +475,9 @@ def lamina(m):
     y = _tabla(h, xt, h.fy1 - 4, filas_t, [10, 26, 82, 18, 54], alto=alto, hs=(2.5, 2.2, 2.0, 2.2, 1.8),
                encabezado=f"LISTA DE DESPIECE - BOM {m.codigo}")
     notas = ["NOTAS",
-             "1) Lista completa con medidas, pesos, origen, operación y norma:",
-             "    salida/bom/FLAMA_BOM.xlsx, hoja BOM_" + m.codigo + ".",
+             "1) Estructura y masas: salida/bom/FLAMA_BOM.xlsx, hoja " +
+             ("Fabricados" if m.codigo in B.PROPIOS else "Revendidos") + ". Medidas,",
+             "    origen y norma: salida/bom/respaldo/FLAMA_BOM_respaldo.xlsx, hoja " + B.hoja(m.codigo) + ".",
              "2) «—» = ítem no dibujado (internos de válvula, carga, identificación, embalaje).",
              "3) S1 en los ABC = recipiente FL_REC (mismo plano que el cilindro de venta suelta).",
              "4) Ruedas: se dibujan ambas, el globo señala la derecha (cantidad 2)."

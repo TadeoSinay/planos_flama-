@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461325.8718402777
+2461326.7091087964
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461325.871875
+2461326.7091435185
   9
 $TDUUPDATE
  40
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{0F95E6E9-AC2B-4424-8BA7-17868C57D624}
+{7BC41646-5CB1-4E64-9D17-E3627D4F3D1B}
   9
 $VERSIONGUID
   2
-{339D7CC5-CA43-4E77-AEDC-0CE907CE860A}
+{4B606142-D96B-484D-B7E2-D82D566D59DC}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -93189,7 +93189,7 @@ AcDbText
  40
 2.5
   1
-1) Lista completa con medidas, pesos, origen, operación y norma:
+1) Estructura y masas: salida/bom/FLAMA_BOM.xlsx, hoja Revendidos. Medidas,
   7
 ISO3098
  11
@@ -93223,7 +93223,7 @@ AcDbText
  40
 2.5
   1
-    salida/bom/FLAMA_BOM.xlsx, hoja BOM_FL_MAT_HCFC-HFC_5kg.
+    origen y norma: salida/bom/respaldo/FLAMA_BOM_respaldo.xlsx, hoja BOM_FL_MAT_HCFC-HFC_5kg.
   7
 ISO3098
  11
@@ -96671,7 +96671,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-11T20:55:27.621121+00:00
+1.4.4 @ 2026-10-12T17:01:07.625686+00:00
   0
 LAYOUT
   5
@@ -96811,7 +96811,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-10-11T20:55:30.180023+00:00
+1.4.4 @ 2026-10-12T17:01:10.416138+00:00
   0
 ENDSEC
   0

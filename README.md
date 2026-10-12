@@ -171,9 +171,26 @@ soldadura), `flama/planos.py` (hojas 1–3), `flama/exportar.py` (DXF/PDF/STEP),
 
 ## BOM y planos de despiece
 
-`python generar.py --bom` genera **`salida/bom/FLAMA_BOM.xlsx`** y `python generar.py --despiece` genera
-**`salida/despiece/FL_DES_<modelo>.dxf/.pdf`** (más `FLAMA_despieces.pdf` con las 17 láminas). Ambos salen del
+`python generar.py --bom` genera **`salida/bom/FLAMA_BOM.xlsx`** (el BOM para leer) y el libro completo de respaldo
+`salida/bom/respaldo/FLAMA_BOM_respaldo.xlsx`; `python generar.py --despiece` genera
+**`salida/despiece/FL_DES_<modelo>.dxf/.pdf`** (más `FLAMA_despieces.pdf` con las 17 láminas). Todo sale del
 mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, material, medida y peso coinciden.
+
+**`FLAMA_BOM.xlsx`** (`flama/bom_simple.py`): sólo la estructura de cada producto y sus números, en negro y grises,
+plegable con +/− (producto → subconjunto → pieza). Columnas: Nivel · Código · Pieza · Cant. · UM · Densidad (kg/L) ·
+Volumen (L) · Masa unit. (kg) · Masa total (kg). Sin insumos de proceso, embalaje ni materia prima.
+
+| Hoja | Contenido |
+|---|---|
+| `Fabricados` | Los 8 ABC propios; al final de cada uno, lo que se agrega si va como sustituto (IRAM 3517-2 9.4.5) |
+| `Revendidos` | Los 9 equipos comprados terminados, con el mismo agregado de sustituto |
+| `Cilindros` | Los 8 recipientes ABC de venta suelta (FL_REC) |
+| `Recargas` | Por extintor, los servicios de la IRAM 3517-2:2020: control periódico, mantenimiento anual, recarga y ensayo hidrostático (cada 5 o 2 años, anexo E) |
+
+La fuente, el cálculo y el control de cada valor están en el Word «Justificación del BOM»
+(`salida/justificacion/Justificacion del BOM.docx`, armado con `tools/justificacion_bom/`).
+
+**`respaldo/FLAMA_BOM_respaldo.xlsx`** (`flama/bom.py`, lo que usa el MRP):
 
 | Hoja del Excel | Contenido |
 |---|---|
