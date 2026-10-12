@@ -182,7 +182,7 @@ ITEMS = [
     I("MP-95", "Spray antiproyecciones 400 ml", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-28", "Granalla de acero S330 / S390", "kg", Z_SOL, "CyM Materiales", "Pallet de 1.000 kg", 1000, "MP-28",
       "X07"),
-    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050", "kg", Z_POL, "Enamels (Lanús)", "Pallet de 600 kg", 600,
+    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050", "kg", Z_POL, "Sinteplast", "Pallet de 600 kg", 600,
       "MP-31", "X07"),
     I("MP-33", "Polvo ABC 60 (manuales y sus recargas)", "kg", Z_POL, "DEMSA", "Big bag de 1.000 kg", 1000, "MP-33",
       "P06"),
@@ -219,46 +219,48 @@ ITEMS = [
       "X07"),
     I("MP-55", "Conjunto de seguridad de CO₂ (recargas)", "u", Z_REC, "Georgia", "Bolsa de 100 u", 100, "MP-55",
       "X07"),
-] + [I(f"MP-56/{p}", f"Etiqueta de características {n}", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56",
-       "X07") for _, p, n in FAB] + [
+] + [I(f"MP-56/{p}", f"Etiqueta de características {n}", "u", Z_ID,
+         "Rotolan (Lanús)" if p in ("ABC1", "ABC2.5", "ABC5") else "RotulArte (CABA)", "Rollo de 1.000 u", 1000,
+         "MP-56", "X07") for _, p, n in FAB] + [
     I("MP-78", "Oblea de fabricación (PBA)", "u", Z_ID, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58", "X07"),
     I("MP-79", "Estampilla IRAM de conformidad", "u", Z_ID, "IRAM", "Paquete de 500 u", 500, "MP-58", "X07"),
     I("MP-77", "Tarjeta de identificación AGC (CABA)", "u", Z_ID, "AGC (CABA)", "Paquete de 500 u", 500, "MP-58",
       "X07"),
-    I("MP-80", "Etiqueta de n° de serie GS1", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
-    I("MP-81", "Faja de garantía válvula-cuello", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-80", "Etiqueta de n° de serie GS1", "u", Z_ID, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-81", "Faja de garantía válvula-cuello", "u", Z_ID, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56",
+      "X07"),
     I("MP-51", "Precinto de fábrica", "u", Z_ID, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
-    I("MP-88", "Etiqueta del cilindro suelto", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-88", "Etiqueta del cilindro suelto", "u", Z_ID, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
     I("MP-62/M22", "Tapón protector de rosca M22", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
     I("MP-62/M30", "Tapón protector de rosca M30", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
     I("MP-62/2½", "Tapón protector de rosca 2½\"", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
-    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Formas Visuales (Lanús)", "Paquete de 500 u", 500,
-      "MP-58", "X07"),
-    I("MP-57", "Marbete del año", "u", Z_REC, "Astuprint", "Paquete de 1.000 u", 1000, "MP-57", "X07"),
+    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Formas Visuales (Lanús)",
+      "Paquete de 500 u", 500, "MP-58", "X07"),
+    I("MP-57", "Marbete del año", "u", Z_REC, "Rotolan (Lanús)", "Paquete de 1.000 u", 1000, "MP-57", "X07"),
     I("MP-97", "Precinto del recargador", "u", Z_REC, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
-    I("MP-72", "Etiqueta de servicio", "u", Z_REC, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-72", "Etiqueta de servicio", "u", Z_REC, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
     I("MP-75", "Estampilla y oblea de recarga (PBA)", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
       "X07"),
     I("MP-76", "Tarjeta de identificación DPS (PBA)", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
       "X07"),
-    I("MP-82", "Faja amarilla de sustituto", "u", Z_REC, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-82", "Faja amarilla de sustituto", "u", Z_REC, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
     I("MP-83", "Tarjeta DPS «sustituto habilitado»", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
       "X07"),
     I("MP-84", "Tarjeta AGC «es sustituto»", "u", Z_REC, "AGC (CABA)", "Paquete de 500 u", 500, "MP-58", "X07"),
     I("MP-65", "Esmalte poliuretano rojo (recargas)", "L", Z_REC, "Sinteplast", "Lata de 4 L", 4, "MP-65", "X07"),
-] + [I(f"MP-59/{p}", f"Caja de cartón {'doble' if p == 'ABC10' else 'simple'} {n}", "u", Z_EMB, "Maxipack",
+] + [I(f"MP-59/{p}", f"Caja de cartón {'doble' if p == 'ABC10' else 'simple'} {n}", "u", Z_EMB, "Sellerpack (Pompeya)",
        "Pallet de 600 cajas", 600, "MP-59", "X07") for _, p, n in MAN] + [
-    I("MP-89", "Etiqueta de caja", "u", Z_EMB, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-89", "Etiqueta de caja", "u", Z_EMB, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
     I("MP-60", "Pallet de madera 1200 × 1000", "u", Z_EMB, "IndusPallets", "Pila de 15 u", 15, "MP-60", "X07"),
-    I("MP-90", "Etiqueta de pallet", "u", Z_EMB, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-90", "Etiqueta de pallet", "u", Z_EMB, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
 ] + [I(f"MP-96/{p}", f"Servicio de pintura, carro {n[4:]} (tercerizado)", "u", Z_SERV, "Pintor de carros",
        "Unidad", 1, "MP-60", "Q09") for _, p, n in ROD] + [
     I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT,
-      "Matafuegos Rodo" if c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg") else "Fabricante nacional", "Unidad", 1, "MP-43", "X07",
-      60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
+      "Matafuegos Rodo" if c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg") else "Fabricante nacional", "Unidad", 1,
+      "MP-43", "X07", 60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
 # después el plazo que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto
@@ -275,10 +277,14 @@ METAPOL = (1, 3, "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en e
 CHINA = (54, 68, "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
          "W5")
 ESPACIO = (1, 1, "Web Espacio Industria (Munro), discos de corte y mechas: entrega en CABA y GBA en 24 h", "W6")
-ROTOLAN = (3, 7, "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint "
-                 "no lo publica)", "W7")
+ROTOLAN = (3, 7, "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
+           "W7")
+# la etiqueta del 10 kg (224 × 343 mm) y la de los carros (213 mm de alto) no entran en 210 mm: vinilo laminado
+ROTULARTE = (1, 2, "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h "
+                   "hábiles desde que se aprueba el arte", "W16")
 DAMIAN = (3, 5, "Web Papelera Damián, que vende los SonFuertes: localidades limítrofes de CABA, 3 a 5 días hábiles", "W8")
-MARANZ = (5, 10, "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)", "W9")
+SELLERPACK = (10, 15, "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba "
+                       "final (la primera vez, +5 a 10 si lleva troquel nuevo)", "W9")
 DEPALLET = (1, 3, "Web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)", "W10")
 WURTH = (3, 5, "Web Würth Argentina: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles "
                "(unos 3 en CABA y AMBA)", "W11")
@@ -287,7 +293,6 @@ RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂
 ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
                    "directorio antiguo", "W14")
 MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)", "W15")
-ENAMELS = (1, 1, "Web Enamels (Lanús), pintura en polvo: entrega inmediata desde su stock", "W16")
 FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h",
           "W17")
 AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
@@ -298,9 +303,10 @@ LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-1
           "MP-21": ELI, "MP-68": METAPOL, "MP-69": METAPOL, "MP-15": CHINA, "MP-16": CHINA, "MP-17": CHINA,
           "MP-27": ESPACIO, "MP-94": ESPACIO, "MP-51": DAMIAN, "MP-97": DAMIAN, "MP-60": DEPALLET,
           **{c: ROTOLAN for c in ("MP-80", "MP-81", "MP-88", "MP-72", "MP-82", "MP-89", "MP-90", "MP-57")},
-          **{f"MP-56/{p}": ROTOLAN for _, p, _ in MAN + ROD}, **{f"MP-59/{p}": MARANZ for _, p, _ in MAN},
+          **{f"MP-56/{p}": ROTOLAN if p in ("ABC1", "ABC2.5", "ABC5") else ROTULARTE for _, p, _ in MAN + ROD},
+          **{f"MP-59/{p}": SELLERPACK for _, p, _ in MAN},
           **{c: WURTH for c in ("MP-86", "MP-95", "MP-93", "MP-70", "MP-71", "MP-50/OT")},
-          "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-31": ENAMELS, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
+          "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
           **{f"RV-{c}": RODO for c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg")},
           **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
           **{c: MAXISEG for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")}}

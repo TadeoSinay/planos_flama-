@@ -3529,11 +3529,11 @@
    "fuc": "X07",
    "plan": "MP-31",
    "lt": [
-    1,
-    1
+    10,
+    10
    ],
-   "flt": "Web Enamels (Lanús), pintura en polvo: entrega inmediata desde su stock",
-   "flt_fig": "W16",
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
    "umpos": 600,
    "fpos": "X07"
@@ -4093,7 +4093,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4110,7 +4110,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4127,7 +4127,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4141,11 +4141,11 @@
    "fuc": "X07",
    "plan": "MP-56",
    "lt": [
-    3,
-    7
+    1,
+    2
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
-   "flt_fig": "W7",
+   "flt": "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde que se aprueba el arte",
+   "flt_fig": "W16",
    "t": 20,
    "umpos": 20000,
    "fpos": "X07"
@@ -4158,11 +4158,11 @@
    "fuc": "X07",
    "plan": "MP-56",
    "lt": [
-    3,
-    7
+    1,
+    2
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
-   "flt_fig": "W7",
+   "flt": "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde que se aprueba el arte",
+   "flt_fig": "W16",
    "t": 20,
    "umpos": 20000,
    "fpos": "X07"
@@ -4175,11 +4175,11 @@
    "fuc": "X07",
    "plan": "MP-56",
    "lt": [
-    3,
-    7
+    1,
+    2
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
-   "flt_fig": "W7",
+   "flt": "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde que se aprueba el arte",
+   "flt_fig": "W16",
    "t": 20,
    "umpos": 20000,
    "fpos": "X07"
@@ -4192,11 +4192,11 @@
    "fuc": "X07",
    "plan": "MP-56",
    "lt": [
-    3,
-    7
+    1,
+    2
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
-   "flt_fig": "W7",
+   "flt": "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde que se aprueba el arte",
+   "flt_fig": "W16",
    "t": 20,
    "umpos": 20000,
    "fpos": "X07"
@@ -4209,11 +4209,11 @@
    "fuc": "X07",
    "plan": "MP-56",
    "lt": [
-    3,
-    7
+    1,
+    2
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
-   "flt_fig": "W7",
+   "flt": "Web RotulArte (CABA), vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde que se aprueba el arte",
+   "flt_fig": "W16",
    "t": 20,
    "umpos": 20000,
    "fpos": "X07"
@@ -4280,7 +4280,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4297,7 +4297,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4331,7 +4331,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4416,7 +4416,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4450,7 +4450,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4501,7 +4501,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4566,10 +4566,10 @@
    "fuc": "X07",
    "plan": "MP-59",
    "lt": [
-    5,
-    10
+    10,
+    15
    ],
-   "flt": "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)",
+   "flt": "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba final (la primera vez, +5 a 10 si lleva troquel nuevo)",
    "flt_fig": "W9",
    "t": 10,
    "umpos": 600,
@@ -4583,10 +4583,10 @@
    "fuc": "X07",
    "plan": "MP-59",
    "lt": [
-    5,
-    10
+    10,
+    15
    ],
-   "flt": "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)",
+   "flt": "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba final (la primera vez, +5 a 10 si lleva troquel nuevo)",
    "flt_fig": "W9",
    "t": 10,
    "umpos": 600,
@@ -4600,10 +4600,10 @@
    "fuc": "X07",
    "plan": "MP-59",
    "lt": [
-    5,
-    10
+    10,
+    15
    ],
-   "flt": "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)",
+   "flt": "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba final (la primera vez, +5 a 10 si lleva troquel nuevo)",
    "flt_fig": "W9",
    "t": 10,
    "umpos": 600,
@@ -4617,10 +4617,10 @@
    "fuc": "X07",
    "plan": "MP-59",
    "lt": [
-    5,
-    10
+    10,
+    15
    ],
-   "flt": "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)",
+   "flt": "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba final (la primera vez, +5 a 10 si lleva troquel nuevo)",
    "flt_fig": "W9",
    "t": 10,
    "umpos": 600,
@@ -4637,7 +4637,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -4671,7 +4671,7 @@
     3,
     7
    ],
-   "flt": "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint no lo publica)",
+   "flt": "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
    "flt_fig": "W7",
    "t": 20,
    "umpos": 20000,
@@ -5750,7 +5750,7 @@
    "nom": "Pintura en polvo poliéster rojo 03-1-050",
    "um": "kg",
    "alm": "Depósito de polvo químico",
-   "prov": "Enamels (Lanús)",
+   "prov": "Sinteplast",
    "uc": "Pallet de 600 kg",
    "cont": 600,
    "plan": "MP-31",
@@ -6278,7 +6278,7 @@
    "nom": "Etiqueta de características ABC 1 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6294,7 +6294,7 @@
    "nom": "Etiqueta de características ABC 2,5 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6310,7 +6310,7 @@
    "nom": "Etiqueta de características ABC 5 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6326,7 +6326,7 @@
    "nom": "Etiqueta de características ABC 10 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "RotulArte (CABA)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6342,7 +6342,7 @@
    "nom": "Etiqueta de características ABC 25 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "RotulArte (CABA)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6358,7 +6358,7 @@
    "nom": "Etiqueta de características ABC 50 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "RotulArte (CABA)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6374,7 +6374,7 @@
    "nom": "Etiqueta de características ABC 70 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "RotulArte (CABA)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6390,7 +6390,7 @@
    "nom": "Etiqueta de características ABC 100 kg",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "RotulArte (CABA)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6454,7 +6454,7 @@
    "nom": "Etiqueta de n° de serie GS1",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6470,7 +6470,7 @@
    "nom": "Faja de garantía válvula-cuello",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6502,7 +6502,7 @@
    "nom": "Etiqueta del cilindro suelto",
    "um": "u",
    "alm": "Identificación",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6582,7 +6582,7 @@
    "nom": "Marbete del año",
    "um": "u",
    "alm": "Insumos de recargas",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Paquete de 1.000 u",
    "cont": 1000,
    "plan": "MP-57",
@@ -6614,7 +6614,7 @@
    "nom": "Etiqueta de servicio",
    "um": "u",
    "alm": "Insumos de recargas",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6662,7 +6662,7 @@
    "nom": "Faja amarilla de sustituto",
    "um": "u",
    "alm": "Insumos de recargas",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6726,7 +6726,7 @@
    "nom": "Caja de cartón simple ABC 1 kg",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Maxipack",
+   "prov": "Sellerpack (Pompeya)",
    "uc": "Pallet de 600 cajas",
    "cont": 600,
    "plan": "MP-59",
@@ -6742,7 +6742,7 @@
    "nom": "Caja de cartón simple ABC 2,5 kg",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Maxipack",
+   "prov": "Sellerpack (Pompeya)",
    "uc": "Pallet de 600 cajas",
    "cont": 600,
    "plan": "MP-59",
@@ -6758,7 +6758,7 @@
    "nom": "Caja de cartón simple ABC 5 kg",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Maxipack",
+   "prov": "Sellerpack (Pompeya)",
    "uc": "Pallet de 600 cajas",
    "cont": 600,
    "plan": "MP-59",
@@ -6774,7 +6774,7 @@
    "nom": "Caja de cartón doble ABC 10 kg",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Maxipack",
+   "prov": "Sellerpack (Pompeya)",
    "uc": "Pallet de 600 cajas",
    "cont": 600,
    "plan": "MP-59",
@@ -6790,7 +6790,7 @@
    "nom": "Etiqueta de caja",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
@@ -6822,7 +6822,7 @@
    "nom": "Etiqueta de pallet",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "Astuprint",
+   "prov": "Rotolan (Lanús)",
    "uc": "Rollo de 1.000 u",
    "cont": 1000,
    "plan": "MP-56",
