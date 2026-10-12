@@ -1,0 +1,426 @@
+[
+ {
+  "id": "N01",
+  "titulo": "IRAM 3517-2:2020, 9.4.12 y tabla 3: condiciones de funcionamiento",
+  "tipo": "Norma",
+  "png": "figs/N01.png",
+  "w": 1024,
+  "h": 1425,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Polvo manual 1 y 2,5 kg: 0 / +100 g"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Polvo manual 5 y 10 kg: 0 / +300 g"
+   },
+   {
+    "n": 3,
+    "etiqueta": "CO₂: 0 / −5 %"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Gases limpios: 0 / −2 % (1 y 2,5 kg) y 0 / −3 % (5 y 10 kg)"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Agua (y AFFF en las filas siguientes): ±3 %"
+   },
+   {
+    "n": 6,
+    "etiqueta": "Polvo sobre ruedas: ±3 %"
+   },
+   {
+    "n": 7,
+    "etiqueta": "Sales de potasio: 0 / +3 %"
+   }
+  ]
+ },
+ {
+  "id": "N02",
+  "titulo": "IRAM 3517-2:2020, 9.4.9 y tabla 2: gas impulsor según el tipo de extintor",
+  "tipo": "Norma",
+  "png": "figs/N02.png",
+  "w": 1044,
+  "h": 611,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Polvo: nitrógeno seco"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Agua, AFFF y sales de potasio: nitrógeno o aire comprimido"
+   },
+   {
+    "n": 3,
+    "etiqueta": "HCFC Mezcla B: sólo argón"
+   }
+  ]
+ },
+ {
+  "id": "N03",
+  "titulo": "IRAM 3517-2:2020, anexo E: guía de control y mantenimiento (CO₂, polvo, agua, AFFF)",
+  "tipo": "Norma",
+  "png": "figs/N03.png",
+  "w": 1464,
+  "h": 900,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Prueba hidráulica cada 5 años como máximo (CO₂, polvo)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "CO₂: disco de seguridad nuevo cada vez que se descarga"
+   },
+   {
+    "n": 3,
+    "etiqueta": "CO₂: marbete cada vez que se interviene"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Polvo: control del agente cada año (9.9.3)"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Agua y AFFF: prueba hidráulica cada 2 años"
+   },
+   {
+    "n": 6,
+    "etiqueta": "Agua y AFFF: carga nueva cada año, previo lavado"
+   }
+  ]
+ },
+ {
+  "id": "N04",
+  "titulo": "IRAM 3517-2:2020, anexo E (fin): rodantes, gases limpios y acetato de potasio",
+  "tipo": "Norma",
+  "png": "figs/N04.png",
+  "w": 1464,
+  "h": 840,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Polvo sobre ruedas: 5 años"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Gases limpios: control anual (9.9.2)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Acetato de potasio: carga nueva cada año (9.9.1.9)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Acetato de potasio: prueba hidráulica cada 2 años"
+   }
+  ]
+ },
+ {
+  "id": "N05",
+  "titulo": "IRAM 3517-2:2020, 8.2 y 8.3.3.1: control trimestral y etiqueta de control",
+  "tipo": "Norma",
+  "png": "figs/N05.png",
+  "w": 1044,
+  "h": 604,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Control como mínimo cuatro veces por año"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Etiqueta celeste de 35 × 50 mm (figura 7)"
+   }
+  ]
+ },
+ {
+  "id": "N06",
+  "titulo": "IRAM 3517-2:2020, 9.2.1 y 9.2.2: mantenimiento anual y recarga",
+  "tipo": "Norma",
+  "png": "figs/N06.png",
+  "w": 1044,
+  "h": 342,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Mantenimiento como mínimo anual"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Recarga después de cada uso"
+   }
+  ]
+ },
+ {
+  "id": "N07",
+  "titulo": "IRAM 3517-2:2020, 9.4.5: extintores sustitutos",
+  "tipo": "Norma",
+  "png": "figs/N07.png",
+  "w": 1044,
+  "h": 590,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Igual clasificación y por lo menos igual capacidad"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Faja amarilla de 40 mm como máximo"
+   }
+  ]
+ },
+ {
+  "id": "N08",
+  "titulo": "IRAM 3517-2:2020, 9.4.13 y 9.4.14: precintos y etiqueta de servicio",
+  "tipo": "Norma",
+  "png": "figs/N08.png",
+  "w": 1044,
+  "h": 448,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Precinto nuevo después del mantenimiento o la recarga"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Etiqueta de servicio en cada extintor"
+   }
+  ]
+ },
+ {
+  "id": "N09",
+  "titulo": "IRAM 3517-2:2020, 9.6.1: marbete indicador",
+  "tipo": "Norma",
+  "png": "figs/N09.png",
+  "w": 1044,
+  "h": 259,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Marbete sólo cuando se retira la válvula o se desarma el extintor"
+   }
+  ]
+ },
+ {
+  "id": "N10",
+  "titulo": "IRAM 3517-2:2020, 9.9.1.4: el polvo de un extintor accionado no se reutiliza",
+  "tipo": "Norma",
+  "png": "figs/N10.png",
+  "w": 1044,
+  "h": 173,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Recarga después de uso: polvo nuevo"
+   }
+  ]
+ },
+ {
+  "id": "N11",
+  "titulo": "IRAM 3517-2:2020, 4.4.1 y) z): recuperación cerrada de polvo y gases limpios",
+  "tipo": "Norma",
+  "png": "figs/N11.png",
+  "w": 1044,
+  "h": 249,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Polvo recuperado en sistema cerrado con inspección"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Gases limpios recuperados sin ventear"
+   }
+  ]
+ },
+ {
+  "id": "N12",
+  "titulo": "IRAM 3517-2:2020, 9.9.3.2 y tabla 7: ensayo de extinción del polvo (muestras de gramos)",
+  "tipo": "Norma",
+  "png": "figs/N12.png",
+  "w": 1044,
+  "h": 521,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Masas de ensayo de 1,1 a 1,8 g por disparo"
+   }
+  ]
+ },
+ {
+  "id": "N13",
+  "titulo": "IRAM 3517-2:2020, anexo F: masa inadecuada → recargar hasta la masa correcta",
+  "tipo": "Norma",
+  "png": "figs/N13.png",
+  "w": 1044,
+  "h": 188,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Masa fuera de la tabla 3"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Acción: recargar hasta la masa correcta"
+   }
+  ]
+ },
+ {
+  "id": "N14",
+  "titulo": "IRAM 3523:1983, 2.2 y 2.3: capacidad y presión de servicio a 20 ± 2 °C",
+  "tipo": "Norma",
+  "png": "figs/N14.png",
+  "w": 1034,
+  "h": 244,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "La capacidad es la masa de polvo"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Presión de servicio a 20 °C ± 2 °C"
+   }
+  ]
+ },
+ {
+  "id": "N15",
+  "titulo": "IRAM 3523:1983, 4.5 a 4.7: manómetro, tabla II de capacidad y presión de servicio",
+  "tipo": "Norma",
+  "png": "figs/N15.png",
+  "w": 1014,
+  "h": 536,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Manómetro según la norma IRAM (IRAM 3533)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Tabla II: +100 g (1 y 2,5 kg), +300 g (5 y 10 kg)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Presión de servicio menor de 1,7 MPa"
+   }
+  ]
+ },
+ {
+  "id": "N16",
+  "titulo": "IRAM 2533:2004, 7.9 y tabla 1: relación de llenado del CO₂",
+  "tipo": "Norma",
+  "png": "figs/N16.png",
+  "w": 520,
+  "h": 480,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Relación de llenado según la temperatura máxima"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Elementos contra incendio: 65 °C, 0,68 kg/L"
+   }
+  ]
+ },
+ {
+  "id": "N17",
+  "titulo": "IRAM 3694:2014, 5.4 a 5.6: manómetro, capacidad y presión de servicio (sales de potasio)",
+  "tipo": "Norma",
+  "png": "figs/N17.png",
+  "w": 532,
+  "h": 408,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Manómetro según IRAM 3533"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Capacidad 6 L +0,3 / −0"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Presión de servicio menor de 1,7 MPa"
+   }
+  ]
+ },
+ {
+  "id": "F_ABC",
+  "titulo": "Ficha DEMSA polvo ABC (hoja de seguridad): densidad aparente",
+  "tipo": "Ficha",
+  "png": "figs/F_ABC.png",
+  "w": 470,
+  "h": 100,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Densidad aparente > 0,85"
+   }
+  ]
+ },
+ {
+  "id": "F_BC",
+  "titulo": "Ficha DEMSA polvo BC Púrpura K (hoja de seguridad): densidad aparente",
+  "tipo": "Ficha",
+  "png": "figs/F_BC.png",
+  "w": 440,
+  "h": 88,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Densidad aparente > 0,85"
+   }
+  ]
+ },
+ {
+  "id": "F_D",
+  "titulo": "Ficha DEMSA polvo clase D (hoja de seguridad): densidad aparente",
+  "tipo": "Ficha",
+  "png": "figs/F_D.png",
+  "w": 504,
+  "h": 80,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Densidad aparente > 0,85 g/cm³"
+   }
+  ]
+ },
+ {
+  "id": "F_K",
+  "titulo": "Ficha técnica DEMSA Kitchen (acetato de potasio): densidad",
+  "tipo": "Ficha",
+  "png": "figs/F_K.png",
+  "w": 424,
+  "h": 220,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Densidad 1,300 g/mL a 20 °C"
+   }
+  ]
+ },
+ {
+  "id": "F_AFFF",
+  "titulo": "Ficha técnica DEMSA 203 MN (AFFF 3 %): concentración y peso específico",
+  "tipo": "Ficha",
+  "png": "figs/F_AFFF.png",
+  "w": 500,
+  "h": 108,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Concentración 3 %"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Peso específico 1,025 g/cm³ a 20 °C"
+   }
+  ]
+ }
+]

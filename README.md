@@ -176,19 +176,27 @@ soldadura), `flama/planos.py` (hojas 1–3), `flama/exportar.py` (DXF/PDF/STEP),
 **`salida/despiece/FL_DES_<modelo>.dxf/.pdf`** (más `FLAMA_despieces.pdf` con las 17 láminas). Todo sale del
 mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, material, medida y peso coinciden.
 
-**`FLAMA_BOM.xlsx`** (`flama/bom_simple.py`): sólo la estructura de cada producto y sus números, en negro y grises,
-plegable con +/− (producto → subconjunto → pieza). Columnas: Nivel · Código · Pieza · Cant. · UM · Densidad (kg/L) ·
-Volumen total (L) · Masa unit. (kg) · Masa total (kg). Sin insumos de proceso, embalaje ni materia prima.
+**`FLAMA_BOM.xlsx`** (`flama/bom_simple.py`): la estructura de cada producto y sus números, en negro y grises,
+plegable con +/− (producto → subconjunto → pieza), **indexada con fórmulas**: cada dato de entrada está una sola vez en
+REFERENCIAS (con ID, mínimo, máximo y fuente) y todo lo demás lo busca ahí. Columnas: Nivel · Código · Pieza · Ref. ·
+Material / agente · Cant. · UM · Densidad · Volumen total [+ unit., mín., máx.] · Masa total [+ unit., mín., máx.
+[+ cálculo de la tolerancia]]. Sin insumos de proceso, embalaje ni materia prima. Al guardarlo se recalcula con
+LibreOffice para que lleve los valores además de las fórmulas.
 
 | Hoja | Contenido |
 |---|---|
+| `REFERENCIAS` | Densidades (materiales, agentes, gases), tolerancias de carga (IRAM 3517-2 tabla 3), constantes, presión (±10 %) y temperatura (20 ± 2 °C) de carga, prueba hidráulica (anexo E) y la tolerancia general ISO 2768-m de los planos |
+| `MODELOS` | Por extintor: carga objetivo y banda, volumen del agente y ocupación, volumen libre, gas impulsor con mínimo y máximo, relación de llenado del CO₂, reposición en el mantenimiento |
 | `Fabricados` | Los 8 ABC propios; al final de cada uno, lo que se agrega si va como sustituto (IRAM 3517-2 9.4.5) |
 | `Revendidos` | Los 9 equipos comprados terminados, con el mismo agregado de sustituto |
 | `Cilindros` | Los 8 recipientes ABC de venta suelta (FL_REC) |
-| `Recargas` | Por extintor, los servicios de la IRAM 3517-2:2020: control periódico, mantenimiento anual, recarga y ensayo hidrostático (cada 5 o 2 años, anexo E) |
+| `Recargas` | Por extintor, los servicios de la IRAM 3517-2:2020: control periódico, mantenimiento anual, recarga y prueba hidráulica (cada 5 o 2 años, anexo E) |
 
-La fuente, el cálculo y el control de cada valor están en el Word «Justificación del BOM»
-(`salida/justificacion/Justificacion del BOM.docx`, armado con `tools/justificacion_bom/`).
+Tolerancia de cada pieza: la ISO 2768-m del espesor equivalente (2 × volumen / superficie del sólido 3D) dividida por
+ese espesor, con el rango de densidad del material; agentes: la banda de la tabla 3; gas: presión, temperatura y
+volumen libre. La fuente, el cálculo, la tolerancia y el control de cada valor, con las capturas marcadas de cada
+cláusula y ficha, están en el Word «Justificación del BOM» (`salida/justificacion/Justificacion del BOM.docx`, armado
+con `tools/justificacion_bom/`).
 
 **`respaldo/FLAMA_BOM_respaldo.xlsx`** (`flama/bom.py`, lo que usa el MRP):
 

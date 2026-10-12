@@ -497,11 +497,15 @@ def bom_producto(m, cilindro=False):
     rows = []
 
     def add(nivel, cod, desc, cant, um, mat="", med="", peso=None, ori="", op="", norma="", fte="", plano="",
-            obs="", sub=0, item="", est="", mrp="", rho=None):
+            obs="", sub=0, item="", est="", mrp="", rho=None, solido=None, fac=1.0):
         peso = None if peso is None else round(peso, 4)   # kg por unidad de medida
+        # rho: densidad del material (kg/L); vol (L) y sup (dm²): volumen real (con el factor de llenado) y superficie
+        # del sólido del modelo 3D, para el BOM indexado y su tolerancia
+        vol = None if solido is None else solido.Volume() * 1e-6 * fac
+        sup = None if solido is None else solido.Area() * 1e-4
         rows.append(dict(nivel=nivel, codigo=cod, desc=desc, cant=cant, um=um, mat=mat, med=med, peso=peso,
                          ori=ori, op=op, norma=norma, fte=fte, plano=plano, obs=obs, sub=sub, item=item, est=est,
-                         mrp=mrp, rho=rho))     # rho: densidad del material (kg/L) de las piezas del modelo 3D
+                         mrp=mrp, rho=rho, vol=vol, sup=sup, fac=fac))
 
     nombre = (f"Cilindro (recipiente) {m.nombre.replace('Extintor ', '').replace(' sobre ruedas', ' rodante')} "
               "- repuesto vacío sin válvula") if cilindro else m.nombre
@@ -558,7 +562,8 @@ def bom_producto(m, cilindro=False):
                 obs = (obs + "; IRAM 3550 4.8: Ø ≥ 300 y ancho ≥ 50").strip("; ")
             add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, origen(m, k), operacion(m, k),
                 norma=("IRAM 3533" if k == "manometro" else ""), fte=fte, plano=f"FL_DES_{m.codigo[7:]}", obs=obs,
-                sub=s_, item=_item(m, k) if propio else "", est=est, rho=MAT.especificacion(m, k)[2])
+                sub=s_, item=_item(m, k) if propio else "", est=est, rho=MAT.especificacion(m, k)[2],
+                solido=piezas[k], fac=MAT.especificacion(m, k)[3])
             # materia prima de las piezas fabricadas
             if propio and origen(m, k) == "Fabricación":
                 for r in materia_prima(m, k, piezas[k], kg):
@@ -660,24 +665,27 @@ def bom_producto(m, cilindro=False):
         add(2, cod, nom, cant, "u", mat, medida(m, k, piezas[k], info), kg, "Compra", op_id[k], norma=norma_id[k],
             fte="P", plano=f"FL_DES_{m.codigo[7:]}", obs=(obs + "; sólo destino CABA").strip("; ") if rev_agc else obs,
             sub=6, item=_item(m, k) if (propio or rev_agc) else "", mrp="Sí" if rev_agc else "",
-            rho=MAT.especificacion(m, k)[2])
+            rho=MAT.especificacion(m, k)[2], solido=piezas[k], fac=MAT.especificacion(m, k)[3])
     sop = m.spec.get("Soporte pared"), m.spec.get("Soporte vehicular")
     if "Si" in sop or "Opcional" in sop:
         add(1, f"{base}-S8", NOMBRE_SUB[8], 1, "u", ori="Compra", op="23 Embalaje (va dentro de la caja)",
             norma="IRAM 3517-2 7.4", sub=8)
     if sop[0] == "Si":
-        kg_s = AC.soporte_pared(g=m.geo, e=2.0)[0].Volume() * 1e-6 * MAT.ACERO
+        sol_s = AC.soporte_pared(g=m.geo, e=2.0)[0]
+        kg_s = sol_s.Volume() * 1e-6 * MAT.ACERO
         add(2, f"{base}-I5", "Soporte de pared (FL_ACC_01)", 1, "u", "Chapa acero SAE 1010 e=2 pintada",
             "placa 60 × 180, ala con ranura Ø cuello + 3", round(kg_s, 3), "Compra", "23 Embalaje",
-            norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_01", sub=8, item="SOPORTE", rho=MAT.ACERO)
+            norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_01", sub=8, item="SOPORTE", rho=MAT.ACERO, solido=sol_s)
         add(2, f"{base}-I6", "Tornillo y tarugo de fijación", 2, "u", "Acero cincado / nylon",
             "2 agujeros Ø8,5 del plano FL_ACC_01 → tornillo M8 + tarugo", None, "Compra", "23 Embalaje", fte="P",
             plano="FL_ACC_01", sub=8, item="TORNILLERIA")
     if sop[1] == "Si":
-        kg_s = AC.soporte_vehicular(g=m.geo, e=2.5)[0].Volume() * 1e-6 * MAT.ACERO
+        sol_s = AC.soporte_vehicular(g=m.geo, e=2.5)[0]
+        kg_s = sol_s.Volume() * 1e-6 * MAT.ACERO
         add(2, f"{base}-I7", "Soporte vehicular con cierre rápido (FL_ACC_02)", 1, "u",
             "Chapa acero SAE 1010 e=2,5 pintada", "base 80 de ancho, 2 aros con hebilla", round(kg_s, 3), "Compra",
-            "23 Embalaje", norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_02", sub=8, item="SOPORTE", rho=MAT.ACERO)
+            "23 Embalaje", norma="IRAM 3517-2 7.4", fte="P", plano="FL_ACC_02", sub=8, item="SOPORTE", rho=MAT.ACERO,
+            solido=sol_s)
     if "Opcional" in sop:
         add(2, f"{base}-I8", "Soporte opcional (pared o vehicular, según pedido)", 0, "u", "-", "-", None,
             "Compra", "", fte="N", norma="IRAM 3517-2 7.4", obs="Sólo si el pedido lo incluye", sub=8, item="SOPORTE")

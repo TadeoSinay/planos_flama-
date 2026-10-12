@@ -1,177 +1,185 @@
-"""Datos del Word «Justificación del BOM»: cada valor del BOM simple (salida/bom/FLAMA_BOM.xlsx) con su fuente, su
-cálculo y su control contra la norma o la ficha del fabricante.
+"""Datos del Word «Justificación del BOM», leídos del propio FLAMA_BOM.xlsx ya recalculado: así el Word y el Excel
+salen de las mismas fórmulas. Agrega los controles que no están en el Excel (gas real con CoolProp, masa contra la
+referencia de plano o ficha) y los textos (textos.py).
 
-Uso: python datos_bom.py <salida.json> [cache.pkl]
-  cache.pkl (opcional): bom_producto / bom_sustituto ya calculados {"prod": {...}, "cil": {...}, "sus": {...}}, para no
-  volver a armar los modelos 3D (tardan unos 8 minutos).
+Uso: python datos_bom.py <FLAMA_BOM.xlsx recalculado> <salida.json> [cache.pkl]
+  El libro tiene que tener los valores calculados (abrirlo y guardarlo, o pasarlo por LibreOffice:
+  soffice --headless --convert-to xlsx --outdir <carpeta> FLAMA_BOM.xlsx).
 """
 import json
-import math
 import os
-import pickle
 import sys
+
+from openpyxl import load_workbook
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 from flama import bom as B                       # noqa: E402
-from flama import bom_simple as S                # noqa: E402
-from flama import materiales as MAT              # noqa: E402
-from flama import recipientes as RC             # noqa: E402
 from flama import sustituto as SU                # noqa: E402
 from flama.catalogo import MODELOS               # noqa: E402
 import textos                                    # noqa: E402
 
 try:
     from CoolProp.CoolProp import PropsSI
-except ImportError:                              # sin CoolProp: sólo gas ideal
+except ImportError:                              # sin CoolProp no se hace el control de gas real
     PropsSI = None
 
-OUT = sys.argv[1]
-if len(sys.argv) > 2:
-    C = pickle.load(open(sys.argv[2], "rb"))
-    B.bom_producto = lambda m, cilindro=False: C["cil" if cilindro else "prod"][m.codigo]
-    SU.bom_sustituto = lambda m: C["sus"][m.codigo]
-
-R_GAS, T_REF = 8.314, 293.15
-RLL_IRAM2533 = 0.68          # kg/L, IRAM 2533:2004 7.9 tabla 1 (CO₂, 65 °C)
-FLUIDO = {"N₂": "Nitrogen", "Aire comprimido": "Air", "Argón": "Argon"}
-M_REAL = {"N₂": 28.014, "Aire comprimido": 28.965, "Argón": 39.948}     # g/mol
-NOMBRE = {m.codigo: m.nombre for m in MODELOS}
+XLSX, OUT = sys.argv[1], sys.argv[2]
+CACHE = __import__("pickle").load(open(sys.argv[3], "rb")) if len(sys.argv) > 3 else None   # faja del sustituto
+wb = load_workbook(XLSX, data_only=True)
+FLUIDO = {"GAS_N2": "Nitrogen", "GAS_AIRE": "Air", "GAS_AR": "Argon"}
+M_REAL = {"GAS_N2": 28.014, "GAS_AIRE": 28.965, "GAS_AR": 39.948}       # g/mol
 
 
-def r(x, n=3):
-    return None if x is None else round(x, n)
+def r(x, n=4):
+    return round(x, n) if isinstance(x, (int, float)) else x
 
 
 def pct(a, b):
-    return None if not b else round(100 * (a - b) / b, 1)
+    return None if not b or a is None else round(100 * (a - b) / b, 1)
 
 
-# ------------------------------------------------------------------ densidades
-materiales = [
-    dict(mat="Acero al carbono (SAE 1010 / 1045, chapa LAC)", rho=MAT.ACERO, rango="7,85 (valor de tabla del acero)",
-         uso="Cuerpo, cúpula, fondo, cuello, manijas, suncho, soporte, carro"),
-    dict(mat="Acero inoxidable AISI 302 / 304", rho=MAT.INOX, rango="7,93 (ASTM A240, AISI 304)",
-         uso="Resorte, eje de palanca, pasador de seguridad"),
-    dict(mat="Latón forjado (CuZn39Pb2 / C37700)", rho=MAT.LATON, rango="8,4-8,5 (latones de forja)",
-         uso="Cuerpo de válvula, collarín, vástago, espiga, racor"),
-    dict(mat="Aluminio", rho=MAT.ALUMINIO, rango="2,70", uso="Piezas de aluminio de válvulas compradas"),
-    dict(mat="Caucho sintético (NBR / SBR)", rho=MAT.CAUCHO, rango="1,1-1,3", uso="Manguera, juntas, neumático"),
-    dict(mat="Polipropileno", rho=MAT.PP, rango="0,90-0,91", uso="Tobera, lanza, empuñadura, filtro, precinto"),
-    dict(mat="Polietileno de alta densidad", rho=MAT.PE, rango="0,94-0,97", uso="Difusor, pie de apoyo"),
-    dict(mat="PVC rígido / vinilo de etiquetas", rho=MAT.PVC, rango="1,35-1,45", uso="Caño de pesca, etiquetas, obleas"),
-]
-llenado = [dict(pieza=v[0], material=v[1], factor=v[3], obs=v[4] or "")
-           for k, v in MAT.PIEZAS.items() if v and v[3] < 1.0]
+# ------------------------------------------------------------------ REFERENCIAS
+ws = wb["REFERENCIAS"]
+refs, ref = [], {}
+for fila in ws.iter_rows(min_row=3, values_only=True):
+    if fila[1] and str(fila[1]).startswith("Tolerancia general de los planos"):
+        break
+    if fila[0] and fila[1] and fila[0] != "ID":
+        d = dict(id=fila[0], dato=fila[1], valor=r(fila[2], 6), min=r(fila[3], 6), max=r(fila[4], 6), unidad=fila[5],
+                 fuente=fila[6], nota=fila[7] or "")
+        refs.append(d)
+        ref[d["id"]] = d
+    elif not fila[0] and fila[1] and not fila[2]:
+        refs.append(dict(seccion=fila[1]))
+iso = [dict(desde=f[1], hasta=f[2], tol=f[3]) for f in ws.iter_rows(min_row=3, values_only=True)
+       if not f[0] and isinstance(f[1], (int, float)) and isinstance(f[3], (int, float))]
 
-FUENTE = {"AGUA": "Agua potable de red: 1,000 kg/L"}
-agentes = []
-for k, v in B.AGENTES.items():
-    agentes.append(dict(clave=k, nombre=v[0], rho_min=v[5], rho_tip=v[6], rho_max=v[7], fuente=FUENTE.get(k, v[8]),
-                        gas=v[4], empacada=B.RHO_EMPACADA.get(k)))
+# ------------------------------------------------------------------ MODELOS
+ws = wb["MODELOS"]
+cab = [c.value for c in ws[2]]
+modelos = {}
+for fila in ws.iter_rows(min_row=3, values_only=True):
+    if fila[0]:
+        modelos[fila[0]] = {k: r(v, 6) for k, v in zip(cab, fila)}
 gases = []
-for g, M in B.MOLAR.items():
-    rho_n = M / S.VOL_MOLAR_N
-    real = M_REAL[g] / 1000 / S.VOL_MOLAR_N
-    gases.append(dict(gas=g, M=M * 1000, rho_n=r(rho_n, 6), rho_real=r(real, 6), dif=pct(rho_n, real)))
-
-# ------------------------------------------------------------------ carga por modelo
+for gid in ("GAS_N2", "GAS_AIRE", "GAS_AR"):
+    rho_n = ref[gid]["valor"]
+    real = M_REAL[gid] / 1000 / ref["VM"]["valor"]
+    gases.append(dict(id=gid, dato=ref[gid]["dato"], rho_n=rho_n, rho_real=r(real, 6), dif=pct(rho_n, real)))
+T, PATM = ref["T_REF"]["valor"], ref["P_ATM"]["valor"]
 cargas = []
 for m in MODELOS:
-    ag = B._agente(m)
-    nombre, q, um, n_ag, gas, m_gas, nm3, libre = B.carga(m)
-    tol, obj, ref_tol = B.tolerancia(m)
-    n = m.spec["Norma IRAM extintor"]
-    V = float(m.geo["vol_dm3"])
-    ps = B._ps(m)
-    d = dict(codigo=m.codigo, nombre=m.nombre, norma=n, agente=ag, q=q, um=um, tol=tol, obj=r(obj, 3), V=V, ps=ps,
-             pe=float(m.spec["Presión de ensayo (MPa)"].replace(",", ".")), gas=gas, propio=m.codigo in B.PROPIOS)
-    if ag == "CO2":
-        d.update(rho=r(q / V, 3), v_ag=V, ocup=None, rll=r(q / V, 3), rll_max=RLL_IRAM2533,
-                 rll_ok=q / V <= RLL_IRAM2533, libre=0.0, m_gas=0.0)
-    else:
-        if um == "L":
-            rho = B.RHO_AFFF_CONC * 0.03 + 0.97 if ag == "AFFF" else B.RHO_AGENTE.get(ag, 1.0)
-            v_ag = obj
-        else:
-            rho = B.RHO_EMPACADA.get(ag, B.RHO_AGENTE[ag])
-            v_ag = obj / rho
-        v_peor = obj / B.AGENTES[ag][5] if um == "kg" else v_ag            # densidad mínima de la ficha
-        pa = (ps + 0.101325) * 1e6
-        n_mol = pa * libre * 1e-3 / (R_GAS * T_REF)
-        m_real = None
-        if PropsSI is not None and libre > 0:
-            m_real = PropsSI("D", "T", T_REF, "P", pa, FLUIDO[gas]) * libre * 1e-3
-        d.update(rho=r(rho, 4), v_ag=r(v_ag, 3), ocup=r(100 * v_ag / V, 1), v_peor=r(v_peor, 3),
-                 ocup_peor=r(100 * v_peor / V, 1), libre=r(libre, 3), m_gas=r(m_gas, 4), nl=r(nm3 * 1000, 1),
-                 m_gas_real=r(m_real, 4), dif_real=pct(m_gas, m_real) if m_real else None,
-                 masa_ag=r(obj * rho if um == "L" else obj, 3))
+    x = modelos[m.codigo]
+    d = dict(codigo=m.codigo, nombre=m.nombre, x=x)
+    if x["Ref. gas"] and PropsSI is not None and x["V libre (L)"]:
+        real = PropsSI("D", "T", T, "P", (x["Ps (MPa)"] + PATM) * 1e6, FLUIDO[x["Ref. gas"]]) * x["V libre (L)"] / 1000
+        d.update(gas_real=r(real, 5), dif_real=pct(x["Gas (kg)"], real))
     cargas.append(d)
 
-# ------------------------------------------------------------------ masas: BOM contra referencia
-masas, subconj = [], []
-fab = [m for m in MODELOS if m.codigo in B.PROPIOS]
-rev = [m for m in MODELOS if m.codigo not in B.PROPIOS]
-for m in fab + rev:
-    filas = S.estructura(m)
-    total = filas[0][8]
-    soporte = sum(f[8] or 0 for f in filas if f[0] == 1 and f[1].endswith("-S8"))   # el peso cargado no lo incluye
-    cargado = total - soporte
-    ref, fuente = B.peso_ref(m)
-    fuente = "Catálogo Fadesa 3 (orientativo)" if fuente.startswith("Catálogo") else fuente
-    cat = float(m.spec["Peso cargado (kg)"].replace(",", "."))
-    sin_masa = sorted({f[2] for f in filas if f[0] >= 2 and f[7] is None and f[4] == "u"})
-    masas.append(dict(codigo=m.codigo, nombre=m.nombre, propio=m.codigo in B.PROPIOS, total=r(total, 2),
-                      soporte=r(soporte, 3), bom=r(cargado, 2), ref=ref, fuente=fuente, dif=pct(cargado, ref),
-                      catalogo=cat, dif_cat=pct(cargado, cat), sin_masa=sin_masa))
-    subconj.append(dict(codigo=m.codigo, partes=[(f[2], r(f[8], 3)) for f in filas if f[0] == 1]))
 
-cilindros = []
-for m in RC.modelos_abc():
-    filas = S.estructura(m, cilindro=True)
-    cilindros.append(dict(codigo=m.codigo, nombre=filas[0][2], masa=r(filas[0][8], 3),
-                          partes=[(f[2], r(f[8], 3)) for f in filas if f[0] == 2 and f[8]]))
+# ------------------------------------------------------------------ hojas del BOM
+def hoja(nombre):
+    ws = wb[nombre]
+    cab = [c.value for c in ws[1]]
+    return [dict(zip(cab, f)) for f in ws.iter_rows(min_row=2, values_only=True) if f[1]]
 
-# ------------------------------------------------------------------ piezas principales de los fabricados
+
+H = {n: hoja(n) for n in ("Fabricados", "Revendidos", "Cilindros", "Recargas")}
+POR_COD = {n: {f["Código"]: f for f in filas} for n, filas in H.items()}
+
+masas = []
+for hojanom in ("Fabricados", "Revendidos"):
+    for m in MODELOS:
+        f = POR_COD[hojanom].get(m.codigo)
+        if not f:
+            continue
+        sop = next((g for c, g in POR_COD[hojanom].items() if c.endswith("-S8") and
+                    c.split("-")[0] == B.P.codigo_pieza(m, 0)[:-3].split("-")[0]), None)
+        s = [sop.get(k) or 0 for k in ("Masa total (kg)", "Masa mín. (kg)", "Masa máx. (kg)")] if sop else [0, 0, 0]
+        tot, lo, hi = f["Masa total (kg)"], f["Masa mín. (kg)"], f["Masa máx. (kg)"]
+        carg, cmin, cmax = tot - s[0], lo - s[1], hi - s[2]
+        ref_p, fuente = B.peso_ref(m)
+        fuente = "Catálogo Fadesa 3 (orientativo)" if fuente.startswith("Catálogo") else fuente
+        masas.append(dict(codigo=m.codigo, nombre=m.nombre, propio=hojanom == "Fabricados", total=r(tot, 3),
+                          soporte=r(s[0], 3), bom=r(carg, 2), bom_min=r(cmin, 2), bom_max=r(cmax, 2),
+                          tol_m=pct(cmin, carg), tol_p=pct(cmax, carg), ref=ref_p, fuente=fuente,
+                          dif=pct(carg, ref_p), dentro=cmin <= ref_p <= cmax,
+                          catalogo=float(m.spec["Peso cargado (kg)"].replace(",", ".")),
+                          sin_masa=sorted({g["Pieza"] for g in H[hojanom] if g["Nivel"] >= 2 and not g["Ref."] and
+                                           g["Masa total (kg)"] is None and g["Código"].startswith(
+                                               B.P.codigo_pieza(m, 0)[:-3].split("-")[0] + "-")})))
+
+CLAVE = ("Cuerpo", "Cúpula", "Fondo", "Cuello roscado", "Válvula HZ armada", "Manguera", "Soporte de pared",
+         "Soporte vehicular")
 piezas = []
-CLAVE = ("Cuerpo", "Cúpula", "Fondo", "Cuello", "Válvula HZ", "Manguera", "Soporte de pared")
-for m in fab:
-    filas = S.estructura(m)
+for m in MODELOS:
+    if m.codigo not in B.PROPIOS:
+        continue
+    base = B.P.codigo_pieza(m, 0)[:-3].split("-")[0] + "-"
     fila = {"codigo": m.codigo}
-    for f in filas:
+    for f in H["Fabricados"]:
+        if not f["Código"].startswith(base) or f["Nivel"] != 2:
+            continue
         for c in CLAVE:
-            if f[2].startswith(c) and c not in fila:
-                fila[c] = dict(vol=r(f[6], 4), rho=f[5], masa=r(f[7], 3), cant=f[3])
+            if f["Pieza"].startswith(c) and c not in fila and f["Masa total (kg)"]:
+                mt = f["Masa total (kg)"]
+                fila[c] = dict(masa=r(mt, 3), tol=r(100 * (f["Masa máx. (kg)"] / mt - 1), 1),
+                               e=r(f["Espesor eq. (mm)"], 2), tiso=f["Tol. ISO 2768-m (± mm)"],
+                               tvol=r(100 * (f["Tol. volumen (± %)"] or 0), 1), ref=f["Ref."])
     piezas.append(fila)
 
-# ------------------------------------------------------------------ sustituto
+cilindros = []
+for f in H["Cilindros"]:
+    if f["Nivel"] == 0:
+        cilindros.append(dict(codigo=f["Código"], nombre=f["Pieza"], masa=r(f["Masa total (kg)"], 3),
+                              min=r(f["Masa mín. (kg)"], 3), max=r(f["Masa máx. (kg)"], 3)))
+
+# ejemplos de tolerancia de pieza (para la sección de tolerancias)
+ejemplos = []
+for cod in ("ABC5-01", "ABC5-02", "ABC5-07", "ABC5-17", "ABC70-01", "ABC70-09", "ABC5-20"):
+    for hn in ("Fabricados",):
+        f = POR_COD[hn].get(cod)
+        if f and f["Masa total (kg)"]:
+            ejemplos.append(dict(codigo=cod, pieza=f["Pieza"], material=f["Material / agente"], ref=f["Ref."],
+                                 vu=r(f["Vol. unit. (L)"], 5), sup=r(f["Superficie (dm²)"], 3),
+                                 e=r(f["Espesor eq. (mm)"], 2), tiso=f["Tol. ISO 2768-m (± mm)"],
+                                 tvol=r(100 * (f["Tol. volumen (± %)"] or 0), 1), rho=f["Densidad (kg/L)"],
+                                 rmin=f["ρ mín. (kg/L)"], rmax=f["ρ máx. (kg/L)"], mt=r(f["Masa total (kg)"], 4),
+                                 mmin=r(f["Masa mín. (kg)"], 4), mmax=r(f["Masa máx. (kg)"], 4)))
+
 sustitutos = []
 for m in MODELOS:
-    rows = SU.bom_sustituto(m)
-    faja = next((x for x in rows if x["codigo"].endswith("-01")), None)
+    filas = CACHE["sus"][m.codigo] if CACHE else SU.bom_sustituto(m)
+    faja = next((x for x in filas if x["codigo"].endswith("-01")), None)
     eq = SU.equivalencia(m)[3].replace("igual clasificación e igual capacidad (mismo modelo)", "").strip("; ")
     alto = float(faja["med"].split(" × ")[0]) if faja else 0
     sustitutos.append(dict(codigo=m.codigo, nombre=m.nombre, faja=faja["med"].split(" (")[0] if faja else "",
-                           nota="; ".join(x for x in [eq, "alto < 40: lo limita la oblea PBA" if alto < 40 else ""] if x)))
+                           nota="; ".join(x for x in [eq, "alto < 40: lo limita la oblea PBA" if alto < 40 else ""]
+                                          if x)))
 
-# ------------------------------------------------------------------ recargas
+# capturas reusadas del Word de planos (masas de referencia) y capturas propias de normas y fichas
+COMP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "justificacion")
+figs = {x["id"]: x for x in json.load(open(os.path.join(COMP, "compacto.json")))["figs"]}
+reusadas = []
+for fid in ("F07", "F08", "F09", "F10", "F11", "F12", "F13", "F24", "F25", "F21"):
+    x = figs[fid]
+    ext = os.path.splitext(x["crop"])[1]
+    reusadas.append(dict(id=fid, titulo=x["titulo"], tipo=x["tipo"], png=os.path.join("..", "justificacion", "figs",
+                                                                                          fid + "_c" + ext),
+                         w=x["cw"], h=x["ch"], marcas=x["marcas"]))
+capturas = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "capturas.json")))
+
 recargas = []
 for m in MODELOS:
-    _, q, um, *_ = B.carga(m)
-    tol, obj, _ = B.tolerancia(m)
-    n = m.spec["Norma IRAM extintor"]
-    rep = B.reposicion(m)
-    g = S.gas(m)
-    recargas.append(dict(codigo=m.codigo, nombre=m.nombre, norma=n, q=q, um=um, tol=tol, obj=r(obj, 3),
-                         agente_polvo=B._agente(m) in ("ABC", "BC", "D"),
-                         lim_inf=r(obj - rep, 3) if rep is not None else None, rep=r(rep, 3),
-                         rep_pct=r(100 * rep / q, 1) if rep is not None else None,
-                         ph=S.INTERVALO_PH.get(n, 5), gas=g[0].split(": ")[1] if g else "-",
-                         m_gas=r(g[2], 4) if g else 0.0,
-                         servicios=[(t, len(f)) for t, f in S.servicios(m)]))
+    x = modelos[m.codigo]
+    rk = m.codigo.replace("FL_MAT_", "RK_")
+    serv = [(f["Pieza"], r(f["Masa total (kg)"], 4), r(f["Masa mín. (kg)"], 4), r(f["Masa máx. (kg)"], 4))
+            for f in H["Recargas"] if f["Nivel"] == 1 and f["Código"].startswith(rk + "-")]
+    recargas.append(dict(codigo=m.codigo, nombre=m.nombre, x=x, servicios=serv))
 
-D = dict(materiales=materiales, llenado=llenado, agentes=agentes, gases=gases, cargas=cargas, masas=masas,
-         subconj=subconj, cilindros=cilindros, piezas=piezas, sustitutos=sustitutos, recargas=recargas,
-         rll_iram2533=RLL_IRAM2533, afff_conc=B.RHO_AFFF_CONC, fuente_empacada=B.FUENTE_EMPACADA)
+D = dict(referencias=refs, iso=iso, modelos=modelos, gases=gases, cargas=cargas, masas=masas, piezas=piezas,
+         cilindros=cilindros, ejemplos=ejemplos, sustitutos=sustitutos, recargas=recargas, capturas=capturas,
+         reusadas=reusadas)
 D["notas"] = textos.notas(D)
-json.dump(D, open(OUT, "w"), ensure_ascii=False, indent=1)
-print("ok", OUT, len(cargas), "modelos")
+json.dump(D, open(OUT, "w"), ensure_ascii=False, indent=1, default=str)
+print("ok", OUT, len(cargas), "modelos", len(refs), "referencias")
