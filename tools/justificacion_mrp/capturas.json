@@ -1243,12 +1243,22 @@
   "marcas": []
  },
  {
+  "id": "M07",
+  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: consumo, plazo, cuándo pedir, cuánto pedir y lugar",
+  "tipo": "MRP",
+  "png": "figs/M07.png",
+  "w": 1455,
+  "h": 497,
+  "medio": false,
+  "marcas": []
+ },
+ {
   "id": "M08",
-  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: posiciones por almacén",
+  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: lugares por almacén",
   "tipo": "MRP",
   "png": "figs/M08.png",
   "w": 1063,
-  "h": 461,
+  "h": 482,
   "medio": false,
   "marcas": []
  }

@@ -586,10 +586,16 @@ cap("M03", "FLAMA_MRP.xlsx, hoja MANUALES: demanda arriba, consumo por unidad ab
     "MRP",
     lambda: planilla(MRP, "MANUALES", "A3:Z80", cols=_cols_lin("MANUALES", 8), anchos=[5, 9, 30, 5] + [7] * 8 + [8, 8],
                      filas=[3, 4, 13, 14, 15] + list(range(16, 32))), [])
-cap("M08", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: posiciones por almacén", "MRP",
-    lambda: planilla(MRP, "POLITICA_STOCK", "A3:G200", cols=[2, 5, 6, 7], anchos=[40, 11, 11, 12],
+cap("M07", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: consumo, plazo, cuándo pedir, cuánto pedir y lugar", "MRP",
+    lambda: planilla(MRP, "POLITICA_STOCK", "A3:W200", cols=[2, 6, 7, 8, 9, 10, 12, 13, 14, 18, 20, 23],
+                     anchos=[8, 9, 9, 9, 6, 6, 10, 10, 10, 8, 9, 8],
+                     filas=[4] + _filas("POLITICA_STOCK", 2, lambda v, f: v in (
+                         "MP-01", "MP-03", "MP-07", "MP-12", "MP-15", "MP-20", "MP-25", "MP-33", "MP-35", "MP-43"))),
+    [])
+cap("M08", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: lugares por almacén", "MRP",
+    lambda: planilla(MRP, "POLITICA_STOCK", "A3:H200", cols=[2, 6, 7, 8], anchos=[40, 12, 12, 10],
                      filas=_filas("POLITICA_STOCK", 2, lambda v, f: v == "Almacén" or (
-                         f[0] is None and isinstance(v, str) and len(f) > 4 and isinstance(f[4], (int, float))))),
+                         f[0] is None and isinstance(v, str) and len(f) > 5 and isinstance(f[5], (int, float))))),
     [])
 
 if __name__ == "__main__":

@@ -2883,10 +2883,13 @@
    "uc": "Atado de 16 barras",
    "fuc": "P01",
    "plan": "MP-01",
-   "lt": 5,
-   "flt": "Q04",
+   "lt": [
+    1,
+    1
+   ],
+   "flt": "Cotización Comercial MID: entrega inmediata",
+   "flt_fig": "Q04",
    "t": 5,
-   "ss": 5,
    "umpos": 61,
    "fpos": "X07"
   },
@@ -2897,10 +2900,13 @@
    "uc": "Paquete de 50 hojas",
    "fuc": "P01",
    "plan": "MP-02",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 136,
    "fpos": "X07"
   },
@@ -2911,10 +2917,13 @@
    "uc": "Paquete de 80 hojas",
    "fuc": "P01",
    "plan": "MP-03",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 158,
    "fpos": "X07"
   },
@@ -2925,10 +2934,13 @@
    "uc": "Paquete de 20 hojas",
    "fuc": "P01",
    "plan": "MP-04",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 56,
    "fpos": "X07"
   },
@@ -2939,10 +2951,13 @@
    "uc": "Rollo de 1.900 kg",
    "fuc": "Q01",
    "plan": "MP-05",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon: 7 a 10 días",
+   "flt_fig": "Q01",
    "t": 5,
-   "ss": 10,
    "umpos": 1000,
    "fpos": "X07"
   },
@@ -2953,10 +2968,13 @@
    "uc": "Rollo de 1.900 kg",
    "fuc": "Q01",
    "plan": "MP-13",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon: 7 a 10 días",
+   "flt_fig": "Q01",
    "t": 5,
-   "ss": 10,
    "umpos": 1000,
    "fpos": "X07"
   },
@@ -2967,10 +2985,13 @@
    "uc": "Rollo de 492 kg",
    "fuc": "Q02",
    "plan": "MP-06",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
    "t": 10,
-   "ss": 10,
    "umpos": 492,
    "fpos": "X07"
   },
@@ -2981,10 +3002,13 @@
    "uc": "Rollo de 615 kg",
    "fuc": "Q02",
    "plan": "MP-07",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
    "t": 5,
-   "ss": 10,
    "umpos": 615,
    "fpos": "X07"
   },
@@ -2995,10 +3019,13 @@
    "uc": "Rollo de 492 kg",
    "fuc": "Q02",
    "plan": "MP-08",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
    "t": 5,
-   "ss": 10,
    "umpos": 492,
    "fpos": "X07"
   },
@@ -3009,10 +3036,13 @@
    "uc": "Rollo de 590 kg",
    "fuc": "Q02",
    "plan": "MP-09",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 738,
    "fpos": "X07"
   },
@@ -3023,10 +3053,13 @@
    "uc": "Rollo de 498 kg",
    "fuc": "Q02",
    "plan": "MP-10",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 498,
    "fpos": "X07"
   },
@@ -3037,10 +3070,13 @@
    "uc": "Paquete de 20 hojas",
    "fuc": "P07",
    "plan": "MP-11",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 40,
    "fpos": "P07"
   },
@@ -3051,10 +3087,13 @@
    "uc": "Paquete de 15 hojas",
    "fuc": "P07",
    "plan": "MP-12",
-   "lt": 10,
-   "flt": "Q01",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt_fig": "Q01",
    "t": 20,
-   "ss": 10,
    "umpos": 30,
    "fpos": "P07"
   },
@@ -3065,10 +3104,13 @@
    "uc": "Pallet de 400 u",
    "fuc": "P07",
    "plan": "MP-15",
-   "lt": 60,
-   "flt": "P06",
+   "lt": [
+    60,
+    60
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 40,
-   "ss": 20,
    "umpos": 400,
    "fpos": "P07"
   },
@@ -3079,10 +3121,13 @@
    "uc": "Pallet de 300 u",
    "fuc": "P07",
    "plan": "MP-16",
-   "lt": 60,
-   "flt": "P06",
+   "lt": [
+    60,
+    60
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 40,
-   "ss": 20,
    "umpos": 300,
    "fpos": "P07"
   },
@@ -3093,10 +3138,13 @@
    "uc": "Pallet de 150 u",
    "fuc": "P07",
    "plan": "MP-17",
-   "lt": 60,
-   "flt": "P06",
+   "lt": [
+    60,
+    60
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 40,
-   "ss": 20,
    "umpos": 150,
    "fpos": "P07"
   },
@@ -3107,10 +3155,13 @@
    "uc": "Caja de 1.000 u",
    "fuc": "X07",
    "plan": "MP-18",
-   "lt": 28,
-   "flt": "Q03",
+   "lt": [
+    25,
+    29
+   ],
+   "flt": "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles",
+   "flt_fig": "Q03",
    "t": 20,
-   "ss": 10,
    "umpos": 12000,
    "fpos": "X07"
   },
@@ -3121,10 +3172,13 @@
    "uc": "Caja de 1.000 u",
    "fuc": "X07",
    "plan": "MP-19",
-   "lt": 28,
-   "flt": "Q03",
+   "lt": [
+    25,
+    29
+   ],
+   "flt": "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles",
+   "flt_fig": "Q03",
    "t": 20,
-   "ss": 10,
    "umpos": 8000,
    "fpos": "X07"
   },
@@ -3135,10 +3189,13 @@
    "uc": "Caja de 100 u",
    "fuc": "P07",
    "plan": "MP-20",
-   "lt": 28,
-   "flt": "Q03",
+   "lt": [
+    25,
+    29
+   ],
+   "flt": "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles",
+   "flt_fig": "Q03",
    "t": 40,
-   "ss": 20,
    "umpos": 600,
    "fpos": "P07"
   },
@@ -3149,10 +3206,13 @@
    "uc": "Caja de 40 u",
    "fuc": "P07",
    "plan": "MP-21",
-   "lt": 28,
-   "flt": "Q03",
+   "lt": [
+    25,
+    29
+   ],
+   "flt": "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles",
+   "flt_fig": "Q03",
    "t": 40,
-   "ss": 20,
    "umpos": 160,
    "fpos": "P07"
   },
@@ -3163,10 +3223,13 @@
    "uc": "Barra de 6 m",
    "fuc": "P15",
    "plan": "MP-22",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 60,
    "fpos": "X07"
   },
@@ -3177,10 +3240,13 @@
    "uc": "Barra de 6 m",
    "fuc": "P15",
    "plan": "MP-22",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 60,
    "fpos": "X07"
   },
@@ -3191,10 +3257,13 @@
    "uc": "Barra de 4 m",
    "fuc": "P15",
    "plan": "MP-22",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 60,
    "fpos": "X07"
   },
@@ -3205,10 +3274,13 @@
    "uc": "Barra de 6 m",
    "fuc": "P15",
    "plan": "MP-22",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 60,
    "fpos": "X07"
   },
@@ -3219,10 +3291,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-51",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3233,10 +3308,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-51",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3247,10 +3325,13 @@
    "uc": "Pallet de 72 u",
    "fuc": "X07",
    "plan": "MP-54",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 144,
    "fpos": "X07"
   },
@@ -3261,10 +3342,13 @@
    "uc": "Pallet de 72 u",
    "fuc": "X07",
    "plan": "MP-54",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 144,
    "fpos": "X07"
   },
@@ -3275,10 +3359,13 @@
    "uc": "Pallet de 72 u",
    "fuc": "X07",
    "plan": "MP-54",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 144,
    "fpos": "X07"
   },
@@ -3289,10 +3376,13 @@
    "uc": "Pallet de 900 kg",
    "fuc": "X07",
    "plan": "MP-23",
-   "lt": 5,
-   "flt": "P06",
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 5,
    "umpos": 900,
    "fpos": "X07"
   },
@@ -3303,10 +3393,13 @@
    "uc": "Pallet de 900 kg",
    "fuc": "X07",
    "plan": "MP-24",
-   "lt": 5,
-   "flt": "P06",
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 40,
-   "ss": 10,
    "umpos": 900,
    "fpos": "X07"
   },
@@ -3317,10 +3410,13 @@
    "uc": "Batería de 11 cilindros",
    "fuc": "Q03",
    "plan": "MP-25",
-   "lt": 1,
-   "flt": "Q03",
+   "lt": [
+    1,
+    1
+   ],
+   "flt": "Cotización Air Liquide: día + 1",
+   "flt_fig": "Q03",
    "t": 5,
-   "ss": 2,
    "umpos": 115.5,
    "fpos": "X07"
   },
@@ -3331,10 +3427,13 @@
    "uc": "Caja de 25 u",
    "fuc": "X07",
    "plan": "MP-27",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 250,
    "fpos": "X07"
   },
@@ -3345,10 +3444,13 @@
    "uc": "Caja de 25 u",
    "fuc": "X07",
    "plan": "MP-27",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 250,
    "fpos": "X07"
   },
@@ -3359,10 +3461,13 @@
    "uc": "Caja de 25 u",
    "fuc": "X07",
    "plan": "MP-27",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 250,
    "fpos": "X07"
   },
@@ -3373,10 +3478,13 @@
    "uc": "Caja de 25 u",
    "fuc": "X07",
    "plan": "MP-27",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 250,
    "fpos": "X07"
   },
@@ -3387,10 +3495,13 @@
    "uc": "Caja de 25 u",
    "fuc": "X07",
    "plan": "MP-27",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 250,
    "fpos": "X07"
   },
@@ -3401,10 +3512,13 @@
    "uc": "Pallet de 1.000 kg",
    "fuc": "X07",
    "plan": "MP-28",
-   "lt": 7,
-   "flt": null,
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 1000,
    "fpos": "X07"
   },
@@ -3415,10 +3529,13 @@
    "uc": "Pallet de 600 kg",
    "fuc": "X07",
    "plan": "MP-31",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 600,
    "fpos": "X07"
   },
@@ -3429,10 +3546,13 @@
    "uc": "Big bag de 1.000 kg",
    "fuc": "P06",
    "plan": "MP-33",
-   "lt": 7,
-   "flt": "P06",
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 5,
-   "ss": 10,
    "umpos": 2000,
    "fpos": "X07"
   },
@@ -3443,10 +3563,13 @@
    "uc": "Big bag de 1.000 kg",
    "fuc": "P06",
    "plan": "MP-33",
-   "lt": 7,
-   "flt": "P06",
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 5,
-   "ss": 10,
    "umpos": 2000,
    "fpos": "X07"
   },
@@ -3457,10 +3580,13 @@
    "uc": "Pack de 12 cilindros",
    "fuc": "P04",
    "plan": "MP-34",
-   "lt": 1,
-   "flt": "Q03",
+   "lt": [
+    1,
+    1
+   ],
+   "flt": "Cotización Air Liquide: día + 1",
+   "flt_fig": "Q03",
    "t": 10,
-   "ss": 3,
    "umpos": 103,
    "fpos": "X07"
   },
@@ -3471,10 +3597,13 @@
    "uc": "Bolsa de 25 kg",
    "fuc": "Q07",
    "plan": "MP-35",
-   "lt": 7,
-   "flt": null,
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 1000,
    "fpos": "X07"
   },
@@ -3485,10 +3614,13 @@
    "uc": "Bolsa de 25 kg",
    "fuc": "X07",
    "plan": "MP-36",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 120,
-   "ss": 20,
    "umpos": 1000,
    "fpos": "X07"
   },
@@ -3499,10 +3631,13 @@
    "uc": "Cilindro de 25 kg",
    "fuc": "X07",
    "plan": "MP-37",
-   "lt": 2,
-   "flt": null,
+   "lt": [
+    1,
+    1
+   ],
+   "flt": "Cotización Air Liquide: día + 1",
+   "flt_fig": "Q03",
    "t": 10,
-   "ss": 5,
    "umpos": 25,
    "fpos": "X07"
   },
@@ -3513,10 +3648,13 @@
    "uc": "Cilindro de 50 kg",
    "fuc": "X07",
    "plan": "MP-38",
-   "lt": 30,
-   "flt": null,
+   "lt": [
+    30,
+    30
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 50,
    "fpos": "X07"
   },
@@ -3527,10 +3665,13 @@
    "uc": "Bidón de 20 L",
    "fuc": "Q07",
    "plan": "MP-40",
-   "lt": 7,
-   "flt": null,
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 480,
    "fpos": "X07"
   },
@@ -3541,10 +3682,13 @@
    "uc": "Bidón de 20 L",
    "fuc": "Q07",
    "plan": "MP-41",
-   "lt": 7,
-   "flt": null,
+   "lt": [
+    7,
+    7
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 480,
    "fpos": "X07"
   },
@@ -3555,10 +3699,13 @@
    "uc": "Pallet de 3.000 u",
    "fuc": "X07",
    "plan": "MP-42",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3569,10 +3716,13 @@
    "uc": "Pallet de 1.500 u",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 1500,
    "fpos": "X07"
   },
@@ -3583,10 +3733,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-44",
-   "lt": 20,
-   "flt": "P06",
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 200,
    "fpos": "X07"
   },
@@ -3597,10 +3750,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-44",
-   "lt": 20,
-   "flt": "P06",
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 200,
    "fpos": "X07"
   },
@@ -3611,10 +3767,13 @@
    "uc": "Caja de 100 u",
    "fuc": "X07",
    "plan": "MP-45",
-   "lt": 20,
-   "flt": "P06",
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 15,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3625,10 +3784,13 @@
    "uc": "Caja de 50 u",
    "fuc": "X07",
    "plan": "MP-48",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 1500,
    "fpos": "X07"
   },
@@ -3639,10 +3801,13 @@
    "uc": "Caja de 50 u",
    "fuc": "X07",
    "plan": "MP-48",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 1500,
    "fpos": "X07"
   },
@@ -3653,10 +3818,13 @@
    "uc": "Caja de 50 u",
    "fuc": "X07",
    "plan": "MP-48",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 1500,
    "fpos": "X07"
   },
@@ -3667,10 +3835,13 @@
    "uc": "Caja de 50 u",
    "fuc": "X07",
    "plan": "MP-48",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 1500,
    "fpos": "X07"
   },
@@ -3681,10 +3852,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-49",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 120,
    "fpos": "X07"
   },
@@ -3695,10 +3869,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-49",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 120,
    "fpos": "X07"
   },
@@ -3709,10 +3886,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-49",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 120,
    "fpos": "X07"
   },
@@ -3723,10 +3903,13 @@
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-49",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: proceso de carros (de la planilla de MP)",
+   "flt_fig": "P06",
    "t": 20,
-   "ss": 10,
    "umpos": 120,
    "fpos": "X07"
   },
@@ -3737,10 +3920,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-50",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3751,10 +3937,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-50",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3765,10 +3954,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-50",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3779,10 +3971,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-50",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3793,10 +3988,13 @@
    "uc": "Caja de 100 u",
    "fuc": "X07",
    "plan": "MP-52",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3807,10 +4005,13 @@
    "uc": "Caja de 100 u",
    "fuc": "X07",
    "plan": "MP-52",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3821,10 +4022,13 @@
    "uc": "Caja de 100 u",
    "fuc": "X07",
    "plan": "MP-52",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3835,10 +4039,13 @@
    "uc": "Caja de 100 u",
    "fuc": "X07",
    "plan": "MP-52",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 3000,
    "fpos": "X07"
   },
@@ -3849,10 +4056,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-51",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3863,10 +4073,13 @@
    "uc": "Bolsa de 100 u",
    "fuc": "X07",
    "plan": "MP-55",
-   "lt": 15,
-   "flt": null,
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 60,
-   "ss": 20,
    "umpos": 2000,
    "fpos": "X07"
   },
@@ -3877,10 +4090,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3891,10 +4107,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3905,10 +4124,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3919,10 +4141,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3933,10 +4158,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3947,10 +4175,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3961,10 +4192,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3975,10 +4209,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -3989,10 +4226,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4003,10 +4243,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4017,10 +4260,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4031,10 +4277,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4045,10 +4294,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4059,10 +4311,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-51",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4073,10 +4328,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4087,10 +4345,13 @@
    "uc": "Caja de 5.000 u",
    "fuc": "X07",
    "plan": "MP-62",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 40000,
    "fpos": "X07"
   },
@@ -4101,10 +4362,13 @@
    "uc": "Caja de 5.000 u",
    "fuc": "X07",
    "plan": "MP-62",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 40000,
    "fpos": "X07"
   },
@@ -4115,10 +4379,13 @@
    "uc": "Caja de 5.000 u",
    "fuc": "X07",
    "plan": "MP-62",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 40000,
    "fpos": "X07"
   },
@@ -4129,10 +4396,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4143,10 +4413,13 @@
    "uc": "Paquete de 1.000 u",
    "fuc": "X07",
    "plan": "MP-57",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4157,10 +4430,13 @@
    "uc": "Bolsa de 1.000 u",
    "fuc": "X07",
    "plan": "MP-51",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4171,10 +4447,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4185,10 +4464,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4199,10 +4481,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4213,10 +4498,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4227,10 +4515,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4241,10 +4532,13 @@
    "uc": "Paquete de 500 u",
    "fuc": "X07",
    "plan": "MP-58",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 10000,
    "fpos": "X07"
   },
@@ -4255,10 +4549,13 @@
    "uc": "Lata de 4 L",
    "fuc": "X07",
    "plan": "MP-65",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 200,
    "fpos": "X07"
   },
@@ -4269,10 +4566,13 @@
    "uc": "Pallet de 600 cajas",
    "fuc": "X07",
    "plan": "MP-59",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 10,
-   "ss": 5,
    "umpos": 600,
    "fpos": "X07"
   },
@@ -4283,10 +4583,13 @@
    "uc": "Pallet de 600 cajas",
    "fuc": "X07",
    "plan": "MP-59",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 10,
-   "ss": 5,
    "umpos": 600,
    "fpos": "X07"
   },
@@ -4297,10 +4600,13 @@
    "uc": "Pallet de 600 cajas",
    "fuc": "X07",
    "plan": "MP-59",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 10,
-   "ss": 5,
    "umpos": 600,
    "fpos": "X07"
   },
@@ -4311,10 +4617,13 @@
    "uc": "Pallet de 600 cajas",
    "fuc": "X07",
    "plan": "MP-59",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 10,
-   "ss": 5,
    "umpos": 600,
    "fpos": "X07"
   },
@@ -4325,10 +4634,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4339,10 +4651,13 @@
    "uc": "Pila de 15 u",
    "fuc": "X07",
    "plan": "MP-60",
-   "lt": 5,
-   "flt": null,
+   "lt": [
+    5,
+    5
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 10,
-   "ss": 5,
    "umpos": 15,
    "fpos": "X07"
   },
@@ -4353,10 +4668,13 @@
    "uc": "Rollo de 1.000 u",
    "fuc": "X07",
    "plan": "MP-56",
-   "lt": 10,
-   "flt": null,
+   "lt": [
+    10,
+    10
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 10,
    "umpos": 20000,
    "fpos": "X07"
   },
@@ -4367,10 +4685,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4381,10 +4702,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4395,10 +4719,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 60,
    "fpos": "X13"
   },
@@ -4409,10 +4736,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4423,10 +4753,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4437,10 +4770,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4451,10 +4787,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4465,10 +4804,13 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
@@ -4479,20 +4821,25 @@
    "uc": "Unidad",
    "fuc": "X07",
    "plan": "MP-43",
-   "lt": 20,
-   "flt": null,
+   "lt": [
+    20,
+    20
+   ],
+   "flt": "Sin cotización: planilla de MP",
+   "flt_fig": "X07",
    "t": 20,
-   "ss": 15,
    "umpos": 180,
    "fpos": "X13"
   },
   "P00": {
    "hoja": "POLITICA_STOCK",
    "dato": "Fórmulas de la política",
-   "como": "d diseño = consumo del mes pico / 20 días hábiles (como la planilla de MP). Stock de seguridad = d diseño × días de seguridad. Punto de pedido = d diseño × lead time + stock de seguridad. Lote = el mayor entre 1 unidad de compra y d diseño × días entre pedidos, en unidades de compra enteras. Stock máximo = stock de seguridad + lote. Capacidad: proceso de carros, puesto 1.",
+   "como": "Consumo mientras llega el pedido = consumo promedio por día × plazo medio. Stock de seguridad = consumo del mes pico × plazo máximo − consumo mientras llega el pedido (cubre el mes pico y la demora máxima). Punto de pedido = consumo mientras llega + stock de seguridad. Cantidad por pedido = consumo del mes pico durante los días entre pedidos, en unidades de compra enteras. Stock máximo = seguridad + pedido. Lugares = stock máximo / lo que entra en un lugar.",
    "figs": [
     "X07",
-    "P06"
+    "Q01",
+    "Q03",
+    "Q04"
    ]
   }
  },
@@ -4789,7 +5136,7 @@
   "RV-HCFC-HFC_5kg": 121,
   "RV-CLASED_9l": 122
  },
- "alm0": 122,
+ "alm0": 123,
  "items": {
   "MP-01": {
    "cod": "MP-01",

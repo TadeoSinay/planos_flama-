@@ -258,11 +258,30 @@ ITEMS = [
       60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
 # lo que el lead time de la planilla tiene confirmado en una cotización o en un proceso
-LT_DOC = {"MP-01": "Q04", "MP-02": "Q01", "MP-03": "Q01", "MP-04": "Q01", "MP-05": "Q01", "MP-13": "Q01",
-          "MP-06": "Q01", "MP-07": "Q01", "MP-08": "Q01", "MP-09": "Q01", "MP-10": "Q01", "MP-11": "Q01",
-          "MP-12": "Q01", "MP-15": "P06", "MP-16": "P06", "MP-17": "P06", "MP-18": "Q03", "MP-19": "Q03",
-          "MP-20": "Q03", "MP-21": "Q03", "MP-25": "Q03", "MP-34": "Q03", "MP-33": "P06", "MP-33B": "P06",
-          "MP-44/25": "P06", "MP-44/50": "P06", "MP-45": "P06", "MP-24": "P06", "MP-23": "P06"}
+# plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Sólo cuatro cotizaciones lo informan;
+# el resto toma el de la planilla de MP (o el proceso de carros) y queda marcado «sin cotización».
+PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
+PRAD_H = (7, 10, "Cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
+PRAD_P = (7, 10, "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
+AL = (1, 1, "Cotización Air Liquide: día + 1", "Q03")
+ELI = (25, 29, "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles", "Q03")
+MID = (1, 1, "Cotización Comercial MID: entrega inmediata", "Q04")
+LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
+          "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
+          "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
+          "MP-21": ELI}
+# sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
+LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",
+             "MP-54/350", "MP-54/400"} | {f"MP-49/{p}" for _, p, _ in ROD}
+
+
+def plazo(cod):
+    if cod in LT_COT:
+        return LT_COT[cod]
+    lt = ITEM[cod]["lt"]
+    if cod in LT_CARROS:
+        return (lt, lt, "Sin cotización: proceso de carros (de la planilla de MP)", "P06")
+    return (lt, lt, "Sin cotización: planilla de MP", "X07")
 
 # ------------------------------------------------------------------ datos de fabricación
 CUERPO = {"ABC1": ("MP-01", 23, "P03"), "ABC2.5": ("MP-02", 27, "P02"), "ABC5": ("MP-03", 12, "P02"),
@@ -1043,13 +1062,29 @@ class Libro:
     def politica(self):
         ws = self.wb.create_sheet("POLITICA_STOCK")
         _titulo(ws, "POLÍTICA DE STOCK DEL AÑO 2035")
-        _cab(ws, 3, ["Ref.", "Código", "Material", "UM", "Almacén", "Proveedor", "Consumo 2035",
-                     "Consumo del mes pico", "d prom. (UM/día) = año / 240", "d diseño (UM/día) = mes pico / 20",
-                     "Lead time (días háb.)", "Stock de seguridad (días)", "Stock de seguridad (UM)",
-                     "Punto de pedido (UM)", "Días entre pedidos (T)", "Unidad de compra", "Contenido por UC (UM)",
-                     "Lote (UC)", "Stock máximo (UM)", "Stock máximo (UC)", "UM por posición", "Posiciones"],
-             [7, 11, 40, 6, 30, 20, 11, 11, 11, 11, 9, 9, 11, 11, 9, 24, 10, 8, 11, 9, 10, 9])
-        r = 4
+        grupos = [(1, 5, ""), (6, 8, "CONSUMO 2035 (velocidad)"), (9, 11, "PLAZO DE ENTREGA (días hábiles)"),
+                  (12, 14, "CUÁNDO PEDIR (nivel de stock)"), (15, 20, "CUÁNTO PEDIR"),
+                  (21, 23, "LUGAR EN EL ALMACÉN")]
+        for a, b, txt in grupos:
+            ws.merge_cells(start_row=3, start_column=a, end_row=3, end_column=b)
+            c = ws.cell(3, a, txt)
+            c.font = _f(True, BLANCO)
+            c.fill = PatternFill("solid", fgColor=GRIS_O)
+            c.alignment = Alignment(horizontal="center")
+        _cab(ws, 4, ["Ref.", "Código", "Material", "UM", "Proveedor",
+                     "Consumo del año", "Consumo por día, promedio\n(año / 240)",
+                     "Consumo por día, mes pico\n(mes pico / 20)",
+                     "Mínimo", "Máximo", "De dónde sale el plazo",
+                     "Consumo mientras llega el pedido\n(promedio × plazo medio)",
+                     "Stock de seguridad\n(pico × plazo máximo − consumo mientras llega)",
+                     "Punto de pedido: cuando quedan esto, se pide\n(consumo mientras llega + seguridad)",
+                     "Unidad de compra", "Contenido de la unidad de compra", "Cada cuántos días se pide\n(planilla de MP)",
+                     "Cantidad por pedido (unidades de compra)", "Pedidos por año",
+                     "Stock máximo: lo que hay al llegar el pedido\n(seguridad + pedido)",
+                     "Almacén", "Cuánto entra en un lugar (pallet, estante o cuna)", "Lugares que ocupa el stock máximo"],
+             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 30, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
+        ws.row_dimensions[4].height = 66
+        r = 5
         n_ = 0
         zonas = {}
         for cod, rc in self.cons.items():
@@ -1058,47 +1093,50 @@ class Libro:
                 continue
             n_ += 1
             rid = f"P{n_:02d}"
-            vals = [rid, cod, it["nom"], it["um"], it["alm"], it["prov"], f"=CONSOLIDADO!Q{rc}",
-                    f"=CONSOLIDADO!R{rc}", f"=G{r}/240", f"=H{r}/20", it["lt"], it["ss"], f"=J{r}*L{r}",
-                    f"=J{r}*K{r}+M{r}", it["t"], it["uc"], it["cont"], f"=MAX(1,CEILING(J{r}*O{r}/Q{r},1))",
-                    f"=M{r}+R{r}*Q{r}", f"=CEILING(S{r}/Q{r},1)", it["umpos"], f"=S{r}/U{r}"]
+            lmin, lmax, lsrc, lfig = plazo(cod)
+            vals = [rid, cod, it["nom"], it["um"], it["prov"], f"=CONSOLIDADO!Q{rc}", f"=F{r}/240",
+                    f"=CONSOLIDADO!R{rc}/20", lmin, lmax, lsrc, f"=G{r}*(I{r}+J{r})/2", f"=H{r}*J{r}-L{r}",
+                    f"=L{r}+M{r}", it["uc"], it["cont"], it["t"], f"=MAX(1,CEILING(H{r}*Q{r}/P{r},1))",
+                    f"=F{r}/(R{r}*P{r})", f"=M{r}+R{r}*P{r}", it["alm"], it["umpos"], f"=T{r}/V{r}"]
             for j, v in enumerate(vals, 1):
                 c = ws.cell(r, j, v)
-                if j in (7, 8, 13, 14, 19):
+                if j in (6, 12, 13, 14, 20):
                     c.number_format = "#,##0.0"
-                elif j in (9, 10):
+                elif j in (7, 8):
                     c.number_format = "#,##0.00"
-                elif j in (17, 21):
+                elif j in (16, 22):
                     c.number_format = "#,##0.##"
-                elif j == 22:
-                    c.number_format = "0.00"
-            _fila(ws, r, 22)
+                elif j in (19, 23):
+                    c.number_format = "0.0"
+            _fila(ws, r, 23)
             self.ref(rid, hoja="POLITICA_STOCK", codigo=cod, dato=it["nom"], uc=it["uc"], fuc=it["fuc"],
-                     plan=it["plan"], lt=it["lt"], flt=LT_DOC.get(cod), t=it["t"], ss=it["ss"], umpos=it["umpos"],
+                     plan=it["plan"], lt=(lmin, lmax), flt=lsrc, flt_fig=lfig, t=it["t"], umpos=it["umpos"],
                      fpos=it["fpos"])
             zonas.setdefault(it["alm"], []).append(r)
             r += 1
         fin = r - 1
         r += 2
-        _cab(ws, r, ["", "Almacén", "", "", "Posiciones requeridas", "Capacidad del proceso", "Resultado"])
+        _cab(ws, r, ["", "Almacén", "", "", "", "Lugares que ocupa el stock máximo", "Lugares que previó el proceso",
+                     "¿Alcanza?"])
         self.r_alm0 = r + 1
         for z in sorted(zonas):
             r += 1
             ws.cell(r, 2, z)
-            ws.cell(r, 5, f'=ROUNDUP(SUMIF($E$4:$E${fin},B{r},$V$4:$V${fin}),0)')
+            ws.cell(r, 6, f'=ROUNDUP(SUMIF($U$5:$U${fin},B{r},$W$5:$W${fin}),0)')
             if z in CAPACIDAD:
-                ws.cell(r, 6, CAPACIDAD[z])
-                ws.cell(r, 7, f'=IF(E{r}<=F{r},"Alcanza","No alcanza")')
-            _fila(ws, r, 7)
+                ws.cell(r, 7, CAPACIDAD[z])
+                ws.cell(r, 8, f'=IF(F{r}<=G{r},"Alcanza","No alcanza")')
+            _fila(ws, r, 8)
         self.ref("P00", hoja="POLITICA_STOCK", dato="Fórmulas de la política",
-                 como="d diseño = consumo del mes pico / 20 días hábiles (como la planilla de MP). Stock de seguridad "
-                      "= d diseño × días de seguridad. Punto de pedido = d diseño × lead time + stock de seguridad. "
-                      "Lote = el mayor entre 1 unidad de compra y d diseño × días entre pedidos, en unidades de compra "
-                      "enteras. Stock máximo = stock de seguridad + lote. Capacidad: proceso de carros, puesto 1.",
-                 figs=["X07", "P06"])
-        ws.freeze_panes = "D4"
-        ws.auto_filter.ref = f"A3:V{fin}"
-        _imprimir(ws, "3:3")
+                 como="Consumo mientras llega el pedido = consumo promedio por día × plazo medio. Stock de seguridad = "
+                      "consumo del mes pico × plazo máximo − consumo mientras llega el pedido (cubre el mes pico y la "
+                      "demora máxima). Punto de pedido = consumo mientras llega + stock de seguridad. Cantidad por "
+                      "pedido = consumo del mes pico durante los días entre pedidos, en unidades de compra enteras. "
+                      "Stock máximo = seguridad + pedido. Lugares = stock máximo / lo que entra en un lugar.",
+                 figs=["X07", "Q01", "Q03", "Q04"])
+        ws.freeze_panes = "D5"
+        ws.auto_filter.ref = f"A4:W{fin}"
+        _imprimir(ws, "3:4")
 
     def armar(self, ruta):
         self.ix = self.copia("Indexado Dim Técnico", "PROY_INDEXADO")

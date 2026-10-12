@@ -67,15 +67,16 @@ for f in ws.iter_rows(min_row=4, values_only=True):
                           pico=r(f[17], 1))
 ws = wb["POLITICA_STOCK"]
 pol, alm = [], []
-for f in ws.iter_rows(min_row=4, values_only=True):
+for f in ws.iter_rows(min_row=5, values_only=True):
     if f[0] and str(f[0]).startswith("P"):
         x = REFS[f[0]]
-        pol.append(dict(ref=f[0], codigo=f[1], material=f[2], um=f[3], almacen=f[4], proveedor=f[5], v35=r(f[6], 1),
-                        pico=r(f[7], 1), dprom=r(f[8], 2), ddis=r(f[9], 2), lt=f[10], ssd=f[11], ss=r(f[12], 1),
-                        pp=r(f[13], 1), t=f[14], uc=f[15], cont=f[16], lote=f[17], smax=r(f[18], 1), smax_uc=f[19],
-                        umpos=f[20], pos=r(f[21], 2), fuc=x["fuc"], plan=x["plan"], flt=x["flt"], fpos=x["fpos"]))
-    elif f[1] and not f[0] and f[1] != "Almacén" and isinstance(f[4], (int, float)):
-        alm.append(dict(almacen=f[1], pos=f[4], cap=f[5], res=f[6] or ""))
+        pol.append(dict(ref=f[0], codigo=f[1], material=f[2], um=f[3], proveedor=f[4], v35=r(f[5], 1),
+                        dprom=r(f[6], 2), dpico=r(f[7], 2), ltmin=f[8], ltmax=f[9], fuente=f[10], enlt=r(f[11], 1),
+                        ss=r(f[12], 1), pp=r(f[13], 1), uc=f[14], cont=f[15], t=f[16], pedido=f[17],
+                        pedidos=r(f[18], 1), smax=r(f[19], 1), almacen=f[20], umpos=f[21], lugares=r(f[22], 2),
+                        fig=x["flt_fig"], fuc=x["fuc"]))
+    elif f[1] and not f[0] and f[1] != "Almacén" and isinstance(f[5], (int, float)):
+        alm.append(dict(almacen=f[1], pos=f[5], cap=f[6], res=f[7] or ""))
 
 
 def dia(cod, lin=None):
@@ -105,8 +106,64 @@ validacion = [
 ]
 validacion = [dict(dato=a, mrp=r(b, 2), doc=r(c, 2), dif=r(100 * (b - c) / c, 1), fuente=d) for a, b, c, d in validacion]
 
+# ------------------------------------------------------------------ gráfico del nivel de stock (MP-03)
+def sierra(x, ruta):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    dp, lt = x["dprom"], (x["ltmin"] + x["ltmax"]) / 2
+    q = x["pedido"] * x["cont"]
+    t, s, ts, ss_ = 0.0, x["smax"], [0.0], [x["smax"]]
+    pedidos, llegadas = [], []
+    while t < 2.6 * q / dp:
+        t_pp = t + (s - x["pp"]) / dp
+        pedidos.append(t_pp)
+        t_ll = t_pp + lt
+        s_ll = x["pp"] - dp * lt
+        ts += [t_pp, t_ll, t_ll]
+        ss_ += [x["pp"], s_ll, s_ll + q]
+        llegadas.append(t_ll)
+        t, s = t_ll, s_ll + q
+    ts, ss_ = ts[:-1], ss_[:-1]          # termina en la llegada, sin el salto final
+    coma = lambda v, d=1: f"{v:,.{d}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    fig, ax = plt.subplots(figsize=(8.2, 3.4), dpi=150)
+    ax.plot(ts, ss_, color="black", lw=1.6)
+    for y, txt, ls in ((x["smax"], f"Stock máximo {coma(x['smax'], 0)}", "-"),
+                       (x["pp"], f"Punto de pedido {coma(x['pp'], 0)}", "--"),
+                       (x["ss"], f"Stock de seguridad {coma(x['ss'], 0)}", ":")):
+        ax.axhline(y, color="#7F7F7F", lw=0.9, ls=ls)
+        ax.text(ts[-1] * 1.005, y, txt, va="center", fontsize=8)
+    tp, tl = pedidos[0], llegadas[0]
+    ax.annotate("", xy=(tl, x["ss"] * 0.45), xytext=(tp, x["ss"] * 0.45), arrowprops=dict(arrowstyle="<->", lw=0.9))
+    ax.text((tp + tl) / 2, x["ss"] * 0.38, f"plazo de entrega: {x['ltmin']} a {x['ltmax']} días", ha="center",
+            va="top", fontsize=7.5)
+    ax.text(tl + 0.6, (x["pp"] + x["ss"]) / 2, f"se consumen {coma(x['enlt'], 0)}\nmientras llega", fontsize=7,
+            va="center", color="#404040")
+    ax.annotate("se pide", xy=(tp, x["pp"]), xytext=(tp - 6, x["pp"] + 0.18 * x["smax"]), fontsize=7.5,
+                arrowprops=dict(arrowstyle="->", lw=0.8))
+    ax.text(tl + 1.2, x["ss"] + q * 0.78, f"llega el pedido\n(+{coma(q, 0)})", fontsize=7.5)
+    ax.set_xlim(0, ts[-1])
+    ax.set_ylim(0, x["smax"] * 1.12)
+    ax.set_xlabel("días hábiles", fontsize=8)
+    ax.set_ylabel(f"stock ({x['um']})", fontsize=8)
+    ax.tick_params(labelsize=7.5)
+    for k in ("top", "right"):
+        ax.spines[k].set_visible(False)
+    ax.set_title(f"{x['codigo']} {x['material']}: se consumen {coma(x['dprom'])} por día en promedio "
+                 f"({coma(x['dpico'], 0)} en el mes pico)", fontsize=8.5, loc="left")
+    fig.tight_layout()
+    fig.savefig(ruta)
+    plt.close(fig)
+    from PIL import Image
+    im = Image.open(ruta)
+    return dict(id="G01", titulo=f"Nivel de stock de {x['codigo']} en 2035: cuándo se pide, cuánto se pide y el colchón",
+                tipo="MRP", png=os.path.join("figs", "G01.png"), w=im.width, h=im.height, medio=False, marcas=[])
+
+
+G01 = sierra(next(x for x in pol if x["codigo"] == "MP-03"), os.path.join(AQUI, "figs", "G01.png"))
+
 D = dict(demanda=demanda, perfiles=perfiles, picos=picos, lineas=lineas, consolidado=cons, politica=pol,
          almacenes=alm, validacion=validacion, p00=REFS["P00"],
-         capturas=json.load(open(os.path.join(AQUI, "capturas.json"), encoding="utf-8")))
+         capturas=json.load(open(os.path.join(AQUI, "capturas.json"), encoding="utf-8")) + [G01])
 json.dump(D, open(OUT, "w"), ensure_ascii=False, indent=1, default=str)
 print("ok", OUT, sum(len(v["filas"]) for v in lineas.values()), "consumos", len(pol), "en la política")

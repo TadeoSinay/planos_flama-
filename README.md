@@ -237,7 +237,7 @@ con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificaci�
 | `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico y factor de pico de cada línea |
 | `MANUALES` · `RODANTES` · `RECARGAS` · `REVENDIDOS` | Arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por producto); a la derecha lo que hay que comprar por año y en el mes pico |
 | `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |
-| `POLITICA_STOCK` | Demanda de diseño (mes pico / 20), stock de seguridad, punto de pedido, lote en unidades de compra, stock máximo y posiciones por almacén |
+| `POLITICA_STOCK` | Consumo por día (promedio = año / 240; mes pico / 20), plazo de entrega mínimo y máximo de las cotizaciones, consumo mientras llega el pedido, stock de seguridad, punto de pedido, cantidad por pedido en unidades de compra, stock máximo y lugares por almacén |
 | `PROY_INDEXADO` / `PROY_RESERVAS` | Copias de las hojas de las Proyecciones |
 
 De dónde sale cada valor, con las capturas de los procesos, el BOM, las planillas y las cotizaciones, está en el Word
