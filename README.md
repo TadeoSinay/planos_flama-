@@ -226,23 +226,19 @@ S6 identificación y precinto · S7 embalaje · S8 soporte · S0 equipo terminad
 ### MRP de insumos (`salida/mrp/FLAMA_MRP.xlsx`)
 
 `python generar.py --mrp-insumos <Proyecciones.xlsx>` (`flama/mrp_insumos.py`; necesita `salida/bom/FLAMA_BOM.xlsx`
-ya generado). Requerimiento bruto anual 2026-2035 por línea, consolidado por ítem y política de stock dimensionada para
-el año 10 (2035). Indexado como el BOM: cada dato está una sola vez en una hoja fija y las demás lo buscan por ID o
-por referencia de celda; se recalcula con LibreOffice al guardar.
+ya generado). Una sola cuenta: lo que hay que comprar = consumo por unidad × unidades a producir, de 2026 a 2035, y la
+política de stock del año 10 (2035). Compacto: sólo números y fórmulas; cada fila lleva un código «Ref.» que remite al
+Word de justificación. Sin supuestos: lo que no tiene consumo documentado se compra por punto de pedido. Se recalcula
+con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificación de cada Ref., para el Word).
 
 | Hoja | Contenido |
 |---|---|
-| `PARAMETROS` | Cada dato con ID, valor, unidad y fuente (días hábiles, merma, densidades de gas, controles por año, retoque, reposiciones, pintura, granalla...) y, por año, % de recargas de equipos usados y % del destino CABA |
-| `PROY_INDEXADO` / `PROY_RESERVAS` | Copia (valores) de «Indexado Dim Técnico» y «Reservas y Sustitutos» de las Proyecciones |
-| `DEMANDA` | Unidades por año de cada producto y línea: nuevos (+ venta de reserva), cilindros, recargas de clientes y del pool de sustitutos, alta de sustitutos, revendidos |
-| `ESTACIONALIDAD` | Perfiles mensuales del Dimensionamiento Técnico y perfil de cada línea en el año de diseño (factor de pico) |
-| `BOM_COEF` | Lo que se compra por unidad, fila por fila del FLAMA_BOM; en recargas, por servicio (control, mantenimiento, recarga, prueba hidráulica) y mezcla del año |
-| `FAB_COMPRA` | De qué materia prima sale cada pieza fabricada: cuerpos por hoja o caño, kg de fleje por disco, casquetes y cuellos comprados |
-| `PROCESO` | Insumos de proceso y embalaje por unidad, puesto por puesto (procesos de manuales y carros) |
-| `COMPRAS` | Catálogo de ítems: tipo (directo / indirecto), clase, almacén, proveedor, unidad de compra, lead time con su origen y fuente, días entre pedidos |
-| `INSUMOS_DIRECTOS_*` / `INSUMOS_INDIRECTOS_*` | MANUALES, RODANTES, RECARGAS (con los sustitutos) y REVENDIDOS: por ítem, total y una fila por producto (coeficiente × demanda × % de destino) |
-| `CONSOLIDADO_INSUMOS` | Por ítem: tipo, clase, almacén, de qué línea y hoja sale, requerimiento por año y unidades de compra |
-| `POLITICA_STOCK` | Año de diseño: consumo diario promedio y del mes pico, lead time, stock de seguridad, punto de pedido, lote en múltiplos de la unidad de compra, stock máximo, posiciones y m² por almacén |
+| `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (34,2 %). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
+| `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico y factor de pico de cada línea |
+| `MANUALES` · `RODANTES` · `RECARGAS` · `REVENDIDOS` | Arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por producto); a la derecha lo que hay que comprar por año y en el mes pico |
+| `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |
+| `POLITICA_STOCK` | Demanda de diseño (mes pico / 20), stock de seguridad, punto de pedido, lote en unidades de compra, stock máximo y posiciones por almacén |
+| `PROY_INDEXADO` / `PROY_RESERVAS` | Copias de las hojas de las Proyecciones |
 
-La justificación de cada valor, con las capturas de procesos, cotizaciones y planillas, está en el Word
+De dónde sale cada valor, con las capturas de los procesos, el BOM, las planillas y las cotizaciones, está en el Word
 «Justificación_MRP» (`salida/justificacion/Justificación_MRP.docx`, armado con `tools/justificacion_mrp/`).

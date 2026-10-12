@@ -1,0 +1,6699 @@
+{
+ "refs": {
+  "D01": {
+   "hoja": "DEMANDA",
+   "dato": "Parte de la planta industrial",
+   "como": "Recargas de las 4 zonas que atiende la planta industrial (CABA Sur. PBA Sur 1er. PBA Sur 2do. PBA Sur 3er): 1.997.042 / 5.832.609 del mercado de recargas de CABA + PBA. Las demás recargas son de la planta comercial (otro sitio).",
+   "figs": [
+    "D01",
+    "X13",
+    "R07"
+   ]
+  },
+  "D02": {
+   "hoja": "DEMANDA",
+   "dato": "% de unidades nuevas que van a CABA",
+   "como": "Distribución de unidades nuevas del Indexado: CABA Norte, Este, Sur y Oeste sobre el subtotal CABA + PBA. El resto va a PBA.",
+   "figs": [
+    "X02"
+   ]
+  },
+  "D03": {
+   "hoja": "DEMANDA",
+   "dato": "% de recargas de la planta industrial en CABA",
+   "como": "Distribución de recargas del Indexado en las 4 zonas de la planta industrial: CABA Sur sobre CABA Sur + PBA Sur 1.º, 2.º y 3.er cordón. El resto va a PBA.",
+   "figs": [
+    "X02",
+    "X13"
+   ]
+  },
+  "D04": {
+   "hoja": "DEMANDA",
+   "dato": "% de recargas de equipos usados",
+   "como": "Proyecciones: «Mat Usados» / «RECARGAS TOT» de las hojas de proyección que lo traen (salud, educación, industrias, hoteles). Son los que llegan accionados o sin presión.",
+   "figs": [
+    "X04"
+   ]
+  },
+  "D05": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 1 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 3",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D06": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 2,5 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 4",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D07": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 5 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 5 + venta de reserva (Reservas, fila 30) + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 69, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "figs": [
+    "X01",
+    "X03",
+    "X03"
+   ]
+  },
+  "D08": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 10 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 6 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 70, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D09": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 1 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D10": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 2,5 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D11": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 5 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D12": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 10 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D13": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 25 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 7",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D14": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 50 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 8 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 79, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D15": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 70 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 9",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D16": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego ABC 100 kg",
+   "como": "Indexado, «Producción de matafuegos», fila 10 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 80, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D17": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 25 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D18": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 50 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D19": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 70 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D20": {
+   "hoja": "DEMANDA",
+   "dato": "Cilindro ABC 100 kg vacío",
+   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "figs": [
+    "X01"
+   ]
+  },
+  "D21": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 1 kg",
+   "como": "(Indexado, «Recargas», fila 27) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D22": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 2,5 kg",
+   "como": "(Indexado, «Recargas», fila 28) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D23": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 5 kg",
+   "como": "(Indexado, «Recargas», fila 29 + recarga anual del pool de sustitutos, Reservas fila 54) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D24": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 10 kg",
+   "como": "(Indexado, «Recargas», fila 30 + recarga anual del pool de sustitutos, Reservas fila 55) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D25": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga Agua 10 l",
+   "como": "(Indexado, «Recargas», fila 31 + recarga anual del pool de sustitutos, Reservas fila 56) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D26": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga AFFF 10 l",
+   "como": "(Indexado, «Recargas», fila 32 + recarga anual del pool de sustitutos, Reservas fila 57) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D27": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga AFFF 50 l",
+   "como": "(Indexado, «Recargas», fila 33 + recarga anual del pool de sustitutos, Reservas fila 58) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D28": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga BC 5 kg",
+   "como": "(Indexado, «Recargas», fila 34 + recarga anual del pool de sustitutos, Reservas fila 59) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D29": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga Clase K 6 l",
+   "como": "(Indexado, «Recargas», fila 35 + recarga anual del pool de sustitutos, Reservas fila 60) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D30": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga CO₂ 2 kg",
+   "como": "(Indexado, «Recargas», fila 36) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D31": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga CO₂ 5 kg",
+   "como": "(Indexado, «Recargas», fila 37 + recarga anual del pool de sustitutos, Reservas fila 61) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D32": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga HCFC 5 kg",
+   "como": "(Indexado, «Recargas», fila 38 + recarga anual del pool de sustitutos, Reservas fila 62) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D33": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga Clase D 9 l",
+   "como": "(Indexado, «Recargas», fila 39 + recarga anual del pool de sustitutos, Reservas fila 63) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D34": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 25 kg",
+   "como": "(Indexado, «Recargas», fila 40) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D35": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 50 kg",
+   "como": "(Indexado, «Recargas», fila 41 + recarga anual del pool de sustitutos, Reservas fila 64) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D36": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 70 kg",
+   "como": "(Indexado, «Recargas», fila 42) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D37": {
+   "hoja": "DEMANDA",
+   "dato": "Recarga ABC 100 kg",
+   "como": "(Indexado, «Recargas», fila 43 + recarga anual del pool de sustitutos, Reservas fila 65) × D01, la parte de la planta industrial.",
+   "figs": [
+    "X01",
+    "X03",
+    "D01"
+   ]
+  },
+  "D38": {
+   "hoja": "DEMANDA",
+   "dato": "Sustitutos nuevos (kit)",
+   "como": "Reservas, total del alta anual de sustitutos (fila 81) × D01. Cada sustituto nuevo lleva su kit de identificación; el equipo se fabrica (ABC) o se compra (los demás) en su línea.",
+   "figs": [
+    "X03"
+   ]
+  },
+  "D39": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego Agua 10 l",
+   "como": "Indexado, «Matafuegos terciarizados», fila 48 + sustitutos nuevos de la planta industrial (Reservas, fila 71, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D40": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego AFFF 10 l",
+   "como": "Indexado, «Matafuegos terciarizados», fila 49 + sustitutos nuevos de la planta industrial (Reservas, fila 72, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D41": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego AFFF 50 l",
+   "como": "Indexado, «Matafuegos terciarizados», fila 50 + sustitutos nuevos de la planta industrial (Reservas, fila 73, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D42": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego BC 5 kg",
+   "como": "Indexado, «Matafuegos terciarizados», fila 51 + sustitutos nuevos de la planta industrial (Reservas, fila 74, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D43": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego Clase K 6 l",
+   "como": "Indexado, «Matafuegos terciarizados», fila 52 + sustitutos nuevos de la planta industrial (Reservas, fila 75, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D44": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego CO₂ 2 kg",
+   "como": "Indexado, «Matafuegos terciarizados», fila 53.",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D45": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego CO₂ 5 kg",
+   "como": "Indexado, «Matafuegos terciarizados», fila 54 + sustitutos nuevos de la planta industrial (Reservas, fila 76, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D46": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego HCFC 5 kg",
+   "como": "Indexado, «Matafuegos terciarizados», fila 55 + sustitutos nuevos de la planta industrial (Reservas, fila 77, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "D47": {
+   "hoja": "DEMANDA",
+   "dato": "Matafuego Clase D 9 l",
+   "como": "Indexado, «Matafuegos terciarizados», fila 56 + sustitutos nuevos de la planta industrial (Reservas, fila 78, × D01).",
+   "figs": [
+    "X01",
+    "X03"
+   ]
+  },
+  "E01": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Automovilístico (1 kg)",
+   "como": "Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes).",
+   "figs": [
+    "D02"
+   ]
+  },
+  "E02": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Manual comercial (2,5 / 5 / 10 kg)",
+   "como": "Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes).",
+   "figs": [
+    "D02"
+   ]
+  },
+  "E03": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Industrial s/ruedas (25 – 100 kg)",
+   "como": "Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes).",
+   "figs": [
+    "D02"
+   ]
+  },
+  "E04": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recargas (sin estacionalidad)",
+   "como": "Dimensionamiento Técnico FLAMA: las recargas de las dos plantas se reparten parejo en los 12 meses (anual / 12).",
+   "figs": [
+    "D04"
+   ]
+  },
+  "E05": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Mes pico de manuales",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "figs": [
+    "D03"
+   ]
+  },
+  "E06": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Mes pico de rodantes",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "figs": [
+    "D03"
+   ]
+  },
+  "E07": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Mes pico de recargas",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "figs": [
+    "D03"
+   ]
+  },
+  "E08": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Mes pico de revendidos",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "figs": [
+    "D03"
+   ]
+  },
+  "M01": {
+   "hoja": "MANUALES",
+   "codigo": "MP-01",
+   "dato": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
+   "um": "barra",
+   "dest": "",
+   "como": "Un cuerpo por recipiente; de un caño de 6 m salen 23 cuerpos.",
+   "figs": [
+    "P03"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=1/23",
+    "FL_REC_ABC_1kg": "=1/23"
+   }
+  },
+  "M02": {
+   "hoja": "MANUALES",
+   "codigo": "MP-02",
+   "dato": "Hoja LAF 1,25 × 1220 × 2440 mm",
+   "um": "hoja",
+   "dest": "",
+   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos.",
+   "figs": [
+    "P02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": "=1/27",
+    "FL_REC_ABC_2.5kg": "=1/27"
+   }
+  },
+  "M03": {
+   "hoja": "MANUALES",
+   "codigo": "MP-03",
+   "dato": "Hoja LAF 1,6 × 1000 × 2000 mm",
+   "um": "hoja",
+   "dest": "",
+   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos.",
+   "figs": [
+    "P02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": "=1/12",
+    "FL_REC_ABC_5kg": "=1/12"
+   }
+  },
+  "M04": {
+   "hoja": "MANUALES",
+   "codigo": "MP-04",
+   "dato": "Hoja LAF 2,0 × 1500 × 3000 mm",
+   "um": "hoja",
+   "dest": "",
+   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos.",
+   "figs": [
+    "P02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": "=1/15",
+    "FL_REC_ABC_10kg": "=1/15"
+   }
+  },
+  "M05": {
+   "hoja": "MANUALES",
+   "codigo": "MP-05",
+   "dato": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Cúpula del 1 kg: kg de fleje por disco = ancho 114 mm × (Ø del disco 95 mm + puente 3 mm) × espesor 0,9 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=114*(95+3)*0.9*7.85/1000000",
+    "FL_REC_ABC_1kg": "=114*(95+3)*0.9*7.85/1000000"
+   }
+  },
+  "M06": {
+   "hoja": "MANUALES",
+   "codigo": "MP-13",
+   "dato": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Fondo del 1 kg: kg de fleje por disco = ancho 135 mm × (Ø del disco 112 mm + puente 3 mm) × espesor 1,25 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=135*(112+3)*1.25*7.85/1000000",
+    "FL_REC_ABC_1kg": "=135*(112+3)*1.25*7.85/1000000"
+   }
+  },
+  "M07": {
+   "hoja": "MANUALES",
+   "codigo": "MP-06",
+   "dato": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Cúpula del 2.5 kg: kg de fleje por disco = ancho 200 mm × (Ø del disco 179 mm + puente 3 mm) × espesor 1,25 mm × 7,85 kg/dm³ (método de la planilla de MP). Más el fondo: Ø148 mm.",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": "=200*(179+3)*1.25*7.85/1000000+200*(148+3)*1.25*7.85/1000000",
+    "FL_REC_ABC_2.5kg": "=200*(179+3)*1.25*7.85/1000000+200*(148+3)*1.25*7.85/1000000"
+   }
+  },
+  "M08": {
+   "hoja": "MANUALES",
+   "codigo": "MP-07",
+   "dato": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Cúpula del 5 kg: kg de fleje por disco = ancho 250 mm × (Ø del disco 221 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": "=250*(221+3)*1.6*7.85/1000000",
+    "FL_REC_ABC_5kg": "=250*(221+3)*1.6*7.85/1000000"
+   }
+  },
+  "M09": {
+   "hoja": "MANUALES",
+   "codigo": "MP-08",
+   "dato": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Fondo del 5 kg: kg de fleje por disco = ancho 200 mm × (Ø del disco 177 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": "=200*(177+3)*1.6*7.85/1000000",
+    "FL_REC_ABC_5kg": "=200*(177+3)*1.6*7.85/1000000"
+   }
+  },
+  "M10": {
+   "hoja": "MANUALES",
+   "codigo": "MP-09",
+   "dato": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Cúpula del 10 kg: kg de fleje por disco = ancho 300 mm × (Ø del disco 258 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": "=300*(258+3)*1.6*7.85/1000000",
+    "FL_REC_ABC_10kg": "=300*(258+3)*1.6*7.85/1000000"
+   }
+  },
+  "M11": {
+   "hoja": "MANUALES",
+   "codigo": "MP-10",
+   "dato": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Fondo del 10 kg: kg de fleje por disco = ancho 249 mm × (Ø del disco 205 mm + puente 3 mm) × espesor 2 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": "=249*(205+3)*2.0*7.85/1000000",
+    "FL_REC_ABC_10kg": "=249*(205+3)*2.0*7.85/1000000"
+   }
+  },
+  "M12": {
+   "hoja": "MANUALES",
+   "codigo": "MP-18",
+   "dato": "Asiento de válvula M22 × 1,5 (1 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Un asiento de válvula por cúpula (se compra mecanizado).",
+   "figs": [
+    "P01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_REC_ABC_1kg": 1
+   }
+  },
+  "M13": {
+   "hoja": "MANUALES",
+   "codigo": "MP-19",
+   "dato": "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Un asiento de válvula por cúpula (se compra mecanizado).",
+   "figs": [
+    "P01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1,
+    "FL_REC_ABC_2.5kg": 1,
+    "FL_REC_ABC_5kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M14": {
+   "hoja": "MANUALES",
+   "codigo": "MP-23",
+   "dato": "Alambre MAG ER70S-6 Ø0,9 mm (manuales)",
+   "um": "kg",
+   "dest": "",
+   "como": "kg de alambre por recipiente de la planilla de MP (largo de costura × alambre por metro). El proceso de manuales no da otro valor.",
+   "figs": [
+    "X08"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 0.01499,
+    "FL_MAT_ABC_2.5kg": 0.0304,
+    "FL_MAT_ABC_5kg": 0.03675,
+    "FL_MAT_ABC_10kg": 0.04575,
+    "FL_REC_ABC_1kg": 0.01499,
+    "FL_REC_ABC_2.5kg": 0.0304,
+    "FL_REC_ABC_5kg": 0.03675,
+    "FL_REC_ABC_10kg": 0.04575
+   }
+  },
+  "M15": {
+   "hoja": "MANUALES",
+   "codigo": "MP-25",
+   "dato": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
+   "um": "m³",
+   "dest": "",
+   "como": "m³ por recipiente de la planilla de MP, llevados a los 48 m³ por día del proceso de manuales: con la producción del pico de ese proceso (1.216, 99, 446 y 27 recipientes) la planilla da 43,3 m³, así que cada valor se multiplica por 48 / 43,3.",
+   "figs": [
+    "P01",
+    "X08"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=0.01671*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_MAT_ABC_2.5kg": "=0.03388*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_MAT_ABC_5kg": "=0.04096*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_MAT_ABC_10kg": "=0.051*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_REC_ABC_1kg": "=0.01671*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_REC_ABC_2.5kg": "=0.03388*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_REC_ABC_5kg": "=0.04096*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)",
+    "FL_REC_ABC_10kg": "=0.051*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)"
+   }
+  },
+  "M16": {
+   "hoja": "MANUALES",
+   "codigo": "MP-28",
+   "dato": "Granalla de acero S330 / S390",
+   "um": "kg",
+   "dest": "",
+   "como": "0,08 kg de granalla por cilindro (proceso de manuales: «unos 133 kg por día en el pico»).",
+   "figs": [
+    "P04"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 0.08,
+    "FL_MAT_ABC_2.5kg": 0.08,
+    "FL_MAT_ABC_5kg": 0.08,
+    "FL_MAT_ABC_10kg": 0.08,
+    "FL_REC_ABC_1kg": 0.08,
+    "FL_REC_ABC_2.5kg": 0.08,
+    "FL_REC_ABC_5kg": 0.08,
+    "FL_REC_ABC_10kg": 0.08
+   }
+  },
+  "M17": {
+   "hoja": "MANUALES",
+   "codigo": "MP-31",
+   "dato": "Pintura en polvo poliéster rojo 03-1-050",
+   "um": "kg",
+   "dest": "",
+   "como": "kg = área exterior (BOM: mitad de la superficie de cuerpo, cúpula y fondo) / 9,46 m² por kg / 0,95. Rendimiento a 70 µm del poliéster WEG Politherm 66 (densidad 1,51 g/cm³); 70 µm es el espesor de la planilla de MP (Sinteplast, 60 a 80 µm). La cabina recupera el polvo (proceso de manuales): 95 % de aprovechamiento (Powder Coating Institute).",
+   "figs": [
+    "B02",
+    "X08",
+    "P04",
+    "W2",
+    "W3"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=0.0764/9.46/0.95",
+    "FL_MAT_ABC_2.5kg": "=0.1375/9.46/0.95",
+    "FL_MAT_ABC_5kg": "=0.2091/9.46/0.95",
+    "FL_MAT_ABC_10kg": "=0.3510/9.46/0.95",
+    "FL_REC_ABC_1kg": "=0.0764/9.46/0.95",
+    "FL_REC_ABC_2.5kg": "=0.1375/9.46/0.95",
+    "FL_REC_ABC_5kg": "=0.2091/9.46/0.95",
+    "FL_REC_ABC_10kg": "=0.3510/9.46/0.95"
+   }
+  },
+  "M18": {
+   "hoja": "MANUALES",
+   "codigo": "MP-33",
+   "dato": "Polvo ABC 60 (manuales y sus recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "Carga objetivo del BOM (nominal + mitad de la tolerancia). El proceso de manuales no agrega merma (1.254 kg por día para 413 matafuegos en el pico).",
+   "figs": [
+    "B01",
+    "P01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1.05,
+    "FL_MAT_ABC_2.5kg": 2.55,
+    "FL_MAT_ABC_5kg": 5.15,
+    "FL_MAT_ABC_10kg": 10.15
+   }
+  },
+  "M19": {
+   "hoja": "MANUALES",
+   "codigo": "MP-34",
+   "dato": "Nitrógeno seco",
+   "um": "m³",
+   "dest": "",
+   "como": "Cuenta del proceso de manuales: cámara de gas de un tercio del volumen interior a 14 bar (presión de servicio del plano). Volumen interior del BOM.",
+   "figs": [
+    "P04",
+    "B01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=1.18/3*14/1000",
+    "FL_MAT_ABC_2.5kg": "=3.5/3*14/1000",
+    "FL_MAT_ABC_5kg": "=6/3*14/1000",
+    "FL_MAT_ABC_10kg": "=12.5/3*14/1000"
+   }
+  },
+  "M20": {
+   "hoja": "MANUALES",
+   "codigo": "MP-42",
+   "dato": "Válvula HZ M-22 con tubo de pesca (1 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1
+   }
+  },
+  "M21": {
+   "hoja": "MANUALES",
+   "codigo": "MP-43",
+   "dato": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M22": {
+   "hoja": "MANUALES",
+   "codigo": "MP-45",
+   "dato": "Manómetro 1,4 MPa",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M23": {
+   "hoja": "MANUALES",
+   "codigo": "MP-48/ABC1",
+   "dato": "Tobera ABC 1 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1
+   }
+  },
+  "M24": {
+   "hoja": "MANUALES",
+   "codigo": "MP-48/ABC2.5",
+   "dato": "Manguera con tobera ABC 2,5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1
+   }
+  },
+  "M25": {
+   "hoja": "MANUALES",
+   "codigo": "MP-48/ABC5",
+   "dato": "Manguera con tobera ABC 5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": 1
+   }
+  },
+  "M26": {
+   "hoja": "MANUALES",
+   "codigo": "MP-48/ABC10",
+   "dato": "Manguera con tobera ABC 10 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M27": {
+   "hoja": "MANUALES",
+   "codigo": "MP-50/M22",
+   "dato": "Junta tórica del cuello M22",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1
+   }
+  },
+  "M28": {
+   "hoja": "MANUALES",
+   "codigo": "MP-50/M30",
+   "dato": "Junta tórica del cuello M30",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M29": {
+   "hoja": "MANUALES",
+   "codigo": "MP-52/ABC2.5",
+   "dato": "Soporte de pared ABC 2,5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1
+   }
+  },
+  "M30": {
+   "hoja": "MANUALES",
+   "codigo": "MP-52/ABC5",
+   "dato": "Soporte de pared ABC 5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": 1
+   }
+  },
+  "M31": {
+   "hoja": "MANUALES",
+   "codigo": "MP-52/ABC10",
+   "dato": "Soporte de pared ABC 10 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M32": {
+   "hoja": "MANUALES",
+   "codigo": "MP-87",
+   "dato": "Soporte vehicular (1 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1
+   }
+  },
+  "M33": {
+   "hoja": "MANUALES",
+   "codigo": "MP-86",
+   "dato": "Tornillo y tarugo de fijación",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 2,
+    "FL_MAT_ABC_5kg": 2,
+    "FL_MAT_ABC_10kg": 2
+   }
+  },
+  "M34": {
+   "hoja": "MANUALES",
+   "codigo": "MP-56/ABC1",
+   "dato": "Etiqueta de características ABC 1 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1
+   }
+  },
+  "M35": {
+   "hoja": "MANUALES",
+   "codigo": "MP-56/ABC2.5",
+   "dato": "Etiqueta de características ABC 2,5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1
+   }
+  },
+  "M36": {
+   "hoja": "MANUALES",
+   "codigo": "MP-56/ABC5",
+   "dato": "Etiqueta de características ABC 5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": 1
+   }
+  },
+  "M37": {
+   "hoja": "MANUALES",
+   "codigo": "MP-56/ABC10",
+   "dato": "Etiqueta de características ABC 10 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M38": {
+   "hoja": "MANUALES",
+   "codigo": "MP-78",
+   "dato": "Oblea de fabricación (PBA)",
+   "um": "u",
+   "dest": "PBA",
+   "como": "Cantidad por unidad del BOM; sólo lo que va a PBA (% de DEMANDA).",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M39": {
+   "hoja": "MANUALES",
+   "codigo": "MP-79",
+   "dato": "Estampilla IRAM de conformidad",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M40": {
+   "hoja": "MANUALES",
+   "codigo": "MP-77",
+   "dato": "Tarjeta de identificación AGC (CABA)",
+   "um": "u",
+   "dest": "CABA",
+   "como": "Cantidad por unidad del BOM; sólo lo que va a CABA (% de DEMANDA).",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M41": {
+   "hoja": "MANUALES",
+   "codigo": "MP-80",
+   "dato": "Etiqueta de n° de serie GS1",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M42": {
+   "hoja": "MANUALES",
+   "codigo": "MP-81",
+   "dato": "Faja de garantía válvula-cuello",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M43": {
+   "hoja": "MANUALES",
+   "codigo": "MP-51",
+   "dato": "Precinto de fábrica",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M44": {
+   "hoja": "MANUALES",
+   "codigo": "MP-88",
+   "dato": "Etiqueta del cilindro suelto",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_1kg": 1,
+    "FL_REC_ABC_2.5kg": 1,
+    "FL_REC_ABC_5kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M45": {
+   "hoja": "MANUALES",
+   "codigo": "MP-62/M22",
+   "dato": "Tapón protector de rosca M22",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_1kg": 1
+   }
+  },
+  "M46": {
+   "hoja": "MANUALES",
+   "codigo": "MP-62/M30",
+   "dato": "Tapón protector de rosca M30",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_2.5kg": 1,
+    "FL_REC_ABC_5kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M47": {
+   "hoja": "MANUALES",
+   "codigo": "MP-85",
+   "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
+   "um": "u",
+   "dest": "",
+   "como": "Un protocolo de ensayo acompaña a cada cilindro vacío (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_REC_ABC_1kg": 1,
+    "FL_REC_ABC_2.5kg": 1,
+    "FL_REC_ABC_5kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M48": {
+   "hoja": "MANUALES",
+   "codigo": "MP-59/ABC1",
+   "dato": "Caja de cartón simple ABC 1 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Una caja por recipiente, simple hasta el 5 kg y doble en el 10 kg (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_REC_ABC_1kg": 1
+   }
+  },
+  "M49": {
+   "hoja": "MANUALES",
+   "codigo": "MP-59/ABC2.5",
+   "dato": "Caja de cartón simple ABC 2,5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Una caja por recipiente, simple hasta el 5 kg y doble en el 10 kg (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_REC_ABC_2.5kg": 1
+   }
+  },
+  "M50": {
+   "hoja": "MANUALES",
+   "codigo": "MP-59/ABC5",
+   "dato": "Caja de cartón simple ABC 5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Una caja por recipiente, simple hasta el 5 kg y doble en el 10 kg (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": 1,
+    "FL_REC_ABC_5kg": 1
+   }
+  },
+  "M51": {
+   "hoja": "MANUALES",
+   "codigo": "MP-59/ABC10",
+   "dato": "Caja de cartón doble ABC 10 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Una caja por recipiente, simple hasta el 5 kg y doble en el 10 kg (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M52": {
+   "hoja": "MANUALES",
+   "codigo": "MP-89",
+   "dato": "Etiqueta de caja",
+   "um": "u",
+   "dest": "",
+   "como": "Una etiqueta por caja (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": 1,
+    "FL_MAT_ABC_2.5kg": 1,
+    "FL_MAT_ABC_5kg": 1,
+    "FL_MAT_ABC_10kg": 1,
+    "FL_REC_ABC_1kg": 1,
+    "FL_REC_ABC_2.5kg": 1,
+    "FL_REC_ABC_5kg": 1,
+    "FL_REC_ABC_10kg": 1
+   }
+  },
+  "M53": {
+   "hoja": "MANUALES",
+   "codigo": "MP-60",
+   "dato": "Pallet de madera 1200 × 1000",
+   "um": "u",
+   "dest": "",
+   "como": "Un pallet cada 400, 167, 90 o 40 recipientes (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=1/400",
+    "FL_MAT_ABC_2.5kg": "=1/167",
+    "FL_MAT_ABC_5kg": "=1/90",
+    "FL_MAT_ABC_10kg": "=1/40",
+    "FL_REC_ABC_1kg": "=1/400",
+    "FL_REC_ABC_2.5kg": "=1/167",
+    "FL_REC_ABC_5kg": "=1/90",
+    "FL_REC_ABC_10kg": "=1/40"
+   }
+  },
+  "M54": {
+   "hoja": "MANUALES",
+   "codigo": "MP-90",
+   "dato": "Etiqueta de pallet",
+   "um": "u",
+   "dest": "",
+   "como": "Una etiqueta por pallet (proceso de manuales, embalaje).",
+   "figs": [
+    "P05"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=1/400",
+    "FL_MAT_ABC_2.5kg": "=1/167",
+    "FL_MAT_ABC_5kg": "=1/90",
+    "FL_MAT_ABC_10kg": "=1/40",
+    "FL_REC_ABC_1kg": "=1/400",
+    "FL_REC_ABC_2.5kg": "=1/167",
+    "FL_REC_ABC_5kg": "=1/90",
+    "FL_REC_ABC_10kg": "=1/40"
+   }
+  },
+  "R01": {
+   "hoja": "RODANTES",
+   "codigo": "MP-11",
+   "dato": "Hoja LAC 3,2 × 1500 × 3000 mm",
+   "um": "hoja",
+   "dest": "",
+   "como": "Un cuerpo por recipiente; de una hoja de 3,2 mm salen 9 cuerpos de 25 kg o 6 de 50 kg (plan de corte del proceso de carros).",
+   "figs": [
+    "P08"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=1/9",
+    "FL_MAT_ABC_50kg": "=1/6",
+    "FL_REC_ABC_25kg": "=1/9",
+    "FL_REC_ABC_50kg": "=1/6"
+   }
+  },
+  "R02": {
+   "hoja": "RODANTES",
+   "codigo": "MP-12",
+   "dato": "Hoja LAC 4,75 × 1500 × 3000 mm",
+   "um": "hoja",
+   "dest": "",
+   "como": "Hoja mixta del proceso de carros: 3 cuerpos de 70 kg + 1 de 100 kg; los 100 kg que sobran, a 3 por hoja. Hojas = n70 / 3 + (n100 − n70 / 3) / 3 = 2/9 × n70 + 1/3 × n100 (vale mientras n70 ≤ 3 × n100, que se cumple todos los años).",
+   "figs": [
+    "P08"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": "=2/9",
+    "FL_MAT_ABC_100kg": "=1/3",
+    "FL_REC_ABC_70kg": "=2/9",
+    "FL_REC_ABC_100kg": "=1/3"
+   }
+  },
+  "R03": {
+   "hoja": "RODANTES",
+   "codigo": "MP-15",
+   "dato": "Casquete 10\" × 3,2 mm (carro 25 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Dos casquetes por recipiente (cúpula y fondo, comprados estampados).",
+   "figs": [
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 2,
+    "FL_REC_ABC_25kg": 2
+   }
+  },
+  "R04": {
+   "hoja": "RODANTES",
+   "codigo": "MP-16",
+   "dato": "Casquete 12\" × 3,2 mm (carro 50 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Dos casquetes por recipiente (cúpula y fondo, comprados estampados).",
+   "figs": [
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 2,
+    "FL_REC_ABC_50kg": 2
+   }
+  },
+  "R05": {
+   "hoja": "RODANTES",
+   "codigo": "MP-17",
+   "dato": "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Dos casquetes por recipiente (cúpula y fondo, comprados estampados).",
+   "figs": [
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 2,
+    "FL_MAT_ABC_100kg": 2,
+    "FL_REC_ABC_70kg": 2,
+    "FL_REC_ABC_100kg": 2
+   }
+  },
+  "R06": {
+   "hoja": "RODANTES",
+   "codigo": "MP-20",
+   "dato": "Cupla M30 × 1,5 (carros 25 y 50 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Una cupla por recipiente.",
+   "figs": [
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_REC_ABC_25kg": 1,
+    "FL_REC_ABC_50kg": 1
+   }
+  },
+  "R07": {
+   "hoja": "RODANTES",
+   "codigo": "MP-21",
+   "dato": "Cupla 2½\" BSP (carros 70 y 100 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Una cupla por recipiente.",
+   "figs": [
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1,
+    "FL_REC_ABC_70kg": 1,
+    "FL_REC_ABC_100kg": 1
+   }
+  },
+  "R08": {
+   "hoja": "RODANTES",
+   "codigo": "MP-66",
+   "dato": "Caño SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)",
+   "um": "barra",
+   "dest": "",
+   "como": "Manija (1.440 a 1.590 mm) y, en el 25 kg, el caño del eje (354 mm), sobre barras de 6 m con 95 % de aprovechamiento (proceso de carros, 8.1). Sólo el carro terminado.",
+   "figs": [
+    "P16",
+    "P15"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=1440/6000/0.95+354/6000/0.95",
+    "FL_MAT_ABC_50kg": "=1520/6000/0.95",
+    "FL_MAT_ABC_70kg": "=1590/6000/0.95",
+    "FL_MAT_ABC_100kg": "=1590/6000/0.95"
+   }
+  },
+  "R09": {
+   "hoja": "RODANTES",
+   "codigo": "MP-67",
+   "dato": "Caño SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)",
+   "um": "barra",
+   "dest": "",
+   "como": "Caño del eje (354 o 434 mm) sobre barras de 6 m con 95 % de aprovechamiento (proceso de carros, 8.1).",
+   "figs": [
+    "P16",
+    "P15"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": "=354/6000/0.95",
+    "FL_MAT_ABC_70kg": "=434/6000/0.95",
+    "FL_MAT_ABC_100kg": "=434/6000/0.95"
+   }
+  },
+  "R10": {
+   "hoja": "RODANTES",
+   "codigo": "MP-68",
+   "dato": "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)",
+   "um": "barra",
+   "dest": "",
+   "como": "Ejes enteros por barra: INT(largo de la barra / largo del eje) (proceso de carros, 8.1).",
+   "figs": [
+    "P16"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=1/INT(4000/490)"
+   }
+  },
+  "R11": {
+   "hoja": "RODANTES",
+   "codigo": "MP-69",
+   "dato": "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)",
+   "um": "barra",
+   "dest": "",
+   "como": "Ejes enteros por barra: INT(largo de la barra / largo del eje) (proceso de carros, 8.1).",
+   "figs": [
+    "P16"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": "=1/INT(6000/510)",
+    "FL_MAT_ABC_70kg": "=1/INT(6000/590)",
+    "FL_MAT_ABC_100kg": "=1/INT(6000/590)"
+   }
+  },
+  "R12": {
+   "hoja": "RODANTES",
+   "codigo": "MP-24",
+   "dato": "Alambre MAG ER70S-6 Ø1,0 mm (carros)",
+   "um": "kg",
+   "dest": "",
+   "como": "Suma de los gramos de alambre de los puestos 4 a 8 del proceso de carros; el cilindro vacío no pasa por el puesto 8 (accesorios).",
+   "figs": [
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=(6.0+48+10.5+190+141)/1000",
+    "FL_MAT_ABC_50kg": "=(7.2+63+10.5+218+146)/1000",
+    "FL_MAT_ABC_70kg": "=(16.8+120+29+463+199)/1000",
+    "FL_MAT_ABC_100kg": "=(18.0+158+29+463+199)/1000",
+    "FL_REC_ABC_25kg": "=(6.0+48+10.5+190)/1000",
+    "FL_REC_ABC_50kg": "=(7.2+63+10.5+218)/1000",
+    "FL_REC_ABC_70kg": "=(16.8+120+29+463)/1000",
+    "FL_REC_ABC_100kg": "=(18.0+158+29+463)/1000"
+   }
+  },
+  "R13": {
+   "hoja": "RODANTES",
+   "codigo": "MP-25",
+   "dato": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
+   "um": "m³",
+   "dest": "",
+   "como": "Suma de los litros de gas de los puestos 4 a 8 del proceso de carros; el cilindro vacío no pasa por el puesto 8.",
+   "figs": [
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=(3.4+18+10+66+96)/1000",
+    "FL_MAT_ABC_50kg": "=(4.1+22+10+75+98)/1000",
+    "FL_MAT_ABC_70kg": "=(9.5+32+17+122+109)/1000",
+    "FL_MAT_ABC_100kg": "=(10.2+42+17+122+109)/1000",
+    "FL_REC_ABC_25kg": "=(3.4+18+10+66)/1000",
+    "FL_REC_ABC_50kg": "=(4.1+22+10+75)/1000",
+    "FL_REC_ABC_70kg": "=(9.5+32+17+122)/1000",
+    "FL_REC_ABC_100kg": "=(10.2+42+17+122)/1000"
+   }
+  },
+  "R14": {
+   "hoja": "RODANTES",
+   "codigo": "MP-92",
+   "dato": "Disco de sensitiva 355 mm",
+   "um": "u",
+   "dest": "",
+   "como": "3 cortes por juego de accesorios; 200 cortes por disco (proceso de carros, 8.1).",
+   "figs": [
+    "P17"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=3/200",
+    "FL_MAT_ABC_50kg": "=3/200",
+    "FL_MAT_ABC_70kg": "=3/200",
+    "FL_MAT_ABC_100kg": "=3/200"
+   }
+  },
+  "R15": {
+   "hoja": "RODANTES",
+   "codigo": "MP-27",
+   "dato": "Disco de corte 115 × 1,0 mm",
+   "um": "u",
+   "dest": "",
+   "como": "1 disco cada 40 juegos de triángulos (8.1) y, en 70 y 100 kg, 7 discos por mes para las placas de refuerzo sobre 80 cuerpos por mes (puesto 4).",
+   "figs": [
+    "P17",
+    "P18"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=1/40",
+    "FL_MAT_ABC_50kg": "=1/40",
+    "FL_MAT_ABC_70kg": "=1/40+7/80",
+    "FL_MAT_ABC_100kg": "=1/40+7/80",
+    "FL_REC_ABC_70kg": "=7/80",
+    "FL_REC_ABC_100kg": "=7/80"
+   }
+  },
+  "R16": {
+   "hoja": "RODANTES",
+   "codigo": "MP-93",
+   "dato": "Disco flap 115 mm grano 60",
+   "um": "u",
+   "dest": "",
+   "como": "2 discos flap por mes para 400 juegos (8.1) y, en 70 y 100 kg, 1 disco cada 4 tandas de placas (puesto 4).",
+   "figs": [
+    "P17",
+    "P18"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=2/400",
+    "FL_MAT_ABC_50kg": "=2/400",
+    "FL_MAT_ABC_70kg": "=2/400+7/4/80",
+    "FL_MAT_ABC_100kg": "=2/400+7/4/80",
+    "FL_REC_ABC_70kg": "=7/4/80",
+    "FL_REC_ABC_100kg": "=7/4/80"
+   }
+  },
+  "R17": {
+   "hoja": "RODANTES",
+   "codigo": "MP-94",
+   "dato": "Mecha de acero rápido 4,5 mm",
+   "um": "u",
+   "dest": "",
+   "como": "2 agujeros por juego; 200 agujeros por mecha (8.1).",
+   "figs": [
+    "P17"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=2/200",
+    "FL_MAT_ABC_50kg": "=2/200",
+    "FL_MAT_ABC_70kg": "=2/200",
+    "FL_MAT_ABC_100kg": "=2/200"
+   }
+  },
+  "R18": {
+   "hoja": "RODANTES",
+   "codigo": "MP-95",
+   "dato": "Spray antiproyecciones 400 ml",
+   "um": "u",
+   "dest": "",
+   "como": "Un disparo de 1 ml por cupla; aerosol de 400 ml (puesto 6).",
+   "figs": [
+    "P18"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=1/400",
+    "FL_MAT_ABC_50kg": "=1/400",
+    "FL_MAT_ABC_70kg": "=1/400",
+    "FL_MAT_ABC_100kg": "=1/400",
+    "FL_REC_ABC_25kg": "=1/400",
+    "FL_REC_ABC_50kg": "=1/400",
+    "FL_REC_ABC_70kg": "=1/400",
+    "FL_REC_ABC_100kg": "=1/400"
+   }
+  },
+  "R19": {
+   "hoja": "RODANTES",
+   "codigo": "MP-96/ABC25",
+   "dato": "Servicio de pintura, carro 25 kg (tercerizado)",
+   "um": "u",
+   "dest": "",
+   "como": "Un servicio de pintura por recipiente: la pintura de carros es tercerizada (proceso de carros, 8.1; cotización por carro).",
+   "figs": [
+    "P15",
+    "Q09"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_REC_ABC_25kg": 1
+   }
+  },
+  "R20": {
+   "hoja": "RODANTES",
+   "codigo": "MP-96/ABC50",
+   "dato": "Servicio de pintura, carro 50 kg (tercerizado)",
+   "um": "u",
+   "dest": "",
+   "como": "Un servicio de pintura por recipiente: la pintura de carros es tercerizada (proceso de carros, 8.1; cotización por carro).",
+   "figs": [
+    "P15",
+    "Q09"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 1,
+    "FL_REC_ABC_50kg": 1
+   }
+  },
+  "R21": {
+   "hoja": "RODANTES",
+   "codigo": "MP-96/ABC70",
+   "dato": "Servicio de pintura, carro 70 kg (tercerizado)",
+   "um": "u",
+   "dest": "",
+   "como": "Un servicio de pintura por recipiente: la pintura de carros es tercerizada (proceso de carros, 8.1; cotización por carro).",
+   "figs": [
+    "P15",
+    "Q09"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1,
+    "FL_REC_ABC_70kg": 1
+   }
+  },
+  "R22": {
+   "hoja": "RODANTES",
+   "codigo": "MP-96/ABC100",
+   "dato": "Servicio de pintura, carro 100 kg (tercerizado)",
+   "um": "u",
+   "dest": "",
+   "como": "Un servicio de pintura por recipiente: la pintura de carros es tercerizada (proceso de carros, 8.1; cotización por carro).",
+   "figs": [
+    "P15",
+    "Q09"
+   ],
+   "cons": {
+    "FL_MAT_ABC_100kg": 1,
+    "FL_REC_ABC_100kg": 1
+   }
+  },
+  "R23": {
+   "hoja": "RODANTES",
+   "codigo": "MP-33B",
+   "dato": "Polvo ABC 90 (carros y sus recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "Carga del BOM + 1 % de merma (proceso de carros, puesto 1, tabla 3).",
+   "figs": [
+    "B01",
+    "P06"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=25*1.01",
+    "FL_MAT_ABC_50kg": "=50*1.01",
+    "FL_MAT_ABC_70kg": "=70*1.01",
+    "FL_MAT_ABC_100kg": "=100*1.01"
+   }
+  },
+  "R24": {
+   "hoja": "RODANTES",
+   "codigo": "MP-34",
+   "dato": "Nitrógeno seco",
+   "um": "m³",
+   "dest": "",
+   "como": "El proceso de carros no da el consumo: se usa la cuenta del proceso de manuales (un tercio del volumen interior a 14 bar, misma pinza Yukon) con el volumen interior del BOM.",
+   "figs": [
+    "P04",
+    "B01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": "=34.4/3*14/1000",
+    "FL_MAT_ABC_50kg": "=61.8/3*14/1000",
+    "FL_MAT_ABC_70kg": "=96/3*14/1000",
+    "FL_MAT_ABC_100kg": "=121/3*14/1000"
+   }
+  },
+  "R25": {
+   "hoja": "RODANTES",
+   "codigo": "MP-70",
+   "dato": "Arandela de tope del eje",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 4,
+    "FL_MAT_ABC_50kg": 4,
+    "FL_MAT_ABC_70kg": 4,
+    "FL_MAT_ABC_100kg": 4
+   }
+  },
+  "R26": {
+   "hoja": "RODANTES",
+   "codigo": "MP-71",
+   "dato": "Pasador partido del eje",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 2,
+    "FL_MAT_ABC_50kg": 2,
+    "FL_MAT_ABC_70kg": 2,
+    "FL_MAT_ABC_100kg": 2
+   }
+  },
+  "R27": {
+   "hoja": "RODANTES",
+   "codigo": "MP-54/300",
+   "dato": "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 2
+   }
+  },
+  "R28": {
+   "hoja": "RODANTES",
+   "codigo": "MP-54/350",
+   "dato": "Rueda Ø350 × 60, buje 1\" (carro 50 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 2
+   }
+  },
+  "R29": {
+   "hoja": "RODANTES",
+   "codigo": "MP-54/400",
+   "dato": "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 2,
+    "FL_MAT_ABC_100kg": 2
+   }
+  },
+  "R30": {
+   "hoja": "RODANTES",
+   "codigo": "MP-44/25",
+   "dato": "Válvula HZ de carro 25 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1
+   }
+  },
+  "R31": {
+   "hoja": "RODANTES",
+   "codigo": "MP-44/50",
+   "dato": "Válvula HZ de carro 50-70-100 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R32": {
+   "hoja": "RODANTES",
+   "codigo": "MP-45",
+   "dato": "Manómetro 1,4 MPa",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R33": {
+   "hoja": "RODANTES",
+   "codigo": "MP-49/ABC25",
+   "dato": "Manguera con válvula esférica y tobera, carro 25 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1
+   }
+  },
+  "R34": {
+   "hoja": "RODANTES",
+   "codigo": "MP-49/ABC50",
+   "dato": "Manguera con válvula esférica y tobera, carro 50 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 1
+   }
+  },
+  "R35": {
+   "hoja": "RODANTES",
+   "codigo": "MP-49/ABC70",
+   "dato": "Manguera con válvula esférica y tobera, carro 70 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1
+   }
+  },
+  "R36": {
+   "hoja": "RODANTES",
+   "codigo": "MP-49/ABC100",
+   "dato": "Manguera con válvula esférica y tobera, carro 100 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R37": {
+   "hoja": "RODANTES",
+   "codigo": "MP-50/M30",
+   "dato": "Junta tórica del cuello M30",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1
+   }
+  },
+  "R38": {
+   "hoja": "RODANTES",
+   "codigo": "MP-50/2½",
+   "dato": "Junta tórica del cuello 2½\"",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R39": {
+   "hoja": "RODANTES",
+   "codigo": "MP-56/ABC25",
+   "dato": "Etiqueta de características ABC 25 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1
+   }
+  },
+  "R40": {
+   "hoja": "RODANTES",
+   "codigo": "MP-56/ABC50",
+   "dato": "Etiqueta de características ABC 50 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 1
+   }
+  },
+  "R41": {
+   "hoja": "RODANTES",
+   "codigo": "MP-56/ABC70",
+   "dato": "Etiqueta de características ABC 70 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1
+   }
+  },
+  "R42": {
+   "hoja": "RODANTES",
+   "codigo": "MP-56/ABC100",
+   "dato": "Etiqueta de características ABC 100 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R43": {
+   "hoja": "RODANTES",
+   "codigo": "MP-78",
+   "dato": "Oblea de fabricación (PBA)",
+   "um": "u",
+   "dest": "PBA",
+   "como": "Cantidad por unidad del BOM; sólo lo que va a PBA (% de DEMANDA).",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R44": {
+   "hoja": "RODANTES",
+   "codigo": "MP-79",
+   "dato": "Estampilla IRAM de conformidad",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R45": {
+   "hoja": "RODANTES",
+   "codigo": "MP-77",
+   "dato": "Tarjeta de identificación AGC (CABA)",
+   "um": "u",
+   "dest": "CABA",
+   "como": "Cantidad por unidad del BOM; sólo lo que va a CABA (% de DEMANDA).",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R46": {
+   "hoja": "RODANTES",
+   "codigo": "MP-80",
+   "dato": "Etiqueta de n° de serie GS1",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R47": {
+   "hoja": "RODANTES",
+   "codigo": "MP-81",
+   "dato": "Faja de garantía válvula-cuello",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R48": {
+   "hoja": "RODANTES",
+   "codigo": "MP-51",
+   "dato": "Precinto de fábrica",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1,
+    "FL_MAT_ABC_50kg": 1,
+    "FL_MAT_ABC_70kg": 1,
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R49": {
+   "hoja": "RODANTES",
+   "codigo": "MP-88",
+   "dato": "Etiqueta del cilindro suelto",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_25kg": 1,
+    "FL_REC_ABC_50kg": 1,
+    "FL_REC_ABC_70kg": 1,
+    "FL_REC_ABC_100kg": 1
+   }
+  },
+  "R50": {
+   "hoja": "RODANTES",
+   "codigo": "MP-62/M30",
+   "dato": "Tapón protector de rosca M30",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_25kg": 1,
+    "FL_REC_ABC_50kg": 1
+   }
+  },
+  "R51": {
+   "hoja": "RODANTES",
+   "codigo": "MP-62/2½",
+   "dato": "Tapón protector de rosca 2½\"",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_REC_ABC_70kg": 1,
+    "FL_REC_ABC_100kg": 1
+   }
+  },
+  "R52": {
+   "hoja": "RODANTES",
+   "codigo": "MP-60",
+   "dato": "Pallet de madera 1200 × 1000",
+   "um": "u",
+   "dest": "",
+   "como": "Cilindros vacíos de carro por pallet: 24, 9, 6 y 6 (planilla de MP, Pallets PT).",
+   "figs": [
+    "X07"
+   ],
+   "cons": {
+    "FL_REC_ABC_25kg": "=1/24",
+    "FL_REC_ABC_50kg": "=1/9",
+    "FL_REC_ABC_70kg": "=1/6",
+    "FL_REC_ABC_100kg": "=1/6"
+   }
+  },
+  "R53": {
+   "hoja": "RODANTES",
+   "codigo": "MP-90",
+   "dato": "Etiqueta de pallet",
+   "um": "u",
+   "dest": "",
+   "como": "Una etiqueta por pallet.",
+   "figs": [
+    "X07"
+   ],
+   "cons": {
+    "FL_REC_ABC_25kg": "=1/24",
+    "FL_REC_ABC_50kg": "=1/9",
+    "FL_REC_ABC_70kg": "=1/6",
+    "FL_REC_ABC_100kg": "=1/6"
+   }
+  },
+  "K01": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-33",
+   "dato": "Polvo ABC 60 (manuales y sus recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "El polvo se recupera. Va a descarte (carga nueva entera) el que cambia por el año de fabricación (1 de cada 10 años: 10 %) y el de los equipos que llegan sin presión o accionados (% de usados, DEMANDA); al resto se le repone lo que se pierde en el desarme (reposición del BOM).",
+   "figs": [
+    "R02",
+    "R03",
+    "B01"
+   ],
+   "cons": {
+    "RK_ABC_1kg": "=1.05*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*0.05",
+    "RK_ABC_2.5kg": "=2.55*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*0.0499999999999998",
+    "RK_ABC_5kg": "=5.15*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*0.15",
+    "RK_ABC_10kg": "=10.15*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*0.15"
+   }
+  },
+  "K02": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-33B",
+   "dato": "Polvo ABC 90 (carros y sus recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "El polvo se recupera. Va a descarte (carga nueva entera) el que cambia por el año de fabricación (1 de cada 10 años: 10 %) y el de los equipos que llegan sin presión o accionados (% de usados, DEMANDA); al resto se le repone lo que se pierde en el desarme (reposición del BOM).",
+   "figs": [
+    "R02",
+    "R03",
+    "B01"
+   ],
+   "cons": {
+    "RK_ABC_25kg": "=25*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*0.75",
+    "RK_ABC_50kg": "=50*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*1.5",
+    "RK_ABC_70kg": "=70*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*2.09999999999999",
+    "RK_ABC_100kg": "=100*(0.1+DEMANDA!$M$7)+(1-0.1-DEMANDA!$M$7)*3"
+   }
+  },
+  "K03": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-35",
+   "dato": "Polvo BC (recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "El BC se recarga siempre con polvo nuevo (unos 13 por mes: no se justifica recuperarlo). Carga del BOM.",
+   "figs": [
+    "R07",
+    "B01"
+   ],
+   "cons": {
+    "RK_BC_5kg": 5.15
+   }
+  },
+  "K04": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-36",
+   "dato": "Polvo clase D (recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "Mismo criterio que el BC del proceso de recargas: unos 12 por mes en la planta industrial, polvo nuevo siempre. Carga del BOM.",
+   "figs": [
+    "R07",
+    "B01"
+   ],
+   "cons": {
+    "RK_CLASED_9l": 9.15
+   }
+  },
+  "K05": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-37",
+   "dato": "CO₂ líquido (recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "El CO₂ se recupera y se vuelve a cargar; nuevo sólo para el 10 % que llega descargado o con pérdida de masa (Dimensionamiento V2, Parametros Recargas).",
+   "figs": [
+    "R09",
+    "X11"
+   ],
+   "cons": {
+    "RK_CO2_2kg": "=2*0.1",
+    "RK_CO2_5kg": "=5*0.1"
+   }
+  },
+  "K06": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-38",
+   "dato": "Agente limpio HCFC-123 (recargas)",
+   "um": "kg",
+   "dest": "",
+   "como": "El agente limpio se recupera en circuito cerrado; nuevo sólo para el 10 % que llega descargado o con pérdida (Dimensionamiento V2).",
+   "figs": [
+    "R10",
+    "X11"
+   ],
+   "cons": {
+    "RK_HCFC-HFC_5kg": "=5*0.1"
+   }
+  },
+  "K07": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-40",
+   "dato": "Concentrado AFFF 3 % (recargas)",
+   "um": "L",
+   "dest": "",
+   "como": "El agente se cambia siempre; premezcla al 3 %: litros de concentrado = volumen × 0,03.",
+   "figs": [
+    "R08"
+   ],
+   "cons": {
+    "RK_AFFF_10l": "=10*0.03",
+    "RK_AFFF_50l": "=50*0.03"
+   }
+  },
+  "K08": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-41",
+   "dato": "Acetato de potasio Gastro K (recargas)",
+   "um": "L",
+   "dest": "",
+   "como": "Recarga anual completa del agente líquido (Dimensionamiento V2, matriz: llenado de agua, AFFF y K al 100 %). Carga del BOM.",
+   "figs": [
+    "X12",
+    "B01"
+   ],
+   "cons": {
+    "RK_SALESK_6l": 6.09
+   }
+  },
+  "K09": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-34",
+   "dato": "Nitrógeno seco",
+   "um": "m³",
+   "dest": "",
+   "como": "Se presuriza con nitrógeno con la misma pinza de producción. ABC: cuenta del proceso de manuales (un tercio del volumen a 14 bar); los demás: gas del BOM en litros normales. Agente limpio: sólo el 35 % que se vacía (Dimensionamiento V2). El CO₂ no lleva gas impulsor.",
+   "figs": [
+    "R05",
+    "P04",
+    "B01",
+    "X12"
+   ],
+   "cons": {
+    "RK_ABC_1kg": "=1.18/3*14/1000",
+    "RK_ABC_2.5kg": "=3.5/3*14/1000",
+    "RK_ABC_5kg": "=6/3*14/1000",
+    "RK_ABC_10kg": "=12.5/3*14/1000",
+    "RK_AGUA_10l": "=32.99/1000",
+    "RK_AFFF_10l": "=32.99/1000",
+    "RK_AFFF_50l": "=97.81/1000",
+    "RK_BC_5kg": "=3.835/1000",
+    "RK_SALESK_6l": "=23.789/1000",
+    "RK_HCFC-HFC_5kg": "=21.731/1000*0.35",
+    "RK_CLASED_9l": "=46.253/1000",
+    "RK_ABC_25kg": "=34.4/3*14/1000",
+    "RK_ABC_50kg": "=61.8/3*14/1000",
+    "RK_ABC_70kg": "=96/3*14/1000",
+    "RK_ABC_100kg": "=121/3*14/1000"
+   }
+  },
+  "K10": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-50/OT",
+   "dato": "Junta tórica del cuello (recargas, surtido por medida)",
+   "um": "u",
+   "dest": "",
+   "como": "El o-ring se cambia siempre que se desarma: todos los de polvo y líquidos; en CO₂ y agente limpio, el 35 % que se vacía (Dimensionamiento V2, matriz).",
+   "figs": [
+    "R04",
+    "X12"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 0.35,
+    "RK_CO2_5kg": 0.35,
+    "RK_HCFC-HFC_5kg": 0.35,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K11": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-55",
+   "dato": "Conjunto de seguridad de CO₂ (recargas)",
+   "um": "u",
+   "dest": "",
+   "como": "Se reemplaza en cada vaciado total: 35 % de los CO₂ (Dimensionamiento V2).",
+   "figs": [
+    "X11",
+    "R09"
+   ],
+   "cons": {
+    "RK_CO2_2kg": 0.35,
+    "RK_CO2_5kg": 0.35
+   }
+  },
+  "K12": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-57",
+   "dato": "Marbete del año",
+   "um": "u",
+   "dest": "",
+   "como": "Marbete del año: siempre.",
+   "figs": [
+    "R04"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K13": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-97",
+   "dato": "Precinto del recargador",
+   "um": "u",
+   "dest": "",
+   "como": "Precinto con la identificación de FLAMA: siempre.",
+   "figs": [
+    "R06"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K14": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-72",
+   "dato": "Etiqueta de servicio",
+   "um": "u",
+   "dest": "",
+   "como": "Etiqueta de servicio (lleva también el vencimiento de la prueba hidráulica): siempre.",
+   "figs": [
+    "R06"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K15": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-75",
+   "dato": "Estampilla y oblea de recarga (PBA)",
+   "um": "u",
+   "dest": "PBA",
+   "como": "Una por recarga que va a PBA (BOM de recargas; % de DEMANDA).",
+   "figs": [
+    "B03"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K16": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-76",
+   "dato": "Tarjeta de identificación DPS (PBA)",
+   "um": "u",
+   "dest": "PBA",
+   "como": "Una por recarga que va a PBA (BOM de recargas; % de DEMANDA).",
+   "figs": [
+    "B03"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K17": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-77",
+   "dato": "Tarjeta de identificación AGC (CABA)",
+   "um": "u",
+   "dest": "CABA",
+   "como": "Una por recarga que va a CABA (BOM de recargas; % de DEMANDA).",
+   "figs": [
+    "B03"
+   ],
+   "cons": {
+    "RK_ABC_1kg": 1,
+    "RK_ABC_2.5kg": 1,
+    "RK_ABC_5kg": 1,
+    "RK_ABC_10kg": 1,
+    "RK_AGUA_10l": 1,
+    "RK_AFFF_10l": 1,
+    "RK_AFFF_50l": 1,
+    "RK_BC_5kg": 1,
+    "RK_SALESK_6l": 1,
+    "RK_CO2_2kg": 1,
+    "RK_CO2_5kg": 1,
+    "RK_HCFC-HFC_5kg": 1,
+    "RK_CLASED_9l": 1,
+    "RK_ABC_25kg": 1,
+    "RK_ABC_50kg": 1,
+    "RK_ABC_70kg": 1,
+    "RK_ABC_100kg": 1
+   }
+  },
+  "K18": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-65",
+   "dato": "Esmalte poliuretano rojo (recargas)",
+   "um": "L",
+   "dest": "",
+   "como": "15 % de los equipos llegan con la pintura deteriorada (Dimensionamiento V2) y se pintan completos con esmalte poliuretano: litros = área exterior del BOM / 8,75 m² por litro (ficha Sinteplast, 40 µm, una mano).",
+   "figs": [
+    "X11",
+    "R11",
+    "W1",
+    "B02"
+   ],
+   "cons": {
+    "RK_ABC_1kg": "=0.15*0.0764/8.75",
+    "RK_ABC_2.5kg": "=0.15*0.1375/8.75",
+    "RK_ABC_5kg": "=0.15*0.2091/8.75",
+    "RK_ABC_10kg": "=0.15*0.3510/8.75",
+    "RK_AGUA_10l": "=0.15*0.3646/8.75",
+    "RK_AFFF_10l": "=0.15*0.3646/8.75",
+    "RK_AFFF_50l": "=0.15*0.9064/8.75",
+    "RK_BC_5kg": "=0.15*0.2091/8.75",
+    "RK_SALESK_6l": "=0.15*0.2577/8.75",
+    "RK_CO2_2kg": "=0.15*0.1366/8.75",
+    "RK_CO2_5kg": "=0.15*0.2824/8.75",
+    "RK_HCFC-HFC_5kg": "=0.15*0.2091/8.75",
+    "RK_CLASED_9l": "=0.15*0.3510/8.75",
+    "RK_ABC_25kg": "=0.15*0.6260/8.75",
+    "RK_ABC_50kg": "=0.15*0.9064/8.75",
+    "RK_ABC_70kg": "=0.15*1.2326/8.75",
+    "RK_ABC_100kg": "=0.15*1.4989/8.75"
+   }
+  },
+  "K19": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-82",
+   "dato": "Faja amarilla de sustituto",
+   "um": "u",
+   "dest": "",
+   "como": "Faja amarilla del sustituto (kit del BOM).",
+   "figs": [
+    "B04"
+   ],
+   "cons": {
+    "KIT": 1
+   }
+  },
+  "K20": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-83",
+   "dato": "Tarjeta DPS «sustituto habilitado»",
+   "um": "u",
+   "dest": "PBA",
+   "como": "Tarjeta de sustituto habilitado, si va a PBA (kit del BOM).",
+   "figs": [
+    "B04"
+   ],
+   "cons": {
+    "KIT": 1
+   }
+  },
+  "K21": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-84",
+   "dato": "Tarjeta AGC «es sustituto»",
+   "um": "u",
+   "dest": "CABA",
+   "como": "Tarjeta de sustituto, si va a CABA (kit del BOM).",
+   "figs": [
+    "B04"
+   ],
+   "cons": {
+    "KIT": 1
+   }
+  },
+  "K22": {
+   "hoja": "RECARGAS",
+   "codigo": "MP-85",
+   "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
+   "um": "u",
+   "dest": "",
+   "como": "Remito de préstamo (kit del BOM).",
+   "figs": [
+    "B04"
+   ],
+   "cons": {
+    "KIT": 1
+   }
+  },
+  "V01": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-AGUA_10l",
+   "dato": "Matafuego Agua 10 l (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_AGUA_10l": 1
+   }
+  },
+  "V02": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-AFFF_10l",
+   "dato": "Matafuego AFFF 10 l (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_AFFF_10l": 1
+   }
+  },
+  "V03": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-AFFF_50l",
+   "dato": "Matafuego AFFF 50 l (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_AFFF_50l": 1
+   }
+  },
+  "V04": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-BC_5kg",
+   "dato": "Matafuego BC 5 kg (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_BC_5kg": 1
+   }
+  },
+  "V05": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-SALESK_6l",
+   "dato": "Matafuego Clase K 6 l (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_SALESK_6l": 1
+   }
+  },
+  "V06": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-CO2_2kg",
+   "dato": "Matafuego CO₂ 2 kg (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_CO2_2kg": 1
+   }
+  },
+  "V07": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-CO2_5kg",
+   "dato": "Matafuego CO₂ 5 kg (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_CO2_5kg": 1
+   }
+  },
+  "V08": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-HCFC-HFC_5kg",
+   "dato": "Matafuego HCFC 5 kg (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_HCFC-HFC_5kg": 1
+   }
+  },
+  "V09": {
+   "hoja": "REVENDIDOS",
+   "codigo": "RV-CLASED_9l",
+   "dato": "Matafuego Clase D 9 l (reventa)",
+   "um": "u",
+   "dest": "",
+   "como": "Se compra el equipo terminado.",
+   "figs": [
+    "X01"
+   ],
+   "cons": {
+    "FL_MAT_CLASED_9l": 1
+   }
+  },
+  "V10": {
+   "hoja": "REVENDIDOS",
+   "codigo": "MP-77",
+   "dato": "Tarjeta de identificación AGC (CABA)",
+   "um": "u",
+   "dest": "CABA",
+   "como": "La tarjeta AGC la agrega quien vende en CABA (BOM de revendidos).",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_AGUA_10l": 1,
+    "FL_MAT_AFFF_10l": 1,
+    "FL_MAT_AFFF_50l": 1,
+    "FL_MAT_BC_5kg": 1,
+    "FL_MAT_SALESK_6l": 1,
+    "FL_MAT_CO2_2kg": 1,
+    "FL_MAT_CO2_5kg": 1,
+    "FL_MAT_HCFC-HFC_5kg": 1,
+    "FL_MAT_CLASED_9l": 1
+   }
+  },
+  "P01": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-01",
+   "dato": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
+   "uc": "Atado de 16 barras",
+   "fuc": "P01",
+   "plan": "MP-01",
+   "lt": 5,
+   "flt": "Q04",
+   "t": 5,
+   "ss": 5,
+   "umpos": 61,
+   "fpos": "X07"
+  },
+  "P02": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-02",
+   "dato": "Hoja LAF 1,25 × 1220 × 2440 mm",
+   "uc": "Paquete de 50 hojas",
+   "fuc": "P01",
+   "plan": "MP-02",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 136,
+   "fpos": "X07"
+  },
+  "P03": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-03",
+   "dato": "Hoja LAF 1,6 × 1000 × 2000 mm",
+   "uc": "Paquete de 80 hojas",
+   "fuc": "P01",
+   "plan": "MP-03",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 158,
+   "fpos": "X07"
+  },
+  "P04": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-04",
+   "dato": "Hoja LAF 2,0 × 1500 × 3000 mm",
+   "uc": "Paquete de 20 hojas",
+   "fuc": "P01",
+   "plan": "MP-04",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 56,
+   "fpos": "X07"
+  },
+  "P05": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-05",
+   "dato": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "uc": "Rollo de 1.900 kg",
+   "fuc": "Q01",
+   "plan": "MP-05",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 5,
+   "ss": 10,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "P06": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-13",
+   "dato": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "uc": "Rollo de 1.900 kg",
+   "fuc": "Q01",
+   "plan": "MP-13",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 5,
+   "ss": 10,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "P07": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-06",
+   "dato": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "uc": "Rollo de 492 kg",
+   "fuc": "Q02",
+   "plan": "MP-06",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 10,
+   "ss": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "P08": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-07",
+   "dato": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "uc": "Rollo de 615 kg",
+   "fuc": "Q02",
+   "plan": "MP-07",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 5,
+   "ss": 10,
+   "umpos": 615,
+   "fpos": "X07"
+  },
+  "P09": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-08",
+   "dato": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "uc": "Rollo de 492 kg",
+   "fuc": "Q02",
+   "plan": "MP-08",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 5,
+   "ss": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "P10": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-09",
+   "dato": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "uc": "Rollo de 590 kg",
+   "fuc": "Q02",
+   "plan": "MP-09",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 738,
+   "fpos": "X07"
+  },
+  "P11": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-10",
+   "dato": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "uc": "Rollo de 498 kg",
+   "fuc": "Q02",
+   "plan": "MP-10",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 498,
+   "fpos": "X07"
+  },
+  "P12": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-11",
+   "dato": "Hoja LAC 3,2 × 1500 × 3000 mm",
+   "uc": "Paquete de 20 hojas",
+   "fuc": "P07",
+   "plan": "MP-11",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 40,
+   "fpos": "P07"
+  },
+  "P13": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-12",
+   "dato": "Hoja LAC 4,75 × 1500 × 3000 mm",
+   "uc": "Paquete de 15 hojas",
+   "fuc": "P07",
+   "plan": "MP-12",
+   "lt": 10,
+   "flt": "Q01",
+   "t": 20,
+   "ss": 10,
+   "umpos": 30,
+   "fpos": "P07"
+  },
+  "P14": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-15",
+   "dato": "Casquete 10\" × 3,2 mm (carro 25 kg)",
+   "uc": "Pallet de 400 u",
+   "fuc": "P07",
+   "plan": "MP-15",
+   "lt": 60,
+   "flt": "P06",
+   "t": 40,
+   "ss": 20,
+   "umpos": 400,
+   "fpos": "P07"
+  },
+  "P15": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-16",
+   "dato": "Casquete 12\" × 3,2 mm (carro 50 kg)",
+   "uc": "Pallet de 300 u",
+   "fuc": "P07",
+   "plan": "MP-16",
+   "lt": 60,
+   "flt": "P06",
+   "t": 40,
+   "ss": 20,
+   "umpos": 300,
+   "fpos": "P07"
+  },
+  "P16": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-17",
+   "dato": "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)",
+   "uc": "Pallet de 150 u",
+   "fuc": "P07",
+   "plan": "MP-17",
+   "lt": 60,
+   "flt": "P06",
+   "t": 40,
+   "ss": 20,
+   "umpos": 150,
+   "fpos": "P07"
+  },
+  "P17": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-18",
+   "dato": "Asiento de válvula M22 × 1,5 (1 kg)",
+   "uc": "Caja de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-18",
+   "lt": 28,
+   "flt": "Q03",
+   "t": 20,
+   "ss": 10,
+   "umpos": 12000,
+   "fpos": "X07"
+  },
+  "P18": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-19",
+   "dato": "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)",
+   "uc": "Caja de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-19",
+   "lt": 28,
+   "flt": "Q03",
+   "t": 20,
+   "ss": 10,
+   "umpos": 8000,
+   "fpos": "X07"
+  },
+  "P19": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-20",
+   "dato": "Cupla M30 × 1,5 (carros 25 y 50 kg)",
+   "uc": "Caja de 100 u",
+   "fuc": "P07",
+   "plan": "MP-20",
+   "lt": 28,
+   "flt": "Q03",
+   "t": 40,
+   "ss": 20,
+   "umpos": 600,
+   "fpos": "P07"
+  },
+  "P20": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-21",
+   "dato": "Cupla 2½\" BSP (carros 70 y 100 kg)",
+   "uc": "Caja de 40 u",
+   "fuc": "P07",
+   "plan": "MP-21",
+   "lt": 28,
+   "flt": "Q03",
+   "t": 40,
+   "ss": 20,
+   "umpos": 160,
+   "fpos": "P07"
+  },
+  "P21": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-66",
+   "dato": "Caño SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)",
+   "uc": "Barra de 6 m",
+   "fuc": "P15",
+   "plan": "MP-22",
+   "lt": 10,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "P22": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-67",
+   "dato": "Caño SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)",
+   "uc": "Barra de 6 m",
+   "fuc": "P15",
+   "plan": "MP-22",
+   "lt": 10,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "P23": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-68",
+   "dato": "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)",
+   "uc": "Barra de 4 m",
+   "fuc": "P15",
+   "plan": "MP-22",
+   "lt": 10,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "P24": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-69",
+   "dato": "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)",
+   "uc": "Barra de 6 m",
+   "fuc": "P15",
+   "plan": "MP-22",
+   "lt": 10,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "P25": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-70",
+   "dato": "Arandela de tope del eje",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-51",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P26": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-71",
+   "dato": "Pasador partido del eje",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-51",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P27": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-54/300",
+   "dato": "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)",
+   "uc": "Pallet de 72 u",
+   "fuc": "X07",
+   "plan": "MP-54",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "P28": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-54/350",
+   "dato": "Rueda Ø350 × 60, buje 1\" (carro 50 kg)",
+   "uc": "Pallet de 72 u",
+   "fuc": "X07",
+   "plan": "MP-54",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "P29": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-54/400",
+   "dato": "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)",
+   "uc": "Pallet de 72 u",
+   "fuc": "X07",
+   "plan": "MP-54",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "P30": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-23",
+   "dato": "Alambre MAG ER70S-6 Ø0,9 mm (manuales)",
+   "uc": "Pallet de 900 kg",
+   "fuc": "X07",
+   "plan": "MP-23",
+   "lt": 5,
+   "flt": "P06",
+   "t": 20,
+   "ss": 5,
+   "umpos": 900,
+   "fpos": "X07"
+  },
+  "P31": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-24",
+   "dato": "Alambre MAG ER70S-6 Ø1,0 mm (carros)",
+   "uc": "Pallet de 900 kg",
+   "fuc": "X07",
+   "plan": "MP-24",
+   "lt": 5,
+   "flt": "P06",
+   "t": 40,
+   "ss": 10,
+   "umpos": 900,
+   "fpos": "X07"
+  },
+  "P32": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-25",
+   "dato": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
+   "uc": "Batería de 11 cilindros",
+   "fuc": "Q03",
+   "plan": "MP-25",
+   "lt": 1,
+   "flt": "Q03",
+   "t": 5,
+   "ss": 2,
+   "umpos": 115.5,
+   "fpos": "X07"
+  },
+  "P33": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-92",
+   "dato": "Disco de sensitiva 355 mm",
+   "uc": "Caja de 25 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P34": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-27",
+   "dato": "Disco de corte 115 × 1,0 mm",
+   "uc": "Caja de 25 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P35": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-93",
+   "dato": "Disco flap 115 mm grano 60",
+   "uc": "Caja de 25 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P36": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-94",
+   "dato": "Mecha de acero rápido 4,5 mm",
+   "uc": "Caja de 25 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P37": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-95",
+   "dato": "Spray antiproyecciones 400 ml",
+   "uc": "Caja de 25 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P38": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-28",
+   "dato": "Granalla de acero S330 / S390",
+   "uc": "Pallet de 1.000 kg",
+   "fuc": "X07",
+   "plan": "MP-28",
+   "lt": 7,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "P39": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-31",
+   "dato": "Pintura en polvo poliéster rojo 03-1-050",
+   "uc": "Pallet de 600 kg",
+   "fuc": "X07",
+   "plan": "MP-31",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "P40": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-33",
+   "dato": "Polvo ABC 60 (manuales y sus recargas)",
+   "uc": "Big bag de 1.000 kg",
+   "fuc": "P06",
+   "plan": "MP-33",
+   "lt": 7,
+   "flt": "P06",
+   "t": 5,
+   "ss": 10,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "P41": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-33B",
+   "dato": "Polvo ABC 90 (carros y sus recargas)",
+   "uc": "Big bag de 1.000 kg",
+   "fuc": "P06",
+   "plan": "MP-33",
+   "lt": 7,
+   "flt": "P06",
+   "t": 5,
+   "ss": 10,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "P42": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-34",
+   "dato": "Nitrógeno seco",
+   "uc": "Pack de 12 cilindros",
+   "fuc": "P04",
+   "plan": "MP-34",
+   "lt": 1,
+   "flt": "Q03",
+   "t": 10,
+   "ss": 3,
+   "umpos": 103,
+   "fpos": "X07"
+  },
+  "P43": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-35",
+   "dato": "Polvo BC (recargas)",
+   "uc": "Bolsa de 25 kg",
+   "fuc": "Q07",
+   "plan": "MP-35",
+   "lt": 7,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "P44": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-36",
+   "dato": "Polvo clase D (recargas)",
+   "uc": "Bolsa de 25 kg",
+   "fuc": "X07",
+   "plan": "MP-36",
+   "lt": 15,
+   "flt": null,
+   "t": 120,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "P45": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-37",
+   "dato": "CO₂ líquido (recargas)",
+   "uc": "Cilindro de 25 kg",
+   "fuc": "X07",
+   "plan": "MP-37",
+   "lt": 2,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 25,
+   "fpos": "X07"
+  },
+  "P46": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-38",
+   "dato": "Agente limpio HCFC-123 (recargas)",
+   "uc": "Cilindro de 50 kg",
+   "fuc": "X07",
+   "plan": "MP-38",
+   "lt": 30,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 50,
+   "fpos": "X07"
+  },
+  "P47": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-40",
+   "dato": "Concentrado AFFF 3 % (recargas)",
+   "uc": "Bidón de 20 L",
+   "fuc": "Q07",
+   "plan": "MP-40",
+   "lt": 7,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 480,
+   "fpos": "X07"
+  },
+  "P48": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-41",
+   "dato": "Acetato de potasio Gastro K (recargas)",
+   "uc": "Bidón de 20 L",
+   "fuc": "Q07",
+   "plan": "MP-41",
+   "lt": 7,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 480,
+   "fpos": "X07"
+  },
+  "P49": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-42",
+   "dato": "Válvula HZ M-22 con tubo de pesca (1 kg)",
+   "uc": "Pallet de 3.000 u",
+   "fuc": "X07",
+   "plan": "MP-42",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P50": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-43",
+   "dato": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "uc": "Pallet de 1.500 u",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "P51": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-44/25",
+   "dato": "Válvula HZ de carro 25 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-44",
+   "lt": 20,
+   "flt": "P06",
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P52": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-44/50",
+   "dato": "Válvula HZ de carro 50-70-100 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-44",
+   "lt": 20,
+   "flt": "P06",
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P53": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-45",
+   "dato": "Manómetro 1,4 MPa",
+   "uc": "Caja de 100 u",
+   "fuc": "X07",
+   "plan": "MP-45",
+   "lt": 20,
+   "flt": "P06",
+   "t": 20,
+   "ss": 15,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P54": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-48/ABC1",
+   "dato": "Tobera ABC 1 kg",
+   "uc": "Caja de 50 u",
+   "fuc": "X07",
+   "plan": "MP-48",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "P55": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-48/ABC2.5",
+   "dato": "Manguera con tobera ABC 2,5 kg",
+   "uc": "Caja de 50 u",
+   "fuc": "X07",
+   "plan": "MP-48",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "P56": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-48/ABC5",
+   "dato": "Manguera con tobera ABC 5 kg",
+   "uc": "Caja de 50 u",
+   "fuc": "X07",
+   "plan": "MP-48",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "P57": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-48/ABC10",
+   "dato": "Manguera con tobera ABC 10 kg",
+   "uc": "Caja de 50 u",
+   "fuc": "X07",
+   "plan": "MP-48",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "P58": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-49/ABC25",
+   "dato": "Manguera con válvula esférica y tobera, carro 25 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-49",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "P59": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-49/ABC50",
+   "dato": "Manguera con válvula esférica y tobera, carro 50 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-49",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "P60": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-49/ABC70",
+   "dato": "Manguera con válvula esférica y tobera, carro 70 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-49",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "P61": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-49/ABC100",
+   "dato": "Manguera con válvula esférica y tobera, carro 100 kg",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-49",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "P62": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-50/M22",
+   "dato": "Junta tórica del cuello M22",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-50",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P63": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-50/M30",
+   "dato": "Junta tórica del cuello M30",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-50",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P64": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-50/2½",
+   "dato": "Junta tórica del cuello 2½\"",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-50",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P65": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-50/OT",
+   "dato": "Junta tórica del cuello (recargas, surtido por medida)",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-50",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P66": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-52/ABC2.5",
+   "dato": "Soporte de pared ABC 2,5 kg",
+   "uc": "Caja de 100 u",
+   "fuc": "X07",
+   "plan": "MP-52",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P67": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-52/ABC5",
+   "dato": "Soporte de pared ABC 5 kg",
+   "uc": "Caja de 100 u",
+   "fuc": "X07",
+   "plan": "MP-52",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P68": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-52/ABC10",
+   "dato": "Soporte de pared ABC 10 kg",
+   "uc": "Caja de 100 u",
+   "fuc": "X07",
+   "plan": "MP-52",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P69": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-87",
+   "dato": "Soporte vehicular (1 kg)",
+   "uc": "Caja de 100 u",
+   "fuc": "X07",
+   "plan": "MP-52",
+   "lt": 15,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "P70": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-86",
+   "dato": "Tornillo y tarugo de fijación",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-51",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P71": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-55",
+   "dato": "Conjunto de seguridad de CO₂ (recargas)",
+   "uc": "Bolsa de 100 u",
+   "fuc": "X07",
+   "plan": "MP-55",
+   "lt": 15,
+   "flt": null,
+   "t": 60,
+   "ss": 20,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "P72": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC1",
+   "dato": "Etiqueta de características ABC 1 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P73": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC2.5",
+   "dato": "Etiqueta de características ABC 2,5 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P74": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC5",
+   "dato": "Etiqueta de características ABC 5 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P75": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC10",
+   "dato": "Etiqueta de características ABC 10 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P76": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC25",
+   "dato": "Etiqueta de características ABC 25 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P77": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC50",
+   "dato": "Etiqueta de características ABC 50 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P78": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC70",
+   "dato": "Etiqueta de características ABC 70 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P79": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-56/ABC100",
+   "dato": "Etiqueta de características ABC 100 kg",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P80": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-78",
+   "dato": "Oblea de fabricación (PBA)",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P81": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-79",
+   "dato": "Estampilla IRAM de conformidad",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P82": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-77",
+   "dato": "Tarjeta de identificación AGC (CABA)",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P83": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-80",
+   "dato": "Etiqueta de n° de serie GS1",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P84": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-81",
+   "dato": "Faja de garantía válvula-cuello",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P85": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-51",
+   "dato": "Precinto de fábrica",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-51",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P86": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-88",
+   "dato": "Etiqueta del cilindro suelto",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P87": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-62/M22",
+   "dato": "Tapón protector de rosca M22",
+   "uc": "Caja de 5.000 u",
+   "fuc": "X07",
+   "plan": "MP-62",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "P88": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-62/M30",
+   "dato": "Tapón protector de rosca M30",
+   "uc": "Caja de 5.000 u",
+   "fuc": "X07",
+   "plan": "MP-62",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "P89": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-62/2½",
+   "dato": "Tapón protector de rosca 2½\"",
+   "uc": "Caja de 5.000 u",
+   "fuc": "X07",
+   "plan": "MP-62",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "P90": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-85",
+   "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P91": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-57",
+   "dato": "Marbete del año",
+   "uc": "Paquete de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-57",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P92": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-97",
+   "dato": "Precinto del recargador",
+   "uc": "Bolsa de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-51",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P93": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-72",
+   "dato": "Etiqueta de servicio",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P94": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-75",
+   "dato": "Estampilla y oblea de recarga (PBA)",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P95": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-76",
+   "dato": "Tarjeta de identificación DPS (PBA)",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P96": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-82",
+   "dato": "Faja amarilla de sustituto",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P97": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-83",
+   "dato": "Tarjeta DPS «sustituto habilitado»",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P98": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-84",
+   "dato": "Tarjeta AGC «es sustituto»",
+   "uc": "Paquete de 500 u",
+   "fuc": "X07",
+   "plan": "MP-58",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "P99": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-65",
+   "dato": "Esmalte poliuretano rojo (recargas)",
+   "uc": "Lata de 4 L",
+   "fuc": "X07",
+   "plan": "MP-65",
+   "lt": 5,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P100": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-59/ABC1",
+   "dato": "Caja de cartón simple ABC 1 kg",
+   "uc": "Pallet de 600 cajas",
+   "fuc": "X07",
+   "plan": "MP-59",
+   "lt": 10,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "P101": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-59/ABC2.5",
+   "dato": "Caja de cartón simple ABC 2,5 kg",
+   "uc": "Pallet de 600 cajas",
+   "fuc": "X07",
+   "plan": "MP-59",
+   "lt": 10,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "P102": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-59/ABC5",
+   "dato": "Caja de cartón simple ABC 5 kg",
+   "uc": "Pallet de 600 cajas",
+   "fuc": "X07",
+   "plan": "MP-59",
+   "lt": 10,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "P103": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-59/ABC10",
+   "dato": "Caja de cartón doble ABC 10 kg",
+   "uc": "Pallet de 600 cajas",
+   "fuc": "X07",
+   "plan": "MP-59",
+   "lt": 10,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "P104": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-89",
+   "dato": "Etiqueta de caja",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P105": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-60",
+   "dato": "Pallet de madera 1200 × 1000",
+   "uc": "Pila de 15 u",
+   "fuc": "X07",
+   "plan": "MP-60",
+   "lt": 5,
+   "flt": null,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "P106": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-90",
+   "dato": "Etiqueta de pallet",
+   "uc": "Rollo de 1.000 u",
+   "fuc": "X07",
+   "plan": "MP-56",
+   "lt": 10,
+   "flt": null,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "P107": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-AGUA_10l",
+   "dato": "Matafuego Agua 10 l (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P108": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-AFFF_10l",
+   "dato": "Matafuego AFFF 10 l (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P109": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-AFFF_50l",
+   "dato": "Matafuego AFFF 50 l (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 60,
+   "fpos": "X13"
+  },
+  "P110": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-BC_5kg",
+   "dato": "Matafuego BC 5 kg (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P111": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-SALESK_6l",
+   "dato": "Matafuego Clase K 6 l (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P112": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-CO2_2kg",
+   "dato": "Matafuego CO₂ 2 kg (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P113": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-CO2_5kg",
+   "dato": "Matafuego CO₂ 5 kg (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P114": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-HCFC-HFC_5kg",
+   "dato": "Matafuego HCFC 5 kg (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P115": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "RV-CLASED_9l",
+   "dato": "Matafuego Clase D 9 l (reventa)",
+   "uc": "Unidad",
+   "fuc": "X07",
+   "plan": "MP-43",
+   "lt": 20,
+   "flt": null,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "P00": {
+   "hoja": "POLITICA_STOCK",
+   "dato": "Fórmulas de la política",
+   "como": "d diseño = consumo del mes pico / 20 días hábiles (como la planilla de MP). Stock de seguridad = d diseño × días de seguridad. Punto de pedido = d diseño × lead time + stock de seguridad. Lote = el mayor entre 1 unidad de compra y d diseño × días entre pedidos, en unidades de compra enteras. Stock máximo = stock de seguridad + lote. Capacidad: proceso de carros, puesto 1.",
+   "figs": [
+    "X07",
+    "P06"
+   ]
+  }
+ },
+ "lineas": {
+  "MANUALES": {
+   "cols": [
+    "FL_MAT_ABC_1kg",
+    "FL_MAT_ABC_2.5kg",
+    "FL_MAT_ABC_5kg",
+    "FL_MAT_ABC_10kg",
+    "FL_REC_ABC_1kg",
+    "FL_REC_ABC_2.5kg",
+    "FL_REC_ABC_5kg",
+    "FL_REC_ABC_10kg"
+   ],
+   "cy": 14,
+   "cp": 24,
+   "r0": 16,
+   "r1": 69
+  },
+  "RODANTES": {
+   "cols": [
+    "FL_MAT_ABC_25kg",
+    "FL_MAT_ABC_50kg",
+    "FL_MAT_ABC_70kg",
+    "FL_MAT_ABC_100kg",
+    "FL_REC_ABC_25kg",
+    "FL_REC_ABC_50kg",
+    "FL_REC_ABC_70kg",
+    "FL_REC_ABC_100kg"
+   ],
+   "cy": 14,
+   "cp": 24,
+   "r0": 16,
+   "r1": 68
+  },
+  "RECARGAS": {
+   "cols": [
+    "RK_ABC_1kg",
+    "RK_ABC_2.5kg",
+    "RK_ABC_5kg",
+    "RK_ABC_10kg",
+    "RK_AGUA_10l",
+    "RK_AFFF_10l",
+    "RK_AFFF_50l",
+    "RK_BC_5kg",
+    "RK_SALESK_6l",
+    "RK_CO2_2kg",
+    "RK_CO2_5kg",
+    "RK_HCFC-HFC_5kg",
+    "RK_CLASED_9l",
+    "RK_ABC_25kg",
+    "RK_ABC_50kg",
+    "RK_ABC_70kg",
+    "RK_ABC_100kg",
+    "KIT"
+   ],
+   "cy": 24,
+   "cp": 34,
+   "r0": 16,
+   "r1": 37
+  },
+  "REVENDIDOS": {
+   "cols": [
+    "FL_MAT_AGUA_10l",
+    "FL_MAT_AFFF_10l",
+    "FL_MAT_AFFF_50l",
+    "FL_MAT_BC_5kg",
+    "FL_MAT_SALESK_6l",
+    "FL_MAT_CO2_2kg",
+    "FL_MAT_CO2_5kg",
+    "FL_MAT_HCFC-HFC_5kg",
+    "FL_MAT_CLASED_9l"
+   ],
+   "cy": 15,
+   "cp": 25,
+   "r0": 16,
+   "r1": 25
+  }
+ },
+ "dem": {
+  "MANUALES|FL_MAT_ABC_1kg": 8,
+  "MANUALES|FL_MAT_ABC_2.5kg": 9,
+  "MANUALES|FL_MAT_ABC_5kg": 10,
+  "MANUALES|FL_MAT_ABC_10kg": 11,
+  "MANUALES|FL_REC_ABC_1kg": 12,
+  "MANUALES|FL_REC_ABC_2.5kg": 13,
+  "MANUALES|FL_REC_ABC_5kg": 14,
+  "MANUALES|FL_REC_ABC_10kg": 15,
+  "RODANTES|FL_MAT_ABC_25kg": 16,
+  "RODANTES|FL_MAT_ABC_50kg": 17,
+  "RODANTES|FL_MAT_ABC_70kg": 18,
+  "RODANTES|FL_MAT_ABC_100kg": 19,
+  "RODANTES|FL_REC_ABC_25kg": 20,
+  "RODANTES|FL_REC_ABC_50kg": 21,
+  "RODANTES|FL_REC_ABC_70kg": 22,
+  "RODANTES|FL_REC_ABC_100kg": 23,
+  "RECARGAS|RK_ABC_1kg": 24,
+  "RECARGAS|RK_ABC_2.5kg": 25,
+  "RECARGAS|RK_ABC_5kg": 26,
+  "RECARGAS|RK_ABC_10kg": 27,
+  "RECARGAS|RK_AGUA_10l": 28,
+  "RECARGAS|RK_AFFF_10l": 29,
+  "RECARGAS|RK_AFFF_50l": 30,
+  "RECARGAS|RK_BC_5kg": 31,
+  "RECARGAS|RK_SALESK_6l": 32,
+  "RECARGAS|RK_CO2_2kg": 33,
+  "RECARGAS|RK_CO2_5kg": 34,
+  "RECARGAS|RK_HCFC-HFC_5kg": 35,
+  "RECARGAS|RK_CLASED_9l": 36,
+  "RECARGAS|RK_ABC_25kg": 37,
+  "RECARGAS|RK_ABC_50kg": 38,
+  "RECARGAS|RK_ABC_70kg": 39,
+  "RECARGAS|RK_ABC_100kg": 40,
+  "RECARGAS|KIT": 41,
+  "REVENDIDOS|FL_MAT_AGUA_10l": 42,
+  "REVENDIDOS|FL_MAT_AFFF_10l": 43,
+  "REVENDIDOS|FL_MAT_AFFF_50l": 44,
+  "REVENDIDOS|FL_MAT_BC_5kg": 45,
+  "REVENDIDOS|FL_MAT_SALESK_6l": 46,
+  "REVENDIDOS|FL_MAT_CO2_2kg": 47,
+  "REVENDIDOS|FL_MAT_CO2_5kg": 48,
+  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 49,
+  "REVENDIDOS|FL_MAT_CLASED_9l": 50
+ },
+ "est": {
+  "MANUALES|FL_MAT_ABC_1kg": 10,
+  "MANUALES|FL_MAT_ABC_2.5kg": 11,
+  "MANUALES|FL_MAT_ABC_5kg": 12,
+  "MANUALES|FL_MAT_ABC_10kg": 13,
+  "MANUALES|FL_REC_ABC_1kg": 14,
+  "MANUALES|FL_REC_ABC_2.5kg": 15,
+  "MANUALES|FL_REC_ABC_5kg": 16,
+  "MANUALES|FL_REC_ABC_10kg": 17,
+  "RODANTES|FL_MAT_ABC_25kg": 19,
+  "RODANTES|FL_MAT_ABC_50kg": 20,
+  "RODANTES|FL_MAT_ABC_70kg": 21,
+  "RODANTES|FL_MAT_ABC_100kg": 22,
+  "RODANTES|FL_REC_ABC_25kg": 23,
+  "RODANTES|FL_REC_ABC_50kg": 24,
+  "RODANTES|FL_REC_ABC_70kg": 25,
+  "RODANTES|FL_REC_ABC_100kg": 26,
+  "RECARGAS|RK_ABC_1kg": 28,
+  "RECARGAS|RK_ABC_2.5kg": 29,
+  "RECARGAS|RK_ABC_5kg": 30,
+  "RECARGAS|RK_ABC_10kg": 31,
+  "RECARGAS|RK_AGUA_10l": 32,
+  "RECARGAS|RK_AFFF_10l": 33,
+  "RECARGAS|RK_AFFF_50l": 34,
+  "RECARGAS|RK_BC_5kg": 35,
+  "RECARGAS|RK_SALESK_6l": 36,
+  "RECARGAS|RK_CO2_2kg": 37,
+  "RECARGAS|RK_CO2_5kg": 38,
+  "RECARGAS|RK_HCFC-HFC_5kg": 39,
+  "RECARGAS|RK_CLASED_9l": 40,
+  "RECARGAS|RK_ABC_25kg": 41,
+  "RECARGAS|RK_ABC_50kg": 42,
+  "RECARGAS|RK_ABC_70kg": 43,
+  "RECARGAS|RK_ABC_100kg": 44,
+  "REVENDIDOS|FL_MAT_AGUA_10l": 46,
+  "REVENDIDOS|FL_MAT_AFFF_10l": 47,
+  "REVENDIDOS|FL_MAT_AFFF_50l": 48,
+  "REVENDIDOS|FL_MAT_BC_5kg": 49,
+  "REVENDIDOS|FL_MAT_SALESK_6l": 50,
+  "REVENDIDOS|FL_MAT_CO2_2kg": 51,
+  "REVENDIDOS|FL_MAT_CO2_5kg": 52,
+  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 53,
+  "REVENDIDOS|FL_MAT_CLASED_9l": 54
+ },
+ "pico": {
+  "MANUALES": 58,
+  "RODANTES": 59,
+  "RECARGAS": 60,
+  "REVENDIDOS": 61
+ },
+ "cons": {
+  "MP-01": 4,
+  "MP-02": 5,
+  "MP-03": 6,
+  "MP-04": 7,
+  "MP-05": 8,
+  "MP-13": 9,
+  "MP-06": 10,
+  "MP-07": 11,
+  "MP-08": 12,
+  "MP-09": 13,
+  "MP-10": 14,
+  "MP-11": 15,
+  "MP-12": 16,
+  "MP-15": 17,
+  "MP-16": 18,
+  "MP-17": 19,
+  "MP-18": 20,
+  "MP-19": 21,
+  "MP-20": 22,
+  "MP-21": 23,
+  "MP-66": 24,
+  "MP-67": 25,
+  "MP-68": 26,
+  "MP-69": 27,
+  "MP-70": 28,
+  "MP-71": 29,
+  "MP-54/300": 30,
+  "MP-54/350": 31,
+  "MP-54/400": 32,
+  "MP-23": 33,
+  "MP-24": 34,
+  "MP-25": 35,
+  "MP-92": 36,
+  "MP-27": 37,
+  "MP-93": 38,
+  "MP-94": 39,
+  "MP-95": 40,
+  "MP-28": 41,
+  "MP-31": 42,
+  "MP-33": 43,
+  "MP-33B": 44,
+  "MP-34": 45,
+  "MP-35": 46,
+  "MP-36": 47,
+  "MP-37": 48,
+  "MP-38": 49,
+  "MP-40": 50,
+  "MP-41": 51,
+  "MP-42": 52,
+  "MP-43": 53,
+  "MP-44/25": 54,
+  "MP-44/50": 55,
+  "MP-45": 56,
+  "MP-48/ABC1": 57,
+  "MP-48/ABC2.5": 58,
+  "MP-48/ABC5": 59,
+  "MP-48/ABC10": 60,
+  "MP-49/ABC25": 61,
+  "MP-49/ABC50": 62,
+  "MP-49/ABC70": 63,
+  "MP-49/ABC100": 64,
+  "MP-50/M22": 65,
+  "MP-50/M30": 66,
+  "MP-50/2½": 67,
+  "MP-50/OT": 68,
+  "MP-52/ABC2.5": 69,
+  "MP-52/ABC5": 70,
+  "MP-52/ABC10": 71,
+  "MP-87": 72,
+  "MP-86": 73,
+  "MP-55": 74,
+  "MP-56/ABC1": 75,
+  "MP-56/ABC2.5": 76,
+  "MP-56/ABC5": 77,
+  "MP-56/ABC10": 78,
+  "MP-56/ABC25": 79,
+  "MP-56/ABC50": 80,
+  "MP-56/ABC70": 81,
+  "MP-56/ABC100": 82,
+  "MP-78": 83,
+  "MP-79": 84,
+  "MP-77": 85,
+  "MP-80": 86,
+  "MP-81": 87,
+  "MP-51": 88,
+  "MP-88": 89,
+  "MP-62/M22": 90,
+  "MP-62/M30": 91,
+  "MP-62/2½": 92,
+  "MP-85": 93,
+  "MP-57": 94,
+  "MP-97": 95,
+  "MP-72": 96,
+  "MP-75": 97,
+  "MP-76": 98,
+  "MP-82": 99,
+  "MP-83": 100,
+  "MP-84": 101,
+  "MP-65": 102,
+  "MP-59/ABC1": 103,
+  "MP-59/ABC2.5": 104,
+  "MP-59/ABC5": 105,
+  "MP-59/ABC10": 106,
+  "MP-89": 107,
+  "MP-60": 108,
+  "MP-90": 109,
+  "MP-96/ABC25": 110,
+  "MP-96/ABC50": 111,
+  "MP-96/ABC70": 112,
+  "MP-96/ABC100": 113,
+  "RV-AGUA_10l": 114,
+  "RV-AFFF_10l": 115,
+  "RV-AFFF_50l": 116,
+  "RV-BC_5kg": 117,
+  "RV-SALESK_6l": 118,
+  "RV-CO2_2kg": 119,
+  "RV-CO2_5kg": 120,
+  "RV-HCFC-HFC_5kg": 121,
+  "RV-CLASED_9l": 122
+ },
+ "alm0": 122,
+ "items": {
+  "MP-01": {
+   "cod": "MP-01",
+   "nom": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
+   "um": "barra",
+   "alm": "Cantilever de caños y barras",
+   "prov": "Metalpri / Prilux",
+   "uc": "Atado de 16 barras",
+   "cont": 16,
+   "plan": "MP-01",
+   "fuc": "P01",
+   "lt": 5,
+   "t": 5,
+   "ss": 5,
+   "umpos": 61,
+   "fpos": "X07"
+  },
+  "MP-02": {
+   "cod": "MP-02",
+   "nom": "Hoja LAF 1,25 × 1220 × 2440 mm",
+   "um": "hoja",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pradecon",
+   "uc": "Paquete de 50 hojas",
+   "cont": 50,
+   "plan": "MP-02",
+   "fuc": "P01",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 136,
+   "fpos": "X07"
+  },
+  "MP-03": {
+   "cod": "MP-03",
+   "nom": "Hoja LAF 1,6 × 1000 × 2000 mm",
+   "um": "hoja",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pradecon",
+   "uc": "Paquete de 80 hojas",
+   "cont": 80,
+   "plan": "MP-03",
+   "fuc": "P01",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 158,
+   "fpos": "X07"
+  },
+  "MP-04": {
+   "cod": "MP-04",
+   "nom": "Hoja LAF 2,0 × 1500 × 3000 mm",
+   "um": "hoja",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pradecon",
+   "uc": "Paquete de 20 hojas",
+   "cont": 20,
+   "plan": "MP-04",
+   "fuc": "P01",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 56,
+   "fpos": "X07"
+  },
+  "MP-05": {
+   "cod": "MP-05",
+   "nom": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pradecon",
+   "uc": "Rollo de 1.900 kg",
+   "cont": 1900,
+   "plan": "MP-05",
+   "fuc": "Q01",
+   "lt": 10,
+   "t": 5,
+   "ss": 10,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "MP-13": {
+   "cod": "MP-13",
+   "nom": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pradecon",
+   "uc": "Rollo de 1.900 kg",
+   "cont": 1900,
+   "plan": "MP-13",
+   "fuc": "Q01",
+   "lt": 10,
+   "t": 5,
+   "ss": 10,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "MP-06": {
+   "cod": "MP-06",
+   "nom": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 492 kg",
+   "cont": 492,
+   "plan": "MP-06",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 10,
+   "ss": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "MP-07": {
+   "cod": "MP-07",
+   "nom": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 615 kg",
+   "cont": 615,
+   "plan": "MP-07",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 5,
+   "ss": 10,
+   "umpos": 615,
+   "fpos": "X07"
+  },
+  "MP-08": {
+   "cod": "MP-08",
+   "nom": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 492 kg",
+   "cont": 492,
+   "plan": "MP-08",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 5,
+   "ss": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "MP-09": {
+   "cod": "MP-09",
+   "nom": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 590 kg",
+   "cont": 590,
+   "plan": "MP-09",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 738,
+   "fpos": "X07"
+  },
+  "MP-10": {
+   "cod": "MP-10",
+   "nom": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 498 kg",
+   "cont": 498,
+   "plan": "MP-10",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 498,
+   "fpos": "X07"
+  },
+  "MP-11": {
+   "cod": "MP-11",
+   "nom": "Hoja LAC 3,2 × 1500 × 3000 mm",
+   "um": "hoja",
+   "alm": "Calle de chapa (carros)",
+   "prov": "Pradecon",
+   "uc": "Paquete de 20 hojas",
+   "cont": 20,
+   "plan": "MP-11",
+   "fuc": "P07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40,
+   "fpos": "P07"
+  },
+  "MP-12": {
+   "cod": "MP-12",
+   "nom": "Hoja LAC 4,75 × 1500 × 3000 mm",
+   "um": "hoja",
+   "alm": "Calle de chapa (carros)",
+   "prov": "Pradecon",
+   "uc": "Paquete de 15 hojas",
+   "cont": 15,
+   "plan": "MP-12",
+   "fuc": "P07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 30,
+   "fpos": "P07"
+  },
+  "MP-15": {
+   "cod": "MP-15",
+   "nom": "Casquete 10\" × 3,2 mm (carro 25 kg)",
+   "um": "u",
+   "alm": "Rack de casquetes y cuplas (carros)",
+   "prov": "Importado",
+   "uc": "Pallet de 400 u",
+   "cont": 400,
+   "plan": "MP-15",
+   "fuc": "P07",
+   "lt": 60,
+   "t": 40,
+   "ss": 20,
+   "umpos": 400,
+   "fpos": "P07"
+  },
+  "MP-16": {
+   "cod": "MP-16",
+   "nom": "Casquete 12\" × 3,2 mm (carro 50 kg)",
+   "um": "u",
+   "alm": "Rack de casquetes y cuplas (carros)",
+   "prov": "Importado",
+   "uc": "Pallet de 300 u",
+   "cont": 300,
+   "plan": "MP-16",
+   "fuc": "P07",
+   "lt": 60,
+   "t": 40,
+   "ss": 20,
+   "umpos": 300,
+   "fpos": "P07"
+  },
+  "MP-17": {
+   "cod": "MP-17",
+   "nom": "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)",
+   "um": "u",
+   "alm": "Rack de casquetes y cuplas (carros)",
+   "prov": "Importado",
+   "uc": "Pallet de 150 u",
+   "cont": 150,
+   "plan": "MP-17",
+   "fuc": "P07",
+   "lt": 60,
+   "t": 40,
+   "ss": 20,
+   "umpos": 150,
+   "fpos": "P07"
+  },
+  "MP-18": {
+   "cod": "MP-18",
+   "nom": "Asiento de válvula M22 × 1,5 (1 kg)",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Eli-Met",
+   "uc": "Caja de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-18",
+   "fuc": "X07",
+   "lt": 28,
+   "t": 20,
+   "ss": 10,
+   "umpos": 12000,
+   "fpos": "X07"
+  },
+  "MP-19": {
+   "cod": "MP-19",
+   "nom": "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Eli-Met",
+   "uc": "Caja de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-19",
+   "fuc": "X07",
+   "lt": 28,
+   "t": 20,
+   "ss": 10,
+   "umpos": 8000,
+   "fpos": "X07"
+  },
+  "MP-20": {
+   "cod": "MP-20",
+   "nom": "Cupla M30 × 1,5 (carros 25 y 50 kg)",
+   "um": "u",
+   "alm": "Rack de casquetes y cuplas (carros)",
+   "prov": "Eli-Met",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-20",
+   "fuc": "P07",
+   "lt": 28,
+   "t": 40,
+   "ss": 20,
+   "umpos": 600,
+   "fpos": "P07"
+  },
+  "MP-21": {
+   "cod": "MP-21",
+   "nom": "Cupla 2½\" BSP (carros 70 y 100 kg)",
+   "um": "u",
+   "alm": "Rack de casquetes y cuplas (carros)",
+   "prov": "Eli-Met",
+   "uc": "Caja de 40 u",
+   "cont": 40,
+   "plan": "MP-21",
+   "fuc": "P07",
+   "lt": 28,
+   "t": 40,
+   "ss": 20,
+   "umpos": 160,
+   "fpos": "P07"
+  },
+  "MP-66": {
+   "cod": "MP-66",
+   "nom": "Caño SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)",
+   "um": "barra",
+   "alm": "Cantilever de caños y barras",
+   "prov": "Centrosider",
+   "uc": "Barra de 6 m",
+   "cont": 1,
+   "plan": "MP-22",
+   "fuc": "P15",
+   "lt": 10,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "MP-67": {
+   "cod": "MP-67",
+   "nom": "Caño SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)",
+   "um": "barra",
+   "alm": "Cantilever de caños y barras",
+   "prov": "Centrosider",
+   "uc": "Barra de 6 m",
+   "cont": 1,
+   "plan": "MP-22",
+   "fuc": "P15",
+   "lt": 10,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "MP-68": {
+   "cod": "MP-68",
+   "nom": "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)",
+   "um": "barra",
+   "alm": "Cantilever de caños y barras",
+   "prov": "Vladimirsky",
+   "uc": "Barra de 4 m",
+   "cont": 1,
+   "plan": "MP-22",
+   "fuc": "P15",
+   "lt": 10,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "MP-69": {
+   "cod": "MP-69",
+   "nom": "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)",
+   "um": "barra",
+   "alm": "Cantilever de caños y barras",
+   "prov": "Vladimirsky",
+   "uc": "Barra de 6 m",
+   "cont": 1,
+   "plan": "MP-22",
+   "fuc": "P15",
+   "lt": 10,
+   "t": 60,
+   "ss": 20,
+   "umpos": 60,
+   "fpos": "X07"
+  },
+  "MP-70": {
+   "cod": "MP-70",
+   "nom": "Arandela de tope del eje",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Hierros Parrotta",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-51",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-71": {
+   "cod": "MP-71",
+   "nom": "Pasador partido del eje",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Hierros Parrotta",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-51",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-54/300": {
+   "cod": "MP-54/300",
+   "nom": "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Ruedar",
+   "uc": "Pallet de 72 u",
+   "cont": 72,
+   "plan": "MP-54",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "MP-54/350": {
+   "cod": "MP-54/350",
+   "nom": "Rueda Ø350 × 60, buje 1\" (carro 50 kg)",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Ruedar",
+   "uc": "Pallet de 72 u",
+   "cont": 72,
+   "plan": "MP-54",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "MP-54/400": {
+   "cod": "MP-54/400",
+   "nom": "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Escanort",
+   "uc": "Pallet de 72 u",
+   "cont": 72,
+   "plan": "MP-54",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 144,
+   "fpos": "X07"
+  },
+  "MP-23": {
+   "cod": "MP-23",
+   "nom": "Alambre MAG ER70S-6 Ø0,9 mm (manuales)",
+   "um": "kg",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Conarco (ESAB)",
+   "uc": "Pallet de 900 kg",
+   "cont": 900,
+   "plan": "MP-23",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 5,
+   "umpos": 900,
+   "fpos": "X07"
+  },
+  "MP-24": {
+   "cod": "MP-24",
+   "nom": "Alambre MAG ER70S-6 Ø1,0 mm (carros)",
+   "um": "kg",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Conarco (ESAB)",
+   "uc": "Pallet de 900 kg",
+   "cont": 900,
+   "plan": "MP-24",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 40,
+   "ss": 10,
+   "umpos": 900,
+   "fpos": "X07"
+  },
+  "MP-25": {
+   "cod": "MP-25",
+   "nom": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
+   "um": "m³",
+   "alm": "Jaula de gases",
+   "prov": "Air Liquide",
+   "uc": "Batería de 11 cilindros",
+   "cont": 115.5,
+   "plan": "MP-25",
+   "fuc": "Q03",
+   "lt": 1,
+   "t": 5,
+   "ss": 2,
+   "umpos": 115.5,
+   "fpos": "X07"
+  },
+  "MP-92": {
+   "cod": "MP-92",
+   "nom": "Disco de sensitiva 355 mm",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Norton / Pferd",
+   "uc": "Caja de 25 u",
+   "cont": 25,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "MP-27": {
+   "cod": "MP-27",
+   "nom": "Disco de corte 115 × 1,0 mm",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Norton / Pferd",
+   "uc": "Caja de 25 u",
+   "cont": 25,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "MP-93": {
+   "cod": "MP-93",
+   "nom": "Disco flap 115 mm grano 60",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Norton / Pferd",
+   "uc": "Caja de 25 u",
+   "cont": 25,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "MP-94": {
+   "cod": "MP-94",
+   "nom": "Mecha de acero rápido 4,5 mm",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Ferretería industrial",
+   "uc": "Caja de 25 u",
+   "cont": 25,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "MP-95": {
+   "cod": "MP-95",
+   "nom": "Spray antiproyecciones 400 ml",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Würth Argentina",
+   "uc": "Caja de 25 u",
+   "cont": 25,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "MP-28": {
+   "cod": "MP-28",
+   "nom": "Granalla de acero S330 / S390",
+   "um": "kg",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "CyM Materiales",
+   "uc": "Pallet de 1.000 kg",
+   "cont": 1000,
+   "plan": "MP-28",
+   "fuc": "X07",
+   "lt": 7,
+   "t": 60,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "MP-31": {
+   "cod": "MP-31",
+   "nom": "Pintura en polvo poliéster rojo 03-1-050",
+   "um": "kg",
+   "alm": "Depósito de polvo químico",
+   "prov": "Sinteplast",
+   "uc": "Pallet de 600 kg",
+   "cont": 600,
+   "plan": "MP-31",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "MP-33": {
+   "cod": "MP-33",
+   "nom": "Polvo ABC 60 (manuales y sus recargas)",
+   "um": "kg",
+   "alm": "Depósito de polvo químico",
+   "prov": "DEMSA",
+   "uc": "Big bag de 1.000 kg",
+   "cont": 1000,
+   "plan": "MP-33",
+   "fuc": "P06",
+   "lt": 7,
+   "t": 5,
+   "ss": 10,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "MP-33B": {
+   "cod": "MP-33B",
+   "nom": "Polvo ABC 90 (carros y sus recargas)",
+   "um": "kg",
+   "alm": "Depósito de polvo químico",
+   "prov": "DEMSA",
+   "uc": "Big bag de 1.000 kg",
+   "cont": 1000,
+   "plan": "MP-33",
+   "fuc": "P06",
+   "lt": 7,
+   "t": 5,
+   "ss": 10,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "MP-34": {
+   "cod": "MP-34",
+   "nom": "Nitrógeno seco",
+   "um": "m³",
+   "alm": "Jaula de gases",
+   "prov": "Air Liquide",
+   "uc": "Pack de 12 cilindros",
+   "cont": 110,
+   "plan": "MP-34",
+   "fuc": "P04",
+   "lt": 1,
+   "t": 10,
+   "ss": 3,
+   "umpos": 103,
+   "fpos": "X07"
+  },
+  "MP-35": {
+   "cod": "MP-35",
+   "nom": "Polvo BC (recargas)",
+   "um": "kg",
+   "alm": "Depósito de polvo químico",
+   "prov": "Polvex",
+   "uc": "Bolsa de 25 kg",
+   "cont": 25,
+   "plan": "MP-35",
+   "fuc": "Q07",
+   "lt": 7,
+   "t": 60,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "MP-36": {
+   "cod": "MP-36",
+   "nom": "Polvo clase D (recargas)",
+   "um": "kg",
+   "alm": "Depósito de polvo químico",
+   "prov": "DEMSA",
+   "uc": "Bolsa de 25 kg",
+   "cont": 25,
+   "plan": "MP-36",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 120,
+   "ss": 20,
+   "umpos": 1000,
+   "fpos": "X07"
+  },
+  "MP-37": {
+   "cod": "MP-37",
+   "nom": "CO₂ líquido (recargas)",
+   "um": "kg",
+   "alm": "Jaula de gases",
+   "prov": "Air Liquide",
+   "uc": "Cilindro de 25 kg",
+   "cont": 25,
+   "plan": "MP-37",
+   "fuc": "X07",
+   "lt": 2,
+   "t": 10,
+   "ss": 5,
+   "umpos": 25,
+   "fpos": "X07"
+  },
+  "MP-38": {
+   "cod": "MP-38",
+   "nom": "Agente limpio HCFC-123 (recargas)",
+   "um": "kg",
+   "alm": "Insumos de recargas",
+   "prov": "Polvex / DEMSA",
+   "uc": "Cilindro de 50 kg",
+   "cont": 50,
+   "plan": "MP-38",
+   "fuc": "X07",
+   "lt": 30,
+   "t": 60,
+   "ss": 20,
+   "umpos": 50,
+   "fpos": "X07"
+  },
+  "MP-40": {
+   "cod": "MP-40",
+   "nom": "Concentrado AFFF 3 % (recargas)",
+   "um": "L",
+   "alm": "Insumos de recargas",
+   "prov": "Polvex",
+   "uc": "Bidón de 20 L",
+   "cont": 20,
+   "plan": "MP-40",
+   "fuc": "Q07",
+   "lt": 7,
+   "t": 60,
+   "ss": 20,
+   "umpos": 480,
+   "fpos": "X07"
+  },
+  "MP-41": {
+   "cod": "MP-41",
+   "nom": "Acetato de potasio Gastro K (recargas)",
+   "um": "L",
+   "alm": "Insumos de recargas",
+   "prov": "Polvex",
+   "uc": "Bidón de 20 L",
+   "cont": 20,
+   "plan": "MP-41",
+   "fuc": "Q07",
+   "lt": 7,
+   "t": 20,
+   "ss": 10,
+   "umpos": 480,
+   "fpos": "X07"
+  },
+  "MP-42": {
+   "cod": "MP-42",
+   "nom": "Válvula HZ M-22 con tubo de pesca (1 kg)",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Polvex (HZ)",
+   "uc": "Pallet de 3.000 u",
+   "cont": 3000,
+   "plan": "MP-42",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-43": {
+   "cod": "MP-43",
+   "nom": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Polvex (HZ)",
+   "uc": "Pallet de 1.500 u",
+   "cont": 1500,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "MP-44/25": {
+   "cod": "MP-44/25",
+   "nom": "Válvula HZ de carro 25 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Polvex (HZ)",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-44",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-44/50": {
+   "cod": "MP-44/50",
+   "nom": "Válvula HZ de carro 50-70-100 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Polvex (HZ)",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-44",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-45": {
+   "cod": "MP-45",
+   "nom": "Manómetro 1,4 MPa",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Yukon",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-45",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-48/ABC1": {
+   "cod": "MP-48/ABC1",
+   "nom": "Tobera ABC 1 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Yukon",
+   "uc": "Caja de 50 u",
+   "cont": 50,
+   "plan": "MP-48",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "MP-48/ABC2.5": {
+   "cod": "MP-48/ABC2.5",
+   "nom": "Manguera con tobera ABC 2,5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Yukon",
+   "uc": "Caja de 50 u",
+   "cont": 50,
+   "plan": "MP-48",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "MP-48/ABC5": {
+   "cod": "MP-48/ABC5",
+   "nom": "Manguera con tobera ABC 5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Yukon",
+   "uc": "Caja de 50 u",
+   "cont": 50,
+   "plan": "MP-48",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "MP-48/ABC10": {
+   "cod": "MP-48/ABC10",
+   "nom": "Manguera con tobera ABC 10 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Yukon",
+   "uc": "Caja de 50 u",
+   "cont": 50,
+   "plan": "MP-48",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 1500,
+   "fpos": "X07"
+  },
+  "MP-49/ABC25": {
+   "cod": "MP-49/ABC25",
+   "nom": "Manguera con válvula esférica y tobera, carro 25 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Yukon",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-49",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "MP-49/ABC50": {
+   "cod": "MP-49/ABC50",
+   "nom": "Manguera con válvula esférica y tobera, carro 50 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Yukon",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-49",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "MP-49/ABC70": {
+   "cod": "MP-49/ABC70",
+   "nom": "Manguera con válvula esférica y tobera, carro 70 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Yukon",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-49",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "MP-49/ABC100": {
+   "cod": "MP-49/ABC100",
+   "nom": "Manguera con válvula esférica y tobera, carro 100 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Yukon",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-49",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 120,
+   "fpos": "X07"
+  },
+  "MP-50/M22": {
+   "cod": "MP-50/M22",
+   "nom": "Junta tórica del cuello M22",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Argensold",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-50",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-50/M30": {
+   "cod": "MP-50/M30",
+   "nom": "Junta tórica del cuello M30",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Argensold",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-50",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-50/2½": {
+   "cod": "MP-50/2½",
+   "nom": "Junta tórica del cuello 2½\"",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Argensold",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-50",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-50/OT": {
+   "cod": "MP-50/OT",
+   "nom": "Junta tórica del cuello (recargas, surtido por medida)",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "Matafuegos Iglesias",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-50",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-52/ABC2.5": {
+   "cod": "MP-52/ABC2.5",
+   "nom": "Soporte de pared ABC 2,5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Maxiseguridad",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-52",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-52/ABC5": {
+   "cod": "MP-52/ABC5",
+   "nom": "Soporte de pared ABC 5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Maxiseguridad",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-52",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-52/ABC10": {
+   "cod": "MP-52/ABC10",
+   "nom": "Soporte de pared ABC 10 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Maxiseguridad",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-52",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-87": {
+   "cod": "MP-87",
+   "nom": "Soporte vehicular (1 kg)",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Maxiseguridad",
+   "uc": "Caja de 100 u",
+   "cont": 100,
+   "plan": "MP-52",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-86": {
+   "cod": "MP-86",
+   "nom": "Tornillo y tarugo de fijación",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Würth Argentina",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-51",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-55": {
+   "cod": "MP-55",
+   "nom": "Conjunto de seguridad de CO₂ (recargas)",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "Georgia",
+   "uc": "Bolsa de 100 u",
+   "cont": 100,
+   "plan": "MP-55",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 60,
+   "ss": 20,
+   "umpos": 2000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC1": {
+   "cod": "MP-56/ABC1",
+   "nom": "Etiqueta de características ABC 1 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC2.5": {
+   "cod": "MP-56/ABC2.5",
+   "nom": "Etiqueta de características ABC 2,5 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC5": {
+   "cod": "MP-56/ABC5",
+   "nom": "Etiqueta de características ABC 5 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC10": {
+   "cod": "MP-56/ABC10",
+   "nom": "Etiqueta de características ABC 10 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC25": {
+   "cod": "MP-56/ABC25",
+   "nom": "Etiqueta de características ABC 25 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC50": {
+   "cod": "MP-56/ABC50",
+   "nom": "Etiqueta de características ABC 50 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC70": {
+   "cod": "MP-56/ABC70",
+   "nom": "Etiqueta de características ABC 70 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-56/ABC100": {
+   "cod": "MP-56/ABC100",
+   "nom": "Etiqueta de características ABC 100 kg",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-78": {
+   "cod": "MP-78",
+   "nom": "Oblea de fabricación (PBA)",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "DPS (PBA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-79": {
+   "cod": "MP-79",
+   "nom": "Estampilla IRAM de conformidad",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "IRAM",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-77": {
+   "cod": "MP-77",
+   "nom": "Tarjeta de identificación AGC (CABA)",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "AGC (CABA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-80": {
+   "cod": "MP-80",
+   "nom": "Etiqueta de n° de serie GS1",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-81": {
+   "cod": "MP-81",
+   "nom": "Faja de garantía válvula-cuello",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-51": {
+   "cod": "MP-51",
+   "nom": "Precinto de fábrica",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "SonFuertes",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-51",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-88": {
+   "cod": "MP-88",
+   "nom": "Etiqueta del cilindro suelto",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-62/M22": {
+   "cod": "MP-62/M22",
+   "nom": "Tapón protector de rosca M22",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "A definir (inyectora)",
+   "uc": "Caja de 5.000 u",
+   "cont": 5000,
+   "plan": "MP-62",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "MP-62/M30": {
+   "cod": "MP-62/M30",
+   "nom": "Tapón protector de rosca M30",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "A definir (inyectora)",
+   "uc": "Caja de 5.000 u",
+   "cont": 5000,
+   "plan": "MP-62",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "MP-62/2½": {
+   "cod": "MP-62/2½",
+   "nom": "Tapón protector de rosca 2½\"",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "A definir (inyectora)",
+   "uc": "Caja de 5.000 u",
+   "cont": 5000,
+   "plan": "MP-62",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 40000,
+   "fpos": "X07"
+  },
+  "MP-85": {
+   "cod": "MP-85",
+   "nom": "Impresos (protocolo de ensayo, remito de préstamo)",
+   "um": "u",
+   "alm": "Identificación",
+   "prov": "Astuprint",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-57": {
+   "cod": "MP-57",
+   "nom": "Marbete del año",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "Astuprint",
+   "uc": "Paquete de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-57",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-97": {
+   "cod": "MP-97",
+   "nom": "Precinto del recargador",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "SonFuertes",
+   "uc": "Bolsa de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-51",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-72": {
+   "cod": "MP-72",
+   "nom": "Etiqueta de servicio",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-75": {
+   "cod": "MP-75",
+   "nom": "Estampilla y oblea de recarga (PBA)",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "DPS (PBA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-76": {
+   "cod": "MP-76",
+   "nom": "Tarjeta de identificación DPS (PBA)",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "DPS (PBA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-82": {
+   "cod": "MP-82",
+   "nom": "Faja amarilla de sustituto",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-83": {
+   "cod": "MP-83",
+   "nom": "Tarjeta DPS «sustituto habilitado»",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "DPS (PBA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-84": {
+   "cod": "MP-84",
+   "nom": "Tarjeta AGC «es sustituto»",
+   "um": "u",
+   "alm": "Insumos de recargas",
+   "prov": "AGC (CABA)",
+   "uc": "Paquete de 500 u",
+   "cont": 500,
+   "plan": "MP-58",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 10000,
+   "fpos": "X07"
+  },
+  "MP-65": {
+   "cod": "MP-65",
+   "nom": "Esmalte poliuretano rojo (recargas)",
+   "um": "L",
+   "alm": "Insumos de recargas",
+   "prov": "Sinteplast",
+   "uc": "Lata de 4 L",
+   "cont": 4,
+   "plan": "MP-65",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-59/ABC1": {
+   "cod": "MP-59/ABC1",
+   "nom": "Caja de cartón simple ABC 1 kg",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Maxipack",
+   "uc": "Pallet de 600 cajas",
+   "cont": 600,
+   "plan": "MP-59",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "MP-59/ABC2.5": {
+   "cod": "MP-59/ABC2.5",
+   "nom": "Caja de cartón simple ABC 2,5 kg",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Maxipack",
+   "uc": "Pallet de 600 cajas",
+   "cont": 600,
+   "plan": "MP-59",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "MP-59/ABC5": {
+   "cod": "MP-59/ABC5",
+   "nom": "Caja de cartón simple ABC 5 kg",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Maxipack",
+   "uc": "Pallet de 600 cajas",
+   "cont": 600,
+   "plan": "MP-59",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "MP-59/ABC10": {
+   "cod": "MP-59/ABC10",
+   "nom": "Caja de cartón doble ABC 10 kg",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Maxipack",
+   "uc": "Pallet de 600 cajas",
+   "cont": 600,
+   "plan": "MP-59",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 10,
+   "ss": 5,
+   "umpos": 600,
+   "fpos": "X07"
+  },
+  "MP-89": {
+   "cod": "MP-89",
+   "nom": "Etiqueta de caja",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-60": {
+   "cod": "MP-60",
+   "nom": "Pallet de madera 1200 × 1000",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "IndusPallets",
+   "uc": "Pila de 15 u",
+   "cont": 15,
+   "plan": "MP-60",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "MP-90": {
+   "cod": "MP-90",
+   "nom": "Etiqueta de pallet",
+   "um": "u",
+   "alm": "Embalaje",
+   "prov": "Astuprint",
+   "uc": "Rollo de 1.000 u",
+   "cont": 1000,
+   "plan": "MP-56",
+   "fuc": "X07",
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 20000,
+   "fpos": "X07"
+  },
+  "MP-96/ABC25": {
+   "cod": "MP-96/ABC25",
+   "nom": "Servicio de pintura, carro 25 kg (tercerizado)",
+   "um": "u",
+   "alm": "Servicio (no se almacena)",
+   "prov": "Pintor de carros",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-60",
+   "fuc": "Q09",
+   "lt": 5,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "MP-96/ABC50": {
+   "cod": "MP-96/ABC50",
+   "nom": "Servicio de pintura, carro 50 kg (tercerizado)",
+   "um": "u",
+   "alm": "Servicio (no se almacena)",
+   "prov": "Pintor de carros",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-60",
+   "fuc": "Q09",
+   "lt": 5,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "MP-96/ABC70": {
+   "cod": "MP-96/ABC70",
+   "nom": "Servicio de pintura, carro 70 kg (tercerizado)",
+   "um": "u",
+   "alm": "Servicio (no se almacena)",
+   "prov": "Pintor de carros",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-60",
+   "fuc": "Q09",
+   "lt": 5,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "MP-96/ABC100": {
+   "cod": "MP-96/ABC100",
+   "nom": "Servicio de pintura, carro 100 kg (tercerizado)",
+   "um": "u",
+   "alm": "Servicio (no se almacena)",
+   "prov": "Pintor de carros",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-60",
+   "fuc": "Q09",
+   "lt": 5,
+   "t": 10,
+   "ss": 5,
+   "umpos": 15,
+   "fpos": "X07"
+  },
+  "RV-AGUA_10l": {
+   "cod": "RV-AGUA_10l",
+   "nom": "Matafuego Agua 10 l (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-AFFF_10l": {
+   "cod": "RV-AFFF_10l",
+   "nom": "Matafuego AFFF 10 l (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-AFFF_50l": {
+   "cod": "RV-AFFF_50l",
+   "nom": "Matafuego AFFF 50 l (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 60,
+   "fpos": "X13"
+  },
+  "RV-BC_5kg": {
+   "cod": "RV-BC_5kg",
+   "nom": "Matafuego BC 5 kg (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-SALESK_6l": {
+   "cod": "RV-SALESK_6l",
+   "nom": "Matafuego Clase K 6 l (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-CO2_2kg": {
+   "cod": "RV-CO2_2kg",
+   "nom": "Matafuego CO₂ 2 kg (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-CO2_5kg": {
+   "cod": "RV-CO2_5kg",
+   "nom": "Matafuego CO₂ 5 kg (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-HCFC-HFC_5kg": {
+   "cod": "RV-HCFC-HFC_5kg",
+   "nom": "Matafuego HCFC 5 kg (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  },
+  "RV-CLASED_9l": {
+   "cod": "RV-CLASED_9l",
+   "nom": "Matafuego Clase D 9 l (reventa)",
+   "um": "u",
+   "alm": "Almacén de producto terminado",
+   "prov": "Fabricante nacional",
+   "uc": "Unidad",
+   "cont": 1,
+   "plan": "MP-43",
+   "fuc": "X07",
+   "lt": 20,
+   "t": 20,
+   "ss": 15,
+   "umpos": 180,
+   "fpos": "X13"
+  }
+ }
+}

@@ -1,374 +1,295 @@
-"""MRP de insumos de FLAMA (salida/mrp/FLAMA_MRP.xlsx): requerimiento bruto anual 2026-2035 por línea, consolidado por
-ítem y política de stock dimensionada para el año 10 (2035). Todo con fórmulas indexadas: los datos entran una sola vez
-en las hojas fijas y las demás hojas los leen.
+"""MRP de insumos de FLAMA (salida/mrp/FLAMA_MRP.xlsx), compacto: sólo números y fórmulas.
 
-Hojas fijas (dimensionamiento)
-  PARAMETROS      cada dato que entra en una cuenta, con ID, valor, unidad y fuente; abajo, los que cambian por año
-                  (% de recargas de equipos usados, % del destino CABA)
-  PROY_INDEXADO   copia (valores) de «Indexado Dim Técnico» de las Proyecciones
-  PROY_RESERVAS   copia (valores) de «Reservas y Sustitutos» de las Proyecciones
-  DEMANDA         unidades por año de cada producto, por línea (fórmulas sobre las dos copias)
-  ESTACIONALIDAD  perfil mensual de cada producto (Dimensionamiento Técnico) y perfil de cada línea en el año de diseño
-  BOM_COEF        lo que se compra por unidad de producto, fila por fila del BOM (FLAMA_BOM.xlsx); en recargas, por
-                  servicio (control, mantenimiento, recarga, prueba hidráulica) y mezcla del año
-  FAB_COMPRA      de qué materia prima sale cada pieza fabricada y cuánto rinde (procesos de manuales y carros)
-  PROCESO         insumos de proceso y embalaje por unidad, puesto por puesto (procesos de manuales y carros)
-  COMPRAS         catálogo de ítems: tipo, clase, almacén, proveedor, unidad de compra, lead time y su fuente
-Por línea (MANUALES, RODANTES, RECARGAS con los sustitutos, REVENDIDOS)
-  INSUMOS_DIRECTOS_<línea> e INSUMOS_INDIRECTOS_<línea>: por ítem, una fila de total y una por producto que lo usa
-Consolidado y política
-  CONSOLIDADO_INSUMOS  por ítem: tipo, clase, almacén, de qué línea y hoja sale, requerimiento por año y en unidades
-                       de compra
-  POLITICA_STOCK       por ítem, en el año de diseño: consumo diario promedio y del mes pico, lead time, stock de
-                       seguridad, punto de pedido, lote en múltiplos de la unidad de compra, stock máximo y posiciones
+Cada fila lleva un código (Ref.) que remite al Word «Justificación_MRP», donde está de dónde sale cada valor, con su
+captura. No hay supuestos: todo sale de los procesos de manuales, carros y recargas, del BOM, de las Proyecciones, de
+los dos Dimensionamientos, de la planilla de MP, de las cotizaciones o de fichas técnicas. Lo que no tiene consumo
+documentado no entra al MRP y se compra por punto de pedido (lista al final del Word).
+
+Hojas
+  DEMANDA          unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos); las recargas son
+                   las de la planta industrial
+  ESTACIONALIDAD   perfiles y producción mensual del año 2035, como el Dimensionamiento Técnico FLAMA
+  MANUALES, RODANTES, RECARGAS, REVENDIDOS
+                   arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por
+                   producto) y lo que hay que comprar por año (consumo por unidad × demanda)
+  CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
+  POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
+  PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
+import json
 import os
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
-from openpyxl.workbook.defined_name import DefinedName
 
 from .bom_simple import BLANCO, GRIS_C, GRIS_O, NEGRO, recalcular
 
 AÑOS = list(range(2026, 2036))
+MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
 LINEAS = ("MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS")
 AR = "Arial"
 FINO = Side(style="thin", color="BFBFBF")
 
-# ------------------------------------------------------------------ modelos
-# (código BOM del producto, prefijo de pieza en el BOM, nombre corto)
+# ------------------------------------------------------------------ productos
 FAB = [("ABC_1kg", "ABC1", "ABC 1 kg"), ("ABC_2.5kg", "ABC2.5", "ABC 2,5 kg"), ("ABC_5kg", "ABC5", "ABC 5 kg"),
        ("ABC_10kg", "ABC10", "ABC 10 kg"), ("ABC_25kg", "ABC25", "ABC 25 kg"), ("ABC_50kg", "ABC50", "ABC 50 kg"),
        ("ABC_70kg", "ABC70", "ABC 70 kg"), ("ABC_100kg", "ABC100", "ABC 100 kg")]
 MAN, ROD = FAB[:4], FAB[4:]
-REV = [("AGUA_10l", "Agua 10 l"), ("AFFF_10l", "AFFF 10 l"), ("AFFF_50l", "AFFF 50 l rodante"), ("BC_5kg", "BC 5 kg"),
-       ("SALESK_6l", "Clase K 6 l"), ("CO2_2kg", "CO₂ 2 kg"), ("CO2_5kg", "CO₂ 5 kg"),
-       ("HCFC-HFC_5kg", "HCFC/HFC 5 kg"), ("CLASED_9l", "Clase D 9 l")]
+REV = [("AGUA_10l", "Agua 10 l"), ("AFFF_10l", "AFFF 10 l"), ("AFFF_50l", "AFFF 50 l"), ("BC_5kg", "BC 5 kg"),
+       ("SALESK_6l", "Clase K 6 l"), ("CO2_2kg", "CO₂ 2 kg"), ("CO2_5kg", "CO₂ 5 kg"), ("HCFC-HFC_5kg", "HCFC 5 kg"),
+       ("CLASED_9l", "Clase D 9 l")]
 NOMBRE = {c: n for c, _, n in FAB} | dict(REV)
-PREF = {c: p for c, p, _ in FAB}
-# etiquetas de las filas de las Proyecciones
+# filas de las Proyecciones (Indexado Dim Técnico) → código del producto, en el orden de las recargas
 ETIQ = {"ABC 1 kg": "ABC_1kg", "ABC 2,5 kg": "ABC_2.5kg", "ABC 5 kg": "ABC_5kg", "ABC 10 kg": "ABC_10kg",
-        "ABC 25 kg s/ruedas": "ABC_25kg", "ABC 50 kg s/ruedas": "ABC_50kg", "ABC 70 kg s/ruedas": "ABC_70kg",
-        "ABC 100 kg s/ruedas": "ABC_100kg", "Agua 10 l": "AGUA_10l", "AFFF 10 l": "AFFF_10l",
-        "AFFF 50 l s/ruedas": "AFFF_50l", "BC 5 kg": "BC_5kg", "Sales K 6 l": "SALESK_6l", "CO₂ 2 kg": "CO2_2kg",
-        "CO₂ 5 kg": "CO2_5kg", "HCFC/HFC 5 kg": "HCFC-HFC_5kg", "Clase D 9 l": "CLASED_9l"}
-# pool de sustitutos (Reservas y Sustitutos): tipo del pool y equipo que lo cubre
-POOL = [("ABC 5 kg (cubre ABC 1; 2,5 y 5 kg)", "ABC_5kg"), ("ABC 10 kg", "ABC_10kg"), ("Agua 10 l", "AGUA_10l"),
-        ("AFFF 10 l", "AFFF_10l"), ("AFFF 50 l s/ruedas", "AFFF_50l"), ("BC 5 kg", "BC_5kg"),
-        ("Sales K 6 l", "SALESK_6l"), ("CO₂ 5 kg (cubre CO₂ 2 y 5 kg)", "CO2_5kg"), ("HCFC/HFC 5 kg", "HCFC-HFC_5kg"),
-        ("Clase D 9 l", "CLASED_9l"), ("ABC 50 kg s/ruedas (cubre 25 y 50 kg)", "ABC_50kg"),
-        ("ABC 100 kg s/ruedas (cubre 70 y 100 kg)", "ABC_100kg")]
+        "Agua 10 l": "AGUA_10l", "AFFF 10 l": "AFFF_10l", "AFFF 50 l s/ruedas": "AFFF_50l", "BC 5 kg": "BC_5kg",
+        "Sales K 6 l": "SALESK_6l", "CO₂ 2 kg": "CO2_2kg", "CO₂ 5 kg": "CO2_5kg", "HCFC/HFC 5 kg": "HCFC-HFC_5kg",
+        "Clase D 9 l": "CLASED_9l", "ABC 25 kg s/ruedas": "ABC_25kg", "ABC 50 kg s/ruedas": "ABC_50kg",
+        "ABC 70 kg s/ruedas": "ABC_70kg", "ABC 100 kg s/ruedas": "ABC_100kg"}
+INV = {v: k for k, v in ETIQ.items()}
+REC = list(ETIQ.values())
+# pool de sustitutos (Reservas y Sustitutos): fila del pool → tipo que cubre
+POOL = {"ABC 5 kg (cubre ABC 1; 2,5 y 5 kg)": "ABC_5kg", "ABC 10 kg": "ABC_10kg", "Agua 10 l": "AGUA_10l",
+        "AFFF 10 l": "AFFF_10l", "AFFF 50 l s/ruedas": "AFFF_50l", "BC 5 kg": "BC_5kg", "Sales K 6 l": "SALESK_6l",
+        "CO₂ 5 kg (cubre CO₂ 2 y 5 kg)": "CO2_5kg", "HCFC/HFC 5 kg": "HCFC-HFC_5kg", "Clase D 9 l": "CLASED_9l",
+        "ABC 50 kg s/ruedas (cubre 25 y 50 kg)": "ABC_50kg", "ABC 100 kg s/ruedas (cubre 70 y 100 kg)": "ABC_100kg"}
+# recargas de la planta industrial: Dimensionamiento Técnico FLAMA, DATOS-BASE O46 y O47 (mercado de recargas de
+# CABA + PBA y las 4 zonas de la planta industrial, igual a Dimensionamiento V2, Almacen PT B34)
+MERCADO_REC, ZONAS_PI = 5832609, 1997042
+ZONAS_PI_NOM = ("CABA Sur", "PBA Sur 1er", "PBA Sur 2do", "PBA Sur 3er")
+# perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104; recargas /12 (filas 135+)
+PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
+            ("Manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
+            ("Industrial s/ruedas (25 – 100 kg)", [.085, .075, .09, .09, .09, .08, .09, .09, .085, .075, .07, .08]),
+            ("Recargas (sin estacionalidad)", [1 / 12] * 12)]
 
-# ------------------------------------------------------------------ catálogo de ítems (COMPRAS)
+
+def perfil(c, linea):
+    if linea == "RECARGAS":
+        return 3
+    if c == "ABC_1kg":
+        return 0
+    return 2 if c in ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg", "AFFF_50l") else 1
+
+
+# ------------------------------------------------------------------ catálogo
+# planilla de MP («MP Abastecimiento», opción D): lead time, días entre pedidos (T), stock de seguridad (días) y
+# unidad de carga por posición, por código de la planilla
+PLAN = {"MP-01": (5, 5, 5, 61), "MP-02": (10, 20, 10, 136), "MP-03": (10, 20, 10, 158), "MP-04": (10, 20, 10, 56),
+        "MP-05": (10, 5, 10, 1000), "MP-06": (10, 10, 10, 492), "MP-07": (10, 5, 10, 615), "MP-08": (10, 5, 10, 492),
+        "MP-09": (10, 20, 10, 738), "MP-10": (10, 20, 10, 498), "MP-11": (10, 20, 10, 34), "MP-12": (10, 20, 10, 22),
+        "MP-13": (10, 5, 10, 1000), "MP-15": (60, 40, 20, 200), "MP-16": (60, 40, 20, 160),
+        "MP-17": (60, 40, 20, 120), "MP-18": (28, 20, 10, 12000), "MP-19": (28, 20, 10, 8000),
+        "MP-20": (28, 40, 20, 400), "MP-21": (28, 40, 20, 100), "MP-22": (10, 60, 20, None),
+        "MP-23": (5, 20, 5, 900), "MP-24": (5, 40, 10, 900), "MP-25": (1, 5, 2, 115.5), "MP-27": (5, 20, 10, 250),
+        "MP-28": (7, 60, 20, 1000), "MP-31": (10, 20, 10, 600), "MP-33": (7, 5, 10, 2000), "MP-34": (1, 10, 3, 103),
+        "MP-35": (7, 60, 20, 1000), "MP-36": (15, 120, 20, 1000), "MP-37": (2, 10, 5, 25), "MP-38": (30, 60, 20, 50),
+        "MP-40": (7, 60, 20, 480), "MP-41": (7, 20, 10, 480), "MP-42": (20, 20, 15, 3000),
+        "MP-43": (20, 20, 15, 1500), "MP-44": (20, 20, 10, 200), "MP-45": (20, 20, 15, 3000),
+        "MP-48": (15, 20, 10, 1500), "MP-49": (15, 20, 10, 120), "MP-50": (10, 20, 10, 20000),
+        "MP-51": (10, 20, 10, 20000), "MP-52": (15, 20, 10, 3000), "MP-54": (15, 20, 10, 144),
+        "MP-55": (15, 60, 20, 2000), "MP-56": (10, 20, 10, 20000), "MP-57": (10, 20, 10, 20000),
+        "MP-58": (10, 20, 10, 10000), "MP-59": (10, 10, 5, 600), "MP-60": (5, 10, 5, 15), "MP-62": (10, 20, 10, 40000),
+        "MP-65": (5, 20, 10, 200)}
+
 Z_CHM, Z_CANT, Z_CHR = "Chapa y fleje (manuales)", "Cantilever de caños y barras", "Calle de chapa (carros)"
 Z_CASQ, Z_INR, Z_INM = "Rack de casquetes y cuplas (carros)", "Rack de insumos de montaje (carros)", \
     "Insumos de montaje (manuales)"
 Z_POL, Z_GAS, Z_SOL = "Depósito de polvo químico", "Jaula de gases", "Insumos de soldadura y superficie"
 Z_ID, Z_EMB, Z_REC = "Identificación", "Embalaje", "Insumos de recargas"
-Z_REV, Z_SERV = "Equipos revendidos (almacén de PT)", "Servicio (no se almacena)"
-# capacidad de las zonas que el proceso ya dimensionó (posiciones): proceso de carros, puesto 1, tabla de espacios
-CAPACIDAD = {Z_CHR: (3, "3 posiciones de 3,0 × 1,5 m con hasta 2 paquetes cada una (proceso de carros, puesto 1)"),
-             Z_CASQ: (12, "3 módulos de 2,3 m × 2 niveles = 12 posiciones (proceso de carros, puesto 1)"),
-             Z_INR: (8, "2 módulos × 2 niveles = 8 posiciones (proceso de carros, puesto 1)")}
-
-CRIT, NAC, IMP, ORG = 5, 10, 20, 10       # días hábiles entre pedidos (T): MP crítica, nacional, importado, organismo
-# fuentes de lead time
-Q_PRAD = ("Cotización", "Pradecon, mail del 28/09/2026: «son 7/10 días el plazo de entrega» si hay bobina en piso; "
-                        "se toma el máximo")
-Q_PRAD_P = ("Cotización", "Pacheco (PR-42021) no informa plazo; se toma el de Pradecon, que cotizó lo mismo: «7/10 días»")
-Q_AL = ("Cotización", "Air Liquide (cotizaciones de MP por WhatsApp): «El plazo de entrega es a día + 1»")
-Q_ELI = ("Cotización", "Eli-Met (cotizaciones de MP por WhatsApp): «plazo de entrega 35 a 40 días» corridos = 28 días "
-                       "hábiles")
-Q_ELI_A = ("Cotización", "Eli-Met no cotizó el asiento; se toma el plazo de su cupla: «35 a 40 días» corridos = 28 "
-                         "hábiles")
-Q_MID = ("Cotización", "Comercial MID (27626): «entrega inmediata salvo ventas»; Metalprisa no informa plazo; se toman "
-                       "5 días hábiles de la planilla de MP para armar el pedido y el flete")
-P_CASQ = ("Proceso", "Proceso de carros, puesto 1, tabla 3: «60 días háb. (importado)». Investigación: tránsito marítimo "
-                     "Shanghái - Buenos Aires de 38 a 40 días puerto a puerto (iContainers), más fabricación y despacho")
-P_POLVO = ("Proceso", "Proceso de carros, puesto 1, tabla 3: «7 días háb. (Polvex)»")
-P_VALV = ("Proceso", "Proceso de carros, puesto 1: «válvula de carro y manómetro, 20 días hábiles» (planilla de MP)")
-P_MANG = ("Proceso", "Proceso de carros, puesto 1: «manguera con lanza, 15» días hábiles (planilla de MP)")
-P_RUEDA = ("Proceso", "Proceso de carros, puesto 1: «ruedas, 15» días hábiles (planilla de MP)")
-P_ALAM = ("Proceso", "Proceso de carros, puestos 5 a 8: «el alambre en rollos (5 días hábiles)»")
-PL = ("Planilla de MP", "Planilla «MP Abastecimiento» (opción D), estimado del equipo; ningún presupuesto trae plazo")
-S_SID = ("Supuesto", "El proceso de carros (8.1) dice «las demoras de los dos proveedores están a confirmar»; se toma "
-                     "el mismo plazo que el caño cotizado (entrega inmediata del distribuidor siderúrgico)")
-S_ORG = ("Supuesto", "Se compra al organismo (DPS, AGC, IRAM); trámite estimado en 2 semanas")
-S_REV = ("Supuesto", "Equipo terminado de un fabricante nacional; mismo plazo que los componentes que se les compran "
-                     "(manguera, 15 días hábiles)")
-S_SERV = ("Supuesto", "Servicio de pintura tercerizado por tandas semanales (sin plazo en la cotización)")
+Z_PT, Z_SERV = "Almacén de producto terminado", "Servicio (no se almacena)"
+# capacidad de las zonas que dimensionó el proceso de carros (puesto 1), en posiciones
+CAPACIDAD = {Z_CHR: 3, Z_CASQ: 12, Z_INR: 8}
 
 
-def I(cod, nom, um, tipo, clase, zona, prov, alt, estado, uc, cont, lt, fuente, T, ucpos, m2, nota=""):
-    return dict(cod=cod, nom=nom, um=um, tipo=tipo, clase=clase, zona=zona, prov=prov, alt=alt, estado=estado, uc=uc,
-                cont=cont, lt=lt, lt_or=fuente[0], lt_fu=fuente[1], T=T, ucpos=ucpos, m2=m2, nota=nota)
+def I(cod, nom, um, alm, prov, uc, cont, plan, fuc, umpos=None, fpos=None):
+    """Ítem: código, nombre, UM, almacén, proveedor, unidad de compra y contenido, código de la planilla de MP de la
+    que sale el lead time / T / stock de seguridad, figura de la unidad de compra y UM por posición si no es la de la
+    planilla."""
+    lt, t, ss, pos = PLAN[plan]
+    return dict(cod=cod, nom=nom, um=um, alm=alm, prov=prov, uc=uc, cont=cont, plan=plan, fuc=fuc, lt=lt, t=t, ss=ss,
+                umpos=umpos if umpos is not None else pos, fpos=fpos or "X07")
 
 
-D, IN = "Directo", "Indirecto"
-MPC, CMP, IDN, EMB, CON, REVT, SERV = ("Materia prima", "Componente comprado", "Identificación", "Embalaje",
-                                       "Consumible de proceso", "Reventa", "Servicio")
-# equipos revendidos por posición de pallet (cajas del fabricante, supuesto)
-POR_POS_REV = {"AGUA_10l": 24, "AFFF_10l": 24, "AFFF_50l": 2, "BC_5kg": 40, "SALESK_6l": 30, "CO2_2kg": 48,
-               "CO2_5kg": 24, "HCFC-HFC_5kg": 40, "CLASED_9l": 24}
 ITEMS = [
-    # ---- acero
-    I("MP-01", "Caño c/costura LF SAE 1010 Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)", "barra", D, MPC, Z_CANT,
-      "Metalpri / Prilux", "Comercial MID", "Cotizado", "Atado de 16 barras", 16, 5, Q_MID, CRIT, 2, 1.0,
-      "Proceso de manuales: atados de 16 tubos de 14 kg"),
-    I("MP-02", "Hoja LAF 1,25 × 1220 × 2440 mm (cuerpo 2,5 kg, 27 por hoja)", "hoja", D, MPC, Z_CHM, "Pradecon",
-      "Hierros Parrotta", "Cotizado", "Paquete de 50 hojas", 50, 10, Q_PRAD, CRIT, 2, 2.98,
-      "Proceso de manuales: paquetes de 50 hojas"),
-    I("MP-03", "Hoja LAF 1,6 × 1000 × 2000 mm (cuerpo 5 kg, 12 por hoja)", "hoja", D, MPC, Z_CHM, "Pradecon",
-      "Hierros Parrotta", "Cotizado", "Paquete de 80 hojas", 80, 10, Q_PRAD, CRIT, 2, 2.0,
-      "Proceso de manuales: paquete de 80 hojas, unos 2 t"),
-    I("MP-04", "Hoja LAF 2,0 × 1500 × 3000 mm (cuerpo 10 kg, 15 por hoja)", "hoja", D, MPC, Z_CHM, "Pradecon",
-      "Hierros Parrotta", "Cotizado", "Paquete de 20 hojas", 20, 10, Q_PRAD, CRIT, 2, 4.5,
-      "Proceso de manuales: paquetes de 20 hojas"),
-    I("MP-05", "Fleje LAF 0,9 × 114 mm (cúpula 1 kg, disco Ø95)", "kg", D, MPC, Z_CHM, "Pradecon", "Pacheco Chapas",
-      "Cotizado", "Rollo de fleje ≈1.900 kg", 1900, 10, Q_PRAD, CRIT, 1, 1.0,
-      "Pradecon: «el peso promedio por bobina de fleje es entre 1.8 y 2 tn»"),
-    I("MP-13", "Fleje LAF 1,25 × 135 mm (fondo 1 kg, disco Ø112)", "kg", D, MPC, Z_CHM, "Pradecon", "Pacheco Chapas",
-      "Cotizado (a recotizar)", "Rollo de fleje ≈1.900 kg", 1900, 10, Q_PRAD, CRIT, 1, 1.0,
-      "Corregido: la planilla decía 0,9 × 106; el plano y el proceso piden 1,25 mm y el disco Ø112 no entra en 106"),
-    I("MP-06", "Fleje LAF 1,25 × 200 mm (cúpula Ø179 y fondo Ø148, 2,5 kg)", "kg", D, MPC, Z_CHM, "Pacheco Chapas",
-      "Pradecon", "Cotizado", "Rollo de 492 kg", 492, 10, Q_PRAD_P, CRIT, 1, 1.0,
-      "Pacheco PR-42021: 2.951 kg en 6 rollos"),
-    I("MP-07", "Fleje LAF 1,6 × 250 mm (cúpula Ø221, 5 kg)", "kg", D, MPC, Z_CHM, "Pacheco Chapas", "Pradecon",
-      "Cotizado", "Rollo de 615 kg", 615, 10, Q_PRAD_P, CRIT, 1, 1.0, "Pacheco PR-42021: 2.459 kg en 4 rollos"),
-    I("MP-08", "Fleje LAF 1,6 × 200 mm (fondo Ø177, 5 kg)", "kg", D, MPC, Z_CHM, "Pacheco Chapas", "Pradecon",
-      "Cotizado", "Rollo de 492 kg", 492, 10, Q_PRAD_P, CRIT, 1, 1.0, "Pacheco PR-42021: 2.951 kg en 6 rollos"),
-    I("MP-09", "Fleje LAF 1,6 × 300 mm (cúpula Ø258, 10 kg)", "kg", D, MPC, Z_CHM, "Pacheco Chapas", "Pradecon",
-      "Cotizado (a recotizar en 1,6)", "Rollo ≈590 kg", 590, 10, Q_PRAD_P, CRIT, 1, 1.0,
-      "Corregido: se cotizó en 2,0 mm; el plano y el proceso piden 1,6 mm (mismo largo de rollo: 738 × 1,6 / 2,0)"),
-    I("MP-10", "Fleje LAF 2,0 × 249 mm (fondo Ø205, 10 kg)", "kg", D, MPC, Z_CHM, "Pacheco Chapas", "Pradecon",
-      "Cotizado", "Rollo de 498 kg", 498, 10, Q_PRAD_P, CRIT, 1, 1.0, "Pacheco: 619 fondos por bobina"),
-    I("MP-11", "Hoja LAC 3,2 × 1500 × 3000 mm (cuerpo 25 kg: 9 por hoja; 50 kg: 6)", "hoja", D, MPC, Z_CHR,
-      "Pradecon", "Pacheco Chapas", "Cotizado", "Paquete de 20 hojas", 20, 10, Q_PRAD, CRIT, 2, 4.5,
-      "Proceso de carros: paquetes de 20 hojas de 113 kg"),
-    I("MP-12", "Hoja LAC 4,75 × 1500 × 3000 mm (cuerpos 70 y 100 kg)", "hoja", D, MPC, Z_CHR, "Pradecon",
-      "Pacheco Chapas", "Cotizado", "Paquete de 15 hojas", 15, 10, Q_PRAD, CRIT, 2, 4.5,
-      "Proceso de carros: paquetes de 15 hojas de 168 kg"),
-    I("MP-15", "Casquete embutido 10\" × 3,2 mm (cúpula y fondo, carro 25 kg)", "u", D, CMP, Z_CASQ,
-      "Importado (EKC / chinafiresafety)", "Gockel Ingeniería (a cotizar)", "A cotizar", "Pallet de 400 u", 400, 60,
-      P_CASQ, IMP, 1, 0.73, "Proceso de carros: 400 casquetes por pallet (200 cúpulas + 200 fondos)"),
-    I("MP-16", "Casquete embutido 12\" × 3,2 mm (cúpula y fondo, carro 50 kg)", "u", D, CMP, Z_CASQ,
-      "Importado (EKC / chinafiresafety)", "Gockel Ingeniería (a cotizar)", "A cotizar", "Pallet de 300 u", 300, 60,
-      P_CASQ, IMP, 1, 0.73, "Proceso de carros: 300 por pallet"),
-    I("MP-17", "Casquete embutido 15\" × 4,75 mm (cúpula y fondo, carros 70 y 100 kg)", "u", D, CMP, Z_CASQ,
-      "Importado (EKC / chinafiresafety)", "Gockel Ingeniería (a cotizar)", "A cotizar", "Pallet de 150 u", 150, 60,
-      P_CASQ, IMP, 1, 0.73, "Proceso de carros: 150 por pallet"),
-    I("MP-18", "Asiento de válvula roscado M22 × 1,5 (cúpula 1 kg)", "u", D, CMP, Z_INM, "Eli-Met", "-",
-      "A cotizar", "Caja de 1.000 u", 1000, 28, Q_ELI_A, NAC, 12, 0.73, "Planilla de MP: cajas de 1.000 u"),
-    I("MP-19", "Asiento de válvula roscado M30 × 1,5 (cúpula 2,5 a 10 kg)", "u", D, CMP, Z_INM, "Eli-Met", "-",
-      "A cotizar", "Caja de 1.000 u", 1000, 28, Q_ELI_A, NAC, 8, 0.73, "Planilla de MP: cajas de 1.000 u"),
-    I("MP-20", "Cupla soldable M30 × 1,5 (carros 25 y 50 kg)", "u", D, CMP, Z_CASQ, "Eli-Met", "-", "Cotizado",
-      "Caja de 100 u", 100, 28, Q_ELI, NAC, 12, 0.73, "Proceso de carros: cajas de 100 u de 25 kg"),
-    I("MP-21", "Cupla soldable 2½\" BSP (carros 70 y 100 kg)", "u", D, CMP, Z_CASQ, "Eli-Met", "-", "Cotizado",
-      "Caja de 40 u", 40, 28, Q_ELI, NAC, 8, 0.73, "Proceso de carros: cajas de 40 u de 24 kg"),
-    I("MP-66", "Caño estructural SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)", "barra", D, MPC, Z_CANT,
-      "Centrosider", "Metalpri / Prilux", "A cotizar", "Barra de 6 m", 1, 5, S_SID, CRIT, 40, 1.0,
-      "Proceso de carros 8.1: se vende por barra entera de 6 m"),
-    I("MP-67", "Caño estructural SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)", "barra", D, MPC, Z_CANT,
-      "Centrosider", "Metalpri / Prilux", "A cotizar", "Barra de 6 m", 1, 5, S_SID, CRIT, 40, 1.0),
-    I("MP-68", "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)", "barra", D, MPC, Z_CANT, "Vladimirsky",
-      "Hierros Parrotta", "A cotizar", "Barra de 4 m", 1, 5, S_SID, CRIT, 40, 1.0,
-      "Proceso de carros 8.1: barras de 4 m hasta Ø20"),
-    I("MP-69", "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)", "barra", D, MPC, Z_CANT, "Vladimirsky",
-      "Hierros Parrotta", "A cotizar", "Barra de 6 m", 1, 5, S_SID, CRIT, 40, 1.0,
-      "Proceso de carros 8.1: barras de 6 m de 21 a 30 mm"),
-    I("MP-70", "Arandela de tope del eje del carro", "u", D, CMP, Z_INR, "Hierros Parrotta", "-", "A cotizar",
-      "Bolsa de 100 u", 100, 5, S_SID, NAC, 20, 0.73),
-    I("MP-71", "Pasador partido del eje del carro", "u", D, CMP, Z_INR, "Hierros Parrotta", "-", "A cotizar",
-      "Bolsa de 100 u", 100, 5, S_SID, NAC, 20, 0.73),
-    # ---- carga
-    I("MP-33", "Polvo ABC 60 (IRAM 3569), manuales y sus recargas", "kg", D, MPC, Z_POL, "DEMSA", "Polvex",
-      "Cotizado", "Big bag de 1.000 kg", 1000, 7, P_POLVO, CRIT, 2, 1.0,
-      "Proceso: big bags de 1.000 kg apilados de a 2 en el depósito de polvo"),
-    I("MP-33B", "Polvo ABC 90 (IRAM 3569), rodantes y sus recargas", "kg", D, MPC, Z_POL, "DEMSA", "Polvex",
-      "Cotizado", "Big bag de 1.000 kg", 1000, 7, P_POLVO, CRIT, 2, 1.0,
-      "El BOM define ABC 90 en rodantes (decisión FLAMA); el proceso de carros lo llama MP-33"),
-    I("MP-34", "Nitrógeno seco ≥ 99,8 % (gas impulsor)", "m³", D, MPC, Z_GAS, "Air Liquide", "Gogniat", "Cotizado",
-      "Pack de 12 cilindros (≈110 m³)", 110, 1, Q_AL, CRIT, 1, 1.5, "Proceso de manuales, tabla 27: pack de 12 cilindros"),
-    I("MP-39", "Argón (gas impulsor del agente limpio)", "m³", D, MPC, Z_GAS, "Air Liquide", "Gogniat", "A cotizar",
-      "Cilindro de 9,5 m³", 9.5, 1, Q_AL, CRIT, 1, 0.1),
-    # ---- soldadura y superficie
-    I("MP-23", "Alambre MAG ER70S-6 Ø0,9 mm (manuales)", "kg", D, MPC, Z_SOL, "Conarco (ESAB)", "Distribuidor zona sur",
-      "A cotizar", "Carrete de 15 kg", 15, 5, P_ALAM, NAC, 60, 0.73, "Proceso de manuales: alambre de 0,9 mm"),
-    I("MP-24", "Alambre MAG ER70S-6 Ø1,0 mm (carros)", "kg", D, MPC, Z_INR, "Conarco (ESAB)", "Distribuidor zona sur",
-      "A cotizar", "Carrete de 15 kg", 15, 5, P_ALAM, NAC, 60, 0.73,
-      "El proceso de carros usa 1,0 mm en todos los puestos (la planilla decía 1,2)"),
-    I("MP-25", "Gas de protección MAG Ar + 8 % CO₂ (Arcal 21)", "m³", IN, CON, Z_GAS, "Air Liquide", "Gogniat",
-      "Cotizado", "Batería de 11 cilindros (115,5 m³)", 115.5, 1, Q_AL, CRIT, 1, 1.5,
-      "Air Liquide: baterías de 11 cilindros de 10,5 m³, recambio semanal"),
-    I("MP-26", "Puntas de contacto y toberas MAG", "u", IN, CON, Z_SOL, "ESAB / Binzel (distribuidor)", "-",
-      "A cotizar", "Caja de 25 u", 25, 5, PL, NAC, 40, 0.73),
-    I("MP-27", "Disco de corte 115 × 1,0 mm", "u", IN, CON, Z_SOL, "Norton / Pferd (distribuidor)", "-", "A cotizar",
-      "Caja de 25 u", 25, 5, PL, NAC, 40, 0.73),
-    I("MP-93", "Disco flap 115 mm grano 60", "u", IN, CON, Z_SOL, "Norton / Pferd (distribuidor)", "-", "A cotizar",
-      "Caja de 10 u", 10, 5, PL, NAC, 40, 0.73),
-    I("MP-92", "Disco de sensitiva 355 mm", "u", IN, CON, Z_SOL, "Norton / Pferd (distribuidor)", "-", "A cotizar",
-      "Caja de 10 u", 10, 5, PL, NAC, 20, 0.73),
-    I("MP-94", "Mecha de acero rápido 4,5 mm", "u", IN, CON, Z_SOL, "Ferretería industrial", "-", "A cotizar",
-      "Caja de 10 u", 10, 5, PL, NAC, 40, 0.73),
-    I("MP-95", "Spray antiproyecciones MIG 400 ml (Würth)", "u", IN, CON, Z_SOL, "Würth Argentina", "-", "A cotizar",
-      "Aerosol de 400 ml", 1, 5, PL, NAC, 50, 0.73),
-    I("MP-28", "Granalla de acero S330 / S390 (reposición)", "kg", IN, CON, Z_SOL, "CyM Materiales", "Roca Ingeniería",
-      "Cotizado", "Pallet de 40 bolsas de 25 kg", 1000, 7, PL, NAC, 1, 1.2, "Precio cotizado ($2.000/kg), sin plazo"),
-    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050 (IRAM-DEF D 10-54)", "kg", D, MPC, Z_POL,
-      "Sinteplast Industria", "Tersuave", "A cotizar", "Caja de 20 kg", 20, 10, PL, NAC, 30, 0.73,
-      "Proceso de manuales: sector seco con el polvo ABC"),
-    I("MP-32", "Tapón-gancho de silicona M22 / M30 (enmascarado)", "u", IN, CON, Z_SOL, "Distribuidor de enmascarado",
-      "-", "A cotizar", "Caja de 500 u", 500, 10, PL, NAC, 10, 0.73),
-    # ---- válvula, descarga y soporte
-    I("MP-42", "Válvula HZ M-22 con tubo de pesca (1 kg)", "u", D, CMP, Z_INM, "Polvex (HZ)", "Mozart", "Cotizado",
-      "Caja de 100 u", 100, 20, P_VALV, NAC, 30, 0.73, "Lista de precios: $4.200 c/u"),
-    I("MP-43", "Válvula HZ M-30 con resorte y tubo 7/8 (2,5 a 10 kg)", "u", D, CMP, Z_INM, "Polvex (HZ)", "Mozart",
-      "Cotizado", "Caja de 50 u", 50, 20, P_VALV, NAC, 30, 0.73, "Lista de precios: $6.800 c/u"),
-    I("MP-44/25", "Válvula HZ de carro 25 kg (traba, manija y resorte)", "u", D, CMP, Z_INR, "Polvex (HZ)", "Mozart",
-      "Cotizado", "Caja de 10 u", 10, 20, P_VALV, NAC, 20, 0.73, "Lista de precios: $7.500 c/u"),
-    I("MP-44/50", "Válvula HZ de carro 50-70-100 kg", "u", D, CMP, Z_INR, "Polvex (HZ)", "Mozart", "Cotizado",
-      "Caja de 10 u", 10, 20, P_VALV, NAC, 20, 0.73, "Lista de precios: $7.500 c/u"),
-    I("MP-45", "Manómetro IRAM 3533, 1,4 MPa", "u", D, CMP, Z_INM, "Yukon", "Matafuegos Iglesias", "A validar",
-      "Caja de 100 u", 100, 20, P_VALV, NAC, 20, 0.73),
-] + [I(f"MP-48/{p}", f"{'Tobera' if p == 'ABC1' else 'Manguera con racor y tobera'} {n} (armada)", "u", D, CMP, Z_INM,
-       "Yukon", "Matafuegos Iglesias", "A cotizar", "Caja de 50 u", 50, 15, P_MANG, NAC, 20, 0.73)
-     for _, p, n in MAN] + [
-    I(f"MP-49/{p}", f"Manguera armada con válvula esférica y tobera campana, carro {n[4:]}", "u", D, CMP, Z_INR,
-      "Yukon", "Matafuegos Iglesias", "A cotizar", "Caja de 10 u", 10, 15, P_MANG, NAC, 20, 0.73) for _, p, n in ROD] + [
-    I("MP-50/M22", "Junta tórica NBR 70 del cuello M22", "u", D, CMP, Z_INM, "Argensold", "Matafuegos Iglesias",
-      "A cotizar", "Bolsa de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-50/M30", "Junta tórica NBR 70 del cuello M30", "u", D, CMP, Z_INM, "Argensold", "Matafuegos Iglesias",
-      "A cotizar", "Bolsa de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-50/2½", "Junta tórica NBR 70 del cuello 2½\" (carros 70 y 100 kg)", "u", D, CMP, Z_INR, "Argensold",
-      "Matafuegos Iglesias", "A cotizar", "Bolsa de 100 u", 100, 10, PL, NAC, 50, 0.73),
-    I("MP-50/OT", "Junta tórica del cuello de los equipos de otros fabricantes (recargas)", "u", D, CMP, Z_REC,
-      "Matafuegos Iglesias", "Yukon", "A cotizar", "Bolsa de 100 u", 100, 10, PL, NAC, 50, 0.73,
-      "Medida según el fabricante del equipo"),
-] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", D, CMP, Z_INM, "Maxiseguridad", "CM Representaciones",
-       "A cotizar", "Caja de 50 u", 50, 15, PL, NAC, 10, 0.73) for _, p, n in MAN[1:]] + [
-    I("MP-87", "Soporte vehicular con cierre rápido (1 kg)", "u", D, CMP, Z_INM, "Maxiseguridad", "-", "A cotizar",
-      "Caja de 50 u", 50, 15, PL, NAC, 10, 0.73),
-    I("MP-86", "Tornillo M8 y tarugo Ø10 de fijación", "u", D, CMP, Z_INM, "Würth Argentina", "-", "A cotizar",
-      "Caja de 500 u", 500, 5, PL, NAC, 20, 0.73),
-    I("MP-54/300", "Rueda de chapa y goma Ø300 × 50, buje 3/4\" (carro 25 kg)", "u", D, CMP, Z_INR, "Ruedar", "-",
-      "A validar", "Atado de 10 u", 10, 15, P_RUEDA, NAC, 4, 0.73),
-    I("MP-54/350", "Rueda de chapa y goma Ø350 × 60, buje 1\" (carro 50 kg)", "u", D, CMP, Z_INR, "Ruedar",
-      "Escanort", "A cotizar", "Atado de 10 u", 10, 15, P_RUEDA, NAC, 3, 0.73),
-    I("MP-54/400", "Rueda de chapa y goma Ø400 × 60, buje 1\" (carros 70 y 100 kg)", "u", D, CMP, Z_INR, "Escanort",
-      "Ruedar", "A cotizar", "Atado de 10 u", 10, 15, P_RUEDA, NAC, 3, 0.73),
-    # ---- identificación
-] + [I(f"MP-56/{p}", f"Etiqueta / placa de características {n}", "u", D, IDN, Z_ID, "Astuprint", "Multilabel",
-       "A cotizar", "Rollo de 1.000 u", 1000, 10, PL, NAC, 30, 0.73) for _, p, n in FAB] + [
-    I("MP-78", "Oblea de fabricación PBA (Res. 522/07)", "u", D, IDN, Z_ID, "Ministerio de Ambiente PBA (DPS)", "-",
-      "Arancel oficial", "Paquete de 1.000 u", 1000, 10, S_ORG, ORG, 50, 0.73, "Sólo destino PBA"),
-    I("MP-79", "Estampilla IRAM de conformidad", "u", D, IDN, Z_ID, "IRAM", "-", "Arancel de licencia",
-      "Paquete de 1.000 u", 1000, 10, S_ORG, ORG, 50, 0.73),
-    I("MP-77", "Tarjeta de identificación AGC (CABA)", "u", D, IDN, Z_ID, "AGC (CABA)", "-", "Arancel oficial",
-      "Paquete de 500 u", 500, 10, S_ORG, ORG, 50, 0.73, "Sólo destino CABA"),
-    I("MP-76", "Tarjeta de identificación DPS (PBA), recargas", "u", D, IDN, Z_ID, "Ministerio de Ambiente PBA (DPS)",
-      "-", "Arancel oficial", "Paquete de 500 u", 500, 10, S_ORG, ORG, 50, 0.73, "Sólo destino PBA"),
-    I("MP-75", "Estampilla y oblea de recarga (PBA)", "u", D, IDN, Z_ID, "Ministerio de Ambiente PBA (DPS)", "-",
-      "Arancel oficial", "Paquete de 1.000 u", 1000, 10, S_ORG, ORG, 50, 0.73, "Sólo destino PBA"),
-    I("MP-80", "Etiqueta de n° de serie GS1 con QR", "u", D, IDN, Z_ID, "Astuprint", "GS1 Argentina (códigos)",
-      "A cotizar", "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-81", "Faja de garantía válvula-cuello", "u", D, IDN, Z_ID, "Astuprint", "Multilabel", "A cotizar",
-      "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-51", "Precinto de fábrica numerado «FLAMA»", "u", D, IDN, Z_ID, "SonFuertes", "Precinter", "A cotizar",
-      "Bolsa de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-88", "Etiqueta de identificación del cilindro suelto", "u", D, IDN, Z_ID, "Astuprint", "Multilabel",
-      "A cotizar", "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-73", "Etiqueta de control periódico (celeste 35 × 50)", "u", D, IDN, Z_REC, "Astuprint", "Multilabel",
-      "A cotizar", "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-72", "Etiqueta de servicio del recargador", "u", D, IDN, Z_REC, "Astuprint", "Multilabel", "A cotizar",
-      "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-57", "Marbete indicador de mantenimiento (color del año)", "u", D, IDN, Z_REC, "Astuprint", "Multilabel",
-      "A cotizar", "Paquete de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-74", "Oblea de vencimiento de la prueba hidráulica", "u", D, IDN, Z_REC, "Astuprint", "Multilabel",
-      "A cotizar", "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-97", "Precinto con identificación del recargador", "u", D, IDN, Z_REC, "SonFuertes", "Precinter",
-      "A cotizar", "Bolsa de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-55", "Conjunto de seguridad (disco) de CO₂, IRAM 2736", "u", D, CMP, Z_REC, "Georgia", "HZ", "A cotizar",
-      "Bolsa de 100 u", 100, 15, PL, NAC, 50, 0.73),
-    I("MP-82", "Faja amarilla de sustituto (≤ 40 mm)", "u", D, IDN, Z_REC, "Astuprint", "Multilabel", "A cotizar",
-      "Rollo de 500 u", 500, 10, PL, NAC, 50, 0.73),
-    I("MP-83", "Tarjeta DPS «SUSTITUTO HABILITADO»", "u", D, IDN, Z_REC, "Ministerio de Ambiente PBA (DPS)", "-",
-      "Arancel oficial", "Paquete de 100 u", 100, 10, S_ORG, ORG, 50, 0.73),
-    I("MP-84", "Tarjeta AGC con «Es sustituto»", "u", D, IDN, Z_REC, "AGC (CABA)", "-", "Arancel oficial",
-      "Paquete de 100 u", 100, 10, S_ORG, ORG, 50, 0.73),
-    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", D, IDN, Z_ID, "Astuprint", "-", "A cotizar",
-      "Paquete de 500 u", 500, 5, PL, NAC, 50, 0.73),
-    # ---- agentes de recarga
-    I("MP-35", "Polvo BC (IRAM 3566), recargas", "kg", D, MPC, Z_POL, "Polvex", "DEMSA", "Cotizado", "Bolsa de 25 kg",
-      25, 7, PL, NAC, 40, 1.2),
-    I("MP-36", "Polvo para metales combustibles clase D, recargas", "kg", D, MPC, Z_POL, "DEMSA", "-", "A validar",
-      "Bolsa de 25 kg", 25, 15, PL, NAC, 40, 1.2),
-    I("MP-37", "CO₂ líquido grado industrial, recargas", "kg", D, MPC, Z_GAS, "Air Liquide", "Gogniat", "A cotizar",
-      "Cilindro con sifón de 25 kg", 25, 1, Q_AL, CRIT, 1, 0.1),
-    I("MP-38", "Agente limpio HCFC-123 / HFC-236fa, recargas", "kg", D, MPC, Z_REC, "A definir (importado)", "-",
-      "A definir", "Cilindro de 50 kg", 50, 30, PL, IMP, 1, 0.2),
-    I("MP-40", "Concentrado AFFF 3 % (IRAM 3515), recargas", "L", D, MPC, Z_REC, "DEMSA", "Polvex", "Cotizado",
-      "Bidón de 20 L", 20, 7, PL, NAC, 32, 0.73, "Lista de precios: bidón de 20 L"),
-    I("MP-41", "Solución de acetato de potasio (clase K), recargas", "L", D, MPC, Z_REC, "Polvex (Gastro K)", "DEMSA",
-      "Cotizado", "Bidón de 20 L", 20, 7, PL, NAC, 32, 0.73, "Lista de precios: bidones de 10, 20 y 30 L"),
-    I("MP-65", "Esmalte rojo de retoque, recargas", "L", D, MPC, Z_REC, "Sinteplast", "Tersuave", "A cotizar",
-      "Lata de 4 L", 4, 5, PL, NAC, 40, 0.73),
-    # ---- embalaje
-] + [I(f"MP-59/{p}", f"Caja de cartón corrugado {'doble' if p == 'ABC10' else 'simple'} {n}", "u", D, EMB, Z_EMB,
-       "Maxipack", "Cartocan", "A cotizar", "Pallet de 600 cajas plegadas", 600, 10, PL, NAC, 1, 1.2)
-     for _, p, n in MAN] + [
-    I("MP-89", "Etiqueta de caja (código, serie y lote)", "u", D, EMB, Z_EMB, "Astuprint", "Multilabel", "A cotizar",
-      "Rollo de 1.000 u", 1000, 10, PL, NAC, 50, 0.73),
-    I("MP-60", "Pallet de madera 1200 × 1000 (IRAM 10016)", "u", D, EMB, Z_EMB, "IndusPallets", "-", "A cotizar",
-      "Pila de 15 u", 15, 5, PL, NAC, 1, 1.2),
-    I("MP-63", "Film stretch 500 mm pre-estirable", "kg", D, EMB, Z_EMB, "MV Embalajes", "Embalpack", "A cotizar",
-      "Bobina de 16 kg", 16, 5, PL, NAC, 30, 0.73),
-    I("MP-90", "Etiqueta de pallet", "u", D, EMB, Z_EMB, "Astuprint", "Multilabel", "A cotizar", "Rollo de 500 u",
-      500, 10, PL, NAC, 50, 0.73),
-    I("MP-64", "Esquinero de cartón 50 × 50 × 1200", "u", D, EMB, Z_EMB, "Maxipack", "Cartocan", "A cotizar",
-      "Paquete de 100 u", 100, 10, PL, NAC, 5, 0.73),
-    I("MP-91", "Funda de polietileno para rodante", "u", D, EMB, Z_EMB, "MV Embalajes", "Embalpack", "A cotizar",
-      "Rollo de 100 u", 100, 5, PL, NAC, 10, 0.73),
-    I("MP-62/M22", "Tapón protector de rosca PE M22 (cilindro suelto)", "u", D, EMB, Z_EMB, "A definir (inyectora)",
-      "-", "Sin proveedor", "Caja de 5.000 u", 5000, 10, PL, NAC, 4, 0.73),
-    I("MP-62/M30", "Tapón protector de rosca PE M30 (cilindro suelto)", "u", D, EMB, Z_EMB, "A definir (inyectora)",
-      "-", "Sin proveedor", "Caja de 5.000 u", 5000, 10, PL, NAC, 4, 0.73),
-    I("MP-62/2½", "Tapón protector de rosca PE 2½\" (cilindro suelto)", "u", D, EMB, Z_EMB, "A definir (inyectora)",
-      "-", "Sin proveedor", "Caja de 500 u", 500, 10, PL, NAC, 4, 0.73),
-] + [I(f"MP-96/{p}", f"Servicio de pintura en polvo, carro {n[4:]} (tercerizado)", "u", D, SERV, Z_SERV,
-       "Pintor de carros (cotización por mensaje)", "Prymax", "Cotizado", "Unidad", 1, 5, S_SERV, CRIT, 0, 0,
-       "Cotización: USD 13,5 / 20,3 / 27,5 / 32 por carro") for _, p, n in ROD] + [
-    I(f"RV-{c}", f"Matafuego {n} terminado (reventa)", "u", D, REVT, Z_REV,
-      {"CO2_2kg": "Mozart", "CO2_5kg": "Mozart"}.get(c, "Georgia"),
-      {"CO2_2kg": "Georgia", "CO2_5kg": "Georgia", "HCFC-HFC_5kg": "Melisam", "BC_5kg": "Melisam",
-       "CLASED_9l": "Melisam"}.get(c, "Drago"), "A cotizar", "Unidad", 1, 15, S_REV, NAC, POR_POS_REV[c], 0.73,
-      "Equipos por posición de pallet: supuesto con la caja del fabricante")
-    for c, n in REV]
+    I("MP-01", "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)", "barra", Z_CANT, "Metalpri / Prilux",
+      "Atado de 16 barras", 16, "MP-01", "P01"),
+    I("MP-02", "Hoja LAF 1,25 × 1220 × 2440 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 50 hojas", 50, "MP-02", "P01"),
+    I("MP-03", "Hoja LAF 1,6 × 1000 × 2000 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 80 hojas", 80, "MP-03", "P01"),
+    I("MP-04", "Hoja LAF 2,0 × 1500 × 3000 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 20 hojas", 20, "MP-04", "P01"),
+    I("MP-05", "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-05",
+      "Q01"),
+    I("MP-13", "Fleje LAF 1,25 × 135 mm (fondo 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-13",
+      "Q01"),
+    I("MP-06", "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg",
+      492, "MP-06", "Q02"),
+    I("MP-07", "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 615 kg", 615, "MP-07",
+      "Q02"),
+    I("MP-08", "Fleje LAF 1,6 × 200 mm (fondo 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg", 492, "MP-08",
+      "Q02"),
+    I("MP-09", "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 590 kg", 590, "MP-09",
+      "Q02"),
+    I("MP-10", "Fleje LAF 2,0 × 249 mm (fondo 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 498 kg", 498, "MP-10",
+      "Q02"),
+    I("MP-11", "Hoja LAC 3,2 × 1500 × 3000 mm", "hoja", Z_CHR, "Pradecon", "Paquete de 20 hojas", 20, "MP-11", "P07",
+      40, "P07"),
+    I("MP-12", "Hoja LAC 4,75 × 1500 × 3000 mm", "hoja", Z_CHR, "Pradecon", "Paquete de 15 hojas", 15, "MP-12", "P07",
+      30, "P07"),
+    I("MP-15", "Casquete 10\" × 3,2 mm (carro 25 kg)", "u", Z_CASQ, "Importado", "Pallet de 400 u", 400, "MP-15",
+      "P07", 400, "P07"),
+    I("MP-16", "Casquete 12\" × 3,2 mm (carro 50 kg)", "u", Z_CASQ, "Importado", "Pallet de 300 u", 300, "MP-16",
+      "P07", 300, "P07"),
+    I("MP-17", "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)", "u", Z_CASQ, "Importado", "Pallet de 150 u", 150,
+      "MP-17", "P07", 150, "P07"),
+    I("MP-18", "Asiento de válvula M22 × 1,5 (1 kg)", "u", Z_INM, "Eli-Met", "Caja de 1.000 u", 1000, "MP-18", "X07"),
+    I("MP-19", "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)", "u", Z_INM, "Eli-Met", "Caja de 1.000 u", 1000, "MP-19",
+      "X07"),
+    I("MP-20", "Cupla M30 × 1,5 (carros 25 y 50 kg)", "u", Z_CASQ, "Eli-Met", "Caja de 100 u", 100, "MP-20", "P07",
+      600, "P07"),
+    I("MP-21", "Cupla 2½\" BSP (carros 70 y 100 kg)", "u", Z_CASQ, "Eli-Met", "Caja de 40 u", 40, "MP-21", "P07",
+      160, "P07"),
+    I("MP-66", "Caño SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)", "barra", Z_CANT, "Centrosider",
+      "Barra de 6 m", 1, "MP-22", "P15", 60, "X07"),
+    I("MP-67", "Caño SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)", "barra", Z_CANT, "Centrosider",
+      "Barra de 6 m", 1, "MP-22", "P15", 60, "X07"),
+    I("MP-68", "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)", "barra", Z_CANT, "Vladimirsky", "Barra de 4 m",
+      1, "MP-22", "P15", 60, "X07"),
+    I("MP-69", "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)", "barra", Z_CANT, "Vladimirsky",
+      "Barra de 6 m", 1, "MP-22", "P15", 60, "X07"),
+    I("MP-70", "Arandela de tope del eje", "u", Z_INR, "Hierros Parrotta", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-71", "Pasador partido del eje", "u", Z_INR, "Hierros Parrotta", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-54/300", "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)", "u", Z_INR, "Ruedar", "Pallet de 72 u", 72, "MP-54",
+      "X07"),
+    I("MP-54/350", "Rueda Ø350 × 60, buje 1\" (carro 50 kg)", "u", Z_INR, "Ruedar", "Pallet de 72 u", 72, "MP-54",
+      "X07"),
+    I("MP-54/400", "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)", "u", Z_INR, "Escanort", "Pallet de 72 u", 72,
+      "MP-54", "X07"),
+    I("MP-23", "Alambre MAG ER70S-6 Ø0,9 mm (manuales)", "kg", Z_SOL, "Conarco (ESAB)", "Pallet de 900 kg", 900,
+      "MP-23", "X07"),
+    I("MP-24", "Alambre MAG ER70S-6 Ø1,0 mm (carros)", "kg", Z_INR, "Conarco (ESAB)", "Pallet de 900 kg", 900,
+      "MP-24", "X07"),
+    I("MP-25", "Gas MAG Ar + 8 % CO₂ (Arcal 21)", "m³", Z_GAS, "Air Liquide", "Batería de 11 cilindros", 115.5,
+      "MP-25", "Q03"),
+    I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-94", "Mecha de acero rápido 4,5 mm", "u", Z_SOL, "Ferretería industrial", "Caja de 25 u", 25, "MP-27",
+      "X07"),
+    I("MP-95", "Spray antiproyecciones 400 ml", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-28", "Granalla de acero S330 / S390", "kg", Z_SOL, "CyM Materiales", "Pallet de 1.000 kg", 1000, "MP-28",
+      "X07"),
+    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050", "kg", Z_POL, "Sinteplast", "Pallet de 600 kg", 600,
+      "MP-31", "X07"),
+    I("MP-33", "Polvo ABC 60 (manuales y sus recargas)", "kg", Z_POL, "DEMSA", "Big bag de 1.000 kg", 1000, "MP-33",
+      "P06"),
+    I("MP-33B", "Polvo ABC 90 (carros y sus recargas)", "kg", Z_POL, "DEMSA", "Big bag de 1.000 kg", 1000, "MP-33",
+      "P06"),
+    I("MP-34", "Nitrógeno seco", "m³", Z_GAS, "Air Liquide", "Pack de 12 cilindros", 110, "MP-34", "P04"),
+    I("MP-35", "Polvo BC (recargas)", "kg", Z_POL, "Polvex", "Bolsa de 25 kg", 25, "MP-35", "Q07"),
+    I("MP-36", "Polvo clase D (recargas)", "kg", Z_POL, "DEMSA", "Bolsa de 25 kg", 25, "MP-36", "X07"),
+    I("MP-37", "CO₂ líquido (recargas)", "kg", Z_GAS, "Air Liquide", "Cilindro de 25 kg", 25, "MP-37", "X07"),
+    I("MP-38", "Agente limpio HCFC-123 (recargas)", "kg", Z_REC, "Polvex / DEMSA", "Cilindro de 50 kg", 50, "MP-38",
+      "X07"),
+    I("MP-40", "Concentrado AFFF 3 % (recargas)", "L", Z_REC, "Polvex", "Bidón de 20 L", 20, "MP-40", "Q07"),
+    I("MP-41", "Acetato de potasio Gastro K (recargas)", "L", Z_REC, "Polvex", "Bidón de 20 L", 20, "MP-41", "Q07"),
+    I("MP-42", "Válvula HZ M-22 con tubo de pesca (1 kg)", "u", Z_INM, "Polvex (HZ)", "Pallet de 3.000 u", 3000,
+      "MP-42", "X07"),
+    I("MP-43", "Válvula HZ M-30 con resorte (2,5 a 10 kg)", "u", Z_INM, "Polvex (HZ)", "Pallet de 1.500 u", 1500,
+      "MP-43", "X07"),
+    I("MP-44/25", "Válvula HZ de carro 25 kg", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u", 10, "MP-44", "X07"),
+    I("MP-44/50", "Válvula HZ de carro 50-70-100 kg", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u", 10, "MP-44", "X07"),
+    I("MP-45", "Manómetro 1,4 MPa", "u", Z_INM, "Yukon", "Caja de 100 u", 100, "MP-45", "X07"),
+] + [I(f"MP-48/{p}", f"{'Tobera' if p == 'ABC1' else 'Manguera con tobera'} {n}", "u", Z_INM, "Yukon",
+       "Caja de 50 u", 50, "MP-48", "X07") for _, p, n in MAN] + [
+    I(f"MP-49/{p}", f"Manguera con válvula esférica y tobera, carro {n[4:]}", "u", Z_INR, "Yukon", "Caja de 10 u", 10,
+      "MP-49", "X07") for _, p, n in ROD] + [
+    I("MP-50/M22", "Junta tórica del cuello M22", "u", Z_INM, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
+    I("MP-50/M30", "Junta tórica del cuello M30", "u", Z_INM, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
+    I("MP-50/2½", "Junta tórica del cuello 2½\"", "u", Z_INR, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
+    I("MP-50/OT", "Junta tórica del cuello (recargas, surtido por medida)", "u", Z_REC, "Matafuegos Iglesias",
+      "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
+] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Maxiseguridad", "Caja de 100 u", 100, "MP-52", "X07")
+     for _, p, n in MAN[1:]] + [
+    I("MP-87", "Soporte vehicular (1 kg)", "u", Z_INM, "Maxiseguridad", "Caja de 100 u", 100, "MP-52", "X07"),
+    I("MP-86", "Tornillo y tarugo de fijación", "u", Z_INM, "Würth Argentina", "Bolsa de 1.000 u", 1000, "MP-51",
+      "X07"),
+    I("MP-55", "Conjunto de seguridad de CO₂ (recargas)", "u", Z_REC, "Georgia", "Bolsa de 100 u", 100, "MP-55",
+      "X07"),
+] + [I(f"MP-56/{p}", f"Etiqueta de características {n}", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56",
+       "X07") for _, p, n in FAB] + [
+    I("MP-78", "Oblea de fabricación (PBA)", "u", Z_ID, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58", "X07"),
+    I("MP-79", "Estampilla IRAM de conformidad", "u", Z_ID, "IRAM", "Paquete de 500 u", 500, "MP-58", "X07"),
+    I("MP-77", "Tarjeta de identificación AGC (CABA)", "u", Z_ID, "AGC (CABA)", "Paquete de 500 u", 500, "MP-58",
+      "X07"),
+    I("MP-80", "Etiqueta de n° de serie GS1", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-81", "Faja de garantía válvula-cuello", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-51", "Precinto de fábrica", "u", Z_ID, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-88", "Etiqueta del cilindro suelto", "u", Z_ID, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-62/M22", "Tapón protector de rosca M22", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+      "MP-62", "X07"),
+    I("MP-62/M30", "Tapón protector de rosca M30", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+      "MP-62", "X07"),
+    I("MP-62/2½", "Tapón protector de rosca 2½\"", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+      "MP-62", "X07"),
+    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Astuprint", "Paquete de 500 u", 500,
+      "MP-58", "X07"),
+    I("MP-57", "Marbete del año", "u", Z_REC, "Astuprint", "Paquete de 1.000 u", 1000, "MP-57", "X07"),
+    I("MP-97", "Precinto del recargador", "u", Z_REC, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-72", "Etiqueta de servicio", "u", Z_REC, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-75", "Estampilla y oblea de recarga (PBA)", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
+      "X07"),
+    I("MP-76", "Tarjeta de identificación DPS (PBA)", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
+      "X07"),
+    I("MP-82", "Faja amarilla de sustituto", "u", Z_REC, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-83", "Tarjeta DPS «sustituto habilitado»", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
+      "X07"),
+    I("MP-84", "Tarjeta AGC «es sustituto»", "u", Z_REC, "AGC (CABA)", "Paquete de 500 u", 500, "MP-58", "X07"),
+    I("MP-65", "Esmalte poliuretano rojo (recargas)", "L", Z_REC, "Sinteplast", "Lata de 4 L", 4, "MP-65", "X07"),
+] + [I(f"MP-59/{p}", f"Caja de cartón {'doble' if p == 'ABC10' else 'simple'} {n}", "u", Z_EMB, "Maxipack",
+       "Pallet de 600 cajas", 600, "MP-59", "X07") for _, p, n in MAN] + [
+    I("MP-89", "Etiqueta de caja", "u", Z_EMB, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+    I("MP-60", "Pallet de madera 1200 × 1000", "u", Z_EMB, "IndusPallets", "Pila de 15 u", 15, "MP-60", "X07"),
+    I("MP-90", "Etiqueta de pallet", "u", Z_EMB, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
+] + [I(f"MP-96/{p}", f"Servicio de pintura, carro {n[4:]} (tercerizado)", "u", Z_SERV, "Pintor de carros",
+       "Unidad", 1, "MP-60", "Q09") for _, p, n in ROD] + [
+    I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT, "Fabricante nacional", "Unidad", 1, "MP-43", "X07",
+      60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
+# lo que el lead time de la planilla tiene confirmado en una cotización o en un proceso
+LT_DOC = {"MP-01": "Q04", "MP-02": "Q01", "MP-03": "Q01", "MP-04": "Q01", "MP-05": "Q01", "MP-13": "Q01",
+          "MP-06": "Q01", "MP-07": "Q01", "MP-08": "Q01", "MP-09": "Q01", "MP-10": "Q01", "MP-11": "Q01",
+          "MP-12": "Q01", "MP-15": "P06", "MP-16": "P06", "MP-17": "P06", "MP-18": "Q03", "MP-19": "Q03",
+          "MP-20": "Q03", "MP-21": "Q03", "MP-25": "Q03", "MP-34": "Q03", "MP-33": "P06", "MP-33B": "P06",
+          "MP-44/25": "P06", "MP-44/50": "P06", "MP-45": "P06", "MP-24": "P06", "MP-23": "P06"}
 
-# ------------------------------------------------------------------ fabricación: pieza → materia prima (FAB_COMPRA)
-CUERPO = {"ABC1": ("MP-01", "tramos de 255 mm por caño de 6 m", 23, "Proceso de manuales, corte de tubo: «Cortar 23 "
-                   "tramos» por caño"),
-          "ABC2.5": ("MP-02", "cuerpos por hoja 1220 × 2440", 27, "Proceso de manuales, guillotina: 27 por hoja (94 %)"),
-          "ABC5": ("MP-03", "cuerpos por hoja 1000 × 2000", 12, "Proceso de manuales, guillotina: 12 por hoja (94 %)"),
-          "ABC10": ("MP-04", "cuerpos por hoja 1500 × 3000", 15, "Proceso de manuales, guillotina: 15 por hoja (93 %)"),
-          "ABC25": ("MP-11", "cuerpos por hoja 1500 × 3000", 9, "Proceso de carros, puesto 2: 9 por hoja (84,1 %)"),
-          "ABC50": ("MP-11", "cuerpos por hoja 1500 × 3000", 6, "Proceso de carros, puesto 2: 6 por hoja (84,8 %)"),
-          "ABC70": ("MP-12", "cuerpos por hoja sola (la mixta se calcula en la hoja RODANTES)", 4,
-                    "Proceso de carros, puesto 2: 4 por hoja sola (73,3 %); mixta 3 + 1 (79,2 %)"),
-          "ABC100": ("MP-12", "cuerpos por hoja sola (la mixta se calcula en la hoja RODANTES)", 3,
-                     "Proceso de carros, puesto 2: 3 por hoja sola (72,7 %); mixta 3 + 1 (79,2 %)")}
-# disco de cúpula / fondo de manuales: (ítem, ancho del fleje, Ø del disco, espesor del plano)
+# ------------------------------------------------------------------ datos de fabricación
+CUERPO = {"ABC1": ("MP-01", 23, "P03"), "ABC2.5": ("MP-02", 27, "P02"), "ABC5": ("MP-03", 12, "P02"),
+          "ABC10": ("MP-04", 15, "P02")}
+# disco de cúpula / fondo: (ítem, ancho del fleje, Ø del disco, espesor); puente entre discos 3 mm (planilla de MP)
 DISCO = {("ABC1", "Cúpula"): ("MP-05", 114, 95, 0.9), ("ABC1", "Fondo"): ("MP-13", 135, 112, 1.25),
          ("ABC2.5", "Cúpula"): ("MP-06", 200, 179, 1.25), ("ABC2.5", "Fondo"): ("MP-06", 200, 148, 1.25),
          ("ABC5", "Cúpula"): ("MP-07", 250, 221, 1.6), ("ABC5", "Fondo"): ("MP-08", 200, 177, 1.6),
          ("ABC10", "Cúpula"): ("MP-09", 300, 258, 1.6), ("ABC10", "Fondo"): ("MP-10", 249, 205, 2.0)}
+PUENTE = 3
+# planilla de MP, Geometria Acero filas 67 y 71: alambre (kg) y gas (m³) por recipiente de manuales
+ALAMBRE_MAN = {"ABC1": 0.01499, "ABC2.5": 0.0304, "ABC5": 0.03675, "ABC10": 0.04575}
+GAS_MAN = {"ABC1": 0.01671, "ABC2.5": 0.03388, "ABC5": 0.04096, "ABC10": 0.051}
+# proceso de manuales: producción del pico con la que da 48 m³ de gas por día (tramos y desarrollos)
+PICO_DOC_MAN = {"ABC1": 1216, "ABC2.5": 99, "ABC5": 446, "ABC10": 27}
+GAS_DOC = 48
+POR_PALLET_MAN = {"ABC1": 400, "ABC2.5": 167, "ABC5": 90, "ABC10": 40}      # proceso de manuales, embalaje
+POR_PALLET_ROD = {"ABC25": 24, "ABC50": 9, "ABC70": 6, "ABC100": 6}         # planilla de MP, Pallets PT
+# proceso de carros: (puesto, gas en L, alambre en g) por modelo 25 / 50 / 70 / 100
+CARRO = [("Puesto 4", (3.4, 4.1, 9.5, 10.2), (6.0, 7.2, 16.8, 18.0)),
+         ("Puesto 5", (18, 22, 32, 42), (48, 63, 120, 158)),
+         ("Puesto 6", (10, 10, 17, 17), (10.5, 10.5, 29, 29)),
+         ("Puesto 7", (66, 75, 122, 122), (190, 218, 463, 463)),
+         ("Puesto 8", (96, 98, 109, 109), (141, 146, 199, 199))]
 CASQ = {"ABC25": "MP-15", "ABC50": "MP-16", "ABC70": "MP-17", "ABC100": "MP-17"}
-CUELLO = {"ABC1": "MP-18", "ABC2.5": "MP-19", "ABC5": "MP-19", "ABC10": "MP-19", "ABC25": "MP-20", "ABC50": "MP-20",
-          "ABC70": "MP-21", "ABC100": "MP-21"}
-MANIJA = {"ABC25": 1440, "ABC50": 1520, "ABC70": 1590, "ABC100": 1590}               # caño 1" (8.1)
+CUPLA = {"ABC25": "MP-20", "ABC50": "MP-20", "ABC70": "MP-21", "ABC100": "MP-21"}
+MANIJA = {"ABC25": 1440, "ABC50": 1520, "ABC70": 1590, "ABC100": 1590}
 CANO_EJE = {"ABC25": ("MP-66", 354), "ABC50": ("MP-67", 354), "ABC70": ("MP-67", 434), "ABC100": ("MP-67", 434)}
 EJE = {"ABC25": ("MP-68", 490, 4000), "ABC50": ("MP-69", 510, 6000), "ABC70": ("MP-69", 590, 6000),
        "ABC100": ("MP-69", 590, 6000)}
@@ -377,39 +298,12 @@ VALV = {"ABC1": "MP-42", "ABC2.5": "MP-43", "ABC5": "MP-43", "ABC10": "MP-43", "
         "ABC50": "MP-44/50", "ABC70": "MP-44/50", "ABC100": "MP-44/50"}
 JUNTA = {"ABC1": "MP-50/M22", "ABC70": "MP-50/2½", "ABC100": "MP-50/2½"}
 TAPON = {"ABC1": "MP-62/M22", "ABC70": "MP-62/2½", "ABC100": "MP-62/2½"}
-
-# ------------------------------------------------------------------ insumos de proceso y embalaje (PROCESO)
-GAS_MAN = {"ABC1": 0.01671, "ABC2.5": 0.03388, "ABC5": 0.04096, "ABC10": 0.051}      # m³ por recipiente
-PICO_DOC_MAN = {"ABC1": 1216, "ABC2.5": 99, "ABC5": 446, "ABC10": 27}   # recipientes por día en el pico (proceso)
-ALAMBRE_MAN = {"ABC1": 0.01499, "ABC2.5": 0.0304, "ABC5": 0.03675, "ABC10": 0.04575}   # kg por recipiente
-POR_PALLET_MAN = {"ABC1": 400, "ABC2.5": 167, "ABC5": 90, "ABC10": 40}
-POR_PALLET_ROD = {"ABC25": 24, "ABC50": 9, "ABC70": 6, "ABC100": 6}
-# proceso de carros: (puesto, gas en L por unidad, alambre en g por unidad) por modelo 25 / 50 / 70 / 100
-CARRO = [("Puesto 4, punteo del cuerpo", (3.4, 4.1, 9.5, 10.2), (6.0, 7.2, 16.8, 18.0)),
-         ("Puesto 5, soldadura longitudinal", (18, 22, 32, 42), (48, 63, 120, 158)),
-         ("Puesto 6, soldadura de cupla", (10, 10, 17, 17), (10.5, 10.5, 29, 29)),
-         ("Puesto 7, soldadura circunferencial", (66, 75, 122, 122), (190, 218, 463, 463)),
-         ("Puesto 8, soldadura de accesorios", (96, 98, 109, 109), (141, 146, 199, 199))]
-
-# perfiles de estacionalidad (Dimensionamiento Técnico V2: Parametros y Parametros Recargas)
-PERFILES = [
-    ("Ventas automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
-    ("Ventas manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
-    ("Ventas industrial s/ruedas (25 - 100 kg)", [.085, .075, .09, .09, .09, .08, .09, .09, .085, .075, .07, .08]),
-    ("Recargas automovilístico (1 kg)", [.10] + [.078] * 10 + [.12]),
-    ("Recargas manual comercial", [.09, .08, .085, .08, .075, .07, .08, .085, .085, .08, .08, .11]),
-    ("Recargas industrial s/ruedas", [.10, .08, .085, .085, .08, .075, .09, .08, .08, .08, .075, .09])]
-MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
-F_PERFILES = ("Dimensionamiento_TecnicoV2.xlsx, hoja Parametros (perfiles de estacionalidad ajustados en sept. 2026) "
-              "y hoja Parametros Recargas (perfiles de estacionalidad de recargas)")
-
-
-def perfil(c, recarga=False):
-    if c == "ABC_1kg":
-        return PERFILES[3][0] if recarga else PERFILES[0][0]
-    if c in ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg", "AFFF_50l"):
-        return PERFILES[5][0] if recarga else PERFILES[2][0]
-    return PERFILES[4][0] if recarga else PERFILES[1][0]
+# recargas: Dimensionamiento V2, Parametros Recargas (B14 descargados, B15 vaciados, B22 pintura) y matriz (fila 74)
+P_DESCARG, P_VACIA, P_PINTA = 0.10, 0.35, 0.15
+CAMBIO_POLVO = 0.10       # proceso de recargas: polvo a descarte cuando el año termina en el dígito de fabricación
+AFFF_CONC = 0.03          # proceso de recargas: premezcla al 3 %
+ESMALTE_REND = 8.75       # Sinteplast, esmalte poliuretano industrial (ficha 356): m² por litro con 40 µm secos
+PINT_REND, PINT_APROV = 9.46, 0.95   # WEG Politherm 66 (poliéster): m²/kg a 70 µm; aprovechamiento con recuperación
 
 
 # ------------------------------------------------------------------ estilo
@@ -417,12 +311,9 @@ def _f(bold=False, color=NEGRO, size=10, italic=False):
     return Font(name=AR, size=size, bold=bold, color=color, italic=italic)
 
 
-def _titulo(ws, texto, sub=None):
+def _titulo(ws, texto):
     ws["A1"] = texto
     ws["A1"].font = _f(True, size=12)
-    if sub:
-        ws["A2"] = sub
-        ws["A2"].font = _f(italic=True, size=9)
 
 
 def _cab(ws, r, textos, anchos=None, c0=1):
@@ -431,27 +322,27 @@ def _cab(ws, r, textos, anchos=None, c0=1):
         c.font = _f(True, BLANCO)
         c.fill = PatternFill("solid", fgColor=NEGRO)
         c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-    ws.row_dimensions[r].height = 32
+    ws.row_dimensions[r].height = 30
     if anchos:
         for j, w in enumerate(anchos, c0):
             ws.column_dimensions[L(j)].width = w
 
 
-def _fila(ws, r, n, niv=None, c0=1):
+def _fila(ws, r, n, estilo=None, c0=1):
     for j in range(c0, c0 + n):
         c = ws.cell(r, j)
         c.border = Border(bottom=FINO)
-        if niv == 0:
+        if estilo == "gris":
             c.font = _f(True)
             c.fill = PatternFill("solid", fgColor=GRIS_C)
-        elif niv == "sec":
+        elif estilo == "sec":
             c.font = _f(True, BLANCO)
             c.fill = PatternFill("solid", fgColor=GRIS_O)
         elif not (c.font and c.font.bold):
             c.font = _f()
 
 
-def _imprimir(ws, titulos, ultima_col):
+def _imprimir(ws, titulos):
     ws.page_setup.orientation = "landscape"
     ws.page_setup.fitToWidth, ws.page_setup.fitToHeight = 1, 0
     ws.sheet_properties.pageSetUpPr.fitToPage = True
@@ -464,11 +355,15 @@ def q(hoja):
     return f"'{hoja}'"
 
 
-# ------------------------------------------------------------------ lectura de las fuentes
+def num(x):
+    return f"{x:g}".replace(".", ",") if isinstance(x, (int, float)) else str(x)
+
+
+# ------------------------------------------------------------------ lectura de fuentes
 def leer_bom(ruta):
-    """Filas del FLAMA_BOM.xlsx recalculado, agrupadas por producto (nivel 0) y por hoja."""
+    """Filas del FLAMA_BOM.xlsx recalculado por producto, y la hoja MODELOS por código."""
     wb = load_workbook(ruta, data_only=True)
-    prods, refs, modelos = {}, {}, {}
+    prods, modelos = {}, {}
     for hoja in ("Fabricados", "Revendidos", "Cilindros", "Recargas"):
         ws = wb[hoja]
         cab = [c.value for c in ws[1]]
@@ -482,32 +377,17 @@ def leer_bom(ruta):
                 prod = d["Código"]
                 prods[(hoja, prod)] = []
             prods[(hoja, prod)].append(d)
-    for fila in wb["REFERENCIAS"].iter_rows(min_row=3, values_only=True):
-        if fila[0] and isinstance(fila[2], (int, float)):
-            refs[fila[0]] = fila[2]
     ws = wb["MODELOS"]
     cab = [c.value for c in ws[2]]
     for fila in ws.iter_rows(min_row=3, values_only=True):
         if fila[0]:
             modelos[fila[0]] = dict(zip(cab, fila))
-    return prods, refs, modelos
-
-
-def arbol(filas):
-    """Agrega a cada fila su padre y si es grupo (la sigue una fila más profunda)."""
-    pila = []
-    for i, f in enumerate(filas):
-        while pila and pila[-1]["Nivel"] >= f["Nivel"]:
-            pila.pop()
-        f["padre"] = pila[-1] if pila else None
-        f["grupo"] = i + 1 < len(filas) and filas[i + 1]["Nivel"] > f["Nivel"]
-        pila.append(f)
-    return filas
+    return prods, modelos
 
 
 def usados(src):
-    """% de recargas de equipos usados (accionados) = Mat Usados / RECARGAS TOT de las hojas de proyección que lo
-    traen (columnas O y P), por año."""
+    """% de recargas de equipos usados = Mat Usados / RECARGAS TOT (columnas O y P) de las hojas de proyección que lo
+    traen, por año."""
     out = []
     for y in AÑOS:
         u = t = 0.0
@@ -536,147 +416,29 @@ def ubicar(ws):
     return pos
 
 
+def codigo(clave):
+    """Código del producto (ABC_5kg, CO2_2kg…) a partir de la clave de DEMANDA."""
+    return clave[3:] if clave.startswith("RK_") else clave.split("_", 2)[2]
+
+
+def sec(ix, prefijo):
+    return next(s for (s, _) in ix if s and s.startswith(prefijo))
+
+
 # ------------------------------------------------------------------ libro
 class Libro:
     def __init__(self, proyecciones, bom):
         self.src = load_workbook(proyecciones, data_only=True)
-        self.prods, self.refs, self.modelos = leer_bom(bom)
-        for k in self.prods:
-            arbol(self.prods[k])
+        self.prods, self.modelos = leer_bom(bom)
         self.wb = Workbook()
         self.wb.remove(self.wb.active)
-        self.pid = {}          # ID de PARAMETROS → fila
-        self.dem = {}          # clave de demanda → fila de DEMANDA
-        self.coef = {}         # (hoja, clave) → lista de filas de coeficientes
-        self.tot = {}          # (hoja de insumos, código) → fila de total
+        self.dem = {}        # (línea, código del producto) → fila de DEMANDA
+        self.refs = {}       # Ref → justificación (para el Word)
+        self.lin = {}        # línea → datos de su hoja
 
-    # -------- parámetros
-    def P(self, pid):
-        return f'INDEX(P_VAL,MATCH("{pid}",P_ID,0))'
-
-    def PY(self, pid, j):
-        return f'INDEX(PY_VAL,MATCH("{pid}",PY_ID,0),{j + 1})'
-
-    def parametros(self):
-        ws = self.wb.create_sheet("PARAMETROS")
-        _titulo(ws, "PARÁMETROS DEL MRP: cada dato que entra en una cuenta, con ID, valor y fuente",
-                "Las fórmulas de las demás hojas los buscan por ID (INDEX / MATCH). Las normas se citan por cláusula.")
-        _cab(ws, 3, ["ID", "Dato", "Valor", "Unidad", "Fuente", "Nota"], [14, 58, 11, 11, 70, 50])
-        rn2, rar = self.refs.get("GAS_N2"), self.refs.get("GAS_AR")
-        filas = [
-            ("AÑO_DIS", "Año de diseño de la política de stock (año 10)", 2035, "año", "Decisión FLAMA", ""),
-            ("DH_MES", "Días hábiles por mes", 20, "día", "Dimensionamiento Técnico V2, hoja Parametros: «Días "
-             "hábiles/mes: 20»", "Coincide con el proceso de manuales: 72.089 terminados / 300 por día = 240 días"),
-            ("DH_AÑO", "Días hábiles por año", f'=12*{self.P("DH_MES")}', "día", "12 × DH_MES", ""),
-            ("MERMA_POLVO", "Merma de polvo en la carga de fábrica", 0.01, "fracción",
-             "Proceso de carros, puesto 1, tabla 3: «carga de cada carro + 1 % de merma»", "Se aplica también a "
-             "manuales (misma máquina de carga por vacío)"),
-            ("RHO_N2", "Densidad normal del nitrógeno", round(rn2 * 1000, 4) if rn2 else 1.2492, "kg/m³",
-             "FLAMA_BOM.xlsx, REFERENCIAS, GAS_N2 (masa molar / volumen molar normal)",
-             "Pasa el gas del BOM (kg) a m³ normales, que es como lo vende Air Liquide"),
-            ("RHO_AR", "Densidad normal del argón", round(rar * 1000, 4) if rar else 1.7846, "kg/m³",
-             "FLAMA_BOM.xlsx, REFERENCIAS, GAS_AR", ""),
-            ("N2_PERD", "Pérdidas de N₂ en la presurización (pinza, mangueras y purgas)", 0.30, "fracción",
-             "Planilla de MP (opción D), Coef Fabricación: factor 1,3 (estimado)", "El proceso de manuales las "
-             "menciona («más las pérdidas de la pinza y las purgas») sin cuantificarlas"),
-            ("CTRL_AÑO", "Controles periódicos por equipo atendido y por año", 4, "control",
-             "IRAM 3517-2:2020, 8.2: control periódico trimestral", "Supone que FLAMA, como prestador, hace los "
-             "controles de los equipos que mantiene; si los hace el usuario, poner 0"),
-            ("P_RETOQUE", "Equipos de recarga que llegan con la pintura deteriorada", 0.15, "fracción",
-             "Dimensionamiento Técnico V2, Parametros Recargas (IRAM 3517-2:2020 9.10)", ""),
-            ("RETOQUE_L", "Esmalte por retoque", 0.05, "L/equipo", "Planilla de MP, Coef Recargas (estimado)", ""),
-            ("REPO_VALV", "Válvulas que se reemplazan en el mantenimiento (ABC)", 0.03, "fracción",
-             "Planilla de MP, Coef Recargas (estimado)", "La IRAM 3517-2 manda reemplazar lo que no pasa la "
-             "inspección, sin fijar una tasa"),
-            ("REPO_MANO", "Manómetros que se reemplazan en el mantenimiento (ABC)", 0.08, "fracción",
-             "Planilla de MP, Coef Recargas (estimado)", "Ídem"),
-            ("REPO_MANG", "Mangueras que se reemplazan en el mantenimiento (ABC)", 0.05, "fracción",
-             "Planilla de MP, Coef Recargas (estimado)", "Ídem"),
-            ("PINT_RHO", "Densidad de la pintura en polvo poliéster", 1.63, "g/cm³",
-             "Ficha técnica WEG Politherm 20 R (densidad 1,63; rendimiento 8,76 m²/kg a 70 µm)", "Rango usual "
-             "1,5 a 1,8 g/cm³"),
-            ("PINT_ESP", "Espesor seco de película", 70, "µm", "Ficha técnica WEG Politherm: «espesura media 70 µm»",
-             "El proceso controla el espesor seco por muestreo; el plano no fija un valor"),
-            ("PINT_APROV", "Aprovechamiento del polvo con recuperación", 0.95, "fracción",
-             "Powder Coating Institute (citado por Products Finishing): 95 a 98 % con recuperación", "El proceso de "
-             "manuales usa cabina «con recuperación de polvo»; se toma el mínimo del rango"),
-            ("GRANALLA", "Granalla de reposición por cilindro", 0.08, "kg", "Proceso de manuales, granallado: «unos "
-             "0,08 kg por cilindro según la BOM: unos 133 kg por día en el pico»", ""),
-            ("TAPON_CICLOS", "Ciclos de vida de un tapón de silicona", 50, "ciclo",
-             "Planilla de MP, Coef Fabricación (estimado)", "Los tapones circulan (1.665 en el pico); se repone "
-             "uno cada 50 usos"),
-            ("DISCO_MAN", "Recipientes por disco de amolado (manuales)", 150, "u",
-             "Planilla de MP, Coef Fabricación (estimado)", "Corrección de defectos con disco flap"),
-            ("GAS_MAN_AJ", "Ajuste del gas MAG de manuales al consumo del proceso",
-             "=48/(" + "+".join(f"{PICO_DOC_MAN[k]}*{GAS_MAN[k]}" for k in GAS_MAN) + ")", "factor",
-             "Proceso de manuales, recepción: «unos 48 m³ por día en el pico»; con la producción del pico de ese "
-             "proceso (1.216 tramos de 1 kg; 99, 446 y 27 desarrollos de 2,5, 5 y 10 kg) los coeficientes de la "
-             "planilla dan 43,3 m³", "Es el gas de arranque y cierre de cada costura, que la geometría no cuenta (el "
-             "proceso de carros lo suma: 0,1 a 0,2 min por costura)"),
-            ("ALAMBRE_PUNTA", "Alambre por punta de contacto", 4, "kg", "Planilla de MP, Coef Fabricación "
-             "(estimado)", ""),
-            ("APROV_CANO", "Aprovechamiento de las barras de caño (carros)", 0.95, "fracción",
-             "Proceso de carros, 8.1: «Se tomó un 95 % de aprovechamiento de las barras de caño»", ""),
-            ("FILM_PALLET", "Film stretch por pallet", 0.35, "kg", "Planilla de MP, Coef Fabricación (estimado con "
-             "el pre-estirado de la envolvedora EDOS PS5)", ""),
-            ("ESQ_PALLET", "Esquineros por pallet de cilindros de carro", 4, "u", "Planilla de MP (estimado)", ""),
-        ]
-        r = 4
-        for fila in filas:
-            for j, v in enumerate(fila, 1):
-                ws.cell(r, j, v)
-            ws.cell(r, 3).number_format = "#,##0.####"
-            _fila(ws, r, 6)
-            self.pid[fila[0]] = r
-            r += 1
-        fin = r - 1
-        self.wb.defined_names["P_ID"] = DefinedName("P_ID", attr_text=f"PARAMETROS!$A$4:$A${fin}")
-        self.wb.defined_names["P_VAL"] = DefinedName("P_VAL", attr_text=f"PARAMETROS!$C$4:$C${fin}")
-        # parámetros por año
-        r += 1
-        ws.cell(r, 1, "PARÁMETROS POR AÑO").font = _f(True)
-        r += 1
-        _cab(ws, r, ["ID", "Dato"] + AÑOS + ["Fuente"])
-        ws.column_dimensions[L(13)].width = 70
-        r0 = r + 1
-        ix = ubicar(self.src["Indexado Dim Técnico"])
-        caba_rec = [ix[(s, z)] for (s, z) in ix if s and s.startswith("DISTRIBUCIÓN DE RECARGAS") and
-                    z.startswith("CABA")]
-        sub_rec = next(ix[(s, z)] for (s, z) in ix if s and s.startswith("DISTRIBUCIÓN DE RECARGAS") and
-                       z.startswith("SUBTOTAL"))
-        caba_nue = [ix[(s, z)] for (s, z) in ix if s and s.startswith("DISTRIBUCIÓN DE UNIDADES NUEVAS") and
-                    z.startswith("CABA")]
-        sub_nue = next(ix[(s, z)] for (s, z) in ix if s and s.startswith("DISTRIBUCIÓN DE UNIDADES NUEVAS") and
-                       z.startswith("SUBTOTAL"))
-        u = usados(self.src)
-        filas_y = [("P_USADOS", "Recargas de equipos usados (accionados) / recargas totales", u,
-                    "Proyecciones, hojas PROYECCION SALUD / EDUCACION / INDUSTRIASALM / HOTELES: columnas «Mat "
-                    "Usados» / «RECARGAS TOT» (O / P) del año"),
-                   ("P_CABA_REC", "Recargas con destino CABA", [
-                       "=(" + "+".join(f"{q('PROY_INDEXADO')}!{L(2 + j)}{x}" for x in caba_rec) +
-                       f")/{q('PROY_INDEXADO')}!{L(2 + j)}{sub_rec}" for j in range(10)],
-                    f"PROY_INDEXADO: CABA Norte/Este/Sur/Oeste (filas {caba_rec[0]}-{caba_rec[-1]}) / subtotal "
-                    f"(fila {sub_rec})"),
-                   ("P_CABA_NUE", "Unidades nuevas con destino CABA", [
-                       "=(" + "+".join(f"{q('PROY_INDEXADO')}!{L(2 + j)}{x}" for x in caba_nue) +
-                       f")/{q('PROY_INDEXADO')}!{L(2 + j)}{sub_nue}" for j in range(10)],
-                    f"PROY_INDEXADO: distribución de unidades nuevas (filas {caba_nue[0]}-{caba_nue[-1]} / "
-                    f"{sub_nue}); es la única distribución de unidades nuevas de las Proyecciones")]
-        for pid, dato, vals, fu in filas_y:
-            r += 1
-            ws.cell(r, 1, pid)
-            ws.cell(r, 2, dato)
-            for j, v in enumerate(vals):
-                ws.cell(r, 3 + j, v).number_format = "0.0%"
-            ws.cell(r, 13, fu)
-            _fila(ws, r, 13)
-        self.wb.defined_names["PY_ID"] = DefinedName("PY_ID", attr_text=f"PARAMETROS!$A${r0}:$A${r}")
-        self.wb.defined_names["PY_VAL"] = DefinedName("PY_VAL", attr_text=f"PARAMETROS!$C${r0}:$L${r}")
-        for row in ws.iter_rows(min_row=4, max_row=r):
-            for c in row:
-                c.alignment = Alignment(wrap_text=c.column in (2, 5, 6, 13), vertical="top")
-        ws.freeze_panes = "B4"
-        _imprimir(ws, "3:3", 13)
+    def ref(self, rid, **kw):
+        self.refs[rid] = kw
+        return rid
 
     # -------- copia de las proyecciones
     def copia(self, origen, nombre):
@@ -692,928 +454,681 @@ class Libro:
         for k, dim in src.column_dimensions.items():
             if dim.width:
                 ws.column_dimensions[k].width = dim.width
-        ws.sheet_view.zoomScale = 85
         return ubicar(src)
 
     # -------- demanda
     def demanda(self):
-        ws = self.wb.create_sheet("DEMANDA")
-        _titulo(ws, "DEMANDA POR PRODUCTO Y LÍNEA (unidades por año)",
-                "Fórmulas sobre PROY_INDEXADO y PROY_RESERVAS (copias de las Proyecciones). Si se pegan valores "
-                "nuevos en esas dos hojas, todo el MRP se recalcula.")
-        _cab(ws, 3, ["Línea", "Clave", "Producto", "Origen (fila de las Proyecciones)", "Perfil estacional"] + AÑOS,
-             [12, 24, 44, 44, 34] + [10] * 10)
+        ws = self.wb.create_sheet("DEMANDA", 0)
+        _titulo(ws, "DEMANDA (unidades por año)")
+        _cab(ws, 3, ["Ref.", "Línea", "Producto"] + AÑOS, [7, 12, 34] + [10] * 10)
         ix, rs = self.ix, self.rs
-        sec_fab = next(s for (s, _) in ix if s and s.startswith("PRODUCCION DE MATAFUEGOS"))
-        sec_cil = next(s for (s, _) in ix if s and s.startswith("PRODUCCION DE CILINDROS"))
-        sec_rec = next(s for (s, _) in ix if s == "RECARGAS")
-        sec_rev = next(s for (s, _) in ix if s and s.startswith("MATAFUEGOS TERCIARIZADOS"))
-        inv = {v: k for k, v in ETIQ.items()}
+        s_fab, s_cil = sec(ix, "PRODUCCION DE MATAFUEGOS"), sec(ix, "PRODUCCION DE CILINDROS")
+        s_rec, s_rev = sec(ix, "RECARGAS"), sec(ix, "MATAFUEGOS TERCIARIZADOS")
+        s_dr, s_du = sec(ix, "DISTRIBUCIÓN DE RECARGAS"), sec(ix, "DISTRIBUCIÓN DE UNIDADES")
+        s_st, s_al = sec(rs, "STOCK DE SUSTITUTOS"), sec(rs, "ALTA ANUAL")
+        venta = rs[next(k for k in rs if k[1].startswith("VENTA de reserva"))]
+        pool_st = {c: rs[(s_st, k)] for k, c in POOL.items()}
+        pool_al = {c: rs[(s_al, k)] for k, c in POOL.items()}
+        al_tot = rs[(s_al, "Total alta anual de sustitutos")]
+        PI, PX = q("PROY_INDEXADO"), q("PROY_RESERVAS")
+        r = 4
+        n_ref = [0]
 
-        def fx(hoja, filas):
-            return ["=" + "+".join(f"{q(hoja)}!{L(2 + j)}{x}" for x in filas) for j in range(10)]
+        def dref():
+            n_ref[0] += 1
+            return f"D{n_ref[0]:02d}"
 
-        def fx2(partes):
-            return ["=" + "+".join(f"{q(h)}!{L(2 + j)}{x}" for h, x in partes) for j in range(10)]
+        def fila(lin, prod, vals, fmt="#,##0", clave=None, ref=None, **just):
+            nonlocal r
+            rid = ref or dref()
+            self.ref(rid, hoja="DEMANDA", dato=prod, **just)
+            for j, v in enumerate([rid, lin, prod], 1):
+                ws.cell(r, j, v)
+            for j, v in enumerate(vals):
+                ws.cell(r, 4 + j, v).number_format = fmt
+            _fila(ws, r, 13)
+            if clave:
+                self.dem[clave] = r
+            r += 1
+            return r - 1
 
-        filas = []
-        venta_res = rs[next(k for k in rs if k[1].startswith("VENTA de reserva"))]
-        for c, p, n in MAN + ROD:
-            lin = "MANUALES" if (c, p, n) in MAN else "RODANTES"
-            fi = ix[(sec_fab, inv[c])]
-            if c == "ABC_5kg":
-                filas.append((lin, f"FL_MAT_{c}", f"Matafuego {n} nuevo (incluye la venta de reserva)",
-                              f"Indexado fila {fi} + Reservas fila {venta_res} (venta de reserva, IRAM 3517-2 5.3)",
-                              perfil(c), fx2([("PROY_INDEXADO", fi), ("PROY_RESERVAS", venta_res)])))
-            else:
-                filas.append((lin, f"FL_MAT_{c}", f"Matafuego {n} nuevo", f"Indexado fila {fi}", perfil(c),
-                              fx("PROY_INDEXADO", [fi])))
-        for c, p, n in MAN + ROD:
-            lin = "MANUALES" if (c, p, n) in MAN else "RODANTES"
-            fi = ix[(sec_cil, "Cilindros " + inv[c].replace(" s/ruedas", ""))]
-            filas.append((lin, f"FL_REC_{c}", f"Cilindro vacío {n} (venta suelto)", f"Indexado fila {fi}", perfil(c),
-                          fx("PROY_INDEXADO", [fi])))
-        for etq, c in ETIQ.items():
-            fi = ix[(sec_rec, etq)]
-            filas.append(("RECARGAS", f"RK_{c}", f"Recarga {NOMBRE[c]} (equipos de clientes)", f"Indexado fila {fi}",
-                          perfil(c, True), fx("PROY_INDEXADO", [fi])))
-        st = next(s for (s, _) in rs if s and s.startswith("STOCK DE SUSTITUTOS"))
-        al = next(s for (s, _) in rs if s and s.startswith("ALTA ANUAL"))
-        for etq, c in POOL:
-            fi = rs[(st, etq)]
-            filas.append(("RECARGAS", f"RKP_{c}", f"Recarga {NOMBRE[c]} del pool de sustitutos (9.4.5)",
-                          f"Reservas fila {fi} (stock de sustitutos: se mantiene cada año)", perfil(c, True),
-                          fx("PROY_RESERVAS", [fi])))
-        for etq, c in POOL:
-            fi = rs[(al, etq)]
-            filas.append(("RECARGAS", f"FL_SUS_{c}", f"Alta de sustitutos {NOMBRE[c]} (equipo + kit 9.4.5)",
-                          f"Reservas fila {fi} (alta anual de sustitutos)", perfil(c, True),
-                          fx("PROY_RESERVAS", [fi])))
+        # datos que usan las otras hojas
+        r_pi = fila("RECARGAS", "Parte de la planta industrial", [f"={ZONAS_PI}/{MERCADO_REC}"] * 10, "0.0%",
+                    como=f"Recargas de las 4 zonas que atiende la planta industrial ({', '.join(ZONAS_PI_NOM)}): "
+                         f"{ZONAS_PI:,} / {MERCADO_REC:,} del mercado de recargas de CABA + PBA. Las demás "
+                         "recargas son de la planta comercial (otro sitio).".replace(",", "."),
+                    figs=["D01", "X13", "R07"])
+        self.r_pi = r_pi
+        caba_u = [ix[(s_du, z)] for (s, z) in ix if s == s_du and z.startswith("CABA")]
+        sub_u = next(ix[(s, z)] for (s, z) in ix if s == s_du and z.startswith("SUBTOTAL"))
+        self.r_caba_u = fila("", "% de unidades nuevas que van a CABA", [
+            "=(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in caba_u) + f")/{PI}!{L(2 + j)}{sub_u}" for j in range(10)],
+            "0.0%", como="Distribución de unidades nuevas del Indexado: CABA Norte, Este, Sur y Oeste sobre el "
+                         "subtotal CABA + PBA. El resto va a PBA.", figs=["X02"])
+        zr = {z: ix[(s, z)] for (s, z) in ix if s == s_dr}
+        z4 = [zr["CABA Sur"]] + [zr[k] for k in zr if k.startswith("PBA Sur")]
+        self.r_caba_r = fila("RECARGAS", "% de recargas de la planta industrial en CABA", [
+            f"={PI}!{L(2 + j)}{z4[0]}/(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in z4) + ")" for j in range(10)],
+            "0.0%", como="Distribución de recargas del Indexado en las 4 zonas de la planta industrial: CABA Sur sobre "
+                         "CABA Sur + PBA Sur 1.º, 2.º y 3.er cordón. El resto va a PBA.", figs=["X02", "X13"])
+        self.r_u = fila("RECARGAS", "% de recargas de equipos usados", usados(self.src), "0.00%",
+                        como="Proyecciones: «Mat Usados» / «RECARGAS TOT» de las hojas de proyección que lo traen "
+                             "(salud, educación, industrias, hoteles). Son los que llegan accionados o sin presión.",
+                        figs=["X04"])
+        self.u35 = f"DEMANDA!$M${self.r_u}"
+        _fila(ws, r_pi, 13)
+
+        def col(hoja, fil, j):
+            return f"{hoja}!{L(2 + j)}{fil}"
+
+        # MANUALES y RODANTES
+        for lin, grupo in (("MANUALES", MAN), ("RODANTES", ROD)):
+            for c, p, n in grupo:
+                partes, txt, figs = [lambda j, c=c: col(PI, ix[(s_fab, INV[c])], j)], \
+                    [f"Indexado, «Producción de matafuegos», fila {ix[(s_fab, INV[c])]}"], ["X01"]
+                if c == "ABC_5kg":
+                    partes.append(lambda j: col(PX, venta, j))
+                    txt.append(f"+ venta de reserva (Reservas, fila {venta})")
+                    figs.append("X03")
+                if c in pool_al:
+                    partes.append(lambda j, c=c: f"{col(PX, pool_al[c], j)}*$D${r_pi}")
+                    txt.append(f"+ sustitutos nuevos de la planta industrial (Reservas, alta anual, fila "
+                               f"{pool_al[c]}, × D01): un sustituto ABC es un matafuego que fabrica FLAMA")
+                    figs.append("X03")
+                fila(lin, f"Matafuego {n}", ["=" + "+".join(f(j) for f in partes) for j in range(10)],
+                     clave=(lin, f"FL_MAT_{c}"), como=" ".join(txt), figs=figs)
+            for c, p, n in grupo:
+                fila(lin, f"Cilindro {n} vacío", [f"={col(PI, ix[(s_cil, 'Cilindros ' + INV[c].replace(' s/ruedas', ''))], j)}"
+                                                  for j in range(10)], clave=(lin, f"FL_REC_{c}"),
+                     como=f"Indexado, «Producción de cilindros» (cilindros que se venden vacíos).", figs=["X01"])
+        # RECARGAS
+        for c in REC:
+            base = [lambda j, c=c: col(PI, ix[(s_rec, INV[c])], j)]
+            txt = f"(Indexado, «Recargas», fila {ix[(s_rec, INV[c])]}"
+            if c in pool_st:
+                base.append(lambda j, c=c: col(PX, pool_st[c], j))
+                txt += f" + recarga anual del pool de sustitutos, Reservas fila {pool_st[c]}"
+            fila("RECARGAS", f"Recarga {NOMBRE[c]}", [f"=({'+'.join(f(j) for f in base)})*$D${r_pi}"
+                                                       for j in range(10)], clave=("RECARGAS", f"RK_{c}"),
+                 como=txt + ") × D01, la parte de la planta industrial.", figs=["X01", "X03", "D01"])
+        fila("RECARGAS", "Sustitutos nuevos (kit)", [f"={col(PX, al_tot, j)}*$D${r_pi}" for j in range(10)],
+             clave=("RECARGAS", "KIT"), como=f"Reservas, total del alta anual de sustitutos (fila {al_tot}) × D01. "
+             "Cada sustituto nuevo lleva su kit de identificación; el equipo se fabrica (ABC) o se compra (los demás) "
+             "en su línea.", figs=["X03"])
+        # REVENDIDOS
         for c, n in REV:
-            fi = ix[(sec_rev, inv[c])]
-            filas.append(("REVENDIDOS", f"FL_MAT_{c}", f"Matafuego {n} revendido", f"Indexado fila {fi}", perfil(c),
-                          fx("PROY_INDEXADO", [fi])))
-        r = 4
-        for lin, clave, nom, ori, per, fs in filas:
-            for j, v in enumerate([lin, clave, nom, ori, per] + fs, 1):
-                c = ws.cell(r, j, v)
-                if j > 5:
-                    c.number_format = "#,##0"
-            _fila(ws, r, 15)
-            self.dem[clave] = r
-            r += 1
-        self.dem_fin = r - 1
-        for lin in LINEAS:
-            r += 1
-            ws.cell(r, 3, f"Total {lin}").font = _f(True)
-            for j in range(10):
-                c = ws.cell(r, 6 + j, f'=SUMIF($A$4:$A${self.dem_fin},"{lin}",{L(6 + j)}$4:{L(6 + j)}${self.dem_fin})')
-                c.number_format = "#,##0"
-                c.font = _f(True)
-        ws.freeze_panes = "F4"
-        ws.auto_filter.ref = f"A3:O{self.dem_fin}"
-        _imprimir(ws, "3:3", 15)
-
-    def D(self, clave, j):
-        return f"DEMANDA!{L(6 + j)}{self.dem[clave]}"
-
-    # -------- estacionalidad
-    def estacionalidad(self):
-        ws = self.wb.create_sheet("ESTACIONALIDAD")
-        _titulo(ws, "ESTACIONALIDAD: perfil mensual de cada producto y de cada línea en el año de diseño",
-                "Fuente: " + F_PERFILES + ". El perfil de la línea pondera el de cada producto por su demanda del "
-                "año de diseño; el mes pico de cada ítem sale de la hoja POLITICA_STOCK.")
-        _cab(ws, 3, ["Perfil"] + MESES + ["Total"], [44] + [8] * 13)
-        r = 4
-        p0 = r
-        for nom, v in PERFILES:
-            ws.cell(r, 1, nom)
-            for j, x in enumerate(v):
-                ws.cell(r, 2 + j, x).number_format = "0.0%"
-            ws.cell(r, 14, f"=SUM(B{r}:M{r})").number_format = "0%"
-            _fila(ws, r, 14)
-            r += 1
-        p1 = r - 1
-        r += 1
-        _cab(ws, r, ["Clave (DEMANDA)", "Línea", "Perfil"] + MESES + ["Demanda año de diseño"], c0=16)
-        for j, w in enumerate([24, 12, 40] + [7] * 12 + [12], 16):
-            ws.column_dimensions[L(j)].width = w
-        r_cab = r
-        r = 4
-        filas_p = []
-        for clave, rd in sorted(self.dem.items(), key=lambda x: x[1]):
-            ws.cell(r, 16, f"=DEMANDA!B{rd}")
-            ws.cell(r, 17, f"=DEMANDA!A{rd}")
-            ws.cell(r, 18, f"=DEMANDA!E{rd}")
-            for j in range(12):
-                ws.cell(r, 19 + j, f"=INDEX($B${p0}:$M${p1},MATCH($R{r},$A${p0}:$A${p1},0),{j + 1})"
-                        ).number_format = "0.0%"
-            ws.cell(r, 31, f'=INDEX(DEMANDA!$F{rd}:$O{rd},{self.P("AÑO_DIS")}-2025)').number_format = "#,##0"
-            _fila(ws, r, 16, c0=16)
-            filas_p.append(r)
-            r += 1
-        a, b = filas_p[0], filas_p[-1]
-        ws.cell(r_cab, 16).value = "Clave (DEMANDA)"
-        # perfil por línea
-        r = p1 + 3
-        ws.cell(r, 1, "PERFIL DE CADA LÍNEA EN EL AÑO DE DISEÑO (demanda ponderada)").font = _f(True)
-        r += 1
-        _cab(ws, r, ["Línea"] + MESES + ["Factor de pico"])
-        self.est = {}
-        for lin in LINEAS:
-            r += 1
-            ws.cell(r, 1, lin)
-            for j in range(12):
-                col = L(19 + j)
-                ws.cell(r, 2 + j, f'=SUMPRODUCT(($Q${a}:$Q${b}="{lin}")*$AE${a}:$AE${b}*{col}${a}:{col}${b})/'
-                                  f'SUMIF($Q${a}:$Q${b},"{lin}",$AE${a}:$AE${b})').number_format = "0.0%"
-            ws.cell(r, 14, f"=MAX(B{r}:M{r})*12").number_format = "0.000"
-            _fila(ws, r, 14)
-            self.est[lin] = r
-        ws.cell(r + 1, 1, "Factor de pico = mes de mayor demanda / mes promedio (1/12).").font = _f(italic=True,
-                                                                                                    size=9)
-        ws.freeze_panes = "B4"
-        _imprimir(ws, "3:3", 31)
-
-    # -------- BOM_COEF
-    def item_bom(self, pref, f):
-        """(tratamiento, [(ítem, factor como fórmula o número, fuente)], destino) de una fila del BOM."""
-        pz, cod = f["Pieza"], f["Código"]
-        pa = f["padre"]
-        # descendientes de un grupo que se compra armado
-        anc = pa
-        while anc:
-            if anc["Código"].endswith("-K2") or anc["Código"].endswith("-S3"):
-                return "Incluido en " + ("la válvula armada" if anc["Código"].endswith("-K2") else
-                                         "la manguera armada"), [], ""
-            anc = anc["padre"]
-        if f["grupo"]:
-            if cod.endswith("-K2"):
-                return "Se compra armada", [(VALV[pref], 1, "")], ""
-            if cod.endswith("-S3"):
-                it = f"MP-48/{pref}" if pref in PREF.values() and pref in [p for _, p, _ in MAN] else f"MP-49/{pref}"
-                return "Se compra armada", [(it, 1, "")], ""
-            return None, [], ""
-        if pz in ("Cuerpo", "Cúpula", "Fondo", "Cuello roscado"):
-            return "Fabricada (FAB_COMPRA)", [("FAB", pz, "")], ""
-        if pz.startswith("Polvo ABC 60"):
-            return "Compra", [("MP-33", f'=1+{self.P("MERMA_POLVO")}', "")], ""
-        if pz.startswith("Polvo ABC 90"):
-            return "Compra", [("MP-33B", f'=1+{self.P("MERMA_POLVO")}', "")], ""
-        if pz.startswith("Gas impulsor: N₂"):
-            return "Compra (kg → m³)", [("MP-34", f'=(1+{self.P("N2_PERD")})/{self.P("RHO_N2")}', "")], ""
-        mapa = {"Manómetro": ("MP-45", ""), "Junta tórica de asiento": (JUNTA.get(pref, "MP-50/M30"), ""),
-                "Etiqueta / placa de características": (f"MP-56/{pref}", ""), "Oblea de fabricación": ("MP-78", "PBA"),
-                "Estampilla IRAM de conformidad": ("MP-79", ""), "Tarjeta de identificación AGC": ("MP-77", "CABA"),
-                "Etiqueta de n° de serie GS1": ("MP-80", ""), "Faja de garantía válvula-cuello": ("MP-81", ""),
-                "Precinto de fábrica": ("MP-51", ""), "Soporte de pared": (f"MP-52/{pref}", ""),
-                "Soporte vehicular con cierre rápido": ("MP-87", ""), "Tornillo y tarugo de fijación": ("MP-86", ""),
-                "Tapón protector de rosca del cuello": (TAPON.get(pref, "MP-62/M30"), ""),
-                "Etiqueta de identificación del cilindro suelto": ("MP-88", "")}
-        if pz in mapa:
-            it, dest = mapa[pz]
-            return "Compra", [(it, 1, "")], dest
-        if pz.startswith(("Pata delantera", "Triángulos", "Flejes del soporte", "Placas de refuerzo")):
-            return "Sale de las orillas del corte (sin compra)", [], ""
-        if pz == "Manija del carro":
-            mm = MANIJA[pref]
-            return "Fabricada (caño)", [("MP-66", f'={mm}/6000/{self.P("APROV_CANO")}',
-                                         f"Corte {mm} mm de caño 1\" (proceso de carros, 8.1)")], ""
-        if pz == "Caño del eje":
-            it, mm = CANO_EJE[pref]
-            return "Fabricada (caño)", [(it, f'={mm}/6000/{self.P("APROV_CANO")}',
-                                         f"Corte {mm} mm (proceso de carros, 8.1)")], ""
-        if pz == "Eje de ruedas":
-            it, mm, lb = EJE[pref]
-            return "Fabricada (barra)", [(it, f"=1/INT({lb}/{mm})", f"{lb // mm} ejes de {mm} mm por barra de "
-                                                                     f"{lb / 1000:g} m (proceso de carros, 8.1)")], ""
-        if pz == "Neumático macizo":
-            return "Compra (rueda completa)", [(RUEDA[pref], 1, "")], ""
-        if pz == "Llanta con cubo":
-            return "Incluida en la rueda completa", [], ""
-        if pz.startswith("Arandelas de tope"):
-            return "Compra", [("MP-70", 4, "4 por carro")], ""
-        if pz.startswith("Pasadores del eje"):
-            return "Compra", [("MP-71", 2, "2 por carro")], ""
-        return "Sin ítem de compra", [], ""
-
-    def bom_coef(self):
-        ws = self.wb.create_sheet("BOM_COEF")
-        self.ws_bc = ws
-        _titulo(ws, "BOM_COEF: lo que se compra por unidad de producto, fila por fila del BOM (FLAMA_BOM.xlsx)",
-                "Cant. ítem = Cant. BOM × factor. Las piezas fabricadas toman el factor de FAB_COMPRA. En recargas, "
-                "el coeficiente del año = controles × control + (1 − % usados) × mantenimiento + % usados × recarga + "
-                "prueba hidráulica / años + reposición.")
-        cab = ["Producto", "Código BOM", "Fila BOM", "Pieza / insumo (BOM)", "Cant. BOM", "UM", "Tratamiento",
-               "Ítem de compra", "Factor", "Cant. ítem por unidad", "Destino", "Control", "Mantenimiento", "Recarga",
-               "Prueba hidráulica", "PH cada (años)", "Reposición"] + [f"Coef. {a}" for a in AÑOS] + ["Fuente"]
-        _cab(ws, 3, cab, [20, 16, 16, 44, 9, 6, 30, 12, 10, 11, 8, 8, 10, 8, 9, 8, 9] + [9] * 10 + [50])
-        self.r_bc = 4
-        self.fab_rows = {}     # (pref, pieza) → [(ítem, celda de factor)]
-        return ws
-
-    def _bc(self, prod, f, trat, it, factor, dest, fuente, serv=None, ph=None):
-        ws, r = self.ws_bc, self.r_bc
-        vals = [prod, f["Código"] if f else "", f"{f['hoja']} {f['fila']}" if f else "",
-                f["Pieza"] if f else fuente, f["Cant."] if f else 1, f["UM"] if f else "u", trat, it, factor,
-                f"=E{r}*I{r}", dest]
-        for j, v in enumerate(vals, 1):
-            ws.cell(r, j, v)
-        if serv:
-            for k, col in zip(("ctrl", "mant", "rec", "ph", "rep"), (12, 13, 14, 15, 17)):
-                ws.cell(r, col, serv.get(k, 0))
-            ws.cell(r, 16, ph)
-            for j in range(10):
-                ws.cell(r, 18 + j, f'=J{r}*({self.P("CTRL_AÑO")}*L{r}+(1-{self.PY("P_USADOS", j)})*M{r}+'
-                                   f'{self.PY("P_USADOS", j)}*N{r}+IF(P{r}>0,O{r}/P{r},0)+Q{r})')
-        else:
-            for j in range(10):
-                ws.cell(r, 18 + j, f"=$J{r}")
-        ws.cell(r, 28, fuente if f else "")
-        for j in (5, 9, 10, 12, 13, 14, 15, 17):
-            ws.cell(r, j).number_format = "0.######"
-        for j in range(18, 28):
-            ws.cell(r, j).number_format = "0.######"
-        _fila(ws, r, 28)
-        self.r_bc += 1
-        return r
-
-    def coef_producto(self, clave, hoja_bom, prod_bom, pref, sustituto=False, kit=True):
-        """Filas de BOM_COEF de un producto fabricado; devuelve [(ítem, fila, destino)]."""
-        out = []
-        filas = self.prods[(hoja_bom, prod_bom)]
-        en_sus = False
-        for f in filas:
-            if f["Nivel"] == 0:
-                continue
-            if f["Código"].startswith("FL_SUS_"):
-                en_sus = True
-                continue
-            if en_sus and f["Nivel"] == 1:
-                en_sus = False
-            if en_sus:
-                if sustituto and kit:
-                    it = {"Faja amarilla": "MP-82", "Tarjeta DPS": "MP-83", "Tarjeta AGC": "MP-84",
-                          "Remito de préstamo": "MP-85"}[next(k for k in ("Faja amarilla", "Tarjeta DPS",
-                                                                           "Tarjeta AGC", "Remito de préstamo")
-                                                              if f["Pieza"].startswith(k))]
-                    out.append((it, self._bc(clave, f, "Kit de sustituto", it, 1, "", "IRAM 3517-2:2020 9.4.5"), ""))
-                continue
-            if sustituto:
-                continue
-            trat, its, dest = self.item_bom(pref, f)
-            if trat is None:
-                continue
-            if not its:
-                self._bc(clave, f, trat, "", "", "", "")
-                continue
-            for it, fac, fu in its:
-                if it == "FAB":
-                    for it2, celda in self.fab_rows[(pref, fac)]:
-                        out.append((it2, self._bc(clave, f, trat, it2, f"=FAB_COMPRA!{celda}", dest,
-                                                  "FAB_COMPRA"), dest))
-                else:
-                    out.append((it, self._bc(clave, f, trat, it, fac, dest, fu), dest))
-        return out
-
-    # -------- FAB_COMPRA
-    def fab_compra(self):
-        ws = self.wb.create_sheet("FAB_COMPRA")
-        _titulo(ws, "FAB_COMPRA: de qué materia prima sale cada pieza que se fabrica y cuánto rinde",
-                "Cuerpos: piezas por hoja o por caño del plan de corte. Discos de cúpula y fondo: kg de fleje = ancho "
-                "× paso × espesor × 7,85 kg/dm³, con paso = Ø del disco + puente (puente = espesor). Casquetes y "
-                "cuellos de carros: se compran.")
-        _cab(ws, 3, ["Modelo", "Pieza", "Se hace en", "Ítem de compra", "UM ítem", "Base de cálculo", "Ancho (mm)",
-                     "Ø disco (mm)", "Espesor (mm)", "Rendimiento", "Factor (ítem por pieza)", "Fuente"],
-             [9, 16, 28, 12, 8, 40, 9, 9, 9, 11, 12, 70])
-        r = 4
-        for _, pref, n in FAB:
-            # cuerpo
-            it, base, rend, fu = CUERPO[pref]
-            for j, v in enumerate([pref, "Cuerpo", "Corte de tubo" if pref == "ABC1" else "Guillotina", it,
-                                   ITEM[it]["um"], base, "", "", "", rend, f"=1/J{r}", fu], 1):
-                ws.cell(r, j, v)
-            self.fab_rows[(pref, "Cuerpo")] = [(it, f"K{r}")]
-            _fila(ws, r, 12)
-            r += 1
-            for pz in ("Cúpula", "Fondo"):
-                if (pref, pz) in DISCO:
-                    it, an, d, e = DISCO[(pref, pz)]
-                    for j, v in enumerate([pref, pz, "Corte de disco y embutido (fleje)", it, "kg",
-                                           "kg de fleje por disco = ancho × (Ø + e) × e × 7,85e-6", an, d, e, "",
-                                           f"=G{r}*(H{r}+I{r})*I{r}*7.85/1000000",
-                                           "Ø disco: planilla de MP (Lineamientos, con sobremedida de recorte); "
-                                           "ancho: cotización Pacheco PR-42021 / planilla; espesor: plano y proceso "
-                                           "de manuales"], 1):
-                        ws.cell(r, j, v)
-                else:
-                    it = CASQ[pref]
-                    for j, v in enumerate([pref, pz, "Se compra embutido (casquete)", it, "u",
-                                           "1 casquete por pieza (cúpula y fondo son iguales)", "", "", "", 1,
-                                           f"=1/J{r}", "Proceso de carros, puesto 1: casquetes MP-15 a 17"], 1):
-                        ws.cell(r, j, v)
-                self.fab_rows[(pref, pz)] = [(it, f"K{r}")]
-                _fila(ws, r, 12)
-                r += 1
-            it = CUELLO[pref]
-            for j, v in enumerate([pref, "Cuello roscado", "Se compra mecanizado", it, "u", "1 por recipiente", "", "",
-                                   "", 1, f"=1/J{r}", "Proceso de manuales (cuellos comprados) / carros (cuplas)"], 1):
-                ws.cell(r, j, v)
-            self.fab_rows[(pref, "Cuello roscado")] = [(it, f"K{r}")]
-            _fila(ws, r, 12)
-            r += 1
-        for row in ws.iter_rows(min_row=4, max_row=r):
-            for c in row:
-                if c.column in (7, 8, 9, 10):
-                    c.number_format = "0.##"
-                if c.column == 11:
-                    c.number_format = "0.000000"
-                c.alignment = Alignment(wrap_text=c.column in (6, 12), vertical="top")
-        ws.freeze_panes = "C4"
-        _imprimir(ws, "3:3", 12)
-
-    # -------- PROCESO
-    def proceso(self):
-        ws = self.wb.create_sheet("PROCESO")
-        self.ws_pr = ws
-        _titulo(ws, "PROCESO: insumos de proceso y embalaje por unidad, puesto por puesto",
-                "Coeficiente por unidad de producto. Tipo: Directo si queda en el producto o sale con él (alambre, "
-                "pintura, embalaje); Indirecto si se gasta en el puesto (gas de protección, discos, granalla, "
-                "tapones).")
-        _cab(ws, 3, ["Línea", "Puesto", "Ítem", "UM", "Tipo", "Modelo", "Aplica a", "Base de cálculo",
-                     "Coef. por unidad", "Fuente"], [10, 34, 12, 6, 9, 8, 22, 46, 12, 70])
-        self.r_pr = 4
-        self.pr = {}       # (línea, modelo) → [(ítem, fila, tipo, aplica)]
-
-        def fila(lin, puesto, it, tipo, pref, aplica, base, coef, fuente):
-            r = self.r_pr
-            for j, v in enumerate([lin, puesto, it, ITEM[it]["um"], tipo, pref, aplica, base, coef, fuente], 1):
-                ws.cell(r, j, v)
-            ws.cell(r, 9).number_format = "0.000000"
-            for c in ws[r]:
-                c.alignment = Alignment(wrap_text=c.column in (2, 8, 10), vertical="top")
-            _fila(ws, r, 10)
-            self.pr.setdefault((lin, pref), []).append((it, r, tipo, aplica))
-            self.r_pr += 1
-
-        P = self.P
-        sup = {}
-        for _, pref, _ in MAN:
-            filas = self.prods[("Fabricados", f"FL_MAT_{[c for c, p, _ in FAB if p == pref][0]}")]
-            sup[pref] = {f["Pieza"]: f["Superficie (dm²)"] for f in filas if f["Nivel"] == 2 and
-                         f["Pieza"] in ("Cuerpo", "Cúpula", "Fondo")}
-        for _, pref, n in MAN:
-            s = sup[pref]
-            area = (s["Cuerpo"] + s["Cúpula"] + s["Fondo"]) / 2 / 100
-            fila("MANUALES", "Soldadura longitudinal, de cuello y circunferencial (MAG 135)", "MP-25", IN, pref,
-                 "Recipiente (terminado y cilindro)", "m³ de Ar + 8 % CO₂ por recipiente (largo de costura × caudal) × GAS_MAN_AJ",
-                 f'={GAS_MAN[pref]}*{P("GAS_MAN_AJ")}', "Planilla de MP (opción D), Coef Fabricación MP-25 "
-                 "(geometría de costuras) × ajuste al consumo del proceso de manuales (GAS_MAN_AJ)")
-            fila("MANUALES", "Soldadura (MAG 135)", "MP-23", D, pref, "Recipiente (terminado y cilindro)",
-                 "kg de alambre Ø0,9 por recipiente", ALAMBRE_MAN[pref],
-                 "Planilla de MP, Coef Fabricación MP-23 (geometría); proceso de manuales: alambre de 0,9 mm")
-            fila("MANUALES", "Soldadura (MAG 135)", "MP-26", IN, pref, "Recipiente (terminado y cilindro)",
-                 "1 punta cada ALAMBRE_PUNTA kg de alambre", f'={ALAMBRE_MAN[pref]}/{P("ALAMBRE_PUNTA")}',
-                 "Planilla de MP (estimado)")
-            fila("MANUALES", "Inspección y corrección de defectos (amoladora con disco flap)", "MP-93", IN, pref,
-                 "Recipiente (terminado y cilindro)", "1 disco cada DISCO_MAN recipientes", f'=1/{P("DISCO_MAN")}',
-                 "Planilla de MP (estimado); proceso de manuales: amoladora 115 mm con disco flap")
-            fila("MANUALES", "Granallado (AirBlast G-100)", "MP-28", IN, pref, "Recipiente (terminado y cilindro)",
-                 "kg de granalla por cilindro", f'={P("GRANALLA")}', "Proceso de manuales, granallado")
-            fila("MANUALES", "Granallado y pintura (enmascarado de la rosca)", "MP-32", IN, pref,
-                 "Recipiente (terminado y cilindro)", "1 tapón cada TAPON_CICLOS cilindros", f'=1/{P("TAPON_CICLOS")}',
-                 "Proceso de manuales (tapones-gancho que circulan); planilla de MP (vida útil estimada)")
-            fila("MANUALES", "Pintura en polvo y horno (Firesafer)", "MP-31", D, pref,
-                 "Recipiente (terminado y cilindro)",
-                 f"kg = área exterior {area:.4f} m² × ρ × espesor / 1000 / aprovechamiento",
-                 f'={area:.5f}*{P("PINT_RHO")}*{P("PINT_ESP")}/1000/{P("PINT_APROV")}',
-                 f"Área exterior = (S cuerpo {s['Cuerpo']:.2f} + S cúpula {s['Cúpula']:.2f} + S fondo "
-                 f"{s['Fondo']:.2f}) / 2 dm² (FLAMA_BOM, superficie de las dos caras); rendimiento m²/kg = 1000 / "
-                 "(ρ × espesor) (Tiger Drylac)")
-            pp = POR_PALLET_MAN[pref]
-            for it, base, coef, fu in [
-                    (f"MP-59/{pref}", "1 caja por recipiente", 1, "Proceso de manuales, embalaje: «una caja de "
-                     f"cartón corrugado por recipiente (simple hasta el 5 kg, doble en el 10 kg)»"),
-                    ("MP-89", "1 etiqueta de caja por recipiente", 1, "Proceso de manuales, embalaje"),
-                    ("MP-60", f"1 pallet cada {pp} recipientes", f"=1/{pp}",
-                     "Proceso de manuales, embalaje: tabla de unidades por pallet (BOM)"),
-                    ("MP-63", "FILM_PALLET kg por pallet", f'={P("FILM_PALLET")}/{pp}', "Planilla de MP (estimado)"),
-                    ("MP-90", "1 etiqueta por pallet", f"=1/{pp}", "Proceso de manuales, embalaje")]:
-                fila("MANUALES", "Embalaje y palletizado", it, D, pref, "Recipiente (terminado y cilindro)", base,
-                     coef, fu)
-            fila("MANUALES", "Embalaje (cilindro vacío)", "MP-85", D, pref, "Sólo cilindro vacío",
-                 "1 protocolo de ensayo por cilindro", 1, "Proceso de manuales, embalaje: «El protocolo de ensayo "
-                 "hidrostático (R5 del plano) acompaña a cada cilindro vacío»")
-        for k, (_, pref, n) in enumerate(ROD):
-            for puesto, gas, alam in CARRO:
-                fila("RODANTES", puesto, "MP-25", IN, pref, "Recipiente (terminado y cilindro)" if "accesorios" not in
-                     puesto else "Sólo carro terminado", f"{gas[k]} L de Ar + 8 % CO₂ por unidad",
-                     f"={gas[k]}/1000", f"Proceso de carros, {puesto.split(',')[0].lower()}: tabla de consumo de gas "
-                     "y alambre")
-                fila("RODANTES", puesto, "MP-24", D, pref, "Recipiente (terminado y cilindro)" if "accesorios" not in
-                     puesto else "Sólo carro terminado", f"{alam[k]} g de alambre Ø1,0 por unidad",
-                     f"={alam[k]}/1000", f"Proceso de carros, {puesto.split(',')[0].lower()}: tabla de consumo")
-            fila("RODANTES", "Soldadura (todos los puestos)", "MP-26", IN, pref, "Recipiente (terminado y cilindro)",
-                 "1 punta cada ALAMBRE_PUNTA kg de alambre",
-                 f'=({"+".join(str(a[k]) for _, _, a in CARRO)})/1000/{P("ALAMBRE_PUNTA")}',
-                 "Planilla de MP (estimado), sobre el alambre de los cinco puestos")
-            fila("RODANTES", "Puesto 6, soldadura de cupla", "MP-95", IN, pref, "Recipiente (terminado y cilindro)",
-                 "1 ml por cúpula; aerosol de 400 ml", "=1/400", "Proceso de carros, puesto 6: «un disparo corto, "
-                 "de alrededor de 1 segundo (unos 1 ml)»")
-            if pref in ("ABC70", "ABC100"):
-                fila("RODANTES", "Puesto 4, placas de refuerzo", "MP-27", IN, pref, "Recipiente (terminado y cilindro)",
-                     "7 discos por mes pico / 80 cuerpos de 70 y 100 kg por mes", "=7/80", "Proceso de carros, "
-                     "puesto 4: «un disco de corte por tanda (7 por mes en el pico)»; 4 cuerpos por día × 20 días")
-                fila("RODANTES", "Puesto 4, placas de refuerzo", "MP-93", IN, pref, "Recipiente (terminado y cilindro)",
-                     "1 disco flap cada 4 tandas", "=7/4/80", "Proceso de carros, puesto 4: «un disco flap cada 4 "
-                     "tandas»")
-            for it, base, coef, fu in [
-                    ("MP-92", "3 cortes por juego / 200 cortes por disco", "=3/200", "Proceso de carros, 8.1: tabla de "
-                     "consumos («unos 200 cortes por disco de sensitiva»)"),
-                    ("MP-27", "1 disco cada 40 juegos de triángulos", "=1/40", "Proceso de carros, 8.1: «40 juegos de "
-                     "triángulos por disco de corte de 115 mm»"),
-                    ("MP-93", "2 discos flap por mes pico / 400 juegos", "=2/400", "Proceso de carros, 8.1: tabla de "
-                     "consumos"),
-                    ("MP-94", "2 agujeros por juego / 200 agujeros por mecha", "=2/200", "Proceso de carros, 8.1: "
-                     "«200 agujeros por mecha»")]:
-                fila("RODANTES", "Puesto 8.1, fabricación de accesorios", it, IN, pref, "Sólo carro terminado", base,
-                     coef, fu)
-            fila("RODANTES", "Puesto 12, pintura (tercerizada)", f"MP-96/{pref}", D, pref,
-                 "Recipiente (terminado y cilindro)", "1 servicio por unidad", 1,
-                 "Proceso de carros, 8.1: «luego del pintado que es tercerizado»; cotización por carro")
-            fila("RODANTES", "Embalaje (carro terminado)", "MP-91", D, pref, "Sólo carro terminado",
-                 "1 funda por carro", 1, "Investigación de proveedores (funda de PE de rodantes); el proceso de carros "
-                 "no tiene escrito el embalaje (estimado)")
-            pp = POR_PALLET_ROD[pref]
-            for it, base, coef, fu in [
-                    ("MP-60", f"1 pallet cada {pp} cilindros", f"=1/{pp}", "Planilla de MP, hoja Pallets PT "
-                     "(estimado)"),
-                    ("MP-63", "FILM_PALLET kg por pallet", f'={P("FILM_PALLET")}/{pp}', "Planilla de MP (estimado)"),
-                    ("MP-64", "ESQ_PALLET esquineros por pallet", f'={P("ESQ_PALLET")}/{pp}', "Planilla de MP "
-                     "(estimado)"),
-                    ("MP-90", "1 etiqueta por pallet", f"=1/{pp}", "Ídem manuales"),
-                    ("MP-85", "1 protocolo de ensayo por cilindro", 1, "Ídem manuales")]:
-                fila("RODANTES", "Embalaje (cilindro vacío)", it, D, pref, "Sólo cilindro vacío", base, coef, fu)
-        # recargas
-        for c in [x for x, _, _ in FAB] + [x for x, _ in REV]:
-            fila("RECARGAS", "Retoque de pintura", "MP-65", D, c, "Recarga", "P_RETOQUE × RETOQUE_L litros por "
-                 "equipo", f'={P("P_RETOQUE")}*{P("RETOQUE_L")}', "Dimensionamiento Técnico V2, Parametros Recargas "
-                 "(15 %); planilla de MP (0,05 L)")
+            partes = [lambda j, c=c: col(PI, ix[(s_rev, INV[c])], j)]
+            txt = f"Indexado, «Matafuegos terciarizados», fila {ix[(s_rev, INV[c])]}"
+            if c in pool_al:
+                partes.append(lambda j, c=c: f"{col(PX, pool_al[c], j)}*$D${r_pi}")
+                txt += f" + sustitutos nuevos de la planta industrial (Reservas, fila {pool_al[c]}, × D01)"
+            fila("REVENDIDOS", f"Matafuego {n}", ["=" + "+".join(f(j) for f in partes) for j in range(10)],
+                 clave=("REVENDIDOS", f"FL_MAT_{c}"), como=txt + ".", figs=["X01", "X03"])
         ws.freeze_panes = "D4"
-        ws.auto_filter.ref = f"A3:J{self.r_pr - 1}"
-        _imprimir(ws, "3:3", 10)
+        _imprimir(ws, "3:3")
 
-    # -------- recargas (BOM_COEF por servicio)
-    AG = [("Polvo ABC 60", "MP-33"), ("Polvo ABC 90", "MP-33B"), ("Polvo BC", "MP-35"), ("Polvo químico BC", "MP-35"),
-          ("Polvo para metales", "MP-36"), ("Dióxido de carbono", "MP-37"), ("HCFC", "MP-38"),
-          ("Concentrado AFFF", "MP-40"), ("Acetato de potasio", "MP-41")]
-    ID_REC = {"Etiqueta de control": ("MP-73", ""), "Precinto con identificación": ("MP-97", ""),
-              "Marbete indicador": ("MP-57", ""), "Etiqueta de servicio": ("MP-72", ""),
-              "Estampilla y oblea de recarga": ("MP-75", "PBA"), "Tarjeta de identificación DPS": ("MP-76", "PBA"),
-              "Tarjeta de identificación AGC": ("MP-77", "CABA"), "Conjunto de seguridad": ("MP-55", ""),
-              "Oblea de vencimiento": ("MP-74", "")}
+    # -------- estacionalidad (como el Dimensionamiento Técnico FLAMA)
+    def estacionalidad(self):
+        ws = self.wb.create_sheet("ESTACIONALIDAD", 1)
+        _titulo(ws, "ESTACIONALIDAD: producción mensual del año 2035")
+        _cab(ws, 3, ["Ref.", "Perfil"] + MESES + ["Total"], [7, 34] + [8] * 12 + [9])
+        self.r_perf = []
+        for k, (nom, v) in enumerate(PERFILES):
+            r = 4 + k
+            rid = self.ref(f"E{k + 1:02d}", hoja="ESTACIONALIDAD", dato=nom,
+                           como="Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes)."
+                           if k < 3 else "Dimensionamiento Técnico FLAMA: las recargas de las dos plantas se reparten "
+                                         "parejo en los 12 meses (anual / 12).", figs=["D02"] if k < 3 else ["D04"])
+            ws.cell(r, 1, rid)
+            ws.cell(r, 2, nom)
+            for j, x in enumerate(v):
+                ws.cell(r, 3 + j, x).number_format = "0.0%"
+            ws.cell(r, 15, f"=SUM(C{r}:N{r})").number_format = "0%"
+            _fila(ws, r, 15)
+            self.r_perf.append(r)
+        r = 4 + len(PERFILES) + 1
+        _cab(ws, r, ["Línea", "Producto"] + MESES + ["Total", "Mes pico de la línea"])
+        ws.column_dimensions["P"].width = 12
+        r += 1
+        self.r_est, tot = {}, {}
+        resumen = r + 0
+        filas_lin = {}
+        for lin in LINEAS:
+            filas_lin[lin] = []
+            for (l2, clave), rd in sorted(self.dem.items(), key=lambda x: x[1]):
+                if l2 != lin or clave == "KIT":
+                    continue
+                pr = self.r_perf[perfil(codigo(clave), lin)]
+                ws.cell(r, 1, lin)
+                ws.cell(r, 2, f"=DEMANDA!C{rd}")
+                for j in range(12):
+                    ws.cell(r, 3 + j, f"=DEMANDA!$M${rd}*{L(3 + j)}${pr}").number_format = "#,##0"
+                ws.cell(r, 15, f"=SUM(C{r}:N{r})").number_format = "#,##0"
+                self.r_est[(lin, clave)] = r
+                filas_lin[lin].append(r)
+                _fila(ws, r, 16)
+                r += 1
+            ws.cell(r, 1, lin)
+            ws.cell(r, 2, f"Total {lin.lower()}")
+            a, b = filas_lin[lin][0], filas_lin[lin][-1]
+            for j in range(13):
+                ws.cell(r, 3 + j, f"=SUM({L(3 + j)}{a}:{L(3 + j)}{b})").number_format = "#,##0"
+            _fila(ws, r, 16, "gris")
+            tot[lin] = r
+            r += 1
+        # resumen: mes pico y factor de pico por línea
+        r += 1
+        _cab(ws, r, ["Ref.", "Línea", "Mes pico", "N.º de mes", "Unidades del mes pico", "Promedio mensual",
+                     "Factor de pico"])
+        r += 1
+        self.r_pico = {}
+        for lin in LINEAS:
+            t = tot[lin]
+            rid = self.ref(f"E{len(PERFILES) + 1 + LINEAS.index(lin):02d}", hoja="ESTACIONALIDAD",
+                           dato=f"Mes pico de {lin.lower()}",
+                           como="El mes de mayor producción del año 2035 sumando todos los productos de la línea (como "
+                                "el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del "
+                                "mes pico / promedio mensual.", figs=["D03"])
+            ws.cell(r, 1, rid)
+            ws.cell(r, 2, lin)
+            ws.cell(r, 4, f"=MATCH(MAX(C{t}:N{t}),C{t}:N{t},0)")
+            ws.cell(r, 3, f'=INDEX($C${resumen - 1}:$N${resumen - 1},D{r})')
+            ws.cell(r, 5, f"=INDEX(C{t}:N{t},D{r})").number_format = "#,##0"
+            ws.cell(r, 6, f"=O{t}/12").number_format = "#,##0"
+            ws.cell(r, 7, f"=E{r}/F{r}").number_format = "0.000"
+            _fila(ws, r, 7)
+            self.r_pico[lin] = r
+            r += 1
+        for lin in LINEAS:
+            for rr in filas_lin[lin]:
+                ws.cell(rr, 16, f"=INDEX(C{rr}:N{rr},$D${self.r_pico[lin]})").number_format = "#,##0"
+        ws.freeze_panes = "C4"
+        _imprimir(ws, "3:3")
 
-    def coef_recarga(self, c):
-        """Filas de BOM_COEF de la recarga del tipo c: una por ítem, con la cantidad de cada servicio."""
-        filas = self.prods[("Recargas", f"RK_{c}")]
-        pref = PREF.get(c)
-        serv_de = {"1": "ctrl", "2": "mant", "3": "rec", "4": "ph"}
-        acum = {}
-        excl = []
-        serv = None
+    # -------- consumos por unidad
+    def bom_ident(self, hoja, prod, pref):
+        """Compras 1 a 1 del BOM de un producto: válvula, manguera, manómetro, junta, soporte, identificación, carro
+        y cilindro. Devuelve {ítem: (cantidad, destino, fila del BOM)}."""
+        filas = self.prods[(hoja, prod)]
+        out = {}
+
+        def add(it, cant, dest, f):
+            q0 = out.get(it, (0, dest, []))
+            out[it] = (q0[0] + cant, dest, q0[2] + [f["fila"]])
+
+        mapa = {"Manómetro": ("MP-45", ""), "Etiqueta / placa de características": (f"MP-56/{pref}", ""),
+                "Oblea de fabricación": ("MP-78", "PBA"), "Estampilla IRAM de conformidad": ("MP-79", ""),
+                "Tarjeta de identificación AGC": ("MP-77", "CABA"), "Etiqueta de n° de serie GS1": ("MP-80", ""),
+                "Faja de garantía válvula-cuello": ("MP-81", ""), "Precinto de fábrica": ("MP-51", ""),
+                "Soporte de pared": (f"MP-52/{pref}", ""), "Soporte vehicular con cierre rápido": ("MP-87", ""),
+                "Tornillo y tarugo de fijación": ("MP-86", ""),
+                "Tapón protector de rosca del cuello": (TAPON.get(pref, "MP-62/M30"), ""),
+                "Etiqueta de identificación del cilindro suelto": ("MP-88", ""),
+                "Junta tórica de asiento": (JUNTA.get(pref, "MP-50/M30"), "")}
         for f in filas:
-            if f["Nivel"] == 1:
-                serv = serv_de[f["Código"].rsplit("-", 1)[1]]
-                continue
-            if f["Nivel"] != 2:
-                continue
-            pz = f["Pieza"]
-            it, fac, dest = None, 1, ""
-            if "recuperado" in pz or pz.startswith("Agua") or "Aire comprimido" in pz:
-                excl.append(f)
-                continue
-            if pz.startswith("Gas impulsor: N₂"):
-                it, fac = "MP-34", f'=(1+{self.P("N2_PERD")})/{self.P("RHO_N2")}'
-            elif pz.startswith("Gas impulsor: Argón"):
-                it, fac = "MP-39", f'=(1+{self.P("N2_PERD")})/{self.P("RHO_AR")}'
-            elif pz.startswith("Junta tórica"):
-                it = JUNTA.get(pref, "MP-50/M30") if pref else "MP-50/OT"
-            else:
-                for k, v in self.AG:
-                    if pz.startswith(k):
-                        it = v
-                for k, (v, d) in self.ID_REC.items():
-                    if pz.startswith(k):
-                        it, dest = v, d
-            if not it:
-                excl.append(f)
-                continue
-            a = acum.setdefault(it, dict(fac=fac, dest=dest, um=f["UM"], piezas=[], codigos=[], filas=[],
-                                         s={"ctrl": 0, "mant": 0, "rec": 0, "ph": 0}))
-            a["s"][serv] += f["Cant."] or 0
-            if pz not in a["piezas"]:
-                a["piezas"].append(pz)
-            a["codigos"].append(f["Código"])
-            a["filas"].append(str(f["fila"]))
-        ph = self.modelos[f"FL_MAT_{c}"]["Prueba hidráulica cada (años)"]
-        out = []
-        for it, a in acum.items():
-            cods = ", ".join(sorted(set(x.rsplit("-", 1)[1] for x in a["codigos"])))
-            filas_bom = "Recargas " + ", ".join(a["filas"])
-            out.append((it, self._bc_rec(f"RK_{c}", cods, filas_bom, " / ".join(a["piezas"]), a["um"], it, a["fac"],
-                                         a["dest"], a["s"], ph, 0, "FLAMA_BOM, hoja Recargas (IRAM 3517-2:2020)"),
-                        a["dest"]))
-        for f in excl:
-            self._bc_rec(f"RK_{c}", f["Código"].rsplit("-", 1)[1], f"Recargas {f['fila']}", f["Pieza"], f["UM"], "",
-                         "", "", {}, 0, 0, "No se compra: " + ("se recupera" if "recuperado" in f["Pieza"] else
-                                                               "agua de red o aire del compresor de planta"))
-        if pref:
-            m = [x for x in MAN if x[1] == pref]
-            rep = [(VALV[pref], "REPO_VALV", "Válvula de reemplazo"), ("MP-45", "REPO_MANO", "Manómetro de reemplazo")]
-            if pref != "ABC1":
-                rep.append((f"MP-48/{pref}" if m else f"MP-49/{pref}", "REPO_MANG", "Manguera de reemplazo"))
-            for it, pid, txt in rep:
-                out.append((it, self._bc_rec(f"RK_{c}", "", "", txt, "u", it, 1, "", {}, 0,
-                                             f'={self.P(pid)}', "Reposición en el mantenimiento: planilla de MP "
-                                             "(estimado)"), ""))
+            cod, pz = f["Código"], f["Pieza"]
+            if cod.startswith("FL_SUS_"):
+                break
+            if cod.endswith("-K2"):
+                add(VALV[pref], 1, "", f)
+            elif cod.endswith("-S3"):
+                add(f"MP-48/{pref}" if pref in [p for _, p, _ in MAN] else f"MP-49/{pref}", 1, "", f)
+            elif pz in mapa and f["Nivel"] == 2:
+                it, dest = mapa[pz]
+                add(it, f["Cant."] or 1, dest, f)
+            elif pz == "Neumático macizo":
+                add(RUEDA[pref], f["Cant."], "", f)
+            elif pz.startswith("Arandelas de tope"):
+                add("MP-70", 4, "", f)
+            elif pz.startswith("Pasadores del eje"):
+                add("MP-71", 2, "", f)
         return out
 
-    def _bc_rec(self, prod, cod, fila, pieza, um, it, fac, dest, s, ph, rep, fuente):
-        ws, r = self.ws_bc, self.r_bc
-        trat = "Compra por servicio" if it and s else ("Reposición" if it else "Sin compra")
-        vals = [prod, cod, fila, pieza, 1, um, trat, it, fac, f"=E{r}*I{r}" if it else "", dest,
-                s.get("ctrl", 0), s.get("mant", 0), s.get("rec", 0), s.get("ph", 0), ph, rep]
-        for j, v in enumerate(vals, 1):
-            ws.cell(r, j, v)
-        if it:
-            for j in range(10):
-                ws.cell(r, 18 + j, f'=J{r}*({self.P("CTRL_AÑO")}*L{r}+(1-{self.PY("P_USADOS", j)})*M{r}+'
-                                   f'{self.PY("P_USADOS", j)}*N{r}+IF(P{r}>0,O{r}/P{r},0)+Q{r})')
-        ws.cell(r, 28, fuente)
-        for j in list(range(5, 18)) + list(range(18, 28)):
-            ws.cell(r, j).number_format = "0.######"
-        _fila(ws, r, 28)
-        self.r_bc += 1
-        return r
+    def area(self, hoja, prod):
+        """Área exterior del recipiente (m²): la mitad de la superficie de las dos caras del BOM."""
+        s = 0.0
+        for f in self.prods[(hoja, prod)]:
+            if f["Nivel"] == 2 and f["Pieza"] in ("Cuerpo", "Cúpula", "Fondo", "Cilindro sin costura"):
+                s += (f["Superficie (dm²)"] or 0) / 2 / 100
+        return s
 
-    def coef_simple(self, prod, pieza, it, dest, fuente):
-        ws, r = self.ws_bc, self.r_bc
-        for j, v in enumerate([prod, "", "", pieza, 1, ITEM[it]["um"], "Compra", it, 1, f"=E{r}*I{r}", dest], 1):
-            ws.cell(r, j, v)
-        for j in range(10):
-            ws.cell(r, 18 + j, f"=$J{r}")
-        ws.cell(r, 28, fuente)
-        _fila(ws, r, 28)
-        self.r_bc += 1
-        return r
+    def filas_fab(self, lin, grupo):
+        """Filas de consumo de MANUALES o RODANTES: {(ítem, destino): {columna: valor}} con su justificación."""
+        cols = [f"FL_MAT_{c}" for c, _, _ in grupo] + [f"FL_REC_{c}" for c, _, _ in grupo]
+        n = len(grupo)
+        rows = []
 
-    def coeficientes(self):
-        """Arma BOM_COEF y deja en self.hijos, por línea y tipo, las filas hijas de las hojas de insumos."""
-        self.hijos = {}      # (línea, tipo) → {ítem: [(clave, texto, fuente_coef, destino, base de destino)]}
-        bc = lambda r: [f"BOM_COEF!{L(18 + j)}{r}" for j in range(10)]
-        pr = lambda r: [f"PROCESO!$I${r}"] * 10
+        def fila(it, cons, como, figs, dest=""):
+            rows.append(dict(it=it, dest=dest, cons=cons, como=como, figs=figs))
 
-        def add(lin, it, clave, txt, refs, dest, base):
-            tipo = ITEM[it]["tipo"]
-            self.hijos.setdefault((lin, tipo), {}).setdefault(it, []).append((clave, txt, refs, dest, base))
-
-        def piezas(r):
-            return self.ws_bc.cell(r, 4).value
-
-        self.base_fab = {}
-        for c, pref, n in FAB:
-            lin = "MANUALES" if pref in [p for _, p, _ in MAN] else "RODANTES"
-            for clave, hoja, prod, aplica in ((f"FL_MAT_{c}", "Fabricados", f"FL_MAT_{c}", "terminado"),
-                                              (f"FL_REC_{c}", "Cilindros", f"FL_REC_{c}", "cilindro")):
-                rows = self.coef_producto(clave, hoja, prod, pref)
-                if aplica == "terminado":
-                    self.base_fab[c] = rows
-                for it, r, dest in rows:
-                    add(lin, it, clave, f"{n} {aplica} · {piezas(r)}", bc(r), dest, "NUE")
-                for it, r, tipo, ap in self.pr.get((lin, pref), []):
-                    if ap.startswith("Recipiente") or (aplica == "terminado" and ap.startswith("Sólo carro")) or \
-                            (aplica == "cilindro" and ap.startswith("Sólo cilindro")):
-                        add(lin, it, clave, f"{n} {aplica} · {self.ws_pr.cell(r, 2).value}", pr(r), "", "")
-        # revendidos
-        for c, n in REV:
-            r = self.coef_simple(f"FL_MAT_{c}", "Equipo terminado comprado al fabricante", f"RV-{c}", "",
-                                 "Se compra terminado e identificado por su fabricante")
-            add("REVENDIDOS", f"RV-{c}", f"FL_MAT_{c}", f"{n} · equipo terminado", bc(r), "", "")
-            r = self.coef_simple(f"FL_MAT_{c}", "Tarjeta AGC (sólo destino CABA)", "MP-77", "CABA",
-                                 "Ord. 40.473 / Res. AGC 32/15: la tarjeta la agrega quien vende en CABA")
-            add("REVENDIDOS", "MP-77", f"FL_MAT_{c}", f"{n} · tarjeta AGC", bc(r), "CABA", "NUE")
-        # recargas de clientes y del pool
-        self.rec_rows = {}
-        for c in [x for x, _, _ in FAB] + [x for x, _ in REV]:
-            self.rec_rows[c] = self.coef_recarga(c)
-        prr = {self.ws_pr.cell(r, 6).value: r for r in range(4, self.r_pr) if self.ws_pr.cell(r, 1).value ==
-               "RECARGAS"}
-        for c in [x for x, _, _ in FAB] + [x for x, _ in REV]:
-            for clave, txt in ((f"RK_{c}", "recarga de clientes"), (f"RKP_{c}", "recarga del pool de sustitutos")):
-                if clave not in self.dem:
+        mod = self.modelos
+        if lin == "MANUALES":
+            for k, (c, p, nm) in enumerate(grupo):
+                it, rend, fg = CUERPO[p]
+                fila(it, {k: f"=1/{rend}", n + k: f"=1/{rend}"},
+                     f"Un cuerpo por recipiente; de {'un caño de 6 m salen' if p == 'ABC1' else 'una hoja salen'} "
+                     f"{rend} cuerpos.", [fg])
+            for (p, pz), (it, an, d, e) in DISCO.items():
+                k = [x[1] for x in grupo].index(p)
+                ex = next((x for x in rows if x["it"] == it), None)
+                v = f"{an}*({d}+{PUENTE})*{e}*7.85/1000000"
+                if ex:
+                    ex["cons"] = {kk: vv + "+" + v for kk, vv in ex["cons"].items()}
+                    ex["como"] += f" Más el fondo: Ø{d} mm."
                     continue
-                for it, r, dest in self.rec_rows[c]:
-                    add("RECARGAS", it, clave, f"{NOMBRE[c]} {txt} · {piezas(r)}", bc(r), dest, "REC")
-                add("RECARGAS", "MP-65", clave, f"{NOMBRE[c]} {txt} · retoque de pintura", pr(prr[c]), "", "")
-        # alta de sustitutos: equipo base + kit
-        for _, c in POOL:
-            clave = f"FL_SUS_{c}"
-            if c in PREF:
-                pref = PREF[c]
-                lin = "MANUALES" if pref in [p for _, p, _ in MAN] else "RODANTES"
-                for it, r, dest in self.base_fab[c]:
-                    add("RECARGAS", it, clave, f"Sustituto {NOMBRE[c]} · {piezas(r)}", bc(r), dest, "NUE")
-                for it, r, tipo, ap in self.pr.get((lin, pref), []):
-                    if (ap.startswith("Recipiente") or ap.startswith("Sólo carro")) and \
-                            "Embalaje" not in self.ws_pr.cell(r, 2).value:
-                        add("RECARGAS", it, clave, f"Sustituto {NOMBRE[c]} · {self.ws_pr.cell(r, 2).value}", pr(r),
-                            "", "")
-                kit = self.coef_producto(clave, "Fabricados", f"FL_MAT_{c}", pref, sustituto=True)
-            else:
-                r = self.coef_simple(clave, "Equipo base del sustituto (terminado)", f"RV-{c}", "",
-                                     "IRAM 3517-2:2020 9.4.5: igual clasificación y capacidad")
-                add("RECARGAS", f"RV-{c}", clave, f"Sustituto {NOMBRE[c]} · equipo terminado", bc(r), "", "")
-                kit = self.coef_producto(clave, "Revendidos", f"FL_MAT_{c}", None, sustituto=True)
-            for it, r, dest in kit:
-                add("RECARGAS", it, clave, f"Sustituto {NOMBRE[c]} · {piezas(r)}", bc(r), dest, "")
-        ws = self.ws_bc
-        ws.freeze_panes = "E4"
-        ws.auto_filter.ref = f"A3:AB{self.r_bc - 1}"
-        for row in ws.iter_rows(min_row=4, max_row=self.r_bc):
-            for c in row:
-                c.alignment = Alignment(wrap_text=c.column in (4, 7, 28), vertical="top")
-        _imprimir(ws, "3:3", 28)
+                fila(it, {k: "=" + v, n + k: "=" + v},
+                     f"{pz} del {p[3:]} kg: kg de fleje por disco = ancho {an} mm × (Ø del disco {d} mm + puente "
+                     f"{PUENTE} mm) × espesor {num(e)} mm × 7,85 kg/dm³ (método de la planilla de MP).",
+                     ["X14", "X08", "Q02"])
+            fila("MP-18", {0: 1, n: 1}, "Un asiento de válvula por cúpula (se compra mecanizado).", ["P01"])
+            fila("MP-19", {k: 1 for k in (1, 2, 3)} | {n + k: 1 for k in (1, 2, 3)},
+                 "Un asiento de válvula por cúpula (se compra mecanizado).", ["P01"])
+            fila("MP-23", {k: ALAMBRE_MAN[p] for k, (_, p, _) in enumerate(grupo)} |
+                 {n + k: ALAMBRE_MAN[p] for k, (_, p, _) in enumerate(grupo)},
+                 "kg de alambre por recipiente de la planilla de MP (largo de costura × alambre por metro). El proceso "
+                 "de manuales no da otro valor.", ["X08"])
+            suma = "+".join(f"{PICO_DOC_MAN[p]}*{GAS_MAN[p]}" for _, p, _ in grupo)
+            fila("MP-25", {k: f"={GAS_MAN[p]}*{GAS_DOC}/({suma})" for k, (_, p, _) in enumerate(grupo)} |
+                 {n + k: f"={GAS_MAN[p]}*{GAS_DOC}/({suma})" for k, (_, p, _) in enumerate(grupo)},
+                 f"m³ por recipiente de la planilla de MP, llevados a los {GAS_DOC} m³ por día del proceso de manuales: "
+                 f"con la producción del pico de ese proceso (1.216, 99, 446 y 27 recipientes) la planilla da 43,3 m³, "
+                 f"así que cada valor se multiplica por 48 / 43,3.", ["P01", "X08"])
+            fila("MP-28", {k: 0.08 for k in range(2 * n)}, "0,08 kg de granalla por cilindro (proceso de manuales: "
+                 "«unos 133 kg por día en el pico»).", ["P04"])
+            fila("MP-31", {k: f"={self.area('Fabricados', 'FL_MAT_' + c):.4f}/{PINT_REND}/{PINT_APROV}"
+                           for k, (c, _, _) in enumerate(grupo)} |
+                 {n + k: f"={self.area('Fabricados', 'FL_MAT_' + c):.4f}/{PINT_REND}/{PINT_APROV}"
+                  for k, (c, _, _) in enumerate(grupo)},
+                 "kg = área exterior (BOM: mitad de la superficie de cuerpo, cúpula y fondo) / 9,46 m² por kg / 0,95. "
+                 "Rendimiento a 70 µm del poliéster WEG Politherm 66 (densidad 1,51 g/cm³); 70 µm es el espesor de la "
+                 "planilla de MP (Sinteplast, 60 a 80 µm). La cabina recupera el polvo (proceso de manuales): 95 % de "
+                 "aprovechamiento (Powder Coating Institute).", ["B02", "X08", "P04", "W2", "W3"])
+            fila("MP-33", {k: mod[f"FL_MAT_{c}"]["Carga objetivo"] for k, (c, _, _) in enumerate(grupo)},
+                 "Carga objetivo del BOM (nominal + mitad de la tolerancia). El proceso de manuales no agrega merma "
+                 "(1.254 kg por día para 413 matafuegos en el pico).", ["B01", "P01"])
+            fila("MP-34", {k: f"={mod[f'FL_MAT_{c}']['V recipiente (L)']}/3*14/1000" for k, (c, _, _) in
+                           enumerate(grupo)},
+                 "Cuenta del proceso de manuales: cámara de gas de un tercio del volumen interior a 14 bar (presión "
+                 "de servicio del plano). Volumen interior del BOM.", ["P04", "B01"])
+            figs_id = ["B02"]
+        else:
+            fila("MP-11", {0: "=1/9", 1: "=1/6", n: "=1/9", n + 1: "=1/6"}, "Un cuerpo por recipiente; de una hoja "
+                 "de 3,2 mm salen 9 cuerpos de 25 kg o 6 de 50 kg (plan de corte del proceso de carros).", ["P08"])
+            fila("MP-12", {2: "=2/9", 3: "=1/3", n + 2: "=2/9", n + 3: "=1/3"},
+                 "Hoja mixta del proceso de carros: 3 cuerpos de 70 kg + 1 de 100 kg; los 100 kg que sobran, a 3 por "
+                 "hoja. Hojas = n70 / 3 + (n100 − n70 / 3) / 3 = 2/9 × n70 + 1/3 × n100 (vale mientras n70 ≤ 3 × "
+                 "n100, que se cumple todos los años).", ["P08"])
+            for it in ("MP-15", "MP-16", "MP-17"):
+                ks = [k for k, (_, p, _) in enumerate(grupo) if CASQ[p] == it]
+                fila(it, {k: 2 for k in ks} | {n + k: 2 for k in ks}, "Dos casquetes por recipiente (cúpula y "
+                     "fondo, comprados estampados).", ["P06"])
+            for it in ("MP-20", "MP-21"):
+                ks = [k for k, (_, p, _) in enumerate(grupo) if CUPLA[p] == it]
+                fila(it, {k: 1 for k in ks} | {n + k: 1 for k in ks}, "Una cupla por recipiente.", ["P06"])
+            fila("MP-66", {k: f"={MANIJA[p]}/6000/0.95" + (f"+{CANO_EJE[p][1]}/6000/0.95" if CANO_EJE[p][0] ==
+                                                         "MP-66" else "") for k, (_, p, _) in enumerate(grupo)},
+                 "Manija (1.440 a 1.590 mm) y, en el 25 kg, el caño del eje (354 mm), sobre barras de 6 m con 95 % "
+                 "de aprovechamiento (proceso de carros, 8.1). Sólo el carro terminado.", ["P16", "P15"])
+            fila("MP-67", {k: f"={CANO_EJE[p][1]}/6000/0.95" for k, (_, p, _) in enumerate(grupo)
+                           if CANO_EJE[p][0] == "MP-67"},
+                 "Caño del eje (354 o 434 mm) sobre barras de 6 m con 95 % de aprovechamiento (proceso de carros, "
+                 "8.1).", ["P16", "P15"])
+            for it in ("MP-68", "MP-69"):
+                fila(it, {k: f"=1/INT({EJE[p][2]}/{EJE[p][1]})" for k, (_, p, _) in enumerate(grupo)
+                          if EJE[p][0] == it},
+                     "Ejes enteros por barra: INT(largo de la barra / largo del eje) (proceso de carros, 8.1).",
+                     ["P16"])
+            figs_id = ["B02"]
+            fila("MP-24", {k: f"=({'+'.join(str(a[k]) for _, _, a in CARRO)})/1000" for k in range(n)} |
+                 {n + k: f"=({'+'.join(str(a[k]) for _, _, a in CARRO[:4])})/1000" for k in range(n)},
+                 "Suma de los gramos de alambre de los puestos 4 a 8 del proceso de carros; el cilindro vacío no "
+                 "pasa por el puesto 8 (accesorios).", ["P10", "P11", "P12", "P13", "P14"])
+            fila("MP-25", {k: f"=({'+'.join(str(g[k]) for _, g, _ in CARRO)})/1000" for k in range(n)} |
+                 {n + k: f"=({'+'.join(str(g[k]) for _, g, _ in CARRO[:4])})/1000" for k in range(n)},
+                 "Suma de los litros de gas de los puestos 4 a 8 del proceso de carros; el cilindro vacío no pasa "
+                 "por el puesto 8.", ["P10", "P11", "P12", "P13", "P14"])
+            fila("MP-92", {k: "=3/200" for k in range(n)}, "3 cortes por juego de accesorios; 200 cortes por disco "
+                 "(proceso de carros, 8.1).", ["P17"])
+            fila("MP-27", {k: "=1/40" + ("+7/80" if k >= 2 else "") for k in range(n)} |
+                 {n + k: "=7/80" for k in (2, 3)},
+                 "1 disco cada 40 juegos de triángulos (8.1) y, en 70 y 100 kg, 7 discos por mes para las placas de "
+                 "refuerzo sobre 80 cuerpos por mes (puesto 4).", ["P17", "P18"])
+            fila("MP-93", {k: "=2/400" + ("+7/4/80" if k >= 2 else "") for k in range(n)} |
+                 {n + k: "=7/4/80" for k in (2, 3)},
+                 "2 discos flap por mes para 400 juegos (8.1) y, en 70 y 100 kg, 1 disco cada 4 tandas de placas "
+                 "(puesto 4).", ["P17", "P18"])
+            fila("MP-94", {k: "=2/200" for k in range(n)}, "2 agujeros por juego; 200 agujeros por mecha (8.1).",
+                 ["P17"])
+            fila("MP-95", {k: "=1/400" for k in range(2 * n)}, "Un disparo de 1 ml por cupla; aerosol de 400 ml "
+                 "(puesto 6).", ["P18"])
+            for k, (c, p, nm) in enumerate(grupo):
+                fila(f"MP-96/{p}", {k: 1, n + k: 1}, "Un servicio de pintura por recipiente: la pintura de carros es "
+                     "tercerizada (proceso de carros, 8.1; cotización por carro).", ["P15", "Q09"])
+            fila("MP-33B", {k: f"={mod[f'FL_MAT_{c}']['Carga objetivo']}*1.01" for k, (c, _, _) in
+                            enumerate(grupo)},
+                 "Carga del BOM + 1 % de merma (proceso de carros, puesto 1, tabla 3).", ["B01", "P06"])
+            fila("MP-34", {k: f"={mod[f'FL_MAT_{c}']['V recipiente (L)']}/3*14/1000" for k, (c, _, _) in
+                           enumerate(grupo)},
+                 "El proceso de carros no da el consumo: se usa la cuenta del proceso de manuales (un tercio del "
+                 "volumen interior a 14 bar, misma pinza Yukon) con el volumen interior del BOM.", ["P04", "B01"])
+        # compras 1 a 1 del BOM (válvula, manguera, manómetro, junta, soportes, identificación, carro, cilindro)
+        idx = {}
+        for k, (c, p, nm) in enumerate(grupo):
+            for hoja, prod, kk in (("Fabricados", f"FL_MAT_{c}", k), ("Cilindros", f"FL_REC_{c}", n + k)):
+                for it, (cant, dest, fb) in self.bom_ident(hoja, prod, p).items():
+                    idx.setdefault((it, dest), {})[kk] = cant
+        orden = [it["cod"] for it in ITEMS]
+        for (it, dest), cons in sorted(idx.items(), key=lambda x: orden.index(x[0][0])):
+            fila(it, cons, ("Cantidad por unidad del BOM" + (f"; sólo lo que va a {dest} (% de DEMANDA)" if dest
+                                                             else "") + "."), figs_id, dest)
+        # cilindro vacío y embalaje
+        if lin == "MANUALES":
+            fila("MP-85", {n + k: 1 for k in range(n)}, "Un protocolo de ensayo acompaña a cada cilindro vacío "
+                 "(proceso de manuales, embalaje).", ["P05"])
+            for k, (c, p, nm) in enumerate(grupo):
+                fila(f"MP-59/{p}", {k: 1, n + k: 1}, "Una caja por recipiente, simple hasta el 5 kg y doble en el "
+                     "10 kg (proceso de manuales, embalaje).", ["P05"])
+            fila("MP-89", {k: 1 for k in range(2 * n)}, "Una etiqueta por caja (proceso de manuales, embalaje).",
+                 ["P05"])
+            fila("MP-60", {k: f"=1/{POR_PALLET_MAN[p]}" for k, (_, p, _) in enumerate(grupo)} |
+                 {n + k: f"=1/{POR_PALLET_MAN[p]}" for k, (_, p, _) in enumerate(grupo)},
+                 "Un pallet cada 400, 167, 90 o 40 recipientes (proceso de manuales, embalaje).", ["P05"])
+            fila("MP-90", {k: f"=1/{POR_PALLET_MAN[p]}" for k, (_, p, _) in enumerate(grupo)} |
+                 {n + k: f"=1/{POR_PALLET_MAN[p]}" for k, (_, p, _) in enumerate(grupo)},
+                 "Una etiqueta por pallet (proceso de manuales, embalaje).", ["P05"])
+        else:
+            fila("MP-60", {n + k: f"=1/{POR_PALLET_ROD[p]}" for k, (_, p, _) in enumerate(grupo)},
+                 "Cilindros vacíos de carro por pallet: 24, 9, 6 y 6 (planilla de MP, Pallets PT).", ["X07"])
+            fila("MP-90", {n + k: f"=1/{POR_PALLET_ROD[p]}" for k, (_, p, _) in enumerate(grupo)},
+                 "Una etiqueta por pallet.", ["X07"])
+        return cols, rows
 
-    # -------- COMPRAS
-    def compras(self):
-        ws = self.wb.create_sheet("COMPRAS")
-        _titulo(ws, "COMPRAS: catálogo de ítems con tipo, clase, almacén, proveedor, unidad de compra y lead time",
-                "Lead time en días hábiles. Origen: Cotización (presupuesto o mensaje del proveedor), Proceso "
-                "(documento de proceso de FLAMA), Planilla de MP (estimado del equipo), Supuesto (a confirmar). "
-                "T = días hábiles entre pedidos: 5 MP crítica y gases, 10 nacionales y organismos, 20 importados.")
-        cab = ["Código", "Ítem", "UM", "Tipo", "Clase", "Almacén", "Proveedor principal", "Alternativa", "Estado",
-               "Unidad de compra (UC)", "Contenido por UC (UM)", "Lead time (días háb.)", "Origen del lead time",
-               "Fuente del lead time", "T (días háb.)", "UC por posición", "m² por posición", "Nota"]
-        _cab(ws, 3, cab, [11, 50, 6, 9, 20, 30, 28, 24, 16, 26, 11, 10, 14, 60, 8, 9, 9, 50])
-        r = 4
-        self.c_fila = {}
-        for it in ITEMS:
-            vals = [it["cod"], it["nom"], it["um"], it["tipo"], it["clase"], it["zona"], it["prov"], it["alt"],
-                    it["estado"], it["uc"], it["cont"], it["lt"], it["lt_or"], it["lt_fu"], it["T"], it["ucpos"],
-                    it["m2"], it["nota"]]
-            for j, v in enumerate(vals, 1):
-                c = ws.cell(r, j, v)
-                c.alignment = Alignment(wrap_text=j in (2, 6, 7, 10, 14, 18), vertical="top")
-            _fila(ws, r, 18)
-            self.c_fila[it["cod"]] = r
-            r += 1
-        self.wb.defined_names["C_COD"] = DefinedName("C_COD", attr_text=f"COMPRAS!$A$4:$A${r - 1}")
-        self.wb.defined_names["C_TAB"] = DefinedName("C_TAB", attr_text=f"COMPRAS!$A$4:$R${r - 1}")
-        ws.freeze_panes = "C4"
-        ws.auto_filter.ref = f"A3:R{r - 1}"
-        _imprimir(ws, "3:3", 18)
+    def filas_rec(self):
+        cols = [f"RK_{c}" for c in REC] + ["KIT"]
+        rows = []
+        mod = self.modelos
 
-    def C(self, celda, k):
-        return f"INDEX(C_TAB,MATCH({celda},C_COD,0),{k})"
+        def fila(it, cons, como, figs, dest=""):
+            rows.append(dict(it=it, dest=dest, cons=cons, como=como, figs=figs))
 
-    # -------- hojas de insumos por línea
-    def insumos(self, lin, tipo):
-        nombre = f"INSUMOS_{'DIRECTOS' if tipo == D else 'INDIRECTOS'}_{lin}"
-        ws = self.wb.create_sheet(nombre)
-        _titulo(ws, f"{nombre.replace('_', ' ')}: requerimiento bruto por año",
-                "Fila gris = total del ítem (suma de las filas de abajo). Cada fila de abajo = coeficiente por unidad "
-                "× demanda del producto × % del destino si el ítem es sólo de CABA o de PBA. El coeficiente sale de "
-                "la celda indicada en la última columna.")
-        _cab(ws, 3, ["Nivel", "Código", "Ítem / origen", "UM", "Producto (DEMANDA)", "Coef. año de diseño",
-                     "Destino"] + AÑOS + ["Coeficiente en"], [6, 12, 60, 6, 20, 11, 8] + [11] * 10 + [22])
-        hijos = self.hijos.get((lin, tipo), {})
-        r = 4
-        orden = [it["cod"] for it in ITEMS if it["cod"] in hijos]
-        if not orden:
-            ws.cell(r, 3, "Sin insumos de este tipo: los equipos revendidos llegan terminados del fabricante; el "
-                          "manipuleo es del almacén").font = _f(italic=True)
-        for cod in orden:
-            hs = hijos[cod]
-            r0 = r
-            ws.cell(r, 1, 0)
-            ws.cell(r, 2, cod)
-            ws.cell(r, 3, ITEM[cod]["nom"])
-            ws.cell(r, 4, ITEM[cod]["um"])
-            r1 = r0 + (3 if cod == "MP-12" and lin == "RODANTES" else len(hs))
-            for j in range(10):
-                ws.cell(r, 8 + j, f"=SUM({L(8 + j)}{r0 + 1}:{L(8 + j)}{r1})").number_format = "#,##0.00"
-            _fila(ws, r, 18, 0)
-            self.tot[(nombre, cod)] = r
-            if cod == "MP-12" and lin == "RODANTES":
-                r = self._hoja_mixta(ws, r0)
+        ks = {c: k for k, c in enumerate(REC)}
+        abc60 = ["ABC_1kg", "ABC_2.5kg", "ABC_5kg", "ABC_10kg"]
+        abc90 = ["ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg"]
+        u = self.u35
+        for it, grupo in (("MP-33", abc60), ("MP-33B", abc90)):
+            fila(it, {ks[c]: f"={mod[f'FL_MAT_{c}']['Carga objetivo']}*({CAMBIO_POLVO}+{u})+(1-{CAMBIO_POLVO}-{u})*"
+                             f"{mod[f'FL_MAT_{c}']['Reposición en mantenimiento (UM)']}" for c in grupo},
+                 "El polvo se recupera. Va a descarte (carga nueva entera) el que cambia por el año de fabricación "
+                 "(1 de cada 10 años: 10 %) y el de los equipos que llegan sin presión o accionados (% de usados, "
+                 "DEMANDA); al resto se le repone lo que se pierde en el desarme (reposición del BOM).",
+                 ["R02", "R03", "B01"])
+        fila("MP-35", {ks["BC_5kg"]: mod["FL_MAT_BC_5kg"]["Carga objetivo"]},
+             "El BC se recarga siempre con polvo nuevo (unos 13 por mes: no se justifica recuperarlo). Carga del BOM.",
+             ["R07", "B01"])
+        fila("MP-36", {ks["CLASED_9l"]: mod["FL_MAT_CLASED_9l"]["Carga objetivo"]},
+             "Mismo criterio que el BC del proceso de recargas: unos 12 por mes en la planta industrial, polvo nuevo "
+             "siempre. Carga del BOM.", ["R07", "B01"])
+        fila("MP-37", {ks[c]: f"={mod[f'FL_MAT_{c}']['Carga objetivo']}*{P_DESCARG}" for c in ("CO2_2kg", "CO2_5kg")},
+             "El CO₂ se recupera y se vuelve a cargar; nuevo sólo para el 10 % que llega descargado o con pérdida de "
+             "masa (Dimensionamiento V2, Parametros Recargas).", ["R09", "X11"])
+        fila("MP-38", {ks["HCFC-HFC_5kg"]: f"={mod['FL_MAT_HCFC-HFC_5kg']['Carga objetivo']}*{P_DESCARG}"},
+             "El agente limpio se recupera en circuito cerrado; nuevo sólo para el 10 % que llega descargado o con "
+             "pérdida (Dimensionamiento V2).", ["R10", "X11"])
+        fila("MP-40", {ks[c]: f"={mod[f'FL_MAT_{c}']['Carga objetivo']}*{AFFF_CONC}" for c in ("AFFF_10l", "AFFF_50l")},
+             "El agente se cambia siempre; premezcla al 3 %: litros de concentrado = volumen × 0,03.", ["R08"])
+        fila("MP-41", {ks["SALESK_6l"]: mod["FL_MAT_SALESK_6l"]["Carga objetivo"]},
+             "Recarga anual completa del agente líquido (Dimensionamiento V2, matriz: llenado de agua, AFFF y K al "
+             "100 %). Carga del BOM.", ["X12", "B01"])
+        n2 = {}
+        for c in REC:
+            m = mod[f"FL_MAT_{c}"]
+            if c.startswith("ABC"):
+                n2[ks[c]] = f"={m['V recipiente (L)']}/3*14/1000"
+            elif c.startswith("CO2"):
                 continue
-            for clave, txt, refs, dest, base in hs:
-                r += 1
-                ws.row_dimensions[r].outline_level = 1
-                ws.cell(r, 1, 1)
-                ws.cell(r, 2, cod)
-                ws.cell(r, 3, txt)
-                ws.cell(r, 4, ITEM[cod]["um"])
-                ws.cell(r, 5, clave)
-                ws.cell(r, 6, f'=INDEX(({",".join(refs)}),1,1,{self.P("AÑO_DIS")}-2025)' if len(set(refs)) > 1
-                        else f"={refs[0]}").number_format = "0.######"
-                ws.cell(r, 7, dest or "Todos")
-                for j in range(10):
-                    pc = "P_CABA_REC" if base == "REC" else "P_CABA_NUE"
-                    fd = ("" if not dest else f"*{self.PY(pc, j)}" if dest == "CABA" else
-                          f"*(1-{self.PY(pc, j)})")
-                    ws.cell(r, 8 + j, f"={refs[j]}*{self.D(clave, j)}{fd}").number_format = "#,##0.00"
-                ws.cell(r, 18, refs[0].split("!")[0] + "!" + refs[0].split("!")[1].replace("$", "") +
-                        (" (por año)" if len(set(refs)) > 1 else ""))
-                _fila(ws, r, 18)
-                ws.cell(r, 3).alignment = Alignment(indent=2)
-            r += 1
-        ws.freeze_panes = "H4"
-        ws.auto_filter.ref = f"A3:R{max(r - 1, 4)}"
-        _imprimir(ws, "3:3", 18)
-        return nombre
+            elif c == "HCFC-HFC_5kg":
+                n2[ks[c]] = f"={round(m['Gas (L normales)'], 3)}/1000*{P_VACIA}"
+            else:
+                n2[ks[c]] = f"={round(m['Gas (L normales)'], 3)}/1000"
+        fila("MP-34", n2, "Se presuriza con nitrógeno con la misma pinza de producción. ABC: cuenta del proceso de "
+             "manuales (un tercio del volumen a 14 bar); los demás: gas del BOM en litros normales. Agente limpio: "
+             "sólo el 35 % que se vacía (Dimensionamiento V2). El CO₂ no lleva gas impulsor.",
+             ["R05", "P04", "B01", "X12"])
+        fila("MP-50/OT", {ks[c]: (P_VACIA if c.startswith("CO2") or c == "HCFC-HFC_5kg" else 1) for c in REC},
+             "El o-ring se cambia siempre que se desarma: todos los de polvo y líquidos; en CO₂ y agente limpio, el "
+             "35 % que se vacía (Dimensionamiento V2, matriz).", ["R04", "X12"])
+        fila("MP-55", {ks[c]: P_VACIA for c in ("CO2_2kg", "CO2_5kg")},
+             "Se reemplaza en cada vaciado total: 35 % de los CO₂ (Dimensionamiento V2).", ["X11", "R09"])
+        for it, txt, fg in (("MP-57", "Marbete del año: siempre.", ["R04"]),
+                            ("MP-97", "Precinto con la identificación de FLAMA: siempre.", ["R06"]),
+                            ("MP-72", "Etiqueta de servicio (lleva también el vencimiento de la prueba hidráulica): "
+                                      "siempre.", ["R06"])):
+            fila(it, {ks[c]: 1 for c in REC}, txt, fg)
+        for it, dest in (("MP-75", "PBA"), ("MP-76", "PBA"), ("MP-77", "CABA")):
+            fila(it, {ks[c]: 1 for c in REC}, f"Una por recarga que va a {dest} (BOM de recargas; % de DEMANDA).",
+                 ["B03"], dest)
+        es = {}
+        for c in REC:
+            hoja = "Fabricados" if c.startswith("ABC") else "Revendidos"
+            es[ks[c]] = f"={P_PINTA}*{self.area(hoja, 'FL_MAT_' + c):.4f}/{ESMALTE_REND}"
+        fila("MP-65", es, "15 % de los equipos llegan con la pintura deteriorada (Dimensionamiento V2) y se pintan "
+             "completos con esmalte poliuretano: litros = área exterior del BOM / 8,75 m² por litro (ficha Sinteplast, "
+             "40 µm, una mano).", ["X11", "R11", "W1", "B02"])
+        k = len(REC)
+        fila("MP-82", {k: 1}, "Faja amarilla del sustituto (kit del BOM).", ["B04"])
+        fila("MP-83", {k: 1}, "Tarjeta de sustituto habilitado, si va a PBA (kit del BOM).", ["B04"], "PBA")
+        fila("MP-84", {k: 1}, "Tarjeta de sustituto, si va a CABA (kit del BOM).", ["B04"], "CABA")
+        fila("MP-85", {k: 1}, "Remito de préstamo (kit del BOM).", ["B04"])
+        return cols, rows
 
-    def _hoja_mixta(self, ws, r0):
-        """MP-12 en RODANTES: plan de corte mixto (3 cuerpos de 70 kg + 1 de 100 kg por hoja) y el resto en hojas de
-        un solo modelo."""
-        n70 = lambda j: f"({self.D('FL_MAT_ABC_70kg', j)}+{self.D('FL_REC_ABC_70kg', j)})"
-        n100 = lambda j: f"({self.D('FL_MAT_ABC_100kg', j)}+{self.D('FL_REC_ABC_100kg', j)})"
-        filas = [("Hojas mixtas: 3 cuerpos de 70 kg + 1 de 100 kg (79,2 %)",
-                  lambda j: f"=MIN({n70(j)}/3,{n100(j)})"),
-                 ("Hojas de 70 kg solas: 4 cuerpos (73,3 %)", lambda j: f"=({n70(j)}-3*{L(8 + j)}{r0 + 1})/4"),
-                 ("Hojas de 100 kg solas: 3 cuerpos (72,7 %)", lambda j: f"=({n100(j)}-{L(8 + j)}{r0 + 1})/3")]
-        r = r0
-        for txt, fx in filas:
-            r += 1
-            ws.row_dimensions[r].outline_level = 1
-            ws.cell(r, 1, 1)
-            ws.cell(r, 2, "MP-12")
-            ws.cell(r, 3, txt).alignment = Alignment(indent=2)
-            ws.cell(r, 4, "hoja")
-            ws.cell(r, 5, "FL_MAT + FL_REC 70 y 100 kg")
-            ws.cell(r, 7, "Todos")
+    def filas_rev(self):
+        cols = [f"FL_MAT_{c}" for c, _ in REV]
+        rows = [dict(it=f"RV-{c}", dest="", cons={k: 1}, como="Se compra el equipo terminado.", figs=["X01"])
+                for k, (c, _) in enumerate(REV)]
+        rows.append(dict(it="MP-77", dest="CABA", cons={k: 1 for k in range(len(REV))},
+                         como="La tarjeta AGC la agrega quien vende en CABA (BOM de revendidos).", figs=["B02"]))
+        return cols, rows
+
+    # -------- hoja de una línea
+    def hoja_linea(self, lin, cols, rows, pref):
+        ws = self.wb.create_sheet(lin)
+        _titulo(ws, f"{lin}: consumo por unidad de producto y lo que hay que comprar")
+        nc = len(cols)
+        c0 = 6                                  # primera columna de producto
+        cy = c0 + nc                            # primera columna de año
+        cp = cy + 10                            # mes pico
+        nombres = []
+        for cl in cols:
+            if cl == "KIT":
+                nombres.append("Sustituto nuevo (kit)")
+            else:
+                c = codigo(cl)
+                nombres.append(("Recarga " if cl.startswith("RK") else "Cilindro " if cl.startswith("FL_REC")
+                                else "") + NOMBRE[c])
+        _cab(ws, 3, ["Ref.", "Código", "Material", "UM", "Destino"] + nombres + [str(a) for a in AÑOS] +
+             ["Mes pico 2035"], [7, 11, 40, 6, 8] + [10] * nc + [10] * 10 + [10])
+        # demanda arriba
+        for j, a in enumerate(AÑOS):
+            r = 4 + j
+            ws.cell(r, 3, f"Demanda {a}")
+            for k, cl in enumerate(cols):
+                ws.cell(r, c0 + k, f"=DEMANDA!{L(4 + j)}{self.dem[(lin, cl)]}").number_format = "#,##0"
+            _fila(ws, r, cp, "gris")
+        r = 14
+        ws.cell(r, 3, "Producción del mes pico 2035")
+        for k, cl in enumerate(cols):
+            if cl == "KIT":
+                ws.cell(r, c0 + k, f"=DEMANDA!M{self.dem[(lin, cl)]}/12").number_format = "#,##0"
+            else:
+                ws.cell(r, c0 + k, f"=ESTACIONALIDAD!P{self.r_est[(lin, cl)]}").number_format = "#,##0"
+        _fila(ws, r, cp, "gris")
+        r = 15
+        ws.cell(r, 3, "CONSUMO POR UNIDAD (cantidad del material por cada producto)")
+        _fila(ws, r, cp, "sec")
+        r = 16
+        out = []
+        share = self.r_caba_r if lin == "RECARGAS" else self.r_caba_u
+        for n_, x in enumerate(rows, 1):
+            it = ITEM[x["it"]]
+            rid = f"{pref}{n_:02d}"
+            ws.cell(r, 1, rid)
+            ws.cell(r, 2, it["cod"])
+            ws.cell(r, 3, it["nom"])
+            ws.cell(r, 4, it["um"])
+            ws.cell(r, 5, x["dest"])
+            for k, v in x["cons"].items():
+                ws.cell(r, c0 + k, v).number_format = "0.0000"
+            a, b = L(c0), L(c0 + nc - 1)
+
+            def fac(colyr):
+                if x["dest"] == "CABA":
+                    return f"*DEMANDA!{colyr}${share}"
+                if x["dest"] == "PBA":
+                    return f"*(1-DEMANDA!{colyr}${share})"
+                return ""
+
             for j in range(10):
-                ws.cell(r, 8 + j, fx(j)).number_format = "#,##0.00"
-            ws.cell(r, 18, "Proceso de carros, puesto 2 (planes de corte)")
-            _fila(ws, r, 18)
-        return r + 1
+                ws.cell(r, cy + j, f"=SUMPRODUCT(${a}{r}:${b}{r},${a}${4 + j}:${b}${4 + j}){fac(L(4 + j))}"
+                        ).number_format = "#,##0.0"
+            ws.cell(r, cp, f"=SUMPRODUCT(${a}{r}:${b}{r},${a}$14:${b}$14){fac('M')}").number_format = "#,##0.0"
+            _fila(ws, r, cp)
+            self.ref(rid, hoja=lin, codigo=it["cod"], dato=it["nom"], um=it["um"], dest=x["dest"], como=x["como"],
+                     figs=x["figs"], cons={cols[k]: v for k, v in x["cons"].items()})
+            out.append((it["cod"], r))
+            r += 1
+        self.lin[lin] = dict(cy=cy, cp=cp, r0=16, r1=r - 1, filas=out, cols=cols)
+        ws.freeze_panes = ws.cell(16, c0)
+        _imprimir(ws, "3:3")
 
     # -------- consolidado
-    def consolidado(self, hojas):
-        ws = self.wb.create_sheet("CONSOLIDADO_INSUMOS")
-        _titulo(ws, "CONSOLIDADO DE INSUMOS: requerimiento bruto por ítem, de qué línea y hoja sale",
-                "Fila gris = total del ítem; abajo, una fila por hoja de origen (referencia a la fila de total del ítem "
-                "en esa hoja). Tipo, clase, almacén, unidad de compra, proveedor y lead time se buscan en COMPRAS.")
-        cab = ["Nivel", "Código", "Ítem / origen", "UM", "Tipo", "Clase", "Almacén", "Línea", "Hoja de origen"] + \
-            AÑOS + ["Año de diseño", "Unidad de compra", "Contenido por UC", "UC en el año de diseño",
-                    "Proveedor principal", "Lead time (días háb.)"]
-        _cab(ws, 3, cab, [6, 12, 52, 6, 9, 18, 26, 12, 30] + [11] * 10 + [12, 24, 10, 11, 24, 9])
-        r = 4
+    def consolidado(self):
+        ws = self.wb.create_sheet("CONSOLIDADO")
+        _titulo(ws, "CONSOLIDADO: lo que hay que comprar de cada material (las cuatro líneas)")
+        _cab(ws, 3, ["Código", "Material", "UM"] + [f"{l.capitalize()} 2035" for l in LINEAS] + [str(a) for a in AÑOS]
+             + ["Mes pico 2035"], [11, 44, 6] + [11] * 4 + [11] * 10 + [11])
+        cods = []
+        for lin in LINEAS:
+            for cod, _ in self.lin[lin]["filas"]:
+                if cod not in cods:
+                    cods.append(cod)
+        orden = [it["cod"] for it in ITEMS]
+        cods.sort(key=orden.index)
         self.cons = {}
-        for it in ITEMS:
-            orig = [(h, lin) for h, lin in hojas if (h, it["cod"]) in self.tot]
-            if not orig:
-                continue
-            r0 = r
-            ws.cell(r, 1, 0)
-            ws.cell(r, 2, it["cod"])
-            ws.cell(r, 3, f"={self.C(f'$B{r}', 2)}")
-            ws.cell(r, 4, f"={self.C(f'$B{r}', 3)}")
-            ws.cell(r, 5, f"={self.C(f'$B{r}', 4)}")
-            ws.cell(r, 6, f"={self.C(f'$B{r}', 5)}")
-            ws.cell(r, 7, f"={self.C(f'$B{r}', 6)}")
+        r = 4
+
+        def sumif(lin, colx):
+            d = self.lin[lin]
+            return (f"SUMIF({lin}!$B${d['r0']}:$B${d['r1']},$A{r},{lin}!{colx}${d['r0']}:{colx}${d['r1']})")
+
+        for cod in cods:
+            it = ITEM[cod]
+            ws.cell(r, 1, cod)
+            ws.cell(r, 2, it["nom"])
+            ws.cell(r, 3, it["um"])
+            for k, lin in enumerate(LINEAS):
+                ws.cell(r, 4 + k, "=" + sumif(lin, L(self.lin[lin]["cy"] + 9))).number_format = "#,##0.0"
             for j in range(10):
-                ws.cell(r, 10 + j, f"=SUM({L(10 + j)}{r0 + 1}:{L(10 + j)}{r0 + len(orig)})").number_format = "#,##0.00"
-            ws.cell(r, 20, f'=INDEX(J{r}:S{r},{self.P("AÑO_DIS")}-2025)').number_format = "#,##0.00"
-            ws.cell(r, 21, f"={self.C(f'$B{r}', 10)}")
-            ws.cell(r, 22, f"={self.C(f'$B{r}', 11)}")
-            ws.cell(r, 23, f"=ROUNDUP(T{r}/V{r},0)").number_format = "#,##0"
-            ws.cell(r, 24, f"={self.C(f'$B{r}', 7)}")
-            ws.cell(r, 25, f"={self.C(f'$B{r}', 12)}")
-            _fila(ws, r, 25, 0)
-            self.cons[it["cod"]] = r
-            for h, lin in orig:
-                r += 1
-                ws.row_dimensions[r].outline_level = 1
-                ws.cell(r, 1, 1)
-                ws.cell(r, 2, it["cod"])
-                ws.cell(r, 3, f"Sale de {h}").alignment = Alignment(indent=2)
-                ws.cell(r, 8, lin)
-                ws.cell(r, 9, h)
-                for j in range(10):
-                    ws.cell(r, 10 + j, f"={q(h)}!{L(8 + j)}{self.tot[(h, it['cod'])]}").number_format = "#,##0.00"
-                ws.cell(r, 20, f'=INDEX(J{r}:S{r},{self.P("AÑO_DIS")}-2025)').number_format = "#,##0.00"
-                _fila(ws, r, 25)
+                ws.cell(r, 8 + j, "=" + "+".join(sumif(lin, L(self.lin[lin]["cy"] + j)) for lin in LINEAS)
+                        ).number_format = "#,##0.0"
+            ws.cell(r, 18, "=" + "+".join(sumif(lin, L(self.lin[lin]["cp"])) for lin in LINEAS)
+                    ).number_format = "#,##0.0"
+            _fila(ws, r, 18)
+            self.cons[cod] = r
             r += 1
-        self.cons_fin = r - 1
         ws.freeze_panes = "D4"
-        ws.auto_filter.ref = f"A3:Y{r - 1}"
-        _imprimir(ws, "3:3", 25)
+        ws.auto_filter.ref = f"A3:R{r - 1}"
+        _imprimir(ws, "3:3")
 
     # -------- política de stock
     def politica(self):
         ws = self.wb.create_sheet("POLITICA_STOCK")
-        _titulo(ws, "POLÍTICA DE STOCK EN EL AÑO DE DISEÑO (año 10): por ítem y almacén",
-                "d prom = consumo del año / días hábiles; d pico = consumo del mes pico / días hábiles del mes. "
-                "SS = (d pico − d prom) × LT. Punto de pedido = d prom × LT + SS. Lote = consumo de T días en el pico, "
-                "redondeado hacia arriba a la unidad de compra. Stock máximo = SS + lote. Las posiciones se suman por "
-                "almacén y se redondean al final (los ítems chicos comparten posición). Los servicios no se almacenan.")
-        cab = ["Código", "Ítem", "UM", "Almacén", "Consumo del año de diseño", "MANUALES", "RODANTES", "RECARGAS",
-               "REVENDIDOS"] + MESES + ["Mes pico (UM)", "d prom (UM/día)", "d pico (UM/día)", "Lead time (días háb.)",
-                                       "Stock de seguridad (UM)", "Punto de pedido (UM)", "T (días háb.)",
-                                       "Contenido por UC", "Lote (UM)", "Lote (UC)", "Stock máximo (UM)",
-                                       "Stock máximo (UC)", "Cobertura del stock máx. (días)", "Entregas por año",
-                                       "UC por posición", "Posiciones (fracción)", "m² por posición", "m²"]
-        _cab(ws, 3, cab, [11, 46, 6, 26, 12, 11, 11, 11, 11] + [9] * 12 + [11] * 18)
-        cn = q("CONSOLIDADO_INSUMOS")
-        fin = self.cons_fin
+        _titulo(ws, "POLÍTICA DE STOCK DEL AÑO 2035")
+        _cab(ws, 3, ["Ref.", "Código", "Material", "UM", "Almacén", "Proveedor", "Consumo 2035",
+                     "Consumo del mes pico", "d prom. (UM/día) = año / 240", "d diseño (UM/día) = mes pico / 20",
+                     "Lead time (días háb.)", "Stock de seguridad (días)", "Stock de seguridad (UM)",
+                     "Punto de pedido (UM)", "Días entre pedidos (T)", "Unidad de compra", "Contenido por UC (UM)",
+                     "Lote (UC)", "Stock máximo (UM)", "Stock máximo (UC)", "UM por posición", "Posiciones"],
+             [7, 11, 40, 6, 30, 20, 11, 11, 11, 11, 9, 9, 11, 11, 9, 24, 10, 8, 11, 9, 10, 9])
         r = 4
-        for it in ITEMS:
-            if it["cod"] not in self.cons or it["clase"] == SERV:
+        n_ = 0
+        zonas = {}
+        for cod, rc in self.cons.items():
+            it = ITEM[cod]
+            if it["alm"] == Z_SERV:
                 continue
-            ws.cell(r, 1, it["cod"])
-            ws.cell(r, 2, f"={self.C(f'$A{r}', 2)}")
-            ws.cell(r, 3, f"={self.C(f'$A{r}', 3)}")
-            ws.cell(r, 4, f"={self.C(f'$A{r}', 6)}")
-            ws.cell(r, 5, f"={cn}!T{self.cons[it['cod']]}")
-            for k, lin in enumerate(LINEAS):
-                ws.cell(r, 6 + k, f'=SUMIFS({cn}!$T$4:$T${fin},{cn}!$B$4:$B${fin},$A{r},{cn}!$H$4:$H${fin},"{lin}")')
-            for m in range(12):
-                ws.cell(r, 10 + m, "=" + "+".join(f"{L(6 + k)}{r}*ESTACIONALIDAD!${L(2 + m)}${self.est[lin]}"
-                                                  for k, lin in enumerate(LINEAS)))
-            ws.cell(r, 22, f"=MAX(J{r}:U{r})")
-            ws.cell(r, 23, f'=E{r}/{self.P("DH_AÑO")}')
-            ws.cell(r, 24, f'=V{r}/{self.P("DH_MES")}')
-            ws.cell(r, 25, f"={self.C(f'$A{r}', 12)}")
-            ws.cell(r, 26, f"=(X{r}-W{r})*Y{r}")
-            ws.cell(r, 27, f"=W{r}*Y{r}+Z{r}")
-            ws.cell(r, 28, f"={self.C(f'$A{r}', 15)}")
-            ws.cell(r, 29, f"={self.C(f'$A{r}', 11)}")
-            ws.cell(r, 30, f"=MAX(AC{r},CEILING(X{r}*AB{r},AC{r}))")
-            ws.cell(r, 31, f"=AD{r}/AC{r}")
-            ws.cell(r, 32, f"=Z{r}+AD{r}")
-            ws.cell(r, 33, f"=ROUNDUP(AF{r}/AC{r},0)")
-            ws.cell(r, 34, f"=IF(W{r}>0,AF{r}/W{r},0)")
-            ws.cell(r, 35, f"=IF(AD{r}>0,E{r}/AD{r},0)")
-            ws.cell(r, 36, f"={self.C(f'$A{r}', 16)}")
-            ws.cell(r, 37, f"=IF(AJ{r}>0,AG{r}/AJ{r},0)")
-            ws.cell(r, 38, f"={self.C(f'$A{r}', 17)}")
-            ws.cell(r, 39, f"=AK{r}*AL{r}")
-            for j in range(5, 40):
-                ws.cell(r, j).number_format = "#,##0.0" if j not in (25, 28, 31, 33, 35, 36) else "#,##0"
-            ws.cell(r, 37).number_format = "0.00"
-            for j in (23, 24, 26):
-                ws.cell(r, j).number_format = "#,##0.000"
-            _fila(ws, r, 39)
+            n_ += 1
+            rid = f"P{n_:02d}"
+            vals = [rid, cod, it["nom"], it["um"], it["alm"], it["prov"], f"=CONSOLIDADO!Q{rc}",
+                    f"=CONSOLIDADO!R{rc}", f"=G{r}/240", f"=H{r}/20", it["lt"], it["ss"], f"=J{r}*L{r}",
+                    f"=J{r}*K{r}+M{r}", it["t"], it["uc"], it["cont"], f"=MAX(1,CEILING(J{r}*O{r}/Q{r},1))",
+                    f"=M{r}+R{r}*Q{r}", f"=CEILING(S{r}/Q{r},1)", it["umpos"], f"=S{r}/U{r}"]
+            for j, v in enumerate(vals, 1):
+                c = ws.cell(r, j, v)
+                if j in (7, 8, 13, 14, 19):
+                    c.number_format = "#,##0.0"
+                elif j in (9, 10):
+                    c.number_format = "#,##0.00"
+                elif j in (17, 21):
+                    c.number_format = "#,##0.##"
+                elif j == 22:
+                    c.number_format = "0.00"
+            _fila(ws, r, 22)
+            self.ref(rid, hoja="POLITICA_STOCK", codigo=cod, dato=it["nom"], uc=it["uc"], fuc=it["fuc"],
+                     plan=it["plan"], lt=it["lt"], flt=LT_DOC.get(cod), t=it["t"], ss=it["ss"], umpos=it["umpos"],
+                     fpos=it["fpos"])
+            zonas.setdefault(it["alm"], []).append(r)
             r += 1
-        fin_p = r - 1
-        r += 1
-        ws.cell(r, 2, "VERIFICACIÓN DE LOS ALMACENES (año de diseño)").font = _f(True)
-        r += 1
-        _cab(ws, r, ["", "Almacén", "", "", "Posiciones requeridas", "Capacidad (posiciones)", "Resultado",
-                     "m² requeridos", "Capacidad según"], c0=1)
-        zonas = []
-        for it in ITEMS:
-            if it["zona"] not in zonas and it["zona"] != Z_SERV:
-                zonas.append(it["zona"])
-        for z in zonas:
+        fin = r - 1
+        r += 2
+        _cab(ws, r, ["", "Almacén", "", "", "Posiciones requeridas", "Capacidad del proceso", "Resultado"])
+        self.r_alm0 = r + 1
+        for z in sorted(zonas):
             r += 1
             ws.cell(r, 2, z)
-            ws.cell(r, 5, f'=ROUNDUP(SUMIF($D$4:$D${fin_p},B{r},$AK$4:$AK${fin_p}),0)').number_format = "#,##0"
-            ws.cell(r, 8, f'=SUMIF($D$4:$D${fin_p},B{r},$AM$4:$AM${fin_p})').number_format = "#,##0.0"
+            ws.cell(r, 5, f'=ROUNDUP(SUMIF($E$4:$E${fin},B{r},$V$4:$V${fin}),0)')
             if z in CAPACIDAD:
-                ws.cell(r, 6, CAPACIDAD[z][0])
-                ws.cell(r, 7, f'=IF(E{r}<=F{r},"Alcanza","No alcanza: ampliar")')
-                ws.cell(r, 9, CAPACIDAD[z][1])
-            else:
-                ws.cell(r, 7, "Sin capacidad fijada en el proceso: el layout debe prever los m²")
-            _fila(ws, r, 9)
-        ws.freeze_panes = "C4"
-        ws.auto_filter.ref = f"A3:AM{fin_p}"
-        _imprimir(ws, "3:3", 39)
+                ws.cell(r, 6, CAPACIDAD[z])
+                ws.cell(r, 7, f'=IF(E{r}<=F{r},"Alcanza","No alcanza")')
+            _fila(ws, r, 7)
+        self.ref("P00", hoja="POLITICA_STOCK", dato="Fórmulas de la política",
+                 como="d diseño = consumo del mes pico / 20 días hábiles (como la planilla de MP). Stock de seguridad "
+                      "= d diseño × días de seguridad. Punto de pedido = d diseño × lead time + stock de seguridad. "
+                      "Lote = el mayor entre 1 unidad de compra y d diseño × días entre pedidos, en unidades de compra "
+                      "enteras. Stock máximo = stock de seguridad + lote. Capacidad: proceso de carros, puesto 1.",
+                 figs=["X07", "P06"])
+        ws.freeze_panes = "D4"
+        ws.auto_filter.ref = f"A3:V{fin}"
+        _imprimir(ws, "3:3")
 
-    # -------- armado
     def armar(self, ruta):
-        self.parametros()
         self.ix = self.copia("Indexado Dim Técnico", "PROY_INDEXADO")
         self.rs = self.copia("Reservas y Sustitutos", "PROY_RESERVAS")
         self.demanda()
         self.estacionalidad()
-        self.bom_coef()
-        self.fab_compra()
-        self.proceso()
-        self.compras()
-        self.coeficientes()
-        hojas = []
-        for lin in LINEAS:
-            for tipo in (D, IN):
-                hojas.append((self.insumos(lin, tipo), lin))
-        self.consolidado(hojas)
+        for lin, grupo, pref in (("MANUALES", MAN, "M"), ("RODANTES", ROD, "R")):
+            cols, rows = self.filas_fab(lin, grupo)
+            self.hoja_linea(lin, cols, rows, pref)
+        cols, rows = self.filas_rec()
+        self.hoja_linea("RECARGAS", cols, rows, "K")
+        cols, rows = self.filas_rev()
+        self.hoja_linea("REVENDIDOS", cols, rows, "V")
+        self.consolidado()
         self.politica()
+        orden = ["DEMANDA", "ESTACIONALIDAD", "MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS", "CONSOLIDADO",
+                 "POLITICA_STOCK", "PROY_INDEXADO", "PROY_RESERVAS"]
+        self.wb._sheets = [self.wb[n] for n in orden]
         for ws in self.wb.worksheets:
             ws.sheet_view.zoomScale = 90
+        self.wb.active = 0
         self.wb.calculation.fullCalcOnLoad = True
         self.wb.save(ruta)
+        with open(os.path.splitext(ruta)[0] + "_refs.json", "w", encoding="utf-8") as fh:
+            json.dump(dict(refs=self.refs, lineas={k: dict(cols=v["cols"], cy=v["cy"], cp=v["cp"], r0=v["r0"],
+                                                           r1=v["r1"]) for k, v in self.lin.items()},
+                           dem={f"{a}|{b}": r for (a, b), r in self.dem.items()}, est={f"{a}|{b}": r for (a, b), r
+                                                                                       in self.r_est.items()},
+                           pico=self.r_pico, cons=self.cons, alm0=self.r_alm0, items=ITEM),
+                      fh, ensure_ascii=False, indent=1)
 
 
 def excel(proyecciones, ruta, bom=None):

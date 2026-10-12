@@ -1,10 +1,12 @@
 """Capturas marcadas para el Word «Justificación_MRP»: procesos de FLAMA, cotizaciones, planillas fuente y hojas del
 propio MRP. Recorta sólo la tabla o el párrafo citado y marca en rojo el dato que se toma.
 
-Uso: python capturas_mrp.py <carpeta de fuentes> <FLAMA_MRP.xlsx recalculado>
-  <carpeta de fuentes> tiene: carros.pdf, manuales.pdf y wpp.pdf (los documentos de proceso y las cotizaciones por
-  WhatsApp pasados a PDF con LibreOffice), Proyecciones.xlsx, Dimensionamiento_TecnicoV2.xlsx,
-  MP_Abastecimiento.xlsx y la carpeta PRESUPUESTOS de la investigación de proveedores.
+Uso: python capturas_mrp.py <carpeta de fuentes> <FLAMA_MRP.xlsx recalculado> [IDs]
+  <carpeta de fuentes> tiene: carros.pdf, manuales.pdf, recargas.pdf y wpp.pdf (los procesos de carros, manuales y
+  recargas y las cotizaciones por WhatsApp pasados a PDF con LibreOffice), Proyecciones.xlsx,
+  Dimensionamiento_TecnicoV2.xlsx, Dimensionamiento_Tecnico_FLAMA.xlsx, MP_Abastecimiento.xlsx,
+  Materias Primas.xlsx y la carpeta PRESUPUESTOS de la investigación de proveedores. El BOM se toma de
+  salida/bom/FLAMA_BOM.xlsx.
 Escribe figs/*.png y capturas.json (lo lee word_mrp.js).
 """
 import json
@@ -25,7 +27,9 @@ SRC, MRP = sys.argv[1], sys.argv[2]
 OUT = os.path.join(AQUI, "figs")
 Z = 2.0
 ROJO = (220, 0, 0)
-CARROS, MANUALES, WPP = (os.path.join(SRC, x) for x in ("carros.pdf", "manuales.pdf", "wpp.pdf"))
+CARROS, MANUALES, RECARGAS, WPP = (os.path.join(SRC, x) for x in ("carros.pdf", "manuales.pdf", "recargas.pdf",
+                                                                    "wpp.pdf"))
+BOM = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(MRP))), "bom", "FLAMA_BOM.xlsx")
 PRES = os.path.join(SRC, "PRESUPUESTOS", "Cotizaciones recibidas")
 
 
@@ -326,15 +330,6 @@ cap("Q04", "Cotización Comercial MID 27626: caño, entrega inmediata", "Cotizac
     lambda: render([zona(pdf_q("Materia Prima", "Tubo de acero con costura ", "FLAMA-COTI-27626.pdf"), "LOS PRECIOS",
                          "VALIDEZ", marcas=[(1, "ENTREGA INMEDIATA SALVO VENTAS")])]),
     ["Entrega inmediata (de stock)"], medio=True)
-cap("Q05", "Cotización Polimetal (descartada): plazo de entrega de chapa cortada", "Cotización",
-    lambda: render([zona(pdf_q("Materia Prima", "Chapa de acero", "Chapa a medida (descartado)", "Polimetal",
-                               "Cotizacion_Polimetal_Nueva_FLAMA_SA.pdf"), "Plazo de entrega", alto=40,
-                         marcas=[(1, "10 días hábiles")])]),
-    ["10 días hábiles (referencia del rubro)"], medio=True)
-cap("Q06", "Hierros Parrotta 00413329: la fecha de entrega se confirma con el pago", "Cotización",
-    lambda: render([zona(pdf_q("Materia Prima", "Chapa de acero", "Hojas", "Hierros Parrotta.pdf"), "Stock a confirmar", "acreditado el pago",
-                         marcas=[(1, "Confirmación de fecha de entrega")])]),
-    ["Sin plazo: se confirma al acreditar el pago"], medio=True)
 cap("Q07", "Lista de precios de agentes y válvulas: envases y válvulas HZ", "Cotización",
     lambda: render([zona(pdf_q("Materia Prima", "Agentes extintores", "Lista de precios Septiembre 26.pdf"),
                          "LISTA DE PRECIOS", "Valvula carro 50-70-100",
@@ -342,18 +337,71 @@ cap("Q07", "Lista de precios de agentes y válvulas: envases y válvulas HZ", "C
                                  (4, "M-30 c/resorte tubo 7/8")])]),
     ["Polvo en bolsas de 25 kg", "AFFF en bidón de 20 L", "Válvula HZ M-22 (1 kg)", "Válvula HZ M-30 (2,5 a 10 kg)"],
     medio=True)
-cap("Q08", "Presupuesto Prymax S00469: entregas por tandas mensuales", "Cotización",
-    lambda: render([zona(pdf_q("Maquinaria", "Pintura electricolor", "Prymax - Servicio Tercerizado",
-                               "S00469 - Facundo del Bono.pdf"), "Forma de pago", "Validez",
-                         marcas=[(1, "Entregas por tandas")])]),
-    ["Servicio por tandas con cronograma mensual"], medio=True)
 cap("Q09", "Cotización del servicio de pintura de carros (mensaje): precio por carro", "Cotización",
     lambda: imagen(pdf_q("Maquinaria", "Pintura electricolor", "Servicio de pintura carros", "pintura_carros.png")),
     ["USD 13,5 / 20,3 / 27,5 / 32 por carro; sin plazo de entrega"], medio=True)
 
+# ------------------------------------------------------------------ proceso de recargas
+cap("R01", "Proceso de recargas, mapa: cuándo corresponde cada operación", "Proceso",
+    lambda: render([zona(RECARGAS, "En la siguiente tabla vemos", "Llega sin presión y sin polvo.",
+                         marcas=[(1, "Siempre que el extintor tenga"), (2, "Cuando la PH está vencida o"),
+                                 (3, "Solo si el extintor tiene óxido")])]),
+    ["Descarga: siempre que tenga presión", "Prueba hidráulica: sólo si está vencida o hay daño menor",
+     "Pintura: sólo si tiene óxido o pintura dañada"])
+cap("R02", "Proceso de recargas, descarga: cuándo el polvo va a descarte y cuándo se recupera", "Proceso",
+    lambda: render([zona(RECARGAS, "El polvo va a descarte", "una mezcla de polvos.", pag=6,
+                         marcas=[(1, "mismo dígito que el año en curso"),
+                                 (2, "manómetro en cero o el extintor llega accionado"),
+                                 (3, "el polvo es recuperable")])]),
+    ["Cambio de polvo por el año de fabricación (1 de cada 10 años)", "Sin presión o accionado: todo a descarte",
+     "El resto: polvo recuperable"], medio=True)
+cap("R03", "Proceso de recargas, carga de polvo ABC: polvo recuperado más polvo nuevo", "Proceso",
+    lambda: render([zona(RECARGAS, "Recipiente vacío, seco por dentro", alto=40, pag=12,
+                         marcas=[(1, "recuperado aprobado más nuevo certificado")]),
+                    zona(RECARGAS, "Al empezar el turno, contrastar la balanza", alto=30, pag=13,
+                         marcas=[(2, "reponer con polvo nuevo")])]),
+    ["La tolva tiene polvo recuperado más polvo nuevo", "Se repone con polvo nuevo lo que falta"], medio=True)
+cap("R04", "Proceso de recargas, ensamblaje: o-ring y marbete siempre; repuestos según el registro", "Proceso",
+    lambda: render([zona(RECARGAS, "El manómetro se cambia si", "qué repuestos conviene tener en stock",
+                         marcas=[(1, "El o-ring se cambia siempre"), (2, "marbete siempre se debe cambiar"),
+                                 (3, "conviene tener en stock")])]),
+    ["O-ring nuevo en cada recarga", "Marbete del año en cada recarga",
+     "Los repuestos se cambian si están dañados; su stock sale del registro"], medio=True)
+cap("R05", "Proceso de recargas, presurización: nitrógeno con la misma pinza de producción", "Proceso",
+    lambda: render([zona(RECARGAS, "Pinza universal neumática Yukon", "Solo nitrógeno seco", pag=15,
+                         marcas=[(1, "la misma de producción"), (2, "Solo nitrógeno seco")])]),
+    ["Misma pinza Yukon que en fabricación", "Sólo nitrógeno seco"], medio=True)
+cap("R06", "Proceso de recargas, precinto y etiqueta de servicio", "Proceso",
+    lambda: render([zona(RECARGAS, "El precinto debe llevar", "la marca de FLAMA.",
+                         marcas=[(1, "El precinto debe llevar"), (2, "vencimiento de la prueba hidráulica")])]),
+    ["Precinto con la identificación de FLAMA", "La etiqueta de servicio lleva el vencimiento de la PH"],
+    medio=True)
+cap("R07", "Proceso de recargas BC: siempre con polvo nuevo (13 equipos por mes en la planta industrial)", "Proceso",
+    lambda: render([zona(RECARGAS, "Una notación que se debe tener", "La disposición final del polvo BC",
+                         marcas=[(1, "todas con polvo nuevo"), (2, "13 extintores por mes")])]),
+    ["Recargas de BC con polvo nuevo", "13 por mes en la planta industrial: no se justifica recuperar"], medio=True)
+cap("R08", "Proceso de recargas de agua y AFFF: el agente se cambia siempre; premezcla al 3 %", "Proceso",
+    lambda: render([zona(RECARGAS, "El agente se cambia siempre", alto=34, marcas=[(1, "El agente se cambia siempre")]),
+                    zona(RECARGAS, "La mezcla es al 3%", alto=20, marcas=[(2, "La mezcla es al 3%")])]),
+    ["Agente nuevo en cada recarga", "AFFF: premezcla al 3 %"], medio=True)
+cap("R09", "Proceso de recargas de CO₂: se recupera y se vuelve a cargar", "Proceso",
+    lambda: render([zona(RECARGAS, "Solo se hace cuando corresponde PH", alto=30,
+                         marcas=[(1, "Solo se hace cuando corresponde PH")]),
+                    zona(RECARGAS, "Elegir de dónde se carga", alto=30, marcas=[(2, "recuperado si el extintor")])]),
+    ["Sólo se vacía si va a PH o hay que abrir la válvula", "Se carga con el CO₂ recuperado"], medio=True)
+cap("R10", "Proceso de recargas de halogenados: se recupera en circuito cerrado", "Proceso",
+    lambda: render([zona(RECARGAS, "El agente nunca se ventea", "nitrógeno o con argón",
+                         marcas=[(1, "El agente nunca se ventea"), (2, "nitrógeno o con argón")])]),
+    ["El agente se recupera", "Presurización con nitrógeno o argón"], medio=True)
+cap("R11", "Proceso de recargas, pintura: esmalte poliuretano, recipiente completo", "Proceso",
+    lambda: render([zona(RECARGAS, "Esmalte poliuretano rojo", alto=16, marcas=[(1, "Esmalte poliuretano rojo")]),
+                    zona(RECARGAS, "Se optó por esta opción", alto=34, marcas=[(2, "pintar siempre completo")])]),
+    ["Esmalte poliuretano rojo", "Se pinta siempre completo"], medio=True)
+
 # ------------------------------------------------------------------ planillas fuente
 PROY = os.path.join(SRC, "Proyecciones.xlsx")
 DIM = os.path.join(SRC, "Dimensionamiento_TecnicoV2.xlsx")
+DIMF = os.path.join(SRC, "Dimensionamiento_Tecnico_FLAMA.xlsx")
 ABAS = os.path.join(SRC, "MP_Abastecimiento.xlsx")
 MPRIM = os.path.join(SRC, "Materias Primas.xlsx")
 
@@ -364,68 +412,158 @@ def col_de(ruta, hoja, fila, nombres):
     return [cab.index(n) + 1 for n in nombres]
 
 
+def apilar(*ims):
+    im = Image.new("RGB", (max(i.width for i in ims), sum(i.height for i in ims) + 14 * (len(ims) - 1)),
+                   (255, 255, 255))
+    y = 0
+    for i in ims:
+        im.paste(i, (0, y))
+        y += i.height + 14
+    return im
+
+
+cap("D01", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial y prueba hidráulica", "Planilla",
+    lambda: planilla(DIMF, "DATOS-BASE", "A45:P50", [(1, "O46"), (2, "O47"), (3, "P47"), (4, "B50")],
+                     cols=[1, 2, 3, 14, 15, 16], anchos=[26, 9, 14, 20, 11, 8]),
+    ["Mercado de recargas CABA + PBA", "Zonas de la planta industrial", "34,2 % de las recargas",
+     "Prueba hidráulica en el 25 % de las recargas"], medio=True)
+cap("D02", "Dimensionamiento Técnico FLAMA: perfiles de estacionalidad", "Planilla",
+    lambda: planilla(DIMF, "DATOS-BASE", "A100:N104", [(1, "B102"), (2, "M103"), (3, "D104")],
+                     anchos=[30] + [6] * 13),
+    ["1 kg: pico de 12 % en enero y diciembre", "Manual comercial: pico de 11 % en diciembre",
+     "Industrial sobre ruedas: 9 % en los meses más altos"])
+cap("D03", "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos del año 2035 (demanda × perfil)",
+    "Planilla",
+    lambda: planilla(DIMF, "DATOS-BASE", "A107:M117", [(1, "M117")], anchos=[22] + [7] * 12),
+    ["Total del mes: de ahí sale el mes pico"])
+cap("D04", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12", "Planilla",
+    lambda: planilla(DIMF, "DATOS-BASE", "A133:N153", [(1, "B135"), (2, "M135")],
+                     filas=[133, 134, 135, 136, 137, 152, 153], anchos=[22] + [7] * 13),
+    ["Enero = anual / 12", "Diciembre = anual / 12: sin estacionalidad"], medio=True)
 cap("X01", "Proyecciones, «Indexado Dim Técnico»: demanda anual por producto (nuevos, cilindros, recargas, revendidos)",
     "Planilla",
-    lambda: planilla(PROY, "Indexado Dim Técnico", "A1:K57", [(1, "A1"), (2, "A13"), (3, "A25"), (4, "A46"),
-                                                              (5, "K2")]),
-    ["Matafuegos nuevos", "Cilindros vacíos", "Recargas (17 tipos)", "Revendidos (9 tipos)",
-     "Año 2035: año de diseño de la política de stock"])
-cap("X02", "Proyecciones, «Indexado Dim Técnico»: distribución por zona (de ahí sale el % CABA)", "Planilla",
-    lambda: planilla(PROY, "Indexado Dim Técnico", "A59:K93", [(1, "A61"), (2, "A75"), (3, "A79"), (4, "A93")],
+    lambda: planilla(PROY, "Indexado Dim Técnico", "A1:K57", [(1, "A1"), (2, "A13"), (3, "A25"), (4, "A46")]),
+    ["Matafuegos nuevos", "Cilindros vacíos", "Recargas (17 tipos)", "Revendidos (9 tipos)"])
+cap("X02", "Proyecciones, «Indexado Dim Técnico»: distribución por zona (% de CABA)", "Planilla",
+    lambda: planilla(PROY, "Indexado Dim Técnico", "A59:K93", [(1, "A63"), (2, "A65"), (3, "A79"), (4, "A93")],
                      cols=[1, 2, 11], filas=list(range(59, 76)) + list(range(77, 94))),
-    ["CABA Norte, Este, Sur y Oeste (recargas)", "Subtotal de recargas", "CABA (unidades nuevas)",
+    ["CABA Sur (zona de la planta industrial)", "PBA Sur 1.º, 2.º y 3.er cordón", "CABA (unidades nuevas)",
      "Subtotal de unidades nuevas"], medio=True)
 cap("X03", "Proyecciones, «Reservas y Sustitutos»: venta de reserva, stock del pool y alta anual de sustitutos",
     "Planilla",
-    lambda: planilla(PROY, "Reservas y Sustitutos", "A26:K82", [(1, "A30"), (2, "A53"), (3, "A68")],
+    lambda: planilla(PROY, "Reservas y Sustitutos", "A26:K82", [(1, "A30"), (2, "A53"), (3, "A68"), (4, "A81")],
                      filas=list(range(26, 31)) + list(range(53, 67)) + list(range(68, 83))),
-    ["Venta de reserva (IRAM 3517-2 5.3): se suma al ABC 5 kg", "Stock del pool: se recarga cada año",
-     "Alta anual de sustitutos (9.4.5)"])
+    ["Venta de reserva: se suma al ABC 5 kg", "Stock del pool: se recarga cada año", "Alta anual de sustitutos",
+     "Total del alta (kit de sustituto)"])
 cap("X04", "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT", "Planilla",
     lambda: planilla(PROY, "PROYECCION SALUD", "A1:P8", [(1, "O1"), (2, "P1")], cols=[1, 3, 4, 5, 6, 8, 15, 16],
                      anchos=[6, 12, 8, 10, 20, 9, 12, 12]),
-    ["Equipos usados (accionados): recarga completa", "Recargas totales"])
-cap("X05", "Dimensionamiento Técnico V2: perfiles de estacionalidad de ventas y fabricación", "Planilla",
-    lambda: planilla(DIM, "Parametros", "A1:N26", [(1, "A3"), (2, "A4"), (3, "A5")],
-                     filas=[2, 3, 4, 5, 10, 11, 12, 15], anchos=[30] + [6] * 13),
-    ["Automovilístico (1 kg)", "Manual comercial (2,5 a 10 kg)", "Industrial sobre ruedas (25 a 100 kg)"])
-cap("X06", "Dimensionamiento Técnico V2, Parametros Recargas: días hábiles, retoque y perfiles de recargas",
+    ["Equipos usados (accionados)", "Recargas totales"])
+cap("X11", "Dimensionamiento Técnico V2, Parametros Recargas: prueba hidráulica, descargados, vaciados y pintura",
     "Planilla",
-    lambda: planilla(DIM, "Parametros Recargas", "A4:R28", [(1, "B4"), (2, "B22"), (3, "A26"), (4, "A27"),
-                                                             (5, "A28")],
-                     filas=[4, 22, 25, 26, 27, 28], cols=[1, 2] + list(range(4, 16)), anchos=[40, 7] + [6] * 12),
-    ["20 días hábiles por mes", "15 % de equipos con la pintura deteriorada (9.10)", "Recargas automovilístico",
-     "Recargas manual comercial", "Recargas industrial sobre ruedas"])
+    lambda: planilla(DIM, "Parametros Recargas", "A11:C22", [(1, "B12"), (2, "B14"), (3, "B15"), (4, "B22")],
+                     filas=[11, 12, 13, 14, 15, 22], anchos=[44, 7, 90]),
+    ["25 % con prueba hidráulica", "10 % de CO₂ y agente limpio llegan descargados o con pérdida",
+     "35 % de CO₂ y agente limpio se vacían (25 % + 10 %)", "15 % llegan con la pintura deteriorada"])
+cap("X12", "Dimensionamiento Técnico V2, Parametros Recargas: matriz de aplicación por familia", "Planilla",
+    lambda: planilla(DIM, "Parametros Recargas", "A53:I79", [(1, "H62"), (2, "G70"), (3, "I74")],
+                     filas=[53, 62, 70, 73, 74, 77], cols=[1, 4, 5, 6, 7, 8, 9], anchos=[40, 8, 8, 8, 8, 8, 8]),
+    ["Desarme de CO₂: 35 %", "Agua, AFFF y K: recarga completa", "Agente limpio: presurización 35 %"])
+cap("X13", "Dimensionamiento Técnico V2, Almacen PT: zonas de la planta industrial y pallets de producto terminado",
+    "Planilla",
+    lambda: apilar(planilla(DIM, "Almacen PT", "A15:C22", [(1, "B15"), (2, "B20"), (3, "B22")],
+                            filas=[15, 20, 22], anchos=[46, 8, 60]),
+                   planilla(DIM, "Almacen PT", "A28:B34", [(4, "B34")], anchos=[40, 14])),
+    ["Un carro ocupa lo que 3 manuales", "90 matafuegos por pallet", "2 pallets por posición",
+     "4 zonas de la planta industrial: 1.997.042 equipos"])
+cap("X14", "Planilla «Materias Primas», Lineamientos: diámetro del disco de cúpula y fondo", "Planilla",
+    lambda: planilla(MPRIM, "Lineamientos PlanosFicha Tecnic", "A13:K21", [(1, "G14"), (2, "G15"), (3, "H16")],
+                     anchos=[7, 7, 7, 7, 7, 9, 9, 7, 7, 7, 34]),
+    ["1 kg, cúpula: disco de 95 mm", "1 kg, fondo: disco de 112 mm", "2,5 a 10 kg: disco de la planilla"])
 
 
 def _abas(f0, f1):
     cols = col_de(ABAS, "MP Abastecimiento", 4, ["Código", "Materia prima / insumo", "Unidad de carga (UC)",
-                                                 "Lead time (días háb.)", "Stock de seguridad (días háb.)", "Fuente",
-                                                 "Confianza"])
-    return planilla(ABAS, "MP Abastecimiento", "A4:AK70", [(1, "O4")], cols=cols, filas=[4] + list(range(f0, f1 + 1)),
-                    anchos=[7, 38, 22, 8, 8, 42, 10])
+                                                 "Contenido por UC (unid. consumo)", "Lead time (días háb.)",
+                                                 "Frecuencia de entrega (días háb.)", "Stock de seguridad (días háb.)",
+                                                 "UC por posición"])
+    return planilla(ABAS, "MP Abastecimiento", "A4:AK70", [(1, "O4"), (2, "P4"), (3, "U4")], cols=cols,
+                    filas=[4] + list(range(f0, f1 + 1)), anchos=[7, 40, 24, 9, 8, 8, 8, 8])
 
 
-cap("X07", "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-01 a MP-36, con su "
-    "fuente y confianza", "Planilla", lambda: _abas(5, 39),
-    ["Lead time en días hábiles: la mayoría figura como estimado (EST)"])
-cap("X07B", "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-37 a MP-65", "Planilla",
-    lambda: _abas(40, 69), ["Lead time en días hábiles"])
-cap("X08", "Planilla de MP (opción D), Coef Fabricación: parámetros estimados y coeficientes de soldadura y "
-    "superficie", "Planilla",
-    lambda: planilla(ABAS, "Coef Fabricacion", "A4:AD54", [(1, "C10"), (2, "C12"), (3, "C13"), (4, "C14"), (5, "C15")],
-                     filas=list(range(5, 19)) + [23, 45, 47, 48, 49, 53, 54], cols=[1, 2, 3, 4, 5, 6, 7, 29, 30],
-                     anchos=[8, 40, 8, 7, 7, 7, 7, 30, 10]),
-    ["Merma de polvo 1 %", "Tapón de silicona: 50 ciclos", "4 kg de alambre por punta", "150 recipientes por disco",
-     "Film: 0,35 kg por pallet"])
-cap("X09", "Planilla de MP (opción D), Coef Recargas: reposiciones y retoque (estimados)", "Planilla",
-    lambda: planilla(ABAS, "Coef Recargas", "A5:D22", [(1, "C16"), (2, "C17"), (3, "C18"), (4, "C21")],
-                     anchos=[46, 8, 8, 50]),
-    ["Manómetros 8 %", "Válvulas 3 %", "Mangueras 5 %", "Retoque: 0,05 L por equipo"], medio=True)
-cap("X10", "Planilla «Materias Primas» de la investigación de proveedores: la columna de tiempo de entrega está vacía",
+cap("X07", "Planilla de MP («MP Abastecimiento»): unidad de carga, lead time, días entre pedidos, stock de seguridad y "
+    "UC por posición (MP-01 a MP-36)", "Planilla", lambda: _abas(5, 39),
+    ["Lead time (días hábiles)", "Días entre pedidos (T)", "Stock de seguridad (días)"])
+cap("X07B", "Planilla de MP («MP Abastecimiento»): lo mismo de MP-37 a MP-65", "Planilla",
+    lambda: _abas(40, 69), ["Lead time", "Días entre pedidos", "Stock de seguridad"])
+cap("X08", "Planilla de MP, Geometria Acero: puente entre discos, espesor de pintura, alambre y gas por recipiente",
     "Planilla",
-    lambda: planilla(MPRIM, "Proveedores", "A1:I14", [(1, "F1"), (2, "I10")], anchos=[22, 14, 22, 5, 9, 9, 7, 14, 40]),
-    ["Tiempo de entrega: sin dato en ninguna cotización", "Piezas por bobina de fleje (Pacheco)"])
+    lambda: planilla(ABAS, "Geometria Acero", "A13:F71", [(1, "C13"), (2, "C15"), (3, "E67"), (4, "E71")],
+                     filas=[13, 15, 30, 67, 71], cols=[1, 2, 3, 4, 5, 6], anchos=[44, 7, 8, 8, 8, 8]),
+    ["Puente entre discos: 3 mm", "Espesor de pintura: 70 µm (Sinteplast)", "Alambre por recipiente",
+     "Gas por recipiente"])
+
+# ------------------------------------------------------------------ BOM
+def _bom(hoja, prod, nombres, hasta=None, desde=None):
+    wb = load_workbook(BOM, read_only=True, data_only=True)
+    ws = wb[hoja]
+    filas, en = [1], False
+    for i, f in enumerate(ws.iter_rows(min_row=2, values_only=True), 2):
+        if f[0] == 0:
+            en = f[1] == prod
+        if en and (not desde or i >= desde) and (not hasta or not str(f[1]).startswith(hasta)):
+            filas.append(i)
+        elif en and hasta and str(f[1]).startswith(hasta):
+            en = False
+    return filas, col_de(BOM, hoja, 1, nombres)
+
+
+def _bom_kit():
+    filas, cols = _bom("Fabricados", "FL_MAT_ABC_5kg", ["Nivel", "Código", "Pieza", "Cant.", "UM"])
+    wb = load_workbook(BOM, read_only=True, data_only=True)
+    ws = wb["Fabricados"]
+    k = [i for i in filas if str(ws.cell(i, 2).value).startswith(("FL_SUS", "SUS-"))]
+    return planilla(BOM, "Fabricados", "A1:AZ400", [(1, f"C{k[1]}")], cols=cols, filas=[1] + k,
+                    anchos=[5, 16, 44, 6, 5])
+
+
+def _bom_fab():
+    filas, cols = _bom("Fabricados", "FL_MAT_ABC_5kg", ["Nivel", "Código", "Pieza", "Cant.", "UM", "Superficie (dm²)"],
+                       hasta="FL_SUS")
+    wb = load_workbook(BOM, read_only=True, data_only=True)
+    ws = wb["Fabricados"]
+    m = {str(ws.cell(i, 3).value): i for i in filas}
+    sup, cant = get_column_letter(cols[5]), get_column_letter(cols[3])
+    return planilla(BOM, "Fabricados", "A1:AZ400", [(1, f"{sup}{m['Cuerpo']}"),
+                                                    (2, f"C{m['Tarjeta de identificación AGC']}"),
+                                                    (3, f"{cant}{m['Tornillo y tarugo de fijación']}")],
+                    cols=cols, filas=filas, anchos=[5, 16, 40, 6, 5, 10])
+
+
+def _bom_mod():
+    cols = col_de(BOM, "MODELOS", 2, ["Código", "Carga objetivo", "V recipiente (L)", "Gas (L normales)",
+                                      "Reposición en mantenimiento (UM)", "Prueba hidráulica cada (años)"])
+    return planilla(BOM, "MODELOS", "A2:AP19", [(1, "L5"), (2, "O5")], cols=cols, anchos=[22, 9, 9, 9, 11, 9])
+
+
+def _bom_rec():
+    filas, cols = _bom("Recargas", "RK_ABC_5kg", ["Nivel", "Código", "Pieza", "Cant.", "UM"])
+    wb = load_workbook(BOM, read_only=True, data_only=True)
+    ws = wb["Recargas"]
+    sel = [i for i in filas if i == 1 or ws.cell(i, 1).value in (0, 1) or "PBA" in str(ws.cell(i, 3).value) or
+           "AGC" in str(ws.cell(i, 3).value)]
+    return planilla(BOM, "Recargas", "A1:AZ2000", [], cols=cols, filas=sel[:14], anchos=[5, 16, 44, 6, 7])
+
+
+cap("B01", "FLAMA_BOM.xlsx, MODELOS: carga objetivo, volumen interior, gas, reposición y prueba hidráulica", "BOM",
+    _bom_mod, ["Carga objetivo (nominal + mitad de la tolerancia)", "Volumen interior del recipiente"])
+cap("B02", "FLAMA_BOM.xlsx, Fabricados: ABC 5 kg pieza por pieza (cantidades y superficies)", "BOM", _bom_fab,
+    ["Superficie de las dos caras del cuerpo (la exterior es la mitad)", "Tarjeta AGC: sólo destino CABA",
+     "Dos tornillos con tarugo por soporte"])
+cap("B03", "FLAMA_BOM.xlsx, Recargas: identificación por jurisdicción (ABC 5 kg)", "BOM", _bom_rec, [], medio=True)
+cap("B04", "FLAMA_BOM.xlsx: kit del sustituto (ABC 5 kg)", "BOM", _bom_kit, ["Faja amarilla de sustituto"],
+    medio=True)
+
 
 # ------------------------------------------------------------------ hojas del MRP
 def _filas(hoja, col, pred, extra=()):
@@ -437,51 +575,22 @@ def _filas(hoja, col, pred, extra=()):
     return sorted(set(list(extra) + out))
 
 
-cap("M01", "FLAMA_MRP.xlsx, hoja PARAMETROS (cada dato con ID, valor y fuente)", "MRP",
-    lambda: planilla(MRP, "PARAMETROS", "A3:F40", cols=[1, 2, 3, 4, 5], anchos=[13, 46, 10, 9, 60],
-                     filas=[3] + _filas("PARAMETROS", 1, lambda v, f: isinstance(v, str) and v[:1].isalpha() and
-                                        v != "ID" and len(f) > 3 and isinstance(f[3], str))), [])
-cap("M02", "FLAMA_MRP.xlsx, hoja DEMANDA (unidades por año; año de diseño 2035)", "MRP",
-    lambda: planilla(MRP, "DEMANDA", "A3:O80", cols=[1, 2, 3, 4, 6, 10, 15], anchos=[10, 16, 40, 34, 8, 8, 8],
-                     filas=[3] + _filas("DEMANDA", 3, lambda v, f: isinstance(v, str) and (
-                         "nuevo" in v or "Cilindro" in v or v.startswith("Total") or "pool" in v or "Alta" in v))),
-    [])
-cap("M03", "FLAMA_MRP.xlsx, hoja ESTACIONALIDAD: perfil de cada línea en el año de diseño y factor de pico", "MRP",
-    lambda: planilla(MRP, "ESTACIONALIDAD", "A1:N20", anchos=[12] + [6] * 12 + [8],
-                     filas=_filas("ESTACIONALIDAD", 1, lambda v, f: v in ("Línea", "MANUALES", "RODANTES", "RECARGAS",
-                                                                           "REVENDIDOS"))), [])
-cap("M04", "FLAMA_MRP.xlsx, hoja BOM_COEF: ABC 5 kg (fila del BOM → ítem de compra → cantidad por unidad)", "MRP",
-    lambda: planilla(MRP, "BOM_COEF", "A3:AB700", cols=[2, 4, 5, 6, 7, 8, 10, 11], anchos=[10, 30, 7, 4, 26, 11, 9, 7],
-                     filas=[3] + _filas("BOM_COEF", 1, lambda v, f: v == "FL_MAT_ABC_5kg")), [])
-cap("M05", "FLAMA_MRP.xlsx, hoja BOM_COEF: recarga ABC 5 kg por servicio y coeficiente del año de diseño", "MRP",
-    lambda: planilla(MRP, "BOM_COEF", "A3:AB700", cols=[1, 4, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 27],
-                     anchos=[10, 34, 4, 15, 9, 7, 6, 6, 7, 7, 5, 5, 6, 8], filas=[3] + _filas("BOM_COEF", 1, lambda v, f: v == "RK_ABC_5kg")), [])
-cap("M06", "FLAMA_MRP.xlsx, hoja FAB_COMPRA: pieza fabricada → materia prima y rendimiento", "MRP",
-    lambda: planilla(MRP, "FAB_COMPRA", "A3:L36", cols=list(range(1, 12)), anchos=[7, 12, 26, 8, 5, 30, 6, 6, 6, 7, 9]),
-    [])
-cap("M07", "FLAMA_MRP.xlsx, hoja PROCESO: insumos por unidad del ABC 50 kg (proceso de carros)", "MRP",
-    lambda: planilla(MRP, "PROCESO", "A3:J200", cols=[2, 3, 4, 5, 6, 7, 8, 9], anchos=[30, 8, 4, 8, 7, 22, 40, 9],
-                     filas=[3] + _filas("PROCESO", 6, lambda v, f: v == "ABC50")), [])
-cap("M08", "FLAMA_MRP.xlsx, hoja INSUMOS_DIRECTOS_RODANTES: hoja de 4,75 mm con el plan de corte mixto", "MRP",
-    lambda: planilla(MRP, "INSUMOS_DIRECTOS_RODANTES", "A3:R300", cols=[1, 2, 3, 4, 5, 6, 7, 8, 12, 17],
-                     anchos=[5, 8, 46, 5, 14, 9, 7, 9, 9, 9], filas=[3] + _filas("INSUMOS_DIRECTOS_RODANTES", 2,
-                                                      lambda v, f: v in ("MP-11", "MP-12", "MP-15"))), [])
-cap("M09", "FLAMA_MRP.xlsx, hoja CONSOLIDADO_INSUMOS: polvo, nitrógeno y gas de soldadura por línea y hoja de origen",
+def _cols_lin(hoja, n):
+    """Columnas de una hoja de línea: Ref, código, material, destino, los n primeros productos, 2035 y mes pico."""
+    ws = load_workbook(MRP, read_only=True)[hoja]
+    cab = [c.value for c in next(ws.iter_rows(min_row=3, max_row=3))]
+    return [1, 2, 3, 5] + list(range(6, 6 + n)) + [cab.index("2035") + 1, cab.index("Mes pico 2035") + 1]
+
+
+cap("M03", "FLAMA_MRP.xlsx, hoja MANUALES: demanda arriba, consumo por unidad abajo y lo que hay que comprar",
     "MRP",
-    lambda: planilla(MRP, "CONSOLIDADO_INSUMOS", "A3:Y400", cols=[1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 21, 22, 23, 25],
-                     anchos=[5, 8, 34, 5, 8, 14, 18, 10, 26, 10, 16, 7, 8, 6], filas=[3] + _filas("CONSOLIDADO_INSUMOS", 2,
-                                                      lambda v, f: v in ("MP-33", "MP-34", "MP-25"))), [])
-cap("M10", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: materias primas críticas en el año de diseño", "MRP",
-    lambda: planilla(MRP, "POLITICA_STOCK", "A3:AM200", cols=[1, 3, 5, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34,
-                                                             35],
-                     filas=[3] + _filas("POLITICA_STOCK", 1, lambda v, f: v in (
-                         "MP-01", "MP-03", "MP-07", "MP-11", "MP-12", "MP-15", "MP-16", "MP-17", "MP-20", "MP-33",
-                         "MP-33B", "MP-34", "MP-25", "MP-43", "MP-45")),
-                     anchos=[9, 5, 9, 8, 8, 8, 5, 9, 9, 4, 8, 6, 9, 7, 8, 7]), [])
-cap("M11", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: verificación de los almacenes", "MRP",
-    lambda: planilla(MRP, "POLITICA_STOCK", "A3:I200", cols=[2, 5, 6, 7, 8, 9], anchos=[40, 11, 11, 34, 10, 46],
-                     filas=_filas("POLITICA_STOCK", 2, lambda v, f: f[0] is None and isinstance(v, str) and f[4]
-                                  is not None)), [])
+    lambda: planilla(MRP, "MANUALES", "A3:Z80", cols=_cols_lin("MANUALES", 8), anchos=[5, 9, 30, 5] + [7] * 8 + [8, 8],
+                     filas=[3, 4, 13, 14, 15] + list(range(16, 32))), [])
+cap("M08", "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: posiciones por almacén", "MRP",
+    lambda: planilla(MRP, "POLITICA_STOCK", "A3:G200", cols=[2, 5, 6, 7], anchos=[40, 11, 11, 12],
+                     filas=_filas("POLITICA_STOCK", 2, lambda v, f: v == "Almacén" or (
+                         f[0] is None and isinstance(v, str) and len(f) > 4 and isinstance(f[4], (int, float))))),
+    [])
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)

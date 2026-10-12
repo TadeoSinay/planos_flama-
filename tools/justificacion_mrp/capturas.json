@@ -546,36 +546,6 @@
   ]
  },
  {
-  "id": "Q05",
-  "titulo": "Cotización Polimetal (descartada): plazo de entrega de chapa cortada",
-  "tipo": "Cotización",
-  "png": "figs/Q05.png",
-  "w": 512,
-  "h": 91,
-  "medio": true,
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "10 días hábiles (referencia del rubro)"
-   }
-  ]
- },
- {
-  "id": "Q06",
-  "titulo": "Hierros Parrotta 00413329: la fecha de entrega se confirma con el pago",
-  "tipo": "Cotización",
-  "png": "figs/Q06.png",
-  "w": 1045,
-  "h": 149,
-  "medio": true,
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "Sin plazo: se confirma al acreditar el pago"
-   }
-  ]
- },
- {
   "id": "Q07",
   "titulo": "Lista de precios de agentes y válvulas: envases y válvulas HZ",
   "tipo": "Cotización",
@@ -603,21 +573,6 @@
   ]
  },
  {
-  "id": "Q08",
-  "titulo": "Presupuesto Prymax S00469: entregas por tandas mensuales",
-  "tipo": "Cotización",
-  "png": "figs/Q08.png",
-  "w": 987,
-  "h": 178,
-  "medio": true,
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "Servicio por tandas con cronograma mensual"
-   }
-  ]
- },
- {
   "id": "Q09",
   "titulo": "Cotización del servicio de pintura de carros (mensaje): precio por carro",
   "tipo": "Cotización",
@@ -633,11 +588,316 @@
   ]
  },
  {
+  "id": "R01",
+  "titulo": "Proceso de recargas, mapa: cuándo corresponde cada operación",
+  "tipo": "Proceso",
+  "png": "figs/R01.png",
+  "w": 903,
+  "h": 1543,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Descarga: siempre que tenga presión"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Prueba hidráulica: sólo si está vencida o hay daño menor"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Pintura: sólo si tiene óxido o pintura dañada"
+   }
+  ]
+ },
+ {
+  "id": "R02",
+  "titulo": "Proceso de recargas, descarga: cuándo el polvo va a descarte y cuándo se recupera",
+  "tipo": "Proceso",
+  "png": "figs/R02.png",
+  "w": 925,
+  "h": 377,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Cambio de polvo por el año de fabricación (1 de cada 10 años)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Sin presión o accionado: todo a descarte"
+   },
+   {
+    "n": 3,
+    "etiqueta": "El resto: polvo recuperable"
+   }
+  ]
+ },
+ {
+  "id": "R03",
+  "titulo": "Proceso de recargas, carga de polvo ABC: polvo recuperado más polvo nuevo",
+  "tipo": "Proceso",
+  "png": "figs/R03.png",
+  "w": 912,
+  "h": 422,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "La tolva tiene polvo recuperado más polvo nuevo"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Se repone con polvo nuevo lo que falta"
+   }
+  ]
+ },
+ {
+  "id": "R04",
+  "titulo": "Proceso de recargas, ensamblaje: o-ring y marbete siempre; repuestos según el registro",
+  "tipo": "Proceso",
+  "png": "figs/R04.png",
+  "w": 930,
+  "h": 330,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "O-ring nuevo en cada recarga"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Marbete del año en cada recarga"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Los repuestos se cambian si están dañados; su stock sale del registro"
+   }
+  ]
+ },
+ {
+  "id": "R05",
+  "titulo": "Proceso de recargas, presurización: nitrógeno con la misma pinza de producción",
+  "tipo": "Proceso",
+  "png": "figs/R05.png",
+  "w": 916,
+  "h": 361,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Misma pinza Yukon que en fabricación"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Sólo nitrógeno seco"
+   }
+  ]
+ },
+ {
+  "id": "R06",
+  "titulo": "Proceso de recargas, precinto y etiqueta de servicio",
+  "tipo": "Proceso",
+  "png": "figs/R06.png",
+  "w": 915,
+  "h": 149,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Precinto con la identificación de FLAMA"
+   },
+   {
+    "n": 2,
+    "etiqueta": "La etiqueta de servicio lleva el vencimiento de la PH"
+   }
+  ]
+ },
+ {
+  "id": "R07",
+  "titulo": "Proceso de recargas BC: siempre con polvo nuevo (13 equipos por mes en la planta industrial)",
+  "tipo": "Proceso",
+  "png": "figs/R07.png",
+  "w": 920,
+  "h": 124,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Recargas de BC con polvo nuevo"
+   },
+   {
+    "n": 2,
+    "etiqueta": "13 por mes en la planta industrial: no se justifica recuperar"
+   }
+  ]
+ },
+ {
+  "id": "R08",
+  "titulo": "Proceso de recargas de agua y AFFF: el agente se cambia siempre; premezcla al 3 %",
+  "tipo": "Proceso",
+  "png": "figs/R08.png",
+  "w": 938,
+  "h": 334,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Agente nuevo en cada recarga"
+   },
+   {
+    "n": 2,
+    "etiqueta": "AFFF: premezcla al 3 %"
+   }
+  ]
+ },
+ {
+  "id": "R09",
+  "titulo": "Proceso de recargas de CO₂: se recupera y se vuelve a cargar",
+  "tipo": "Proceso",
+  "png": "figs/R09.png",
+  "w": 924,
+  "h": 211,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Sólo se vacía si va a PH o hay que abrir la válvula"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Se carga con el CO₂ recuperado"
+   }
+  ]
+ },
+ {
+  "id": "R10",
+  "titulo": "Proceso de recargas de halogenados: se recupera en circuito cerrado",
+  "tipo": "Proceso",
+  "png": "figs/R10.png",
+  "w": 931,
+  "h": 250,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "El agente se recupera"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Presurización con nitrógeno o argón"
+   }
+  ]
+ },
+ {
+  "id": "R11",
+  "titulo": "Proceso de recargas, pintura: esmalte poliuretano, recipiente completo",
+  "tipo": "Proceso",
+  "png": "figs/R11.png",
+  "w": 940,
+  "h": 359,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Esmalte poliuretano rojo"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Se pinta siempre completo"
+   }
+  ]
+ },
+ {
+  "id": "D01",
+  "titulo": "Dimensionamiento Técnico FLAMA: recargas de la planta industrial y prueba hidráulica",
+  "tipo": "Planilla",
+  "png": "figs/D01.png",
+  "w": 1261,
+  "h": 209,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Mercado de recargas CABA + PBA"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Zonas de la planta industrial"
+   },
+   {
+    "n": 3,
+    "etiqueta": "34,2 % de las recargas"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Prueba hidráulica en el 25 % de las recargas"
+   }
+  ]
+ },
+ {
+  "id": "D02",
+  "titulo": "Dimensionamiento Técnico FLAMA: perfiles de estacionalidad",
+  "tipo": "Planilla",
+  "png": "figs/D02.png",
+  "w": 1538,
+  "h": 193,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "1 kg: pico de 12 % en enero y diciembre"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Manual comercial: pico de 11 % en diciembre"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Industrial sobre ruedas: 9 % en los meses más altos"
+   }
+  ]
+ },
+ {
+  "id": "D03",
+  "titulo": "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos del año 2035 (demanda × perfil)",
+  "tipo": "Planilla",
+  "png": "figs/D03.png",
+  "w": 1512,
+  "h": 388,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Total del mes: de ahí sale el mes pico"
+   }
+  ]
+ },
+ {
+  "id": "D04",
+  "titulo": "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12",
+  "tipo": "Planilla",
+  "png": "figs/D04.png",
+  "w": 1544,
+  "h": 256,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Enero = anual / 12"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Diciembre = anual / 12: sin estacionalidad"
+   }
+  ]
+ },
+ {
   "id": "X01",
   "titulo": "Proyecciones, «Indexado Dim Técnico»: demanda anual por producto (nuevos, cilindros, recargas, revendidos)",
   "tipo": "Planilla",
   "png": "figs/X01.png",
-  "w": 1539,
+  "w": 1537,
   "h": 1121,
   "medio": false,
   "marcas": [
@@ -656,16 +916,12 @@
    {
     "n": 4,
     "etiqueta": "Revendidos (9 tipos)"
-   },
-   {
-    "n": 5,
-    "etiqueta": "Año 2035: año de diseño de la política de stock"
    }
   ]
  },
  {
   "id": "X02",
-  "titulo": "Proyecciones, «Indexado Dim Técnico»: distribución por zona (de ahí sale el % CABA)",
+  "titulo": "Proyecciones, «Indexado Dim Técnico»: distribución por zona (% de CABA)",
   "tipo": "Planilla",
   "png": "figs/X02.png",
   "w": 926,
@@ -674,11 +930,11 @@
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "CABA Norte, Este, Sur y Oeste (recargas)"
+    "etiqueta": "CABA Sur (zona de la planta industrial)"
    },
    {
     "n": 2,
-    "etiqueta": "Subtotal de recargas"
+    "etiqueta": "PBA Sur 1.º, 2.º y 3.er cordón"
    },
    {
     "n": 3,
@@ -701,7 +957,7 @@
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Venta de reserva (IRAM 3517-2 5.3): se suma al ABC 5 kg"
+    "etiqueta": "Venta de reserva: se suma al ABC 5 kg"
    },
    {
     "n": 2,
@@ -709,7 +965,11 @@
    },
    {
     "n": 3,
-    "etiqueta": "Alta anual de sustitutos (9.4.5)"
+    "etiqueta": "Alta anual de sustitutos"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Total del alta (kit de sustituto)"
    }
   ]
  },
@@ -724,7 +984,7 @@
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Equipos usados (accionados): recarga completa"
+    "etiqueta": "Equipos usados (accionados)"
    },
    {
     "n": 2,
@@ -733,273 +993,262 @@
   ]
  },
  {
-  "id": "X05",
-  "titulo": "Dimensionamiento Técnico V2: perfiles de estacionalidad de ventas y fabricación",
+  "id": "X11",
+  "titulo": "Dimensionamiento Técnico V2, Parametros Recargas: prueba hidráulica, descargados, vaciados y pintura",
   "tipo": "Planilla",
-  "png": "figs/X05.png",
-  "w": 1539,
-  "h": 296,
+  "png": "figs/X11.png",
+  "w": 1546,
+  "h": 238,
   "medio": false,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Automovilístico (1 kg)"
+    "etiqueta": "25 % con prueba hidráulica"
    },
    {
     "n": 2,
-    "etiqueta": "Manual comercial (2,5 a 10 kg)"
+    "etiqueta": "10 % de CO₂ y agente limpio llegan descargados o con pérdida"
    },
    {
     "n": 3,
-    "etiqueta": "Industrial sobre ruedas (25 a 100 kg)"
+    "etiqueta": "35 % de CO₂ y agente limpio se vacían (25 % + 10 %)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "15 % llegan con la pintura deteriorada"
    }
   ]
  },
  {
-  "id": "X06",
-  "titulo": "Dimensionamiento Técnico V2, Parametros Recargas: días hábiles, retoque y perfiles de recargas",
+  "id": "X12",
+  "titulo": "Dimensionamiento Técnico V2, Parametros Recargas: matriz de aplicación por familia",
   "tipo": "Planilla",
-  "png": "figs/X06.png",
-  "w": 1543,
-  "h": 252,
+  "png": "figs/X12.png",
+  "w": 1260,
+  "h": 222,
   "medio": false,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "20 días hábiles por mes"
+    "etiqueta": "Desarme de CO₂: 35 %"
    },
    {
     "n": 2,
-    "etiqueta": "15 % de equipos con la pintura deteriorada (9.10)"
+    "etiqueta": "Agua, AFFF y K: recarga completa"
    },
    {
     "n": 3,
-    "etiqueta": "Recargas automovilístico"
+    "etiqueta": "Agente limpio: presurización 35 %"
+   }
+  ]
+ },
+ {
+  "id": "X13",
+  "titulo": "Dimensionamiento Técnico V2, Almacen PT: zonas de la planta industrial y pallets de producto terminado",
+  "tipo": "Planilla",
+  "png": "figs/X13.png",
+  "w": 1543,
+  "h": 382,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Un carro ocupa lo que 3 manuales"
+   },
+   {
+    "n": 2,
+    "etiqueta": "90 matafuegos por pallet"
+   },
+   {
+    "n": 3,
+    "etiqueta": "2 pallets por posición"
    },
    {
     "n": 4,
-    "etiqueta": "Recargas manual comercial"
+    "etiqueta": "4 zonas de la planta industrial: 1.997.042 equipos"
+   }
+  ]
+ },
+ {
+  "id": "X14",
+  "titulo": "Planilla «Materias Primas», Lineamientos: diámetro del disco de cúpula y fondo",
+  "tipo": "Planilla",
+  "png": "figs/X14.png",
+  "w": 1539,
+  "h": 347,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "1 kg, cúpula: disco de 95 mm"
    },
    {
-    "n": 5,
-    "etiqueta": "Recargas industrial sobre ruedas"
+    "n": 2,
+    "etiqueta": "1 kg, fondo: disco de 112 mm"
+   },
+   {
+    "n": 3,
+    "etiqueta": "2,5 a 10 kg: disco de la planilla"
    }
   ]
  },
  {
   "id": "X07",
-  "titulo": "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-01 a MP-36, con su fuente y confianza",
+  "titulo": "Planilla de MP («MP Abastecimiento»): unidad de carga, lead time, días entre pedidos, stock de seguridad y UC por posición (MP-01 a MP-36)",
   "tipo": "Planilla",
   "png": "figs/X07.png",
-  "w": 1538,
-  "h": 1037,
+  "w": 1548,
+  "h": 1173,
   "medio": false,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Lead time en días hábiles: la mayoría figura como estimado (EST)"
+    "etiqueta": "Lead time (días hábiles)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Días entre pedidos (T)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Stock de seguridad (días)"
    }
   ]
  },
  {
   "id": "X07B",
-  "titulo": "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-37 a MP-65",
+  "titulo": "Planilla de MP («MP Abastecimiento»): lo mismo de MP-37 a MP-65",
   "tipo": "Planilla",
   "png": "figs/X07B.png",
-  "w": 1538,
-  "h": 824,
+  "w": 1548,
+  "h": 984,
   "medio": false,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Lead time en días hábiles"
+    "etiqueta": "Lead time"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Días entre pedidos"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Stock de seguridad"
    }
   ]
  },
  {
   "id": "X08",
-  "titulo": "Planilla de MP (opción D), Coef Fabricación: parámetros estimados y coeficientes de soldadura y superficie",
+  "titulo": "Planilla de MP, Geometria Acero: puente entre discos, espesor de pintura, alambre y gas por recipiente",
   "tipo": "Planilla",
   "png": "figs/X08.png",
-  "w": 1501,
-  "h": 1180,
+  "w": 1189,
+  "h": 376,
   "medio": false,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Merma de polvo 1 %"
+    "etiqueta": "Puente entre discos: 3 mm"
    },
    {
     "n": 2,
-    "etiqueta": "Tapón de silicona: 50 ciclos"
+    "etiqueta": "Espesor de pintura: 70 µm (Sinteplast)"
    },
    {
     "n": 3,
-    "etiqueta": "4 kg de alambre por punta"
+    "etiqueta": "Alambre por recipiente"
    },
    {
     "n": 4,
-    "etiqueta": "150 recipientes por disco"
-   },
-   {
-    "n": 5,
-    "etiqueta": "Film: 0,35 kg por pallet"
+    "etiqueta": "Gas por recipiente"
    }
   ]
  },
  {
-  "id": "X09",
-  "titulo": "Planilla de MP (opción D), Coef Recargas: reposiciones y retoque (estimados)",
-  "tipo": "Planilla",
-  "png": "figs/X09.png",
-  "w": 1548,
-  "h": 565,
+  "id": "B01",
+  "titulo": "FLAMA_BOM.xlsx, MODELOS: carga objetivo, volumen interior, gas, reposición y prueba hidráulica",
+  "tipo": "BOM",
+  "png": "figs/B01.png",
+  "w": 993,
+  "h": 602,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Carga objetivo (nominal + mitad de la tolerancia)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Volumen interior del recipiente"
+   }
+  ]
+ },
+ {
+  "id": "B02",
+  "titulo": "FLAMA_BOM.xlsx, Fabricados: ABC 5 kg pieza por pieza (cantidades y superficies)",
+  "tipo": "BOM",
+  "png": "figs/B02.png",
+  "w": 1176,
+  "h": 1330,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Superficie de las dos caras del cuerpo (la exterior es la mitad)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Tarjeta AGC: sólo destino CABA"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Dos tornillos con tarugo por soporte"
+   }
+  ]
+ },
+ {
+  "id": "B03",
+  "titulo": "FLAMA_BOM.xlsx, Recargas: identificación por jurisdicción (ABC 5 kg)",
+  "tipo": "BOM",
+  "png": "figs/B03.png",
+  "w": 1119,
+  "h": 387,
+  "medio": true,
+  "marcas": []
+ },
+ {
+  "id": "B04",
+  "titulo": "FLAMA_BOM.xlsx: kit del sustituto (ABC 5 kg)",
+  "tipo": "BOM",
+  "png": "figs/B04.png",
+  "w": 1091,
+  "h": 207,
   "medio": true,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Manómetros 8 %"
-   },
-   {
-    "n": 2,
-    "etiqueta": "Válvulas 3 %"
-   },
-   {
-    "n": 3,
-    "etiqueta": "Mangueras 5 %"
-   },
-   {
-    "n": 4,
-    "etiqueta": "Retoque: 0,05 L por equipo"
+    "etiqueta": "Faja amarilla de sustituto"
    }
   ]
- },
- {
-  "id": "X10",
-  "titulo": "Planilla «Materias Primas» de la investigación de proveedores: la columna de tiempo de entrega está vacía",
-  "tipo": "Planilla",
-  "png": "figs/X10.png",
-  "w": 1538,
-  "h": 492,
-  "medio": false,
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "Tiempo de entrega: sin dato en ninguna cotización"
-   },
-   {
-    "n": 2,
-    "etiqueta": "Piezas por bobina de fleje (Pacheco)"
-   }
-  ]
- },
- {
-  "id": "M01",
-  "titulo": "FLAMA_MRP.xlsx, hoja PARAMETROS (cada dato con ID, valor y fuente)",
-  "tipo": "MRP",
-  "png": "figs/M01.png",
-  "w": 1552,
-  "h": 658,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M02",
-  "titulo": "FLAMA_MRP.xlsx, hoja DEMANDA (unidades por año; año de diseño 2035)",
-  "tipo": "MRP",
-  "png": "figs/M02.png",
-  "w": 1536,
-  "h": 1391,
-  "medio": false,
-  "marcas": []
  },
  {
   "id": "M03",
-  "titulo": "FLAMA_MRP.xlsx, hoja ESTACIONALIDAD: perfil de cada línea en el año de diseño y factor de pico",
+  "titulo": "FLAMA_MRP.xlsx, hoja MANUALES: demanda arriba, consumo por unidad abajo y lo que hay que comprar",
   "tipo": "MRP",
   "png": "figs/M03.png",
-  "w": 1314,
-  "h": 192,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M04",
-  "titulo": "FLAMA_MRP.xlsx, hoja BOM_COEF: ABC 5 kg (fila del BOM → ítem de compra → cantidad por unidad)",
-  "tipo": "MRP",
-  "png": "figs/M04.png",
-  "w": 1483,
-  "h": 1121,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M05",
-  "titulo": "FLAMA_MRP.xlsx, hoja BOM_COEF: recarga ABC 5 kg por servicio y coeficiente del año de diseño",
-  "tipo": "MRP",
-  "png": "figs/M05.png",
-  "w": 1542,
-  "h": 459,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M06",
-  "titulo": "FLAMA_MRP.xlsx, hoja FAB_COMPRA: pieza fabricada → materia prima y rendimiento",
-  "tipo": "MRP",
-  "png": "figs/M06.png",
-  "w": 1547,
-  "h": 1078,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M07",
-  "titulo": "FLAMA_MRP.xlsx, hoja PROCESO: insumos por unidad del ABC 50 kg (proceso de carros)",
-  "tipo": "MRP",
-  "png": "figs/M07.png",
-  "w": 1549,
-  "h": 663,
+  "w": 1550,
+  "h": 638,
   "medio": false,
   "marcas": []
  },
  {
   "id": "M08",
-  "titulo": "FLAMA_MRP.xlsx, hoja INSUMOS_DIRECTOS_RODANTES: hoja de 4,75 mm con el plan de corte mixto",
+  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: posiciones por almacén",
   "tipo": "MRP",
   "png": "figs/M08.png",
-  "w": 1550,
-  "h": 484,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M09",
-  "titulo": "FLAMA_MRP.xlsx, hoja CONSOLIDADO_INSUMOS: polvo, nitrógeno y gas de soldadura por línea y hoja de origen",
-  "tipo": "MRP",
-  "png": "figs/M09.png",
-  "w": 1544,
-  "h": 302,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M10",
-  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: materias primas críticas en el año de diseño",
-  "tipo": "MRP",
-  "png": "figs/M10.png",
-  "w": 1541,
-  "h": 514,
-  "medio": false,
-  "marcas": []
- },
- {
-  "id": "M11",
-  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: verificación de los almacenes",
-  "tipo": "MRP",
-  "png": "figs/M11.png",
-  "w": 1536,
-  "h": 449,
+  "w": 1063,
+  "h": 461,
   "medio": false,
   "marcas": []
  }
