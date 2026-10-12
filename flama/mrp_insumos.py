@@ -625,6 +625,7 @@ class Libro:
         for fila in filas:
             for j, v in enumerate(fila, 1):
                 ws.cell(r, j, v)
+            ws.cell(r, 3).number_format = "#,##0.####"
             _fila(ws, r, 6)
             self.pid[fila[0]] = r
             r += 1

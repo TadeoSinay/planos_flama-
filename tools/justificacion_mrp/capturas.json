@@ -1,0 +1,1006 @@
+[
+ {
+  "id": "P01",
+  "titulo": "Proceso de manuales, recepción: formatos y presentación de la materia prima y consumos del pico",
+  "tipo": "Proceso",
+  "png": "figs/P01.png",
+  "w": 942,
+  "h": 871,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Formatos LAF del 2,5, 5 y 10 kg"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Paquete de 80 hojas (5 kg)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Paquetes de 50 y 20 hojas (2,5 y 10 kg)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Atados de 16 tubos"
+   },
+   {
+    "n": 5,
+    "etiqueta": "97 tubos por día: no coincide con el corte de tubo (53, P03)"
+   },
+   {
+    "n": 6,
+    "etiqueta": "Polvo de manuales: 1,7 t por día en el pico"
+   },
+   {
+    "n": 7,
+    "etiqueta": "Gas de soldadura: 48 m³ por día en el pico"
+   }
+  ]
+ },
+ {
+  "id": "P02",
+  "titulo": "Proceso de manuales, corte de chapa: cuerpos por hoja y aprovechamiento",
+  "tipo": "Proceso",
+  "png": "figs/P02.png",
+  "w": 941,
+  "h": 311,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "2,5 kg: 27 cuerpos por hoja"
+   },
+   {
+    "n": 2,
+    "etiqueta": "5 kg: 12 por hoja"
+   },
+   {
+    "n": 3,
+    "etiqueta": "10 kg: 15 por hoja"
+   }
+  ]
+ },
+ {
+  "id": "P03",
+  "titulo": "Proceso de manuales, corte de tubo: 23 tramos de 255 mm por caño",
+  "tipo": "Proceso",
+  "png": "figs/P03.png",
+  "w": 835,
+  "h": 490,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "23 tramos por caño de 6 m"
+   },
+   {
+    "n": 2,
+    "etiqueta": "53 caños por día en el pico"
+   }
+  ]
+ },
+ {
+  "id": "P04",
+  "titulo": "Proceso de manuales: granalla por cilindro, salida de la pintura y nitrógeno",
+  "tipo": "Proceso",
+  "png": "figs/P04.png",
+  "w": 942,
+  "h": 601,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Granalla: 0,08 kg por cilindro"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Cabina con recuperación de polvo"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Terminados: 413 por día en el pico"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Cilindros vacíos: 1.252 por día"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Nitrógeno: 7,1 m³ por día en el pico"
+   }
+  ]
+ },
+ {
+  "id": "P05",
+  "titulo": "Proceso de manuales, embalaje: una caja por recipiente y unidades por pallet",
+  "tipo": "Proceso",
+  "png": "figs/P05.png",
+  "w": 941,
+  "h": 420,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Caja por recipiente"
+   },
+   {
+    "n": 2,
+    "etiqueta": "1 kg: 400 por pallet"
+   },
+   {
+    "n": 3,
+    "etiqueta": "2,5 kg: 167"
+   },
+   {
+    "n": 4,
+    "etiqueta": "5 kg: 90"
+   },
+   {
+    "n": 5,
+    "etiqueta": "10 kg: 40"
+   }
+  ]
+ },
+ {
+  "id": "P06",
+  "titulo": "Proceso de carros, puesto 1, tabla 3: consumo por día, unidad de entrega y demora del proveedor",
+  "tipo": "Proceso",
+  "png": "figs/P06.png",
+  "w": 970,
+  "h": 826,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Chapa Pradecon: 10 días hábiles"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Casquetes importados: 60 días hábiles"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Cuplas Eli-Met: 28 días hábiles"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Polvo Polvex: 7 días hábiles"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Merma de carga del polvo: 1 %"
+   },
+   {
+    "n": 6,
+    "etiqueta": "Válvula de carro y manómetro: 20 días hábiles"
+   },
+   {
+    "n": 7,
+    "etiqueta": "Manguera con lanza 15, ruedas 15, alambre 5, gases 1"
+   }
+  ]
+ },
+ {
+  "id": "P07",
+  "titulo": "Proceso de carros, puesto 1: unidades de entrega (paquetes, pallets de casquetes, cajas de cuplas)",
+  "tipo": "Proceso",
+  "png": "figs/P07.png",
+  "w": 982,
+  "h": 491,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "LAC 3,2: paquete de 20"
+   },
+   {
+    "n": 2,
+    "etiqueta": "LAC 4,75: paquete de 15"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Casquete 10\": 400 por pallet"
+   },
+   {
+    "n": 4,
+    "etiqueta": "12\": 300"
+   },
+   {
+    "n": 5,
+    "etiqueta": "15\": 150"
+   },
+   {
+    "n": 6,
+    "etiqueta": "Cupla M30: caja de 100"
+   },
+   {
+    "n": 7,
+    "etiqueta": "Cupla 2½\": caja de 40"
+   }
+  ]
+ },
+ {
+  "id": "P08",
+  "titulo": "Proceso de carros, puesto 2: planes de corte de la hoja de 1500 × 3000 mm",
+  "tipo": "Proceso",
+  "png": "figs/P08.png",
+  "w": 981,
+  "h": 646,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "25 kg: 9 cuerpos por hoja (84,1 %)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "50 kg: 6 por hoja (84,8 %)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Hoja mixta: 3 de 70 kg + 1 de 100 kg"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Aprovechamiento de la mixta: 79,2 %"
+   },
+   {
+    "n": 5,
+    "etiqueta": "70 kg sola: 4 por hoja"
+   },
+   {
+    "n": 6,
+    "etiqueta": "100 kg sola: 3 por hoja"
+   }
+  ]
+ },
+ {
+  "id": "P09",
+  "titulo": "Proceso de carros, puesto 2: «El promedio se toma como el 70 % del pico»",
+  "tipo": "Proceso",
+  "png": "figs/P09.png",
+  "w": 929,
+  "h": 71,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Supuesto del proceso de carros (factor de pico 1 / 0,7 = 1,43)"
+   }
+  ]
+ },
+ {
+  "id": "P10",
+  "titulo": "Proceso de carros, puesto 4, punteo: gas y alambre por unidad",
+  "tipo": "Proceso",
+  "png": "figs/P10.png",
+  "w": 964,
+  "h": 554,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Modelo de 25 kg (gas y alambre por unidad en la fila)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Modelo de 50 kg; siguen 70 y 100 kg"
+   }
+  ]
+ },
+ {
+  "id": "P11",
+  "titulo": "Proceso de carros, puesto 5, soldadura longitudinal: gas y alambre por unidad",
+  "tipo": "Proceso",
+  "png": "figs/P11.png",
+  "w": 964,
+  "h": 645,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Modelo de 25 kg (gas y alambre por unidad en la fila)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Modelo de 50 kg; siguen 70 y 100 kg"
+   }
+  ]
+ },
+ {
+  "id": "P12",
+  "titulo": "Proceso de carros, puesto 6, soldadura de cupla: gas y alambre por unidad",
+  "tipo": "Proceso",
+  "png": "figs/P12.png",
+  "w": 944,
+  "h": 548,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Cupla M30 (carros de 25 y 50 kg)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Cupla 2½\" (carros de 70 y 100 kg)"
+   }
+  ]
+ },
+ {
+  "id": "P13",
+  "titulo": "Proceso de carros, puesto 7, soldadura circunferencial: gas y alambre por unidad",
+  "tipo": "Proceso",
+  "png": "figs/P13.png",
+  "w": 964,
+  "h": 539,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Modelo de 25 kg (gas y alambre por unidad en la fila)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Modelo de 50 kg; siguen 70 y 100 kg"
+   }
+  ]
+ },
+ {
+  "id": "P14",
+  "titulo": "Proceso de carros, puesto 8, soldadura de accesorios: gas y alambre por unidad",
+  "tipo": "Proceso",
+  "png": "figs/P14.png",
+  "w": 964,
+  "h": 595,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Modelo de 25 kg (gas y alambre por unidad en la fila)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Modelo de 50 kg; siguen 70 y 100 kg"
+   }
+  ]
+ },
+ {
+  "id": "P15",
+  "titulo": "Proceso de carros, 8.1: lo que se compra (caño, barra trefilada, ruedas) y lo que sale de las orillas",
+  "tipo": "Proceso",
+  "png": "figs/P15.png",
+  "w": 987,
+  "h": 1351,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Piezas de chapa de las orillas del corte (sin compra)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Pintura de carros tercerizada"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Caño en barras de 6 m"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Barra trefilada 3/4\" en barras de 4 m"
+   }
+  ]
+ },
+ {
+  "id": "P16",
+  "titulo": "Proceso de carros, 8.1: medidas de corte de manija, caño del eje y eje",
+  "tipo": "Proceso",
+  "png": "figs/P16.png",
+  "w": 975,
+  "h": 362,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Manija 25 kg: 1.440 mm de caño 1\" (1.520 y 1.590 en los demás)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Caño del eje 25 kg: 354 mm"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Eje 25 kg: 490 mm de barra 3/4\""
+   },
+   {
+    "n": 4,
+    "etiqueta": "Eje 50 kg: 510 mm de barra 1\""
+   },
+   {
+    "n": 5,
+    "etiqueta": "Eje 70 y 100 kg: 590 mm"
+   }
+  ]
+ },
+ {
+  "id": "P17",
+  "titulo": "Proceso de carros, 8.1: consumos de discos y mechas",
+  "tipo": "Proceso",
+  "png": "figs/P17.png",
+  "w": 962,
+  "h": 346,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "200 cortes por disco de sensitiva"
+   },
+   {
+    "n": 2,
+    "etiqueta": "40 juegos de triángulos por disco de 115 mm"
+   },
+   {
+    "n": 3,
+    "etiqueta": "200 agujeros por mecha"
+   }
+  ]
+ },
+ {
+  "id": "P18",
+  "titulo": "Proceso de carros, puestos 4 y 6: discos de las placas y antiproyecciones",
+  "tipo": "Proceso",
+  "png": "figs/P18.png",
+  "w": 941,
+  "h": 334,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Un disco de corte por tanda de placas (7 por mes en el pico)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Un disco flap cada 4 tandas"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Antiproyecciones: 1 ml por cúpula"
+   }
+  ]
+ },
+ {
+  "id": "Q01",
+  "titulo": "Cotización Pradecon (mail del 28/09/2026): plazo de entrega y peso de bobina de fleje",
+  "tipo": "Cotización",
+  "png": "figs/Q01.png",
+  "w": 1045,
+  "h": 197,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Bobina de fleje de 1,8 a 2 t"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Plazo de entrega: 7 a 10 días"
+   }
+  ]
+ },
+ {
+  "id": "Q02",
+  "titulo": "Cotización Pacheco Chapas PR-42021: flejes en rollos (kg y cantidad de rollos)",
+  "tipo": "Cotización",
+  "png": "figs/Q02.png",
+  "w": 1117,
+  "h": 661,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "1,25 × 200: 2.951 kg en 6 rollos (492 kg por rollo)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "1,6 × 250: 2.459 kg en 4 rollos (615 kg)"
+   }
+  ]
+ },
+ {
+  "id": "Q03",
+  "titulo": "Cotizaciones de MP por WhatsApp: Air Liquide (plazo, baterías) y Eli-Met (plazo de las cuplas)",
+  "tipo": "Cotización",
+  "png": "figs/Q03.png",
+  "w": 942,
+  "h": 975,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Air Liquide: entrega a día + 1"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Batería de 11 cilindros, 115,5 m³"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Eli-Met: 35 a 40 días"
+   }
+  ]
+ },
+ {
+  "id": "Q04",
+  "titulo": "Cotización Comercial MID 27626: caño, entrega inmediata",
+  "tipo": "Cotización",
+  "png": "figs/Q04.png",
+  "w": 583,
+  "h": 106,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Entrega inmediata (de stock)"
+   }
+  ]
+ },
+ {
+  "id": "Q05",
+  "titulo": "Cotización Polimetal (descartada): plazo de entrega de chapa cortada",
+  "tipo": "Cotización",
+  "png": "figs/Q05.png",
+  "w": 512,
+  "h": 91,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "10 días hábiles (referencia del rubro)"
+   }
+  ]
+ },
+ {
+  "id": "Q06",
+  "titulo": "Hierros Parrotta 00413329: la fecha de entrega se confirma con el pago",
+  "tipo": "Cotización",
+  "png": "figs/Q06.png",
+  "w": 1045,
+  "h": 149,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Sin plazo: se confirma al acreditar el pago"
+   }
+  ]
+ },
+ {
+  "id": "Q07",
+  "titulo": "Lista de precios de agentes y válvulas: envases y válvulas HZ",
+  "tipo": "Cotización",
+  "png": "figs/Q07.png",
+  "w": 969,
+  "h": 869,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Polvo en bolsas de 25 kg"
+   },
+   {
+    "n": 2,
+    "etiqueta": "AFFF en bidón de 20 L"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Válvula HZ M-22 (1 kg)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Válvula HZ M-30 (2,5 a 10 kg)"
+   }
+  ]
+ },
+ {
+  "id": "Q08",
+  "titulo": "Presupuesto Prymax S00469: entregas por tandas mensuales",
+  "tipo": "Cotización",
+  "png": "figs/Q08.png",
+  "w": 987,
+  "h": 178,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Servicio por tandas con cronograma mensual"
+   }
+  ]
+ },
+ {
+  "id": "Q09",
+  "titulo": "Cotización del servicio de pintura de carros (mensaje): precio por carro",
+  "tipo": "Cotización",
+  "png": "figs/Q09.png",
+  "w": 232,
+  "h": 125,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "USD 13,5 / 20,3 / 27,5 / 32 por carro; sin plazo de entrega"
+   }
+  ]
+ },
+ {
+  "id": "X01",
+  "titulo": "Proyecciones, «Indexado Dim Técnico»: demanda anual por producto (nuevos, cilindros, recargas, revendidos)",
+  "tipo": "Planilla",
+  "png": "figs/X01.png",
+  "w": 1539,
+  "h": 1121,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Matafuegos nuevos"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Cilindros vacíos"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Recargas (17 tipos)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Revendidos (9 tipos)"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Año 2035: año de diseño de la política de stock"
+   }
+  ]
+ },
+ {
+  "id": "X02",
+  "titulo": "Proyecciones, «Indexado Dim Técnico»: distribución por zona (de ahí sale el % CABA)",
+  "tipo": "Planilla",
+  "png": "figs/X02.png",
+  "w": 926,
+  "h": 1063,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "CABA Norte, Este, Sur y Oeste (recargas)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Subtotal de recargas"
+   },
+   {
+    "n": 3,
+    "etiqueta": "CABA (unidades nuevas)"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Subtotal de unidades nuevas"
+   }
+  ]
+ },
+ {
+  "id": "X03",
+  "titulo": "Proyecciones, «Reservas y Sustitutos»: venta de reserva, stock del pool y alta anual de sustitutos",
+  "tipo": "Planilla",
+  "png": "figs/X03.png",
+  "w": 1549,
+  "h": 1113,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Venta de reserva (IRAM 3517-2 5.3): se suma al ABC 5 kg"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Stock del pool: se recarga cada año"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Alta anual de sustitutos (9.4.5)"
+   }
+  ]
+ },
+ {
+  "id": "X04",
+  "titulo": "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT",
+  "tipo": "Planilla",
+  "png": "figs/X04.png",
+  "w": 1274,
+  "h": 283,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Equipos usados (accionados): recarga completa"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Recargas totales"
+   }
+  ]
+ },
+ {
+  "id": "X05",
+  "titulo": "Dimensionamiento Técnico V2: perfiles de estacionalidad de ventas y fabricación",
+  "tipo": "Planilla",
+  "png": "figs/X05.png",
+  "w": 1539,
+  "h": 296,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Automovilístico (1 kg)"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Manual comercial (2,5 a 10 kg)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Industrial sobre ruedas (25 a 100 kg)"
+   }
+  ]
+ },
+ {
+  "id": "X06",
+  "titulo": "Dimensionamiento Técnico V2, Parametros Recargas: días hábiles, retoque y perfiles de recargas",
+  "tipo": "Planilla",
+  "png": "figs/X06.png",
+  "w": 1543,
+  "h": 252,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "20 días hábiles por mes"
+   },
+   {
+    "n": 2,
+    "etiqueta": "15 % de equipos con la pintura deteriorada (9.10)"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Recargas automovilístico"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Recargas manual comercial"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Recargas industrial sobre ruedas"
+   }
+  ]
+ },
+ {
+  "id": "X07",
+  "titulo": "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-01 a MP-36, con su fuente y confianza",
+  "tipo": "Planilla",
+  "png": "figs/X07.png",
+  "w": 1538,
+  "h": 1037,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Lead time en días hábiles: la mayoría figura como estimado (EST)"
+   }
+  ]
+ },
+ {
+  "id": "X07B",
+  "titulo": "Planilla de MP (opción D, «MP Abastecimiento»): unidad de carga y lead time de MP-37 a MP-65",
+  "tipo": "Planilla",
+  "png": "figs/X07B.png",
+  "w": 1538,
+  "h": 824,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Lead time en días hábiles"
+   }
+  ]
+ },
+ {
+  "id": "X08",
+  "titulo": "Planilla de MP (opción D), Coef Fabricación: parámetros estimados y coeficientes de soldadura y superficie",
+  "tipo": "Planilla",
+  "png": "figs/X08.png",
+  "w": 1501,
+  "h": 1180,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Merma de polvo 1 %"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Tapón de silicona: 50 ciclos"
+   },
+   {
+    "n": 3,
+    "etiqueta": "4 kg de alambre por punta"
+   },
+   {
+    "n": 4,
+    "etiqueta": "150 recipientes por disco"
+   },
+   {
+    "n": 5,
+    "etiqueta": "Film: 0,35 kg por pallet"
+   }
+  ]
+ },
+ {
+  "id": "X09",
+  "titulo": "Planilla de MP (opción D), Coef Recargas: reposiciones y retoque (estimados)",
+  "tipo": "Planilla",
+  "png": "figs/X09.png",
+  "w": 1548,
+  "h": 565,
+  "medio": true,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Manómetros 8 %"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Válvulas 3 %"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Mangueras 5 %"
+   },
+   {
+    "n": 4,
+    "etiqueta": "Retoque: 0,05 L por equipo"
+   }
+  ]
+ },
+ {
+  "id": "X10",
+  "titulo": "Planilla «Materias Primas» de la investigación de proveedores: la columna de tiempo de entrega está vacía",
+  "tipo": "Planilla",
+  "png": "figs/X10.png",
+  "w": 1538,
+  "h": 492,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Tiempo de entrega: sin dato en ninguna cotización"
+   },
+   {
+    "n": 2,
+    "etiqueta": "Piezas por bobina de fleje (Pacheco)"
+   }
+  ]
+ },
+ {
+  "id": "M01",
+  "titulo": "FLAMA_MRP.xlsx, hoja PARAMETROS (cada dato con ID, valor y fuente)",
+  "tipo": "MRP",
+  "png": "figs/M01.png",
+  "w": 1552,
+  "h": 658,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M02",
+  "titulo": "FLAMA_MRP.xlsx, hoja DEMANDA (unidades por año; año de diseño 2035)",
+  "tipo": "MRP",
+  "png": "figs/M02.png",
+  "w": 1536,
+  "h": 1391,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M03",
+  "titulo": "FLAMA_MRP.xlsx, hoja ESTACIONALIDAD: perfil de cada línea en el año de diseño y factor de pico",
+  "tipo": "MRP",
+  "png": "figs/M03.png",
+  "w": 1314,
+  "h": 192,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M04",
+  "titulo": "FLAMA_MRP.xlsx, hoja BOM_COEF: ABC 5 kg (fila del BOM → ítem de compra → cantidad por unidad)",
+  "tipo": "MRP",
+  "png": "figs/M04.png",
+  "w": 1483,
+  "h": 1121,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M05",
+  "titulo": "FLAMA_MRP.xlsx, hoja BOM_COEF: recarga ABC 5 kg por servicio y coeficiente del año de diseño",
+  "tipo": "MRP",
+  "png": "figs/M05.png",
+  "w": 1542,
+  "h": 459,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M06",
+  "titulo": "FLAMA_MRP.xlsx, hoja FAB_COMPRA: pieza fabricada → materia prima y rendimiento",
+  "tipo": "MRP",
+  "png": "figs/M06.png",
+  "w": 1547,
+  "h": 1078,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M07",
+  "titulo": "FLAMA_MRP.xlsx, hoja PROCESO: insumos por unidad del ABC 50 kg (proceso de carros)",
+  "tipo": "MRP",
+  "png": "figs/M07.png",
+  "w": 1549,
+  "h": 663,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M08",
+  "titulo": "FLAMA_MRP.xlsx, hoja INSUMOS_DIRECTOS_RODANTES: hoja de 4,75 mm con el plan de corte mixto",
+  "tipo": "MRP",
+  "png": "figs/M08.png",
+  "w": 1550,
+  "h": 484,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M09",
+  "titulo": "FLAMA_MRP.xlsx, hoja CONSOLIDADO_INSUMOS: polvo, nitrógeno y gas de soldadura por línea y hoja de origen",
+  "tipo": "MRP",
+  "png": "figs/M09.png",
+  "w": 1544,
+  "h": 302,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M10",
+  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: materias primas críticas en el año de diseño",
+  "tipo": "MRP",
+  "png": "figs/M10.png",
+  "w": 1541,
+  "h": 514,
+  "medio": false,
+  "marcas": []
+ },
+ {
+  "id": "M11",
+  "titulo": "FLAMA_MRP.xlsx, hoja POLITICA_STOCK: verificación de los almacenes",
+  "tipo": "MRP",
+  "png": "figs/M11.png",
+  "w": 1536,
+  "h": 449,
+  "medio": false,
+  "marcas": []
+ }
+]
