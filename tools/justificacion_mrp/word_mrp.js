@@ -155,7 +155,7 @@ hijos.push(p([t("FLAMA S.A. · de dónde sale cada valor de FLAMA_MRP.xlsx · oc
 [
   "Una sola cuenta: lo que hay que comprar de cada material = consumo por unidad de producto × unidades a producir. Se suman las cuatro líneas (manuales, rodantes, recargas de la planta industrial y revendidos) y, con el mes pico de 2035, se arma la política de stock.",
   "Sin supuestos: cada valor sale de un proceso, el BOM, las Proyecciones, los Dimensionamientos, la planilla de MP, una cotización o una ficha técnica. Lo que no tiene consumo documentado se compra por punto de pedido (sección 6).",
-  "En el Excel cada fila tiene un código «Ref.»; acá están agrupados con de dónde salen y la figura. P = proceso de manuales o carros, R = proceso de recargas, D = Dimensionamiento FLAMA, X = otras planillas, B = BOM, Q = cotización, M y G = el MRP. El dato está marcado en rojo.",
+  "En el Excel cada fila tiene un código «Ref.»; acá están agrupados con de dónde salen y la figura. P = proceso de manuales o carros, R = proceso de recargas, F = Dimensionamiento Técnico FLAMA, X = otras planillas, B = BOM, Q = cotización, M y G = el MRP. El dato está marcado en rojo.",
 ].forEach((x) => hijos.push(vin(x)));
 
 // ------------------------------------------------------------------ 1. cómo se lee
@@ -175,16 +175,17 @@ hijos.push(h1("2. Demanda (hoja DEMANDA)"));
 const DG = (refs) => D.demanda.filter((x) => refs.includes(x.ref));
 const dd = Object.fromEntries(D.demanda.map((x) => [x.ref, x]));
 hijos.push(...tabla([14, 30, 56], ["Ref.", "Dato", "De dónde sale (figura)"], [
-  ["D01", `Parte de la planta industrial: ${pc(dd.D01.v35, 1)}`, `${dd.D01.como} (${fg(dd.D01.figs)})`],
-  ["D02, D03", "% que va a CABA (unidades nuevas y recargas)", `Distribución por zona del Indexado. (${fg(["X02", "X13"])})`],
-  ["D04", `% de recargas de equipos usados: ${pc(dd.D04.v35, 2)}`, `${dd.D04.como} (${fg(dd.D04.figs)})`],
+  ["D01", `Parte de las recargas que hace la planta industrial: ${pc(dd.D01.v35, 1)}. Multiplica las recargas y los sustitutos`, `${dd.D01.como} (${fg(dd.D01.figs)})`],
+  ["D02", `% de unidades nuevas que van a CABA: ${pc(dd.D02.v35, 1)}. Reparte tarjetas y obleas entre AGC y DPS`, `${dd.D02.como} (${fg(dd.D02.figs)})`],
+  ["D03", `% de recargas de la planta industrial en CABA: ${pc(dd.D03.v35, 1)}. Lo mismo en recargas`, `${dd.D03.como} (${fg(dd.D03.figs)})`],
+  ["D04", `% de recargas de equipos usados: ${pc(dd.D04.v35, 2)}. Entra en el polvo de recarga`, `${dd.D04.como} (${fg(dd.D04.figs)})`],
   ["D05–D20", "Matafuegos y cilindros de manuales y rodantes", "Indexado, producción de matafuegos y de cilindros. El ABC 5 kg suma la venta de reserva; ABC 5, 10, 50 y 100 kg suman los sustitutos nuevos de la planta industrial: son matafuegos que fabrica FLAMA. (X01, X03)"],
-  ["D21–D37", "Recargas de 17 tipos", "(Indexado + recarga anual del pool de sustitutos) × D01. (X01, X03, D01)"],
+  ["D21–D37", "Recargas de 17 tipos", "(Indexado + recarga anual del pool de sustitutos) × D01. (X01, X03)"],
   ["D38", "Sustitutos nuevos (kit)", "Alta anual de sustitutos × D01: cada uno lleva su kit de identificación. (X03)"],
   ["D39–D47", "Revendidos de 9 tipos", "Indexado, matafuegos terciarizados + sustitutos nuevos que no son ABC (se compran). (X01, X03)"],
 ]));
 hijos.push(nota(`Control: el proceso de recargas dice 13 recargas de BC por mes en la planta industrial; el MRP da ${n(D.lineas.RECARGAS.demanda35[7] / 12, 0)}.`));
-capturas(["X01", "X03", "D01", "X13", "X02", "X04"]);
+capturas(["X01", "X03", "X02", "X13", "X04"]);
 
 // ------------------------------------------------------------------ 3. estacionalidad
 hijos.push(h1("3. Estacionalidad (hoja ESTACIONALIDAD)"));
@@ -193,8 +194,8 @@ hijos.push(...tabla([7, 27, ...Array(12).fill(5.5)], ["Ref.", "Perfil", "E", "F"
   D.perfiles.map((x) => [x.ref, x.nombre, ...x.meses.map((v) => pc(v, 1))]), { num: [...Array(12).keys()].map((i) => i + 2) }));
 hijos.push(...tabla([8, 14, 10, 15, 15, 12, 26], ["Ref.", "Línea", "Mes pico", "Producción del mes pico", "Promedio mensual", "Factor de pico", "Control"],
   LIN.map((l) => { const x = D.picos[l]; return [x.ref, l, x.mes, n(x.unidades, 0), n(x.promedio, 0), n(x.factor, 3),
-    l === "MANUALES" ? "Proceso: 1.665 / 1.184 = 1,406" : l === "RECARGAS" ? "Sin estacionalidad (D04)" : ""]; }), { num: [3, 4, 5] }));
-capturas(["D02", "D03", "D04"]);
+    l === "MANUALES" ? "Proceso: 1.665 / 1.184 = 1,406" : l === "RECARGAS" ? "Sin estacionalidad (F03)" : ""]; }), { num: [3, 4, 5] }));
+capturas(["F01", "F02", "F03"]);
 
 // ------------------------------------------------------------------ 4. consumo por unidad
 hijos.push(h1("4. Consumo por unidad (hojas MANUALES, RODANTES, RECARGAS y REVENDIDOS)"));
@@ -229,22 +230,25 @@ hijos.push(...tabla([24, 36, 40], ["Columna", "Qué es", `${pe.codigo} en 2035`]
 ]));
 capturas(["G01"]);
 hijos.push(nota("El stock baja a la velocidad de consumo; al tocar el punto de pedido se pide; mientras llega se consume lo que cubre el punto de pedido y, si todo va normal, el pedido llega cuando queda el stock de seguridad. El colchón sólo se usa si coinciden el mes pico y la demora máxima. Si un plazo no tiene rango (un solo valor) y el material no tiene mes pico (sólo recargas), el colchón da 0: aparece en cuanto el proveedor cotice el plazo con su rango."));
+hijos.push(nota("Si el plazo es más largo que los días entre pedidos (casquetes importados, cuplas de Eli-Met), hay más de un pedido en camino: el punto de pedido se compara con el stock más lo pedido que todavía no llegó."));
 hijos.push(h2("De dónde sale el plazo de entrega"));
 const porFuente = new Map();
 D.politica.forEach((x) => {
-  const k = x.fuente.startsWith("Sin cotización") ? `${x.fuente}|${x.proveedor}` : x.fuente;
+  const k = x.fuente.startsWith("Sin plazo") ? `${x.fuente}|${x.proveedor}` : x.fuente;
   if (!porFuente.has(k)) porFuente.set(k, { fuente: x.fuente, prov: x.proveedor, plazo: x.ltmin === x.ltmax ? `${x.ltmin}` : `${x.ltmin} a ${x.ltmax}`, fig: x.fig, cods: [] });
   porFuente.get(k).cods.push(x.codigo);
 });
-const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin cotización"));
-const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin cotización"));
-hijos.push(...tabla([36, 12, 42, 10], ["Cotización", "Días hábiles", "Materiales", "Figura"],
-  conCot.map((g) => [g.fuente.replace("Cotización ", ""), g.plazo, g.cods.join(", "), g.fig])));
-hijos.push(nota("Ninguna otra cotización trae plazo (tampoco la planilla de proveedores, que tiene esa columna vacía). Esos materiales usan el plazo de la planilla de MP o del proceso de carros, y hay que pedírselo a cada proveedor:", { keepNext: true }));
+const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
+const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
+const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto en el AMBA (W4 a W10, buscados el 12/10/2026). Días corridos → hábiles: × 5 / 7.", { keepNext: true }));
+hijos.push(...tabla([46, 10, 34, 10], ["Fuente del plazo", "Días hábiles", "Materiales", "Figura"],
+  conCot.map((g) => [g.fuente, g.plazo, rangoCods(g.cods), g.fig])));
+hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web de ningún proveedor del rubro en el AMBA (se buscaron caños y barras, bulonería, ruedas, alambre MIG, granalla, pintura en polvo, agentes extintores, válvulas, manómetros, mangueras, soportes, O-rings, tapones, impresos y matafuegos de reventa). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
 const provSin = new Map();
 sinCot.forEach((g) => { const k = g.prov; if (!provSin.has(k)) provSin.set(k, { plazos: new Set(), cods: [] }); provSin.get(k).plazos.add(g.plazo); provSin.get(k).cods.push(...g.cods); });
 hijos.push(...tabla([26, 12, 62], ["Proveedor a consultar", "Plazo usado", "Materiales"],
-  [...provSin.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), v.cods.join(", ")])));
+  [...provSin.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods)])));
 hijos.push(nota("La unidad de compra, su contenido, los días entre pedidos y cuánto entra en un lugar salen de la planilla de MP (X07, X07B); en los insumos de carros, de las unidades de entrega del proceso de carros (P07), y en los envases de recargas, de la lista de precios (Q07)."));
 hijos.push(h2("Lugares por almacén"));
 hijos.push(...tabla([50, 17, 17, 16], ["Almacén", "Lugares que ocupa el stock máximo", "Lugares que previó el proceso", "¿Alcanza?"],
@@ -272,7 +276,7 @@ capturas(["P09"]);
 // ------------------------------------------------------------------ 8. pendientes
 hijos.push(h1("8. Pendientes"));
 [
-  "Pedir el plazo de entrega a los proveedores sin cotización (tabla de la sección 5), con su rango mínimo y máximo.",
+  "Pedir el plazo de entrega, con su mínimo y máximo, a los proveedores sin plazo publicado (tabla de la sección 5), y confirmarlo a los que se tomó de otro proveedor del rubro (Vladimirsky, Astuprint, Maxipack, IndusPallets).",
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
@@ -286,6 +290,14 @@ hijos.push(h1("9. Fuentes"));
   "W1 · Sinteplast, esmalte poliuretano industrial, ficha 356 (8,75 m²/L con 40 µm): https://www.sinteplast.com.ar/admin/uploaded/fichas-tecnicas/producto-sinteplast-ficha-tecnica-356-20220223111619.pdf",
   "W2 · WEG Politherm 66 (poliéster, 1,51 g/cm³, 9,46 m²/kg a 70 µm): https://static.weg.net/medias/downloadcenter/hc5/h8d/boletin-tecnico-10007312-politherm-66-w-eco-li-blanco-66450-br-es.pdf",
   "W3 · Products Finishing (Powder Coating Institute): 95 a 98 % de aprovechamiento con recuperación: https://pfonline.com/articles/hte-powder-coatings-take-coverage-to-the-next-level",
+  "Plazos de entrega publicados (buscados el 12/10/2026):",
+  "W4 · Metapol (CABA), acero SAE 1045: stock permanente en CABA de barras y planchuelas, entrega en 24 a 72 h en el AMBA: https://metapol.com.ar/productos/sae-1045.html",
+  "W5 · Importa Fácil, importar de China a Argentina: 75 a 95 días desde la confirmación del pedido (navegación de 35 a 42 días + despacho y transporte interno): https://importa-facil.com.ar/cuanto-cuesta-importar-de-china-argentina",
+  "W6 · Espacio Industria (Munro), distribuidor industrial: envío express con entrega en CABA y GBA en 24 h; vende discos de corte de 115 × 1 mm y mechas de acero rápido: https://espacio-industria.com/",
+  "W7 · Rotolan (Lanús), etiquetas autoadhesivas en rollo: 3 a 7 días hábiles desde la aprobación del arte: https://rotolan.com.ar/etiquetas-en-rollo.html",
+  "W8 · Papelera Damián (marca SonFuertes), entregas: reparto propio a localidades limítrofes de CABA en 3 a 5 días hábiles: https://papeleradamian.com/presta/content/delivery.html",
+  "W9 · Maranz, cajas de cartón corrugado a pedido: 5 a 10 días según el largo de la caja: https://www.maranz.com.ar/",
+  "W10 · Depallet, pallets de madera: entregas en un plazo estimado de 24 a 72 horas: https://depallet.com.ar/logistica/",
 ].forEach((x) => hijos.push(vin(x)));
 
 // ------------------------------------------------------------------ documento

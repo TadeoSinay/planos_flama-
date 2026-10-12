@@ -809,37 +809,10 @@
   ]
  },
  {
-  "id": "D01",
-  "titulo": "Dimensionamiento Técnico FLAMA: recargas de la planta industrial y prueba hidráulica",
-  "tipo": "Planilla",
-  "png": "figs/D01.png",
-  "w": 1261,
-  "h": 209,
-  "medio": true,
-  "marcas": [
-   {
-    "n": 1,
-    "etiqueta": "Mercado de recargas CABA + PBA"
-   },
-   {
-    "n": 2,
-    "etiqueta": "Zonas de la planta industrial"
-   },
-   {
-    "n": 3,
-    "etiqueta": "34,2 % de las recargas"
-   },
-   {
-    "n": 4,
-    "etiqueta": "Prueba hidráulica en el 25 % de las recargas"
-   }
-  ]
- },
- {
-  "id": "D02",
+  "id": "F01",
   "titulo": "Dimensionamiento Técnico FLAMA: perfiles de estacionalidad",
   "tipo": "Planilla",
-  "png": "figs/D02.png",
+  "png": "figs/F01.png",
   "w": 1538,
   "h": 193,
   "medio": false,
@@ -859,10 +832,10 @@
   ]
  },
  {
-  "id": "D03",
+  "id": "F02",
   "titulo": "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos del año 2035 (demanda × perfil)",
   "tipo": "Planilla",
-  "png": "figs/D03.png",
+  "png": "figs/F02.png",
   "w": 1512,
   "h": 388,
   "medio": false,
@@ -874,10 +847,10 @@
   ]
  },
  {
-  "id": "D04",
+  "id": "F03",
   "titulo": "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12",
   "tipo": "Planilla",
-  "png": "figs/D04.png",
+  "png": "figs/F03.png",
   "w": 1544,
   "h": 256,
   "medio": true,
@@ -934,14 +907,18 @@
    },
    {
     "n": 2,
-    "etiqueta": "PBA Sur 1.º, 2.º y 3.er cordón"
+    "etiqueta": "PBA Sur 1.º, 2.º y 3.er cordón (zonas de la planta industrial)"
    },
    {
     "n": 3,
-    "etiqueta": "CABA (unidades nuevas)"
+    "etiqueta": "Subtotal de recargas CABA + PBA"
    },
    {
     "n": 4,
+    "etiqueta": "CABA (unidades nuevas)"
+   },
+   {
+    "n": 5,
     "etiqueta": "Subtotal de unidades nuevas"
    }
   ]
@@ -1065,7 +1042,7 @@
    },
    {
     "n": 4,
-    "etiqueta": "4 zonas de la planta industrial: 1.997.042 equipos"
+    "etiqueta": "Las 4 zonas que atiende la planta industrial"
    }
   ]
  },

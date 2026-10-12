@@ -422,21 +422,16 @@ def apilar(*ims):
     return im
 
 
-cap("D01", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial y prueba hidráulica", "Planilla",
-    lambda: planilla(DIMF, "DATOS-BASE", "A45:P50", [(1, "O46"), (2, "O47"), (3, "P47"), (4, "B50")],
-                     cols=[1, 2, 3, 14, 15, 16], anchos=[26, 9, 14, 20, 11, 8]),
-    ["Mercado de recargas CABA + PBA", "Zonas de la planta industrial", "34,2 % de las recargas",
-     "Prueba hidráulica en el 25 % de las recargas"], medio=True)
-cap("D02", "Dimensionamiento Técnico FLAMA: perfiles de estacionalidad", "Planilla",
+cap("F01", "Dimensionamiento Técnico FLAMA: perfiles de estacionalidad", "Planilla",
     lambda: planilla(DIMF, "DATOS-BASE", "A100:N104", [(1, "B102"), (2, "M103"), (3, "D104")],
                      anchos=[30] + [6] * 13),
     ["1 kg: pico de 12 % en enero y diciembre", "Manual comercial: pico de 11 % en diciembre",
      "Industrial sobre ruedas: 9 % en los meses más altos"])
-cap("D03", "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos del año 2035 (demanda × perfil)",
+cap("F02", "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos del año 2035 (demanda × perfil)",
     "Planilla",
     lambda: planilla(DIMF, "DATOS-BASE", "A107:M117", [(1, "M117")], anchos=[22] + [7] * 12),
     ["Total del mes: de ahí sale el mes pico"])
-cap("D04", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12", "Planilla",
+cap("F03", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12", "Planilla",
     lambda: planilla(DIMF, "DATOS-BASE", "A133:N153", [(1, "B135"), (2, "M135")],
                      filas=[133, 134, 135, 136, 137, 152, 153], anchos=[22] + [7] * 13),
     ["Enero = anual / 12", "Diciembre = anual / 12: sin estacionalidad"], medio=True)
@@ -445,10 +440,11 @@ cap("X01", "Proyecciones, «Indexado Dim Técnico»: demanda anual por producto 
     lambda: planilla(PROY, "Indexado Dim Técnico", "A1:K57", [(1, "A1"), (2, "A13"), (3, "A25"), (4, "A46")]),
     ["Matafuegos nuevos", "Cilindros vacíos", "Recargas (17 tipos)", "Revendidos (9 tipos)"])
 cap("X02", "Proyecciones, «Indexado Dim Técnico»: distribución por zona (% de CABA)", "Planilla",
-    lambda: planilla(PROY, "Indexado Dim Técnico", "A59:K93", [(1, "A63"), (2, "A65"), (3, "A79"), (4, "A93")],
+    lambda: planilla(PROY, "Indexado Dim Técnico", "A59:K93", [(1, "A63"), (2, "A65"), (2, "A66"), (2, "A67"),
+                                                                (3, "A75"), (4, "A79"), (5, "A93")],
                      cols=[1, 2, 11], filas=list(range(59, 76)) + list(range(77, 94))),
-    ["CABA Sur (zona de la planta industrial)", "PBA Sur 1.º, 2.º y 3.er cordón", "CABA (unidades nuevas)",
-     "Subtotal de unidades nuevas"], medio=True)
+    ["CABA Sur (zona de la planta industrial)", "PBA Sur 1.º, 2.º y 3.er cordón (zonas de la planta industrial)",
+     "Subtotal de recargas CABA + PBA", "CABA (unidades nuevas)", "Subtotal de unidades nuevas"], medio=True)
 cap("X03", "Proyecciones, «Reservas y Sustitutos»: venta de reserva, stock del pool y alta anual de sustitutos",
     "Planilla",
     lambda: planilla(PROY, "Reservas y Sustitutos", "A26:K82", [(1, "A30"), (2, "A53"), (3, "A68"), (4, "A81")],
@@ -475,7 +471,7 @@ cap("X13", "Dimensionamiento Técnico V2, Almacen PT: zonas de la planta industr
                             filas=[15, 20, 22], anchos=[46, 8, 60]),
                    planilla(DIM, "Almacen PT", "A28:B34", [(4, "B34")], anchos=[40, 14])),
     ["Un carro ocupa lo que 3 manuales", "90 matafuegos por pallet", "2 pallets por posición",
-     "4 zonas de la planta industrial: 1.997.042 equipos"])
+     "Las 4 zonas que atiende la planta industrial"])
 cap("X14", "Planilla «Materias Primas», Lineamientos: diámetro del disco de cúpula y fondo", "Planilla",
     lambda: planilla(MPRIM, "Lineamientos PlanosFicha Tecnic", "A13:K21", [(1, "G14"), (2, "G15"), (3, "H16")],
                      anchos=[7, 7, 7, 7, 7, 9, 9, 7, 7, 7, 34]),

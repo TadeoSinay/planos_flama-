@@ -233,7 +233,7 @@ con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificaci�
 
 | Hoja | Contenido |
 |---|---|
-| `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (34,2 %). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
+| `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (sus 4 zonas sobre el total de la distribución de recargas del Indexado). % de equipos usados: copia de las columnas de usados de las Proyecciones (`PROY_USADOS`). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
 | `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico y factor de pico de cada línea |
 | `MANUALES` · `RODANTES` · `RECARGAS` · `REVENDIDOS` | Arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por producto); a la derecha lo que hay que comprar por año y en el mes pico |
 | `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |

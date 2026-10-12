@@ -6,7 +6,7 @@ BOM, las planillas fuente, las cotizaciones y el propio MRP. Sólo negro y grise
 
 | Paso | Archivo | Qué hace |
 |---|---|---|
-| 1 | `capturas_mrp.py <carpeta de fuentes> <FLAMA_MRP.xlsx>` | Recorta el párrafo o la tabla citada y marca el dato en rojo → `figs/*.png` y `capturas.json`. P = proceso de manuales o carros, R = proceso de recargas, D = Dimensionamiento Técnico FLAMA, X = otras planillas, B = BOM, Q = cotización, M = hoja del MRP. Con IDs al final, rehace sólo esas |
+| 1 | `capturas_mrp.py <carpeta de fuentes> <FLAMA_MRP.xlsx>` | Recorta el párrafo o la tabla citada y marca el dato en rojo → `figs/*.png` y `capturas.json`. P = proceso de manuales o carros, R = proceso de recargas, F = Dimensionamiento Técnico FLAMA, X = otras planillas, B = BOM, Q = cotización, M = hoja del MRP. Con IDs al final, rehace sólo esas |
 | 2 | `datos_mrp.py <FLAMA_MRP.xlsx> <datos.json>` | Lee los valores del MRP ya recalculado y la justificación de cada Ref. (`FLAMA_MRP_refs.json`) y arma el contraste con los procesos → JSON |
 | 3 | `word_mrp.js <datos.json> <salida.docx>` | Word con docx-js (`npm install docx`) |
 

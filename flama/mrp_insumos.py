@@ -15,6 +15,7 @@ Hojas
   CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
   POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
   PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
+  PROY_USADOS      copia de las columnas Año, Mat Usados y RECARGAS TOT de cuatro hojas de proyección por segmento
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
@@ -55,10 +56,11 @@ POOL = {"ABC 5 kg (cubre ABC 1; 2,5 y 5 kg)": "ABC_5kg", "ABC 10 kg": "ABC_10kg"
         "AFFF 10 l": "AFFF_10l", "AFFF 50 l s/ruedas": "AFFF_50l", "BC 5 kg": "BC_5kg", "Sales K 6 l": "SALESK_6l",
         "CO₂ 5 kg (cubre CO₂ 2 y 5 kg)": "CO2_5kg", "HCFC/HFC 5 kg": "HCFC-HFC_5kg", "Clase D 9 l": "CLASED_9l",
         "ABC 50 kg s/ruedas (cubre 25 y 50 kg)": "ABC_50kg", "ABC 100 kg s/ruedas (cubre 70 y 100 kg)": "ABC_100kg"}
-# recargas de la planta industrial: Dimensionamiento Técnico FLAMA, DATOS-BASE O46 y O47 (mercado de recargas de
-# CABA + PBA y las 4 zonas de la planta industrial, igual a Dimensionamiento V2, Almacen PT B34)
-MERCADO_REC, ZONAS_PI = 5832609, 1997042
+# zonas que atiende la planta industrial (Dimensionamiento Técnico V2, Almacen PT, filas 28 a 34); su parte de las
+# recargas sale de la distribución de recargas por zona del Indexado, año por año
 ZONAS_PI_NOM = ("CABA Sur", "PBA Sur 1er", "PBA Sur 2do", "PBA Sur 3er")
+# hojas de las Proyecciones que separan las recargas de equipos usados (columnas Año, Mat Usados y RECARGAS TOT)
+HOJAS_USADOS = ("SALUD", "EDUCACION", "INDUSTRIASALM", "HOTELES")
 # perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104; recargas /12 (filas 135+)
 PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
             ("Manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
@@ -137,11 +139,11 @@ ITEMS = [
       40, "P07"),
     I("MP-12", "Hoja LAC 4,75 × 1500 × 3000 mm", "hoja", Z_CHR, "Pradecon", "Paquete de 15 hojas", 15, "MP-12", "P07",
       30, "P07"),
-    I("MP-15", "Casquete 10\" × 3,2 mm (carro 25 kg)", "u", Z_CASQ, "Importado", "Pallet de 400 u", 400, "MP-15",
+    I("MP-15", "Casquete 10\" × 3,2 mm (carro 25 kg)", "u", Z_CASQ, "Importado (China)", "Pallet de 400 u", 400, "MP-15",
       "P07", 400, "P07"),
-    I("MP-16", "Casquete 12\" × 3,2 mm (carro 50 kg)", "u", Z_CASQ, "Importado", "Pallet de 300 u", 300, "MP-16",
+    I("MP-16", "Casquete 12\" × 3,2 mm (carro 50 kg)", "u", Z_CASQ, "Importado (China)", "Pallet de 300 u", 300, "MP-16",
       "P07", 300, "P07"),
-    I("MP-17", "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)", "u", Z_CASQ, "Importado", "Pallet de 150 u", 150,
+    I("MP-17", "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)", "u", Z_CASQ, "Importado (China)", "Pallet de 150 u", 150,
       "MP-17", "P07", 150, "P07"),
     I("MP-18", "Asiento de válvula M22 × 1,5 (1 kg)", "u", Z_INM, "Eli-Met", "Caja de 1.000 u", 1000, "MP-18", "X07"),
     I("MP-19", "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)", "u", Z_INM, "Eli-Met", "Caja de 1.000 u", 1000, "MP-19",
@@ -173,9 +175,9 @@ ITEMS = [
     I("MP-25", "Gas MAG Ar + 8 % CO₂ (Arcal 21)", "m³", Z_GAS, "Air Liquide", "Batería de 11 cilindros", 115.5,
       "MP-25", "Q03"),
     I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
-    I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
-    I("MP-94", "Mecha de acero rápido 4,5 mm", "u", Z_SOL, "Ferretería industrial", "Caja de 25 u", 25, "MP-27",
+    I("MP-94", "Mecha de acero rápido 4,5 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27",
       "X07"),
     I("MP-95", "Spray antiproyecciones 400 ml", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-28", "Granalla de acero S330 / S390", "kg", Z_SOL, "CyM Materiales", "Pallet de 1.000 kg", 1000, "MP-28",
@@ -257,19 +259,33 @@ ITEMS = [
     I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT, "Fabricante nacional", "Unidad", 1, "MP-43", "X07",
       60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
-# lo que el lead time de la planilla tiene confirmado en una cotización o en un proceso
-# plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Sólo cuatro cotizaciones lo informan;
-# el resto toma el de la planilla de MP (o el proceso de carros) y queda marcado «sin cotización».
+# plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
+# después el plazo que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto
+# en el AMBA (W4 a W10, buscados el 12/10/2026). Lo que nadie publica toma el de la planilla de MP (o el proceso de
+# carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Días corridos → hábiles: × 5 / 7.
 PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
 PRAD_H = (7, 10, "Cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
 PRAD_P = (7, 10, "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
 AL = (1, 1, "Cotización Air Liquide: día + 1", "Q03")
 ELI = (25, 29, "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles", "Q03")
 MID = (1, 1, "Cotización Comercial MID: entrega inmediata", "Q04")
+METAPOL = (1, 3, "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
+           "W4")
+CHINA = (54, 68, "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
+         "W5")
+ESPACIO = (1, 1, "Web Espacio Industria (Munro), discos de corte y mechas: entrega en CABA y GBA en 24 h", "W6")
+ROTOLAN = (3, 7, "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles desde que se aprueba el arte (Astuprint "
+                 "no lo publica)", "W7")
+DAMIAN = (3, 5, "Web Papelera Damián, que vende los SonFuertes: localidades limítrofes de CABA, 3 a 5 días hábiles", "W8")
+MARANZ = (5, 10, "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)", "W9")
+DEPALLET = (1, 3, "Web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)", "W10")
 LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
           "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
           "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
-          "MP-21": ELI}
+          "MP-21": ELI, "MP-68": METAPOL, "MP-69": METAPOL, "MP-15": CHINA, "MP-16": CHINA, "MP-17": CHINA,
+          "MP-27": ESPACIO, "MP-94": ESPACIO, "MP-51": DAMIAN, "MP-97": DAMIAN, "MP-60": DEPALLET,
+          **{c: ROTOLAN for c in ("MP-80", "MP-81", "MP-88", "MP-72", "MP-82", "MP-89", "MP-90", "MP-57")},
+          **{f"MP-56/{p}": ROTOLAN for _, p, _ in MAN + ROD}, **{f"MP-59/{p}": MARANZ for _, p, _ in MAN}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
 LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",
              "MP-54/350", "MP-54/400"} | {f"MP-49/{p}" for _, p, _ in ROD}
@@ -280,8 +296,8 @@ def plazo(cod):
         return LT_COT[cod]
     lt = ITEM[cod]["lt"]
     if cod in LT_CARROS:
-        return (lt, lt, "Sin cotización: proceso de carros (de la planilla de MP)", "P06")
-    return (lt, lt, "Sin cotización: planilla de MP", "X07")
+        return (lt, lt, "Sin plazo publicado: el del proceso de carros (de la planilla de MP)", "P06")
+    return (lt, lt, "Sin plazo publicado: el de la planilla de MP", "X07")
 
 # ------------------------------------------------------------------ datos de fabricación
 CUERPO = {"ABC1": ("MP-01", 23, "P03"), "ABC2.5": ("MP-02", 27, "P02"), "ABC5": ("MP-03", 12, "P02"),
@@ -404,21 +420,6 @@ def leer_bom(ruta):
     return prods, modelos
 
 
-def usados(src):
-    """% de recargas de equipos usados = Mat Usados / RECARGAS TOT (columnas O y P) de las hojas de proyección que lo
-    traen, por año."""
-    out = []
-    for y in AÑOS:
-        u = t = 0.0
-        for hoja in ("SALUD", "EDUCACION", "INDUSTRIASALM", "HOTELES"):
-            for row in src["PROYECCION " + hoja].iter_rows(min_row=2, values_only=True):
-                if str(row[0]) == str(y):
-                    u += row[14] if isinstance(row[14], (int, float)) else 0
-                    t += row[15] if isinstance(row[15], (int, float)) else 0
-        out.append(round(u / t, 6) if t else 0)
-    return out
-
-
 def ubicar(ws):
     """Filas de las Proyecciones por sección y etiqueta."""
     sec, pos = None, {}
@@ -475,6 +476,32 @@ class Libro:
                 ws.column_dimensions[k].width = dim.width
         return ubicar(src)
 
+    def copia_usados(self):
+        """Columnas Año, Mat Usados y RECARGAS TOT (A, O y P) de las hojas de proyección que separan los equipos
+        usados, una al lado de la otra. El año se pasa a número (EDUCACION lo trae como texto)."""
+        ws = self.wb.create_sheet("PROY_USADOS")
+        self.usados = []
+        for k, h in enumerate(HOJAS_USADOS):
+            c0 = 1 + 4 * k
+            ws.cell(1, c0, "PROYECCION " + h).font = _f(True)
+            for j, t in enumerate(("Año", "Mat Usados", "RECARGAS TOT")):
+                ws.cell(2, c0 + j, t).font = _f(True)
+                ws.column_dimensions[L(c0 + j)].width = 12
+            n = 2
+            for row in self.src["PROYECCION " + h].iter_rows(min_row=2, max_col=16, values_only=True):
+                if row[0] is None:
+                    continue
+                n += 1
+                año = row[0]
+                try:
+                    año = int(str(año).strip())
+                except ValueError:
+                    pass
+                ws.cell(n, c0, año)
+                ws.cell(n, c0 + 1, row[14])
+                ws.cell(n, c0 + 2, row[15])
+            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), n))
+
     # -------- demanda
     def demanda(self):
         ws = self.wb.create_sheet("DEMANDA", 0)
@@ -512,11 +539,15 @@ class Libro:
             return r - 1
 
         # datos que usan las otras hojas
-        r_pi = fila("RECARGAS", "Parte de la planta industrial", [f"={ZONAS_PI}/{MERCADO_REC}"] * 10, "0.0%",
-                    como=f"Recargas de las 4 zonas que atiende la planta industrial ({', '.join(ZONAS_PI_NOM)}): "
-                         f"{ZONAS_PI:,} / {MERCADO_REC:,} del mercado de recargas de CABA + PBA. Las demás "
-                         "recargas son de la planta comercial (otro sitio).".replace(",", "."),
-                    figs=["D01", "X13", "R07"])
+        zr = {z: ix[(s, z)] for (s, z) in ix if s == s_dr}
+        z4 = [zr["CABA Sur"]] + [zr[k] for k in zr if k.startswith("PBA Sur")]
+        sub_r = next(zr[k] for k in zr if k.startswith("SUBTOTAL"))
+        r_pi = fila("RECARGAS", "Parte de la planta industrial", [
+            "=(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in z4) + f")/{PI}!{L(2 + j)}{sub_r}" for j in range(10)],
+            "0.0%", como="Distribución de recargas por zona del Indexado: las 4 zonas que atiende la planta industrial "
+                         "(CABA Sur y PBA Sur 1.º, 2.º y 3.er cordón, según el Dimensionamiento V2) sobre el subtotal "
+                         "CABA + PBA, año por año. Las demás recargas son de la planta comercial (otro sitio).",
+            figs=["X02", "X13"])
         self.r_pi = r_pi
         caba_u = [ix[(s_du, z)] for (s, z) in ix if s == s_du and z.startswith("CABA")]
         sub_u = next(ix[(s, z)] for (s, z) in ix if s == s_du and z.startswith("SUBTOTAL"))
@@ -524,16 +555,19 @@ class Libro:
             "=(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in caba_u) + f")/{PI}!{L(2 + j)}{sub_u}" for j in range(10)],
             "0.0%", como="Distribución de unidades nuevas del Indexado: CABA Norte, Este, Sur y Oeste sobre el "
                          "subtotal CABA + PBA. El resto va a PBA.", figs=["X02"])
-        zr = {z: ix[(s, z)] for (s, z) in ix if s == s_dr}
-        z4 = [zr["CABA Sur"]] + [zr[k] for k in zr if k.startswith("PBA Sur")]
         self.r_caba_r = fila("RECARGAS", "% de recargas de la planta industrial en CABA", [
             f"={PI}!{L(2 + j)}{z4[0]}/(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in z4) + ")" for j in range(10)],
             "0.0%", como="Distribución de recargas del Indexado en las 4 zonas de la planta industrial: CABA Sur sobre "
                          "CABA Sur + PBA Sur 1.º, 2.º y 3.er cordón. El resto va a PBA.", figs=["X02", "X13"])
-        self.r_u = fila("RECARGAS", "% de recargas de equipos usados", usados(self.src), "0.00%",
-                        como="Proyecciones: «Mat Usados» / «RECARGAS TOT» de las hojas de proyección que lo traen "
-                             "(salud, educación, industrias, hoteles). Son los que llegan accionados o sin presión.",
-                        figs=["X04"])
+        def su(j, k):
+            """Suma del año j de la columna k (1 = Mat Usados, 2 = RECARGAS TOT) de las cuatro hojas copiadas."""
+            return "+".join(f"SUMIF(PROY_USADOS!${t[0]}$3:${t[0]}${t[3]},{AÑOS[j]},PROY_USADOS!${t[k]}$3:${t[k]}${t[3]})"
+                            for t in self.usados)
+        self.r_u = fila("RECARGAS", "% de recargas de equipos usados", [
+            f"=({su(j, 1)})/({su(j, 2)})" for j in range(10)], "0.00%",
+            como="Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que "
+                 "separan los usados (salud, educación, industrias y almacenes, hoteles; copiadas en PROY_USADOS). Son "
+                 "los equipos que llegan accionados o sin presión.", figs=["X04"])
         self.u35 = f"DEMANDA!$M${self.r_u}"
         _fila(ws, r_pi, 13)
 
@@ -569,7 +603,7 @@ class Libro:
                 txt += f" + recarga anual del pool de sustitutos, Reservas fila {pool_st[c]}"
             fila("RECARGAS", f"Recarga {NOMBRE[c]}", [f"=({'+'.join(f(j) for f in base)})*$D${r_pi}"
                                                        for j in range(10)], clave=("RECARGAS", f"RK_{c}"),
-                 como=txt + ") × D01, la parte de la planta industrial.", figs=["X01", "X03", "D01"])
+                 como=txt + ") × D01, la parte de la planta industrial.", figs=["X01", "X03", "X02"])
         fila("RECARGAS", "Sustitutos nuevos (kit)", [f"={col(PX, al_tot, j)}*$D${r_pi}" for j in range(10)],
              clave=("RECARGAS", "KIT"), como=f"Reservas, total del alta anual de sustitutos (fila {al_tot}) × D01. "
              "Cada sustituto nuevo lleva su kit de identificación; el equipo se fabrica (ABC) o se compra (los demás) "
@@ -597,7 +631,7 @@ class Libro:
             rid = self.ref(f"E{k + 1:02d}", hoja="ESTACIONALIDAD", dato=nom,
                            como="Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes)."
                            if k < 3 else "Dimensionamiento Técnico FLAMA: las recargas de las dos plantas se reparten "
-                                         "parejo en los 12 meses (anual / 12).", figs=["D02"] if k < 3 else ["D04"])
+                                         "parejo en los 12 meses (anual / 12).", figs=["F01"] if k < 3 else ["F03"])
             ws.cell(r, 1, rid)
             ws.cell(r, 2, nom)
             for j, x in enumerate(v):
@@ -647,7 +681,7 @@ class Libro:
                            dato=f"Mes pico de {lin.lower()}",
                            como="El mes de mayor producción del año 2035 sumando todos los productos de la línea (como "
                                 "el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del "
-                                "mes pico / promedio mensual.", figs=["D03"])
+                                "mes pico / promedio mensual.", figs=["F02"])
             ws.cell(r, 1, rid)
             ws.cell(r, 2, lin)
             ws.cell(r, 4, f"=MATCH(MAX(C{t}:N{t}),C{t}:N{t},0)")
@@ -1141,6 +1175,7 @@ class Libro:
     def armar(self, ruta):
         self.ix = self.copia("Indexado Dim Técnico", "PROY_INDEXADO")
         self.rs = self.copia("Reservas y Sustitutos", "PROY_RESERVAS")
+        self.copia_usados()
         self.demanda()
         self.estacionalidad()
         for lin, grupo, pref in (("MANUALES", MAN, "M"), ("RODANTES", ROD, "R")):
@@ -1153,7 +1188,7 @@ class Libro:
         self.consolidado()
         self.politica()
         orden = ["DEMANDA", "ESTACIONALIDAD", "MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS", "CONSOLIDADO",
-                 "POLITICA_STOCK", "PROY_INDEXADO", "PROY_RESERVAS"]
+                 "POLITICA_STOCK", "PROY_INDEXADO", "PROY_RESERVAS", "PROY_USADOS"]
         self.wb._sheets = [self.wb[n] for n in orden]
         for ws in self.wb.worksheets:
             ws.sheet_view.zoomScale = 90
