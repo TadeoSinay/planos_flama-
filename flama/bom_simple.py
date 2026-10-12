@@ -8,7 +8,8 @@ Hojas
               mantenimiento (9.2.1, anual), recarga (9.2.2, después de cada uso) y ensayo hidrostático (9.7 y
               anexo E: cada 5 años en polvo, CO₂ y gases; cada 2 en agua, AFFF y sales de potasio)
 
-Columnas: Nivel, Código, Pieza, Cant., UM, Densidad (kg/L), Volumen (L), Masa unit. (kg), Masa total (kg).
+Columnas: Nivel, Código, Pieza, Cant., UM, Densidad (kg/L), Volumen total (L), Masa unit. (kg), Masa total (kg).
+El volumen es el de la cantidad del renglón (cantidad × volumen de una unidad), igual que la masa total.
   piezas    volumen del material = masa del modelo 3D / densidad del material
   polvos    densidad del polvo asentado en el recipiente; volumen = masa / densidad
   líquidos  la cantidad va en litros; masa = litros × densidad
@@ -29,7 +30,7 @@ from . import recipientes as RC
 from . import sustituto as SU
 from .catalogo import MODELOS
 
-CAB = ["Nivel", "Código", "Pieza", "Cant.", "UM", "Densidad (kg/L)", "Volumen (L)", "Masa unit. (kg)",
+CAB = ["Nivel", "Código", "Pieza", "Cant.", "UM", "Densidad (kg/L)", "Volumen total (L)", "Masa unit. (kg)",
        "Masa total (kg)"]
 ANCHO = [7, 19, 46, 9, 6, 11, 11, 11, 11]
 FMT = [None, None, None, "0.####", None, "0.#####", "[<0.001]0.0000;0.000", "[<0.001]0.0000;0.000",
@@ -51,9 +52,10 @@ def _corto(s):
 
 
 def _fila(niv, cod, pieza, cant, um, rho=None, vol=None, mu=None):
-    """[nivel, código, pieza, cant, um, densidad, volumen unit., masa unit., masa total]."""
+    """[nivel, código, pieza, cant, um, densidad, volumen total, masa unit., masa total]; vol es el de una unidad."""
     mt = None if mu is None or cant is None else cant * mu
-    return [niv, cod, pieza, cant, um, rho, vol, mu, mt]
+    vt = None if vol is None or cant is None else cant * vol
+    return [niv, cod, pieza, cant, um, rho, vt, mu, mt]
 
 
 def _es_insumo(r):
@@ -120,7 +122,7 @@ def estructura(m, cilindro=False):
                 out.append(_fila(2, cod, pz, cant, um_, rho, vol, mu))
         elif cod.endswith("-A2"):                             # gas impulsor
             pz, rho, _ = gas(m)
-            out.append(_fila(2, cod, pz, cant, "kg", rho, 1.0 / rho, 1.0))
+            out.append(_fila(2, cod, pz + " (L normales)", cant, "kg", rho, 1.0 / rho, 1.0))
         elif r["nivel"] >= 2 and peso and r.get("rho"):       # pieza del modelo 3D
             out.append(_fila(r["nivel"], cod, pieza, cant, um, r["rho"], peso / r["rho"], peso))
         else:
@@ -179,7 +181,7 @@ def servicios(m):
     def gas_lleno():
         if not g:
             return []
-        return [_fila(2, f"{base}-A2", g[0], round(g[2], 4), "kg", g[1], 1.0 / g[1], 1.0)]
+        return [_fila(2, f"{base}-A2", g[0] + " (L normales)", round(g[2], 4), "kg", g[1], 1.0 / g[1], 1.0)]
 
     def ident(junta=True, marbete=True):
         f = [_fila(2, f"{base}-P1", "Precinto con identificación del recargador", 1, "u"),       # 9.4.13

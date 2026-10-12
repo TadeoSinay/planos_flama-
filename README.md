@@ -178,7 +178,7 @@ mismo modelo 3D que los planos FL_MAT / FL_REC, así que código, posición, mat
 
 **`FLAMA_BOM.xlsx`** (`flama/bom_simple.py`): sólo la estructura de cada producto y sus números, en negro y grises,
 plegable con +/− (producto → subconjunto → pieza). Columnas: Nivel · Código · Pieza · Cant. · UM · Densidad (kg/L) ·
-Volumen (L) · Masa unit. (kg) · Masa total (kg). Sin insumos de proceso, embalaje ni materia prima.
+Volumen total (L) · Masa unit. (kg) · Masa total (kg). Sin insumos de proceso, embalaje ni materia prima.
 
 | Hoja | Contenido |
 |---|---|

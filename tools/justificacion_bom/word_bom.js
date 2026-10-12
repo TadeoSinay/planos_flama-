@@ -75,13 +75,13 @@ hijos.push(...tabla([30, 70], ["Control", "Resultado"], NOTAS.resumen.map((x) =>
 
 // ------------------------------------------------------------------ 1. cómo se lee
 hijos.push(h1("1. Cómo se lee el BOM"));
-hijos.push(nota("Cada renglón tiene la cantidad en su propia unidad (UM) y, cuando corresponde, la densidad, el volumen y la masa. La masa de un producto o subconjunto es la suma de la masa total de los renglones que tiene debajo; las piezas compradas sin masa declarada (manómetro, tornillos, internos de válvula) no suman.", { keepNext: true }));
-hijos.push(...tabla([18, 10, 24, 24, 24], ["Renglón", "UM", "Densidad (kg/L)", "Volumen (L)", "Masa (kg)"], [
-  ["Pieza del modelo 3D", "u", "La del material (sección 3)", "Volumen del sólido = masa ÷ densidad", "Volumen × densidad × factor de llenado"],
-  ["Polvo y agente limpio", "kg", "Asentada del agente en el recipiente", "Lo que ocupa: masa ÷ densidad", "Carga objetivo (kg)"],
-  ["Líquidos (agua, AFFF, sales K)", "L", "Del líquido", "1 L por litro", "Litros × densidad"],
-  ["CO₂", "kg", "Relación de llenado: kg de CO₂ por litro de cilindro", "Capacidad del cilindro por kg", "Carga (kg)"],
-  ["Gas impulsor", "kg", "Normal (0 °C, 101,325 kPa)", "Litros normales por kg", "Masa por cálculo de gas (sección 4)"],
+hijos.push(nota("Cada renglón tiene la cantidad en su propia unidad (UM) y, cuando corresponde, la densidad, el volumen total y la masa. El volumen y la masa total son los de la cantidad del renglón; la masa unitaria es la de una unidad (1 u, 1 kg o 1 L). La masa de un producto o subconjunto es la suma de la masa total de los renglones que tiene debajo; las piezas compradas sin masa declarada (manómetro, tornillos, internos de válvula) no suman.", { keepNext: true }));
+hijos.push(...tabla([18, 10, 24, 24, 24], ["Renglón", "UM", "Densidad (kg/L)", "Volumen total (L)", "Masa (kg)"], [
+  ["Pieza del modelo 3D", "u", "La del material (sección 3)", "Volumen del sólido (masa ÷ densidad) × cantidad", "Volumen × densidad × factor de llenado"],
+  ["Polvo y agente limpio", "kg", "Asentada del agente en el recipiente", "Lo que ocupa la carga: masa ÷ densidad", "Carga objetivo (kg)"],
+  ["Líquidos (agua, AFFF, sales K)", "L", "Del líquido", "Los litros de carga", "Litros × densidad"],
+  ["CO₂", "kg", "Relación de llenado: kg de CO₂ por litro de cilindro", "Capacidad del cilindro: carga ÷ relación de llenado", "Carga (kg)"],
+  ["Gas impulsor", "kg", "Normal (0 °C, 101,325 kPa)", "Litros normales de la carga (lo que ocuparía el gas a 0 °C y 1 atm)", "Masa por cálculo de gas (sección 4)"],
   ["Comprado armado (válvula HZ)", "u", "—", "—", "Suma de sus piezas (renglones de abajo)"],
 ]));
 
