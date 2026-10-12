@@ -6,6 +6,8 @@ Uso:  python generar.py [CODIGO ...]      (sin argumentos: todo)
       python generar.py --complementarios  (señalética, accesorios, esquemas y documentos)
       python generar.py --bom              (salida/bom/FLAMA_BOM.xlsx: BOM simple; respaldo/FLAMA_BOM_respaldo.xlsx)
       python generar.py --mrp <Proyecciones.xlsx>   (salida/mrp/MRP_MP.xlsx: MRP de materias primas 2026-2035)
+      python generar.py --mrp-insumos <Proyecciones.xlsx>   (salida/mrp/FLAMA_MRP.xlsx: MRP de insumos por línea,
+                                                            consolidado y política de stock del año 10; usa el BOM)
       python generar.py --despiece         (salida/despiece/FL_DES_*: vistas explosionadas con globos del BOM)
 Salida: salida/<CODIGO>/  (DXF con 3 láminas/presentaciones, PDF de 3 hojas, STEP, DXF 3D)
         salida/cilindros/, senaletica/, accesorios/, esquemas/, documentos/
@@ -126,6 +128,10 @@ if __name__ == "__main__":
         from flama import mrp
         os.makedirs(os.path.join(BASE, "salida", "mrp"), exist_ok=True)
         print(mrp.excel(args[1], os.path.join(BASE, "salida", "mrp", "MRP_MP.xlsx")))
+    elif len(args) == 2 and args[0] == "--mrp-insumos":
+        from flama import mrp_insumos
+        os.makedirs(os.path.join(BASE, "salida", "mrp"), exist_ok=True)
+        print(mrp_insumos.excel(args[1], os.path.join(BASE, "salida", "mrp", "FLAMA_MRP.xlsx")))
     elif args == ["--despiece"]:
         from flama import despiece
         despiece.generar(os.path.join(BASE, "salida", "despiece"))

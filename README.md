@@ -222,3 +222,27 @@ comprado». Proveedores en `flama/proveedores.py`.
 
 Subconjuntos: S1 recipiente (en los ABC = plano FL_REC) · S2 válvula · S3 descarga · S4 carro · S5 carga ·
 S6 identificación y precinto · S7 embalaje · S8 soporte · S0 equipo terminado comprado (revendidos).
+
+### MRP de insumos (`salida/mrp/FLAMA_MRP.xlsx`)
+
+`python generar.py --mrp-insumos <Proyecciones.xlsx>` (`flama/mrp_insumos.py`; necesita `salida/bom/FLAMA_BOM.xlsx`
+ya generado). Requerimiento bruto anual 2026-2035 por línea, consolidado por ítem y política de stock dimensionada para
+el año 10 (2035). Indexado como el BOM: cada dato está una sola vez en una hoja fija y las demás lo buscan por ID o
+por referencia de celda; se recalcula con LibreOffice al guardar.
+
+| Hoja | Contenido |
+|---|---|
+| `PARAMETROS` | Cada dato con ID, valor, unidad y fuente (días hábiles, merma, densidades de gas, controles por año, retoque, reposiciones, pintura, granalla...) y, por año, % de recargas de equipos usados y % del destino CABA |
+| `PROY_INDEXADO` / `PROY_RESERVAS` | Copia (valores) de «Indexado Dim Técnico» y «Reservas y Sustitutos» de las Proyecciones |
+| `DEMANDA` | Unidades por año de cada producto y línea: nuevos (+ venta de reserva), cilindros, recargas de clientes y del pool de sustitutos, alta de sustitutos, revendidos |
+| `ESTACIONALIDAD` | Perfiles mensuales del Dimensionamiento Técnico y perfil de cada línea en el año de diseño (factor de pico) |
+| `BOM_COEF` | Lo que se compra por unidad, fila por fila del FLAMA_BOM; en recargas, por servicio (control, mantenimiento, recarga, prueba hidráulica) y mezcla del año |
+| `FAB_COMPRA` | De qué materia prima sale cada pieza fabricada: cuerpos por hoja o caño, kg de fleje por disco, casquetes y cuellos comprados |
+| `PROCESO` | Insumos de proceso y embalaje por unidad, puesto por puesto (procesos de manuales y carros) |
+| `COMPRAS` | Catálogo de ítems: tipo (directo / indirecto), clase, almacén, proveedor, unidad de compra, lead time con su origen y fuente, días entre pedidos |
+| `INSUMOS_DIRECTOS_*` / `INSUMOS_INDIRECTOS_*` | MANUALES, RODANTES, RECARGAS (con los sustitutos) y REVENDIDOS: por ítem, total y una fila por producto (coeficiente × demanda × % de destino) |
+| `CONSOLIDADO_INSUMOS` | Por ítem: tipo, clase, almacén, de qué línea y hoja sale, requerimiento por año y unidades de compra |
+| `POLITICA_STOCK` | Año de diseño: consumo diario promedio y del mes pico, lead time, stock de seguridad, punto de pedido, lote en múltiplos de la unidad de compra, stock máximo, posiciones y m² por almacén |
+
+La justificación de cada valor, con las capturas de procesos, cotizaciones y planillas, está en el Word
+«Justificación_MRP» (`salida/justificacion/Justificación_MRP.docx`, armado con `tools/justificacion_mrp/`).
