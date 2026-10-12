@@ -160,29 +160,29 @@ ITEMS = [
       1, "MP-22", "P15", 60, "X07"),
     I("MP-69", "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)", "barra", Z_CANT, "Vladimirsky",
       "Barra de 6 m", 1, "MP-22", "P15", 60, "X07"),
-    I("MP-70", "Arandela de tope del eje", "u", Z_INR, "Hierros Parrotta", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
-    I("MP-71", "Pasador partido del eje", "u", Z_INR, "Hierros Parrotta", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-70", "Arandela de tope del eje", "u", Z_INR, "Würth Argentina", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
+    I("MP-71", "Pasador partido del eje", "u", Z_INR, "Würth Argentina", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
     I("MP-54/300", "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)", "u", Z_INR, "Ruedar", "Pallet de 72 u", 72, "MP-54",
       "X07"),
     I("MP-54/350", "Rueda Ø350 × 60, buje 1\" (carro 50 kg)", "u", Z_INR, "Ruedar", "Pallet de 72 u", 72, "MP-54",
       "X07"),
     I("MP-54/400", "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)", "u", Z_INR, "Escanort", "Pallet de 72 u", 72,
       "MP-54", "X07"),
-    I("MP-23", "Alambre MAG ER70S-6 Ø0,9 mm (manuales)", "kg", Z_SOL, "Conarco (ESAB)", "Pallet de 900 kg", 900,
+    I("MP-23", "Alambre MAG ER70S-6 Ø0,9 mm (manuales)", "kg", Z_SOL, "Soldanet", "Pallet de 900 kg", 900,
       "MP-23", "X07"),
-    I("MP-24", "Alambre MAG ER70S-6 Ø1,0 mm (carros)", "kg", Z_INR, "Conarco (ESAB)", "Pallet de 900 kg", 900,
+    I("MP-24", "Alambre MAG ER70S-6 Ø1,0 mm (carros)", "kg", Z_INR, "Soldanet", "Pallet de 900 kg", 900,
       "MP-24", "X07"),
     I("MP-25", "Gas MAG Ar + 8 % CO₂ (Arcal 21)", "m³", Z_GAS, "Air Liquide", "Batería de 11 cilindros", 115.5,
       "MP-25", "Q03"),
     I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27", "X07"),
-    I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-94", "Mecha de acero rápido 4,5 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27",
       "X07"),
     I("MP-95", "Spray antiproyecciones 400 ml", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-28", "Granalla de acero S330 / S390", "kg", Z_SOL, "CyM Materiales", "Pallet de 1.000 kg", 1000, "MP-28",
       "X07"),
-    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050", "kg", Z_POL, "Sinteplast", "Pallet de 600 kg", 600,
+    I("MP-31", "Pintura en polvo poliéster rojo 03-1-050", "kg", Z_POL, "Enamels (Lanús)", "Pallet de 600 kg", 600,
       "MP-31", "X07"),
     I("MP-33", "Polvo ABC 60 (manuales y sus recargas)", "kg", Z_POL, "DEMSA", "Big bag de 1.000 kg", 1000, "MP-33",
       "P06"),
@@ -210,7 +210,7 @@ ITEMS = [
     I("MP-50/M22", "Junta tórica del cuello M22", "u", Z_INM, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
     I("MP-50/M30", "Junta tórica del cuello M30", "u", Z_INM, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
     I("MP-50/2½", "Junta tórica del cuello 2½\"", "u", Z_INR, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
-    I("MP-50/OT", "Junta tórica del cuello (recargas, surtido por medida)", "u", Z_REC, "Matafuegos Iglesias",
+    I("MP-50/OT", "Junta tórica del cuello (recargas, surtido por medida)", "u", Z_REC, "Würth Argentina",
       "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
 ] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Maxiseguridad", "Caja de 100 u", 100, "MP-52", "X07")
      for _, p, n in MAN[1:]] + [
@@ -235,7 +235,7 @@ ITEMS = [
       "MP-62", "X07"),
     I("MP-62/2½", "Tapón protector de rosca 2½\"", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
-    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Astuprint", "Paquete de 500 u", 500,
+    I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Formas Visuales (Lanús)", "Paquete de 500 u", 500,
       "MP-58", "X07"),
     I("MP-57", "Marbete del año", "u", Z_REC, "Astuprint", "Paquete de 1.000 u", 1000, "MP-57", "X07"),
     I("MP-97", "Precinto del recargador", "u", Z_REC, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
@@ -256,7 +256,8 @@ ITEMS = [
     I("MP-90", "Etiqueta de pallet", "u", Z_EMB, "Astuprint", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
 ] + [I(f"MP-96/{p}", f"Servicio de pintura, carro {n[4:]} (tercerizado)", "u", Z_SERV, "Pintor de carros",
        "Unidad", 1, "MP-60", "Q09") for _, p, n in ROD] + [
-    I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT, "Fabricante nacional", "Unidad", 1, "MP-43", "X07",
+    I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT,
+      "Matafuegos Rodo" if c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg") else "Fabricante nacional", "Unidad", 1, "MP-43", "X07",
       60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
@@ -279,13 +280,30 @@ ROTOLAN = (3, 7, "Web Rotolan (Lanús), etiquetas en rollo: 3 a 7 días hábiles
 DAMIAN = (3, 5, "Web Papelera Damián, que vende los SonFuertes: localidades limítrofes de CABA, 3 a 5 días hábiles", "W8")
 MARANZ = (5, 10, "Web Maranz, cajas corrugadas a pedido: 5 a 10 días (Maxipack no lo publica)", "W9")
 DEPALLET = (1, 3, "Web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)", "W10")
+WURTH = (3, 5, "Web Würth Argentina: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles "
+               "(unos 3 en CABA y AMBA)", "W11")
+SOLDANET = (4, 5, "Web Soldanet, alambre MIG ER70S-6 de 15 kg: 4 a 5 días hábiles después de acreditado el pago", "W12")
+RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂ 3,5 y 5 kg, K 6 l y HCFC 5 kg)", "W13")
+ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
+                   "directorio antiguo", "W14")
+MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)", "W15")
+ENAMELS = (1, 1, "Web Enamels (Lanús), pintura en polvo: entrega inmediata desde su stock", "W16")
+FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h",
+          "W17")
+AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
+               "espera a un proveedor", "W18")
 LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
           "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
           "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
           "MP-21": ELI, "MP-68": METAPOL, "MP-69": METAPOL, "MP-15": CHINA, "MP-16": CHINA, "MP-17": CHINA,
           "MP-27": ESPACIO, "MP-94": ESPACIO, "MP-51": DAMIAN, "MP-97": DAMIAN, "MP-60": DEPALLET,
           **{c: ROTOLAN for c in ("MP-80", "MP-81", "MP-88", "MP-72", "MP-82", "MP-89", "MP-90", "MP-57")},
-          **{f"MP-56/{p}": ROTOLAN for _, p, _ in MAN + ROD}, **{f"MP-59/{p}": MARANZ for _, p, _ in MAN}}
+          **{f"MP-56/{p}": ROTOLAN for _, p, _ in MAN + ROD}, **{f"MP-59/{p}": MARANZ for _, p, _ in MAN},
+          **{c: WURTH for c in ("MP-86", "MP-95", "MP-93", "MP-70", "MP-71", "MP-50/OT")},
+          "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-31": ENAMELS, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
+          **{f"RV-{c}": RODO for c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg")},
+          **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
+          **{c: MAXISEG for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
 LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",
              "MP-54/350", "MP-54/400"} | {f"MP-49/{p}" for _, p, _ in ROD}

@@ -241,14 +241,25 @@ D.politica.forEach((x) => {
 const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
 const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
 const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
-hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto en el AMBA (W4 a W10, buscados el 12/10/2026). Días corridos → hábiles: × 5 / 7.", { keepNext: true }));
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto en el AMBA (W4 a W18, buscados el 12/10/2026). Días corridos → hábiles: × 5 / 7.", { keepNext: true }));
 hijos.push(...tabla([46, 10, 34, 10], ["Fuente del plazo", "Días hábiles", "Materiales", "Figura"],
   conCot.map((g) => [g.fuente, g.plazo, rangoCods(g.cods), g.fig])));
-hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web de ningún proveedor del rubro en el AMBA (se buscaron caños y barras, bulonería, ruedas, alambre MIG, granalla, pintura en polvo, agentes extintores, válvulas, manómetros, mangueras, soportes, O-rings, tapones, impresos y matafuegos de reventa). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
+hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el AMBA (se buscaron en dos rondas: sitios, preguntas frecuentes, condiciones de envío y directorios de caños, ruedas, abrasivos, granalla, esmalte, agentes extintores, válvulas, manómetros, mangueras, conjuntos de seguridad, obleas, estampillas, tapones y matafuegos de reventa). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
 const provSin = new Map();
 sinCot.forEach((g) => { const k = g.prov; if (!provSin.has(k)) provSin.set(k, { plazos: new Set(), cods: [] }); provSin.get(k).plazos.add(g.plazo); provSin.get(k).cods.push(...g.cods); });
-hijos.push(...tabla([26, 12, 62], ["Proveedor a consultar", "Plazo usado", "Materiales"],
-  [...provSin.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods)])));
+const CONTACTO = {
+  "Centrosider": "Alternativa: Hierros Torrent, 4555-6078 (vende el tubo de 1\" × 2 mm SAE 1010)",
+  "Ruedar": "4442-4752 · ventas@ruedar.com.ar", "Escanort": "4795-0943",
+  "Norton / Pferd": "Inbaco (Piñeyro), 4208-5257", "CyM Materiales": "11 3979-4111 · cymba@cym.com.ar",
+  "Sinteplast": "11 6333-7400", "DEMSA": "3489 495 000 · comercial@demsa.com.ar", "Polvex": "11 4405-3382",
+  "Polvex / DEMSA": "11 4405-3382 · comercial@demsa.com.ar", "Polvex (HZ)": "11 4405-3382",
+  "Yukon": "MatafuegosYa S.R.L. (Estomba 954), 4555-5100", "Georgia": "4585-4400 · info@georgia.com.ar",
+  "DPS (PBA)": "Ministerio de Ambiente PBA (Res. 349/07)", "IRAM": "Perú 552, CABA · extintores.iram.org.ar",
+  "A definir (inyectora)": "ACPLIND (Lerma 63, CABA), 4862-1323 · info@acplind.com",
+  "Fabricante nacional": "Georgia 4585-4400 · Melisam 4766-6100 · Mozart (Lanús) 4218-3690",
+};
+hijos.push(...tabla([20, 9, 37, 34], ["Proveedor a consultar", "Plazo usado", "Materiales", "Contacto"],
+  [...provSin.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods), CONTACTO[k] || ""])));
 hijos.push(nota("La unidad de compra, su contenido, los días entre pedidos y cuánto entra en un lugar salen de la planilla de MP (X07, X07B); en los insumos de carros, de las unidades de entrega del proceso de carros (P07), y en los envases de recargas, de la lista de precios (Q07)."));
 hijos.push(h2("Lugares por almacén"));
 hijos.push(...tabla([50, 17, 17, 16], ["Almacén", "Lugares que ocupa el stock máximo", "Lugares que previó el proceso", "¿Alcanza?"],
@@ -276,7 +287,7 @@ capturas(["P09"]);
 // ------------------------------------------------------------------ 8. pendientes
 hijos.push(h1("8. Pendientes"));
 [
-  "Pedir el plazo de entrega, con su mínimo y máximo, a los proveedores sin plazo publicado (tabla de la sección 5), y confirmarlo a los que se tomó de otro proveedor del rubro (Vladimirsky, Astuprint, Maxipack, IndusPallets).",
+  "Pedir el plazo de entrega, con su mínimo y máximo, a los proveedores sin plazo publicado (tabla de la sección 5), y confirmarlo a los que se tomó de otro proveedor del rubro (Vladimirsky, Astuprint, Maxipack, IndusPallets) o de una fuente antigua (Argensold, Maxiseguridad).",
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
@@ -298,6 +309,14 @@ hijos.push(h1("9. Fuentes"));
   "W8 · Papelera Damián (marca SonFuertes), entregas: reparto propio a localidades limítrofes de CABA en 3 a 5 días hábiles: https://papeleradamian.com/presta/content/delivery.html",
   "W9 · Maranz, cajas de cartón corrugado a pedido: 5 a 10 días según el largo de la caja: https://www.maranz.com.ar/",
   "W10 · Depallet, pallets de madera: entregas en un plazo estimado de 24 a 72 horas: https://depallet.com.ar/logistica/",
+  "W11 · Würth Argentina, envíos: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles según el destino (unos 3 en CABA y AMBA); vende arandelas DIN 125, discos flap y O-rings métricos: https://www.wurth.com.ar/contenidos/preguntas-frecuentes/tiempos-de-entrega.html",
+  "W12 · Soldanet, preguntas frecuentes: 4 a 5 días hábiles después de acreditado el pago; vende alambre MIG 70S6 de 15 kg: https://soldanet.com/preguntasfrecuentes",
+  "W13 · Matafuegos Rodo: logística para entregar en 24/48 h y envío sin cargo en CABA y GBA (ABC, CO₂ 3,5 y 5 kg, K 6 l, HCFC 5 kg): https://www.matafuegosrodo.com/",
+  "W14 · Argensold (Lomas del Mirador), O-rings: 10.000 productos en stock y entrega en 72 h a todo el país: https://www.facebook.com/people/Argensold-el-nombre-del-Oring/100091676384453/ ; 24 h según https://editores.com.ar/empresa/argensold",
+  "W15 · Maxiseguridad (Munro): entrega a domicilio a las 48 h de pedido por la web: https://www.maxiseguridad.com.ar/detalle-noticias-maxiseguridad/169/Venta-y-Recarga-de-Matafuegos-en-Forma-Online",
+  "W16 · Enamels (Lanús), pintura en polvo: entrega inmediata gracias a su stock y red de distribución en el Gran Buenos Aires: https://www.enamels.com.ar/",
+  "W17 · Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h: https://www.todolanus.com.ar/rubro/imprentas-talleres-graficos",
+  "W18 · AGC, registro de fabricantes y recargadores: la empresa genera e imprime las tarjetas identificatorias en el sistema de la AGC con la boleta pagada: https://www.buenosaires.gob.ar/tramites/registro-de-fabricacion-reparacion-recarga-instalacion-y-control-de-extintores-matafuegos-y",
 ].forEach((x) => hijos.push(vin(x)));
 
 // ------------------------------------------------------------------ documento
