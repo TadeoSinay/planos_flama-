@@ -71,7 +71,7 @@ for f in ws.iter_rows(min_row=5, values_only=True):
     if f[0] and str(f[0]).startswith("P"):
         x = REFS[f[0]]
         pol.append(dict(ref=f[0], codigo=f[1], material=f[2], um=f[3], proveedor=f[4], v35=r(f[5], 1),
-                        dprom=r(f[6], 2), dpico=r(f[7], 2), ltmin=f[8], ltmax=f[9], fuente=f[10], enlt=r(f[11], 1),
+                        dprom=r(f[6], 2), dpico=r(f[7], 2), ltmin=f[8], ltmax=f[9], fuente=x["flt"], enlt=r(f[11], 1),
                         ss=r(f[12], 1), pp=r(f[13], 1), uc=f[14], cont=f[15], t=f[16], pedido=f[17],
                         pedidos=r(f[18], 1), smax=r(f[19], 1), almacen=f[20], umpos=f[21], lugares=r(f[22], 2),
                         fig=x["flt_fig"], fuc=x["fuc"]))

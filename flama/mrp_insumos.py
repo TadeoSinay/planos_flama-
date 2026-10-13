@@ -23,6 +23,7 @@ import json
 import os
 
 from openpyxl import Workbook, load_workbook
+from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
 
@@ -350,6 +351,16 @@ FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta dig
 AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
                "espera a un proveedor", "W18")
 # link de cada fuente web del plazo: (página donde está el plazo, otra página: producto, correo o catálogo)
+# nombre corto de cada fuente web, para la columna «De dónde sale el plazo» (el texto completo va en el comentario)
+NOMBRE_FUENTE = {"W4": "Metapol (CABA)", "W5": "Importa Fácil (China)", "W6": "Espacio Industria (Munro)",
+                 "W7": "Rotolan (Lanús)", "W8": "Papelera Damián", "W9": "Sellerpack (Pompeya)", "W10": "Depallet",
+                 "W11": "Würth Argentina", "W12": "Soldanet", "W13": "Matafuegos Rodo",
+                 "W14": "Argensold (Lomas del Mirador)", "W15": "Maxiseguridad (Munro)", "W16": "RotulArte (CABA)",
+                 "W17": "Formas Visuales (Lanús)", "W18": "Trámite AGC", "W24": "Grupo Oxicas (Santa Fe)",
+                 "W25": "Vernassa (CABA)", "W26": "Matafuegos Aconcagua (J. C. Paz)", "W27": "El Galpón (Corrientes)",
+                 "W28": "AcerosYa (Sarandí)", "W29": "Morshop", "W30": "EGM Trader (Florida)", "W31": "Enamels (Lanús)",
+                 "W32": "Pinturerías Mafer", "W33": "Trámite DPS (Res. 349/07)", "W34": "IRAM (DC-PG-129)",
+                 "W35": "Martin Morris (Coronel Suárez)"}
 LINKS = {
     "W4": ("https://metapol.com.ar/productos/sae-1045.html", ""),
     "W5": ("https://importa-facil.com.ar/cuanto-cuesta-importar-de-china-argentina", ""),
@@ -1301,7 +1312,7 @@ class Libro:
                      "Cantidad por pedido (unidades de compra)", "Pedidos por año",
                      "Stock máximo: lo que hay al llegar el pedido\n(seguridad + pedido)",
                      "Almacén", "Cuánto entra en un lugar (pallet, estante o cuna)", "Lugares que ocupa el stock máximo"],
-             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 45, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
+             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 70, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
         ws.row_dimensions[4].height = 66
         r = 5
         n_ = 0
@@ -1329,9 +1340,12 @@ class Libro:
                     c.number_format = "0.0"
             links = [u for u in LINKS.get(lfig, ()) if u]
             if links:
-                c = ws.cell(r, 11, f"{lsrc}. Link: {' y '.join(links)}")
+                c = ws.cell(r, 11, ("Aproximado: " if lsrc.startswith("Aproximado") else "") +
+                            f"{NOMBRE_FUENTE.get(lfig, lsrc.split(':')[0])}: {links[0]}")
                 c.hyperlink = links[0]
                 c.font = Font(name=AR, size=10, color=NEGRO, underline="single")
+                c.comment = Comment(lsrc + (f". Otro link: {links[1]}" if len(links) > 1 else ""), "FLAMA",
+                                    height=140, width=320)
             _fila(ws, r, 23)
             self.ref(rid, hoja="POLITICA_STOCK", codigo=cod, dato=it["nom"], uc=it["uc"], fuc=it["fuc"],
                      plan=it["plan"], lt=(lmin, lmax), flt=lsrc, flt_fig=lfig, t=it["t"], umpos=it["umpos"],
