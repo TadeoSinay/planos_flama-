@@ -29,7 +29,7 @@
   "D04": {
    "hoja": "DEMANDA",
    "dato": "% de recargas de equipos usados",
-   "como": "Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). Son los equipos que llegan accionados o sin presión.",
+   "como": "Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). Supermercados, automotor y edificios no los separan: se les aplica el mismo %. Son los equipos que llegan accionados o sin presión.",
    "figs": [
     "X04"
    ]

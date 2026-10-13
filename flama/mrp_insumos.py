@@ -15,7 +15,7 @@ Hojas
   CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
   POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
   PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
-  PROY_USADOS      usados y recargas por año y mercado (suma) y debajo las filas copiadas de cuatro hojas (sin 2025)
+  PROY_USADOS      usados y recargas por año y rubro (suma) y debajo las filas copiadas de las siete hojas (sin 2025)
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
@@ -61,6 +61,8 @@ POOL = {"ABC 5 kg (cubre ABC 1; 2,5 y 5 kg)": "ABC_5kg", "ABC 10 kg": "ABC_10kg"
 ZONAS_PI_NOM = ("CABA Sur", "PBA Sur 1er", "PBA Sur 2do", "PBA Sur 3er")
 # hojas de las Proyecciones que separan las recargas de equipos usados (columnas Año, Mat Usados y RECARGAS TOT)
 HOJAS_USADOS = ("SALUD", "EDUCACION", "INDUSTRIASALM", "HOTELES")
+# hojas de proyección que no separan los usados: (hoja, columna del año, columna de recargas), base 0
+HOJAS_SIN_USADOS = (("SUPERMERCADOS", 1, 10), ("AUTOMOTOR", 0, 12), ("EDIFICIOS", 1, 10))
 # perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104; recargas /12 (filas 135+)
 PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
             ("Manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
@@ -347,6 +349,54 @@ FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta dig
           "W17")
 AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
                "espera a un proveedor", "W18")
+# link de cada fuente web del plazo: (página donde está el plazo, otra página: producto, correo o catálogo)
+LINKS = {
+    "W4": ("https://metapol.com.ar/productos/sae-1045.html", ""),
+    "W5": ("https://importa-facil.com.ar/cuanto-cuesta-importar-de-china-argentina", ""),
+    "W6": ("https://espacio-industria.com/", ""),
+    "W7": ("https://rotolan.com.ar/etiquetas-en-rollo.html", ""),
+    "W8": ("https://papeleradamian.com/presta/content/delivery.html", ""),
+    "W9": ("https://sellerpack.com.ar/industrias/construccion-industria/",
+           "https://sellerpack.com.ar/cajas/exhibidor/"),
+    "W10": ("https://depallet.com.ar/logistica/", ""),
+    "W11": ("https://www.wurth.com.ar/contenidos/preguntas-frecuentes/tiempos-de-entrega.html",
+            "https://www.wurth.com.ar/es/tienda/corte-y-taladro/discos-de-corte/disco-de-corte-premium-355x3-5x25"
+            "-4.html"),
+    "W12": ("https://soldanet.com/preguntasfrecuentes", ""),
+    "W13": ("https://www.matafuegosrodo.com/", ""),
+    "W14": ("https://www.facebook.com/people/Argensold-el-nombre-del-Oring/100091676384453/",
+            "https://editores.com.ar/empresa/argensold"),
+    "W15": ("https://www.maxiseguridad.com.ar/detalle-noticias-maxiseguridad/169/Venta-y-Recarga-de-Matafuegos-en-Forma-"
+            "Online", "https://catalogo.maxiseguridad.com.ar/index.php"),
+    "W16": ("https://rotularte.com.ar/impresion-vinilo-autoadhesivo/", ""),
+    "W17": ("https://www.todolanus.com.ar/rubro/imprentas-talleres-graficos", ""),
+    "W18": ("https://www.buenosaires.gob.ar/tramites/registro-de-fabricacion-reparacion-recarga-instalacion-y-con"
+            "trol-de-extintores-matafuegos-y",
+            ""),
+    "W24": ("https://www.grupooxicas.com/content/9-envios",
+            "https://www6.oca.com.ar/PlataformaEnvios/PreguntasFrecuentes"),
+    "W25": ("https://vernassa.com.ar/pt/producto/concentrado-espumigeno-de-baja-expansion-afff/",
+            "https://vernassa.com.ar/producto/concentrado-espumigeno-contra-incendio-afff-ar/"),
+    "W26": ("https://www.matafuegosaconcagua.com/preguntas-frecuentes/",
+            "https://www.matafuegosaconcagua.com/productos/soporte-pared-para-matafuego/"),
+    "W27": ("https://seguridad.elgalponcorrientes.com.ar/informacion/",
+            "https://www.correoargentino.com.ar/MiCorreo/public/infopaqarpymes"),
+    "W28": ("https://www.acerosya.com/preguntas_frecuentes/",
+            "https://www.acerosya.com/canos-estructurales/cano-redondo/"),
+    "W29": ("https://www.morshop.com.ar/envios-y-retiros/",
+            "https://www.morshop.com.ar/ruedas/ruedas-industriales-y-de-carga/"),
+    "W30": ("https://egmtrader.mercadoshops.com.ar/MLA-907638018-granalla-de-acero-al-carbono-esferica-varias-med"
+            "idas-x-25-kg-_JM",
+            "https://www.egmtrader.com/empresa/"),
+    "W31": ("https://www.enamels.com.ar/la-empresa/", ""),
+    "W32": ("https://www.pintureriasmafer.com.ar/terminos-y-condiciones/",
+            "https://www.pintureriasmafer.com.ar/hogar-y-obra/esmaltes-sinteticos/"),
+    "W33": ("https://www.ambiente.gba.gob.ar/sites/default/files/RESOLUCION%20349%2007.pdf", ""),
+    "W34": ("https://quesosespeciales.com/resources/img/quality/DC-PG_129_IRAM.pdf",
+            "https://sellos.iram.org.ar/manuales/Anexo_R-Proteccion_contra_Incendios.pdf"),
+    "W35": ("https://www.martinmorris.ar/shipping-policies",
+            "https://martinmorris.ar/products/tapa-o-tapon-rosca-hembra-de-1-arag-5344"),
+}
 LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
           "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
           "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
@@ -564,51 +614,75 @@ class Libro:
 
     def copia_usados(self):
         """Columnas Año, Mat Usados y RECARGAS TOT (A, O y P) de las hojas de proyección que separan los equipos
-        usados: arriba la suma por año y mercado, abajo las filas copiadas. 2025 es el año 0 de las Proyecciones
-        (sin usados ni recargas, «—») y no se copia. El año se pasa a número (EDUCACION lo trae como texto)."""
+        usados, y Año y recargas de las que no los separan (supermercados, automotor, edificios): arriba la suma por
+        año y rubro, abajo las filas copiadas. 2025 es el año 0 de las Proyecciones y no se copia. El año se pasa a
+        número (EDUCACION lo trae como texto y AUTOMOTOR como «Año N»)."""
         ws = self.wb.create_sheet("PROY_USADOS")
-        _titulo(ws, "PROYECCIONES: equipos usados y recargas por mercado")
-        ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de las hojas de proyección que separan los "
-                      "usados; debajo, las filas copiadas. 2025 es el año 0 de las Proyecciones: no tiene usados ni "
-                      "recargas («—») y no se copia.")
+        _titulo(ws, "PROYECCIONES: equipos usados y recargas por rubro")
+        ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de los rubros que separan los usados; "
+                      "supermercados, automotor y edificios no tienen esa columna (sólo nuevos y recargas): el % de "
+                      "usados se mide en los cuatro primeros y se aplica a todas las recargas. Debajo, las filas "
+                      "copiadas; 2025 es el año 0 de las Proyecciones (sin usados ni recargas, «—») y no se copia.")
+
+        def año_de(v):
+            v = str(v).strip()
+            if v.startswith("Año"):
+                v = str(2025 + int(v.split()[1]))
+            try:
+                return int(float(v))
+            except ValueError:
+                return None
+
         nombres = ("Salud", "Educación", "Industrias y almacenes", "Hoteles")
         _cab(ws, 4, ["Año"] + [f"{m}: {x}" for m in nombres for x in ("usados", "recargas")] +
-             ["Total usados", "Total recargas", "% usados"], [9] + [12] * 14)
+             ["Total usados", "Total recargas", "% usados", "Supermercados: recargas (no separa usados)",
+              "Automotor: recargas (no separa usados)", "Edificios: recargas (no separa usados)",
+              "Recargas de los 7 rubros", "Parte de las recargas con usados medidos"], [9] + [12] * 25)
+        ws.row_dimensions[4].height = 45
         r0 = 5 + len(AÑOS) + 2
-        self.usados = []
-        for k, h in enumerate(HOJAS_USADOS):
-            c0 = 1 + 4 * k
+        self.usados, sin = [], []
+        bloques = [(h, 0, 14, 15) for h in HOJAS_USADOS] + [(h, cy, None, cr) for h, cy, cr in HOJAS_SIN_USADOS]
+        c0 = 1
+        for h, cy, cu, cr in bloques:
+            tit = ("Año", "Mat Usados", "RECARGAS TOT") if cu is not None else ("Año", "RECARGAS")
             ws.cell(r0, c0, "PROYECCION " + h).font = _f(True)
-            for j, t in enumerate(("Año", "Mat Usados", "RECARGAS TOT")):
+            for j, t in enumerate(tit):
                 ws.cell(r0 + 1, c0 + j, t).font = _f(True)
             n = r0 + 1
             for row in self.src["PROYECCION " + h].iter_rows(min_row=2, max_col=16, values_only=True):
-                if row[0] is None:
-                    continue
-                año = row[0]
-                try:
-                    año = int(str(año).strip())
-                except ValueError:
-                    pass
+                año = año_de(row[cy]) if row[cy] is not None else None
                 if año not in AÑOS:
                     continue
                 n += 1
                 ws.cell(n, c0, año)
-                ws.cell(n, c0 + 1, row[14])
-                ws.cell(n, c0 + 2, row[15])
-            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, n))
+                vals = (row[cu], row[cr]) if cu is not None else (row[cr],)
+                for j, v in enumerate(vals, 1):
+                    ws.cell(n, c0 + j, v)
+            cols = [L(c0 + j) for j in range(len(tit))]
+            if cu is not None:
+                self.usados.append((cols[0], cols[1], cols[2], r0 + 2, n))
+            else:
+                sin.append((cols[0], cols[1], r0 + 2, n))
+            c0 += len(tit) + 1
+
+        def sumif(cy, cv, a, b, r):
+            return f"SUMIF(${cy}${a}:${cy}${b},$A{r},${cv}${a}:${cv}${b})"
+
         self.r_usados = {}
         for j, a in enumerate(AÑOS):
             r = 5 + j
             ws.cell(r, 1, a)
             for k, t in enumerate(self.usados):
                 for m in (1, 2):
-                    ws.cell(r, 2 * k + 1 + m, f"=SUMIF(${t[0]}${t[3]}:${t[0]}${t[4]},$A{r},"
-                                              f"${t[m]}${t[3]}:${t[m]}${t[4]})").number_format = "#,##0"
+                    ws.cell(r, 2 * k + 1 + m, "=" + sumif(t[0], t[m], t[3], t[4], r)).number_format = "#,##0"
             ws.cell(r, 10, f"=B{r}+D{r}+F{r}+H{r}").number_format = "#,##0"
             ws.cell(r, 11, f"=C{r}+E{r}+G{r}+I{r}").number_format = "#,##0"
             ws.cell(r, 12, f"=J{r}/K{r}").number_format = "0.00%"
-            _fila(ws, r, 12)
+            for k, t in enumerate(sin):
+                ws.cell(r, 13 + k, "=" + sumif(t[0], t[1], t[2], t[3], r)).number_format = "#,##0"
+            ws.cell(r, 16, f"=K{r}+M{r}+N{r}+O{r}").number_format = "#,##0"
+            ws.cell(r, 17, f"=K{r}/P{r}").number_format = "0.0%"
+            _fila(ws, r, 17)
             self.r_usados[a] = r
         ws.freeze_panes = "B5"
 
@@ -672,7 +746,8 @@ class Libro:
         self.r_u = fila("RECARGAS", "% de recargas de equipos usados", [
             f"=PROY_USADOS!$L${self.r_usados[AÑOS[j]]}" for j in range(10)], "0.00%",
             como="Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que "
-                 "separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). Son "
+                 "separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). "
+                 "Supermercados, automotor y edificios no los separan: se les aplica el mismo %. Son "
                  "los equipos que llegan accionados o sin presión.", figs=["X04"])
         self.u35 = f"DEMANDA!$M${self.r_u}"
         _fila(ws, r_pi, 13)
@@ -1226,7 +1301,7 @@ class Libro:
                      "Cantidad por pedido (unidades de compra)", "Pedidos por año",
                      "Stock máximo: lo que hay al llegar el pedido\n(seguridad + pedido)",
                      "Almacén", "Cuánto entra en un lugar (pallet, estante o cuna)", "Lugares que ocupa el stock máximo"],
-             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 30, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
+             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 45, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
         ws.row_dimensions[4].height = 66
         r = 5
         n_ = 0
@@ -1252,6 +1327,11 @@ class Libro:
                     c.number_format = "#,##0.##"
                 elif j in (19, 23):
                     c.number_format = "0.0"
+            links = [u for u in LINKS.get(lfig, ()) if u]
+            if links:
+                c = ws.cell(r, 11, f"{lsrc}. Link: {' y '.join(links)}")
+                c.hyperlink = links[0]
+                c.font = Font(name=AR, size=10, color=NEGRO, underline="single")
             _fila(ws, r, 23)
             self.ref(rid, hoja="POLITICA_STOCK", codigo=cod, dato=it["nom"], uc=it["uc"], fuc=it["fuc"],
                      plan=it["plan"], lt=(lmin, lmax), flt=lsrc, flt_fig=lfig, t=it["t"], umpos=it["umpos"],
