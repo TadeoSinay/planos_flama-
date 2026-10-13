@@ -393,10 +393,9 @@ cap("R10", "Proceso de recargas de halogenados: se recupera en circuito cerrado"
     lambda: render([zona(RECARGAS, "El agente nunca se ventea", "nitrógeno o con argón",
                          marcas=[(1, "El agente nunca se ventea"), (2, "nitrógeno o con argón")])]),
     ["El agente se recupera", "Presurización con nitrógeno o argón"], medio=True)
-cap("R11", "Proceso de recargas, pintura: esmalte poliuretano, recipiente completo", "Proceso",
-    lambda: render([zona(RECARGAS, "Esmalte poliuretano rojo", alto=16, marcas=[(1, "Esmalte poliuretano rojo")]),
-                    zona(RECARGAS, "Se optó por esta opción", alto=34, marcas=[(2, "pintar siempre completo")])]),
-    ["Esmalte poliuretano rojo", "Se pinta siempre completo"], medio=True)
+cap("R11", "Proceso de recargas, pintura: se pinta el recipiente completo", "Proceso",
+    lambda: render([zona(RECARGAS, "Se optó por esta opción", alto=34, marcas=[(1, "pintar siempre completo")])]),
+    ["Se pinta siempre completo"], medio=True)
 
 # ------------------------------------------------------------------ planillas fuente
 PROY = os.path.join(SRC, "Proyecciones.xlsx")
@@ -492,6 +491,11 @@ cap("X07", "Planilla de MP («MP Abastecimiento»): unidad de carga, lead time, 
     ["Lead time (días hábiles)", "Días entre pedidos (T)", "Stock de seguridad (días)"])
 cap("X07B", "Planilla de MP («MP Abastecimiento»): lo mismo de MP-37 a MP-65", "Planilla",
     lambda: _abas(40, 69), ["Lead time", "Días entre pedidos", "Stock de seguridad"])
+cap("X15", "Planilla de MP («MP Abastecimiento»): la pintura de retoque de recargas es esmalte sintético rojo RAL "
+    "3000", "Planilla",
+    lambda: planilla(ABAS, "MP Abastecimiento", "A4:C68", [(1, "C68")], cols=[1, 2, 3], filas=[4, 68],
+                     anchos=[7, 40, 40]),
+    ["Esmalte sintético rojo RAL 3000"])
 cap("X08", "Planilla de MP, Geometria Acero: puente entre discos, espesor de pintura, alambre y gas por recipiente",
     "Planilla",
     lambda: planilla(ABAS, "Geometria Acero", "A13:F71", [(1, "C13"), (2, "C15"), (3, "E67"), (4, "E71")],

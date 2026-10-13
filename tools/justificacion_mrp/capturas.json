@@ -791,19 +791,15 @@
  },
  {
   "id": "R11",
-  "titulo": "Proceso de recargas, pintura: esmalte poliuretano, recipiente completo",
+  "titulo": "Proceso de recargas, pintura: se pinta el recipiente completo",
   "tipo": "Proceso",
   "png": "figs/R11.png",
   "w": 940,
-  "h": 359,
+  "h": 250,
   "medio": true,
   "marcas": [
    {
     "n": 1,
-    "etiqueta": "Esmalte poliuretano rojo"
-   },
-   {
-    "n": 2,
     "etiqueta": "Se pinta siempre completo"
    }
   ]
@@ -1112,6 +1108,21 @@
    {
     "n": 3,
     "etiqueta": "Stock de seguridad"
+   }
+  ]
+ },
+ {
+  "id": "X15",
+  "titulo": "Planilla de MP («MP Abastecimiento»): la pintura de retoque de recargas es esmalte sintético rojo RAL 3000",
+  "tipo": "Planilla",
+  "png": "figs/X15.png",
+  "w": 1247,
+  "h": 89,
+  "medio": false,
+  "marcas": [
+   {
+    "n": 1,
+    "etiqueta": "Esmalte sintético rojo RAL 3000"
    }
   ]
  },

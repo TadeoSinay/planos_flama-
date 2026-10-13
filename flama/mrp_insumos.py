@@ -266,7 +266,7 @@ ITEMS = [
     I("MP-83", "Tarjeta DPS «sustituto habilitado»", "u", Z_REC, "DPS (PBA)", "Paquete de 500 u", 500, "MP-58",
       "X07"),
     I("MP-84", "Tarjeta AGC «es sustituto»", "u", Z_REC, "AGC (CABA)", "Paquete de 500 u", 500, "MP-58", "X07"),
-    I("MP-65", "Esmalte poliuretano rojo (recargas)", "L", Z_REC, "Sinteplast", "Lata de 4 L", 4, "MP-65", "X07"),
+    I("MP-65", "Esmalte sintético rojo RAL 3000 (recargas)", "L", Z_REC, "Sinteplast", "Lata de 4 L", 4, "MP-65", "X07"),
 ] + [I(f"MP-59/{p}", f"Caja de cartón {'doble' if p == 'ABC10' else 'simple'} {n}", "u", Z_EMB, "Sellerpack (Pompeya)",
        "Pallet de 600 cajas", 600, "MP-59", "X07") for _, p, n in MAN] + [
     I("MP-89", "Etiqueta de caja", "u", Z_EMB, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
@@ -330,8 +330,8 @@ EGM = (1, 1, "Aproximado: EGM Trader (Florida, PBA), importador de granalla de a
              "bag: su publicación sale con envío en el día en CABA y GBA", "W30")
 ENAMELS = (1, 1, "Aproximado: Enamels (Lanús), distribuidora de pintura en polvo: entrega inmediata por stock en el "
                  "GBA", "W31")
-MAFER = (2, 10, "Aproximado: Pinturerías Mafer, que vende Sinteplast (epoxi y poliuretano): 2 a 10 días hábiles en "
-                "CABA y GBA", "W32")
+MAFER = (2, 10, "Aproximado: Pinturerías Mafer, que vende los esmaltes sintéticos de Sinteplast: 2 a 10 días "
+                "hábiles en CABA y GBA", "W32")
 DPS_T = (1, 1, "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta "
                "al pagar el arancel (aproximado con el trámite de la AGC)", "W33")
 IRAM_T = (21, 21, "IRAM, procedimiento DC-PG-129 de las marcas de conformidad (al que remite el Anexo R de "
@@ -423,7 +423,7 @@ TAPON = {"ABC1": "MP-62/M22", "ABC70": "MP-62/2½", "ABC100": "MP-62/2½"}
 P_DESCARG, P_VACIA, P_PINTA = 0.10, 0.35, 0.15
 CAMBIO_POLVO = 0.10       # proceso de recargas: polvo a descarte cuando el año termina en el dígito de fabricación
 AFFF_CONC = 0.03          # proceso de recargas: premezcla al 3 %
-ESMALTE_REND = 8.75       # Sinteplast, esmalte poliuretano industrial (ficha 356): m² por litro con 40 µm secos
+ESMALTE_REND = 8.8        # Sinteplast Sintesmal, esmalte sintético industrial (ficha 741): m² por litro con 40 µm secos
 PINT_REND, PINT_APROV = 9.46, 0.95   # WEG Politherm 66 (poliéster): m²/kg a 70 µm; aprovechamiento con recuperación
 
 
@@ -1053,8 +1053,8 @@ class Libro:
             hoja = "Fabricados" if c.startswith("ABC") else "Revendidos"
             es[ks[c]] = f"={P_PINTA}*{self.area(hoja, 'FL_MAT_' + c):.4f}/{ESMALTE_REND}"
         fila("MP-65", es, "15 % de los equipos llegan con la pintura deteriorada (Dimensionamiento V2) y se pintan "
-             "completos con esmalte poliuretano: litros = área exterior del BOM / 8,75 m² por litro (ficha Sinteplast, "
-             "40 µm, una mano).", ["X11", "R11", "W1", "B02"])
+             "completos con esmalte sintético rojo RAL 3000 (planilla de MP): litros = área exterior del BOM / 8,8 m² "
+             "por litro (ficha Sinteplast Sintesmal, 40 µm, una mano).", ["X11", "X15", "R11", "W1", "B02"])
         k = len(REC)
         fila("MP-82", {k: 1}, "Faja amarilla del sustituto (kit del BOM).", ["B04"])
         fila("MP-83", {k: 1}, "Tarjeta de sustituto habilitado, si va a PBA (kit del BOM).", ["B04"], "PBA")

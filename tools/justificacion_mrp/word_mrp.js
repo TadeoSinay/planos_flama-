@@ -303,6 +303,7 @@ hijos.push(h1("8. Pendientes"));
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
+  "Proceso de recargas, Pintura: dice «esmalte poliuretano rojo brillante» y respirador para isocianatos; la planilla de MP pide esmalte sintético rojo RAL 3000 (X15), que es el que usa el MRP.",
   "Confirmar con HZ que las válvulas M-30 y de carro se venden sin tubo pescante (la planilla de MP lo deja en dudas: «Materiales y útiles» dice que llegan armadas); si vienen con él, se sacan MP-46 y MP-47.",
   "BOM: el caño de pesca de los carros figura en PVC; la planilla de MP lo pide de acero SAE 1010 (MP-47).",
   "Cotizar el fleje de 1,25 × 135 mm del fondo del 1 kg (disco de 112 mm) y los revendidos.",
@@ -312,7 +313,7 @@ hijos.push(h1("8. Pendientes"));
 hijos.push(h1("9. Fuentes"));
 [
   "Procesos de manuales, de carros y de recargas; Proyecciones; Dimensionamiento Técnico FLAMA y V2; FLAMA_BOM.xlsx; planilla de MP y planilla Materias Primas; cotizaciones de Pradecon, Pacheco, Comercial MID, Air Liquide, Eli-Met, lista de precios de agentes y servicio de pintura de carros.",
-  "W1 · Sinteplast, esmalte poliuretano industrial, ficha 356 (8,75 m²/L con 40 µm): https://www.sinteplast.com.ar/admin/uploaded/fichas-tecnicas/producto-sinteplast-ficha-tecnica-356-20220223111619.pdf",
+  "W1 · Sinteplast, Sintesmal, esmalte sintético industrial, ficha 741 (8,8 m²/L con 40 µm secos): https://www.sinteplast.com.ar/admin/uploaded/fichas-tecnicas/producto-sinteplast-ficha-tecnica-741-20220217112543.pdf",
   "W2 · WEG Politherm 66 (poliéster, 1,51 g/cm³, 9,46 m²/kg a 70 µm): https://static.weg.net/medias/downloadcenter/hc5/h8d/boletin-tecnico-10007312-politherm-66-w-eco-li-blanco-66450-br-es.pdf",
   "W3 · Products Finishing (Powder Coating Institute): 95 a 98 % de aprovechamiento con recuperación: https://pfonline.com/articles/hte-powder-coatings-take-coverage-to-the-next-level",
   "Plazos de entrega publicados (buscados el 12/10/2026):",
@@ -344,7 +345,7 @@ hijos.push(h1("9. Fuentes"));
   "W29 · Morshop Equipamientos, ruedas industriales y de carga (goma maciza de 300 mm para carros): https://www.morshop.com.ar/ruedas/ruedas-industriales-y-de-carga/ ; despacho a las 24 a 72 h hábiles del pago y 48 h de correo en Buenos Aires: https://www.morshop.com.ar/envios-y-retiros/",
   "W30 · EGM Trader (Francia 3520, Florida, PBA), importador de abrasivos, granalla de acero en bolsa de 25 kg y big bag de 1 t: https://www.egmtrader.com/empresa/ ; su publicación de granalla esférica de 25 kg sale con envío en el día en CABA y GBA: https://egmtrader.mercadoshops.com.ar/MLA-907638018-granalla-de-acero-al-carbono-esferica-varias-medidas-x-25-kg-_JM",
   "W31 · Enamels (Lanús), distribuidora de pintura en polvo: entrega inmediata por su stock y su red de distribución en el GBA: https://www.enamels.com.ar/la-empresa/",
-  "W32 · Pinturerías Mafer, términos y condiciones: entrega en 2 a 10 días hábiles en CABA y GBA: https://www.pintureriasmafer.com.ar/terminos-y-condiciones/ ; vende Sinteplast y la línea epoxi y poliuretano: https://www.pintureriasmafer.com.ar/hogar-y-obra/epoxi-y-poliuretano/",
+  "W32 · Pinturerías Mafer, términos y condiciones: entrega en 2 a 10 días hábiles en CABA y GBA: https://www.pintureriasmafer.com.ar/terminos-y-condiciones/ ; vende los esmaltes sintéticos de Sinteplast: https://www.pintureriasmafer.com.ar/hogar-y-obra/esmaltes-sinteticos/",
   "W33 · Resolución 349/07 (PBA): la Dirección Provincial de Control Ambiental expide tarjetas y estampillas a los representantes de las firmas inscriptas, previo pago del arancel: https://www.ambiente.gba.gob.ar/sites/default/files/RESOLUCION%20349%2007.pdf",
   "W34 · IRAM, Anexo R de sellos de protección contra incendios: los extintores certificados llevan estampillas provistas exclusivamente por el IRAM, según el DC-PG-129: https://sellos.iram.org.ar/manuales/Anexo_R-Proteccion_contra_Incendios.pdf ; DC-PG-129 (copia de la Rev. 02 publicada por un licenciatario): la estampilla se pide a IRAM con una anticipación no menor a 30 días: https://quesosespeciales.com/resources/img/quality/DC-PG_129_IRAM.pdf",
   "W35 · Martin Morris S.A. (Coronel Suárez, PBA), tapones plásticos de rosca: hembra BSP de polipropileno de ½\" a 3\" (https://martinmorris.ar/products/tapa-o-tapon-rosca-hembra-de-1-arag-5344) y macho NPT (https://www.martinmorris.ar/p/tapon-rosca-macho-marca-banjo-reforzadorosca-macho-2-pulgadas-npt-sub-1931); despacha en días hábiles y entrega en 3 a 10 días desde la guía: https://www.martinmorris.ar/shipping-policies",
