@@ -226,9 +226,11 @@ ITEMS = [
     I("MP-50/2½", "Junta tórica del cuello 2½\"", "u", Z_INR, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
     I("MP-50/OT", "Junta tórica del cuello (recargas, surtido por medida)", "u", Z_REC, "Würth Argentina",
       "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
-] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Maxiseguridad (Munro)", "Caja de 100 u", 100, "MP-52", "X07")
+] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Matafuegos Aconcagua (J. C. Paz)", "Caja de 100 u", 100,
+       "MP-52", "X07")
      for _, p, n in MAN[1:]] + [
-    I("MP-87", "Soporte vehicular (1 kg)", "u", Z_INM, "Maxiseguridad (Munro)", "Caja de 100 u", 100, "MP-52", "X07"),
+    I("MP-87", "Soporte vehicular (1 kg)", "u", Z_INM, "Matafuegos Aconcagua (J. C. Paz)", "Caja de 100 u", 100,
+      "MP-52", "X07"),
     I("MP-86", "Tornillo y tarugo de fijación", "u", Z_INM, "Würth Argentina", "Bolsa de 1.000 u", 1000, "MP-51",
       "X07"),
     I("MP-55", "Conjunto de seguridad de CO₂ (recargas)", "u", Z_REC, "Georgia", "Bolsa de 100 u", 100, "MP-55",
@@ -279,8 +281,8 @@ ITEMS = [
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
 # después el plazo que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto
-# en el AMBA (W4 a W23, buscados el 12 y 13/10/2026). Lo que nadie publica toma el de la planilla de MP (o el proceso
-# de carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Corridos → hábiles: × 5 / 7.
+# en el país, primero PBA (W4 a W26, buscados del 12 al 13/10/2026). Lo que nadie publica toma el de la planilla de MP
+# (o el proceso de carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Corridos → hábiles: × 5/7.
 PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
 PRAD_H = (7, 10, "Cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
 PRAD_P = (7, 10, "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
@@ -307,7 +309,14 @@ RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂
 ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
                    "directorio antiguo", "W14")
 MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su "
-                 "catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg", "W15")
+                 "catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg", "W15")
+OXICAS = (3, 6, "Web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de 25 kg: despacha "
+                "a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles (DEMSA no lo "
+                "publica)", "W24")
+VERNASSA = (1, 1, "Web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de 20 L: plazo de "
+                  "entrega inmediato (Polvex no lo publica)", "W25")
+ACONCAGUA = (3, 7, "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: "
+                   "3 a 7 días hábiles después de acreditado el pago", "W26")
 FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h",
           "W17")
 AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
@@ -324,7 +333,8 @@ LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "M
           "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
           **{f"RV-{c}": RODO for c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg")},
           **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
-          **{c: MAXISEG for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")},
+          **{c: ACONCAGUA for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")},
+          "MP-33": OXICAS, "MP-40": VERNASSA,
           **{f"RV-{c}": MAXISEG for c in REV_MAXI}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
 LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",

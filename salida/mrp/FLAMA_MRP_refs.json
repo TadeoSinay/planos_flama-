@@ -3644,11 +3644,11 @@
    "fuc": "P06",
    "plan": "MP-33",
    "lt": [
-    7,
-    7
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de 25 kg: despacha a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles (DEMSA no lo publica)",
+   "flt_fig": "W24",
    "t": 5,
    "umpos": 2000,
    "fpos": "X07"
@@ -3763,11 +3763,11 @@
    "fuc": "Q07",
    "plan": "MP-40",
    "lt": [
-    7,
-    7
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de 20 L: plazo de entrega inmediato (Polvex no lo publica)",
+   "flt_fig": "W25",
    "t": 60,
    "umpos": 480,
    "fpos": "X07"
@@ -4205,11 +4205,11 @@
    "fuc": "X07",
    "plan": "MP-52",
    "lt": [
-    2,
-    2
+    3,
+    7
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
-   "flt_fig": "W15",
+   "flt": "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: 3 a 7 días hábiles después de acreditado el pago",
+   "flt_fig": "W26",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -4222,11 +4222,11 @@
    "fuc": "X07",
    "plan": "MP-52",
    "lt": [
-    2,
-    2
+    3,
+    7
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
-   "flt_fig": "W15",
+   "flt": "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: 3 a 7 días hábiles después de acreditado el pago",
+   "flt_fig": "W26",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -4239,11 +4239,11 @@
    "fuc": "X07",
    "plan": "MP-52",
    "lt": [
-    2,
-    2
+    3,
+    7
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
-   "flt_fig": "W15",
+   "flt": "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: 3 a 7 días hábiles después de acreditado el pago",
+   "flt_fig": "W26",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -4256,11 +4256,11 @@
    "fuc": "X07",
    "plan": "MP-52",
    "lt": [
-    2,
-    2
+    3,
+    7
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
-   "flt_fig": "W15",
+   "flt": "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: 3 a 7 días hábiles después de acreditado el pago",
+   "flt_fig": "W26",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -4905,7 +4905,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -4922,7 +4922,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -4939,7 +4939,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 60,
@@ -4990,7 +4990,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -6518,7 +6518,7 @@
    "nom": "Soporte de pared ABC 2,5 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad (Munro)",
+   "prov": "Matafuegos Aconcagua (J. C. Paz)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6534,7 +6534,7 @@
    "nom": "Soporte de pared ABC 5 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad (Munro)",
+   "prov": "Matafuegos Aconcagua (J. C. Paz)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6550,7 +6550,7 @@
    "nom": "Soporte de pared ABC 10 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad (Munro)",
+   "prov": "Matafuegos Aconcagua (J. C. Paz)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6566,7 +6566,7 @@
    "nom": "Soporte vehicular (1 kg)",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad (Munro)",
+   "prov": "Matafuegos Aconcagua (J. C. Paz)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
