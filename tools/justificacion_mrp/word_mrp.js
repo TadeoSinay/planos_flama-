@@ -189,7 +189,7 @@ capturas(["X01", "X03", "X02", "X13", "X04"]);
 
 // ------------------------------------------------------------------ 3. estacionalidad
 hijos.push(h1("3. Estacionalidad (hoja ESTACIONALIDAD)"));
-hijos.push(nota("Como el Dimensionamiento Técnico FLAMA: producción de cada mes de 2035 = demanda del año × perfil. El mes pico es el de mayor producción de la línea. Recargas: anual / 12. Revendidos: el perfil de su tamaño."));
+hijos.push(nota("Como el Dimensionamiento Técnico FLAMA: producción de cada mes de 2035 = demanda del año × perfil. El mes pico es el de mayor producción de la línea. Recargas: anual / 12. Revendidos: el perfil de su tamaño. Para comprar, cada producto usa su propio mes pico: el AFFF 50 l sigue el perfil industrial (pico de marzo a agosto, 37 por mes) y en diciembre, pico de los revendidos, vende 33, menos que su promedio de 35; con el pico de la línea su stock de seguridad daba negativo."));
 hijos.push(...tabla([7, 27, ...Array(12).fill(5.5)], ["Ref.", "Perfil", "E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
   D.perfiles.map((x) => [x.ref, x.nombre, ...x.meses.map((v) => pc(v, 1))]), { num: [...Array(12).keys()].map((i) => i + 2) }));
 hijos.push(...tabla([8, 14, 10, 15, 15, 12, 26], ["Ref.", "Línea", "Mes pico", "Producción del mes pico", "Promedio mensual", "Factor de pico", "Control"],
@@ -243,10 +243,25 @@ D.politica.forEach((x) => {
 const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
 const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
 const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
-hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «Aproximado»: aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
-hijos.push(...tabla([46, 10, 34, 10], ["Fuente del plazo", "Días hábiles", "Materiales", "Figura"],
-  conCot.map((g) => [g.fuente, g.plazo, rangoCods(g.cods), g.fig])));
-hijos.push(nota(sinCot.length ? "Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país: usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor. Los marcados «Aproximado» se confirman con el proveedor directo:" : "Todos los materiales tienen plazo con fuente (se buscaron en seis rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío, términos y condiciones y directorios; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Los marcados «Aproximado» salen de otro vendedor del mismo producto o rubro y se confirman con el proveedor directo al cotizarle:", { keepNext: true }));
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «≈» (aproximado): aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. El detalle de cada fuente está en la sección 9 y en la columna «De dónde sale el plazo» de POLITICA_STOCK. Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
+const NOMBRE_W = { W4: "Metapol (CABA)", W5: "Importa Fácil (China)", W6: "Espacio Industria (Munro)", W7: "Rotolan (Lanús)",
+  W8: "Papelera Damián", W9: "Sellerpack (Pompeya)", W10: "Depallet", W11: "Würth Argentina", W12: "Soldanet",
+  W13: "Matafuegos Rodo", W14: "Argensold (Lomas del Mirador)", W15: "Maxiseguridad (Munro)", W16: "RotulArte (CABA)",
+  W17: "Formas Visuales (Lanús)", W18: "Trámite AGC", W24: "Grupo Oxicas (Santa Fe)", W25: "Vernassa (CABA)",
+  W26: "Matafuegos Aconcagua (J. C. Paz)", W27: "El Galpón (Corrientes)", W28: "AcerosYa (Sarandí)", W29: "Morshop",
+  W30: "EGM Trader (Florida)", W31: "Enamels (Lanús)", W32: "Pinturerías Mafer", W33: "Trámite DPS (Res. 349/07)",
+  W34: "IRAM (DC-PG-129)", W35: "Martin Morris (Coronel Suárez)" };
+const corta = (g) => (g.fuente.startsWith("Aproximado") ? "≈ " : "") +
+  (NOMBRE_W[g.fig] || g.fuente.replace(/^Aproximado:\s*/, "").split(/[:(]/)[0].trim());
+const filasLT = new Map();
+conCot.forEach((g) => {
+  const k = `${corta(g)}|${g.plazo}|${g.fig}`;
+  if (!filasLT.has(k)) filasLT.set(k, { f: corta(g), plazo: g.plazo, fig: g.fig, cods: [] });
+  filasLT.get(k).cods.push(...g.cods);
+});
+hijos.push(...tabla([30, 10, 50, 10], ["Fuente (≈ aproximado al proveedor directo)", "Días hábiles", "Materiales", "Fig."],
+  [...filasLT.values()].map((g) => [g.f, g.plazo, rangoCods(g.cods), g.fig])));
+hijos.push(nota(sinCot.length ? "Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país: usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor. Los marcados «≈» se confirman con el proveedor directo:" : "Todos los materiales tienen plazo con fuente (se buscaron en seis rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío, términos y condiciones y directorios; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Los marcados «≈» salen de otro vendedor del mismo producto o rubro y se confirman con el proveedor directo al cotizarle:", { keepNext: true }));
 const aConfirmar = new Map();
 D.politica.filter((x) => x.fuente.startsWith("Aproximado") || x.fuente.startsWith("Sin plazo")).forEach((x) => {
   const k = x.proveedor;
@@ -316,7 +331,7 @@ hijos.push(h1("9. Fuentes"));
   "W1 · Sinteplast, Sintesmal, esmalte sintético industrial, ficha 741 (8,8 m²/L con 40 µm secos): https://www.sinteplast.com.ar/admin/uploaded/fichas-tecnicas/producto-sinteplast-ficha-tecnica-741-20220217112543.pdf",
   "W2 · WEG Politherm 66 (poliéster, 1,51 g/cm³, 9,46 m²/kg a 70 µm): https://static.weg.net/medias/downloadcenter/hc5/h8d/boletin-tecnico-10007312-politherm-66-w-eco-li-blanco-66450-br-es.pdf",
   "W3 · Products Finishing (Powder Coating Institute): 95 a 98 % de aprovechamiento con recuperación: https://pfonline.com/articles/hte-powder-coatings-take-coverage-to-the-next-level",
-  "Plazos de entrega publicados (buscados el 12/10/2026):",
+  "Plazos de entrega publicados (buscados del 12 al 13/10/2026):",
   "W4 · Metapol (CABA), acero SAE 1045: stock permanente en CABA de barras y planchuelas, entrega en 24 a 72 h en el AMBA: https://metapol.com.ar/productos/sae-1045.html",
   "W5 · Importa Fácil, importar de China a Argentina: 75 a 95 días desde la confirmación del pedido (navegación de 35 a 42 días + despacho y transporte interno): https://importa-facil.com.ar/cuanto-cuesta-importar-de-china-argentina",
   "W6 · Espacio Industria (Munro), distribuidor industrial: envío express con entrega en CABA y GBA en 24 h; vende discos de corte de 115 × 1 mm y mechas de acero rápido: https://espacio-industria.com/",
@@ -349,7 +364,7 @@ hijos.push(h1("9. Fuentes"));
   "W33 · Resolución 349/07 (PBA): la Dirección Provincial de Control Ambiental expide tarjetas y estampillas a los representantes de las firmas inscriptas, previo pago del arancel: https://www.ambiente.gba.gob.ar/sites/default/files/RESOLUCION%20349%2007.pdf",
   "W34 · IRAM, Anexo R de sellos de protección contra incendios: los extintores certificados llevan estampillas provistas exclusivamente por el IRAM, según el DC-PG-129: https://sellos.iram.org.ar/manuales/Anexo_R-Proteccion_contra_Incendios.pdf ; DC-PG-129 (copia de la Rev. 02 publicada por un licenciatario): la estampilla se pide a IRAM con una anticipación no menor a 30 días: https://quesosespeciales.com/resources/img/quality/DC-PG_129_IRAM.pdf",
   "W35 · Martin Morris S.A. (Coronel Suárez, PBA), tapones plásticos de rosca: hembra BSP de polipropileno de ½\" a 3\" (https://martinmorris.ar/products/tapa-o-tapon-rosca-hembra-de-1-arag-5344) y macho NPT (https://www.martinmorris.ar/p/tapon-rosca-macho-marca-banjo-reforzadorosca-macho-2-pulgadas-npt-sub-1931); despacha en días hábiles y entrega en 3 a 10 días desde la guía: https://www.martinmorris.ar/shipping-policies",
-].forEach((x) => hijos.push(vin(x)));
+].forEach((x) => hijos.push(p([t(x, { size: 14 })], { after: 20 })));
 
 // ------------------------------------------------------------------ documento
 const faltan = D.capturas.map((c) => c.id).filter((i) => !vistas.has(i));

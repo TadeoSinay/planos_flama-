@@ -15,7 +15,7 @@ Hojas
   CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
   POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
   PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
-  PROY_USADOS      copia de las columnas Año, Mat Usados y RECARGAS TOT de cuatro hojas de proyección por segmento
+  PROY_USADOS      usados y recargas por año y mercado (suma) y debajo las filas copiadas de cuatro hojas (sin 2025)
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
@@ -564,29 +564,53 @@ class Libro:
 
     def copia_usados(self):
         """Columnas Año, Mat Usados y RECARGAS TOT (A, O y P) de las hojas de proyección que separan los equipos
-        usados, una al lado de la otra. El año se pasa a número (EDUCACION lo trae como texto)."""
+        usados: arriba la suma por año y mercado, abajo las filas copiadas. 2025 es el año 0 de las Proyecciones
+        (sin usados ni recargas, «—») y no se copia. El año se pasa a número (EDUCACION lo trae como texto)."""
         ws = self.wb.create_sheet("PROY_USADOS")
+        _titulo(ws, "PROYECCIONES: equipos usados y recargas por mercado")
+        ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de las hojas de proyección que separan los "
+                      "usados; debajo, las filas copiadas. 2025 es el año 0 de las Proyecciones: no tiene usados ni "
+                      "recargas («—») y no se copia.")
+        nombres = ("Salud", "Educación", "Industrias y almacenes", "Hoteles")
+        _cab(ws, 4, ["Año"] + [f"{m}: {x}" for m in nombres for x in ("usados", "recargas")] +
+             ["Total usados", "Total recargas", "% usados"], [9] + [12] * 14)
+        r0 = 5 + len(AÑOS) + 2
         self.usados = []
         for k, h in enumerate(HOJAS_USADOS):
             c0 = 1 + 4 * k
-            ws.cell(1, c0, "PROYECCION " + h).font = _f(True)
+            ws.cell(r0, c0, "PROYECCION " + h).font = _f(True)
             for j, t in enumerate(("Año", "Mat Usados", "RECARGAS TOT")):
-                ws.cell(2, c0 + j, t).font = _f(True)
-                ws.column_dimensions[L(c0 + j)].width = 12
-            n = 2
+                ws.cell(r0 + 1, c0 + j, t).font = _f(True)
+            n = r0 + 1
             for row in self.src["PROYECCION " + h].iter_rows(min_row=2, max_col=16, values_only=True):
                 if row[0] is None:
                     continue
-                n += 1
                 año = row[0]
                 try:
                     año = int(str(año).strip())
                 except ValueError:
                     pass
+                if año not in AÑOS:
+                    continue
+                n += 1
                 ws.cell(n, c0, año)
                 ws.cell(n, c0 + 1, row[14])
                 ws.cell(n, c0 + 2, row[15])
-            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), n))
+            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, n))
+        self.r_usados = {}
+        for j, a in enumerate(AÑOS):
+            r = 5 + j
+            ws.cell(r, 1, a)
+            for k, t in enumerate(self.usados):
+                for m in (1, 2):
+                    ws.cell(r, 2 * k + 1 + m, f"=SUMIF(${t[0]}${t[3]}:${t[0]}${t[4]},$A{r},"
+                                              f"${t[m]}${t[3]}:${t[m]}${t[4]})").number_format = "#,##0"
+            ws.cell(r, 10, f"=B{r}+D{r}+F{r}+H{r}").number_format = "#,##0"
+            ws.cell(r, 11, f"=C{r}+E{r}+G{r}+I{r}").number_format = "#,##0"
+            ws.cell(r, 12, f"=J{r}/K{r}").number_format = "0.00%"
+            _fila(ws, r, 12)
+            self.r_usados[a] = r
+        ws.freeze_panes = "B5"
 
     # -------- demanda
     def demanda(self):
@@ -645,14 +669,10 @@ class Libro:
             f"={PI}!{L(2 + j)}{z4[0]}/(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in z4) + ")" for j in range(10)],
             "0.0%", como="Distribución de recargas del Indexado en las 4 zonas de la planta industrial: CABA Sur sobre "
                          "CABA Sur + PBA Sur 1.º, 2.º y 3.er cordón. El resto va a PBA.", figs=["X02", "X13"])
-        def su(j, k):
-            """Suma del año j de la columna k (1 = Mat Usados, 2 = RECARGAS TOT) de las cuatro hojas copiadas."""
-            return "+".join(f"SUMIF(PROY_USADOS!${t[0]}$3:${t[0]}${t[3]},{AÑOS[j]},PROY_USADOS!${t[k]}$3:${t[k]}${t[3]})"
-                            for t in self.usados)
         self.r_u = fila("RECARGAS", "% de recargas de equipos usados", [
-            f"=({su(j, 1)})/({su(j, 2)})" for j in range(10)], "0.00%",
+            f"=PROY_USADOS!$L${self.r_usados[AÑOS[j]]}" for j in range(10)], "0.00%",
             como="Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que "
-                 "separan los usados (salud, educación, industrias y almacenes, hoteles; copiadas en PROY_USADOS). Son "
+                 "separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). Son "
                  "los equipos que llegan accionados o sin presión.", figs=["X04"])
         self.u35 = f"DEMANDA!$M${self.r_u}"
         _fila(ws, r_pi, 13)
@@ -726,7 +746,7 @@ class Libro:
             _fila(ws, r, 15)
             self.r_perf.append(r)
         r = 4 + len(PERFILES) + 1
-        _cab(ws, r, ["Línea", "Producto"] + MESES + ["Total", "Mes pico de la línea"])
+        _cab(ws, r, ["Línea", "Producto"] + MESES + ["Total", "Mes pico del producto"])
         ws.column_dimensions["P"].width = 12
         r += 1
         self.r_est, tot = {}, {}
@@ -767,7 +787,9 @@ class Libro:
                            dato=f"Mes pico de {lin.lower()}",
                            como="El mes de mayor producción del año 2035 sumando todos los productos de la línea (como "
                                 "el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del "
-                                "mes pico / promedio mensual.", figs=["F02"])
+                                "mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna "
+                                "P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, "
+                                "vende menos que su promedio.", figs=["F02"])
             ws.cell(r, 1, rid)
             ws.cell(r, 2, lin)
             ws.cell(r, 4, f"=MATCH(MAX(C{t}:N{t}),C{t}:N{t},0)")
@@ -780,7 +802,7 @@ class Libro:
             r += 1
         for lin in LINEAS:
             for rr in filas_lin[lin]:
-                ws.cell(rr, 16, f"=INDEX(C{rr}:N{rr},$D${self.r_pico[lin]})").number_format = "#,##0"
+                ws.cell(rr, 16, f"=MAX(C{rr}:N{rr})").number_format = "#,##0"
         ws.freeze_panes = "C4"
         _imprimir(ws, "3:3")
 
@@ -1096,7 +1118,7 @@ class Libro:
                 ws.cell(r, c0 + k, f"=DEMANDA!{L(4 + j)}{self.dem[(lin, cl)]}").number_format = "#,##0"
             _fila(ws, r, cp, "gris")
         r = 14
-        ws.cell(r, 3, "Producción del mes pico 2035")
+        ws.cell(r, 3, "Producción del mes pico de cada producto, 2035")
         for k, cl in enumerate(cols):
             if cl == "KIT":
                 ws.cell(r, c0 + k, f"=DEMANDA!M{self.dem[(lin, cl)]}/12").number_format = "#,##0"

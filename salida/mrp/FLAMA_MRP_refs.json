@@ -29,7 +29,7 @@
   "D04": {
    "hoja": "DEMANDA",
    "dato": "% de recargas de equipos usados",
-   "como": "Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que separan los usados (salud, educación, industrias y almacenes, hoteles; copiadas en PROY_USADOS). Son los equipos que llegan accionados o sin presión.",
+   "como": "Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). Son los equipos que llegan accionados o sin presión.",
    "figs": [
     "X04"
    ]
@@ -461,7 +461,7 @@
   "E05": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de manuales",
-   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
    "figs": [
     "F02"
    ]
@@ -469,7 +469,7 @@
   "E06": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de rodantes",
-   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
    "figs": [
     "F02"
    ]
@@ -477,7 +477,7 @@
   "E07": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de recargas",
-   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
    "figs": [
     "F02"
    ]
@@ -485,7 +485,7 @@
   "E08": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de revendidos",
-   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual.",
+   "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
    "figs": [
     "F02"
    ]

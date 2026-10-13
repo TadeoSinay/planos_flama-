@@ -233,12 +233,13 @@ con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificaci�
 
 | Hoja | Contenido |
 |---|---|
-| `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (sus 4 zonas sobre el total de la distribución de recargas del Indexado). % de equipos usados: copia de las columnas de usados de las Proyecciones (`PROY_USADOS`). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
+| `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (sus 4 zonas sobre el total de la distribución de recargas del Indexado). % de equipos usados: suma por año de las columnas de usados de las Proyecciones (`PROY_USADOS`). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
 | `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico y factor de pico de cada línea |
 | `MANUALES` · `RODANTES` · `RECARGAS` · `REVENDIDOS` | Arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por producto); a la derecha lo que hay que comprar por año y en el mes pico |
 | `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |
 | `POLITICA_STOCK` | Consumo por día (promedio = año / 240; mes pico / 20), plazo de entrega mínimo y máximo de las cotizaciones, consumo mientras llega el pedido, stock de seguridad, punto de pedido, cantidad por pedido en unidades de compra, stock máximo y lugares por almacén |
 | `PROY_INDEXADO` / `PROY_RESERVAS` | Copias de las hojas de las Proyecciones |
+| `PROY_USADOS` | Usados y recargas por año y mercado (salud, educación, industrias y almacenes, hoteles) y, debajo, las filas copiadas de esas hojas sin 2025 (año 0, sin datos) |
 
 De dónde sale cada valor, con las capturas de los procesos, el BOM, las planillas y las cotizaciones, está en el Word
 «Justificación_MRP» (`salida/justificacion/Justificación_MRP.docx`, armado con `tools/justificacion_mrp/`).
