@@ -845,7 +845,7 @@
   "M21": {
    "hoja": "MANUALES",
    "codigo": "MP-43",
-   "dato": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "dato": "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)",
    "um": "u",
    "dest": "",
    "como": "Cantidad por unidad del BOM.",
@@ -877,6 +877,48 @@
   },
   "M23": {
    "hoja": "MANUALES",
+   "codigo": "MP-46/ABC2.5",
+   "dato": "Tubo pescante de PVC rígido, ABC 2,5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_2.5kg": 1
+   }
+  },
+  "M24": {
+   "hoja": "MANUALES",
+   "codigo": "MP-46/ABC5",
+   "dato": "Tubo pescante de PVC rígido, ABC 5 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_5kg": 1
+   }
+  },
+  "M25": {
+   "hoja": "MANUALES",
+   "codigo": "MP-46/ABC10",
+   "dato": "Tubo pescante de PVC rígido, ABC 10 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": 1
+   }
+  },
+  "M26": {
+   "hoja": "MANUALES",
    "codigo": "MP-48/ABC1",
    "dato": "Tobera ABC 1 kg",
    "um": "u",
@@ -889,7 +931,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M24": {
+  "M27": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC2.5",
    "dato": "Manguera con tobera ABC 2,5 kg",
@@ -903,7 +945,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M25": {
+  "M28": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC5",
    "dato": "Manguera con tobera ABC 5 kg",
@@ -917,7 +959,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M26": {
+  "M29": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC10",
    "dato": "Manguera con tobera ABC 10 kg",
@@ -931,7 +973,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M27": {
+  "M30": {
    "hoja": "MANUALES",
    "codigo": "MP-50/M22",
    "dato": "Junta tórica del cuello M22",
@@ -945,7 +987,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M28": {
+  "M31": {
    "hoja": "MANUALES",
    "codigo": "MP-50/M30",
    "dato": "Junta tórica del cuello M30",
@@ -961,7 +1003,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M29": {
+  "M32": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC2.5",
    "dato": "Soporte de pared ABC 2,5 kg",
@@ -975,7 +1017,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M30": {
+  "M33": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC5",
    "dato": "Soporte de pared ABC 5 kg",
@@ -989,7 +1031,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M31": {
+  "M34": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC10",
    "dato": "Soporte de pared ABC 10 kg",
@@ -1003,7 +1045,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M32": {
+  "M35": {
    "hoja": "MANUALES",
    "codigo": "MP-87",
    "dato": "Soporte vehicular (1 kg)",
@@ -1017,7 +1059,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M33": {
+  "M36": {
    "hoja": "MANUALES",
    "codigo": "MP-86",
    "dato": "Tornillo y tarugo de fijación",
@@ -1033,7 +1075,7 @@
     "FL_MAT_ABC_10kg": 2
    }
   },
-  "M34": {
+  "M37": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC1",
    "dato": "Etiqueta de características ABC 1 kg",
@@ -1047,7 +1089,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M35": {
+  "M38": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC2.5",
    "dato": "Etiqueta de características ABC 2,5 kg",
@@ -1061,7 +1103,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M36": {
+  "M39": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC5",
    "dato": "Etiqueta de características ABC 5 kg",
@@ -1075,7 +1117,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M37": {
+  "M40": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC10",
    "dato": "Etiqueta de características ABC 10 kg",
@@ -1089,7 +1131,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M38": {
+  "M41": {
    "hoja": "MANUALES",
    "codigo": "MP-78",
    "dato": "Oblea de fabricación (PBA)",
@@ -1106,7 +1148,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M39": {
+  "M42": {
    "hoja": "MANUALES",
    "codigo": "MP-79",
    "dato": "Estampilla IRAM de conformidad",
@@ -1123,7 +1165,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M40": {
+  "M43": {
    "hoja": "MANUALES",
    "codigo": "MP-77",
    "dato": "Tarjeta de identificación AGC (CABA)",
@@ -1139,7 +1181,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M41": {
+  "M44": {
    "hoja": "MANUALES",
    "codigo": "MP-80",
    "dato": "Etiqueta de n° de serie GS1",
@@ -1156,7 +1198,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M42": {
+  "M45": {
    "hoja": "MANUALES",
    "codigo": "MP-81",
    "dato": "Faja de garantía válvula-cuello",
@@ -1173,7 +1215,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M43": {
+  "M46": {
    "hoja": "MANUALES",
    "codigo": "MP-51",
    "dato": "Precinto de fábrica",
@@ -1190,7 +1232,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M44": {
+  "M47": {
    "hoja": "MANUALES",
    "codigo": "MP-88",
    "dato": "Etiqueta del cilindro suelto",
@@ -1207,7 +1249,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M45": {
+  "M48": {
    "hoja": "MANUALES",
    "codigo": "MP-62/M22",
    "dato": "Tapón protector de rosca M22",
@@ -1221,7 +1263,7 @@
     "FL_REC_ABC_1kg": 1
    }
   },
-  "M46": {
+  "M49": {
    "hoja": "MANUALES",
    "codigo": "MP-62/M30",
    "dato": "Tapón protector de rosca M30",
@@ -1237,7 +1279,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M47": {
+  "M50": {
    "hoja": "MANUALES",
    "codigo": "MP-85",
    "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
@@ -1254,7 +1296,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M48": {
+  "M51": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC1",
    "dato": "Caja de cartón simple ABC 1 kg",
@@ -1269,7 +1311,7 @@
     "FL_REC_ABC_1kg": 1
    }
   },
-  "M49": {
+  "M52": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC2.5",
    "dato": "Caja de cartón simple ABC 2,5 kg",
@@ -1284,7 +1326,7 @@
     "FL_REC_ABC_2.5kg": 1
    }
   },
-  "M50": {
+  "M53": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC5",
    "dato": "Caja de cartón simple ABC 5 kg",
@@ -1299,7 +1341,7 @@
     "FL_REC_ABC_5kg": 1
    }
   },
-  "M51": {
+  "M54": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC10",
    "dato": "Caja de cartón doble ABC 10 kg",
@@ -1314,7 +1356,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M52": {
+  "M55": {
    "hoja": "MANUALES",
    "codigo": "MP-89",
    "dato": "Etiqueta de caja",
@@ -1335,7 +1377,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M53": {
+  "M56": {
    "hoja": "MANUALES",
    "codigo": "MP-60",
    "dato": "Pallet de madera 1200 × 1000",
@@ -1356,7 +1398,7 @@
     "FL_REC_ABC_10kg": "=1/40"
    }
   },
-  "M54": {
+  "M57": {
    "hoja": "MANUALES",
    "codigo": "MP-90",
    "dato": "Etiqueta de pallet",
@@ -1882,7 +1924,7 @@
   "R30": {
    "hoja": "RODANTES",
    "codigo": "MP-44/25",
-   "dato": "Válvula HZ de carro 25 kg",
+   "dato": "Válvula HZ de carro 25 kg, sin tubo pescante",
    "um": "u",
    "dest": "",
    "como": "Cantidad por unidad del BOM.",
@@ -1896,7 +1938,7 @@
   "R31": {
    "hoja": "RODANTES",
    "codigo": "MP-44/50",
-   "dato": "Válvula HZ de carro 50-70-100 kg",
+   "dato": "Válvula HZ de carro 50-70-100 kg, sin tubo pescante",
    "um": "u",
    "dest": "",
    "como": "Cantidad por unidad del BOM.",
@@ -1928,6 +1970,62 @@
   },
   "R33": {
    "hoja": "RODANTES",
+   "codigo": "MP-47/ABC25",
+   "dato": "Tubo pescante de acero SAE 1010, carro 25 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_25kg": 1
+   }
+  },
+  "R34": {
+   "hoja": "RODANTES",
+   "codigo": "MP-47/ABC50",
+   "dato": "Tubo pescante de acero SAE 1010, carro 50 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_50kg": 1
+   }
+  },
+  "R35": {
+   "hoja": "RODANTES",
+   "codigo": "MP-47/ABC70",
+   "dato": "Tubo pescante de acero SAE 1010, carro 70 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_70kg": 1
+   }
+  },
+  "R36": {
+   "hoja": "RODANTES",
+   "codigo": "MP-47/ABC100",
+   "dato": "Tubo pescante de acero SAE 1010, carro 100 kg",
+   "um": "u",
+   "dest": "",
+   "como": "Cantidad por unidad del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_100kg": 1
+   }
+  },
+  "R37": {
+   "hoja": "RODANTES",
    "codigo": "MP-49/ABC25",
    "dato": "Manguera con válvula esférica y tobera, carro 25 kg",
    "um": "u",
@@ -1940,7 +2038,7 @@
     "FL_MAT_ABC_25kg": 1
    }
   },
-  "R34": {
+  "R38": {
    "hoja": "RODANTES",
    "codigo": "MP-49/ABC50",
    "dato": "Manguera con válvula esférica y tobera, carro 50 kg",
@@ -1954,7 +2052,7 @@
     "FL_MAT_ABC_50kg": 1
    }
   },
-  "R35": {
+  "R39": {
    "hoja": "RODANTES",
    "codigo": "MP-49/ABC70",
    "dato": "Manguera con válvula esférica y tobera, carro 70 kg",
@@ -1968,7 +2066,7 @@
     "FL_MAT_ABC_70kg": 1
    }
   },
-  "R36": {
+  "R40": {
    "hoja": "RODANTES",
    "codigo": "MP-49/ABC100",
    "dato": "Manguera con válvula esférica y tobera, carro 100 kg",
@@ -1982,7 +2080,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R37": {
+  "R41": {
    "hoja": "RODANTES",
    "codigo": "MP-50/M30",
    "dato": "Junta tórica del cuello M30",
@@ -1997,7 +2095,7 @@
     "FL_MAT_ABC_50kg": 1
    }
   },
-  "R38": {
+  "R42": {
    "hoja": "RODANTES",
    "codigo": "MP-50/2½",
    "dato": "Junta tórica del cuello 2½\"",
@@ -2012,7 +2110,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R39": {
+  "R43": {
    "hoja": "RODANTES",
    "codigo": "MP-56/ABC25",
    "dato": "Etiqueta de características ABC 25 kg",
@@ -2026,7 +2124,7 @@
     "FL_MAT_ABC_25kg": 1
    }
   },
-  "R40": {
+  "R44": {
    "hoja": "RODANTES",
    "codigo": "MP-56/ABC50",
    "dato": "Etiqueta de características ABC 50 kg",
@@ -2040,7 +2138,7 @@
     "FL_MAT_ABC_50kg": 1
    }
   },
-  "R41": {
+  "R45": {
    "hoja": "RODANTES",
    "codigo": "MP-56/ABC70",
    "dato": "Etiqueta de características ABC 70 kg",
@@ -2054,7 +2152,7 @@
     "FL_MAT_ABC_70kg": 1
    }
   },
-  "R42": {
+  "R46": {
    "hoja": "RODANTES",
    "codigo": "MP-56/ABC100",
    "dato": "Etiqueta de características ABC 100 kg",
@@ -2068,7 +2166,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R43": {
+  "R47": {
    "hoja": "RODANTES",
    "codigo": "MP-78",
    "dato": "Oblea de fabricación (PBA)",
@@ -2085,7 +2183,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R44": {
+  "R48": {
    "hoja": "RODANTES",
    "codigo": "MP-79",
    "dato": "Estampilla IRAM de conformidad",
@@ -2102,7 +2200,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R45": {
+  "R49": {
    "hoja": "RODANTES",
    "codigo": "MP-77",
    "dato": "Tarjeta de identificación AGC (CABA)",
@@ -2119,7 +2217,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R46": {
+  "R50": {
    "hoja": "RODANTES",
    "codigo": "MP-80",
    "dato": "Etiqueta de n° de serie GS1",
@@ -2136,7 +2234,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R47": {
+  "R51": {
    "hoja": "RODANTES",
    "codigo": "MP-81",
    "dato": "Faja de garantía válvula-cuello",
@@ -2153,7 +2251,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R48": {
+  "R52": {
    "hoja": "RODANTES",
    "codigo": "MP-51",
    "dato": "Precinto de fábrica",
@@ -2170,7 +2268,7 @@
     "FL_MAT_ABC_100kg": 1
    }
   },
-  "R49": {
+  "R53": {
    "hoja": "RODANTES",
    "codigo": "MP-88",
    "dato": "Etiqueta del cilindro suelto",
@@ -2187,7 +2285,7 @@
     "FL_REC_ABC_100kg": 1
    }
   },
-  "R50": {
+  "R54": {
    "hoja": "RODANTES",
    "codigo": "MP-62/M30",
    "dato": "Tapón protector de rosca M30",
@@ -2202,7 +2300,7 @@
     "FL_REC_ABC_50kg": 1
    }
   },
-  "R51": {
+  "R55": {
    "hoja": "RODANTES",
    "codigo": "MP-62/2½",
    "dato": "Tapón protector de rosca 2½\"",
@@ -2217,7 +2315,7 @@
     "FL_REC_ABC_100kg": 1
    }
   },
-  "R52": {
+  "R56": {
    "hoja": "RODANTES",
    "codigo": "MP-60",
    "dato": "Pallet de madera 1200 × 1000",
@@ -2234,7 +2332,7 @@
     "FL_REC_ABC_100kg": "=1/6"
    }
   },
-  "R53": {
+  "R57": {
    "hoja": "RODANTES",
    "codigo": "MP-90",
    "dato": "Etiqueta de pallet",
@@ -2883,11 +2981,11 @@
    "fuc": "P01",
    "plan": "MP-01",
    "lt": [
-    1,
-    1
+    5,
+    5
    ],
-   "flt": "Cotización Comercial MID: entrega inmediata",
-   "flt_fig": "Q04",
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
    "t": 5,
    "umpos": 61,
    "fpos": "X07"
@@ -3427,11 +3525,11 @@
    "fuc": "X07",
    "plan": "MP-27",
    "lt": [
-    5,
+    3,
     5
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Würth Argentina: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles (unos 3 en CABA y AMBA)",
+   "flt_fig": "W11",
    "t": 20,
    "umpos": 250,
    "fpos": "X07"
@@ -3711,7 +3809,7 @@
   "P50": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-43",
-   "dato": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "dato": "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)",
    "uc": "Pallet de 1.500 u",
    "fuc": "X07",
    "plan": "MP-43",
@@ -3728,7 +3826,7 @@
   "P51": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-44/25",
-   "dato": "Válvula HZ de carro 25 kg",
+   "dato": "Válvula HZ de carro 25 kg, sin tubo pescante",
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-44",
@@ -3745,7 +3843,7 @@
   "P52": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-44/50",
-   "dato": "Válvula HZ de carro 50-70-100 kg",
+   "dato": "Válvula HZ de carro 50-70-100 kg, sin tubo pescante",
    "uc": "Caja de 10 u",
    "fuc": "X07",
    "plan": "MP-44",
@@ -3778,6 +3876,125 @@
   },
   "P54": {
    "hoja": "POLITICA_STOCK",
+   "codigo": "MP-46/ABC2.5",
+   "dato": "Tubo pescante de PVC rígido, ABC 2,5 kg",
+   "uc": "Caja de 200 u",
+   "fuc": "X07",
+   "plan": "MP-46",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "P55": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-46/ABC5",
+   "dato": "Tubo pescante de PVC rígido, ABC 5 kg",
+   "uc": "Caja de 200 u",
+   "fuc": "X07",
+   "plan": "MP-46",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "P56": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-46/ABC10",
+   "dato": "Tubo pescante de PVC rígido, ABC 10 kg",
+   "uc": "Caja de 200 u",
+   "fuc": "X07",
+   "plan": "MP-46",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "P57": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-47/ABC25",
+   "dato": "Tubo pescante de acero SAE 1010, carro 25 kg",
+   "uc": "Caja de 20 u",
+   "fuc": "X07",
+   "plan": "MP-47",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P58": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-47/ABC50",
+   "dato": "Tubo pescante de acero SAE 1010, carro 50 kg",
+   "uc": "Caja de 20 u",
+   "fuc": "X07",
+   "plan": "MP-47",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P59": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-47/ABC70",
+   "dato": "Tubo pescante de acero SAE 1010, carro 70 kg",
+   "uc": "Caja de 20 u",
+   "fuc": "X07",
+   "plan": "MP-47",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P60": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-47/ABC100",
+   "dato": "Tubo pescante de acero SAE 1010, carro 100 kg",
+   "uc": "Caja de 20 u",
+   "fuc": "X07",
+   "plan": "MP-47",
+   "lt": [
+    15,
+    15
+   ],
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "P61": {
+   "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC1",
    "dato": "Tobera ABC 1 kg",
    "uc": "Caja de 50 u",
@@ -3793,7 +4010,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P55": {
+  "P62": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC2.5",
    "dato": "Manguera con tobera ABC 2,5 kg",
@@ -3810,7 +4027,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P56": {
+  "P63": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC5",
    "dato": "Manguera con tobera ABC 5 kg",
@@ -3827,7 +4044,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P57": {
+  "P64": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC10",
    "dato": "Manguera con tobera ABC 10 kg",
@@ -3844,7 +4061,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P58": {
+  "P65": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC25",
    "dato": "Manguera con válvula esférica y tobera, carro 25 kg",
@@ -3861,7 +4078,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P59": {
+  "P66": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC50",
    "dato": "Manguera con válvula esférica y tobera, carro 50 kg",
@@ -3878,7 +4095,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P60": {
+  "P67": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC70",
    "dato": "Manguera con válvula esférica y tobera, carro 70 kg",
@@ -3895,7 +4112,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P61": {
+  "P68": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC100",
    "dato": "Manguera con válvula esférica y tobera, carro 100 kg",
@@ -3912,7 +4129,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P62": {
+  "P69": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/M22",
    "dato": "Junta tórica del cuello M22",
@@ -3929,7 +4146,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P63": {
+  "P70": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/M30",
    "dato": "Junta tórica del cuello M30",
@@ -3946,7 +4163,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P64": {
+  "P71": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/2½",
    "dato": "Junta tórica del cuello 2½\"",
@@ -3963,7 +4180,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P65": {
+  "P72": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/OT",
    "dato": "Junta tórica del cuello (recargas, surtido por medida)",
@@ -3980,7 +4197,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P66": {
+  "P73": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC2.5",
    "dato": "Soporte de pared ABC 2,5 kg",
@@ -3991,13 +4208,13 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P67": {
+  "P74": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC5",
    "dato": "Soporte de pared ABC 5 kg",
@@ -4008,13 +4225,13 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P68": {
+  "P75": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC10",
    "dato": "Soporte de pared ABC 10 kg",
@@ -4025,13 +4242,13 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P69": {
+  "P76": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-87",
    "dato": "Soporte vehicular (1 kg)",
@@ -4042,13 +4259,13 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P70": {
+  "P77": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-86",
    "dato": "Tornillo y tarugo de fijación",
@@ -4065,7 +4282,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P71": {
+  "P78": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-55",
    "dato": "Conjunto de seguridad de CO₂ (recargas)",
@@ -4082,7 +4299,7 @@
    "umpos": 2000,
    "fpos": "X07"
   },
-  "P72": {
+  "P79": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC1",
    "dato": "Etiqueta de características ABC 1 kg",
@@ -4099,7 +4316,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P73": {
+  "P80": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC2.5",
    "dato": "Etiqueta de características ABC 2,5 kg",
@@ -4116,7 +4333,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P74": {
+  "P81": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC5",
    "dato": "Etiqueta de características ABC 5 kg",
@@ -4133,7 +4350,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P75": {
+  "P82": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC10",
    "dato": "Etiqueta de características ABC 10 kg",
@@ -4150,7 +4367,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P76": {
+  "P83": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC25",
    "dato": "Etiqueta de características ABC 25 kg",
@@ -4167,7 +4384,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P77": {
+  "P84": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC50",
    "dato": "Etiqueta de características ABC 50 kg",
@@ -4184,7 +4401,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P78": {
+  "P85": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC70",
    "dato": "Etiqueta de características ABC 70 kg",
@@ -4201,7 +4418,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P79": {
+  "P86": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC100",
    "dato": "Etiqueta de características ABC 100 kg",
@@ -4218,7 +4435,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P80": {
+  "P87": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-78",
    "dato": "Oblea de fabricación (PBA)",
@@ -4235,7 +4452,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P81": {
+  "P88": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-79",
    "dato": "Estampilla IRAM de conformidad",
@@ -4252,7 +4469,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P82": {
+  "P89": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-77",
    "dato": "Tarjeta de identificación AGC (CABA)",
@@ -4269,7 +4486,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P83": {
+  "P90": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-80",
    "dato": "Etiqueta de n° de serie GS1",
@@ -4286,7 +4503,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P84": {
+  "P91": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-81",
    "dato": "Faja de garantía válvula-cuello",
@@ -4303,7 +4520,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P85": {
+  "P92": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-51",
    "dato": "Precinto de fábrica",
@@ -4320,7 +4537,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P86": {
+  "P93": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-88",
    "dato": "Etiqueta del cilindro suelto",
@@ -4337,7 +4554,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P87": {
+  "P94": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/M22",
    "dato": "Tapón protector de rosca M22",
@@ -4354,7 +4571,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P88": {
+  "P95": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/M30",
    "dato": "Tapón protector de rosca M30",
@@ -4371,7 +4588,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P89": {
+  "P96": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/2½",
    "dato": "Tapón protector de rosca 2½\"",
@@ -4388,7 +4605,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P90": {
+  "P97": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-85",
    "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
@@ -4405,7 +4622,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P91": {
+  "P98": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-57",
    "dato": "Marbete del año",
@@ -4422,7 +4639,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P92": {
+  "P99": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-97",
    "dato": "Precinto del recargador",
@@ -4439,7 +4656,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P93": {
+  "P100": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-72",
    "dato": "Etiqueta de servicio",
@@ -4456,7 +4673,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P94": {
+  "P101": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-75",
    "dato": "Estampilla y oblea de recarga (PBA)",
@@ -4473,7 +4690,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P95": {
+  "P102": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-76",
    "dato": "Tarjeta de identificación DPS (PBA)",
@@ -4490,7 +4707,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P96": {
+  "P103": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-82",
    "dato": "Faja amarilla de sustituto",
@@ -4507,7 +4724,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P97": {
+  "P104": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-83",
    "dato": "Tarjeta DPS «sustituto habilitado»",
@@ -4524,7 +4741,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P98": {
+  "P105": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-84",
    "dato": "Tarjeta AGC «es sustituto»",
@@ -4541,7 +4758,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P99": {
+  "P106": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-65",
    "dato": "Esmalte poliuretano rojo (recargas)",
@@ -4558,7 +4775,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P100": {
+  "P107": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC1",
    "dato": "Caja de cartón simple ABC 1 kg",
@@ -4575,7 +4792,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P101": {
+  "P108": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC2.5",
    "dato": "Caja de cartón simple ABC 2,5 kg",
@@ -4592,7 +4809,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P102": {
+  "P109": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC5",
    "dato": "Caja de cartón simple ABC 5 kg",
@@ -4609,7 +4826,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P103": {
+  "P110": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC10",
    "dato": "Caja de cartón doble ABC 10 kg",
@@ -4626,7 +4843,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P104": {
+  "P111": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-89",
    "dato": "Etiqueta de caja",
@@ -4643,7 +4860,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P105": {
+  "P112": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-60",
    "dato": "Pallet de madera 1200 × 1000",
@@ -4660,7 +4877,7 @@
    "umpos": 15,
    "fpos": "X07"
   },
-  "P106": {
+  "P113": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-90",
    "dato": "Etiqueta de pallet",
@@ -4677,7 +4894,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P107": {
+  "P114": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AGUA_10l",
    "dato": "Matafuego Agua 10 l (reventa)",
@@ -4685,16 +4902,16 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    2,
+    2
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
    "fpos": "X13"
   },
-  "P108": {
+  "P115": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AFFF_10l",
    "dato": "Matafuego AFFF 10 l (reventa)",
@@ -4702,16 +4919,16 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    2,
+    2
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
    "fpos": "X13"
   },
-  "P109": {
+  "P116": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AFFF_50l",
    "dato": "Matafuego AFFF 50 l (reventa)",
@@ -4719,16 +4936,16 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    2,
+    2
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt_fig": "W15",
    "t": 20,
    "umpos": 60,
    "fpos": "X13"
   },
-  "P110": {
+  "P117": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-BC_5kg",
    "dato": "Matafuego BC 5 kg (reventa)",
@@ -4745,7 +4962,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P111": {
+  "P118": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-SALESK_6l",
    "dato": "Matafuego Clase K 6 l (reventa)",
@@ -4762,7 +4979,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P112": {
+  "P119": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CO2_2kg",
    "dato": "Matafuego CO₂ 2 kg (reventa)",
@@ -4770,16 +4987,16 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    2,
+    2
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
    "fpos": "X13"
   },
-  "P113": {
+  "P120": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CO2_5kg",
    "dato": "Matafuego CO₂ 5 kg (reventa)",
@@ -4796,7 +5013,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P114": {
+  "P121": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-HCFC-HFC_5kg",
    "dato": "Matafuego HCFC 5 kg (reventa)",
@@ -4813,7 +5030,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P115": {
+  "P122": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CLASED_9l",
    "dato": "Matafuego Clase D 9 l (reventa)",
@@ -4857,7 +5074,7 @@
    "cy": 14,
    "cp": 24,
    "r0": 16,
-   "r1": 69
+   "r1": 72
   },
   "RODANTES": {
    "cols": [
@@ -4873,7 +5090,7 @@
    "cy": 14,
    "cp": 24,
    "r0": 16,
-   "r1": 68
+   "r1": 72
   },
   "RECARGAS": {
    "cols": [
@@ -5068,74 +5285,81 @@
   "MP-44/25": 54,
   "MP-44/50": 55,
   "MP-45": 56,
-  "MP-48/ABC1": 57,
-  "MP-48/ABC2.5": 58,
-  "MP-48/ABC5": 59,
-  "MP-48/ABC10": 60,
-  "MP-49/ABC25": 61,
-  "MP-49/ABC50": 62,
-  "MP-49/ABC70": 63,
-  "MP-49/ABC100": 64,
-  "MP-50/M22": 65,
-  "MP-50/M30": 66,
-  "MP-50/2½": 67,
-  "MP-50/OT": 68,
-  "MP-52/ABC2.5": 69,
-  "MP-52/ABC5": 70,
-  "MP-52/ABC10": 71,
-  "MP-87": 72,
-  "MP-86": 73,
-  "MP-55": 74,
-  "MP-56/ABC1": 75,
-  "MP-56/ABC2.5": 76,
-  "MP-56/ABC5": 77,
-  "MP-56/ABC10": 78,
-  "MP-56/ABC25": 79,
-  "MP-56/ABC50": 80,
-  "MP-56/ABC70": 81,
-  "MP-56/ABC100": 82,
-  "MP-78": 83,
-  "MP-79": 84,
-  "MP-77": 85,
-  "MP-80": 86,
-  "MP-81": 87,
-  "MP-51": 88,
-  "MP-88": 89,
-  "MP-62/M22": 90,
-  "MP-62/M30": 91,
-  "MP-62/2½": 92,
-  "MP-85": 93,
-  "MP-57": 94,
-  "MP-97": 95,
-  "MP-72": 96,
-  "MP-75": 97,
-  "MP-76": 98,
-  "MP-82": 99,
-  "MP-83": 100,
-  "MP-84": 101,
-  "MP-65": 102,
-  "MP-59/ABC1": 103,
-  "MP-59/ABC2.5": 104,
-  "MP-59/ABC5": 105,
-  "MP-59/ABC10": 106,
-  "MP-89": 107,
-  "MP-60": 108,
-  "MP-90": 109,
-  "MP-96/ABC25": 110,
-  "MP-96/ABC50": 111,
-  "MP-96/ABC70": 112,
-  "MP-96/ABC100": 113,
-  "RV-AGUA_10l": 114,
-  "RV-AFFF_10l": 115,
-  "RV-AFFF_50l": 116,
-  "RV-BC_5kg": 117,
-  "RV-SALESK_6l": 118,
-  "RV-CO2_2kg": 119,
-  "RV-CO2_5kg": 120,
-  "RV-HCFC-HFC_5kg": 121,
-  "RV-CLASED_9l": 122
+  "MP-46/ABC2.5": 57,
+  "MP-46/ABC5": 58,
+  "MP-46/ABC10": 59,
+  "MP-47/ABC25": 60,
+  "MP-47/ABC50": 61,
+  "MP-47/ABC70": 62,
+  "MP-47/ABC100": 63,
+  "MP-48/ABC1": 64,
+  "MP-48/ABC2.5": 65,
+  "MP-48/ABC5": 66,
+  "MP-48/ABC10": 67,
+  "MP-49/ABC25": 68,
+  "MP-49/ABC50": 69,
+  "MP-49/ABC70": 70,
+  "MP-49/ABC100": 71,
+  "MP-50/M22": 72,
+  "MP-50/M30": 73,
+  "MP-50/2½": 74,
+  "MP-50/OT": 75,
+  "MP-52/ABC2.5": 76,
+  "MP-52/ABC5": 77,
+  "MP-52/ABC10": 78,
+  "MP-87": 79,
+  "MP-86": 80,
+  "MP-55": 81,
+  "MP-56/ABC1": 82,
+  "MP-56/ABC2.5": 83,
+  "MP-56/ABC5": 84,
+  "MP-56/ABC10": 85,
+  "MP-56/ABC25": 86,
+  "MP-56/ABC50": 87,
+  "MP-56/ABC70": 88,
+  "MP-56/ABC100": 89,
+  "MP-78": 90,
+  "MP-79": 91,
+  "MP-77": 92,
+  "MP-80": 93,
+  "MP-81": 94,
+  "MP-51": 95,
+  "MP-88": 96,
+  "MP-62/M22": 97,
+  "MP-62/M30": 98,
+  "MP-62/2½": 99,
+  "MP-85": 100,
+  "MP-57": 101,
+  "MP-97": 102,
+  "MP-72": 103,
+  "MP-75": 104,
+  "MP-76": 105,
+  "MP-82": 106,
+  "MP-83": 107,
+  "MP-84": 108,
+  "MP-65": 109,
+  "MP-59/ABC1": 110,
+  "MP-59/ABC2.5": 111,
+  "MP-59/ABC5": 112,
+  "MP-59/ABC10": 113,
+  "MP-89": 114,
+  "MP-60": 115,
+  "MP-90": 116,
+  "MP-96/ABC25": 117,
+  "MP-96/ABC50": 118,
+  "MP-96/ABC70": 119,
+  "MP-96/ABC100": 120,
+  "RV-AGUA_10l": 121,
+  "RV-AFFF_10l": 122,
+  "RV-AFFF_50l": 123,
+  "RV-BC_5kg": 124,
+  "RV-SALESK_6l": 125,
+  "RV-CO2_2kg": 126,
+  "RV-CO2_5kg": 127,
+  "RV-HCFC-HFC_5kg": 128,
+  "RV-CLASED_9l": 129
  },
- "alm0": 123,
+ "alm0": 130,
  "items": {
   "MP-01": {
    "cod": "MP-01",
@@ -5654,7 +5878,7 @@
    "nom": "Disco de sensitiva 355 mm",
    "um": "u",
    "alm": "Insumos de soldadura y superficie",
-   "prov": "Norton / Pferd",
+   "prov": "Würth Argentina",
    "uc": "Caja de 25 u",
    "cont": 25,
    "plan": "MP-27",
@@ -5923,7 +6147,7 @@
   },
   "MP-43": {
    "cod": "MP-43",
-   "nom": "Válvula HZ M-30 con resorte (2,5 a 10 kg)",
+   "nom": "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
    "prov": "Polvex (HZ)",
@@ -5939,7 +6163,7 @@
   },
   "MP-44/25": {
    "cod": "MP-44/25",
-   "nom": "Válvula HZ de carro 25 kg",
+   "nom": "Válvula HZ de carro 25 kg, sin tubo pescante",
    "um": "u",
    "alm": "Rack de insumos de montaje (carros)",
    "prov": "Polvex (HZ)",
@@ -5955,7 +6179,7 @@
   },
   "MP-44/50": {
    "cod": "MP-44/50",
-   "nom": "Válvula HZ de carro 50-70-100 kg",
+   "nom": "Válvula HZ de carro 50-70-100 kg, sin tubo pescante",
    "um": "u",
    "alm": "Rack de insumos de montaje (carros)",
    "prov": "Polvex (HZ)",
@@ -5983,6 +6207,118 @@
    "t": 20,
    "ss": 15,
    "umpos": 3000,
+   "fpos": "X07"
+  },
+  "MP-46/ABC2.5": {
+   "cod": "MP-46/ABC2.5",
+   "nom": "Tubo pescante de PVC rígido, ABC 2,5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá",
+   "uc": "Caja de 200 u",
+   "cont": 200,
+   "plan": "MP-46",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "MP-46/ABC5": {
+   "cod": "MP-46/ABC5",
+   "nom": "Tubo pescante de PVC rígido, ABC 5 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá",
+   "uc": "Caja de 200 u",
+   "cont": 200,
+   "plan": "MP-46",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "MP-46/ABC10": {
+   "cod": "MP-46/ABC10",
+   "nom": "Tubo pescante de PVC rígido, ABC 10 kg",
+   "um": "u",
+   "alm": "Insumos de montaje (manuales)",
+   "prov": "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá",
+   "uc": "Caja de 200 u",
+   "cont": 200,
+   "plan": "MP-46",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 6000,
+   "fpos": "X07"
+  },
+  "MP-47/ABC25": {
+   "cod": "MP-47/ABC25",
+   "nom": "Tubo pescante de acero SAE 1010, carro 25 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)",
+   "uc": "Caja de 20 u",
+   "cont": 20,
+   "plan": "MP-47",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-47/ABC50": {
+   "cod": "MP-47/ABC50",
+   "nom": "Tubo pescante de acero SAE 1010, carro 50 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)",
+   "uc": "Caja de 20 u",
+   "cont": 20,
+   "plan": "MP-47",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-47/ABC70": {
+   "cod": "MP-47/ABC70",
+   "nom": "Tubo pescante de acero SAE 1010, carro 70 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)",
+   "uc": "Caja de 20 u",
+   "cont": 20,
+   "plan": "MP-47",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
+   "fpos": "X07"
+  },
+  "MP-47/ABC100": {
+   "cod": "MP-47/ABC100",
+   "nom": "Tubo pescante de acero SAE 1010, carro 100 kg",
+   "um": "u",
+   "alm": "Rack de insumos de montaje (carros)",
+   "prov": "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)",
+   "uc": "Caja de 20 u",
+   "cont": 20,
+   "plan": "MP-47",
+   "fuc": "X07",
+   "lt": 15,
+   "t": 20,
+   "ss": 10,
+   "umpos": 200,
    "fpos": "X07"
   },
   "MP-48/ABC1": {
@@ -6182,7 +6518,7 @@
    "nom": "Soporte de pared ABC 2,5 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6198,7 +6534,7 @@
    "nom": "Soporte de pared ABC 5 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6214,7 +6550,7 @@
    "nom": "Soporte de pared ABC 10 kg",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6230,7 +6566,7 @@
    "nom": "Soporte vehicular (1 kg)",
    "um": "u",
    "alm": "Insumos de montaje (manuales)",
-   "prov": "Maxiseguridad",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Caja de 100 u",
    "cont": 100,
    "plan": "MP-52",
@@ -6902,7 +7238,7 @@
    "nom": "Matafuego Agua 10 l (reventa)",
    "um": "u",
    "alm": "Almacén de producto terminado",
-   "prov": "Fabricante nacional",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Unidad",
    "cont": 1,
    "plan": "MP-43",
@@ -6918,7 +7254,7 @@
    "nom": "Matafuego AFFF 10 l (reventa)",
    "um": "u",
    "alm": "Almacén de producto terminado",
-   "prov": "Fabricante nacional",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Unidad",
    "cont": 1,
    "plan": "MP-43",
@@ -6934,7 +7270,7 @@
    "nom": "Matafuego AFFF 50 l (reventa)",
    "um": "u",
    "alm": "Almacén de producto terminado",
-   "prov": "Fabricante nacional",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Unidad",
    "cont": 1,
    "plan": "MP-43",
@@ -6982,7 +7318,7 @@
    "nom": "Matafuego CO₂ 2 kg (reventa)",
    "um": "u",
    "alm": "Almacén de producto terminado",
-   "prov": "Fabricante nacional",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Unidad",
    "cont": 1,
    "plan": "MP-43",

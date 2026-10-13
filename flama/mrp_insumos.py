@@ -90,6 +90,7 @@ PLAN = {"MP-01": (5, 5, 5, 61), "MP-02": (10, 20, 10, 136), "MP-03": (10, 20, 10
         "MP-35": (7, 60, 20, 1000), "MP-36": (15, 120, 20, 1000), "MP-37": (2, 10, 5, 25), "MP-38": (30, 60, 20, 50),
         "MP-40": (7, 60, 20, 480), "MP-41": (7, 20, 10, 480), "MP-42": (20, 20, 15, 3000),
         "MP-43": (20, 20, 15, 1500), "MP-44": (20, 20, 10, 200), "MP-45": (20, 20, 15, 3000),
+        "MP-46": (15, 20, 10, 6000), "MP-47": (15, 20, 10, 200),
         "MP-48": (15, 20, 10, 1500), "MP-49": (15, 20, 10, 120), "MP-50": (10, 20, 10, 20000),
         "MP-51": (10, 20, 10, 20000), "MP-52": (15, 20, 10, 3000), "MP-54": (15, 20, 10, 144),
         "MP-55": (15, 60, 20, 2000), "MP-56": (10, 20, 10, 20000), "MP-57": (10, 20, 10, 20000),
@@ -114,6 +115,13 @@ def I(cod, nom, um, alm, prov, uc, cont, plan, fuc, umpos=None, fpos=None):
     return dict(cod=cod, nom=nom, um=um, alm=alm, prov=prov, uc=uc, cont=cont, plan=plan, fuc=fuc, lt=lt, t=t, ss=ss,
                 umpos=umpos if umpos is not None else pos, fpos=fpos or "X07")
 
+
+# tubo pescante: aparte de la válvula, como la planilla de MP (MP-46 plástico 2,5 a 10 kg; MP-47 acero, carros);
+# el del 1 kg viene en la válvula M-22. Dos proveedores que lo publican o lo fabrican, ninguno con plazo publicado
+PESCA_PVC = "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá"
+PESCA_ACERO = "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)"
+# revendidos que figuran en el catálogo de Maxiseguridad (W22)
+REV_MAXI = ("AGUA_10l", "AFFF_10l", "AFFF_50l", "CO2_2kg")
 
 ITEMS = [
     I("MP-01", "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)", "barra", Z_CANT, "Metalpri / Prilux",
@@ -174,7 +182,7 @@ ITEMS = [
       "MP-24", "X07"),
     I("MP-25", "Gas MAG Ar + 8 % CO₂ (Arcal 21)", "m³", Z_GAS, "Air Liquide", "Batería de 11 cilindros", 115.5,
       "MP-25", "Q03"),
-    I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Norton / Pferd", "Caja de 25 u", 25, "MP-27", "X07"),
+    I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-94", "Mecha de acero rápido 4,5 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27",
@@ -198,13 +206,19 @@ ITEMS = [
     I("MP-41", "Acetato de potasio Gastro K (recargas)", "L", Z_REC, "Polvex", "Bidón de 20 L", 20, "MP-41", "Q07"),
     I("MP-42", "Válvula HZ M-22 con tubo de pesca (1 kg)", "u", Z_INM, "Polvex (HZ)", "Pallet de 3.000 u", 3000,
       "MP-42", "X07"),
-    I("MP-43", "Válvula HZ M-30 con resorte (2,5 a 10 kg)", "u", Z_INM, "Polvex (HZ)", "Pallet de 1.500 u", 1500,
-      "MP-43", "X07"),
-    I("MP-44/25", "Válvula HZ de carro 25 kg", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u", 10, "MP-44", "X07"),
-    I("MP-44/50", "Válvula HZ de carro 50-70-100 kg", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u", 10, "MP-44", "X07"),
+    I("MP-43", "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)", "u", Z_INM, "Polvex (HZ)",
+      "Pallet de 1.500 u", 1500, "MP-43", "X07"),
+    I("MP-44/25", "Válvula HZ de carro 25 kg, sin tubo pescante", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u", 10,
+      "MP-44", "X07"),
+    I("MP-44/50", "Válvula HZ de carro 50-70-100 kg, sin tubo pescante", "u", Z_INR, "Polvex (HZ)", "Caja de 10 u",
+      10, "MP-44", "X07"),
     I("MP-45", "Manómetro 1,4 MPa", "u", Z_INM, "Yukon", "Caja de 100 u", 100, "MP-45", "X07"),
-] + [I(f"MP-48/{p}", f"{'Tobera' if p == 'ABC1' else 'Manguera con tobera'} {n}", "u", Z_INM, "Yukon",
-       "Caja de 50 u", 50, "MP-48", "X07") for _, p, n in MAN] + [
+] + [I(f"MP-46/{p}", f"Tubo pescante de PVC rígido, {n}", "u", Z_INM, PESCA_PVC, "Caja de 200 u", 200, "MP-46",
+       "X07") for _, p, n in MAN[1:]] + [
+    I(f"MP-47/{p}", f"Tubo pescante de acero SAE 1010, carro {n[4:]}", "u", Z_INR, PESCA_ACERO, "Caja de 20 u", 20,
+      "MP-47", "X07") for _, p, n in ROD] + [
+    I(f"MP-48/{p}", f"{'Tobera' if p == 'ABC1' else 'Manguera con tobera'} {n}", "u", Z_INM, "Yukon",
+      "Caja de 50 u", 50, "MP-48", "X07") for _, p, n in MAN] + [
     I(f"MP-49/{p}", f"Manguera con válvula esférica y tobera, carro {n[4:]}", "u", Z_INR, "Yukon", "Caja de 10 u", 10,
       "MP-49", "X07") for _, p, n in ROD] + [
     I("MP-50/M22", "Junta tórica del cuello M22", "u", Z_INM, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
@@ -212,9 +226,9 @@ ITEMS = [
     I("MP-50/2½", "Junta tórica del cuello 2½\"", "u", Z_INR, "Argensold", "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
     I("MP-50/OT", "Junta tórica del cuello (recargas, surtido por medida)", "u", Z_REC, "Würth Argentina",
       "Bolsa de 1.000 u", 1000, "MP-50", "X07"),
-] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Maxiseguridad", "Caja de 100 u", 100, "MP-52", "X07")
+] + [I(f"MP-52/{p}", f"Soporte de pared {n}", "u", Z_INM, "Maxiseguridad (Munro)", "Caja de 100 u", 100, "MP-52", "X07")
      for _, p, n in MAN[1:]] + [
-    I("MP-87", "Soporte vehicular (1 kg)", "u", Z_INM, "Maxiseguridad", "Caja de 100 u", 100, "MP-52", "X07"),
+    I("MP-87", "Soporte vehicular (1 kg)", "u", Z_INM, "Maxiseguridad (Munro)", "Caja de 100 u", 100, "MP-52", "X07"),
     I("MP-86", "Tornillo y tarugo de fijación", "u", Z_INM, "Würth Argentina", "Bolsa de 1.000 u", 1000, "MP-51",
       "X07"),
     I("MP-55", "Conjunto de seguridad de CO₂ (recargas)", "u", Z_REC, "Georgia", "Bolsa de 100 u", 100, "MP-55",
@@ -259,19 +273,19 @@ ITEMS = [
 ] + [I(f"MP-96/{p}", f"Servicio de pintura, carro {n[4:]} (tercerizado)", "u", Z_SERV, "Pintor de carros",
        "Unidad", 1, "MP-60", "Q09") for _, p, n in ROD] + [
     I(f"RV-{c}", f"Matafuego {n} (reventa)", "u", Z_PT,
-      "Matafuegos Rodo" if c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg") else "Fabricante nacional", "Unidad", 1,
+      "Matafuegos Rodo" if c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg") else
+      "Maxiseguridad (Munro)" if c in REV_MAXI else "Fabricante nacional", "Unidad", 1,
       "MP-43", "X07", 60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
 # después el plazo que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto
-# en el AMBA (W4 a W10, buscados el 12/10/2026). Lo que nadie publica toma el de la planilla de MP (o el proceso de
-# carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Días corridos → hábiles: × 5 / 7.
+# en el AMBA (W4 a W23, buscados el 12 y 13/10/2026). Lo que nadie publica toma el de la planilla de MP (o el proceso
+# de carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Corridos → hábiles: × 5 / 7.
 PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
 PRAD_H = (7, 10, "Cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
 PRAD_P = (7, 10, "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
 AL = (1, 1, "Cotización Air Liquide: día + 1", "Q03")
 ELI = (25, 29, "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles", "Q03")
-MID = (1, 1, "Cotización Comercial MID: entrega inmediata", "Q04")
 METAPOL = (1, 3, "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
            "W4")
 CHINA = (54, 68, "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
@@ -292,12 +306,13 @@ SOLDANET = (4, 5, "Web Soldanet, alambre MIG ER70S-6 de 15 kg: 4 a 5 días hábi
 RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂ 3,5 y 5 kg, K 6 l y HCFC 5 kg)", "W13")
 ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
                    "directorio antiguo", "W14")
-MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua)", "W15")
+MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su "
+                 "catálogo tiene soportes, agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg", "W15")
 FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h",
           "W17")
 AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema de la AGC al pagar la boleta; no "
                "espera a un proveedor", "W18")
-LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
+LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
           "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
           "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
           "MP-21": ELI, "MP-68": METAPOL, "MP-69": METAPOL, "MP-15": CHINA, "MP-16": CHINA, "MP-17": CHINA,
@@ -305,11 +320,12 @@ LT_COT = {"MP-01": MID, "MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-1
           **{c: ROTOLAN for c in ("MP-80", "MP-81", "MP-88", "MP-72", "MP-82", "MP-89", "MP-90", "MP-57")},
           **{f"MP-56/{p}": ROTOLAN if p in ("ABC1", "ABC2.5", "ABC5") else ROTULARTE for _, p, _ in MAN + ROD},
           **{f"MP-59/{p}": SELLERPACK for _, p, _ in MAN},
-          **{c: WURTH for c in ("MP-86", "MP-95", "MP-93", "MP-70", "MP-71", "MP-50/OT")},
+          **{c: WURTH for c in ("MP-86", "MP-95", "MP-93", "MP-92", "MP-70", "MP-71", "MP-50/OT")},
           "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
           **{f"RV-{c}": RODO for c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg")},
           **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
-          **{c: MAXISEG for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")}}
+          **{c: MAXISEG for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")},
+          **{f"RV-{c}": MAXISEG for c in REV_MAXI}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
 LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",
              "MP-54/350", "MP-54/400"} | {f"MP-49/{p}" for _, p, _ in ROD}
@@ -753,6 +769,8 @@ class Libro:
             elif pz in mapa and f["Nivel"] == 2:
                 it, dest = mapa[pz]
                 add(it, f["Cant."] or 1, dest, f)
+            elif pz == "Caño de pesca" and pref != "ABC1":
+                add(f"MP-46/{pref}" if pref in [p for _, p, _ in MAN] else f"MP-47/{pref}", 1, "", f)
             elif pz == "Neumático macizo":
                 add(RUEDA[pref], f["Cant."], "", f)
             elif pz.startswith("Arandelas de tope"):

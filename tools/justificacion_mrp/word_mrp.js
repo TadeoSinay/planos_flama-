@@ -202,6 +202,8 @@ hijos.push(h1("4. Consumo por unidad (hojas MANUALES, RODANTES, RECARGAS y REVEN
 hijos.push(nota("Las filas que se calculan igual están juntas. «(CABA)» o «(PBA)»: se multiplica por el % que va a esa jurisdicción (D02, D03)."));
 const TIT = { MANUALES: "4.1 Manuales", RODANTES: "4.2 Rodantes", RECARGAS: "4.3 Recargas de la planta industrial", REVENDIDOS: "4.4 Revendidos" };
 const INTRO = {
+  MANUALES: "El tubo pescante del 2,5, 5 y 10 kg (MP-46, PVC rígido como el caño de pesca del BOM) se compra aparte de la válvula, como lo pone la planilla de MP; el del 1 kg viene en la válvula M-22. Dos proveedores: Esinex (W19) y Securitá (W20).",
+  RODANTES: "El tubo pescante de los carros (MP-47) se compra aparte de la válvula y es de acero SAE 1010, como lo pide la planilla de MP. Dos proveedores: Mozart (W21) y Georgia (W23); los dos lo usan de acero al carbono en sus matafuegos.",
   RECARGAS: "Sin soldadura: un recipiente que se recarga no se suelda. Los repuestos (válvula, manómetro, manguera) no entran: se cambian si están dañados y su stock sale del registro de repuestos (R04).",
 };
 LIN.forEach((l) => {
@@ -241,16 +243,19 @@ D.politica.forEach((x) => {
 const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
 const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
 const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
-hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto en el AMBA (W4 a W18, buscados el 12/10/2026). Días corridos → hábiles: × 5 / 7.", { keepNext: true }));
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto en el AMBA (W4 a W23, buscados el 12 y 13/10/2026). Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
 hijos.push(...tabla([46, 10, 34, 10], ["Fuente del plazo", "Días hábiles", "Materiales", "Figura"],
   conCot.map((g) => [g.fuente, g.plazo, rangoCods(g.cods), g.fig])));
-hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el AMBA (se buscaron en dos rondas: sitios, preguntas frecuentes, condiciones de envío y directorios de caños, ruedas, abrasivos, granalla, pintura en polvo industrial (Sinteplast, LAF, Interpon, Arnum-As), esmalte, agentes extintores, válvulas, manómetros, mangueras, conjuntos de seguridad, obleas, estampillas, tapones y matafuegos de reventa). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
+hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el AMBA (se buscaron en tres rondas: sitios, preguntas frecuentes, condiciones de envío y directorios de caños, ruedas, abrasivos, granalla, pintura en polvo industrial (Sinteplast, LAF, Interpon, Arnum-As), esmalte, agentes extintores, válvulas, manómetros, mangueras, tubos pescantes, conjuntos de seguridad, obleas, estampillas, tapones y matafuegos de reventa). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
 const provSin = new Map();
 sinCot.forEach((g) => { const k = g.prov; if (!provSin.has(k)) provSin.set(k, { plazos: new Set(), cods: [] }); provSin.get(k).plazos.add(g.plazo); provSin.get(k).cods.push(...g.cods); });
 const CONTACTO = {
   "Centrosider": "Alternativa: Hierros Torrent, 4555-6078 (vende el tubo de 1\" × 2 mm SAE 1010)",
   "Ruedar": "4442-4752 · ventas@ruedar.com.ar", "Escanort": "4795-0943",
-  "Norton / Pferd": "Inbaco (Piñeyro), 4208-5257", "CyM Materiales": "11 3979-4111 · cymba@cym.com.ar",
+  "Metalpri / Prilux": "Metalprisa / Prilux (CABA): cotizó el caño el 09/09/2026 sin plazo; publica stock permanente y entregas rápidas en CABA y GBA, sin días",
+  "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá": "Esinex: 1° Junta 5024, Billinghurst, 11 4563-9000 · esinex@esinex.com (W19) · Securitá: securitadistribuidora@gmail.com (W20)",
+  "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)": "Mozart: Ucrania 1564, Valentín Alsina, 4218-3690 · info@mozartsrl.com.ar (W21) · Georgia: 4585-4400 · info@georgia.com.ar (W23)",
+  "CyM Materiales": "11 3979-4111 · cymba@cym.com.ar",
   "Sinteplast": "11 6333-7400 (fabricante, planta de polvo en Tristán Suárez) · alternativa: Arnum-As (Haedo, distribuidor de polvo), 4659-4724", "DEMSA": "3489 495 000 · comercial@demsa.com.ar", "Polvex": "11 4405-3382",
   "Polvex / DEMSA": "11 4405-3382 · comercial@demsa.com.ar", "Polvex (HZ)": "11 4405-3382",
   "Yukon": "MatafuegosYa S.R.L. (Estomba 954), 4555-5100", "Georgia": "4585-4400 · info@georgia.com.ar",
@@ -291,6 +296,8 @@ hijos.push(h1("8. Pendientes"));
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
+  "Confirmar con HZ que las válvulas M-30 y de carro se venden sin tubo pescante (la planilla de MP lo deja en dudas: «Materiales y útiles» dice que llegan armadas); si vienen con él, se sacan MP-46 y MP-47.",
+  "BOM: el caño de pesca de los carros figura en PVC; la planilla de MP lo pide de acero SAE 1010 (MP-47).",
   "Cotizar el fleje de 1,25 × 135 mm del fondo del 1 kg (disco de 112 mm) y los revendidos.",
 ].forEach((x) => hijos.push(vin(x)));
 
@@ -309,7 +316,7 @@ hijos.push(h1("9. Fuentes"));
   "W8 · Papelera Damián (marca SonFuertes), entregas: reparto propio a localidades limítrofes de CABA en 3 a 5 días hábiles: https://papeleradamian.com/presta/content/delivery.html",
   "W9 · Sellerpack (Pompeya, CABA), fábrica de cajas desde 1934: producción de 10 a 15 días desde la aprobación de la prueba final; formatos con matriz existente, 3 a 5 días; troquel nuevo, +5 a 10 días: https://sellerpack.com.ar/industrias/construccion-industria/ y https://sellerpack.com.ar/cajas/exhibidor/",
   "W10 · Depallet, pallets de madera: entregas en un plazo estimado de 24 a 72 horas: https://depallet.com.ar/logistica/",
-  "W11 · Würth Argentina, envíos: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles según el destino (unos 3 en CABA y AMBA); vende arandelas DIN 125, discos flap y O-rings métricos: https://www.wurth.com.ar/contenidos/preguntas-frecuentes/tiempos-de-entrega.html",
+  "W11 · Würth Argentina, envíos: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles según el destino (unos 3 en CABA y AMBA); vende arandelas DIN 125, discos flap y O-rings métricos: https://www.wurth.com.ar/contenidos/preguntas-frecuentes/tiempos-de-entrega.html ; disco de corte de 355 × 3,5 × 25,4 mm: https://www.wurth.com.ar/es/tienda/corte-y-taladro/discos-de-corte/disco-de-corte-premium-355x3-5x25-4.html",
   "W12 · Soldanet, preguntas frecuentes: 4 a 5 días hábiles después de acreditado el pago; vende alambre MIG 70S6 de 15 kg: https://soldanet.com/preguntasfrecuentes",
   "W13 · Matafuegos Rodo: logística para entregar en 24/48 h y envío sin cargo en CABA y GBA (ABC, CO₂ 3,5 y 5 kg, K 6 l, HCFC 5 kg): https://www.matafuegosrodo.com/",
   "W14 · Argensold (Lomas del Mirador), O-rings: 10.000 productos en stock y entrega en 72 h a todo el país: https://www.facebook.com/people/Argensold-el-nombre-del-Oring/100091676384453/ ; 24 h según https://editores.com.ar/empresa/argensold",
@@ -317,6 +324,11 @@ hijos.push(h1("9. Fuentes"));
   "W16 · RotulArte (CABA), impresión en vinilo autoadhesivo full color con laminado, hasta 155 cm de ancho: 24 a 48 h hábiles desde la aprobación del arte: https://rotularte.com.ar/impresion-vinilo-autoadhesivo/",
   "W17 · Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h: https://www.todolanus.com.ar/rubro/imprentas-talleres-graficos",
   "W18 · AGC, registro de fabricantes y recargadores: la empresa genera e imprime las tarjetas identificatorias en el sistema de la AGC con la boleta pagada: https://www.buenosaires.gob.ar/tramites/registro-de-fabricacion-reparacion-recarga-instalacion-y-control-de-extintores-matafuegos-y",
+  "W19 · Esinex (Billinghurst), repuestos: tubos de pesca para matafuegos de 2,5, 5, 10 y 25 kg, con portacaño o filtro, para polvo, clase K y agua; no publica plazo: https://www.esinex.com.ar/product-page/tubo-de-pesca",
+  "W20 · Securitá, distribuidora de seguridad industrial, repuestos: caños de pesca para matafuegos de 2,5, 5 y 10 kg; no publica plazo: http://www.securitá.com.ar/p/repuestos.html",
+  "W21 · Matafuegos Mozart (Valentín Alsina, Lanús), fabricante de componentes, válvulas y matafuegos desde los años 70; su ABC lleva tubo de pesca de acero al carbono; no publica plazo: http://www.mozartsrl.com.ar/matafuegos-extintores-de-abc.htm",
+  "W22 · Maxiseguridad (Munro), catálogo: agua 10 l, AFFF 10 l, rodante AFFF 50 l y CO₂ 2 kg: https://catalogo.maxiseguridad.com.ar/detalle-producto-maxiseguridad/8/Matafuego-a-base-de-Agua-10-Lts , https://control.maxiseguridad.com.ar/detalle-producto-maxiseguridad/90/Matafuego-a-base-de-espuma-AFFF-10-Lts , https://control.maxiseguridad.com.ar/detalle-producto-maxiseguridad/6/Matafuego-rodante-a-base-de-espuma-AFFF-50-Lts y https://control.maxiseguridad.com.ar/detalle-producto-maxiseguridad/611/Matafuego-a-base-de-CO2-2-Kg",
+  "W23 · Matafuegos Georgia (La Paternal, CABA), venta mayorista; caño de pesca de acero al carbono en sus matafuegos de agua; no publica plazo: https://www.matafuegosgeorgia.com/prodcat/10-agua/",
 ].forEach((x) => hijos.push(vin(x)));
 
 // ------------------------------------------------------------------ documento
