@@ -121,7 +121,7 @@ def I(cod, nom, um, alm, prov, uc, cont, plan, fuc, umpos=None, fpos=None):
 PESCA_PVC = "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá"
 PESCA_ACERO = "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)"
 # revendidos que figuran en el catálogo de Maxiseguridad (W22)
-REV_MAXI = ("AGUA_10l", "AFFF_10l", "AFFF_50l", "CO2_2kg")
+REV_MAXI = ("AGUA_10l", "AFFF_10l", "AFFF_50l", "BC_5kg", "CO2_2kg")
 
 ITEMS = [
     I("MP-01", "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)", "barra", Z_CANT, "Metalpri / Prilux",
@@ -280,18 +280,18 @@ ITEMS = [
       "MP-43", "X07", 60 if c == "AFFF_50l" else 180, "X13") for c, n in REV]
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
-# después el plazo que publica en su web el proveedor o, si el elegido no lo publica, otro proveedor del mismo producto
-# en el país, primero PBA (W4 a W26, buscados del 12 al 13/10/2026). Lo que nadie publica toma el de la planilla de MP
-# (o el proceso de carros) y queda marcado «sin plazo publicado» para pedírselo al proveedor. Corridos → hábiles: × 5/7.
+# después el plazo que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo
+# producto o rubro en el país, primero PBA (W4 a W34, buscados del 12 al 13/10/2026), marcado «Aproximado» al proveedor
+# directo. Lo que nadie publica toma el de la planilla de MP y queda «sin plazo publicado». Corridos → hábiles: × 5/7.
 PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
-PRAD_H = (7, 10, "Cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
-PRAD_P = (7, 10, "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
+PRAD_H = (7, 10, "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
+PRAD_P = (7, 10, "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)", "Q01")
 AL = (1, 1, "Cotización Air Liquide: día + 1", "Q03")
 ELI = (25, 29, "Cotización Eli-Met: 35 a 40 días corridos = 25 a 29 hábiles", "Q03")
-METAPOL = (1, 3, "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
-           "W4")
-CHINA = (54, 68, "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
-         "W5")
+METAPOL = (1, 3, "Aproximado: web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no "
+                  "lo publica)", "W4")
+CHINA = (54, 68, "Aproximado: web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 "
+                 "a 68 hábiles", "W5")
 ESPACIO = (1, 1, "Web Espacio Industria (Munro), discos de corte y mechas: entrega en CABA y GBA en 24 h", "W6")
 ROTOLAN = (3, 7, "Web Rotolan (Lanús), etiquetas en rollo de 20 a 210 mm de ancho, desde 500 u: 3 a 7 días hábiles",
            "W7")
@@ -301,7 +301,7 @@ ROTULARTE = (1, 2, "Web RotulArte (CABA), vinilo autoadhesivo full color con lam
 DAMIAN = (3, 5, "Web Papelera Damián, que vende los SonFuertes: localidades limítrofes de CABA, 3 a 5 días hábiles", "W8")
 SELLERPACK = (10, 15, "Web Sellerpack (Pompeya, CABA), cajas a medida: 10 a 15 días desde que se aprueba la prueba "
                        "final (la primera vez, +5 a 10 si lleva troquel nuevo)", "W9")
-DEPALLET = (1, 3, "Web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)", "W10")
+DEPALLET = (1, 3, "Aproximado: web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)", "W10")
 WURTH = (3, 5, "Web Würth Argentina: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles "
                "(unos 3 en CABA y AMBA)", "W11")
 SOLDANET = (4, 5, "Web Soldanet, alambre MIG ER70S-6 de 15 kg: 4 a 5 días hábiles después de acreditado el pago", "W12")
@@ -309,12 +309,35 @@ RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂
 ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
                    "directorio antiguo", "W14")
 MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su "
-                 "catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg", "W15")
-OXICAS = (3, 6, "Web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de 25 kg: despacha "
-                "a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles (DEMSA no lo "
-                "publica)", "W24")
-VERNASSA = (1, 1, "Web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de 20 L: plazo de "
-                  "entrega inmediato (Polvex no lo publica)", "W25")
+                 "catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg", "W15")
+OXICAS = (3, 6, "Aproximado: web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de "
+                "25 kg: despacha a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles "
+                "(DEMSA no lo publica)", "W24")
+VERNASSA = (1, 1, "Aproximado: web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de "
+                  "20 L: plazo de entrega inmediato (Polvex no lo publica)", "W25")
+# aproximados al proveedor directo, que no publica el suyo: el que publica otro vendedor del mismo producto o rubro
+GALPON = (4, 7, "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera "
+                "de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)", "W27")
+GALPON_R = (4, 7, "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo "
+                  "Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)", "W27")
+OXICAS_R = (3, 6, "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles "
+                  "(nadie publica el plazo de este agente)", "W24")
+ACEROSYA = (5, 5, "Aproximado: AcerosYa (Sarandí), caños estructurales en barras de 6 m: entrega dentro de los 7 días "
+                  "del pago = 5 hábiles (radio de 30 km)", "W28")
+MORSHOP = (3, 5, "Aproximado: Morshop, ruedas industriales y de goma maciza para carros: despacha a las 24 a 72 h "
+                 "hábiles del pago y el correo entrega en 48 h en Buenos Aires", "W29")
+EGM = (1, 1, "Aproximado: EGM Trader (Florida, PBA), importador de granalla de acero esférica en bolsa de 25 kg y big "
+             "bag: su publicación sale con envío en el día en CABA y GBA", "W30")
+ENAMELS = (1, 1, "Aproximado: Enamels (Lanús), distribuidora de pintura en polvo: entrega inmediata por stock en el "
+                 "GBA", "W31")
+MAFER = (2, 10, "Aproximado: Pinturerías Mafer, que vende Sinteplast (epoxi y poliuretano): 2 a 10 días hábiles en "
+                "CABA y GBA", "W32")
+DPS_T = (1, 1, "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta "
+               "al pagar el arancel (aproximado con el trámite de la AGC)", "W33")
+IRAM_T = (1, 1, "Aproximado: IRAM provee las estampillas sólo al licenciatario; se toma el criterio de las estampillas "
+                "DPS: se retiran al pagarlas", "W34")
+ACONCAGUA_D = (3, 7, "Aproximado: Matafuegos Aconcagua vende el extintor clase D de 5 kg (se encarga indicando los "
+                     "metales): 3 a 7 días hábiles después de acreditado el pago", "W26")
 ACONCAGUA = (3, 7, "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: "
                    "3 a 7 días hábiles después de acreditado el pago", "W26")
 FORMAS = (1, 3, "Guía Todo Lanús, Formas Visuales (Lanús Oeste), imprenta digital y offset: entrega en 24 a 72 h",
@@ -335,6 +358,15 @@ LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "M
           **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
           **{c: ACONCAGUA for c in ("MP-52/ABC2.5", "MP-52/ABC5", "MP-52/ABC10", "MP-87")},
           "MP-33": OXICAS, "MP-40": VERNASSA,
+          **{c: GALPON for c in ("MP-42", "MP-43", "MP-45")}, **{f"MP-48/{p}": GALPON for _, p, _ in MAN},
+          **{c: GALPON_R for c in ("MP-44/25", "MP-44/50", "MP-55")},
+          **{f"MP-49/{p}": GALPON_R for _, p, _ in ROD}, **{f"MP-47/{p}": GALPON_R for _, p, _ in ROD},
+          **{f"MP-46/{p}": GALPON_R for _, p, _ in MAN[1:]},
+          **{c: OXICAS_R for c in ("MP-33B", "MP-35", "MP-36", "MP-38", "MP-41")},
+          **{c: ACEROSYA for c in ("MP-01", "MP-66", "MP-67")},
+          **{f"MP-54/{d}": MORSHOP for d in ("300", "350", "400")},
+          "MP-28": EGM, "MP-31": ENAMELS, "MP-65": MAFER, "MP-79": IRAM_T, "RV-CLASED_9l": ACONCAGUA_D,
+          **{c: DPS_T for c in ("MP-75", "MP-76", "MP-78", "MP-83")},
           **{f"RV-{c}": MAXISEG for c in REV_MAXI}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)
 LT_CARROS = {"MP-15", "MP-16", "MP-17", "MP-33", "MP-33B", "MP-44/25", "MP-44/50", "MP-45", "MP-24", "MP-54/300",

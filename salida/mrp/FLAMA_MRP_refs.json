@@ -2984,8 +2984,8 @@
     5,
     5
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: AcerosYa (Sarandí), caños estructurales en barras de 6 m: entrega dentro de los 7 días del pago = 5 hábiles (radio de 30 km)",
+   "flt_fig": "W28",
    "t": 5,
    "umpos": 61,
    "fpos": "X07"
@@ -3001,7 +3001,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt": "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 136,
@@ -3018,7 +3018,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt": "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 158,
@@ -3035,7 +3035,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt": "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 56,
@@ -3086,7 +3086,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
    "flt_fig": "Q01",
    "t": 10,
    "umpos": 492,
@@ -3103,7 +3103,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
    "flt_fig": "Q01",
    "t": 5,
    "umpos": 615,
@@ -3120,7 +3120,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
    "flt_fig": "Q01",
    "t": 5,
    "umpos": 492,
@@ -3137,7 +3137,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 738,
@@ -3154,7 +3154,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 498,
@@ -3171,7 +3171,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt": "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 40,
@@ -3188,7 +3188,7 @@
     7,
     10
    ],
-   "flt": "Cotización Pradecon (plazo del fleje; para hojas no lo informa)",
+   "flt": "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)",
    "flt_fig": "Q01",
    "t": 20,
    "umpos": 30,
@@ -3205,7 +3205,7 @@
     54,
     68
    ],
-   "flt": "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
+   "flt": "Aproximado: web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
    "flt_fig": "W5",
    "t": 40,
    "umpos": 400,
@@ -3222,7 +3222,7 @@
     54,
     68
    ],
-   "flt": "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
+   "flt": "Aproximado: web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
    "flt_fig": "W5",
    "t": 40,
    "umpos": 300,
@@ -3239,7 +3239,7 @@
     54,
     68
    ],
-   "flt": "Web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
+   "flt": "Aproximado: web Importa Fácil: importar de China lleva 75 a 95 días corridos desde el pedido = 54 a 68 hábiles",
    "flt_fig": "W5",
    "t": 40,
    "umpos": 150,
@@ -3321,11 +3321,11 @@
    "fuc": "P15",
    "plan": "MP-22",
    "lt": [
-    10,
-    10
+    5,
+    5
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: AcerosYa (Sarandí), caños estructurales en barras de 6 m: entrega dentro de los 7 días del pago = 5 hábiles (radio de 30 km)",
+   "flt_fig": "W28",
    "t": 60,
    "umpos": 60,
    "fpos": "X07"
@@ -3338,11 +3338,11 @@
    "fuc": "P15",
    "plan": "MP-22",
    "lt": [
-    10,
-    10
+    5,
+    5
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: AcerosYa (Sarandí), caños estructurales en barras de 6 m: entrega dentro de los 7 días del pago = 5 hábiles (radio de 30 km)",
+   "flt_fig": "W28",
    "t": 60,
    "umpos": 60,
    "fpos": "X07"
@@ -3358,7 +3358,7 @@
     1,
     3
    ],
-   "flt": "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
+   "flt": "Aproximado: web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
    "flt_fig": "W4",
    "t": 60,
    "umpos": 60,
@@ -3375,7 +3375,7 @@
     1,
     3
    ],
-   "flt": "Web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
+   "flt": "Aproximado: web Metapol (CABA), barras SAE 1045: entrega en 24 a 72 h en el AMBA (Vladimirsky no lo publica)",
    "flt_fig": "W4",
    "t": 60,
    "umpos": 60,
@@ -3423,11 +3423,11 @@
    "fuc": "X07",
    "plan": "MP-54",
    "lt": [
-    15,
-    15
+    3,
+    5
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado: Morshop, ruedas industriales y de goma maciza para carros: despacha a las 24 a 72 h hábiles del pago y el correo entrega en 48 h en Buenos Aires",
+   "flt_fig": "W29",
    "t": 20,
    "umpos": 144,
    "fpos": "X07"
@@ -3440,11 +3440,11 @@
    "fuc": "X07",
    "plan": "MP-54",
    "lt": [
-    15,
-    15
+    3,
+    5
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado: Morshop, ruedas industriales y de goma maciza para carros: despacha a las 24 a 72 h hábiles del pago y el correo entrega en 48 h en Buenos Aires",
+   "flt_fig": "W29",
    "t": 20,
    "umpos": 144,
    "fpos": "X07"
@@ -3457,11 +3457,11 @@
    "fuc": "X07",
    "plan": "MP-54",
    "lt": [
-    15,
-    15
+    3,
+    5
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado: Morshop, ruedas industriales y de goma maciza para carros: despacha a las 24 a 72 h hábiles del pago y el correo entrega en 48 h en Buenos Aires",
+   "flt_fig": "W29",
    "t": 20,
    "umpos": 144,
    "fpos": "X07"
@@ -3610,11 +3610,11 @@
    "fuc": "X07",
    "plan": "MP-28",
    "lt": [
-    7,
-    7
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: EGM Trader (Florida, PBA), importador de granalla de acero esférica en bolsa de 25 kg y big bag: su publicación sale con envío en el día en CABA y GBA",
+   "flt_fig": "W30",
    "t": 60,
    "umpos": 1000,
    "fpos": "X07"
@@ -3627,11 +3627,11 @@
    "fuc": "X07",
    "plan": "MP-31",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Enamels (Lanús), distribuidora de pintura en polvo: entrega inmediata por stock en el GBA",
+   "flt_fig": "W31",
    "t": 20,
    "umpos": 600,
    "fpos": "X07"
@@ -3647,7 +3647,7 @@
     3,
     6
    ],
-   "flt": "Web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de 25 kg: despacha a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles (DEMSA no lo publica)",
+   "flt": "Aproximado: web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de 25 kg: despacha a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles (DEMSA no lo publica)",
    "flt_fig": "W24",
    "t": 5,
    "umpos": 2000,
@@ -3661,11 +3661,11 @@
    "fuc": "P06",
    "plan": "MP-33",
    "lt": [
-    7,
-    7
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles (nadie publica el plazo de este agente)",
+   "flt_fig": "W24",
    "t": 5,
    "umpos": 2000,
    "fpos": "X07"
@@ -3695,11 +3695,11 @@
    "fuc": "Q07",
    "plan": "MP-35",
    "lt": [
-    7,
-    7
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles (nadie publica el plazo de este agente)",
+   "flt_fig": "W24",
    "t": 60,
    "umpos": 1000,
    "fpos": "X07"
@@ -3712,11 +3712,11 @@
    "fuc": "X07",
    "plan": "MP-36",
    "lt": [
-    15,
-    15
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles (nadie publica el plazo de este agente)",
+   "flt_fig": "W24",
    "t": 120,
    "umpos": 1000,
    "fpos": "X07"
@@ -3746,11 +3746,11 @@
    "fuc": "X07",
    "plan": "MP-38",
    "lt": [
-    30,
-    30
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles (nadie publica el plazo de este agente)",
+   "flt_fig": "W24",
    "t": 60,
    "umpos": 50,
    "fpos": "X07"
@@ -3766,7 +3766,7 @@
     1,
     1
    ],
-   "flt": "Web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de 20 L: plazo de entrega inmediato (Polvex no lo publica)",
+   "flt": "Aproximado: web Vernassa (CABA), concentrado AFFF de baja expansión al 1, 3 o 6 % en bidón de 20 L: plazo de entrega inmediato (Polvex no lo publica)",
    "flt_fig": "W25",
    "t": 60,
    "umpos": 480,
@@ -3780,11 +3780,11 @@
    "fuc": "Q07",
    "plan": "MP-41",
    "lt": [
-    7,
-    7
+    3,
+    6
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con el polvo de DEMSA en Grupo Oxicas: despacho de 24 a 48 h + OCA en 48 a 96 h hábiles (nadie publica el plazo de este agente)",
+   "flt_fig": "W24",
    "t": 20,
    "umpos": 480,
    "fpos": "X07"
@@ -3797,11 +3797,11 @@
    "fuc": "X07",
    "plan": "MP-42",
    "lt": [
-    20,
-    20
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -3814,11 +3814,11 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 1500,
    "fpos": "X07"
@@ -3831,11 +3831,11 @@
    "fuc": "X07",
    "plan": "MP-44",
    "lt": [
-    20,
-    20
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -3848,11 +3848,11 @@
    "fuc": "X07",
    "plan": "MP-44",
    "lt": [
-    20,
-    20
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -3865,11 +3865,11 @@
    "fuc": "X07",
    "plan": "MP-45",
    "lt": [
-    20,
-    20
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 3000,
    "fpos": "X07"
@@ -3882,11 +3882,11 @@
    "fuc": "X07",
    "plan": "MP-46",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 6000,
    "fpos": "X07"
@@ -3899,11 +3899,11 @@
    "fuc": "X07",
    "plan": "MP-46",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 6000,
    "fpos": "X07"
@@ -3916,11 +3916,11 @@
    "fuc": "X07",
    "plan": "MP-46",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 6000,
    "fpos": "X07"
@@ -3933,11 +3933,11 @@
    "fuc": "X07",
    "plan": "MP-47",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -3950,11 +3950,11 @@
    "fuc": "X07",
    "plan": "MP-47",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -3967,11 +3967,11 @@
    "fuc": "X07",
    "plan": "MP-47",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -3984,11 +3984,11 @@
    "fuc": "X07",
    "plan": "MP-47",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -4001,11 +4001,11 @@
    "fuc": "X07",
    "plan": "MP-48",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 1500,
    "fpos": "X07"
@@ -4018,11 +4018,11 @@
    "fuc": "X07",
    "plan": "MP-48",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 1500,
    "fpos": "X07"
@@ -4035,11 +4035,11 @@
    "fuc": "X07",
    "plan": "MP-48",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 1500,
    "fpos": "X07"
@@ -4052,11 +4052,11 @@
    "fuc": "X07",
    "plan": "MP-48",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: El Galpón (Corrientes), válvulas de 1 kg y de 5 y 10 kg, manómetro de 1,4 MPa y manguera de 5 kg: prepara el pedido en 48 h y despacha por Correo Argentino (2 a 5 días hábiles)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 1500,
    "fpos": "X07"
@@ -4069,11 +4069,11 @@
    "fuc": "X07",
    "plan": "MP-49",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 120,
    "fpos": "X07"
@@ -4086,11 +4086,11 @@
    "fuc": "X07",
    "plan": "MP-49",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 120,
    "fpos": "X07"
@@ -4103,11 +4103,11 @@
    "fuc": "X07",
    "plan": "MP-49",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 120,
    "fpos": "X07"
@@ -4120,11 +4120,11 @@
    "fuc": "X07",
    "plan": "MP-49",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el del proceso de carros (de la planilla de MP)",
-   "flt_fig": "P06",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 20,
    "umpos": 120,
    "fpos": "X07"
@@ -4290,11 +4290,11 @@
    "fuc": "X07",
    "plan": "MP-55",
    "lt": [
-    15,
-    15
+    4,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado con los repuestos de matafuego de El Galpón (Corrientes): 48 h de preparación + Correo Argentino en 2 a 5 días hábiles (nadie publica el plazo de esta pieza)",
+   "flt_fig": "W27",
    "t": 60,
    "umpos": 2000,
    "fpos": "X07"
@@ -4443,11 +4443,11 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta al pagar el arancel (aproximado con el trámite de la AGC)",
+   "flt_fig": "W33",
    "t": 20,
    "umpos": 10000,
    "fpos": "X07"
@@ -4460,11 +4460,11 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: IRAM provee las estampillas sólo al licenciatario; se toma el criterio de las estampillas DPS: se retiran al pagarlas",
+   "flt_fig": "W34",
    "t": 20,
    "umpos": 10000,
    "fpos": "X07"
@@ -4681,11 +4681,11 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta al pagar el arancel (aproximado con el trámite de la AGC)",
+   "flt_fig": "W33",
    "t": 20,
    "umpos": 10000,
    "fpos": "X07"
@@ -4698,11 +4698,11 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta al pagar el arancel (aproximado con el trámite de la AGC)",
+   "flt_fig": "W33",
    "t": 20,
    "umpos": 10000,
    "fpos": "X07"
@@ -4732,11 +4732,11 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    10,
-    10
+    1,
+    1
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta al pagar el arancel (aproximado con el trámite de la AGC)",
+   "flt_fig": "W33",
    "t": 20,
    "umpos": 10000,
    "fpos": "X07"
@@ -4766,11 +4766,11 @@
    "fuc": "X07",
    "plan": "MP-65",
    "lt": [
-    5,
-    5
+    2,
+    10
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Pinturerías Mafer, que vende Sinteplast (epoxi y poliuretano): 2 a 10 días hábiles en CABA y GBA",
+   "flt_fig": "W32",
    "t": 20,
    "umpos": 200,
    "fpos": "X07"
@@ -4871,7 +4871,7 @@
     1,
     3
    ],
-   "flt": "Web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)",
+   "flt": "Aproximado: web Depallet, pallets: entrega en 24 a 72 h (IndusPallets no lo publica)",
    "flt_fig": "W10",
    "t": 10,
    "umpos": 15,
@@ -4905,7 +4905,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -4922,7 +4922,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -4939,7 +4939,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 60,
@@ -4953,11 +4953,11 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    2,
+    2
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg",
+   "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
    "fpos": "X13"
@@ -4990,7 +4990,7 @@
     2,
     2
    ],
-   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l y CO₂ 2 kg",
+   "flt": "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg",
    "flt_fig": "W15",
    "t": 20,
    "umpos": 180,
@@ -5038,11 +5038,11 @@
    "fuc": "X07",
    "plan": "MP-43",
    "lt": [
-    20,
-    20
+    3,
+    7
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Matafuegos Aconcagua vende el extintor clase D de 5 kg (se encarga indicando los metales): 3 a 7 días hábiles después de acreditado el pago",
+   "flt_fig": "W26",
    "t": 20,
    "umpos": 180,
    "fpos": "X13"
@@ -7286,7 +7286,7 @@
    "nom": "Matafuego BC 5 kg (reventa)",
    "um": "u",
    "alm": "Almacén de producto terminado",
-   "prov": "Fabricante nacional",
+   "prov": "Maxiseguridad (Munro)",
    "uc": "Unidad",
    "cont": 1,
    "plan": "MP-43",
