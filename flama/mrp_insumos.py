@@ -247,11 +247,11 @@ ITEMS = [
       "X07"),
     I("MP-51", "Precinto de fábrica", "u", Z_ID, "SonFuertes", "Bolsa de 1.000 u", 1000, "MP-51", "X07"),
     I("MP-88", "Etiqueta del cilindro suelto", "u", Z_ID, "Rotolan (Lanús)", "Rollo de 1.000 u", 1000, "MP-56", "X07"),
-    I("MP-62/M22", "Tapón protector de rosca M22", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+    I("MP-62/M22", "Tapón protector de rosca M22", "u", Z_EMB, "ACPLIND (CABA)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
-    I("MP-62/M30", "Tapón protector de rosca M30", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+    I("MP-62/M30", "Tapón protector de rosca M30", "u", Z_EMB, "ACPLIND (CABA)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
-    I("MP-62/2½", "Tapón protector de rosca 2½\"", "u", Z_EMB, "A definir (inyectora)", "Caja de 5.000 u", 5000,
+    I("MP-62/2½", "Tapón protector de rosca 2½\"", "u", Z_EMB, "ACPLIND (CABA)", "Caja de 5.000 u", 5000,
       "MP-62", "X07"),
     I("MP-85", "Impresos (protocolo de ensayo, remito de préstamo)", "u", Z_ID, "Formas Visuales (Lanús)",
       "Paquete de 500 u", 500, "MP-58", "X07"),
@@ -281,7 +281,7 @@ ITEMS = [
 ITEM = {it["cod"]: it for it in ITEMS}
 # plazo de entrega en días hábiles: (mínimo, máximo, de dónde sale, figura). Primero las cotizaciones que lo informan;
 # después el plazo que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo
-# producto o rubro en el país, primero PBA (W4 a W34, buscados del 12 al 13/10/2026), marcado «Aproximado» al proveedor
+# producto o rubro en el país, primero PBA (W4 a W35, buscados del 12 al 13/10/2026), marcado «Aproximado» al proveedor
 # directo. Lo que nadie publica toma el de la planilla de MP y queda «sin plazo publicado». Corridos → hábiles: × 5/7.
 PRAD = (7, 10, "Cotización Pradecon: 7 a 10 días", "Q01")
 PRAD_H = (7, 10, "Aproximado: cotización Pradecon (plazo del fleje; para hojas no lo informa)", "Q01")
@@ -334,8 +334,11 @@ MAFER = (2, 10, "Aproximado: Pinturerías Mafer, que vende Sinteplast (epoxi y p
                 "CABA y GBA", "W32")
 DPS_T = (1, 1, "Trámite DPS (Res. 349/07): la Dirección Provincial las expide al representante de la firma inscripta "
                "al pagar el arancel (aproximado con el trámite de la AGC)", "W33")
-IRAM_T = (1, 1, "Aproximado: IRAM provee las estampillas sólo al licenciatario; se toma el criterio de las estampillas "
-                "DPS: se retiran al pagarlas", "W34")
+IRAM_T = (21, 21, "IRAM, procedimiento DC-PG-129 de las marcas de conformidad (al que remite el Anexo R de "
+                  "extintores): las estampillas se piden con 30 días de anticipación = 21 hábiles", "W34")
+MARTIN = (3, 10, "Aproximado: Martin Morris (Coronel Suárez, PBA), tapones plásticos de rosca macho y hembra (BSP y "
+                 "NPT, polipropileno, ½\" a 3\"): entrega en 3 a 10 días hábiles desde el despacho (ACPLIND no lo "
+                 "publica)", "W35")
 ACONCAGUA_D = (3, 7, "Aproximado: Matafuegos Aconcagua vende el extintor clase D de 5 kg (se encarga indicando los "
                      "metales): 3 a 7 días hábiles después de acreditado el pago", "W26")
 ACONCAGUA = (3, 7, "Web Matafuegos Aconcagua (José C. Paz), soportes de pared de 2,5 a 10 kg y de vehículo de 1 kg: "
@@ -366,6 +369,7 @@ LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "M
           **{c: ACEROSYA for c in ("MP-01", "MP-66", "MP-67")},
           **{f"MP-54/{d}": MORSHOP for d in ("300", "350", "400")},
           "MP-28": EGM, "MP-31": ENAMELS, "MP-65": MAFER, "MP-79": IRAM_T, "RV-CLASED_9l": ACONCAGUA_D,
+          **{f"MP-62/{m}": MARTIN for m in ("M22", "M30", "2½")},
           **{c: DPS_T for c in ("MP-75", "MP-76", "MP-78", "MP-83")},
           **{f"RV-{c}": MAXISEG for c in REV_MAXI}}
 # sin cotización, pero el proceso de carros los nombra (tabla 3 del puesto 1, tomados de la planilla de MP)

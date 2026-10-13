@@ -243,12 +243,17 @@ D.politica.forEach((x) => {
 const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
 const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
 const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
-hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W34, buscados del 12 al 13/10/2026). Ese plazo va marcado «Aproximado»: aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «Aproximado»: aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
 hijos.push(...tabla([46, 10, 34, 10], ["Fuente del plazo", "Días hábiles", "Materiales", "Figura"],
   conCot.map((g) => [g.fuente, g.plazo, rangoCods(g.cods), g.fig])));
-hijos.push(nota("Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país (se buscaron en cinco rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío y directorios de caños, ruedas, abrasivos, granalla, pintura en polvo industrial (Sinteplast, LAF, Interpon, Arnum-As), esmalte, agentes extintores, válvulas, manómetros, mangueras, tubos pescantes, conjuntos de seguridad, obleas, estampillas, tapones y matafuegos de reventa; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor:", { keepNext: true }));
-const provSin = new Map();
-sinCot.forEach((g) => { const k = g.prov; if (!provSin.has(k)) provSin.set(k, { plazos: new Set(), cods: [] }); provSin.get(k).plazos.add(g.plazo); provSin.get(k).cods.push(...g.cods); });
+hijos.push(nota(sinCot.length ? "Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país: usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor. Los marcados «Aproximado» se confirman con el proveedor directo:" : "Todos los materiales tienen plazo con fuente (se buscaron en seis rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío, términos y condiciones y directorios; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Los marcados «Aproximado» salen de otro vendedor del mismo producto o rubro y se confirman con el proveedor directo al cotizarle:", { keepNext: true }));
+const aConfirmar = new Map();
+D.politica.filter((x) => x.fuente.startsWith("Aproximado") || x.fuente.startsWith("Sin plazo")).forEach((x) => {
+  const k = x.proveedor;
+  if (!aConfirmar.has(k)) aConfirmar.set(k, { plazos: new Set(), cods: [] });
+  aConfirmar.get(k).plazos.add(x.ltmin === x.ltmax ? `${x.ltmin}` : `${x.ltmin} a ${x.ltmax}`);
+  aConfirmar.get(k).cods.push(x.codigo);
+});
 const CONTACTO = {
   "Centrosider": "Alternativa: Hierros Torrent, 4555-6078 (vende el tubo de 1\" × 2 mm SAE 1010)",
   "Ruedar": "4442-4752 · ventas@ruedar.com.ar · alternativa: Ruedas Hofer (Haedo), rueda Ø300 × 50, eje 3/4\", 220 kg (cód. 10300), 4443-1439 · contacto@ruedashofer.com.ar", "Escanort": "4795-0943",
@@ -260,11 +265,13 @@ const CONTACTO = {
   "Polvex / DEMSA": "11 4405-3382 · comercial@demsa.com.ar", "Polvex (HZ)": "11 4405-3382 · alternativas que publican la válvula: Melisam (válvulas completas de 1 a 10 kg), ventas@extintoresmelisam.com.ar; Securitá (M-30 de 2,5 a 25 kg)",
   "Yukon": "MatafuegosYa S.R.L. (Estomba 954), 4555-5100 · alternativas: Melisam (manómetros); El Galpón (Corrientes), manómetro de 1,4 MPa y manguera de 5 kg, envía por Correo Argentino sin días publicados", "Georgia": "4585-4400 · info@georgia.com.ar",
   "DPS (PBA)": "Ministerio de Ambiente PBA (Res. 349/07)", "IRAM": "Perú 552, CABA · extintores.iram.org.ar",
-  "A definir (inyectora)": "ACPLIND (Lerma 63, CABA), 4862-1323 · info@acplind.com: 500.000 protectores de rosca en stock en 300 medidas (GAS, BSP y NPT), sin días publicados",
+  "ACPLIND (CABA)": "Lerma 63, CABA, 4862-1323 · info@acplind.com: 500.000 protectores de rosca hembra GAS, BSP y NPT en stock, en 300 medidas",
+  "Pradecon": "Cotización 173195 (Q01)", "Pacheco Chapas": "Cotizó el fleje sin plazo (Q02)",
+  "Importado (China)": "Despachante de aduana / importador", "Vladimirsky": "Distribuidor de barras SAE 1045",
   "Fabricante nacional": "Georgia 4585-4400 · Melisam 4766-6100 · Mozart (Lanús) 4218-3690",
 };
-hijos.push(...tabla([20, 9, 37, 34], ["Proveedor a consultar", "Plazo usado", "Materiales", "Contacto"],
-  [...provSin.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods), CONTACTO[k] || ""])));
+hijos.push(...tabla([20, 9, 37, 34], ["Proveedor directo a confirmar", "Plazo usado", "Materiales", "Contacto"],
+  [...aConfirmar.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods), CONTACTO[k] || ""])));
 hijos.push(nota("La unidad de compra, su contenido, los días entre pedidos y cuánto entra en un lugar salen de la planilla de MP (X07, X07B); en los insumos de carros, de las unidades de entrega del proceso de carros (P07), y en los envases de recargas, de la lista de precios (Q07)."));
 hijos.push(h2("Lugares por almacén"));
 hijos.push(...tabla([50, 17, 17, 16], ["Almacén", "Lugares que ocupa el stock máximo", "Lugares que previó el proceso", "¿Alcanza?"],
@@ -292,7 +299,7 @@ capturas(["P09"]);
 // ------------------------------------------------------------------ 8. pendientes
 hijos.push(h1("8. Pendientes"));
 [
-  "Confirmar con cada proveedor directo los plazos marcados «Aproximado» (tomados de otro vendedor del mismo producto o rubro) y los de fuente antigua (Argensold, Maxiseguridad); pedir el plazo de los tapones a ACPLIND o a la inyectora.",
+  "Confirmar con cada proveedor directo los plazos marcados «Aproximado» (tomados de otro vendedor del mismo producto o rubro) y los de fuente antigua (Argensold, Maxiseguridad); confirmar con ACPLIND el de los tapones; las estampillas IRAM se piden con 30 días de anticipación.",
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
@@ -339,7 +346,8 @@ hijos.push(h1("9. Fuentes"));
   "W31 · Enamels (Lanús), distribuidora de pintura en polvo: entrega inmediata por su stock y su red de distribución en el GBA: https://www.enamels.com.ar/la-empresa/",
   "W32 · Pinturerías Mafer, términos y condiciones: entrega en 2 a 10 días hábiles en CABA y GBA: https://www.pintureriasmafer.com.ar/terminos-y-condiciones/ ; vende Sinteplast y la línea epoxi y poliuretano: https://www.pintureriasmafer.com.ar/hogar-y-obra/epoxi-y-poliuretano/",
   "W33 · Resolución 349/07 (PBA): la Dirección Provincial de Control Ambiental expide tarjetas y estampillas a los representantes de las firmas inscriptas, previo pago del arancel: https://www.ambiente.gba.gob.ar/sites/default/files/RESOLUCION%20349%2007.pdf",
-  "W34 · IRAM, Anexo R de sellos de protección contra incendios: los extintores certificados llevan estampillas provistas exclusivamente por el IRAM: https://sellos.iram.org.ar/manuales/Anexo_R-Proteccion_contra_Incendios.pdf",
+  "W34 · IRAM, Anexo R de sellos de protección contra incendios: los extintores certificados llevan estampillas provistas exclusivamente por el IRAM, según el DC-PG-129: https://sellos.iram.org.ar/manuales/Anexo_R-Proteccion_contra_Incendios.pdf ; DC-PG-129 (copia de la Rev. 02 publicada por un licenciatario): la estampilla se pide a IRAM con una anticipación no menor a 30 días: https://quesosespeciales.com/resources/img/quality/DC-PG_129_IRAM.pdf",
+  "W35 · Martin Morris S.A. (Coronel Suárez, PBA), tapones plásticos de rosca: hembra BSP de polipropileno de ½\" a 3\" (https://martinmorris.ar/products/tapa-o-tapon-rosca-hembra-de-1-arag-5344) y macho NPT (https://www.martinmorris.ar/p/tapon-rosca-macho-marca-banjo-reforzadorosca-macho-2-pulgadas-npt-sub-1931); despacha en días hábiles y entrega en 3 a 10 días desde la guía: https://www.martinmorris.ar/shipping-policies",
 ].forEach((x) => hijos.push(vin(x)));
 
 // ------------------------------------------------------------------ documento

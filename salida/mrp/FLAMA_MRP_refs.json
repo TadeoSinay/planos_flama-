@@ -4460,10 +4460,10 @@
    "fuc": "X07",
    "plan": "MP-58",
    "lt": [
-    1,
-    1
+    21,
+    21
    ],
-   "flt": "Aproximado: IRAM provee las estampillas sólo al licenciatario; se toma el criterio de las estampillas DPS: se retiran al pagarlas",
+   "flt": "IRAM, procedimiento DC-PG-129 de las marcas de conformidad (al que remite el Anexo R de extintores): las estampillas se piden con 30 días de anticipación = 21 hábiles",
    "flt_fig": "W34",
    "t": 20,
    "umpos": 10000,
@@ -4562,11 +4562,11 @@
    "fuc": "X07",
    "plan": "MP-62",
    "lt": [
-    10,
+    3,
     10
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Martin Morris (Coronel Suárez, PBA), tapones plásticos de rosca macho y hembra (BSP y NPT, polipropileno, ½\" a 3\"): entrega en 3 a 10 días hábiles desde el despacho (ACPLIND no lo publica)",
+   "flt_fig": "W35",
    "t": 20,
    "umpos": 40000,
    "fpos": "X07"
@@ -4579,11 +4579,11 @@
    "fuc": "X07",
    "plan": "MP-62",
    "lt": [
-    10,
+    3,
     10
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Martin Morris (Coronel Suárez, PBA), tapones plásticos de rosca macho y hembra (BSP y NPT, polipropileno, ½\" a 3\"): entrega en 3 a 10 días hábiles desde el despacho (ACPLIND no lo publica)",
+   "flt_fig": "W35",
    "t": 20,
    "umpos": 40000,
    "fpos": "X07"
@@ -4596,11 +4596,11 @@
    "fuc": "X07",
    "plan": "MP-62",
    "lt": [
-    10,
+    3,
     10
    ],
-   "flt": "Sin plazo publicado: el de la planilla de MP",
-   "flt_fig": "X07",
+   "flt": "Aproximado: Martin Morris (Coronel Suárez, PBA), tapones plásticos de rosca macho y hembra (BSP y NPT, polipropileno, ½\" a 3\"): entrega en 3 a 10 días hábiles desde el despacho (ACPLIND no lo publica)",
+   "flt_fig": "W35",
    "t": 20,
    "umpos": 40000,
    "fpos": "X07"
@@ -6854,7 +6854,7 @@
    "nom": "Tapón protector de rosca M22",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "A definir (inyectora)",
+   "prov": "ACPLIND (CABA)",
    "uc": "Caja de 5.000 u",
    "cont": 5000,
    "plan": "MP-62",
@@ -6870,7 +6870,7 @@
    "nom": "Tapón protector de rosca M30",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "A definir (inyectora)",
+   "prov": "ACPLIND (CABA)",
    "uc": "Caja de 5.000 u",
    "cont": 5000,
    "plan": "MP-62",
@@ -6886,7 +6886,7 @@
    "nom": "Tapón protector de rosca 2½\"",
    "um": "u",
    "alm": "Embalaje",
-   "prov": "A definir (inyectora)",
+   "prov": "ACPLIND (CABA)",
    "uc": "Caja de 5.000 u",
    "cont": 5000,
    "plan": "MP-62",
