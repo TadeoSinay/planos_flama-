@@ -15,7 +15,7 @@ Hojas
   CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
   POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
   PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
-  PROY_USADOS      usados y recargas por año y rubro (suma) y debajo las filas copiadas de las siete hojas (sin 2025)
+  PROY_USADOS      usados y recargas por año y rubro (suma) y debajo las filas copiadas de cuatro hojas (sin 2025)
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
@@ -60,10 +60,9 @@ POOL = {"ABC 5 kg (cubre ABC 1; 2,5 y 5 kg)": "ABC_5kg", "ABC 10 kg": "ABC_10kg"
 # zonas que atiende la planta industrial (Dimensionamiento Técnico V2, Almacen PT, filas 28 a 34); su parte de las
 # recargas sale de la distribución de recargas por zona del Indexado, año por año
 ZONAS_PI_NOM = ("CABA Sur", "PBA Sur 1er", "PBA Sur 2do", "PBA Sur 3er")
-# hojas de las Proyecciones que separan las recargas de equipos usados (columnas Año, Mat Usados y RECARGAS TOT)
+# hojas de las Proyecciones de los rubros que consumen toda la gama de matafuegos y separan los usados (columnas Año,
+# Mat Usados y RECARGAS TOT); supermercados, automotor y edificios quedan afuera
 HOJAS_USADOS = ("SALUD", "EDUCACION", "INDUSTRIASALM", "HOTELES")
-# hojas de proyección que no separan los usados: (hoja, columna del año, columna de recargas), base 0
-HOJAS_SIN_USADOS = (("SUPERMERCADOS", 1, 10), ("AUTOMOTOR", 0, 12), ("EDIFICIOS", 1, 10))
 # perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104; recargas /12 (filas 135+)
 PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
             ("Manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
@@ -119,8 +118,8 @@ def I(cod, nom, um, alm, prov, uc, cont, plan, fuc, umpos=None, fpos=None):
                 umpos=umpos if umpos is not None else pos, fpos=fpos or "X07")
 
 
-# tubo pescante: aparte de la válvula, como la planilla de MP (MP-46 plástico 2,5 a 10 kg; MP-47 acero, carros);
-# el del 1 kg viene en la válvula M-22. Dos proveedores que lo publican o lo fabrican, ninguno con plazo publicado
+# tubo pescante: va por fuera de la válvula (MP-46 PVC, 2,5 a 10 kg; MP-47 acero, carros); el del 1 kg viene en la
+# válvula M-22. Dos proveedores que lo publican o lo fabrican, ninguno con plazo publicado
 PESCA_PVC = "Alt. 1 Esinex (Billinghurst) / Alt. 2 Securitá"
 PESCA_ACERO = "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)"
 # revendidos que figuran en el catálogo de Maxiseguridad (W22)
@@ -624,76 +623,54 @@ class Libro:
         return ubicar(src)
 
     def copia_usados(self):
-        """Columnas Año, Mat Usados y RECARGAS TOT (A, O y P) de las hojas de proyección que separan los equipos
-        usados, y Año y recargas de las que no los separan (supermercados, automotor, edificios): arriba la suma por
-        año y rubro, abajo las filas copiadas. 2025 es el año 0 de las Proyecciones y no se copia. El año se pasa a
-        número (EDUCACION lo trae como texto y AUTOMOTOR como «Año N»)."""
+        """Columnas Año, Mat Usados y RECARGAS TOT (A, O y P) de las hojas de proyección de los rubros que consumen toda
+        la gama de matafuegos: arriba la suma por año y rubro, abajo las filas copiadas. 2025 es el año 0 de las
+        Proyecciones (sin usados ni recargas, «—») y no se copia. El año se pasa a número (EDUCACION lo trae como
+        texto)."""
         ws = self.wb.create_sheet("PROY_USADOS")
         _titulo(ws, "PROYECCIONES: equipos usados y recargas por rubro")
-        ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de los rubros que separan los usados; "
-                      "supermercados, automotor y edificios no tienen esa columna (sólo nuevos y recargas): el % de "
-                      "usados se mide en los cuatro primeros y se aplica a todas las recargas. Debajo, las filas "
-                      "copiadas; 2025 es el año 0 de las Proyecciones (sin usados ni recargas, «—») y no se copia.")
-
-        def año_de(v):
-            v = str(v).strip()
-            if v.startswith("Año"):
-                v = str(2025 + int(v.split()[1]))
-            try:
-                return int(float(v))
-            except ValueError:
-                return None
-
+        ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de los rubros que consumen toda la gama de "
+                      "matafuegos (salud, educación, industrias y almacenes, hoteles); supermercados, automotor y "
+                      "edificios quedan afuera. Debajo, las filas copiadas; 2025 es el año 0 de las Proyecciones (sin "
+                      "usados ni recargas, «—») y no se copia.")
         nombres = ("Salud", "Educación", "Industrias y almacenes", "Hoteles")
         _cab(ws, 4, ["Año"] + [f"{m}: {x}" for m in nombres for x in ("usados", "recargas")] +
-             ["Total usados", "Total recargas", "% usados", "Supermercados: recargas (no separa usados)",
-              "Automotor: recargas (no separa usados)", "Edificios: recargas (no separa usados)",
-              "Recargas de los 7 rubros", "Parte de las recargas con usados medidos"], [9] + [12] * 25)
-        ws.row_dimensions[4].height = 45
+             ["Total usados", "Total recargas", "% usados"], [9] + [12] * 14)
         r0 = 5 + len(AÑOS) + 2
-        self.usados, sin = [], []
-        bloques = [(h, 0, 14, 15) for h in HOJAS_USADOS] + [(h, cy, None, cr) for h, cy, cr in HOJAS_SIN_USADOS]
-        c0 = 1
-        for h, cy, cu, cr in bloques:
-            tit = ("Año", "Mat Usados", "RECARGAS TOT") if cu is not None else ("Año", "RECARGAS")
+        self.usados = []
+        for k, h in enumerate(HOJAS_USADOS):
+            c0 = 1 + 4 * k
             ws.cell(r0, c0, "PROYECCION " + h).font = _f(True)
-            for j, t in enumerate(tit):
+            for j, t in enumerate(("Año", "Mat Usados", "RECARGAS TOT")):
                 ws.cell(r0 + 1, c0 + j, t).font = _f(True)
             n = r0 + 1
             for row in self.src["PROYECCION " + h].iter_rows(min_row=2, max_col=16, values_only=True):
-                año = año_de(row[cy]) if row[cy] is not None else None
+                if row[0] is None:
+                    continue
+                año = row[0]
+                try:
+                    año = int(str(año).strip())
+                except ValueError:
+                    pass
                 if año not in AÑOS:
                     continue
                 n += 1
                 ws.cell(n, c0, año)
-                vals = (row[cu], row[cr]) if cu is not None else (row[cr],)
-                for j, v in enumerate(vals, 1):
-                    ws.cell(n, c0 + j, v)
-            cols = [L(c0 + j) for j in range(len(tit))]
-            if cu is not None:
-                self.usados.append((cols[0], cols[1], cols[2], r0 + 2, n))
-            else:
-                sin.append((cols[0], cols[1], r0 + 2, n))
-            c0 += len(tit) + 1
-
-        def sumif(cy, cv, a, b, r):
-            return f"SUMIF(${cy}${a}:${cy}${b},$A{r},${cv}${a}:${cv}${b})"
-
+                ws.cell(n, c0 + 1, row[14])
+                ws.cell(n, c0 + 2, row[15])
+            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, n))
         self.r_usados = {}
         for j, a in enumerate(AÑOS):
             r = 5 + j
             ws.cell(r, 1, a)
             for k, t in enumerate(self.usados):
                 for m in (1, 2):
-                    ws.cell(r, 2 * k + 1 + m, "=" + sumif(t[0], t[m], t[3], t[4], r)).number_format = "#,##0"
+                    ws.cell(r, 2 * k + 1 + m, f"=SUMIF(${t[0]}${t[3]}:${t[0]}${t[4]},$A{r},"
+                                              f"${t[m]}${t[3]}:${t[m]}${t[4]})").number_format = "#,##0"
             ws.cell(r, 10, f"=B{r}+D{r}+F{r}+H{r}").number_format = "#,##0"
             ws.cell(r, 11, f"=C{r}+E{r}+G{r}+I{r}").number_format = "#,##0"
             ws.cell(r, 12, f"=J{r}/K{r}").number_format = "0.00%"
-            for k, t in enumerate(sin):
-                ws.cell(r, 13 + k, "=" + sumif(t[0], t[1], t[2], t[3], r)).number_format = "#,##0"
-            ws.cell(r, 16, f"=K{r}+M{r}+N{r}+O{r}").number_format = "#,##0"
-            ws.cell(r, 17, f"=K{r}/P{r}").number_format = "0.0%"
-            _fila(ws, r, 17)
+            _fila(ws, r, 12)
             self.r_usados[a] = r
         ws.freeze_panes = "B5"
 
@@ -758,7 +735,8 @@ class Libro:
             f"=PROY_USADOS!$L${self.r_usados[AÑOS[j]]}" for j in range(10)], "0.00%",
             como="Proyecciones: suma de «Mat Usados» / suma de «RECARGAS TOT» del año, en las hojas de proyección que "
                  "separan los usados (salud, educación, industrias y almacenes, hoteles; sumadas en PROY_USADOS). "
-                 "Supermercados, automotor y edificios no los separan: se les aplica el mismo %. Son "
+                 "Son los rubros que consumen toda la gama de matafuegos; supermercados, automotor y edificios "
+                 "quedan afuera. Son "
                  "los equipos que llegan accionados o sin presión.", figs=["X04"])
         self.u35 = f"DEMANDA!$M${self.r_u}"
         _fila(ws, r_pi, 13)

@@ -202,8 +202,8 @@ hijos.push(h1("4. Consumo por unidad (hojas MANUALES, RODANTES, RECARGAS y REVEN
 hijos.push(nota("Las filas que se calculan igual están juntas. «(CABA)» o «(PBA)»: se multiplica por el % que va a esa jurisdicción (D02, D03)."));
 const TIT = { MANUALES: "4.1 Manuales", RODANTES: "4.2 Rodantes", RECARGAS: "4.3 Recargas de la planta industrial", REVENDIDOS: "4.4 Revendidos" };
 const INTRO = {
-  MANUALES: "El tubo pescante del 2,5, 5 y 10 kg (MP-46, PVC rígido como el caño de pesca del BOM) se compra aparte de la válvula, como lo pone la planilla de MP; el del 1 kg viene en la válvula M-22. Dos proveedores: Esinex (W19) y Securitá (W20).",
-  RODANTES: "El tubo pescante de los carros (MP-47) se compra aparte de la válvula y es de acero SAE 1010, como lo pide la planilla de MP. Dos proveedores: Mozart (W21) y Georgia (W23); los dos lo usan de acero al carbono en sus matafuegos.",
+  MANUALES: "El tubo pescante del 2,5, 5 y 10 kg (MP-46, PVC rígido como el caño de pesca del BOM) va por fuera de la válvula y se compra aparte; el del 1 kg viene en la válvula M-22. Dos proveedores: Esinex (W19) y Securitá (W20).",
+  RODANTES: "El tubo pescante de los carros (MP-47) va por fuera de la válvula, se compra aparte y es de acero SAE 1010, como lo pide la planilla de MP. Dos proveedores: Mozart (W21) y Georgia (W23); los dos lo usan de acero al carbono en sus matafuegos.",
   RECARGAS: "Sin soldadura: un recipiente que se recarga no se suelda. Los repuestos (válvula, manómetro, manguera) no entran: se cambian si están dañados y su stock sale del registro de repuestos (R04).",
 };
 LIN.forEach((l) => {
@@ -243,7 +243,7 @@ D.politica.forEach((x) => {
 const conCot = [...porFuente.values()].filter((g) => !g.fuente.startsWith("Sin plazo"));
 const sinCot = [...porFuente.values()].filter((g) => g.fuente.startsWith("Sin plazo"));
 const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.split("/")[0]; const prev = out.find((o) => o.b === b); if (prev && c.includes("/")) prev.n += 1; else out.push({ b, c, n: 1 }); }); return out.map((o) => (o.n > 1 ? `${o.b} (${o.n} medidas)` : o.c)).join(", "); };
-hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «≈» (aproximado): aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. El link y el detalle de cada fuente están en el Excel (POLITICA_STOCK, columna «De dónde sale el plazo»). Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID (Q04): cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
+hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «≈» (aproximado): aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. El link y el detalle de cada fuente están en el Excel (POLITICA_STOCK, columna «De dónde sale el plazo»). Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID: cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
 const NOMBRE_W = { W4: "Metapol (CABA)", W5: "Importa Fácil (China)", W6: "Espacio Industria (Munro)", W7: "Rotolan (Lanús)",
   W8: "Papelera Damián", W9: "Sellerpack (Pompeya)", W10: "Depallet", W11: "Würth Argentina", W12: "Soldanet",
   W13: "Matafuegos Rodo", W14: "Argensold (Lomas del Mirador)", W15: "Maxiseguridad (Munro)", W16: "RotulArte (CABA)",
@@ -259,8 +259,8 @@ conCot.forEach((g) => {
   if (!filasLT.has(k)) filasLT.set(k, { f: corta(g), plazo: g.plazo, fig: g.fig, cods: [] });
   filasLT.get(k).cods.push(...g.cods);
 });
-hijos.push(...tabla([30, 10, 50, 10], ["Fuente (≈ aproximado al proveedor directo)", "Días hábiles", "Materiales", "Fig."],
-  [...filasLT.values()].map((g) => [g.f, g.plazo, rangoCods(g.cods), g.fig])));
+hijos.push(...tabla([36, 10, 54], ["Fuente (≈ aproximado al proveedor directo; W = link en el Excel)", "Días hábiles", "Materiales"],
+  [...filasLT.values()].map((g) => [g.fig.startsWith("W") ? `${g.f} (${g.fig})` : g.f, g.plazo, rangoCods(g.cods)])));
 hijos.push(nota(sinCot.length ? "Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país: usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor. Los marcados «≈» se confirman con el proveedor directo:" : "Todos los materiales tienen plazo con fuente (se buscaron en seis rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío, términos y condiciones y directorios; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Los marcados «≈» salen de otro vendedor del mismo producto o rubro y se confirman con el proveedor directo al cotizarle:", { keepNext: true }));
 const aConfirmar = new Map();
 D.politica.filter((x) => x.fuente.startsWith("Aproximado") || x.fuente.startsWith("Sin plazo")).forEach((x) => {
@@ -281,17 +281,16 @@ const CONTACTO = {
   "Yukon": "MatafuegosYa S.R.L. (Estomba 954), 4555-5100 · alternativas: Melisam (manómetros); El Galpón (Corrientes), manómetro de 1,4 MPa y manguera de 5 kg, envía por Correo Argentino sin días publicados", "Georgia": "4585-4400 · info@georgia.com.ar",
   "DPS (PBA)": "Ministerio de Ambiente PBA (Res. 349/07)", "IRAM": "Perú 552, CABA · extintores.iram.org.ar",
   "ACPLIND (CABA)": "Lerma 63, CABA, 4862-1323 · info@acplind.com: 500.000 protectores de rosca hembra GAS, BSP y NPT en stock, en 300 medidas",
-  "Pradecon": "Cotización 173195 (Q01)", "Pacheco Chapas": "Cotizó el fleje sin plazo (Q02)",
+  "Pradecon": "Cotización 173195", "Pacheco Chapas": "Cotizó el fleje sin plazo (Q02)",
   "Importado (China)": "Despachante de aduana / importador", "Vladimirsky": "Distribuidor de barras SAE 1045",
   "Fabricante nacional": "Georgia 4585-4400 · Melisam 4766-6100 · Mozart (Lanús) 4218-3690",
 };
 hijos.push(...tabla([20, 9, 37, 34], ["Proveedor directo a confirmar", "Plazo usado", "Materiales", "Contacto"],
   [...aConfirmar.entries()].map(([k, v]) => [k, [...v.plazos].join(" / "), rangoCods(v.cods), CONTACTO[k] || ""])));
-hijos.push(nota("La unidad de compra, su contenido, los días entre pedidos y cuánto entra en un lugar salen de la planilla de MP (X07, X07B); en los insumos de carros, de las unidades de entrega del proceso de carros (P07), y en los envases de recargas, de la lista de precios (Q07)."));
+hijos.push(nota("La unidad de compra, su contenido, los días entre pedidos y cuánto entra en un lugar salen de la planilla de MP (X07); en los insumos de carros, de las unidades de entrega del proceso de carros, y en los envases de recargas, de la lista de precios de agentes."));
 hijos.push(h2("Lugares por almacén"));
 hijos.push(...tabla([50, 17, 17, 16], ["Almacén", "Lugares que ocupa el stock máximo", "Lugares que previó el proceso", "¿Alcanza?"],
   D.almacenes.map((a) => [a.almacen, a.pos, a.cap ?? "—", a.res || "Lo prevé el layout"]), { num: [1, 2] }));
-capturas(["M07", "Q01", "Q03", "Q04", "X07", "X07B", "P06", "P07", "Q07", "M08"]);
 
 // ------------------------------------------------------------------ 6. fuera del MRP
 hijos.push(h1("6. Lo que no entra al MRP (se compra por punto de pedido)"));
@@ -314,13 +313,11 @@ capturas(["P09"]);
 // ------------------------------------------------------------------ 8. pendientes
 hijos.push(h1("8. Pendientes"));
 [
-  "Confirmar con cada proveedor directo los plazos marcados «Aproximado» (tomados de otro vendedor del mismo producto o rubro) y los de fuente antigua (Argensold, Maxiseguridad); confirmar con ACPLIND el de los tapones; las estampillas IRAM se piden con 30 días de anticipación.",
+  "Confirmar con cada proveedor directo los plazos marcados «≈» («Aproximado» en el Excel: tomados de otro vendedor del mismo producto o rubro) y los de fuente antigua (Argensold, Maxiseguridad); confirmar con ACPLIND el de los tapones; las estampillas IRAM se piden con 30 días de anticipación.",
   "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
   "Proceso de recargas, Pintura: dice «esmalte poliuretano rojo brillante» y respirador para isocianatos; la planilla de MP pide esmalte sintético rojo RAL 3000 (X15), que es el que usa el MRP.",
-  "Definir el % de usados de supermercados, automotor y edificios: sus proyecciones no separan los usados y hoy se les aplica el 4,76 % de los otros cuatro rubros, que son el 17 % de las recargas (PROY_USADOS).",
-  "Confirmar con HZ que las válvulas M-30 y de carro se venden sin tubo pescante (la planilla de MP lo deja en dudas: «Materiales y útiles» dice que llegan armadas); si vienen con él, se sacan MP-46 y MP-47.",
   "BOM: el caño de pesca de los carros figura en PVC; la planilla de MP lo pide de acero SAE 1010 (MP-47).",
   "Cotizar el fleje de 1,25 × 135 mm del fondo del 1 kg (disco de 112 mm) y los revendidos.",
 ].forEach((x) => hijos.push(vin(x)));

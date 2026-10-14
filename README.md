@@ -239,7 +239,7 @@ con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificaci�
 | `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |
 | `POLITICA_STOCK` | Consumo por día (promedio = año / 240; mes pico / 20), plazo de entrega mínimo y máximo de las cotizaciones, consumo mientras llega el pedido, stock de seguridad, punto de pedido, cantidad por pedido en unidades de compra, stock máximo y lugares por almacén |
 | `PROY_INDEXADO` / `PROY_RESERVAS` | Copias de las hojas de las Proyecciones |
-| `PROY_USADOS` | Usados y recargas por año y mercado (salud, educación, industrias y almacenes, hoteles) y, debajo, las filas copiadas de esas hojas sin 2025 (año 0, sin datos) |
+| `PROY_USADOS` | Usados y recargas por año de los rubros que consumen toda la gama de matafuegos (salud, educación, industrias y almacenes, hoteles; supermercados, automotor y edificios quedan afuera) y, debajo, las filas copiadas de esas hojas sin 2025 (año 0, sin datos) |
 
 De dónde sale cada valor, con las capturas de los procesos, el BOM, las planillas y las cotizaciones, está en el Word
 «Justificación_MRP» (`salida/justificacion/Justificación_MRP.docx`, armado con `tools/justificacion_mrp/`).
