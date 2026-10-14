@@ -1341,7 +1341,7 @@ class Libro:
             links = [u for u in LINKS.get(lfig, ()) if u]
             if links:
                 c = ws.cell(r, 11, ("Aproximado: " if lsrc.startswith("Aproximado") else "") +
-                            f"{NOMBRE_FUENTE.get(lfig, lsrc.split(':')[0])}: {links[0]}")
+                            f"{NOMBRE_FUENTE.get(lfig, lsrc.split(':')[0])} ({lfig}): {links[0]}")
                 c.hyperlink = links[0]
                 c.font = Font(name=AR, size=10, color=NEGRO, underline="single")
                 c.comment = Comment(lsrc + (f". Otro link: {links[1]}" if len(links) > 1 else ""), "FLAMA",
