@@ -24,7 +24,7 @@ def notas(D):
     ocup = sorted((x for x in MO.values() if x["Ocupa (%)"] is not None), key=lambda x: x["Ocupa (%)"])
     a1, a5 = MO["FL_MAT_ABC_1kg"], MO["FL_MAT_ABC_5kg"]
     k = MO["FL_MAT_SALESK_6l"]
-    mk, m70, m1 = M["FL_MAT_SALESK_6l"], M["FL_MAT_ABC_70kg"], M["FL_MAT_ABC_1kg"]
+    mk, m70, m1, m25 = M["FL_MAT_SALESK_6l"], M["FL_MAT_ABC_70kg"], M["FL_MAT_ABC_1kg"], M["FL_MAT_ABC_25kg"]
     dentro5 = [x for x in D["masas"] if abs(x["dif"]) <= 5]
     en_banda = [x for x in D["masas"] if x["dentro"]]
     rk_carga = k["Carga objetivo"] * R["AG_K"]["valor"]
@@ -141,6 +141,10 @@ def notas(D):
         f"Sales K, {sg(mk['dif'])} contra la ficha Melisam ({f(mk['ref'], 1)} kg, F25). El catálogo Fadesa "
         f"({f(mk['catalogo'], 2)} kg, F21) es imposible: la carga sola pesa {f(rk_carga, 2)} kg. La diferencia con "
         "Melisam está en el recipiente inoxidable Ø190 × 470 del plano Fadesa, cuyas medidas Melisam no publica.",
+        f"ABC 25 kg, {sg(m25['dif'])} contra el plano Fadesa ({f(m25['ref'], 1)} kg) y "
+        f"{sg(100 * (m25['bom'] / m25['catalogo'] - 1))} contra el catálogo ({f(m25['catalogo'])} kg). El plano "
+        "Fadesa no desglosa la masa; el BOM lleva el carro del proceso FLAMA y el caño de pesca de acero SAE 1010 "
+        "(IRAM 3550 3.6 y 4.10), 0,72 kg más que uno de PVC. Se confirma pesando el primer lote.",
         f"ABC 70 kg, {sg(m70['dif'])} contra la ficha Georgia ({f(m70['ref'])} kg, F24). El catálogo "
         f"({f(m70['catalogo'])} kg) no es compatible con el recipiente Ø390 × 4,75 del proceso FLAMA de carros.",
         "AFFF 50 l, CO₂ 2 kg, CO₂ 5 kg y clase D son revendidos. El BOM los describe con el modelo 3D de su plano y su "

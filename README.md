@@ -234,10 +234,10 @@ con LibreOffice al guardar y deja al lado `FLAMA_MRP_refs.json` (la justificaci�
 | Hoja | Contenido |
 |---|---|
 | `DEMANDA` | Unidades por año de cada producto (Indexado Dim Técnico y Reservas y Sustitutos). Recargas: sólo las de la planta industrial (sus 4 zonas sobre el total de la distribución de recargas del Indexado). % de equipos usados: suma por año de las columnas de usados de las Proyecciones (`PROY_USADOS`). Sustitutos nuevos: los ABC se fabrican (manuales o rodantes) y los demás se compran (revendidos) |
-| `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico y factor de pico de cada línea |
+| `ESTACIONALIDAD` | Perfiles y producción mensual de 2035 como el Dimensionamiento Técnico FLAMA (recargas anual / 12); mes pico de cada producto (el que usa la política de stock) y mes pico y factor de pico de cada línea |
 | `MANUALES` · `RODANTES` · `RECARGAS` · `REVENDIDOS` | Arriba la demanda de cada producto; abajo el consumo por unidad de cada material (una columna por producto); a la derecha lo que hay que comprar por año y en el mes pico |
 | `CONSOLIDADO` | Una fila por material: la suma de las cuatro líneas |
-| `POLITICA_STOCK` | Consumo por día (promedio = año / 240; mes pico / 20), plazo de entrega mínimo y máximo de las cotizaciones, consumo mientras llega el pedido, stock de seguridad, punto de pedido, cantidad por pedido en unidades de compra, stock máximo y lugares por almacén |
+| `POLITICA_STOCK` | Consumo por día (promedio = año / 240; mes pico / 20), plazo de entrega mínimo y máximo (de la cotización, de la web del proveedor o, si no lo publica, aproximado con otro vendedor del mismo producto o rubro; el link va en «De dónde sale el plazo» y el detalle en su comentario), consumo mientras llega el pedido, stock de seguridad, punto de pedido, cantidad por pedido en unidades de compra, stock máximo y lugares por almacén |
 | `PROY_INDEXADO` / `PROY_RESERVAS` | Copias de las hojas de las Proyecciones |
 | `PROY_USADOS` | Usados y recargas por año de los rubros que consumen toda la gama de matafuegos (salud, educación, industrias y almacenes, hoteles; supermercados, automotor y edificios quedan afuera) y, debajo, las filas copiadas de esas hojas sin 2025 (año 0, sin datos) |
 

@@ -112,11 +112,12 @@ function figs(ids) {
 const LIN = ["MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS"];
 const hijos = [];
 const vistas = new Set();
-// las capturas angostas van de a dos por fila
-D.capturas.forEach((c) => { c.medio = c.id !== "G01" && (c.w < 1300 || c.h < 420); });
+// las capturas angostas van de a dos por fila; las anchas (tablas de 12 meses) van a todo el ancho
+D.capturas.forEach((c) => { c.medio = c.id !== "G01" && c.w < 1300; });
 // muestra, al final de cada sección, las capturas citadas que todavía no se vieron
 function capturas(ids) {
-  const nuevas = [...new Set(ids)].filter((i) => !vistas.has(i) && CAP[i]);
+  const nuevas = [...new Set(ids)].filter((i) => !vistas.has(i) && CAP[i])
+    .sort((a, b) => Number(CAP[a].medio) - Number(CAP[b].medio));
   nuevas.forEach((i) => vistas.add(i));
   if (nuevas.length) hijos.push(...figs(nuevas));
 }
@@ -147,6 +148,20 @@ function grupos(filas) {
     if (!g.mats.includes(nm)) g.mats.push(nm);
   });
   return [...m.values()];
+}
+// «Tubo pescante, ABC 2,5 kg», «…, ABC 5 kg» → «Tubo pescante (2,5 kg, 5 kg y 10 kg)»; los materiales se separan con «;»
+const VARIANTE = [/^(.+?),? (?:ABC|carro) ([\d,]+ (?:kg|l))$/, /^(.+?) (M\d+|2½")$/, /^(Matafuego) (.+)$/];
+function juntar(mats) {
+  const orden = [], porBase = new Map();
+  mats.forEach((x) => {
+    const r = VARIANTE.map((re) => x.match(re)).find(Boolean);
+    const base = r ? r[1] : x;
+    if (!porBase.has(base)) { porBase.set(base, []); orden.push(base); }
+    porBase.get(base).push(r ? r[2] : null);
+  });
+  const y = (v) => (v.length > 1 ? `${v.slice(0, -1).join(", ")} y ${v[v.length - 1]}` : v[0]);
+  return orden.map((b) => { const v = porBase.get(b);
+    return v.length === 1 ? (v[0] === null ? b : mats.find((x) => x.startsWith(b))) : `${b} (${y(v.filter(Boolean))})`; }).join("; ");
 }
 
 // ------------------------------------------------------------------ portada
@@ -190,6 +205,7 @@ capturas(["X01", "X03", "X02", "X13", "X04"]);
 // ------------------------------------------------------------------ 3. estacionalidad
 hijos.push(h1("3. Estacionalidad (hoja ESTACIONALIDAD)"));
 hijos.push(nota("Como el Dimensionamiento Técnico FLAMA: producción de cada mes de 2035 = demanda del año × perfil. El mes pico es el de mayor producción de la línea. Recargas: anual / 12. Revendidos: el perfil de su tamaño. Para comprar, cada producto usa su propio mes pico: el AFFF 50 l sigue el perfil industrial (pico de marzo a agosto, 37 por mes) y en diciembre, pico de los revendidos, vende 33, menos que su promedio de 35; con el pico de la línea su stock de seguridad daba negativo."));
+hijos.push(nota("Corregido en los dos Dimensionamientos (FLAMA y V2): el total de recargas sumaba también la fila «TOTAL CARROS», que es el subtotal de los cuatro carros, y los contaba dos veces. Ahora esa fila se muestra pero no entra en el total: 2035 = 371.909 recargas, igual que el Indexado (371.908), y 127.339 en la planta industrial (10.612 por mes, F03). El MRP no cambia: toma las recargas del Indexado."));
 hijos.push(...tabla([7, 27, ...Array(12).fill(5.5)], ["Ref.", "Perfil", "E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
   D.perfiles.map((x) => [x.ref, x.nombre, ...x.meses.map((v) => pc(v, 1))]), { num: [...Array(12).keys()].map((i) => i + 2) }));
 hijos.push(...tabla([8, 14, 10, 15, 15, 12, 26], ["Ref.", "Línea", "Mes pico", "Producción del mes pico", "Promedio mensual", "Factor de pico", "Control"],
@@ -202,8 +218,8 @@ hijos.push(h1("4. Consumo por unidad (hojas MANUALES, RODANTES, RECARGAS y REVEN
 hijos.push(nota("Las filas que se calculan igual están juntas. «(CABA)» o «(PBA)»: se multiplica por el % que va a esa jurisdicción (D02, D03)."));
 const TIT = { MANUALES: "4.1 Manuales", RODANTES: "4.2 Rodantes", RECARGAS: "4.3 Recargas de la planta industrial", REVENDIDOS: "4.4 Revendidos" };
 const INTRO = {
-  MANUALES: "El tubo pescante del 2,5, 5 y 10 kg (MP-46, PVC rígido como el caño de pesca del BOM) va por fuera de la válvula y se compra aparte; el del 1 kg viene en la válvula M-22. Dos proveedores: Esinex (W19) y Securitá (W20).",
-  RODANTES: "El tubo pescante de los carros (MP-47) va por fuera de la válvula, se compra aparte y es de acero SAE 1010, como lo pide la planilla de MP. Dos proveedores: Mozart (W21) y Georgia (W23); los dos lo usan de acero al carbono en sus matafuegos.",
+  MANUALES: "Tubo pescante del 2,5, 5 y 10 kg (MP-46): PVC rígido, como el caño de pesca del BOM. Va por fuera de la válvula y se compra aparte; el del 1 kg viene con la válvula M-22. Es lo que pide la norma: IRAM 3523 3.5 sólo exige un tubo interior que la carga no ataque, sin fijar el material, y 4.4 un diámetro interior de 8 mm como mínimo. El PVC no se corroe con el polvo ABC, el tubo es corto y liviano, y el ensayo de vibraciones (4.8) se hace con el matafuego armado. Proveedores: Esinex (W19) y Securitá (W20).",
+  RODANTES: "Tubo pescante de los carros (MP-47): acero SAE 1010, como pide la planilla de MP; va por fuera de la válvula y se compra aparte. IRAM 3550 3.6 pide lo mismo que la 3523 (un tubo que la carga no ataque) y el acero cumple: el polvo va seco con nitrógeno seco (3.9) y la norma acepta el recipiente de acero al carbono con recubrimiento sólo por fuera (3.2.1). Lo que decide es el ensayo de rodadura (4.10, método 7.9): el carro cargado se remolca 1 km, se deja caer 20 cm y se lo hace chocar contra una pared, no se puede romper ninguna parte y después tiene que descargar como pide 4.11. Un tubo largo de PVC rígido, dentro de 25 a 100 kg de polvo, se puede fisurar o soltar de la rosca con esos golpes; el de acero no. Por eso el BOM y los planos de los carros quedaron en acero. Proveedores: Mozart (W21) y Georgia (W23), que lo usan de acero al carbono.",
   RECARGAS: "Sin soldadura: un recipiente que se recarga no se suelda. Los repuestos (válvula, manómetro, manguera) no entran: se cambian si están dañados y su stock sale del registro de repuestos (R04).",
 };
 LIN.forEach((l) => {
@@ -212,7 +228,7 @@ LIN.forEach((l) => {
   if (INTRO[l]) hijos.push(nota(INTRO[l]));
   const gs = grupos(L_.filas);
   hijos.push(...tabla([11, 29, 48, 12], ["Ref.", "Material", "Cómo se calcula", "Figura"],
-    gs.map((g) => [rango(g.refs), g.mats.join(", "), g.como, fg(g.figs)])));
+    gs.map((g) => [rango(g.refs), juntar(g.mats), g.como, fg(g.figs)])));
   capturas([...(l === "RECARGAS" ? ["R01"] : []), ...gs.flatMap((g) => g.figs)]);
 });
 
@@ -246,21 +262,25 @@ const rangoCods = (cods) => { const out = []; cods.forEach((c) => { const b = c.
 hijos.push(nota("Primero las cotizaciones que traen plazo; después, el que publica en su web el proveedor o, si el elegido no lo publica, el de otro vendedor del mismo producto o rubro en el país, primero en PBA (W4 a W35, buscados del 12 al 13/10/2026). Ese plazo va marcado «≈» (aproximado): aproxima el del proveedor directo para justificar la política y se confirma al cotizarle. El link y el detalle de cada fuente están en el Excel (POLITICA_STOCK, columna «De dónde sale el plazo»). Días corridos → hábiles: × 5 / 7. El caño del 1 kg (MP-01) no usa la «entrega inmediata» de Comercial MID: cotizó Ø76 × 2,6 mm y el cuerpo es de 1,25 mm (planilla de MP).", { keepNext: true }));
 const NOMBRE_W = { W4: "Metapol (CABA)", W5: "Importa Fácil (China)", W6: "Espacio Industria (Munro)", W7: "Rotolan (Lanús)",
   W8: "Papelera Damián", W9: "Sellerpack (Pompeya)", W10: "Depallet", W11: "Würth Argentina", W12: "Soldanet",
-  W13: "Matafuegos Rodo", W14: "Argensold (Lomas del Mirador)", W15: "Maxiseguridad (Munro)", W16: "RotulArte (CABA)",
+  W13: "Matafuegos Rodo", W14: "Würth Argentina", W15: "Matafuegos Aconcagua (J. C. Paz)", W16: "RotulArte (CABA)",
   W17: "Formas Visuales (Lanús)", W18: "Trámite AGC", W24: "Grupo Oxicas (Santa Fe)", W25: "Vernassa (CABA)",
   W26: "Matafuegos Aconcagua (J. C. Paz)", W27: "El Galpón (Corrientes)", W28: "AcerosYa (Sarandí)", W29: "Morshop",
   W30: "EGM Trader (Florida)", W31: "Enamels (Lanús)", W32: "Pinturerías Mafer", W33: "Trámite DPS (Res. 349/07)",
   W34: "IRAM (DC-PG-129)", W35: "Martin Morris (Coronel Suárez)" };
+const mayus = (x) => x.charAt(0).toUpperCase() + x.slice(1);
 const corta = (g) => (g.fuente.startsWith("Aproximado") ? "≈ " : "") +
-  (NOMBRE_W[g.fig] || g.fuente.replace(/^Aproximado:\s*/, "").split(/[:(]/)[0].trim());
+  mayus(NOMBRE_W[g.fig] || g.fuente.replace(/^Aproximado:\s*/, "").split(/[:(]/)[0].trim());
 const filasLT = new Map();
 conCot.forEach((g) => {
-  const k = `${corta(g)}|${g.plazo}|${g.fig}`;
-  if (!filasLT.has(k)) filasLT.set(k, { f: corta(g), plazo: g.plazo, fig: g.fig, cods: [] });
-  filasLT.get(k).cods.push(...g.cods);
+  const k = `${corta(g)}|${g.plazo}`;
+  if (!filasLT.has(k)) filasLT.set(k, { f: corta(g), plazo: g.plazo, figs: [], cods: [] });
+  const r = filasLT.get(k);
+  if (g.fig && !r.figs.includes(g.fig)) r.figs.push(g.fig);
+  r.cods.push(...g.cods);
 });
 hijos.push(...tabla([36, 10, 54], ["Fuente (≈ aproximado al proveedor directo; W = link en el Excel)", "Días hábiles", "Materiales"],
-  [...filasLT.values()].map((g) => [g.fig.startsWith("W") ? `${g.f} (${g.fig})` : g.f, g.plazo, rangoCods(g.cods)])));
+  [...filasLT.values()].map((g) => { const w = g.figs.filter((x) => x.startsWith("W")).sort((a, b) => a.slice(1) - b.slice(1));
+    return [w.length ? `${g.f} (${w.join(", ")})` : g.f, g.plazo, rangoCods(g.cods)]; })));
 hijos.push(nota(sinCot.length ? "Para el resto no hay plazo en ninguna cotización ni en la web del proveedor ni de otros del rubro en el país: usan el plazo de la planilla de MP o del proceso de carros, sin rango, y hay que pedírselo a cada proveedor. Los marcados «≈» se confirman con el proveedor directo:" : "Todos los materiales tienen plazo con fuente (se buscaron en seis rondas, primero en PBA y después en otras provincias: sitios, preguntas frecuentes, condiciones de envío, términos y condiciones y directorios; los pliegos de compras públicas no sirven porque traen el plazo que exige el comprador). Los marcados «≈» salen de otro vendedor del mismo producto o rubro y se confirman con el proveedor directo al cotizarle:", { keepNext: true }));
 const aConfirmar = new Map();
 D.politica.filter((x) => x.fuente.startsWith("Aproximado") || x.fuente.startsWith("Sin plazo")).forEach((x) => {
@@ -281,7 +301,10 @@ const CONTACTO = {
   "Yukon": "MatafuegosYa S.R.L. (Estomba 954), 4555-5100 · alternativas: Melisam (manómetros); El Galpón (Corrientes), manómetro de 1,4 MPa y manguera de 5 kg, envía por Correo Argentino sin días publicados", "Georgia": "4585-4400 · info@georgia.com.ar",
   "DPS (PBA)": "Ministerio de Ambiente PBA (Res. 349/07)", "IRAM": "Perú 552, CABA · extintores.iram.org.ar",
   "ACPLIND (CABA)": "Lerma 63, CABA, 4862-1323 · info@acplind.com: 500.000 protectores de rosca hembra GAS, BSP y NPT en stock, en 300 medidas",
-  "Pradecon": "Cotización 173195", "Pacheco Chapas": "Cotizó el fleje sin plazo (Q02)",
+  "Pradecon": "Cotización 173195",
+  "IndusPallets": "No publica plazo; alternativa: Depallet (W10), entrega en 24 a 72 h",
+  "Argensold": "Av. J. M. de Rosas 698, Lomas del Mirador, 4699-3788 · ventas@argensold.com",
+  "Maxiseguridad (Munro)": "Vélez Sarsfield 5263, Munro, 11 5365-8811 · comercial@maxiseguridad.com.ar", "Pacheco Chapas": "Cotizó el fleje sin plazo (Q02)",
   "Importado (China)": "Despachante de aduana / importador", "Vladimirsky": "Distribuidor de barras SAE 1045",
   "Fabricante nacional": "Georgia 4585-4400 · Melisam 4766-6100 · Mozart (Lanús) 4218-3690",
 };
@@ -313,12 +336,10 @@ capturas(["P09"]);
 // ------------------------------------------------------------------ 8. pendientes
 hijos.push(h1("8. Pendientes"));
 [
-  "Confirmar con cada proveedor directo los plazos marcados «≈» («Aproximado» en el Excel: tomados de otro vendedor del mismo producto o rubro) y los de fuente antigua (Argensold, Maxiseguridad); confirmar con ACPLIND el de los tapones; las estampillas IRAM se piden con 30 días de anticipación.",
-  "Dimensionamiento Técnico FLAMA: la fila «TOTAL CARROS» se suma dos veces en las recargas (376.077 en lugar de 371.908). El MRP usa el Indexado.",
+  "Confirmar con cada proveedor directo los plazos marcados «≈» («Aproximado» en el Excel: tomados de otro vendedor del mismo producto o rubro) ; confirmar con ACPLIND el de los tapones; las estampillas IRAM se piden con 30 días de anticipación.",
   "Proceso de manuales: la recepción dice 97 tubos por día; son 53 (1.216 tramos / 23).",
   "Dimensionamiento V2: el 10 % de CO₂ y agente limpio descargados y el 15 % que se pinta están marcados por ustedes «a validar» (X11).",
   "Proceso de recargas, Pintura: dice «esmalte poliuretano rojo brillante» y respirador para isocianatos; la planilla de MP pide esmalte sintético rojo RAL 3000 (X15), que es el que usa el MRP.",
-  "BOM: el caño de pesca de los carros figura en PVC; la planilla de MP lo pide de acero SAE 1010 (MP-47).",
   "Cotizar el fleje de 1,25 × 135 mm del fondo del 1 kg (disco de 112 mm) y los revendidos.",
 ].forEach((x) => hijos.push(vin(x)));
 

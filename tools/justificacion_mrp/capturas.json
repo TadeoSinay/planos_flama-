@@ -847,8 +847,8 @@
   "titulo": "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12",
   "tipo": "Planilla",
   "png": "figs/F03.png",
-  "w": 1544,
-  "h": 256,
+  "w": 1546,
+  "h": 257,
   "medio": true,
   "marcas": [
    {
@@ -858,6 +858,10 @@
    {
     "n": 2,
     "etiqueta": "Diciembre = anual / 12: sin estacionalidad"
+   },
+   {
+    "n": 3,
+    "etiqueta": "Total del año, ya sin la fila TOTAL CARROS"
    }
   ]
  },
@@ -948,11 +952,11 @@
  },
  {
   "id": "X04",
-  "titulo": "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT",
+  "titulo": "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT (primeras filas de 2026)",
   "tipo": "Planilla",
   "png": "figs/X04.png",
   "w": 1274,
-  "h": 283,
+  "h": 313,
   "medio": false,
   "marcas": [
    {

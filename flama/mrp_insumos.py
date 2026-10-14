@@ -308,10 +308,12 @@ WURTH = (3, 5, "Web Würth Argentina: despacha al día hábil siguiente a la fac
                "(unos 3 en CABA y AMBA)", "W11")
 SOLDANET = (4, 5, "Web Soldanet, alambre MIG ER70S-6 de 15 kg: 4 a 5 días hábiles después de acreditado el pago", "W12")
 RODO = (1, 2, "Web Matafuegos Rodo: entrega en 24/48 h en CABA y GBA (ABC, CO₂ 3,5 y 5 kg, K 6 l y HCFC 5 kg)", "W13")
-ARGENSOLD = (1, 3, "Argensold (Lomas del Mirador): entrega en 72 h a todo el país (su Facebook); 24 h según un "
-                   "directorio antiguo", "W14")
-MAXISEG = (2, 2, "Web Maxiseguridad (Munro): entrega a domicilio a las 48 h del pedido por la web (nota antigua); su "
-                 "catálogo tiene agua y AFFF 10 l, AFFF 50 l, BC 5 kg y CO₂ 2 kg", "W15")
+ARGENSOLD = (3, 5, "Aproximado: Würth Argentina vende o-rings de nitrilo NBR métricos y en pulgadas a empresas: "
+                   "despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles (Argensold no "
+                   "publica un plazo vigente)", "W14")
+MAXISEG = (3, 7, "Aproximado: Matafuegos Aconcagua (J. C. Paz), venta de matafuegos: 3 a 7 días hábiles después de "
+                 "acreditado el pago (la tienda de Maxiseguridad sólo dice que el plazo depende de la disponibilidad "
+                 "y el stock de cada producto)", "W15")
 OXICAS = (3, 6, "Aproximado: web Grupo Oxicas (Villa Constitución, Santa Fe), polvo ABC 60 de DEMSA en bolsa de "
                 "25 kg: despacha a las 24 a 48 h del pago por OCA, que entrega en 48 a 96 h hábiles = 3 a 6 hábiles "
                 "(DEMSA no lo publica)", "W24")
@@ -354,7 +356,8 @@ AGC_T = (1, 1, "Trámite AGC: FLAMA genera e imprime las tarjetas en el sistema 
 NOMBRE_FUENTE = {"W4": "Metapol (CABA)", "W5": "Importa Fácil (China)", "W6": "Espacio Industria (Munro)",
                  "W7": "Rotolan (Lanús)", "W8": "Papelera Damián", "W9": "Sellerpack (Pompeya)", "W10": "Depallet",
                  "W11": "Würth Argentina", "W12": "Soldanet", "W13": "Matafuegos Rodo",
-                 "W14": "Argensold (Lomas del Mirador)", "W15": "Maxiseguridad (Munro)", "W16": "RotulArte (CABA)",
+                 "W14": "Würth Argentina, o-rings", "W15": "Matafuegos Aconcagua (J. C. Paz)",
+                 "W16": "RotulArte (CABA)",
                  "W17": "Formas Visuales (Lanús)", "W18": "Trámite AGC", "W24": "Grupo Oxicas (Santa Fe)",
                  "W25": "Vernassa (CABA)", "W26": "Matafuegos Aconcagua (J. C. Paz)", "W27": "El Galpón (Corrientes)",
                  "W28": "AcerosYa (Sarandí)", "W29": "Morshop", "W30": "EGM Trader (Florida)", "W31": "Enamels (Lanús)",
@@ -374,10 +377,10 @@ LINKS = {
             "-4.html"),
     "W12": ("https://soldanet.com/preguntasfrecuentes", ""),
     "W13": ("https://www.matafuegosrodo.com/", ""),
-    "W14": ("https://www.facebook.com/people/Argensold-el-nombre-del-Oring/100091676384453/",
-            "https://editores.com.ar/empresa/argensold"),
-    "W15": ("https://www.maxiseguridad.com.ar/detalle-noticias-maxiseguridad/169/Venta-y-Recarga-de-Matafuegos-en-Forma-"
-            "Online", "https://catalogo.maxiseguridad.com.ar/index.php"),
+    "W14": ("https://www.wurth.com.ar/contenidos/preguntas-frecuentes/tiempos-de-entrega.html",
+            "https://www.wurth.com.ar/tienda/oring-en-milimetros-linea-completa.html"),
+    "W15": ("https://www.matafuegosaconcagua.com/preguntas-frecuentes/",
+            "https://tienda.maxiseguridad.com.ar/detalle-producto-maxiseguridad/13/Matafuego-a-base-de-HCFC-5-Kg"),
     "W16": ("https://rotularte.com.ar/impresion-vinilo-autoadhesivo/", ""),
     "W17": ("https://www.todolanus.com.ar/rubro/imprentas-talleres-graficos", ""),
     "W18": ("https://www.buenosaires.gob.ar/tramites/registro-de-fabricacion-reparacion-recarga-instalacion-y-con"
@@ -620,6 +623,14 @@ class Libro:
         for k, dim in src.column_dimensions.items():
             if dim.width:
                 ws.column_dimensions[k].width = dim.width
+        largo = {}
+        for row in ws.iter_rows():
+            for c in row:
+                # los títulos largos se ven igual (desbordan hacia la derecha): no ensanchan la columna
+                if isinstance(c.value, str) and not c.value.startswith("=") and len(c.value) <= 40:
+                    largo[c.column_letter] = max(largo.get(c.column_letter, 0), len(c.value))
+        for k, n in largo.items():          # que los textos de la hoja de origen se lean enteros
+            ws.column_dimensions[k].width = max(ws.column_dimensions[k].width or 10, min(60, n + 2))
         return ubicar(src)
 
     def copia_usados(self):
@@ -629,6 +640,7 @@ class Libro:
         texto)."""
         ws = self.wb.create_sheet("PROY_USADOS")
         _titulo(ws, "PROYECCIONES: equipos usados y recargas por rubro")
+        ws.cell(2, 1).font = _f(size=9, italic=True)
         ws.cell(2, 1, "Suma por año de «Mat Usados» y «RECARGAS TOT» de los rubros que consumen toda la gama de "
                       "matafuegos (salud, educación, industrias y almacenes, hoteles); supermercados, automotor y "
                       "edificios quedan afuera. Debajo, las filas copiadas; 2025 es el año 0 de las Proyecciones (sin "
@@ -655,9 +667,11 @@ class Libro:
                 if año not in AÑOS:
                     continue
                 n += 1
-                ws.cell(n, c0, año)
-                ws.cell(n, c0 + 1, row[14])
-                ws.cell(n, c0 + 2, row[15])
+                for j, x in enumerate((año, row[14], row[15])):
+                    c = ws.cell(n, c0 + j, x)
+                    c.font = _f()
+                    if j:
+                        c.number_format = "#,##0.0"
             self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, n))
         self.r_usados = {}
         for j, a in enumerate(AÑOS):
@@ -678,7 +692,7 @@ class Libro:
     def demanda(self):
         ws = self.wb.create_sheet("DEMANDA", 0)
         _titulo(ws, "DEMANDA (unidades por año)")
-        _cab(ws, 3, ["Ref.", "Línea", "Producto"] + AÑOS, [7, 12, 34] + [10] * 10)
+        _cab(ws, 3, ["Ref.", "Línea", "Producto"] + AÑOS, [7, 12, 48] + [10] * 10)
         ix, rs = self.ix, self.rs
         s_fab, s_cil = sec(ix, "PRODUCCION DE MATAFUEGOS"), sec(ix, "PRODUCCION DE CILINDROS")
         s_rec, s_rev = sec(ix, "RECARGAS"), sec(ix, "MATAFUEGOS TERCIARIZADOS")
@@ -723,7 +737,7 @@ class Libro:
         self.r_pi = r_pi
         caba_u = [ix[(s_du, z)] for (s, z) in ix if s == s_du and z.startswith("CABA")]
         sub_u = next(ix[(s, z)] for (s, z) in ix if s == s_du and z.startswith("SUBTOTAL"))
-        self.r_caba_u = fila("", "% de unidades nuevas que van a CABA", [
+        self.r_caba_u = fila("NUEVOS", "% de unidades nuevas que van a CABA", [
             "=(" + "+".join(f"{PI}!{L(2 + j)}{x}" for x in caba_u) + f")/{PI}!{L(2 + j)}{sub_u}" for j in range(10)],
             "0.0%", como="Distribución de unidades nuevas del Indexado: CABA Norte, Este, Sur y Oeste sobre el "
                          "subtotal CABA + PBA. El resto va a PBA.", figs=["X02"])
@@ -794,7 +808,7 @@ class Libro:
     def estacionalidad(self):
         ws = self.wb.create_sheet("ESTACIONALIDAD", 1)
         _titulo(ws, "ESTACIONALIDAD: producción mensual del año 2035")
-        _cab(ws, 3, ["Ref.", "Perfil"] + MESES + ["Total"], [7, 34] + [8] * 12 + [9])
+        _cab(ws, 3, ["Ref.", "Perfil"] + MESES + ["Total"], [12, 34] + [8] * 12 + [9])
         self.r_perf = []
         for k, (nom, v) in enumerate(PERFILES):
             r = 4 + k
@@ -1173,7 +1187,7 @@ class Libro:
                 nombres.append(("Recarga " if cl.startswith("RK") else "Cilindro " if cl.startswith("FL_REC")
                                 else "") + NOMBRE[c])
         _cab(ws, 3, ["Ref.", "Código", "Material", "UM", "Destino"] + nombres + [str(a) for a in AÑOS] +
-             ["Mes pico 2035"], [7, 11, 40, 6, 8] + [10] * nc + [10] * 10 + [10])
+             ["Mes pico 2035"], [7, 16, 56, 6, 10] + [10] * nc + [10] * 10 + [10])
         # demanda arriba
         for j, a in enumerate(AÑOS):
             r = 4 + j
@@ -1232,7 +1246,7 @@ class Libro:
         ws = self.wb.create_sheet("CONSOLIDADO")
         _titulo(ws, "CONSOLIDADO: lo que hay que comprar de cada material (las cuatro líneas)")
         _cab(ws, 3, ["Código", "Material", "UM"] + [f"{l.capitalize()} 2035" for l in LINEAS] + [str(a) for a in AÑOS]
-             + ["Mes pico 2035"], [11, 44, 6] + [11] * 4 + [11] * 10 + [11])
+             + ["Mes pico 2035"], [16, 58, 6] + [11] * 4 + [11] * 10 + [11])
         cods = []
         for lin in LINEAS:
             for cod, _ in self.lin[lin]["filas"]:
@@ -1290,7 +1304,7 @@ class Libro:
                      "Cantidad por pedido (unidades de compra)", "Pedidos por año",
                      "Stock máximo: lo que hay al llegar el pedido\n(seguridad + pedido)",
                      "Almacén", "Cuánto entra en un lugar (pallet, estante o cuna)", "Lugares que ocupa el stock máximo"],
-             [7, 11, 38, 6, 18, 11, 12, 12, 8, 8, 70, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
+             [7, 16, 50, 6, 24, 11, 12, 12, 8, 8, 80, 14, 16, 16, 22, 11, 11, 11, 9, 15, 30, 12, 11])
         ws.row_dimensions[4].height = 66
         r = 5
         n_ = 0
@@ -1316,6 +1330,7 @@ class Libro:
                     c.number_format = "#,##0.##"
                 elif j in (19, 23):
                     c.number_format = "0.0"
+                c.alignment = Alignment(vertical="center", wrap_text=j in (3, 5, 11))
             links = [u for u in LINKS.get(lfig, ()) if u]
             if links:
                 c = ws.cell(r, 11, ("Aproximado: " if lsrc.startswith("Aproximado") else "") +
@@ -1325,6 +1340,11 @@ class Libro:
                 c.comment = Comment(lsrc + (f". Otro link: {links[1]}" if len(links) > 1 else ""), "FLAMA",
                                     height=140, width=320)
             _fila(ws, r, 23)
+            # alto de la fila según el texto más largo de las columnas que van en varias líneas (Excel no lo ajusta
+            # solo al abrir el archivo)
+            lineas = max(-(-len(str(ws.cell(r, j).value or "")) // int(ws.column_dimensions[L(j)].width * 1.1))
+                         for j in (3, 5, 11))
+            ws.row_dimensions[r].height = max(15, 13 * lineas + 2)
             self.ref(rid, hoja="POLITICA_STOCK", codigo=cod, dato=it["nom"], uc=it["uc"], fuc=it["fuc"],
                      plan=it["plan"], lt=(lmin, lmax), flt=lsrc, flt_fig=lfig, t=it["t"], umpos=it["umpos"],
                      fpos=it["fpos"])

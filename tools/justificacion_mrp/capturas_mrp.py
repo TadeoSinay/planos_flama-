@@ -177,8 +177,9 @@ def planilla(ruta, hoja, rango, marcas=(), cols=None, data_only=True, ancho_max=
     with tempfile.TemporaryDirectory() as d:
         x = os.path.join(d, "c.xlsx")
         out.save(x)
+        # con la configuración regional de Argentina: 8.809,6 y 12,3 %, como se ven las planillas
         subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", d, x], check=True,
-                       capture_output=True, timeout=300)
+                       capture_output=True, timeout=300, env=dict(os.environ, LANG="es_AR.UTF-8", LC_ALL="es_AR.UTF-8"))
         doc = pymupdf.open(os.path.join(d, "c.pdf"))
         ims = []
         for pg in doc:
@@ -190,6 +191,18 @@ def planilla(ruta, hoja, rango, marcas=(), cols=None, data_only=True, ancho_max=
         im.paste(i, (0, y))
         y += i.height
     return im
+
+
+def filas_del_año(ruta, hoja, año, n):
+    """Encabezado y las primeras n filas de un año (columna A) de una hoja de proyección."""
+    ws = load_workbook(ruta, read_only=True, data_only=True)[hoja]
+    out = [1]
+    for i, (v,) in enumerate(ws.iter_rows(min_col=1, max_col=1, values_only=True), 1):
+        if str(v).strip() == str(año):
+            out.append(i)
+            if len(out) > n:
+                break
+    return out
 
 
 def imagen(ruta):
@@ -431,9 +444,10 @@ cap("F02", "Dimensionamiento Técnico FLAMA: producción mensual de matafuegos d
     lambda: planilla(DIMF, "DATOS-BASE", "A107:M117", [(1, "M117")], anchos=[22] + [7] * 12),
     ["Total del mes: de ahí sale el mes pico"])
 cap("F03", "Dimensionamiento Técnico FLAMA: recargas de la planta industrial, anual / 12", "Planilla",
-    lambda: planilla(DIMF, "DATOS-BASE", "A133:N153", [(1, "B135"), (2, "M135")],
+    lambda: planilla(DIMF, "DATOS-BASE", "A133:N153", [(1, "B135"), (2, "M135"), (3, "N153")],
                      filas=[133, 134, 135, 136, 137, 152, 153], anchos=[22] + [7] * 13),
-    ["Enero = anual / 12", "Diciembre = anual / 12: sin estacionalidad"], medio=True)
+    ["Enero = anual / 12", "Diciembre = anual / 12: sin estacionalidad",
+     "Total del año, ya sin la fila TOTAL CARROS"], medio=True)
 cap("X01", "Proyecciones, «Indexado Dim Técnico»: demanda anual por producto (nuevos, cilindros, recargas, revendidos)",
     "Planilla",
     lambda: planilla(PROY, "Indexado Dim Técnico", "A1:K57", [(1, "A1"), (2, "A13"), (3, "A25"), (4, "A46")]),
@@ -450,9 +464,10 @@ cap("X03", "Proyecciones, «Reservas y Sustitutos»: venta de reserva, stock del
                      filas=list(range(26, 31)) + list(range(53, 67)) + list(range(68, 83))),
     ["Venta de reserva: se suma al ABC 5 kg", "Stock del pool: se recarga cada año", "Alta anual de sustitutos",
      "Total del alta (kit de sustituto)"])
-cap("X04", "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT", "Planilla",
-    lambda: planilla(PROY, "PROYECCION SALUD", "A1:P8", [(1, "O1"), (2, "P1")], cols=[1, 3, 4, 5, 6, 8, 15, 16],
-                     anchos=[6, 12, 8, 10, 20, 9, 12, 12]),
+cap("X04", "Proyecciones, hoja «PROYECCION SALUD»: columnas Mat Usados y RECARGAS TOT (primeras filas de 2026)",
+    "Planilla",
+    lambda: planilla(PROY, "PROYECCION SALUD", "A1:P1", [(1, "O1"), (2, "P1")], cols=[1, 3, 4, 5, 6, 8, 15, 16],
+                     filas=filas_del_año(PROY, "PROYECCION SALUD", 2026, 8), anchos=[6, 12, 8, 10, 20, 9, 12, 12]),
     ["Equipos usados (accionados)", "Recargas totales"])
 cap("X11", "Dimensionamiento Técnico V2, Parametros Recargas: prueba hidráulica, descargados, vaciados y pintura",
     "Planilla",

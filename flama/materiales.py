@@ -111,6 +111,10 @@ def especificacion(m, clave):
         mat, rho = "Tubo aluminio", ALUMINIO
     if clave == "cano_pesca" and m.familia == "inox":
         mat, rho = "Tubo polipropileno", PP
+    if clave == "cano_pesca" and m.familia == "rodante" and m.agente.startswith("Polvo"):
+        # IRAM 3550 3.6 (inatacable por la carga: polvo seco con N₂ seco, como el recipiente de acero de 3.2.1) y 4.10
+        # con 7.9 (rodadura: remolque, caída e impacto sin roturas): tubo largo, de acero
+        mat, rho, obs = "Tubo acero SAE 1010", ACERO, "IRAM 3550 3.6 y 4.10"
     if clave == "lanza":
         nom = {"lanza_espuma": "Lanza espumígena", "lanza_espuma_rodante": "Lanza espumígena",
                "lanza_k": "Lanza aplicadora clase K", "lanza_d": "Lanza aplicadora flujo suave"}[m.descarga]
