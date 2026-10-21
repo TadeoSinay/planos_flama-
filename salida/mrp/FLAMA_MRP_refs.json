@@ -37,23 +37,25 @@
   "D05": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 1 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 3",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
-    "X01"
+    "X01",
+    "X03"
    ]
   },
   "D06": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 2,5 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 4",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
-    "X01"
+    "X01",
+    "X03"
    ]
   },
   "D07": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 5 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 5 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 69, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
     "X01",
     "X03"
@@ -62,7 +64,7 @@
   "D08": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 10 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 6 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 70, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
     "X01",
     "X03"
@@ -71,7 +73,7 @@
   "D09": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 1 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -79,7 +81,7 @@
   "D10": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 2,5 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -87,7 +89,7 @@
   "D11": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 5 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -95,7 +97,7 @@
   "D12": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 10 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Manuales, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -103,15 +105,16 @@
   "D13": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 25 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 7",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
-    "X01"
+    "X01",
+    "X03"
    ]
   },
   "D14": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 50 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 8 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 79, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
     "X01",
     "X03"
@@ -120,15 +123,16 @@
   "D15": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 70 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 9",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
-    "X01"
+    "X01",
+    "X03"
    ]
   },
   "D16": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 100 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 10 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 80, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de recarga. El MRP compra para lo que se produce.",
    "figs": [
     "X01",
     "X03"
@@ -137,7 +141,7 @@
   "D17": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 25 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -145,7 +149,7 @@
   "D18": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 50 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -153,7 +157,7 @@
   "D19": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 70 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -161,7 +165,7 @@
   "D20": {
    "hoja": "DEMANDA",
    "dato": "Cilindro ABC 100 kg vacío",
-   "como": "Indexado, «Producción de cilindros» (cilindros que se venden vacíos).",
+   "como": "Aprovechamiento Carros, Plan mensual, «Total anual» de los cilindros vendidos vacíos (Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.",
    "figs": [
     "X01"
    ]
@@ -169,7 +173,7 @@
   "D21": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 1 kg",
-   "como": "(Indexado, «Recargas», fila 27) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -179,7 +183,7 @@
   "D22": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 2,5 kg",
-   "como": "(Indexado, «Recargas», fila 28) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -189,7 +193,7 @@
   "D23": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 5 kg",
-   "como": "(Indexado, «Recargas», fila 29 + recarga anual del pool de sustitutos, Reservas fila 54) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -199,7 +203,7 @@
   "D24": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 10 kg",
-   "como": "(Indexado, «Recargas», fila 30 + recarga anual del pool de sustitutos, Reservas fila 55) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -209,7 +213,7 @@
   "D25": {
    "hoja": "DEMANDA",
    "dato": "Recarga Agua 10 l",
-   "como": "(Indexado, «Recargas», fila 31 + recarga anual del pool de sustitutos, Reservas fila 56) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -219,7 +223,7 @@
   "D26": {
    "hoja": "DEMANDA",
    "dato": "Recarga AFFF 10 l",
-   "como": "(Indexado, «Recargas», fila 32 + recarga anual del pool de sustitutos, Reservas fila 57) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -229,7 +233,7 @@
   "D27": {
    "hoja": "DEMANDA",
    "dato": "Recarga AFFF 50 l",
-   "como": "(Indexado, «Recargas», fila 33 + recarga anual del pool de sustitutos, Reservas fila 58) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -239,7 +243,7 @@
   "D28": {
    "hoja": "DEMANDA",
    "dato": "Recarga BC 5 kg",
-   "como": "(Indexado, «Recargas», fila 34 + recarga anual del pool de sustitutos, Reservas fila 59) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -249,7 +253,7 @@
   "D29": {
    "hoja": "DEMANDA",
    "dato": "Recarga Clase K 6 l",
-   "como": "(Indexado, «Recargas», fila 35 + recarga anual del pool de sustitutos, Reservas fila 60) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -259,7 +263,7 @@
   "D30": {
    "hoja": "DEMANDA",
    "dato": "Recarga CO₂ 2 kg",
-   "como": "(Indexado, «Recargas», fila 36) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -269,7 +273,7 @@
   "D31": {
    "hoja": "DEMANDA",
    "dato": "Recarga CO₂ 5 kg",
-   "como": "(Indexado, «Recargas», fila 37 + recarga anual del pool de sustitutos, Reservas fila 61) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -279,7 +283,7 @@
   "D32": {
    "hoja": "DEMANDA",
    "dato": "Recarga HCFC 5 kg",
-   "como": "(Indexado, «Recargas», fila 38 + recarga anual del pool de sustitutos, Reservas fila 62) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -289,7 +293,7 @@
   "D33": {
    "hoja": "DEMANDA",
    "dato": "Recarga Clase D 9 l",
-   "como": "(Indexado, «Recargas», fila 39 + recarga anual del pool de sustitutos, Reservas fila 63) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -299,7 +303,7 @@
   "D34": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 25 kg",
-   "como": "(Indexado, «Recargas», fila 40) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -309,7 +313,7 @@
   "D35": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 50 kg",
-   "como": "(Indexado, «Recargas», fila 41 + recarga anual del pool de sustitutos, Reservas fila 64) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -319,7 +323,7 @@
   "D36": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 70 kg",
-   "como": "(Indexado, «Recargas», fila 42) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -329,7 +333,7 @@
   "D37": {
    "hoja": "DEMANDA",
    "dato": "Recarga ABC 100 kg",
-   "como": "(Indexado, «Recargas», fila 43 + recarga anual del pool de sustitutos, Reservas fila 65) × D01, la parte de la planta industrial.",
+   "como": "Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
    "figs": [
     "X01",
     "X03",
@@ -452,103 +456,103 @@
   "E04": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 1 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 55, por IMPORTRANGE (Links, fila 11): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 55, por IMPORTRANGE (Links, fila 12): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E05": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 2,5 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 56, por IMPORTRANGE (Links, fila 12): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 56, por IMPORTRANGE (Links, fila 13): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E06": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 5 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 57, por IMPORTRANGE (Links, fila 13): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 57, por IMPORTRANGE (Links, fila 14): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E07": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 10 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 58, por IMPORTRANGE (Links, fila 14): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 58, por IMPORTRANGE (Links, fila 15): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E08": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga Agua 10 l",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 59, por IMPORTRANGE (Links, fila 15): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 59, por IMPORTRANGE (Links, fila 16): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E09": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga AFFF 10 l",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 60, por IMPORTRANGE (Links, fila 16): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 60, por IMPORTRANGE (Links, fila 17): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E10": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga AFFF 50 l s/ruedas",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 61, por IMPORTRANGE (Links, fila 17): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 61, por IMPORTRANGE (Links, fila 18): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E11": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga BC 5 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 62, por IMPORTRANGE (Links, fila 18): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 62, por IMPORTRANGE (Links, fila 19): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E12": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga Sales K 6 l",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 63, por IMPORTRANGE (Links, fila 19): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 63, por IMPORTRANGE (Links, fila 20): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E13": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga CO₂ 2 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 64, por IMPORTRANGE (Links, fila 20): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 64, por IMPORTRANGE (Links, fila 21): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E14": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga CO₂ 5 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 65, por IMPORTRANGE (Links, fila 21): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 65, por IMPORTRANGE (Links, fila 22): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E15": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga HCFC/HFC 5 kg",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 66, por IMPORTRANGE (Links, fila 22): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 66, por IMPORTRANGE (Links, fila 23): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E16": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga Clase D 9 l",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 67, por IMPORTRANGE (Links, fila 23): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 67, por IMPORTRANGE (Links, fila 24): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E17": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 25 kg s/ruedas",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 68, por IMPORTRANGE (Links, fila 24): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 68, por IMPORTRANGE (Links, fila 25): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E18": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 50 kg s/ruedas",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 69, por IMPORTRANGE (Links, fila 25): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 69, por IMPORTRANGE (Links, fila 26): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E19": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 70 kg s/ruedas",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 70, por IMPORTRANGE (Links, fila 26): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 70, por IMPORTRANGE (Links, fila 27): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E20": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 100 kg s/ruedas",
-   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 71, por IMPORTRANGE (Links, fila 27): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 71, por IMPORTRANGE (Links, fila 28): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E21": {
@@ -589,13 +593,13 @@
    "dato": "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 45 cuerpos (Análisis alternativas corte chapa, Corte fila 19, por IMPORTRANGE: Links, fila 31).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 45 cuerpos (Análisis alternativas corte chapa, Corte fila 19, por IMPORTRANGE: Links, fila 32).",
    "figs": [
     "P03"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=1/Links!$B$31",
-    "FL_REC_ABC_1kg": "=1/Links!$B$31"
+    "FL_MAT_ABC_1kg": "=1/Links!$B$32",
+    "FL_REC_ABC_1kg": "=1/Links!$B$32"
    }
   },
   "M02": {
@@ -604,13 +608,13 @@
    "dato": "Hoja LAF 1,25 × 1220 × 2440 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos (Análisis alternativas corte chapa, Corte fila 20, por IMPORTRANGE: Links, fila 32).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos (Análisis alternativas corte chapa, Corte fila 20, por IMPORTRANGE: Links, fila 33).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_2.5kg": "=1/Links!$B$32",
-    "FL_REC_ABC_2.5kg": "=1/Links!$B$32"
+    "FL_MAT_ABC_2.5kg": "=1/Links!$B$33",
+    "FL_REC_ABC_2.5kg": "=1/Links!$B$33"
    }
   },
   "M03": {
@@ -619,13 +623,13 @@
    "dato": "Hoja LAF 1,6 × 1000 × 2000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos (Análisis alternativas corte chapa, Corte fila 21, por IMPORTRANGE: Links, fila 33).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos (Análisis alternativas corte chapa, Corte fila 21, por IMPORTRANGE: Links, fila 34).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_5kg": "=1/Links!$B$33",
-    "FL_REC_ABC_5kg": "=1/Links!$B$33"
+    "FL_MAT_ABC_5kg": "=1/Links!$B$34",
+    "FL_REC_ABC_5kg": "=1/Links!$B$34"
    }
   },
   "M04": {
@@ -634,13 +638,13 @@
    "dato": "Hoja LAF 2,0 × 1500 × 3000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos (Análisis alternativas corte chapa, Corte fila 22, por IMPORTRANGE: Links, fila 34).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos (Análisis alternativas corte chapa, Corte fila 22, por IMPORTRANGE: Links, fila 35).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_10kg": "=1/Links!$B$34",
-    "FL_REC_ABC_10kg": "=1/Links!$B$34"
+    "FL_MAT_ABC_10kg": "=1/Links!$B$35",
+    "FL_REC_ABC_10kg": "=1/Links!$B$35"
    }
   },
   "M05": {

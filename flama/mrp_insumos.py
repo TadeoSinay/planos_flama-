@@ -77,7 +77,8 @@ N_FAB = len(PERFILES)
 URL_PROY = ("https://docs.google.com/spreadsheets/d/1xc4xDAwSYT3l-RulPYtcePxiCninrbQGzaBUsgO0YEs/edit?gid=1764491891"
             "#gid=1764491891")
 PEGAR = "PEGAR ACÁ EL LINK DEL GOOGLE SHEET"
-LK_PROY, LK_REC, LK_CORTE = "Links!$B$4", "Links!$B$5", "Links!$B$6"
+LK_PROY, LK_REC, LK_CORTE, LK_MAN, LK_CAR = ("Links!$B$4", "Links!$B$5", "Links!$B$6", "Links!$B$7",
+                                             "Links!$B$8")
 # recargas: perfil mensual de cada tipo en la planta industrial (Aprovechamiento Recargas Planta Industrial,
 # parametros_recargas E55:P71, en el orden de REC: mix de rubros de la planta × estacionalidad de cada rubro). Último
 # valor importado; ESTACIONALIDAD lo lleva a 100 % porque el archivo lo redondea
@@ -101,7 +102,17 @@ CORTE_HOJA = {"ABC1": 45, "ABC2.5": 27, "ABC5": 12, "ABC10": 15}
 LINKS_IMP = [("Proyecciones", URL_PROY, "Indexado Dim Técnico → PROY_INDEXADO; Reservas y Sustitutos → PROY_RESERVAS; "
                                     "PROYECCION SALUD, EDUCACION, INDUSTRIASALM y HOTELES (A, O y P) → PROY_USADOS"),
          ("Aprovechamiento Recargas Planta Industrial", PEGAR, f"{IMP_REC}: perfil mensual de recargas por tipo"),
-         ("Análisis alternativas corte chapa", PEGAR, f"{IMP_CORTE}: cuerpos por hoja de 1 a 10 kg")]
+         ("Análisis alternativas corte chapa", PEGAR, f"{IMP_CORTE}: cuerpos por hoja de 1 a 10 kg"),
+         ("Aprovechamiento Manuales", PEGAR, "Plan mensual P1:P109: producción anual de matafuegos y cilindros"),
+         ("Aprovechamiento Carros", PEGAR, "Plan mensual P1:P109: producción anual de carros y cilindros")]
+# la DEMANDA de manuales, carros y recargas es la producción de cada Aprovechamiento (Plan mensual, «Total anual»:
+# Proyecciones + sustitutos de las dos plantas), así el MRP compra para lo que se produce. Bloques por año hacia
+# abajo: 11 filas en manuales y carros, 32 en recargas; los productos van desde la segunda fila del bloque
+APROV = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                     "planos_industrial_flama", "salida")
+PLAN_APROV = {"man": ("Aprovechamiento_Manuales.xlsx", LK_MAN, "P1:P109", 11),
+        "car": ("Aprovechamiento_Carros.xlsx", LK_CAR, "P1:P109", 11),
+        "rec": ("Aprovechamiento_Recargas_Planta_Industrial.xlsx", LK_REC, "P1:P318", 32)}
 
 
 def perfil(c, linea):
@@ -673,6 +684,8 @@ class Libro:
         self.dem = {}        # (línea, código del producto) → fila de DEMANDA
         self.refs = {}       # Ref → justificación (para el Word)
         self.lin = {}        # línea → datos de su hoja
+        self.aprov = {k: load_workbook(os.path.join(APROV, a), data_only=True) for k, (a, _, _, _) in
+                      PLAN_APROV.items()}
 
     def ref(self, rid, **kw):
         self.refs[rid] = kw
@@ -698,7 +711,7 @@ class Libro:
             _fila(ws, r, 14)
         ws.merge_cells("B3:G3")
         ws.merge_cells("H3:N3")
-        r = 9
+        r = 4 + len(LINKS_IMP) + 1
         ws.cell(r, 1, f"Aprovechamiento Recargas Planta Industrial · {IMP_REC}: perfil mensual de recargas por tipo "
                       "(planta industrial)").font = _f(True)
         _cab(ws, r + 1, ["Tipo"] + MESES)
@@ -716,6 +729,16 @@ class Libro:
             self.r_corte[p] = r + 2 + i
             _fila(ws, r + 2 + i, 2)
         _imp(ws, r + 2, 2, LK_CORTE, IMP_CORTE, [[v] for v in CORTE_HOJA.values()], "0")
+        # producción anual de cada Aprovechamiento (Plan mensual, columna «Total anual» entera)
+        r += 2 + len(CORTE_HOJA) + 1
+        self.r_plan = {}
+        for k, (arch, lk, rango, paso) in PLAN_APROV.items():
+            ws.cell(r, 1, f"{LINKS_IMP[[LK_PROY, LK_REC, LK_CORTE, LK_MAN, LK_CAR].index(lk)][0]} · Plan mensual!"
+                          f"{rango}: «Total anual» ({paso} filas por año)").font = _f(True)
+            vals = [[c.value] for c, in self.aprov[k]["Plan mensual"][rango]]
+            _imp(ws, r + 1, 2, lk, f"Plan mensual!{rango}", vals, "#,##0.0")
+            self.r_plan[k] = (r + 1, paso)
+            r += len(vals) + 2
         ws.freeze_panes = "A4"
 
     # -------- copia de las proyecciones (IMPORTRANGE de la hoja entera)
@@ -802,12 +825,9 @@ class Libro:
         _titulo(ws, "DEMANDA (unidades por año)")
         _cab(ws, 3, ["Ref.", "Línea", "Producto"] + AÑOS, [7, 12, 48] + [10] * 10)
         ix, rs = self.ix, self.rs
-        s_fab, s_cil = sec(ix, "PRODUCCION DE MATAFUEGOS"), sec(ix, "PRODUCCION DE CILINDROS")
-        s_rec, s_rev = sec(ix, "RECARGAS"), sec(ix, "MATAFUEGOS TERCIARIZADOS")
+        s_rev = sec(ix, "MATAFUEGOS TERCIARIZADOS")
         s_dr, s_du = sec(ix, "DISTRIBUCIÓN DE RECARGAS"), sec(ix, "DISTRIBUCIÓN DE UNIDADES")
-        s_st, s_al = sec(rs, "STOCK DE SUSTITUTOS"), sec(rs, "ALTA ANUAL")
-        venta = rs[next(k for k in rs if k[1].startswith("VENTA de reserva"))]
-        pool_st = {c: rs[(s_st, k)] for k, c in POOL.items()}
+        s_al = sec(rs, "ALTA ANUAL")
         pool_al = {c: rs[(s_al, k)] for k, c in POOL.items()}
         al_tot = rs[(s_al, "Total alta anual de sustitutos")]
         PI, PX = q("PROY_INDEXADO"), q("PROY_RESERVAS")
@@ -866,36 +886,29 @@ class Libro:
         def col(hoja, fil, j):
             return f"{hoja}!{L(2 + j)}{fil}"
 
-        # MANUALES y RODANTES
-        for lin, grupo in (("MANUALES", MAN), ("RODANTES", ROD)):
-            for c, p, n in grupo:
-                partes, txt, figs = [lambda j, c=c: col(PI, ix[(s_fab, INV[c])], j)], \
-                    [f"Indexado, «Producción de matafuegos», fila {ix[(s_fab, INV[c])]}"], ["X01"]
-                if c == "ABC_5kg":
-                    partes.append(lambda j: col(PX, venta, j))
-                    txt.append(f"+ venta de reserva (Reservas, fila {venta})")
-                    figs.append("X03")
-                if c in pool_al:
-                    partes.append(lambda j, c=c: f"{col(PX, pool_al[c], j)}*$D${r_pi}")
-                    txt.append(f"+ sustitutos nuevos de la planta industrial (Reservas, alta anual, fila "
-                               f"{pool_al[c]}, × D01): un sustituto ABC es un matafuego que fabrica FLAMA")
-                    figs.append("X03")
-                fila(lin, f"Matafuego {n}", ["=" + "+".join(f(j) for f in partes) for j in range(10)],
-                     clave=(lin, f"FL_MAT_{c}"), como=" ".join(txt), figs=figs)
-            for c, p, n in grupo:
-                fila(lin, f"Cilindro {n} vacío", [f"={col(PI, ix[(s_cil, 'Cilindros ' + INV[c].replace(' s/ruedas', ''))], j)}"
-                                                  for j in range(10)], clave=(lin, f"FL_REC_{c}"),
-                     como=f"Indexado, «Producción de cilindros» (cilindros que se venden vacíos).", figs=["X01"])
-        # RECARGAS
-        for c in REC:
-            base = [lambda j, c=c: col(PI, ix[(s_rec, INV[c])], j)]
-            txt = f"(Indexado, «Recargas», fila {ix[(s_rec, INV[c])]}"
-            if c in pool_st:
-                base.append(lambda j, c=c: col(PX, pool_st[c], j))
-                txt += f" + recarga anual del pool de sustitutos, Reservas fila {pool_st[c]}"
-            fila("RECARGAS", f"Recarga {NOMBRE[c]}", [f"=({'+'.join(f(j) for f in base)})*$D${r_pi}"
-                                                       for j in range(10)], clave=("RECARGAS", f"RK_{c}"),
-                 como=txt + ") × D01, la parte de la planta industrial.", figs=["X01", "X03", "X02"])
+        def plan(k, i, j):
+            """«Total anual» del producto i (desde 0) en el año j del Plan mensual del Aprovechamiento k (Links)."""
+            r0, paso = self.r_plan[k]
+            return f"=Links!$B${r0 + paso * j + 1 + i}"
+
+        # MANUALES y RODANTES: producción del Aprovechamiento (Proyecciones + sustitutos de las dos plantas)
+        for lin, grupo, k, nom in (("MANUALES", MAN, "man", "Manuales"), ("RODANTES", ROD, "car", "Carros")):
+            for i, (c, p, n) in enumerate(grupo):
+                fila(lin, f"Matafuego {n}", [plan(k, i, j) for j in range(10)], clave=(lin, f"FL_MAT_{c}"),
+                     como=f"Aprovechamiento {nom}, Plan mensual, «Total anual» (por IMPORTRANGE, hoja Links): la "
+                          "producción del año, que ya suma a las Proyecciones los sustitutos ABC de las dos plantas de "
+                          "recarga. El MRP compra para lo que se produce.", figs=["X01", "X03"])
+            for i, (c, p, n) in enumerate(grupo):
+                fila(lin, f"Cilindro {n} vacío", [plan(k, 4 + i, j) for j in range(10)], clave=(lin, f"FL_REC_{c}"),
+                     como=f"Aprovechamiento {nom}, Plan mensual, «Total anual» de los cilindros vendidos vacíos "
+                          "(Proyecciones + sustitutos cilindro de las dos plantas), por IMPORTRANGE.", figs=["X01"])
+        # RECARGAS: las que procesa la planta industrial según su Aprovechamiento
+        for i, c in enumerate(REC):
+            fila("RECARGAS", f"Recarga {NOMBRE[c]}", [plan("rec", i, j) for j in range(10)],
+                 clave=("RECARGAS", f"RK_{c}"),
+                 como="Aprovechamiento Recargas Planta Industrial, Plan mensual, «Total» del tipo (por IMPORTRANGE): "
+                      "recargas de la planta industrial más el mantenimiento de su stock de sustitutos.",
+                 figs=["X01", "X03", "X02"])
         fila("RECARGAS", "Sustitutos nuevos (kit)", [f"={col(PX, al_tot, j)}*$D${r_pi}" for j in range(10)],
              clave=("RECARGAS", "KIT"), como=f"Reservas, total del alta anual de sustitutos (fila {al_tot}) × D01. "
              "Cada sustituto nuevo lleva su kit de identificación; el equipo se fabrica (ABC) o se compra (los demás) "
