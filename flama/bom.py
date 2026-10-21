@@ -29,28 +29,29 @@ from . import agentes as AG
 from . import proveedores as PV
 
 # ------------------------------------------------------------------ datos de planta (planos_industrial_flama)
-# recorte del cuerpo en hoja estándar (FL_PI_04 hoja 2): formato, chapa, espesor, franja (alto), pieza (desarrollo),
-# aprovechamiento de la hoja (%)
+# recorte del cuerpo en hoja estándar («Análisis alternativas corte chapa», hojas Corte y Nesting, planos_industrial_flama):
+# formato, espesor, alto, desarrollo π·(Ø − e), aprovechamiento de la hoja (%). 25 y 50 kg: plan combinado de 3,2 mm
+# (P1 + P3, 90,1 %); 70 y 100 kg: hoja mixta 3 × 70 + 1 × 100 (79,1 %)
 HOJA_CUERPO = {
-    "2,5 kg": ("LAF 1220 × 2440", 1.25, 385.5, 269.5, 94.2),
-    "5 kg": ("LAF 1000 × 2000", 1.6, 330.0, 474.5, 94.0),
-    "10 kg": ("LAF 1500 × 3000", 2.0, 495.0, 563.0, 92.9),
-    "25 kg": ("LAC 1500 × 3000", 3.2, 490.0, 858.0, 84.1),
-    "50 kg": ("LAC 1500 × 3000", 3.2, 640.0, 994.0, 84.8),
-    # 70 y 100 kg (Ø390): hoja mixta 3 × 680 + 1 × 900 con el lado de 1212 (proceso FLAMA de carros, corte de chapas);
-    # 1212 = desarrollo π·(390 − 4,75) + luz de la junta. Las orillas de 4,75 dan las placas de refuerzo.
-    "70 kg": ("LAC 1500 × 3000", 4.75, 680.0, 1212.0, 79.2),
-    "100 kg": ("LAC 1500 × 3000", 4.75, 900.0, 1212.0, 79.2),
+    "1 kg": ("LAF 1220 × 2440", 0.9, 263.5, 236.5, 94.2),
+    "2,5 kg": ("LAF 1220 × 2440", 1.25, 267.5, 385.5, 93.5),
+    "5 kg": ("LAF 1000 × 2000", 1.6, 327.5, 475.5, 93.4),
+    "10 kg": ("LAF 1500 × 3000", 2.0, 493.0, 564.0, 92.7),
+    "25 kg": ("LAC 1500 × 3000", 3.2, 493.0, 858.5, 90.1),
+    "50 kg": ("LAC 1500 × 3000", 3.2, 640.0, 995.5, 90.1),
+    "70 kg": ("LAC 1500 × 3000", 4.75, 680.0, 1210.5, 79.1),
+    "100 kg": ("LAC 1500 × 3000", 4.75, 900.0, 1210.5, 79.1),
 }
 CUERPO_PLANO = set()
-# discos de cúpula y fondo en fleje a medida (CC Nesting): Ø disco, espesor, ancho de fleje; paso = Ø + 3
+# discos de cúpula y fondo en fleje a medida (Esquema de corte, 7.1 y 7.2): Ø del disco D0 (igual superficie que la
+# pieza), espesor, ancho del fleje (D0 + 2 puentes al borde) y paso (D0 + puente de avance); despunte de bobina 0,5 %
 DISCO = {
-    ("cupula", "1 kg"): (108, 0.9, 114), ("fondo", "1 kg"): (100, 1.25, 106),
-    ("cupula", "2,5 kg"): (179, 1.25, 200), ("fondo", "2,5 kg"): (148, 1.25, 200),
-    ("cupula", "5 kg"): (221, 1.6, 250), ("fondo", "5 kg"): (177, 1.6, 200),
-    ("cupula", "10 kg"): (258, 1.6, 300), ("fondo", "10 kg"): (205, 2.0, 249),
+    ("cupula", "1 kg"): (89.0, 0.9, 93.05, 90.35), ("fondo", "1 kg"): (95.0, 1.25, 100.625, 96.875),
+    ("cupula", "2,5 kg"): (156.5, 1.25, 162.125, 158.375), ("fondo", "2,5 kg"): (140.5, 1.25, 146.125, 142.375),
+    ("cupula", "5 kg"): (197.0, 1.6, 204.2, 199.4), ("fondo", "5 kg"): (170.0, 1.6, 177.2, 172.4),
+    ("cupula", "10 kg"): (231.5, 1.6, 238.7, 233.9), ("fondo", "10 kg"): (196.0, 2.0, 205.0, 199.0),
 }
-CANO_1KG = dict(barra=6000, pieza=255, piezas=23, diam=76.2, esp=1.25)
+DESPUNTE = 0.005
 
 # familias que la planta fabrica (líneas S1, S2, S3) y las que revende (S4 tercerizados con sello IRAM)
 # Fabricación propia: SÓLO los ABC (decisión FLAMA). Todo el resto (BC, Clase D, agua, AFFF, Sales K, CO₂,
@@ -483,7 +484,7 @@ def _cordon(m, piezas):
     """Longitud de cordón de soldadura del recipiente (mm) a partir del plano."""
     g = m.geo
     D = 2 * g["R"]
-    lon = 0.0 if m.capacidad == "1 kg" else piezas["cuerpo"].BoundingBox().zlen
+    lon = piezas["cuerpo"].BoundingBox().zlen
     return lon, 2 * math.pi * D, math.pi * g["cuello"][0]
 
 
@@ -757,18 +758,11 @@ def materia_prima(m, k, s, kg):
                     "Corte en sierra", "", "C", "", obs, item, est))
 
     if k == "cuerpo":
-        if m.capacidad == "1 kg":
-            c = CANO_1KG
-            out.append(("MP-CANO", f"Caño Ø{_f(c['diam'])} × {_f(c['esp'], 2)} (tramo de barra de 6 m)",
-                        round(1 / c["piezas"], 4), "barra", "Caño acero SAE 1010 con costura",
-                        f"{c['pieza']} mm por cuerpo; {c['piezas']} cuerpos por barra (kg por barra)",
-                        round(kg * c['barra'] / c['pieza'], 3), "Compra", "AL-1T cantiléver", "", "L", "FL_PI_04 h2",
-                        "", "MP-CANO", ""))
-        elif tam in HOJA_CUERPO:
+        if tam in HOJA_CUERPO:
             fmt, e, alto, des, ap = HOJA_CUERPO[tam]
             bruto = alto * des * e * 7.85e-6 / (ap / 100)
             obs = "" if abs(e - g["t"]) < 0.01 else f"OJO: la hoja de corte usa e={_f(e, 2)} y el plano e={_f(g['t'], 2)}"
-            fuente = "FL_PI_04 h2"
+            fuente = "Análisis alternativas corte chapa"
             if tam in CUERPO_PLANO:
                 fuente = "Plano " + m.codigo.replace("FL_MAT_", "FL_REC_")
                 obs = obs or "3 piezas por hoja 1500 × 3000; recotizar el recorte (cotizado 680 / 900 × 1212)"
@@ -776,7 +770,8 @@ def materia_prima(m, k, s, kg):
                         ("Chapa LAC IRAM-IAS U 500-04 " if rod else "Chapa LAF IRAM-IAS U 500-05 ") + fmt.split()[0],
                         f"{_f(alto)} × {_f(des)} (aprovech. {_f(ap)} %)", round(bruto, 3), "Compra",
                         "AL-1H paquetes de hojas", "", "L", fuente, obs,
-                        "MP-HOJA-LAC" if rod else "MP-HOJA-LAF", "X" if obs else ""))
+                        "MP-HOJA-LAC" if rod else ("MP-HOJA-LAF-09" if tam == "1 kg" else "MP-HOJA-LAF"),
+                        "X" if obs else ""))
     if k in ("eje_ruedas", "manija_carro", "portaeje"):
         kc = M.tam_carro(g["R"])
     if k == "eje_ruedas":
@@ -800,13 +795,13 @@ def materia_prima(m, k, s, kg):
         d = DISCO.get((k, tam))
         e = g["td"] if k == "cupula" else g["tf"]
         if d:
-            Ø, e_l, anc = d
-            paso = Ø + 3
-            kg_m = anc * 1000 * e_l * 7.85e-6         # kg por metro de fleje
+            Ø, e_l, anc, paso = d
+            kg_m = anc * 1000 * e_l * 7.85e-6 / (1 - DESPUNTE)        # kg por metro de fleje, con el despunte
             obs = "" if abs(e_l - e) < 0.01 else f"OJO: el fleje es e={_f(e_l, 2)} y el plano e={_f(e, 2)}"
-            out.append(("MP-FLEJE", f"Fleje e={_f(e_l, 2)} × {anc} (paso {_f(paso)})", round(paso / 1000, 4), "m",
-                        "Fleje SAE 1010", f"disco Ø{Ø} (kg por m de fleje)", round(kg_m, 3), "Compra",
-                        "AL-1F porta-flejes", "", "L", "FL_PI_04 h2", obs, "MP-FLEJE", "X" if obs else ""))
+            out.append(("MP-FLEJE", f"Fleje e={_f(e_l, 2)} × {_f(anc, 2)} (paso {_f(paso, 2)})", round(paso / 1000, 5),
+                        "m", "Fleje SAE 1010", f"disco Ø{_f(Ø, 1)} (kg por m de fleje, con 0,5 % de despunte)",
+                        round(kg_m, 3), "Compra", "AL-1F porta-flejes", "", "L", "Esquema de corte 7.2", obs,
+                        "MP-FLEJE", "X" if obs else ""))
     return out
 
 
@@ -816,6 +811,7 @@ CAUDAL_GAS = 14.0        # L/min para alambre Ø0,9-1,2 (Air Liquide: 12-16 L/mi
 VEL_SOLD = 600.0         # mm/min de avance (Getweld: 0-1500 mm/min; 340 u por turno de 8 h)
 GRANALLA_H = 3.4         # kg/h: regla «lb/h ≈ HP / 2» por turbina (The Fabricator), Airblast G-100 2 × 7,5 HP
 RITMO_LINEA = 42.5       # u/h: 340 u por turno de 8 h (Getweld)
+CAUDAL_TIG = 9.0         # L/min de argón para TIG en acero de 1,0 mm (Rapid Welding, typical TIG parameters: 8-10)
 
 
 def consumibles_recipiente(m, piezas):
@@ -827,6 +823,10 @@ def consumibles_recipiente(m, piezas):
     v = piezas["soldaduras"].Volume() * 1e-6 * MAT.ACERO
     a = _area(m, piezas)
     lon, circ, cue = _cordon(m, piezas)
+    tig = m.capacidad == "1 kg"            # 1 kg: costura longitudinal TIG; circunferenciales y cuello MAG
+    lon_tig, lon = (lon, 0.0) if tig else (0.0, lon)
+    if tig:
+        v *= (circ + cue) / (lon_tig + circ + cue)   # el alambre MAG va sólo en circunferenciales y cuello
     largo = lon + circ + cue
     t_arco = largo / VEL_SOLD
     out = [("C1", "Alambre MAG ER70S-6 " + ("Ø1,0" if rod else "Ø0,9") + " (AWS A5.18)", round(v / REND_ALAMBRE, 4),
@@ -844,6 +844,15 @@ def consumibles_recipiente(m, piezas):
             "Caudal 12-16 L/min para alambre 0,9-1,2 (Air Liquide; Ingemecánica): se adopta 14. Velocidad: Getweld "
             "0-1500 mm/min; se adopta 600. Decisión FLAMA: MAG 135 con Arcal 21; la norma nombra «atmósfera "
             "inerte»: acreditar con el certificador en el ensayo de tipo. No incluye la soldadura del carro", "C2", "E")]
+    if tig:
+        t_tig = lon_tig / VEL_SOLD
+        out.append(("C5", "Argón para la costura longitudinal TIG (EN ISO 14175 I1)", round(CAUDAL_TIG * t_tig, 1),
+                    "L", "EN ISO 14175 I1 (Ar 99,99 %)", f"{_f(CAUDAL_TIG, 0)} L/min × {_f(t_tig, 2)} min (costura "
+                    f"{_f(lon_tig, 0)} mm a {_f(VEL_SOLD, 0)} mm/min)", None, "Compra", "Colector SC",
+                    "IRAM 3523 3.2.4.2", "C", "", "Caudal 8-10 L/min para TIG en acero de 1,0 mm (Rapid Welding, typical "
+                    "TIG welding parameters): se adopta 9. Velocidad como la MAG (Getweld). Soldadora longitudinal "
+                    "Firesafer con fuente TIG; medir en la prueba de soldadura", "C5", "E"))
+
     if not rod:
         D = 2 * m.geo["R"]
         entra = 80 <= D <= 200

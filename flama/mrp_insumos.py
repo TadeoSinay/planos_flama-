@@ -63,16 +63,44 @@ ZONAS_PI_NOM = ("CABA Sur", "PBA Sur 1er", "PBA Sur 2do", "PBA Sur 3er")
 # hojas de las Proyecciones de los rubros que consumen toda la gama de matafuegos y separan los usados (columnas Año,
 # Mat Usados y RECARGAS TOT); supermercados, automotor y edificios quedan afuera
 HOJAS_USADOS = ("SALUD", "EDUCACION", "INDUSTRIASALM", "HOTELES")
-# perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104; recargas /12 (filas 135+)
+# perfiles de estacionalidad: Dimensionamiento Técnico FLAMA, DATOS-BASE filas 102 a 104 (fabricación)
 PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .075, .075, .075, .075, .12]),
             ("Manual comercial (2,5 / 5 / 10 kg)", [.10, .08, .085, .085, .08, .075, .08, .08, .08, .075, .07, .11]),
             ("Industrial s/ruedas (25 – 100 kg)", [.085, .075, .09, .09, .09, .08, .09, .09, .085, .075, .07, .08]),
-            ("Recargas (sin estacionalidad)", [1 / 12] * 12)]
+            ]
+N_FAB = len(PERFILES)
+# recargas: perfil mensual de cada tipo en la planta industrial (Aprovechamiento_Recargas_Planta_Industrial,
+# parametros_recargas filas 55 a 71: mix de rubros de la planta × estacionalidad de cada rubro); los tipos con el
+# mismo perfil comparten fila. Se normaliza a 100 % porque el archivo los da redondeados
+REC_PERF = [("ABC 1 kg", ("ABC_1kg",), "55",
+             [.1199, .09549, .07112, .07112, .07117, .07117, .0711, .07117, .07116, .07116, .09552, .11993]),
+            ("ABC 2,5 kg", ("ABC_2.5kg",), "56",
+             [.06083, .06083, .08264, .09534, .10331, .10204, .0745, .08694, .08706, .08706, .07909, .08035]),
+            ("ABC 5 kg", ("ABC_5kg",), "57",
+             [.06698, .06526, .08192, .09965, .10015, .09873, .07957, .07944, .08068, .08068, .0819, .08503]),
+            ("ABC 10 kg", ("ABC_10kg",), "58",
+             [.06566, .06566, .08346, .10029, .1016, .09846, .07761, .07883, .08197, .08197, .08066, .0838]),
+            ("Agua 10 l", ("AGUA_10l",), "59",
+             [.06713, .06713, .08296, .09946, .10032, .09702, .07835, .07875, .08183, .08183, .08096, .08427]),
+            ("AFFF 10 y 50 l, BC 5 kg, Clase D 9 l", ("AFFF_10l", "AFFF_50l", "BC_5kg", "CLASED_9l"),
+             "60 a 62 y 67", [1 / 12] * 12),
+            ("Sales K 6 l", ("SALESK_6l",), "63",
+             [.0694, .0694, .08404, .09412, .09747, .09532, .07685, .08187, .08402, .08402, .08067, .08282]),
+            ("CO₂ 2 kg", ("CO2_2kg",), "64",
+             [.06237, .06237, .08323, .10238, .10297, .10154, .07993, .07984, .08128, .08128, .08068, .08212]),
+            ("CO₂ 5 kg", ("CO2_5kg",), "65",
+             [.07589, .07589, .08264, .09196, .09407, .08901, .07763, .0793, .08319, .08319, .08109, .08615]),
+            ("HCFC/HFC 5 kg", ("HCFC-HFC_5kg",), "66",
+             [.09098, .09098, .08333, .08333, .08333, .07569, .07569, .07569, .08333, .08333, .08333, .09098]),
+            ("ABC 25 a 100 kg s/ruedas", ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg"), "68 a 71",
+             [.07381, .07381, .08262, .09451, .09521, .0908, .07718, .07828, .08269, .08269, .08199, .08641])]
+PERFILES += [(f"Recarga {n}", [x / sum(v) for x in v]) for n, _, _, v in REC_PERF]
+REC_FILA = {c: N_FAB + k for k, (_, cs, _, _) in enumerate(REC_PERF) for c in cs}
 
 
 def perfil(c, linea):
     if linea == "RECARGAS":
-        return 3
+        return REC_FILA[c]
     if c == "ABC_1kg":
         return 0
     return 2 if c in ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg", "AFFF_50l") else 1
@@ -126,24 +154,26 @@ PESCA_ACERO = "Alt. 1 Mozart (V. Alsina) / Alt. 2 Georgia (CABA)"
 REV_MAXI = ("AGUA_10l", "AFFF_10l", "AFFF_50l", "BC_5kg", "CO2_2kg")
 
 ITEMS = [
-    I("MP-01", "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)", "barra", Z_CANT, "Metalpri / Prilux",
-      "Atado de 16 barras", 16, "MP-01", "P01"),
+    I("MP-01", "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)", "hoja", Z_CHM, "Hierros Parrotta", "Paquete de 50 hojas",
+      50, "MP-02", "P01"),
     I("MP-02", "Hoja LAF 1,25 × 1220 × 2440 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 50 hojas", 50, "MP-02", "P01"),
     I("MP-03", "Hoja LAF 1,6 × 1000 × 2000 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 80 hojas", 80, "MP-03", "P01"),
     I("MP-04", "Hoja LAF 2,0 × 1500 × 3000 mm", "hoja", Z_CHM, "Pradecon", "Paquete de 20 hojas", 20, "MP-04", "P01"),
-    I("MP-05", "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-05",
+    I("MP-05", "Fleje LAF 0,9 × 93,05 mm (cúpula 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-05",
       "Q01"),
-    I("MP-13", "Fleje LAF 1,25 × 135 mm (fondo 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-13",
+    I("MP-13", "Fleje LAF 1,25 × 100,6 mm (fondo 1 kg)", "kg", Z_CHM, "Pradecon", "Rollo de 1.900 kg", 1900, "MP-13",
       "Q01"),
-    I("MP-06", "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg",
+    I("MP-06", "Fleje LAF 1,25 × 162,1 mm (cúpula 2,5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg",
       492, "MP-06", "Q02"),
-    I("MP-07", "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 615 kg", 615, "MP-07",
+    I("MP-14", "Fleje LAF 1,25 × 146,1 mm (fondo 2,5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg",
+      492, "MP-06", "Q02"),
+    I("MP-07", "Fleje LAF 1,6 × 204,2 mm (cúpula 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 615 kg", 615, "MP-07",
       "Q02"),
-    I("MP-08", "Fleje LAF 1,6 × 200 mm (fondo 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg", 492, "MP-08",
+    I("MP-08", "Fleje LAF 1,6 × 177,2 mm (fondo 5 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 492 kg", 492, "MP-08",
       "Q02"),
-    I("MP-09", "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 590 kg", 590, "MP-09",
+    I("MP-09", "Fleje LAF 1,6 × 238,7 mm (cúpula 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 590 kg", 590, "MP-09",
       "Q02"),
-    I("MP-10", "Fleje LAF 2,0 × 249 mm (fondo 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 498 kg", 498, "MP-10",
+    I("MP-10", "Fleje LAF 2,0 × 205 mm (fondo 10 kg)", "kg", Z_CHM, "Pacheco Chapas", "Rollo de 498 kg", 498, "MP-10",
       "Q02"),
     I("MP-11", "Hoja LAC 3,2 × 1500 × 3000 mm", "hoja", Z_CHR, "Pradecon", "Paquete de 20 hojas", 20, "MP-11", "P07",
       40, "P07"),
@@ -184,6 +214,10 @@ ITEMS = [
       "MP-24", "X07"),
     I("MP-25", "Gas MAG Ar + 8 % CO₂ (Arcal 21)", "m³", Z_GAS, "Air Liquide", "Batería de 11 cilindros", 115.5,
       "MP-25", "Q03"),
+    I("MP-26", "Argón puro EN ISO 14175 I1 (costura longitudinal TIG del 1 kg)", "m³", Z_GAS, "Air Liquide",
+      "Cilindro de 10,5 m³", 10.5, "MP-25", "Q03"),
+    I("MP-29", "Electrodo de tungsteno lantanado 2 % (WL20) Ø2,4 × 175 mm", "u", Z_SOL, "Würth Argentina",
+      "Caja de 10 u", 10, "MP-27", "X07"),
     I("MP-92", "Disco de sensitiva 355 mm", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-27", "Disco de corte 115 × 1,0 mm", "u", Z_SOL, "Espacio Industria", "Caja de 25 u", 25, "MP-27", "X07"),
     I("MP-93", "Disco flap 115 mm grano 60", "u", Z_SOL, "Würth Argentina", "Caja de 25 u", 25, "MP-27", "X07"),
@@ -412,13 +446,13 @@ LINKS = {
 }
 LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "MP-12": PRAD_H,
           "MP-05": PRAD, "MP-13": PRAD, "MP-06": PRAD_P, "MP-07": PRAD_P, "MP-08": PRAD_P, "MP-09": PRAD_P,
-          "MP-10": PRAD_P, "MP-25": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
+          "MP-10": PRAD_P, "MP-14": PRAD_P, "MP-25": AL, "MP-26": AL, "MP-34": AL, "MP-37": AL, "MP-18": ELI, "MP-19": ELI, "MP-20": ELI,
           "MP-21": ELI, "MP-68": METAPOL, "MP-69": METAPOL, "MP-15": CHINA, "MP-16": CHINA, "MP-17": CHINA,
           "MP-27": ESPACIO, "MP-94": ESPACIO, "MP-51": DAMIAN, "MP-97": DAMIAN, "MP-60": DEPALLET,
           **{c: ROTOLAN for c in ("MP-80", "MP-81", "MP-88", "MP-72", "MP-82", "MP-89", "MP-90", "MP-57")},
           **{f"MP-56/{p}": ROTOLAN if p in ("ABC1", "ABC2.5", "ABC5") else ROTULARTE for _, p, _ in MAN + ROD},
           **{f"MP-59/{p}": SELLERPACK for _, p, _ in MAN},
-          **{c: WURTH for c in ("MP-86", "MP-95", "MP-93", "MP-92", "MP-70", "MP-71", "MP-50/OT")},
+          **{c: WURTH for c in ("MP-29", "MP-86", "MP-95", "MP-93", "MP-92", "MP-70", "MP-71", "MP-50/OT")},
           "MP-23": SOLDANET, "MP-24": SOLDANET, "MP-85": FORMAS, "MP-77": AGC_T, "MP-84": AGC_T,
           **{f"RV-{c}": RODO for c in ("CO2_5kg", "SALESK_6l", "HCFC-HFC_5kg")},
           **{f"MP-50/{m}": ARGENSOLD for m in ("M22", "M30", "2½")},
@@ -429,7 +463,7 @@ LT_COT = {"MP-02": PRAD_H, "MP-03": PRAD_H, "MP-04": PRAD_H, "MP-11": PRAD_H, "M
           **{f"MP-49/{p}": GALPON_R for _, p, _ in ROD}, **{f"MP-47/{p}": GALPON_R for _, p, _ in ROD},
           **{f"MP-46/{p}": GALPON_R for _, p, _ in MAN[1:]},
           **{c: OXICAS_R for c in ("MP-33B", "MP-35", "MP-36", "MP-38", "MP-41")},
-          **{c: ACEROSYA for c in ("MP-01", "MP-66", "MP-67")},
+          **{c: ACEROSYA for c in ("MP-66", "MP-67")},
           **{f"MP-54/{d}": MORSHOP for d in ("300", "350", "400")},
           "MP-28": EGM, "MP-31": ENAMELS, "MP-65": MAFER, "MP-79": IRAM_T, "RV-CLASED_9l": ACONCAGUA_D,
           **{f"MP-62/{m}": MARTIN for m in ("M22", "M30", "2½")},
@@ -449,20 +483,25 @@ def plazo(cod):
     return (lt, lt, "Sin plazo publicado: el de la planilla de MP", "X07")
 
 # ------------------------------------------------------------------ datos de fabricación
-CUERPO = {"ABC1": ("MP-01", 23, "P03"), "ABC2.5": ("MP-02", 27, "P02"), "ABC5": ("MP-03", 12, "P02"),
+CUERPO = {"ABC1": ("MP-01", 45, "P03"), "ABC2.5": ("MP-02", 27, "P02"), "ABC5": ("MP-03", 12, "P02"),
           "ABC10": ("MP-04", 15, "P02")}
-# disco de cúpula / fondo: (ítem, ancho del fleje, Ø del disco, espesor); puente entre discos 3 mm (planilla de MP)
-DISCO = {("ABC1", "Cúpula"): ("MP-05", 114, 95, 0.9), ("ABC1", "Fondo"): ("MP-13", 135, 112, 1.25),
-         ("ABC2.5", "Cúpula"): ("MP-06", 200, 179, 1.25), ("ABC2.5", "Fondo"): ("MP-06", 200, 148, 1.25),
-         ("ABC5", "Cúpula"): ("MP-07", 250, 221, 1.6), ("ABC5", "Fondo"): ("MP-08", 200, 177, 1.6),
-         ("ABC10", "Cúpula"): ("MP-09", 300, 258, 1.6), ("ABC10", "Fondo"): ("MP-10", 249, 205, 2.0)}
-PUENTE = 3
+# disco de cúpula / fondo: (ítem, ancho del fleje, paso, Ø del disco, espesor) del Esquema de corte (7.1 y 7.2):
+# ancho = D0 + 2 puentes al borde, paso = D0 + puente de avance; despunte de cabeza y cola de bobina 0,5 %
+DISCO = {("ABC1", "Cúpula"): ("MP-05", 93.05, 90.35, 89, 0.9), ("ABC1", "Fondo"): ("MP-13", 100.625, 96.875, 95, 1.25),
+         ("ABC2.5", "Cúpula"): ("MP-06", 162.125, 158.375, 156.5, 1.25),
+         ("ABC2.5", "Fondo"): ("MP-14", 146.125, 142.375, 140.5, 1.25),
+         ("ABC5", "Cúpula"): ("MP-07", 204.2, 199.4, 197, 1.6), ("ABC5", "Fondo"): ("MP-08", 177.2, 172.4, 170, 1.6),
+         ("ABC10", "Cúpula"): ("MP-09", 238.7, 233.9, 231.5, 1.6), ("ABC10", "Fondo"): ("MP-10", 205, 199, 196, 2.0)}
+DESPUNTE = 0.005
 # planilla de MP, Geometria Acero filas 67 y 71: alambre (kg) y gas (m³) por recipiente de manuales
 ALAMBRE_MAN = {"ABC1": 0.01499, "ABC2.5": 0.0304, "ABC5": 0.03675, "ABC10": 0.04575}
 GAS_MAN = {"ABC1": 0.01671, "ABC2.5": 0.03388, "ABC5": 0.04096, "ABC10": 0.051}
 # proceso de manuales: producción del pico con la que da 48 m³ de gas por día (tramos y desarrollos)
 PICO_DOC_MAN = {"ABC1": 1216, "ABC2.5": 99, "ABC5": 446, "ABC10": 27}
 GAS_DOC = 48
+# TIG de la costura longitudinal del 1 kg (BOM, C5): caudal de argón (L/min), largo de la costura = cuerpo (mm) y
+# velocidad (mm/min)
+CAUDAL_TIG, COSTURA_TIG, VEL_TIG = 9.0, 263.4, 600
 POR_PALLET_MAN = {"ABC1": 400, "ABC2.5": 167, "ABC5": 90, "ABC10": 40}      # proceso de manuales, embalaje
 POR_PALLET_ROD = {"ABC25": 24, "ABC50": 9, "ABC70": 6, "ABC100": 6}         # planilla de MP, Pallets PT
 # proceso de carros: (puesto, gas en L, alambre en g) por modelo 25 / 50 / 70 / 100
@@ -814,8 +853,12 @@ class Libro:
             r = 4 + k
             rid = self.ref(f"E{k + 1:02d}", hoja="ESTACIONALIDAD", dato=nom,
                            como="Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes)."
-                           if k < 3 else "Dimensionamiento Técnico FLAMA: las recargas de las dos plantas se reparten "
-                                         "parejo en los 12 meses (anual / 12).", figs=["F01"] if k < 3 else ["F03"])
+                           if k < N_FAB else "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, "
+                           f"fila {REC_PERF[k - N_FAB][2]}: recargas de cada mes = mix de rubros de la planta "
+                           "industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; "
+                           "edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; "
+                           "industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+                           figs=["F01"] if k < N_FAB else [])
             ws.cell(r, 1, rid)
             ws.cell(r, 2, nom)
             for j, x in enumerate(v):
@@ -947,19 +990,15 @@ class Libro:
             for k, (c, p, nm) in enumerate(grupo):
                 it, rend, fg = CUERPO[p]
                 fila(it, {k: f"=1/{rend}", n + k: f"=1/{rend}"},
-                     f"Un cuerpo por recipiente; de {'un caño de 6 m salen' if p == 'ABC1' else 'una hoja salen'} "
-                     f"{rend} cuerpos.", [fg])
-            for (p, pz), (it, an, d, e) in DISCO.items():
+                     f"Un cuerpo por recipiente; de una hoja salen {rend} cuerpos (Análisis alternativas corte chapa, "
+                     f"hoja Corte).", [fg])
+            for (p, pz), (it, an, paso, d, e) in DISCO.items():
                 k = [x[1] for x in grupo].index(p)
-                ex = next((x for x in rows if x["it"] == it), None)
-                v = f"{an}*({d}+{PUENTE})*{e}*7.85/1000000"
-                if ex:
-                    ex["cons"] = {kk: vv + "+" + v for kk, vv in ex["cons"].items()}
-                    ex["como"] += f" Más el fondo: Ø{d} mm."
-                    continue
+                v = f"{an}*{paso}*{e}*7.85/1000000/(1-{DESPUNTE})"
                 fila(it, {k: "=" + v, n + k: "=" + v},
-                     f"{pz} del {p[3:]} kg: kg de fleje por disco = ancho {an} mm × (Ø del disco {d} mm + puente "
-                     f"{PUENTE} mm) × espesor {num(e)} mm × 7,85 kg/dm³ (método de la planilla de MP).",
+                     f"{pz} del {p[3:]} kg: kg de fleje por disco = ancho {num(an)} mm × paso {num(paso)} mm × espesor "
+                     f"{num(e)} mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø{num(d)} con la misma superficie "
+                     "que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
                      ["X14", "X08", "Q02"])
             fila("MP-18", {0: 1, n: 1}, "Un asiento de válvula por cúpula (se compra mecanizado).", ["P01"])
             fila("MP-19", {k: 1 for k in (1, 2, 3)} | {n + k: 1 for k in (1, 2, 3)},
@@ -974,6 +1013,18 @@ class Libro:
                  f"m³ por recipiente de la planilla de MP, llevados a los {GAS_DOC} m³ por día del proceso de manuales: "
                  f"con la producción del pico de ese proceso (1.216, 99, 446 y 27 recipientes) la planilla da 43,3 m³, "
                  f"así que cada valor se multiplica por 48 / 43,3.", ["P01", "X08"])
+            v = f"{CAUDAL_TIG}*{COSTURA_TIG}/{VEL_TIG}/1000"
+            fila("MP-26", {0: "=" + v, n: "=" + v},
+                 f"Costura longitudinal TIG 141 de la virola de 0,9 mm del 1 kg (las circunferenciales y el cuello "
+                 f"siguen en MAG, por eso el alambre y el gas MAG de la planilla quedan como están): m³ = "
+                 f"{num(CAUDAL_TIG)} L/min × {num(COSTURA_TIG)} mm de costura ÷ {VEL_TIG} mm/min ÷ 1.000. Caudal: 8 a 10 "
+                 "L/min para acero dulce de 1,0 mm (Rapid Welding, parámetros TIG típicos); velocidad 600 mm/min "
+                 "(Getweld); largo de la costura = largo del cuerpo del BOM.", ["B02"])
+            fila("MP-29", {0: f"=1/{PICO_DOC_MAN['ABC1']}", n: f"=1/{PICO_DOC_MAN['ABC1']}"},
+                 "Criterio, a medir en planta: ningún fabricante ni estudio publica un consumo de electrodos por "
+                 "costura (la vida útil depende del reafilado y se fija a la vista: COBEM 2017; JWS). Se toma un "
+                 f"electrodo por día de soldadora, repartido en la producción del pico de 1 kg del proceso de "
+                 f"manuales ({PICO_DOC_MAN['ABC1']:,} por día).".replace(",", "."), ["P01"])
             fila("MP-28", {k: 0.08 for k in range(2 * n)}, "0,08 kg de granalla por cilindro (proceso de manuales: "
                  "«unos 133 kg por día en el pico»).", ["P04"])
             fila("MP-31", {k: f"={self.area('Fabricados', 'FL_MAT_' + c):.4f}/{PINT_REND}/{PINT_APROV}"
@@ -993,8 +1044,10 @@ class Libro:
                  "de servicio del plano). Volumen interior del BOM.", ["P04", "B01"])
             figs_id = ["B02"]
         else:
-            fila("MP-11", {0: "=1/9", 1: "=1/6", n: "=1/9", n + 1: "=1/6"}, "Un cuerpo por recipiente; de una hoja "
-                 "de 3,2 mm salen 9 cuerpos de 25 kg o 6 de 50 kg (plan de corte del proceso de carros).", ["P08"])
+            fila("MP-11", {0: "=1/12", 1: "=1/6", n: "=1/12", n + 1: "=1/6"}, "Corte combinado de 3,2 mm (Esquema de "
+                 "corte en guillotina, 5.2): todo el 25 kg en hojas P1 (6 de 25 kg + 3 de 50 kg) y el resto del 50 kg en "
+                 "P3 (6 de 50 kg). Hojas = n25/12 + n50/6, el mínimo posible, mientras n50 ≥ n25/2 (se cumple todos los "
+                 "años).", ["P08"])
             fila("MP-12", {2: "=2/9", 3: "=1/3", n + 2: "=2/9", n + 3: "=1/3"},
                  "Hoja mixta del proceso de carros: 3 cuerpos de 70 kg + 1 de 100 kg; los 100 kg que sobran, a 3 por "
                  "hoja. Hojas = n70 / 3 + (n100 − n70 / 3) / 3 = 2/9 × n70 + 1/3 × n100 (vale mientras n70 ≤ 3 × "

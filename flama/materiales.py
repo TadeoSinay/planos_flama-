@@ -95,12 +95,13 @@ def especificacion(m, clave):
         elif m.familia == "rodante":
             mat = f"Chapa LAC IRAM-IAS U 500-04 e={e}"    # IRAM 3550 3.2.1; cotizada Pacheco/Pradecon
         elif clave == "cuerpo" and m.capacidad == "1 kg":
-            mat = f"Caño c-c LF Ø76,2 e={e} (SAE 1010)"    # cotizado Metalpri
+            mat = f"Chapa LAF IRAM-IAS U 500-05 e={e}"    # 1 kg: hoja 1220 × 2440 × 0,9, Hierros Parrotta 413329
         else:
             mat = f"Chapa LAF IRAM-IAS U 500-05 e={e}"    # IRAM 3523 3.2.1 a); cotizada Pacheco/Pradecon
         if clave == "cuerpo":
             proc = m.soldadura
-            obs = None if m.familia == "co2" else f"costura long. {proc[1]}"
+            obs = None if m.familia == "co2" else ("costura long. TIG 141" if m.capacidad == "1 kg"
+                                                   else f"costura long. {proc[1]}")
     if clave == "cuerpo" and m.familia == "co2":
         nom, obs = "Cilindro sin costura", "cuello integral"
     if clave == "cuello":

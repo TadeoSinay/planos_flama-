@@ -333,6 +333,12 @@ def hoja1(m, piezas, info, proy, doc, ox=0.0):
             zs = info["suncho_z"]
             h.cota_lineal((x_front + R * f, yb), (x_front + R * f, y_front + zs * f), (xr + 10, yb), 90, k)
 
+    if m.capacidad == "1 kg":
+        # costura longitudinal a tope del cuerpo (atrás, -Y): en la vista lateral es la generatriz de la derecha
+        pw = (x_lat + R * f, y_front + 0.72 * zc * f)
+        h.simbolo_soldadura(pw, (pw[0] + 16, pw[1] + 14), lado=1, todo_alrededor=False, proceso="141", tipo="tope")
+        h.texto("costura longitudinal TIG (atrás)", (pw[0] + 16, pw[1] + 18), 1.8, A.BOTTOM_LEFT)
+
     # ---------------- plano de corte A-A en la vista superior
     h.plano_corte((x_front - R * f - 14, y_top), (x_front + R * f + 14, y_top), "A", (0, 1))
 
@@ -961,6 +967,7 @@ def hoja3(m, info, doc, ox=0.0, masa_vacio=None, piezas=None):
     filas.append(("Diámetro exterior del recipiente (mm)", _n(2 * g["R"])))
     filas.append(("Rosca de cuello", g["cuello"][2]))
     filas.append(("Soldadura del recipiente", "sin costura (cilindro)" if m.familia == "co2"
+                  else "costura long. TIG 141; circunf. y cuello MAG 135 (ISO 4063)" if m.capacidad == "1 kg"
                   else f"{m.soldadura[1]}, proceso {m.soldadura[0]} (ISO 4063)"))
     y = _tabla(h, x0, ytop - 6, filas, [100, 75], encabezado="ESPECIFICACIONES TÉCNICAS")
     # verificación de masa

@@ -124,12 +124,13 @@ ITEMS = {
     "MP-HOJA-LAC": ("Chapa LAC del cuerpo rodantes", "Recorte LAC IRAM-IAS U 500-04 e=3,2 / 4,75, σf ≥ 265 MPa",
                     "PRADECON", "PACHECO", "COTIZADO", "Planilla MP-11/12: USD 1,10 / 1,09 por kg (Pradecon)",
                     "σf ≥ 265 MPa en el certificado (IRAM 3550 4.1.3.1)"),
-    "MP-FLEJE": ("Fleje LAF de cúpula y fondo 1 a 10 kg", "Bobina flejada LAF e=0,9/1,25/1,6/2,0, ancho del plano",
+    "MP-FLEJE": ("Fleje LAF de cúpula y fondo 1 a 10 kg", "Bobina flejada LAF e=0,9/1,25/1,6/2,0, ancho = disco + 2 "
+                 "puentes al borde (Esquema de corte, 7.2)",
                  "PACHECO", "PRADECON", "COTIZADO", "Planilla MP-05 a 10 y 13: USD 1,19-1,26 por kg",
                  "Pacheco flejes ≥ 1,25; Pradecon fleje 0,9 (1 kg)"),
-    "MP-CANO": ("Caño del cuerpo 1 kg", "Caño c/costura ERW SAE 1010 Ø76,2 × 1,25, barra 6 m", "METALPRI", "MID",
-                "COTIZADO", "Planilla MP-01 (Metalprisa)", "MID cotizó 2½\" × 2,6 (más pesado): alternativa con "
-                "reserva; confirmar costura por resistencia (IRAM 3523 3.2.4.2 b)"),
+    "MP-HOJA-LAF-09": ("Chapa LAF del cuerpo 1 kg", "Hoja LAF IRAM-IAS U 500-05 1220 × 2440 × 0,9", "PARROTTA",
+                       "PRADECON", "COTIZADO", "Presupuesto Parrotta 413329: USD 1,356/kg sin IVA (6,84 % de "
+                       "descuento, contado)", "45 cuerpos por hoja (Análisis alternativas corte chapa)"),
     "MP-CUELLO": ("Cuello roscado de manuales", "Asiento roscado SAE 1020 M22 (1 kg) / M30 × 1,5 (2,5-10 kg), "
                   "mecanizado bajo plano", "ELIMET", None, "A COTIZAR",
                   "Planilla MP-18/19: sin cotizar (Eli-Met cotizó la cupla M30 de carros)",

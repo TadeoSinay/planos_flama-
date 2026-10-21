@@ -166,7 +166,7 @@ def generar_recipiente(m, hojas=1):
         detalles.append(dict(letra="D", c=(R - g["t"], dr["zb"]), r=max(6 * g["t"], 12),
                              titulo="Casquete inferior con borde reducido" if rod_ else "Bordón inferior y fondo",
                              nota=(f"labio {_n(lab, 1)}, escalón {_n(esc, 1)}; mismo casquete que la cúpula" if rod_
-                                   else f"caño con los dos extremos reducidos: escalón e {t_} × {_n(esc, 0)}, "
+                                   else f"virola con los dos extremos reducidos: escalón e {t_} × {_n(esc, 0)}, "
                                         f"labio {_n(lab, 0)}")))
     col_x = h.fx1 - w_det / 2 - 2
     col_y0, col_y1 = h.fy0 + ROT_H + 4, h.fy1 - 4

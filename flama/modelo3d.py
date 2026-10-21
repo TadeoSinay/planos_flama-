@@ -223,7 +223,7 @@ def recipiente(g, z0=0.0, costura=True):
     hf = {"cupula": g.get("hf", hd), "cabezal": hd, "co2": R}.get(tipo, 0.0)
 
     if tipo in ("concavo", "cupula"):
-        # cuerpo con bordón arriba (y abajo en el 1 kg, caño con los dos extremos reducidos)
+        # cuerpo con bordón arriba (y abajo en el 1 kg, virola con los dos extremos reducidos)
         z_a = zb + (esc if tipo == "cupula" else 0.0)
         cu = _tube(R, R - t, hc - esc - z_a, (0, 0, z_a))
         cu = cu.fuse(_anillo([(R - t, hc - esc), (R, hc - esc), (R - t, hc), (R - 2 * t, hc)]))
@@ -296,8 +296,8 @@ def recipiente(g, z0=0.0, costura=True):
             sold.append(_torus(R - t, sw, g["zf_borde"] - 0.5))                # filete del fondo, por debajo
     if tipo != "co2":
         sold.append(_torus(dn / 2, max(1.0, 0.8 * td), zo))    # cuello-cúpula
-    if costura and tipo not in ("co2", "cupula"):
-        # costura longitudinal (el 1 kg es caño comprado: sin costura de planta)
+    if costura and tipo != "co2":
+        # costura longitudinal (el 1 kg también: chapa de 0,9 cilindrada y soldada TIG)
         z_s0 = zb if tipo != "concavo" else 0.0
         sold.append(_box(3.0, 0.8 * t, hc - esc - z_s0 - 2 if not rod else hc - zb - 2, 0, -R + 0.1 * t, z_s0 + 1))
     if g.get("refuerzo"):

@@ -77,7 +77,7 @@ def _spec(cap, peso, alto, ancho, prof, desc, alc, temp, ps, pe, n_ag, n_ext, **
 # la unión con la cúpula (rodantes: largo del cuerpo entre cabezales), hd: altura de la cúpula, t: espesor de cuerpo,
 # td: espesor de cúpula, tf: espesor de fondo, zf_borde / zf_centro: altura
 # del fondo (borde y centro) sobre el piso, cuello: (Ø ext, altura, rosca).
-G_1KG = dict(R=76.2 / 2, total=298.0, hc=0, hd=12.5, t=1.25, td=0.9, tf=1.25,
+G_1KG = dict(R=76.2 / 2, total=298.0, hc=0, hd=12.5, t=0.9, td=0.9, tf=1.25,
              tipo_fondo="cupula", hf=22, cuello=(29, 12.5, "M22x1,5", 26), vol_dm3=1.18)
 G_2K5 = dict(R=124 / 2, total=313.5, hc=0, hd=39.5, t=1.25, td=1.25, tf=1.25,
              tipo_fondo="concavo", zf_borde=16.0, zf_centro=5.5,

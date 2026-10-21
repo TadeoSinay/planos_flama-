@@ -53,10 +53,9 @@
   "D07": {
    "hoja": "DEMANDA",
    "dato": "Matafuego ABC 5 kg",
-   "como": "Indexado, «Producción de matafuegos», fila 5 + venta de reserva (Reservas, fila 30) + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 69, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
+   "como": "Indexado, «Producción de matafuegos», fila 5 + sustitutos nuevos de la planta industrial (Reservas, alta anual, fila 69, × D01): un sustituto ABC es un matafuego que fabrica FLAMA",
    "figs": [
     "X01",
-    "X03",
     "X03"
    ]
   },
@@ -452,13 +451,71 @@
   },
   "E04": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recargas (sin estacionalidad)",
-   "como": "Dimensionamiento Técnico FLAMA: las recargas de las dos plantas se reparten parejo en los 12 meses (anual / 12).",
-   "figs": [
-    "F03"
-   ]
+   "dato": "Recarga ABC 1 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 55: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
   },
   "E05": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 2,5 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 56: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E06": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 5 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 57: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E07": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 10 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 58: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E08": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga Agua 10 l",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 59: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E09": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga AFFF 10 y 50 l, BC 5 kg, Clase D 9 l",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 60 a 62 y 67: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E10": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga Sales K 6 l",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 63: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E11": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga CO₂ 2 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 64: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E12": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga CO₂ 5 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 65: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E13": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga HCFC/HFC 5 kg",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 66: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E14": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 25 a 100 kg s/ruedas",
+   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 68 a 71: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E15": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de manuales",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -466,7 +523,7 @@
     "F02"
    ]
   },
-  "E06": {
+  "E16": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de rodantes",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -474,7 +531,7 @@
     "F02"
    ]
   },
-  "E07": {
+  "E17": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de recargas",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -482,7 +539,7 @@
     "F02"
    ]
   },
-  "E08": {
+  "E18": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de revendidos",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -493,16 +550,16 @@
   "M01": {
    "hoja": "MANUALES",
    "codigo": "MP-01",
-   "dato": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
-   "um": "barra",
+   "dato": "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)",
+   "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de un caño de 6 m salen 23 cuerpos.",
+   "como": "Un cuerpo por recipiente; de una hoja salen 45 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
    "figs": [
     "P03"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=1/23",
-    "FL_REC_ABC_1kg": "=1/23"
+    "FL_MAT_ABC_1kg": "=1/45",
+    "FL_REC_ABC_1kg": "=1/45"
    }
   },
   "M02": {
@@ -511,7 +568,7 @@
    "dato": "Hoja LAF 1,25 × 1220 × 2440 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos.",
+   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
    "figs": [
     "P02"
    ],
@@ -526,7 +583,7 @@
    "dato": "Hoja LAF 1,6 × 1000 × 2000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos.",
+   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
    "figs": [
     "P02"
    ],
@@ -541,7 +598,7 @@
    "dato": "Hoja LAF 2,0 × 1500 × 3000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos.",
+   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
    "figs": [
     "P02"
    ],
@@ -553,123 +610,140 @@
   "M05": {
    "hoja": "MANUALES",
    "codigo": "MP-05",
-   "dato": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "dato": "Fleje LAF 0,9 × 93,05 mm (cúpula 1 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Cúpula del 1 kg: kg de fleje por disco = ancho 114 mm × (Ø del disco 95 mm + puente 3 mm) × espesor 0,9 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Cúpula del 1 kg: kg de fleje por disco = ancho 93,05 mm × paso 90,35 mm × espesor 0,9 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø89 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=114*(95+3)*0.9*7.85/1000000",
-    "FL_REC_ABC_1kg": "=114*(95+3)*0.9*7.85/1000000"
+    "FL_MAT_ABC_1kg": "=93.05*90.35*0.9*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_1kg": "=93.05*90.35*0.9*7.85/1000000/(1-0.005)"
    }
   },
   "M06": {
    "hoja": "MANUALES",
    "codigo": "MP-13",
-   "dato": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "dato": "Fleje LAF 1,25 × 100,6 mm (fondo 1 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Fondo del 1 kg: kg de fleje por disco = ancho 135 mm × (Ø del disco 112 mm + puente 3 mm) × espesor 1,25 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Fondo del 1 kg: kg de fleje por disco = ancho 100,625 mm × paso 96,875 mm × espesor 1,25 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø95 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=135*(112+3)*1.25*7.85/1000000",
-    "FL_REC_ABC_1kg": "=135*(112+3)*1.25*7.85/1000000"
+    "FL_MAT_ABC_1kg": "=100.625*96.875*1.25*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_1kg": "=100.625*96.875*1.25*7.85/1000000/(1-0.005)"
    }
   },
   "M07": {
    "hoja": "MANUALES",
    "codigo": "MP-06",
-   "dato": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "dato": "Fleje LAF 1,25 × 162,1 mm (cúpula 2,5 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Cúpula del 2.5 kg: kg de fleje por disco = ancho 200 mm × (Ø del disco 179 mm + puente 3 mm) × espesor 1,25 mm × 7,85 kg/dm³ (método de la planilla de MP). Más el fondo: Ø148 mm.",
+   "como": "Cúpula del 2.5 kg: kg de fleje por disco = ancho 162,125 mm × paso 158,375 mm × espesor 1,25 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø156,5 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_2.5kg": "=200*(179+3)*1.25*7.85/1000000+200*(148+3)*1.25*7.85/1000000",
-    "FL_REC_ABC_2.5kg": "=200*(179+3)*1.25*7.85/1000000+200*(148+3)*1.25*7.85/1000000"
+    "FL_MAT_ABC_2.5kg": "=162.125*158.375*1.25*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_2.5kg": "=162.125*158.375*1.25*7.85/1000000/(1-0.005)"
    }
   },
   "M08": {
    "hoja": "MANUALES",
-   "codigo": "MP-07",
-   "dato": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "codigo": "MP-14",
+   "dato": "Fleje LAF 1,25 × 146,1 mm (fondo 2,5 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Cúpula del 5 kg: kg de fleje por disco = ancho 250 mm × (Ø del disco 221 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Fondo del 2.5 kg: kg de fleje por disco = ancho 146,125 mm × paso 142,375 mm × espesor 1,25 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø140,5 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_5kg": "=250*(221+3)*1.6*7.85/1000000",
-    "FL_REC_ABC_5kg": "=250*(221+3)*1.6*7.85/1000000"
+    "FL_MAT_ABC_2.5kg": "=146.125*142.375*1.25*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_2.5kg": "=146.125*142.375*1.25*7.85/1000000/(1-0.005)"
    }
   },
   "M09": {
    "hoja": "MANUALES",
-   "codigo": "MP-08",
-   "dato": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "codigo": "MP-07",
+   "dato": "Fleje LAF 1,6 × 204,2 mm (cúpula 5 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Fondo del 5 kg: kg de fleje por disco = ancho 200 mm × (Ø del disco 177 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Cúpula del 5 kg: kg de fleje por disco = ancho 204,2 mm × paso 199,4 mm × espesor 1,6 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø197 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_5kg": "=200*(177+3)*1.6*7.85/1000000",
-    "FL_REC_ABC_5kg": "=200*(177+3)*1.6*7.85/1000000"
+    "FL_MAT_ABC_5kg": "=204.2*199.4*1.6*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_5kg": "=204.2*199.4*1.6*7.85/1000000/(1-0.005)"
    }
   },
   "M10": {
    "hoja": "MANUALES",
-   "codigo": "MP-09",
-   "dato": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "codigo": "MP-08",
+   "dato": "Fleje LAF 1,6 × 177,2 mm (fondo 5 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Cúpula del 10 kg: kg de fleje por disco = ancho 300 mm × (Ø del disco 258 mm + puente 3 mm) × espesor 1,6 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Fondo del 5 kg: kg de fleje por disco = ancho 177,2 mm × paso 172,4 mm × espesor 1,6 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø170 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_10kg": "=300*(258+3)*1.6*7.85/1000000",
-    "FL_REC_ABC_10kg": "=300*(258+3)*1.6*7.85/1000000"
+    "FL_MAT_ABC_5kg": "=177.2*172.4*1.6*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_5kg": "=177.2*172.4*1.6*7.85/1000000/(1-0.005)"
    }
   },
   "M11": {
    "hoja": "MANUALES",
-   "codigo": "MP-10",
-   "dato": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "codigo": "MP-09",
+   "dato": "Fleje LAF 1,6 × 238,7 mm (cúpula 10 kg)",
    "um": "kg",
    "dest": "",
-   "como": "Fondo del 10 kg: kg de fleje por disco = ancho 249 mm × (Ø del disco 205 mm + puente 3 mm) × espesor 2 mm × 7,85 kg/dm³ (método de la planilla de MP).",
+   "como": "Cúpula del 10 kg: kg de fleje por disco = ancho 238,7 mm × paso 233,9 mm × espesor 1,6 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø231,5 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
    "figs": [
     "X14",
     "X08",
     "Q02"
    ],
    "cons": {
-    "FL_MAT_ABC_10kg": "=249*(205+3)*2.0*7.85/1000000",
-    "FL_REC_ABC_10kg": "=249*(205+3)*2.0*7.85/1000000"
+    "FL_MAT_ABC_10kg": "=238.7*233.9*1.6*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_10kg": "=238.7*233.9*1.6*7.85/1000000/(1-0.005)"
    }
   },
   "M12": {
+   "hoja": "MANUALES",
+   "codigo": "MP-10",
+   "dato": "Fleje LAF 2,0 × 205 mm (fondo 10 kg)",
+   "um": "kg",
+   "dest": "",
+   "como": "Fondo del 10 kg: kg de fleje por disco = ancho 205 mm × paso 199 mm × espesor 2 mm × 7,85 kg/dm³ ÷ (1 − 0,5 % de despunte). Disco Ø196 con la misma superficie que la pieza embutida; puentes de MISUMI (Esquema de corte en guillotina, 7.1 y 7.2).",
+   "figs": [
+    "X14",
+    "X08",
+    "Q02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_10kg": "=205*199*2.0*7.85/1000000/(1-0.005)",
+    "FL_REC_ABC_10kg": "=205*199*2.0*7.85/1000000/(1-0.005)"
+   }
+  },
+  "M13": {
    "hoja": "MANUALES",
    "codigo": "MP-18",
    "dato": "Asiento de válvula M22 × 1,5 (1 kg)",
@@ -684,7 +758,7 @@
     "FL_REC_ABC_1kg": 1
    }
   },
-  "M13": {
+  "M14": {
    "hoja": "MANUALES",
    "codigo": "MP-19",
    "dato": "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)",
@@ -703,7 +777,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M14": {
+  "M15": {
    "hoja": "MANUALES",
    "codigo": "MP-23",
    "dato": "Alambre MAG ER70S-6 Ø0,9 mm (manuales)",
@@ -724,7 +798,7 @@
     "FL_REC_ABC_10kg": 0.04575
    }
   },
-  "M15": {
+  "M16": {
    "hoja": "MANUALES",
    "codigo": "MP-25",
    "dato": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
@@ -746,7 +820,37 @@
     "FL_REC_ABC_10kg": "=0.051*48/(1216*0.01671+99*0.03388+446*0.04096+27*0.051)"
    }
   },
-  "M16": {
+  "M17": {
+   "hoja": "MANUALES",
+   "codigo": "MP-26",
+   "dato": "Argón puro EN ISO 14175 I1 (costura longitudinal TIG del 1 kg)",
+   "um": "m³",
+   "dest": "",
+   "como": "Costura longitudinal TIG 141 de la virola de 0,9 mm del 1 kg (las circunferenciales y el cuello siguen en MAG, por eso el alambre y el gas MAG de la planilla quedan como están): m³ = 9 L/min × 263,4 mm de costura ÷ 600 mm/min ÷ 1.000. Caudal: 8 a 10 L/min para acero dulce de 1,0 mm (Rapid Welding, parámetros TIG típicos); velocidad 600 mm/min (Getweld); largo de la costura = largo del cuerpo del BOM.",
+   "figs": [
+    "B02"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=9.0*263.4/600/1000",
+    "FL_REC_ABC_1kg": "=9.0*263.4/600/1000"
+   }
+  },
+  "M18": {
+   "hoja": "MANUALES",
+   "codigo": "MP-29",
+   "dato": "Electrodo de tungsteno lantanado 2 % (WL20) Ø2,4 × 175 mm",
+   "um": "u",
+   "dest": "",
+   "como": "Criterio. a medir en planta: ningún fabricante ni estudio publica un consumo de electrodos por costura (la vida útil depende del reafilado y se fija a la vista: COBEM 2017; JWS). Se toma un electrodo por día de soldadora. repartido en la producción del pico de 1 kg del proceso de manuales (1.216 por día).",
+   "figs": [
+    "P01"
+   ],
+   "cons": {
+    "FL_MAT_ABC_1kg": "=1/1216",
+    "FL_REC_ABC_1kg": "=1/1216"
+   }
+  },
+  "M19": {
    "hoja": "MANUALES",
    "codigo": "MP-28",
    "dato": "Granalla de acero S330 / S390",
@@ -767,7 +871,7 @@
     "FL_REC_ABC_10kg": 0.08
    }
   },
-  "M17": {
+  "M20": {
    "hoja": "MANUALES",
    "codigo": "MP-31",
    "dato": "Pintura en polvo poliéster rojo 03-1-050",
@@ -782,17 +886,17 @@
     "W3"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=0.0764/9.46/0.95",
+    "FL_MAT_ABC_1kg": "=0.0767/9.46/0.95",
     "FL_MAT_ABC_2.5kg": "=0.1375/9.46/0.95",
     "FL_MAT_ABC_5kg": "=0.2091/9.46/0.95",
     "FL_MAT_ABC_10kg": "=0.3510/9.46/0.95",
-    "FL_REC_ABC_1kg": "=0.0764/9.46/0.95",
+    "FL_REC_ABC_1kg": "=0.0767/9.46/0.95",
     "FL_REC_ABC_2.5kg": "=0.1375/9.46/0.95",
     "FL_REC_ABC_5kg": "=0.2091/9.46/0.95",
     "FL_REC_ABC_10kg": "=0.3510/9.46/0.95"
    }
   },
-  "M18": {
+  "M21": {
    "hoja": "MANUALES",
    "codigo": "MP-33",
    "dato": "Polvo ABC 60 (manuales y sus recargas)",
@@ -810,7 +914,7 @@
     "FL_MAT_ABC_10kg": 10.15
    }
   },
-  "M19": {
+  "M22": {
    "hoja": "MANUALES",
    "codigo": "MP-34",
    "dato": "Nitrógeno seco",
@@ -828,7 +932,7 @@
     "FL_MAT_ABC_10kg": "=12.5/3*14/1000"
    }
   },
-  "M20": {
+  "M23": {
    "hoja": "MANUALES",
    "codigo": "MP-42",
    "dato": "Válvula HZ M-22 con tubo de pesca (1 kg)",
@@ -842,7 +946,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M21": {
+  "M24": {
    "hoja": "MANUALES",
    "codigo": "MP-43",
    "dato": "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)",
@@ -858,7 +962,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M22": {
+  "M25": {
    "hoja": "MANUALES",
    "codigo": "MP-45",
    "dato": "Manómetro 1,4 MPa",
@@ -875,7 +979,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M23": {
+  "M26": {
    "hoja": "MANUALES",
    "codigo": "MP-46/ABC2.5",
    "dato": "Tubo pescante de PVC rígido, ABC 2,5 kg",
@@ -889,7 +993,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M24": {
+  "M27": {
    "hoja": "MANUALES",
    "codigo": "MP-46/ABC5",
    "dato": "Tubo pescante de PVC rígido, ABC 5 kg",
@@ -903,7 +1007,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M25": {
+  "M28": {
    "hoja": "MANUALES",
    "codigo": "MP-46/ABC10",
    "dato": "Tubo pescante de PVC rígido, ABC 10 kg",
@@ -917,7 +1021,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M26": {
+  "M29": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC1",
    "dato": "Tobera ABC 1 kg",
@@ -931,7 +1035,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M27": {
+  "M30": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC2.5",
    "dato": "Manguera con tobera ABC 2,5 kg",
@@ -945,7 +1049,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M28": {
+  "M31": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC5",
    "dato": "Manguera con tobera ABC 5 kg",
@@ -959,7 +1063,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M29": {
+  "M32": {
    "hoja": "MANUALES",
    "codigo": "MP-48/ABC10",
    "dato": "Manguera con tobera ABC 10 kg",
@@ -973,7 +1077,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M30": {
+  "M33": {
    "hoja": "MANUALES",
    "codigo": "MP-50/M22",
    "dato": "Junta tórica del cuello M22",
@@ -987,7 +1091,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M31": {
+  "M34": {
    "hoja": "MANUALES",
    "codigo": "MP-50/M30",
    "dato": "Junta tórica del cuello M30",
@@ -1003,7 +1107,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M32": {
+  "M35": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC2.5",
    "dato": "Soporte de pared ABC 2,5 kg",
@@ -1017,7 +1121,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M33": {
+  "M36": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC5",
    "dato": "Soporte de pared ABC 5 kg",
@@ -1031,7 +1135,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M34": {
+  "M37": {
    "hoja": "MANUALES",
    "codigo": "MP-52/ABC10",
    "dato": "Soporte de pared ABC 10 kg",
@@ -1045,7 +1149,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M35": {
+  "M38": {
    "hoja": "MANUALES",
    "codigo": "MP-87",
    "dato": "Soporte vehicular (1 kg)",
@@ -1059,7 +1163,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M36": {
+  "M39": {
    "hoja": "MANUALES",
    "codigo": "MP-86",
    "dato": "Tornillo y tarugo de fijación",
@@ -1075,7 +1179,7 @@
     "FL_MAT_ABC_10kg": 2
    }
   },
-  "M37": {
+  "M40": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC1",
    "dato": "Etiqueta de características ABC 1 kg",
@@ -1089,7 +1193,7 @@
     "FL_MAT_ABC_1kg": 1
    }
   },
-  "M38": {
+  "M41": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC2.5",
    "dato": "Etiqueta de características ABC 2,5 kg",
@@ -1103,7 +1207,7 @@
     "FL_MAT_ABC_2.5kg": 1
    }
   },
-  "M39": {
+  "M42": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC5",
    "dato": "Etiqueta de características ABC 5 kg",
@@ -1117,7 +1221,7 @@
     "FL_MAT_ABC_5kg": 1
    }
   },
-  "M40": {
+  "M43": {
    "hoja": "MANUALES",
    "codigo": "MP-56/ABC10",
    "dato": "Etiqueta de características ABC 10 kg",
@@ -1131,7 +1235,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M41": {
+  "M44": {
    "hoja": "MANUALES",
    "codigo": "MP-78",
    "dato": "Oblea de fabricación (PBA)",
@@ -1148,7 +1252,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M42": {
+  "M45": {
    "hoja": "MANUALES",
    "codigo": "MP-79",
    "dato": "Estampilla IRAM de conformidad",
@@ -1165,7 +1269,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M43": {
+  "M46": {
    "hoja": "MANUALES",
    "codigo": "MP-77",
    "dato": "Tarjeta de identificación AGC (CABA)",
@@ -1181,7 +1285,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M44": {
+  "M47": {
    "hoja": "MANUALES",
    "codigo": "MP-80",
    "dato": "Etiqueta de n° de serie GS1",
@@ -1198,7 +1302,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M45": {
+  "M48": {
    "hoja": "MANUALES",
    "codigo": "MP-81",
    "dato": "Faja de garantía válvula-cuello",
@@ -1215,7 +1319,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M46": {
+  "M49": {
    "hoja": "MANUALES",
    "codigo": "MP-51",
    "dato": "Precinto de fábrica",
@@ -1232,7 +1336,7 @@
     "FL_MAT_ABC_10kg": 1
    }
   },
-  "M47": {
+  "M50": {
    "hoja": "MANUALES",
    "codigo": "MP-88",
    "dato": "Etiqueta del cilindro suelto",
@@ -1249,7 +1353,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M48": {
+  "M51": {
    "hoja": "MANUALES",
    "codigo": "MP-62/M22",
    "dato": "Tapón protector de rosca M22",
@@ -1263,7 +1367,7 @@
     "FL_REC_ABC_1kg": 1
    }
   },
-  "M49": {
+  "M52": {
    "hoja": "MANUALES",
    "codigo": "MP-62/M30",
    "dato": "Tapón protector de rosca M30",
@@ -1279,7 +1383,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M50": {
+  "M53": {
    "hoja": "MANUALES",
    "codigo": "MP-85",
    "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
@@ -1296,7 +1400,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M51": {
+  "M54": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC1",
    "dato": "Caja de cartón simple ABC 1 kg",
@@ -1311,7 +1415,7 @@
     "FL_REC_ABC_1kg": 1
    }
   },
-  "M52": {
+  "M55": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC2.5",
    "dato": "Caja de cartón simple ABC 2,5 kg",
@@ -1326,7 +1430,7 @@
     "FL_REC_ABC_2.5kg": 1
    }
   },
-  "M53": {
+  "M56": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC5",
    "dato": "Caja de cartón simple ABC 5 kg",
@@ -1341,7 +1445,7 @@
     "FL_REC_ABC_5kg": 1
    }
   },
-  "M54": {
+  "M57": {
    "hoja": "MANUALES",
    "codigo": "MP-59/ABC10",
    "dato": "Caja de cartón doble ABC 10 kg",
@@ -1356,7 +1460,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M55": {
+  "M58": {
    "hoja": "MANUALES",
    "codigo": "MP-89",
    "dato": "Etiqueta de caja",
@@ -1377,7 +1481,7 @@
     "FL_REC_ABC_10kg": 1
    }
   },
-  "M56": {
+  "M59": {
    "hoja": "MANUALES",
    "codigo": "MP-60",
    "dato": "Pallet de madera 1200 × 1000",
@@ -1398,7 +1502,7 @@
     "FL_REC_ABC_10kg": "=1/40"
    }
   },
-  "M57": {
+  "M60": {
    "hoja": "MANUALES",
    "codigo": "MP-90",
    "dato": "Etiqueta de pallet",
@@ -1425,14 +1529,14 @@
    "dato": "Hoja LAC 3,2 × 1500 × 3000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja de 3,2 mm salen 9 cuerpos de 25 kg o 6 de 50 kg (plan de corte del proceso de carros).",
+   "como": "Corte combinado de 3,2 mm (Esquema de corte en guillotina, 5.2): todo el 25 kg en hojas P1 (6 de 25 kg + 3 de 50 kg) y el resto del 50 kg en P3 (6 de 50 kg). Hojas = n25/12 + n50/6, el mínimo posible, mientras n50 ≥ n25/2 (se cumple todos los años).",
    "figs": [
     "P08"
    ],
    "cons": {
-    "FL_MAT_ABC_25kg": "=1/9",
+    "FL_MAT_ABC_25kg": "=1/12",
     "FL_MAT_ABC_50kg": "=1/6",
-    "FL_REC_ABC_25kg": "=1/9",
+    "FL_REC_ABC_25kg": "=1/12",
     "FL_REC_ABC_50kg": "=1/6"
    }
   },
@@ -2751,7 +2855,7 @@
     "B02"
    ],
    "cons": {
-    "RK_ABC_1kg": "=0.15*0.0764/8.8",
+    "RK_ABC_1kg": "=0.15*0.0767/8.8",
     "RK_ABC_2.5kg": "=0.15*0.1375/8.8",
     "RK_ABC_5kg": "=0.15*0.2091/8.8",
     "RK_ABC_10kg": "=0.15*0.3510/8.8",
@@ -2977,18 +3081,18 @@
   "P01": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-01",
-   "dato": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
-   "uc": "Atado de 16 barras",
+   "dato": "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)",
+   "uc": "Paquete de 50 hojas",
    "fuc": "P01",
-   "plan": "MP-01",
+   "plan": "MP-02",
    "lt": [
-    5,
-    5
+    10,
+    10
    ],
-   "flt": "Aproximado: AcerosYa (Sarandí), caños estructurales en barras de 6 m: entrega dentro de los 7 días del pago = 5 hábiles (radio de 30 km)",
-   "flt_fig": "W28",
-   "t": 5,
-   "umpos": 61,
+   "flt": "Sin plazo publicado: el de la planilla de MP",
+   "flt_fig": "X07",
+   "t": 20,
+   "umpos": 136,
    "fpos": "X07"
   },
   "P02": {
@@ -3045,7 +3149,7 @@
   "P05": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-05",
-   "dato": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "dato": "Fleje LAF 0,9 × 93,05 mm (cúpula 1 kg)",
    "uc": "Rollo de 1.900 kg",
    "fuc": "Q01",
    "plan": "MP-05",
@@ -3062,7 +3166,7 @@
   "P06": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-13",
-   "dato": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "dato": "Fleje LAF 1,25 × 100,6 mm (fondo 1 kg)",
    "uc": "Rollo de 1.900 kg",
    "fuc": "Q01",
    "plan": "MP-13",
@@ -3079,7 +3183,7 @@
   "P07": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-06",
-   "dato": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "dato": "Fleje LAF 1,25 × 162,1 mm (cúpula 2,5 kg)",
    "uc": "Rollo de 492 kg",
    "fuc": "Q02",
    "plan": "MP-06",
@@ -3095,8 +3199,25 @@
   },
   "P08": {
    "hoja": "POLITICA_STOCK",
+   "codigo": "MP-14",
+   "dato": "Fleje LAF 1,25 × 146,1 mm (fondo 2,5 kg)",
+   "uc": "Rollo de 492 kg",
+   "fuc": "Q02",
+   "plan": "MP-06",
+   "lt": [
+    7,
+    10
+   ],
+   "flt": "Aproximado: cotización Pradecon (Pacheco cotizó el mismo fleje sin plazo)",
+   "flt_fig": "Q01",
+   "t": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "P09": {
+   "hoja": "POLITICA_STOCK",
    "codigo": "MP-07",
-   "dato": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "dato": "Fleje LAF 1,6 × 204,2 mm (cúpula 5 kg)",
    "uc": "Rollo de 615 kg",
    "fuc": "Q02",
    "plan": "MP-07",
@@ -3110,10 +3231,10 @@
    "umpos": 615,
    "fpos": "X07"
   },
-  "P09": {
+  "P10": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-08",
-   "dato": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "dato": "Fleje LAF 1,6 × 177,2 mm (fondo 5 kg)",
    "uc": "Rollo de 492 kg",
    "fuc": "Q02",
    "plan": "MP-08",
@@ -3127,10 +3248,10 @@
    "umpos": 492,
    "fpos": "X07"
   },
-  "P10": {
+  "P11": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-09",
-   "dato": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "dato": "Fleje LAF 1,6 × 238,7 mm (cúpula 10 kg)",
    "uc": "Rollo de 590 kg",
    "fuc": "Q02",
    "plan": "MP-09",
@@ -3144,10 +3265,10 @@
    "umpos": 738,
    "fpos": "X07"
   },
-  "P11": {
+  "P12": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-10",
-   "dato": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "dato": "Fleje LAF 2,0 × 205 mm (fondo 10 kg)",
    "uc": "Rollo de 498 kg",
    "fuc": "Q02",
    "plan": "MP-10",
@@ -3161,7 +3282,7 @@
    "umpos": 498,
    "fpos": "X07"
   },
-  "P12": {
+  "P13": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-11",
    "dato": "Hoja LAC 3,2 × 1500 × 3000 mm",
@@ -3178,7 +3299,7 @@
    "umpos": 40,
    "fpos": "P07"
   },
-  "P13": {
+  "P14": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-12",
    "dato": "Hoja LAC 4,75 × 1500 × 3000 mm",
@@ -3195,7 +3316,7 @@
    "umpos": 30,
    "fpos": "P07"
   },
-  "P14": {
+  "P15": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-15",
    "dato": "Casquete 10\" × 3,2 mm (carro 25 kg)",
@@ -3212,7 +3333,7 @@
    "umpos": 400,
    "fpos": "P07"
   },
-  "P15": {
+  "P16": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-16",
    "dato": "Casquete 12\" × 3,2 mm (carro 50 kg)",
@@ -3229,7 +3350,7 @@
    "umpos": 300,
    "fpos": "P07"
   },
-  "P16": {
+  "P17": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-17",
    "dato": "Casquete 15\" × 4,75 mm (carros 70 y 100 kg)",
@@ -3246,7 +3367,7 @@
    "umpos": 150,
    "fpos": "P07"
   },
-  "P17": {
+  "P18": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-18",
    "dato": "Asiento de válvula M22 × 1,5 (1 kg)",
@@ -3263,7 +3384,7 @@
    "umpos": 12000,
    "fpos": "X07"
   },
-  "P18": {
+  "P19": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-19",
    "dato": "Asiento de válvula M30 × 1,5 (2,5 a 10 kg)",
@@ -3280,7 +3401,7 @@
    "umpos": 8000,
    "fpos": "X07"
   },
-  "P19": {
+  "P20": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-20",
    "dato": "Cupla M30 × 1,5 (carros 25 y 50 kg)",
@@ -3297,7 +3418,7 @@
    "umpos": 600,
    "fpos": "P07"
   },
-  "P20": {
+  "P21": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-21",
    "dato": "Cupla 2½\" BSP (carros 70 y 100 kg)",
@@ -3314,7 +3435,7 @@
    "umpos": 160,
    "fpos": "P07"
   },
-  "P21": {
+  "P22": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-66",
    "dato": "Caño SAE 1010 1\" × 2,0 × 6 m (manija; caño del eje 25 kg)",
@@ -3331,7 +3452,7 @@
    "umpos": 60,
    "fpos": "X07"
   },
-  "P22": {
+  "P23": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-67",
    "dato": "Caño SAE 1010 1¼\" × 2,0 × 6 m (caño del eje 50 a 100 kg)",
@@ -3348,7 +3469,7 @@
    "umpos": 60,
    "fpos": "X07"
   },
-  "P23": {
+  "P24": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-68",
    "dato": "Barra trefilada SAE 1045 3/4\" × 4 m (eje 25 kg)",
@@ -3365,7 +3486,7 @@
    "umpos": 60,
    "fpos": "X07"
   },
-  "P24": {
+  "P25": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-69",
    "dato": "Barra trefilada SAE 1045 1\" × 6 m (eje 50 a 100 kg)",
@@ -3382,7 +3503,7 @@
    "umpos": 60,
    "fpos": "X07"
   },
-  "P25": {
+  "P26": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-70",
    "dato": "Arandela de tope del eje",
@@ -3399,7 +3520,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P26": {
+  "P27": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-71",
    "dato": "Pasador partido del eje",
@@ -3416,7 +3537,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P27": {
+  "P28": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-54/300",
    "dato": "Rueda Ø300 × 50, buje 3/4\" (carro 25 kg)",
@@ -3433,7 +3554,7 @@
    "umpos": 144,
    "fpos": "X07"
   },
-  "P28": {
+  "P29": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-54/350",
    "dato": "Rueda Ø350 × 60, buje 1\" (carro 50 kg)",
@@ -3450,7 +3571,7 @@
    "umpos": 144,
    "fpos": "X07"
   },
-  "P29": {
+  "P30": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-54/400",
    "dato": "Rueda Ø400 × 60, buje 1\" (carros 70 y 100 kg)",
@@ -3467,7 +3588,7 @@
    "umpos": 144,
    "fpos": "X07"
   },
-  "P30": {
+  "P31": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-23",
    "dato": "Alambre MAG ER70S-6 Ø0,9 mm (manuales)",
@@ -3484,7 +3605,7 @@
    "umpos": 900,
    "fpos": "X07"
   },
-  "P31": {
+  "P32": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-24",
    "dato": "Alambre MAG ER70S-6 Ø1,0 mm (carros)",
@@ -3501,7 +3622,7 @@
    "umpos": 900,
    "fpos": "X07"
   },
-  "P32": {
+  "P33": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-25",
    "dato": "Gas MAG Ar + 8 % CO₂ (Arcal 21)",
@@ -3518,7 +3639,41 @@
    "umpos": 115.5,
    "fpos": "X07"
   },
-  "P33": {
+  "P34": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-26",
+   "dato": "Argón puro EN ISO 14175 I1 (costura longitudinal TIG del 1 kg)",
+   "uc": "Cilindro de 10,5 m³",
+   "fuc": "Q03",
+   "plan": "MP-25",
+   "lt": [
+    1,
+    1
+   ],
+   "flt": "Cotización Air Liquide: día + 1",
+   "flt_fig": "Q03",
+   "t": 5,
+   "umpos": 115.5,
+   "fpos": "X07"
+  },
+  "P35": {
+   "hoja": "POLITICA_STOCK",
+   "codigo": "MP-29",
+   "dato": "Electrodo de tungsteno lantanado 2 % (WL20) Ø2,4 × 175 mm",
+   "uc": "Caja de 10 u",
+   "fuc": "X07",
+   "plan": "MP-27",
+   "lt": [
+    3,
+    5
+   ],
+   "flt": "Web Würth Argentina: despacha al día hábil siguiente a la factura y entrega en hasta 5 días hábiles (unos 3 en CABA y AMBA)",
+   "flt_fig": "W11",
+   "t": 20,
+   "umpos": 250,
+   "fpos": "X07"
+  },
+  "P36": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-92",
    "dato": "Disco de sensitiva 355 mm",
@@ -3535,7 +3690,7 @@
    "umpos": 250,
    "fpos": "X07"
   },
-  "P34": {
+  "P37": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-27",
    "dato": "Disco de corte 115 × 1,0 mm",
@@ -3552,7 +3707,7 @@
    "umpos": 250,
    "fpos": "X07"
   },
-  "P35": {
+  "P38": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-93",
    "dato": "Disco flap 115 mm grano 60",
@@ -3569,7 +3724,7 @@
    "umpos": 250,
    "fpos": "X07"
   },
-  "P36": {
+  "P39": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-94",
    "dato": "Mecha de acero rápido 4,5 mm",
@@ -3586,7 +3741,7 @@
    "umpos": 250,
    "fpos": "X07"
   },
-  "P37": {
+  "P40": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-95",
    "dato": "Spray antiproyecciones 400 ml",
@@ -3603,7 +3758,7 @@
    "umpos": 250,
    "fpos": "X07"
   },
-  "P38": {
+  "P41": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-28",
    "dato": "Granalla de acero S330 / S390",
@@ -3620,7 +3775,7 @@
    "umpos": 1000,
    "fpos": "X07"
   },
-  "P39": {
+  "P42": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-31",
    "dato": "Pintura en polvo poliéster rojo 03-1-050",
@@ -3637,7 +3792,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P40": {
+  "P43": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-33",
    "dato": "Polvo ABC 60 (manuales y sus recargas)",
@@ -3654,7 +3809,7 @@
    "umpos": 2000,
    "fpos": "X07"
   },
-  "P41": {
+  "P44": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-33B",
    "dato": "Polvo ABC 90 (carros y sus recargas)",
@@ -3671,7 +3826,7 @@
    "umpos": 2000,
    "fpos": "X07"
   },
-  "P42": {
+  "P45": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-34",
    "dato": "Nitrógeno seco",
@@ -3688,7 +3843,7 @@
    "umpos": 103,
    "fpos": "X07"
   },
-  "P43": {
+  "P46": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-35",
    "dato": "Polvo BC (recargas)",
@@ -3705,7 +3860,7 @@
    "umpos": 1000,
    "fpos": "X07"
   },
-  "P44": {
+  "P47": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-36",
    "dato": "Polvo clase D (recargas)",
@@ -3722,7 +3877,7 @@
    "umpos": 1000,
    "fpos": "X07"
   },
-  "P45": {
+  "P48": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-37",
    "dato": "CO₂ líquido (recargas)",
@@ -3739,7 +3894,7 @@
    "umpos": 25,
    "fpos": "X07"
   },
-  "P46": {
+  "P49": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-38",
    "dato": "Agente limpio HCFC-123 (recargas)",
@@ -3756,7 +3911,7 @@
    "umpos": 50,
    "fpos": "X07"
   },
-  "P47": {
+  "P50": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-40",
    "dato": "Concentrado AFFF 3 % (recargas)",
@@ -3773,7 +3928,7 @@
    "umpos": 480,
    "fpos": "X07"
   },
-  "P48": {
+  "P51": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-41",
    "dato": "Acetato de potasio Gastro K (recargas)",
@@ -3790,7 +3945,7 @@
    "umpos": 480,
    "fpos": "X07"
   },
-  "P49": {
+  "P52": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-42",
    "dato": "Válvula HZ M-22 con tubo de pesca (1 kg)",
@@ -3807,7 +3962,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P50": {
+  "P53": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-43",
    "dato": "Válvula HZ M-30 con resorte, sin tubo pescante (2,5 a 10 kg)",
@@ -3824,7 +3979,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P51": {
+  "P54": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-44/25",
    "dato": "Válvula HZ de carro 25 kg, sin tubo pescante",
@@ -3841,7 +3996,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P52": {
+  "P55": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-44/50",
    "dato": "Válvula HZ de carro 50-70-100 kg, sin tubo pescante",
@@ -3858,7 +4013,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P53": {
+  "P56": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-45",
    "dato": "Manómetro 1,4 MPa",
@@ -3875,7 +4030,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P54": {
+  "P57": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-46/ABC2.5",
    "dato": "Tubo pescante de PVC rígido, ABC 2,5 kg",
@@ -3892,7 +4047,7 @@
    "umpos": 6000,
    "fpos": "X07"
   },
-  "P55": {
+  "P58": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-46/ABC5",
    "dato": "Tubo pescante de PVC rígido, ABC 5 kg",
@@ -3909,7 +4064,7 @@
    "umpos": 6000,
    "fpos": "X07"
   },
-  "P56": {
+  "P59": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-46/ABC10",
    "dato": "Tubo pescante de PVC rígido, ABC 10 kg",
@@ -3926,7 +4081,7 @@
    "umpos": 6000,
    "fpos": "X07"
   },
-  "P57": {
+  "P60": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-47/ABC25",
    "dato": "Tubo pescante de acero SAE 1010, carro 25 kg",
@@ -3943,7 +4098,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P58": {
+  "P61": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-47/ABC50",
    "dato": "Tubo pescante de acero SAE 1010, carro 50 kg",
@@ -3960,7 +4115,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P59": {
+  "P62": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-47/ABC70",
    "dato": "Tubo pescante de acero SAE 1010, carro 70 kg",
@@ -3977,7 +4132,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P60": {
+  "P63": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-47/ABC100",
    "dato": "Tubo pescante de acero SAE 1010, carro 100 kg",
@@ -3994,7 +4149,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P61": {
+  "P64": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC1",
    "dato": "Tobera ABC 1 kg",
@@ -4011,7 +4166,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P62": {
+  "P65": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC2.5",
    "dato": "Manguera con tobera ABC 2,5 kg",
@@ -4028,7 +4183,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P63": {
+  "P66": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC5",
    "dato": "Manguera con tobera ABC 5 kg",
@@ -4045,7 +4200,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P64": {
+  "P67": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-48/ABC10",
    "dato": "Manguera con tobera ABC 10 kg",
@@ -4062,7 +4217,7 @@
    "umpos": 1500,
    "fpos": "X07"
   },
-  "P65": {
+  "P68": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC25",
    "dato": "Manguera con válvula esférica y tobera, carro 25 kg",
@@ -4079,7 +4234,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P66": {
+  "P69": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC50",
    "dato": "Manguera con válvula esférica y tobera, carro 50 kg",
@@ -4096,7 +4251,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P67": {
+  "P70": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC70",
    "dato": "Manguera con válvula esférica y tobera, carro 70 kg",
@@ -4113,7 +4268,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P68": {
+  "P71": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-49/ABC100",
    "dato": "Manguera con válvula esférica y tobera, carro 100 kg",
@@ -4130,7 +4285,7 @@
    "umpos": 120,
    "fpos": "X07"
   },
-  "P69": {
+  "P72": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/M22",
    "dato": "Junta tórica del cuello M22",
@@ -4147,7 +4302,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P70": {
+  "P73": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/M30",
    "dato": "Junta tórica del cuello M30",
@@ -4164,7 +4319,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P71": {
+  "P74": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/2½",
    "dato": "Junta tórica del cuello 2½\"",
@@ -4181,7 +4336,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P72": {
+  "P75": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-50/OT",
    "dato": "Junta tórica del cuello (recargas, surtido por medida)",
@@ -4198,7 +4353,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P73": {
+  "P76": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC2.5",
    "dato": "Soporte de pared ABC 2,5 kg",
@@ -4215,7 +4370,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P74": {
+  "P77": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC5",
    "dato": "Soporte de pared ABC 5 kg",
@@ -4232,7 +4387,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P75": {
+  "P78": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-52/ABC10",
    "dato": "Soporte de pared ABC 10 kg",
@@ -4249,7 +4404,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P76": {
+  "P79": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-87",
    "dato": "Soporte vehicular (1 kg)",
@@ -4266,7 +4421,7 @@
    "umpos": 3000,
    "fpos": "X07"
   },
-  "P77": {
+  "P80": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-86",
    "dato": "Tornillo y tarugo de fijación",
@@ -4283,7 +4438,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P78": {
+  "P81": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-55",
    "dato": "Conjunto de seguridad de CO₂ (recargas)",
@@ -4300,7 +4455,7 @@
    "umpos": 2000,
    "fpos": "X07"
   },
-  "P79": {
+  "P82": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC1",
    "dato": "Etiqueta de características ABC 1 kg",
@@ -4317,7 +4472,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P80": {
+  "P83": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC2.5",
    "dato": "Etiqueta de características ABC 2,5 kg",
@@ -4334,7 +4489,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P81": {
+  "P84": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC5",
    "dato": "Etiqueta de características ABC 5 kg",
@@ -4351,7 +4506,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P82": {
+  "P85": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC10",
    "dato": "Etiqueta de características ABC 10 kg",
@@ -4368,7 +4523,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P83": {
+  "P86": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC25",
    "dato": "Etiqueta de características ABC 25 kg",
@@ -4385,7 +4540,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P84": {
+  "P87": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC50",
    "dato": "Etiqueta de características ABC 50 kg",
@@ -4402,7 +4557,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P85": {
+  "P88": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC70",
    "dato": "Etiqueta de características ABC 70 kg",
@@ -4419,7 +4574,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P86": {
+  "P89": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-56/ABC100",
    "dato": "Etiqueta de características ABC 100 kg",
@@ -4436,7 +4591,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P87": {
+  "P90": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-78",
    "dato": "Oblea de fabricación (PBA)",
@@ -4453,7 +4608,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P88": {
+  "P91": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-79",
    "dato": "Estampilla IRAM de conformidad",
@@ -4470,7 +4625,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P89": {
+  "P92": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-77",
    "dato": "Tarjeta de identificación AGC (CABA)",
@@ -4487,7 +4642,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P90": {
+  "P93": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-80",
    "dato": "Etiqueta de n° de serie GS1",
@@ -4504,7 +4659,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P91": {
+  "P94": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-81",
    "dato": "Faja de garantía válvula-cuello",
@@ -4521,7 +4676,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P92": {
+  "P95": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-51",
    "dato": "Precinto de fábrica",
@@ -4538,7 +4693,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P93": {
+  "P96": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-88",
    "dato": "Etiqueta del cilindro suelto",
@@ -4555,7 +4710,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P94": {
+  "P97": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/M22",
    "dato": "Tapón protector de rosca M22",
@@ -4572,7 +4727,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P95": {
+  "P98": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/M30",
    "dato": "Tapón protector de rosca M30",
@@ -4589,7 +4744,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P96": {
+  "P99": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-62/2½",
    "dato": "Tapón protector de rosca 2½\"",
@@ -4606,7 +4761,7 @@
    "umpos": 40000,
    "fpos": "X07"
   },
-  "P97": {
+  "P100": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-85",
    "dato": "Impresos (protocolo de ensayo, remito de préstamo)",
@@ -4623,7 +4778,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P98": {
+  "P101": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-57",
    "dato": "Marbete del año",
@@ -4640,7 +4795,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P99": {
+  "P102": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-97",
    "dato": "Precinto del recargador",
@@ -4657,7 +4812,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P100": {
+  "P103": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-72",
    "dato": "Etiqueta de servicio",
@@ -4674,7 +4829,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P101": {
+  "P104": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-75",
    "dato": "Estampilla y oblea de recarga (PBA)",
@@ -4691,7 +4846,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P102": {
+  "P105": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-76",
    "dato": "Tarjeta de identificación DPS (PBA)",
@@ -4708,7 +4863,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P103": {
+  "P106": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-82",
    "dato": "Faja amarilla de sustituto",
@@ -4725,7 +4880,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P104": {
+  "P107": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-83",
    "dato": "Tarjeta DPS «sustituto habilitado»",
@@ -4742,7 +4897,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P105": {
+  "P108": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-84",
    "dato": "Tarjeta AGC «es sustituto»",
@@ -4759,7 +4914,7 @@
    "umpos": 10000,
    "fpos": "X07"
   },
-  "P106": {
+  "P109": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-65",
    "dato": "Esmalte sintético rojo RAL 3000 (recargas)",
@@ -4776,7 +4931,7 @@
    "umpos": 200,
    "fpos": "X07"
   },
-  "P107": {
+  "P110": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC1",
    "dato": "Caja de cartón simple ABC 1 kg",
@@ -4793,7 +4948,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P108": {
+  "P111": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC2.5",
    "dato": "Caja de cartón simple ABC 2,5 kg",
@@ -4810,7 +4965,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P109": {
+  "P112": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC5",
    "dato": "Caja de cartón simple ABC 5 kg",
@@ -4827,7 +4982,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P110": {
+  "P113": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-59/ABC10",
    "dato": "Caja de cartón doble ABC 10 kg",
@@ -4844,7 +4999,7 @@
    "umpos": 600,
    "fpos": "X07"
   },
-  "P111": {
+  "P114": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-89",
    "dato": "Etiqueta de caja",
@@ -4861,7 +5016,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P112": {
+  "P115": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-60",
    "dato": "Pallet de madera 1200 × 1000",
@@ -4878,7 +5033,7 @@
    "umpos": 15,
    "fpos": "X07"
   },
-  "P113": {
+  "P116": {
    "hoja": "POLITICA_STOCK",
    "codigo": "MP-90",
    "dato": "Etiqueta de pallet",
@@ -4895,7 +5050,7 @@
    "umpos": 20000,
    "fpos": "X07"
   },
-  "P114": {
+  "P117": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AGUA_10l",
    "dato": "Matafuego Agua 10 l (reventa)",
@@ -4912,7 +5067,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P115": {
+  "P118": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AFFF_10l",
    "dato": "Matafuego AFFF 10 l (reventa)",
@@ -4929,7 +5084,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P116": {
+  "P119": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-AFFF_50l",
    "dato": "Matafuego AFFF 50 l (reventa)",
@@ -4946,7 +5101,7 @@
    "umpos": 60,
    "fpos": "X13"
   },
-  "P117": {
+  "P120": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-BC_5kg",
    "dato": "Matafuego BC 5 kg (reventa)",
@@ -4963,7 +5118,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P118": {
+  "P121": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-SALESK_6l",
    "dato": "Matafuego Clase K 6 l (reventa)",
@@ -4980,7 +5135,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P119": {
+  "P122": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CO2_2kg",
    "dato": "Matafuego CO₂ 2 kg (reventa)",
@@ -4997,7 +5152,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P120": {
+  "P123": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CO2_5kg",
    "dato": "Matafuego CO₂ 5 kg (reventa)",
@@ -5014,7 +5169,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P121": {
+  "P124": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-HCFC-HFC_5kg",
    "dato": "Matafuego HCFC 5 kg (reventa)",
@@ -5031,7 +5186,7 @@
    "umpos": 180,
    "fpos": "X13"
   },
-  "P122": {
+  "P125": {
    "hoja": "POLITICA_STOCK",
    "codigo": "RV-CLASED_9l",
    "dato": "Matafuego Clase D 9 l (reventa)",
@@ -5075,7 +5230,7 @@
    "cy": 14,
    "cp": 24,
    "r0": 16,
-   "r1": 72
+   "r1": 75
   },
   "RODANTES": {
    "cols": [
@@ -5183,54 +5338,54 @@
   "REVENDIDOS|FL_MAT_CLASED_9l": 50
  },
  "est": {
-  "MANUALES|FL_MAT_ABC_1kg": 10,
-  "MANUALES|FL_MAT_ABC_2.5kg": 11,
-  "MANUALES|FL_MAT_ABC_5kg": 12,
-  "MANUALES|FL_MAT_ABC_10kg": 13,
-  "MANUALES|FL_REC_ABC_1kg": 14,
-  "MANUALES|FL_REC_ABC_2.5kg": 15,
-  "MANUALES|FL_REC_ABC_5kg": 16,
-  "MANUALES|FL_REC_ABC_10kg": 17,
-  "RODANTES|FL_MAT_ABC_25kg": 19,
-  "RODANTES|FL_MAT_ABC_50kg": 20,
-  "RODANTES|FL_MAT_ABC_70kg": 21,
-  "RODANTES|FL_MAT_ABC_100kg": 22,
-  "RODANTES|FL_REC_ABC_25kg": 23,
-  "RODANTES|FL_REC_ABC_50kg": 24,
-  "RODANTES|FL_REC_ABC_70kg": 25,
-  "RODANTES|FL_REC_ABC_100kg": 26,
-  "RECARGAS|RK_ABC_1kg": 28,
-  "RECARGAS|RK_ABC_2.5kg": 29,
-  "RECARGAS|RK_ABC_5kg": 30,
-  "RECARGAS|RK_ABC_10kg": 31,
-  "RECARGAS|RK_AGUA_10l": 32,
-  "RECARGAS|RK_AFFF_10l": 33,
-  "RECARGAS|RK_AFFF_50l": 34,
-  "RECARGAS|RK_BC_5kg": 35,
-  "RECARGAS|RK_SALESK_6l": 36,
-  "RECARGAS|RK_CO2_2kg": 37,
-  "RECARGAS|RK_CO2_5kg": 38,
-  "RECARGAS|RK_HCFC-HFC_5kg": 39,
-  "RECARGAS|RK_CLASED_9l": 40,
-  "RECARGAS|RK_ABC_25kg": 41,
-  "RECARGAS|RK_ABC_50kg": 42,
-  "RECARGAS|RK_ABC_70kg": 43,
-  "RECARGAS|RK_ABC_100kg": 44,
-  "REVENDIDOS|FL_MAT_AGUA_10l": 46,
-  "REVENDIDOS|FL_MAT_AFFF_10l": 47,
-  "REVENDIDOS|FL_MAT_AFFF_50l": 48,
-  "REVENDIDOS|FL_MAT_BC_5kg": 49,
-  "REVENDIDOS|FL_MAT_SALESK_6l": 50,
-  "REVENDIDOS|FL_MAT_CO2_2kg": 51,
-  "REVENDIDOS|FL_MAT_CO2_5kg": 52,
-  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 53,
-  "REVENDIDOS|FL_MAT_CLASED_9l": 54
+  "MANUALES|FL_MAT_ABC_1kg": 20,
+  "MANUALES|FL_MAT_ABC_2.5kg": 21,
+  "MANUALES|FL_MAT_ABC_5kg": 22,
+  "MANUALES|FL_MAT_ABC_10kg": 23,
+  "MANUALES|FL_REC_ABC_1kg": 24,
+  "MANUALES|FL_REC_ABC_2.5kg": 25,
+  "MANUALES|FL_REC_ABC_5kg": 26,
+  "MANUALES|FL_REC_ABC_10kg": 27,
+  "RODANTES|FL_MAT_ABC_25kg": 29,
+  "RODANTES|FL_MAT_ABC_50kg": 30,
+  "RODANTES|FL_MAT_ABC_70kg": 31,
+  "RODANTES|FL_MAT_ABC_100kg": 32,
+  "RODANTES|FL_REC_ABC_25kg": 33,
+  "RODANTES|FL_REC_ABC_50kg": 34,
+  "RODANTES|FL_REC_ABC_70kg": 35,
+  "RODANTES|FL_REC_ABC_100kg": 36,
+  "RECARGAS|RK_ABC_1kg": 38,
+  "RECARGAS|RK_ABC_2.5kg": 39,
+  "RECARGAS|RK_ABC_5kg": 40,
+  "RECARGAS|RK_ABC_10kg": 41,
+  "RECARGAS|RK_AGUA_10l": 42,
+  "RECARGAS|RK_AFFF_10l": 43,
+  "RECARGAS|RK_AFFF_50l": 44,
+  "RECARGAS|RK_BC_5kg": 45,
+  "RECARGAS|RK_SALESK_6l": 46,
+  "RECARGAS|RK_CO2_2kg": 47,
+  "RECARGAS|RK_CO2_5kg": 48,
+  "RECARGAS|RK_HCFC-HFC_5kg": 49,
+  "RECARGAS|RK_CLASED_9l": 50,
+  "RECARGAS|RK_ABC_25kg": 51,
+  "RECARGAS|RK_ABC_50kg": 52,
+  "RECARGAS|RK_ABC_70kg": 53,
+  "RECARGAS|RK_ABC_100kg": 54,
+  "REVENDIDOS|FL_MAT_AGUA_10l": 56,
+  "REVENDIDOS|FL_MAT_AFFF_10l": 57,
+  "REVENDIDOS|FL_MAT_AFFF_50l": 58,
+  "REVENDIDOS|FL_MAT_BC_5kg": 59,
+  "REVENDIDOS|FL_MAT_SALESK_6l": 60,
+  "REVENDIDOS|FL_MAT_CO2_2kg": 61,
+  "REVENDIDOS|FL_MAT_CO2_5kg": 62,
+  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 63,
+  "REVENDIDOS|FL_MAT_CLASED_9l": 64
  },
  "pico": {
-  "MANUALES": 58,
-  "RODANTES": 59,
-  "RECARGAS": 60,
-  "REVENDIDOS": 61
+  "MANUALES": 68,
+  "RODANTES": 69,
+  "RECARGAS": 70,
+  "REVENDIDOS": 71
  },
  "cons": {
   "MP-01": 4,
@@ -5240,142 +5395,145 @@
   "MP-05": 8,
   "MP-13": 9,
   "MP-06": 10,
-  "MP-07": 11,
-  "MP-08": 12,
-  "MP-09": 13,
-  "MP-10": 14,
-  "MP-11": 15,
-  "MP-12": 16,
-  "MP-15": 17,
-  "MP-16": 18,
-  "MP-17": 19,
-  "MP-18": 20,
-  "MP-19": 21,
-  "MP-20": 22,
-  "MP-21": 23,
-  "MP-66": 24,
-  "MP-67": 25,
-  "MP-68": 26,
-  "MP-69": 27,
-  "MP-70": 28,
-  "MP-71": 29,
-  "MP-54/300": 30,
-  "MP-54/350": 31,
-  "MP-54/400": 32,
-  "MP-23": 33,
-  "MP-24": 34,
-  "MP-25": 35,
-  "MP-92": 36,
-  "MP-27": 37,
-  "MP-93": 38,
-  "MP-94": 39,
-  "MP-95": 40,
-  "MP-28": 41,
-  "MP-31": 42,
-  "MP-33": 43,
-  "MP-33B": 44,
-  "MP-34": 45,
-  "MP-35": 46,
-  "MP-36": 47,
-  "MP-37": 48,
-  "MP-38": 49,
-  "MP-40": 50,
-  "MP-41": 51,
-  "MP-42": 52,
-  "MP-43": 53,
-  "MP-44/25": 54,
-  "MP-44/50": 55,
-  "MP-45": 56,
-  "MP-46/ABC2.5": 57,
-  "MP-46/ABC5": 58,
-  "MP-46/ABC10": 59,
-  "MP-47/ABC25": 60,
-  "MP-47/ABC50": 61,
-  "MP-47/ABC70": 62,
-  "MP-47/ABC100": 63,
-  "MP-48/ABC1": 64,
-  "MP-48/ABC2.5": 65,
-  "MP-48/ABC5": 66,
-  "MP-48/ABC10": 67,
-  "MP-49/ABC25": 68,
-  "MP-49/ABC50": 69,
-  "MP-49/ABC70": 70,
-  "MP-49/ABC100": 71,
-  "MP-50/M22": 72,
-  "MP-50/M30": 73,
-  "MP-50/2½": 74,
-  "MP-50/OT": 75,
-  "MP-52/ABC2.5": 76,
-  "MP-52/ABC5": 77,
-  "MP-52/ABC10": 78,
-  "MP-87": 79,
-  "MP-86": 80,
-  "MP-55": 81,
-  "MP-56/ABC1": 82,
-  "MP-56/ABC2.5": 83,
-  "MP-56/ABC5": 84,
-  "MP-56/ABC10": 85,
-  "MP-56/ABC25": 86,
-  "MP-56/ABC50": 87,
-  "MP-56/ABC70": 88,
-  "MP-56/ABC100": 89,
-  "MP-78": 90,
-  "MP-79": 91,
-  "MP-77": 92,
-  "MP-80": 93,
-  "MP-81": 94,
-  "MP-51": 95,
-  "MP-88": 96,
-  "MP-62/M22": 97,
-  "MP-62/M30": 98,
-  "MP-62/2½": 99,
-  "MP-85": 100,
-  "MP-57": 101,
-  "MP-97": 102,
-  "MP-72": 103,
-  "MP-75": 104,
-  "MP-76": 105,
-  "MP-82": 106,
-  "MP-83": 107,
-  "MP-84": 108,
-  "MP-65": 109,
-  "MP-59/ABC1": 110,
-  "MP-59/ABC2.5": 111,
-  "MP-59/ABC5": 112,
-  "MP-59/ABC10": 113,
-  "MP-89": 114,
-  "MP-60": 115,
-  "MP-90": 116,
-  "MP-96/ABC25": 117,
-  "MP-96/ABC50": 118,
-  "MP-96/ABC70": 119,
-  "MP-96/ABC100": 120,
-  "RV-AGUA_10l": 121,
-  "RV-AFFF_10l": 122,
-  "RV-AFFF_50l": 123,
-  "RV-BC_5kg": 124,
-  "RV-SALESK_6l": 125,
-  "RV-CO2_2kg": 126,
-  "RV-CO2_5kg": 127,
-  "RV-HCFC-HFC_5kg": 128,
-  "RV-CLASED_9l": 129
+  "MP-14": 11,
+  "MP-07": 12,
+  "MP-08": 13,
+  "MP-09": 14,
+  "MP-10": 15,
+  "MP-11": 16,
+  "MP-12": 17,
+  "MP-15": 18,
+  "MP-16": 19,
+  "MP-17": 20,
+  "MP-18": 21,
+  "MP-19": 22,
+  "MP-20": 23,
+  "MP-21": 24,
+  "MP-66": 25,
+  "MP-67": 26,
+  "MP-68": 27,
+  "MP-69": 28,
+  "MP-70": 29,
+  "MP-71": 30,
+  "MP-54/300": 31,
+  "MP-54/350": 32,
+  "MP-54/400": 33,
+  "MP-23": 34,
+  "MP-24": 35,
+  "MP-25": 36,
+  "MP-26": 37,
+  "MP-29": 38,
+  "MP-92": 39,
+  "MP-27": 40,
+  "MP-93": 41,
+  "MP-94": 42,
+  "MP-95": 43,
+  "MP-28": 44,
+  "MP-31": 45,
+  "MP-33": 46,
+  "MP-33B": 47,
+  "MP-34": 48,
+  "MP-35": 49,
+  "MP-36": 50,
+  "MP-37": 51,
+  "MP-38": 52,
+  "MP-40": 53,
+  "MP-41": 54,
+  "MP-42": 55,
+  "MP-43": 56,
+  "MP-44/25": 57,
+  "MP-44/50": 58,
+  "MP-45": 59,
+  "MP-46/ABC2.5": 60,
+  "MP-46/ABC5": 61,
+  "MP-46/ABC10": 62,
+  "MP-47/ABC25": 63,
+  "MP-47/ABC50": 64,
+  "MP-47/ABC70": 65,
+  "MP-47/ABC100": 66,
+  "MP-48/ABC1": 67,
+  "MP-48/ABC2.5": 68,
+  "MP-48/ABC5": 69,
+  "MP-48/ABC10": 70,
+  "MP-49/ABC25": 71,
+  "MP-49/ABC50": 72,
+  "MP-49/ABC70": 73,
+  "MP-49/ABC100": 74,
+  "MP-50/M22": 75,
+  "MP-50/M30": 76,
+  "MP-50/2½": 77,
+  "MP-50/OT": 78,
+  "MP-52/ABC2.5": 79,
+  "MP-52/ABC5": 80,
+  "MP-52/ABC10": 81,
+  "MP-87": 82,
+  "MP-86": 83,
+  "MP-55": 84,
+  "MP-56/ABC1": 85,
+  "MP-56/ABC2.5": 86,
+  "MP-56/ABC5": 87,
+  "MP-56/ABC10": 88,
+  "MP-56/ABC25": 89,
+  "MP-56/ABC50": 90,
+  "MP-56/ABC70": 91,
+  "MP-56/ABC100": 92,
+  "MP-78": 93,
+  "MP-79": 94,
+  "MP-77": 95,
+  "MP-80": 96,
+  "MP-81": 97,
+  "MP-51": 98,
+  "MP-88": 99,
+  "MP-62/M22": 100,
+  "MP-62/M30": 101,
+  "MP-62/2½": 102,
+  "MP-85": 103,
+  "MP-57": 104,
+  "MP-97": 105,
+  "MP-72": 106,
+  "MP-75": 107,
+  "MP-76": 108,
+  "MP-82": 109,
+  "MP-83": 110,
+  "MP-84": 111,
+  "MP-65": 112,
+  "MP-59/ABC1": 113,
+  "MP-59/ABC2.5": 114,
+  "MP-59/ABC5": 115,
+  "MP-59/ABC10": 116,
+  "MP-89": 117,
+  "MP-60": 118,
+  "MP-90": 119,
+  "MP-96/ABC25": 120,
+  "MP-96/ABC50": 121,
+  "MP-96/ABC70": 122,
+  "MP-96/ABC100": 123,
+  "RV-AGUA_10l": 124,
+  "RV-AFFF_10l": 125,
+  "RV-AFFF_50l": 126,
+  "RV-BC_5kg": 127,
+  "RV-SALESK_6l": 128,
+  "RV-CO2_2kg": 129,
+  "RV-CO2_5kg": 130,
+  "RV-HCFC-HFC_5kg": 131,
+  "RV-CLASED_9l": 132
  },
- "alm0": 130,
+ "alm0": 133,
  "items": {
   "MP-01": {
    "cod": "MP-01",
-   "nom": "Caño c/costura Ø76,2 × 1,25 × 6 m (cuerpo 1 kg)",
-   "um": "barra",
-   "alm": "Cantilever de caños y barras",
-   "prov": "Metalpri / Prilux",
-   "uc": "Atado de 16 barras",
-   "cont": 16,
-   "plan": "MP-01",
+   "nom": "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)",
+   "um": "hoja",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Hierros Parrotta",
+   "uc": "Paquete de 50 hojas",
+   "cont": 50,
+   "plan": "MP-02",
    "fuc": "P01",
-   "lt": 5,
-   "t": 5,
-   "ss": 5,
-   "umpos": 61,
+   "lt": 10,
+   "t": 20,
+   "ss": 10,
+   "umpos": 136,
    "fpos": "X07"
   },
   "MP-02": {
@@ -5428,7 +5586,7 @@
   },
   "MP-05": {
    "cod": "MP-05",
-   "nom": "Fleje LAF 0,9 × 114 mm (cúpula 1 kg)",
+   "nom": "Fleje LAF 0,9 × 93,05 mm (cúpula 1 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pradecon",
@@ -5444,7 +5602,7 @@
   },
   "MP-13": {
    "cod": "MP-13",
-   "nom": "Fleje LAF 1,25 × 135 mm (fondo 1 kg)",
+   "nom": "Fleje LAF 1,25 × 100,6 mm (fondo 1 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pradecon",
@@ -5460,7 +5618,23 @@
   },
   "MP-06": {
    "cod": "MP-06",
-   "nom": "Fleje LAF 1,25 × 200 mm (cúpula y fondo 2,5 kg)",
+   "nom": "Fleje LAF 1,25 × 162,1 mm (cúpula 2,5 kg)",
+   "um": "kg",
+   "alm": "Chapa y fleje (manuales)",
+   "prov": "Pacheco Chapas",
+   "uc": "Rollo de 492 kg",
+   "cont": 492,
+   "plan": "MP-06",
+   "fuc": "Q02",
+   "lt": 10,
+   "t": 10,
+   "ss": 10,
+   "umpos": 492,
+   "fpos": "X07"
+  },
+  "MP-14": {
+   "cod": "MP-14",
+   "nom": "Fleje LAF 1,25 × 146,1 mm (fondo 2,5 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pacheco Chapas",
@@ -5476,7 +5650,7 @@
   },
   "MP-07": {
    "cod": "MP-07",
-   "nom": "Fleje LAF 1,6 × 250 mm (cúpula 5 kg)",
+   "nom": "Fleje LAF 1,6 × 204,2 mm (cúpula 5 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pacheco Chapas",
@@ -5492,7 +5666,7 @@
   },
   "MP-08": {
    "cod": "MP-08",
-   "nom": "Fleje LAF 1,6 × 200 mm (fondo 5 kg)",
+   "nom": "Fleje LAF 1,6 × 177,2 mm (fondo 5 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pacheco Chapas",
@@ -5508,7 +5682,7 @@
   },
   "MP-09": {
    "cod": "MP-09",
-   "nom": "Fleje LAF 1,6 × 300 mm (cúpula 10 kg)",
+   "nom": "Fleje LAF 1,6 × 238,7 mm (cúpula 10 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pacheco Chapas",
@@ -5524,7 +5698,7 @@
   },
   "MP-10": {
    "cod": "MP-10",
-   "nom": "Fleje LAF 2,0 × 249 mm (fondo 10 kg)",
+   "nom": "Fleje LAF 2,0 × 205 mm (fondo 10 kg)",
    "um": "kg",
    "alm": "Chapa y fleje (manuales)",
    "prov": "Pacheco Chapas",
@@ -5872,6 +6046,38 @@
    "t": 5,
    "ss": 2,
    "umpos": 115.5,
+   "fpos": "X07"
+  },
+  "MP-26": {
+   "cod": "MP-26",
+   "nom": "Argón puro EN ISO 14175 I1 (costura longitudinal TIG del 1 kg)",
+   "um": "m³",
+   "alm": "Jaula de gases",
+   "prov": "Air Liquide",
+   "uc": "Cilindro de 10,5 m³",
+   "cont": 10.5,
+   "plan": "MP-25",
+   "fuc": "Q03",
+   "lt": 1,
+   "t": 5,
+   "ss": 2,
+   "umpos": 115.5,
+   "fpos": "X07"
+  },
+  "MP-29": {
+   "cod": "MP-29",
+   "nom": "Electrodo de tungsteno lantanado 2 % (WL20) Ø2,4 × 175 mm",
+   "um": "u",
+   "alm": "Insumos de soldadura y superficie",
+   "prov": "Würth Argentina",
+   "uc": "Caja de 10 u",
+   "cont": 10,
+   "plan": "MP-27",
+   "fuc": "X07",
+   "lt": 5,
+   "t": 20,
+   "ss": 10,
+   "umpos": 250,
    "fpos": "X07"
   },
   "MP-92": {

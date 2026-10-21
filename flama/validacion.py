@@ -79,9 +79,11 @@ VALIDACION = [
     ("Acero", "Fleje para cúpula y fondo 1 a 10 kg", "LAF e = 0,9 / 1,25 / 1,6 / 2,0 en bobina flejada",
      "IRAM 3523 3.2.1 a)", "Q-PACHECO · Q-PRADECON", "VALIDADA CON CONDICIÓN",
      "Ídem chapa: exigir certificado de colada."),
-    ("Acero", "Cuerpo 1 kg", "Caño c-c LF Ø76,2 × 1,25, barra 6 m", "IRAM 3523 3.2.1 a) y 3.2.4.2 (costura "
-     "automática: resistencia eléctrica)", "Q-METALPRI · I-FLAMA", "VALIDADA CON CONDICIÓN",
-     "Confirmar con Metalpri que la costura es por resistencia eléctrica (ERW) y pedir certificado de material."),
+    ("Acero", "Cuerpo 1 kg", "Chapa LAF e = 0,9, hoja 1220 × 2440 (45 cuerpos por hoja); costura longitudinal TIG",
+     "IRAM 3523 3.2.1 a) (≥ 0,71 mm), 3.2.4.1 y 3.2.4.2 (costura automática en atmósfera inerte)",
+     "Q-PARROTTA · I-FLAMA", "VALIDADA CON CONDICIÓN",
+     "Soldadora longitudinal Firesafer con fuente TIG (cotización FS202609FFCLM01, ítems 13 y 14); exigir certificado "
+     "de colada en la OC."),
     ("Acero", "Chapa del cuerpo rodantes", "LAC e = 3,2 (25 y 50 kg) / 4,75 (70 y 100 kg); IRAM-IAS U 500-04",
      "IRAM 3550 3.2.1; 4.1.3.1 fórmula; 4.1.3.2 mínimos 2,9 / 4,5 mm", "Q-PACHECO · Q-PRADECON · R-FADESA",
      "VALIDADA CON CONDICIÓN", "4,75 cumple el mínimo de 4,5 (Ø > 320). 50 kg con 3,2 (igual que Fadesa G689) cumple "

@@ -68,7 +68,7 @@ def verificacion(m):
     f = []
     if not rod:
         f.append(("Material", "3523 3.2.1 a", "acero al C, IRAM-IAS U 500-04/-05/-506 + recubrimiento exterior",
-                  "LAF U 500-05 (1 kg: caño c-c) + pintura tercerizada", ok))
+                  "LAF U 500-05 (1 kg: chapa 0,9 con costura TIG) + pintura tercerizada", ok))
         f.append(("Espesor mínimo", "3523 3.2.1 a", "≥ 0,71 mm", f"{_n(t, 2)} / {_n(td, 2)} / {_n(tf, 2)} mm",
                   ok if min(t, td, tf) >= 0.71 else no))
         f.append(("Costuras", "3523 3.2.4.1", "≤ 1 longitudinal y ≤ 2 transversales", "1 long. + 2 transv.", ok))
