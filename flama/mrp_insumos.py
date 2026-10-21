@@ -14,8 +14,10 @@ Hojas
                    producto) y lo que hay que comprar por año (consumo por unidad × demanda)
   CONSOLIDADO      una fila por material: lo que hay que comprar sumando las cuatro líneas
   POLITICA_STOCK   año 2035: demanda de diseño, stock de seguridad, punto de pedido, lote, stock máximo y posiciones
-  PROY_INDEXADO, PROY_RESERVAS   copias de las hojas de las Proyecciones (si se pegan valores nuevos, todo se recalcula)
-  PROY_USADOS      usados y recargas por año y rubro (suma) y debajo las filas copiadas de cuatro hojas (sin 2025)
+  Links            link de cada Google Sheet (Proyecciones, Aprovechamiento Recargas Planta Industrial, Análisis
+                   alternativas corte chapa) y los IMPORTRANGE de perfiles de recargas y cuerpos por hoja
+  PROY_INDEXADO, PROY_RESERVAS   IMPORTRANGE de las hojas enteras de las Proyecciones (link de Links!B4)
+  PROY_USADOS      usados y recargas por año y rubro (suma) y debajo los IMPORTRANGE de cuatro hojas (2026 a 2035)
 
 Uso: python generar.py --mrp-insumos <Proyecciones.xlsx>   (necesita salida/bom/FLAMA_BOM.xlsx ya recalculado)
 """
@@ -69,38 +71,42 @@ PERFILES = [("Automovilístico (1 kg)", [.12, .09, .08, .075, .07, .07, .075, .0
             ("Industrial s/ruedas (25 – 100 kg)", [.085, .075, .09, .09, .09, .08, .09, .09, .085, .075, .07, .08]),
             ]
 N_FAB = len(PERFILES)
-# recargas: perfil mensual de cada tipo en la planta industrial (Aprovechamiento_Recargas_Planta_Industrial,
-# parametros_recargas filas 55 a 71: mix de rubros de la planta × estacionalidad de cada rubro); los tipos con el
-# mismo perfil comparten fila. Se normaliza a 100 % porque el archivo los da redondeados
-REC_PERF = [("ABC 1 kg", ("ABC_1kg",), "55",
-             [.1199, .09549, .07112, .07112, .07117, .07117, .0711, .07117, .07116, .07116, .09552, .11993]),
-            ("ABC 2,5 kg", ("ABC_2.5kg",), "56",
-             [.06083, .06083, .08264, .09534, .10331, .10204, .0745, .08694, .08706, .08706, .07909, .08035]),
-            ("ABC 5 kg", ("ABC_5kg",), "57",
-             [.06698, .06526, .08192, .09965, .10015, .09873, .07957, .07944, .08068, .08068, .0819, .08503]),
-            ("ABC 10 kg", ("ABC_10kg",), "58",
-             [.06566, .06566, .08346, .10029, .1016, .09846, .07761, .07883, .08197, .08197, .08066, .0838]),
-            ("Agua 10 l", ("AGUA_10l",), "59",
-             [.06713, .06713, .08296, .09946, .10032, .09702, .07835, .07875, .08183, .08183, .08096, .08427]),
-            ("AFFF 10 y 50 l, BC 5 kg, Clase D 9 l", ("AFFF_10l", "AFFF_50l", "BC_5kg", "CLASED_9l"),
-             "60 a 62 y 67", [1 / 12] * 12),
-            ("Sales K 6 l", ("SALESK_6l",), "63",
-             [.0694, .0694, .08404, .09412, .09747, .09532, .07685, .08187, .08402, .08402, .08067, .08282]),
-            ("CO₂ 2 kg", ("CO2_2kg",), "64",
-             [.06237, .06237, .08323, .10238, .10297, .10154, .07993, .07984, .08128, .08128, .08068, .08212]),
-            ("CO₂ 5 kg", ("CO2_5kg",), "65",
-             [.07589, .07589, .08264, .09196, .09407, .08901, .07763, .0793, .08319, .08319, .08109, .08615]),
-            ("HCFC/HFC 5 kg", ("HCFC-HFC_5kg",), "66",
-             [.09098, .09098, .08333, .08333, .08333, .07569, .07569, .07569, .08333, .08333, .08333, .09098]),
-            ("ABC 25 a 100 kg s/ruedas", ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg"), "68 a 71",
-             [.07381, .07381, .08262, .09451, .09521, .0908, .07718, .07828, .08269, .08269, .08199, .08641])]
-PERFILES += [(f"Recarga {n}", [x / sum(v) for x in v]) for n, _, _, v in REC_PERF]
-REC_FILA = {c: N_FAB + k for k, (_, cs, _, _) in enumerate(REC_PERF) for c in cs}
+# hoja Links (la primera): link de cada Google Sheet; los IMPORTRANGE van como los exporta Google (la primera celda de
+# cada bloque lleva la fórmula y el resto el valor: en Excel se ve el último valor importado y en Sheets vuelve a ser
+# IMPORTRANGE). Los que dicen PEGAR se completan cuando estén los Sheets
+URL_PROY = ("https://docs.google.com/spreadsheets/d/1xc4xDAwSYT3l-RulPYtcePxiCninrbQGzaBUsgO0YEs/edit?gid=1764491891"
+            "#gid=1764491891")
+PEGAR = "PEGAR ACÁ EL LINK DEL GOOGLE SHEET"
+LK_PROY, LK_REC, LK_CORTE = "Links!$B$4", "Links!$B$5", "Links!$B$6"
+# recargas: perfil mensual de cada tipo en la planta industrial (Aprovechamiento Recargas Planta Industrial,
+# parametros_recargas E55:P71, en el orden de REC: mix de rubros de la planta × estacionalidad de cada rubro). Último
+# valor importado; ESTACIONALIDAD lo lleva a 100 % porque el archivo lo redondea
+IMP_REC = "parametros_recargas!E55:P71"
+REC_PERF = [[.1199, .09549, .07112, .07112, .07117, .07117, .0711, .07117, .07116, .07116, .09552, .11993],
+            [.06083, .06083, .08264, .09534, .10331, .10204, .0745, .08694, .08706, .08706, .07909, .08035],
+            [.06698, .06526, .08192, .09965, .10015, .09873, .07957, .07944, .08068, .08068, .0819, .08503],
+            [.06566, .06566, .08346, .10029, .1016, .09846, .07761, .07883, .08197, .08197, .08066, .0838],
+            [.06713, .06713, .08296, .09946, .10032, .09702, .07835, .07875, .08183, .08183, .08096, .08427],
+            [.08333] * 12, [.08333] * 12, [.08333] * 12,
+            [.0694, .0694, .08404, .09412, .09747, .09532, .07685, .08187, .08402, .08402, .08067, .08282],
+            [.06237, .06237, .08323, .10238, .10297, .10154, .07993, .07984, .08128, .08128, .08068, .08212],
+            [.07589, .07589, .08264, .09196, .09407, .08901, .07763, .0793, .08319, .08319, .08109, .08615],
+            [.09098, .09098, .08333, .08333, .08333, .07569, .07569, .07569, .08333, .08333, .08333, .09098],
+            [.08333] * 12] + \
+           [[.07381, .07381, .08262, .09451, .09521, .0908, .07718, .07828, .08269, .08269, .08199, .08641]] * 3 + \
+           [[.07381, .07381, .08262, .09451, .09521, .0908, .07718, .07828, .08269, .08269, .08199, .0864]]
+# cuerpos por hoja de 1 a 10 kg: Análisis alternativas corte chapa, Corte B19:B22 (último valor importado)
+IMP_CORTE = "Corte!B19:B22"
+CORTE_HOJA = {"ABC1": 45, "ABC2.5": 27, "ABC5": 12, "ABC10": 15}
+LINKS_IMP = [("Proyecciones", URL_PROY, "Indexado Dim Técnico → PROY_INDEXADO; Reservas y Sustitutos → PROY_RESERVAS; "
+                                    "PROYECCION SALUD, EDUCACION, INDUSTRIASALM y HOTELES (A, O y P) → PROY_USADOS"),
+         ("Aprovechamiento Recargas Planta Industrial", PEGAR, f"{IMP_REC}: perfil mensual de recargas por tipo"),
+         ("Análisis alternativas corte chapa", PEGAR, f"{IMP_CORTE}: cuerpos por hoja de 1 a 10 kg")]
 
 
 def perfil(c, linea):
     if linea == "RECARGAS":
-        return REC_FILA[c]
+        return N_FAB + REC.index(c)
     if c == "ABC_1kg":
         return 0
     return 2 if c in ("ABC_25kg", "ABC_50kg", "ABC_70kg", "ABC_100kg", "AFFF_50l") else 1
@@ -582,6 +588,29 @@ def num(x):
     return f"{x:g}".replace(".", ",") if isinstance(x, (int, float)) else str(x)
 
 
+def _lit(x):
+    """Valor como constante de fórmula (los textos de más de 250 caracteres van en partes unidas con &)."""
+    if isinstance(x, str):
+        return "&".join('"' + x[i:i + 250].replace('"', '""') + '"' for i in range(0, max(len(x), 1), 250))
+    return repr(x)
+
+
+def _imp(ws, r0, c0, link, rango, valores, fmt=None):
+    """Bloque IMPORTRANGE como lo exporta Google: la primera celda lleva la fórmula; el resto, el valor calculado."""
+    for i, fila in enumerate(valores):
+        for j, x in enumerate(fila):
+            if i == j == 0:
+                f = (f'=IFERROR(__xludf.DUMMYFUNCTION("IMPORTRANGE({link},""{rango}"")"),'
+                     f'{_lit("" if x is None else x)})')
+            elif x is None:
+                continue
+            else:
+                f = f'=IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),{_lit(x)})'
+            c = ws.cell(r0 + i, c0 + j, f)
+            if fmt:
+                c.number_format = fmt
+
+
 # ------------------------------------------------------------------ lectura de fuentes
 def leer_bom(ruta):
     """Filas del FLAMA_BOM.xlsx recalculado por producto, y la hoja MODELOS por código."""
@@ -648,22 +677,65 @@ class Libro:
         self.refs[rid] = kw
         return rid
 
-    # -------- copia de las proyecciones
+    # -------- links e IMPORTRANGE
+    def links(self):
+        """Primera hoja: link de cada Google Sheet (B4 a B6) y los bloques IMPORTRANGE chicos. Las Proyecciones entran
+        enteras en PROY_INDEXADO, PROY_RESERVAS y PROY_USADOS, con el link de B4."""
+        ws = self.wb.create_sheet("Links")
+        _titulo(ws, "LINKS e IMPORTRANGE")
+        ws.cell(2, 1, "Pegar en B el link de cada Google Sheet. La primera vez, tocar la primera celda de cada bloque y "
+                      "«Permitir acceso». PROY_INDEXADO, PROY_RESERVAS y PROY_USADOS son IMPORTRANGE de las "
+                      "Proyecciones (link de B4); los demás bloques están en esta hoja.").font = _f(size=9, italic=True)
+        _cab(ws, 3, ["Archivo", "Link", "", "", "", "", "", "Qué se importa"], [44] + [9] * 12 + [9])
+        for i, (a, u, que) in enumerate(LINKS_IMP):
+            r = 4 + i
+            ws.cell(r, 1, a).font = _f(True)
+            ws.cell(r, 2, u).fill = PatternFill("solid", fgColor=GRIS_C)
+            ws.cell(r, 8, que)
+            ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=7)
+            ws.merge_cells(start_row=r, start_column=8, end_row=r, end_column=14)
+            _fila(ws, r, 14)
+        ws.merge_cells("B3:G3")
+        ws.merge_cells("H3:N3")
+        r = 9
+        ws.cell(r, 1, f"Aprovechamiento Recargas Planta Industrial · {IMP_REC}: perfil mensual de recargas por tipo "
+                      "(planta industrial)").font = _f(True)
+        _cab(ws, r + 1, ["Tipo"] + MESES)
+        self.r_rec = r + 2
+        for i, c in enumerate(REC):
+            ws.cell(self.r_rec + i, 1, INV[c])
+            _fila(ws, self.r_rec + i, 13)
+        _imp(ws, self.r_rec, 2, LK_REC, IMP_REC, REC_PERF, "0.00%")
+        r = self.r_rec + len(REC) + 1
+        ws.cell(r, 1, f"Análisis alternativas corte chapa · {IMP_CORTE}: cuerpos por hoja de 1 a 10 kg").font = _f(True)
+        _cab(ws, r + 1, ["Formato", "Cuerpos por hoja"])
+        self.r_corte = {}
+        for i, (p, v) in enumerate(CORTE_HOJA.items()):
+            ws.cell(r + 2 + i, 1, f"{p[3:].replace('.', ',')} kg")
+            self.r_corte[p] = r + 2 + i
+            _fila(ws, r + 2 + i, 2)
+        _imp(ws, r + 2, 2, LK_CORTE, IMP_CORTE, [[v] for v in CORTE_HOJA.values()], "0")
+        ws.freeze_panes = "A4"
+
+    # -------- copia de las proyecciones (IMPORTRANGE de la hoja entera)
     def copia(self, origen, nombre):
         src = self.src[origen]
         ws = self.wb.create_sheet(nombre)
+        nr, nc = src.max_row, src.max_column
+        _imp(ws, 1, 1, LK_PROY, f"{origen}!A1:{L(nc)}{nr}",
+             [[c.value for c in fila] for fila in src.iter_rows(max_row=nr, max_col=nc)])
         for row in src.iter_rows():
             for c in row:
                 if c.value is None:
                     continue
-                d = ws.cell(c.row, c.column, c.value)
+                d = ws.cell(c.row, c.column)
                 d.number_format = c.number_format
                 d.font = _f(bool(c.font and c.font.b))
         for k, dim in src.column_dimensions.items():
             if dim.width:
                 ws.column_dimensions[k].width = dim.width
         largo = {}
-        for row in ws.iter_rows():
+        for row in src.iter_rows():
             for c in row:
                 # los títulos largos se ven igual (desbordan hacia la derecha): no ensanchan la columna
                 if isinstance(c.value, str) and not c.value.startswith("=") and len(c.value) <= 40:
@@ -694,31 +766,27 @@ class Libro:
             ws.cell(r0, c0, "PROYECCION " + h).font = _f(True)
             for j, t in enumerate(("Año", "Mat Usados", "RECARGAS TOT")):
                 ws.cell(r0 + 1, c0 + j, t).font = _f(True)
-            n = r0 + 1
-            for row in self.src["PROYECCION " + h].iter_rows(min_row=2, max_col=16, values_only=True):
-                if row[0] is None:
-                    continue
-                año = row[0]
+            src = self.src["PROYECCION " + h]
+            filas = []
+            for i, row in enumerate(src.iter_rows(min_row=2, max_col=16, values_only=True), 2):
                 try:
-                    año = int(str(año).strip())
+                    if int(str(row[0]).strip()) in AÑOS:
+                        filas.append(i)
                 except ValueError:
                     pass
-                if año not in AÑOS:
-                    continue
-                n += 1
-                for j, x in enumerate((año, row[14], row[15])):
-                    c = ws.cell(n, c0 + j, x)
-                    c.font = _f()
-                    if j:
-                        c.number_format = "#,##0.0"
-            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, n))
+            a, b = filas[0], filas[-1]
+            assert b - a + 1 == len(filas), h        # 2026 a 2035 en un solo tramo
+            datos = list(src.iter_rows(min_row=a, max_row=b, max_col=16, values_only=True))
+            _imp(ws, r0 + 2, c0, LK_PROY, f"PROYECCION {h}!A{a}:A{b}", [[x[0]] for x in datos])
+            _imp(ws, r0 + 2, c0 + 1, LK_PROY, f"PROYECCION {h}!O{a}:P{b}", [[x[14], x[15]] for x in datos], "#,##0.0")
+            self.usados.append((L(c0), L(c0 + 1), L(c0 + 2), r0 + 2, r0 + 1 + len(datos)))
         self.r_usados = {}
         for j, a in enumerate(AÑOS):
             r = 5 + j
             ws.cell(r, 1, a)
             for k, t in enumerate(self.usados):
                 for m in (1, 2):
-                    ws.cell(r, 2 * k + 1 + m, f"=SUMIF(${t[0]}${t[3]}:${t[0]}${t[4]},$A{r},"
+                    ws.cell(r, 2 * k + 1 + m, f"=SUMIF(${t[0]}${t[3]}:${t[0]}${t[4]},$A{r}&\"\","
                                               f"${t[m]}${t[3]}:${t[m]}${t[4]})").number_format = "#,##0"
             ws.cell(r, 10, f"=B{r}+D{r}+F{r}+H{r}").number_format = "#,##0"
             ws.cell(r, 11, f"=C{r}+E{r}+G{r}+I{r}").number_format = "#,##0"
@@ -849,24 +917,27 @@ class Libro:
         _titulo(ws, "ESTACIONALIDAD: producción mensual del año 2035")
         _cab(ws, 3, ["Ref.", "Perfil"] + MESES + ["Total"], [12, 34] + [8] * 12 + [9])
         self.r_perf = []
-        for k, (nom, v) in enumerate(PERFILES):
+        perfiles = PERFILES + [(f"Recarga {INV[c]}", None) for c in REC]
+        for k, (nom, v) in enumerate(perfiles):
             r = 4 + k
+            fr = self.r_rec + k - N_FAB
             rid = self.ref(f"E{k + 1:02d}", hoja="ESTACIONALIDAD", dato=nom,
                            como="Dimensionamiento Técnico FLAMA, perfil de estacionalidad (% de la venta anual por mes)."
-                           if k < N_FAB else "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, "
-                           f"fila {REC_PERF[k - N_FAB][2]}: recargas de cada mes = mix de rubros de la planta "
-                           "industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; "
-                           "edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; "
-                           "industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+                           if k < N_FAB else f"Aprovechamiento Recargas Planta Industrial, parametros_recargas fila "
+                           f"{55 + k - N_FAB}, por IMPORTRANGE (Links, fila {fr}): recargas de cada mes = mix de "
+                           "rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba "
+                           "y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan "
+                           "sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
                            figs=["F01"] if k < N_FAB else [])
             ws.cell(r, 1, rid)
             ws.cell(r, 2, nom)
-            for j, x in enumerate(v):
+            for j in range(12):
+                x = v[j] if v else f"=Links!{L(2 + j)}{fr}/SUM(Links!$B{fr}:$M{fr})"
                 ws.cell(r, 3 + j, x).number_format = "0.0%"
             ws.cell(r, 15, f"=SUM(C{r}:N{r})").number_format = "0%"
             _fila(ws, r, 15)
             self.r_perf.append(r)
-        r = 4 + len(PERFILES) + 1
+        r = 4 + len(perfiles) + 1
         _cab(ws, r, ["Línea", "Producto"] + MESES + ["Total", "Mes pico del producto"])
         ws.column_dimensions["P"].width = 12
         r += 1
@@ -904,7 +975,7 @@ class Libro:
         self.r_pico = {}
         for lin in LINEAS:
             t = tot[lin]
-            rid = self.ref(f"E{len(PERFILES) + 1 + LINEAS.index(lin):02d}", hoja="ESTACIONALIDAD",
+            rid = self.ref(f"E{N_FAB + len(REC) + 1 + LINEAS.index(lin):02d}", hoja="ESTACIONALIDAD",
                            dato=f"Mes pico de {lin.lower()}",
                            como="El mes de mayor producción del año 2035 sumando todos los productos de la línea (como "
                                 "el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del "
@@ -989,9 +1060,10 @@ class Libro:
         if lin == "MANUALES":
             for k, (c, p, nm) in enumerate(grupo):
                 it, rend, fg = CUERPO[p]
-                fila(it, {k: f"=1/{rend}", n + k: f"=1/{rend}"},
+                v = f"=1/Links!$B${self.r_corte[p]}"
+                fila(it, {k: v, n + k: v},
                      f"Un cuerpo por recipiente; de una hoja salen {rend} cuerpos (Análisis alternativas corte chapa, "
-                     f"hoja Corte).", [fg])
+                     f"Corte fila {18 + k + 1}, por IMPORTRANGE: Links, fila {self.r_corte[p]}).", [fg])
             for (p, pz), (it, an, paso, d, e) in DISCO.items():
                 k = [x[1] for x in grupo].index(p)
                 v = f"{an}*{paso}*{e}*7.85/1000000/(1-{DESPUNTE})"
@@ -1428,6 +1500,7 @@ class Libro:
         _imprimir(ws, "3:4")
 
     def armar(self, ruta):
+        self.links()
         self.ix = self.copia("Indexado Dim Técnico", "PROY_INDEXADO")
         self.rs = self.copia("Reservas y Sustitutos", "PROY_RESERVAS")
         self.copia_usados()
@@ -1442,7 +1515,7 @@ class Libro:
         self.hoja_linea("REVENDIDOS", cols, rows, "V")
         self.consolidado()
         self.politica()
-        orden = ["DEMANDA", "ESTACIONALIDAD", "MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS", "CONSOLIDADO",
+        orden = ["Links", "DEMANDA", "ESTACIONALIDAD", "MANUALES", "RODANTES", "RECARGAS", "REVENDIDOS", "CONSOLIDADO",
                  "POLITICA_STOCK", "PROY_INDEXADO", "PROY_RESERVAS", "PROY_USADOS"]
         self.wb._sheets = [self.wb[n] for n in orden]
         for ws in self.wb.worksheets:

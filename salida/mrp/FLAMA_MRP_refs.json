@@ -452,70 +452,106 @@
   "E04": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 1 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 55: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 55, por IMPORTRANGE (Links, fila 11): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E05": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 2,5 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 56: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 56, por IMPORTRANGE (Links, fila 12): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E06": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 5 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 57: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 57, por IMPORTRANGE (Links, fila 13): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E07": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga ABC 10 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 58: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 58, por IMPORTRANGE (Links, fila 14): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E08": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Recarga Agua 10 l",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 59: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 59, por IMPORTRANGE (Links, fila 15): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E09": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga AFFF 10 y 50 l, BC 5 kg, Clase D 9 l",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 60 a 62 y 67: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga AFFF 10 l",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 60, por IMPORTRANGE (Links, fila 16): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E10": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga Sales K 6 l",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 63: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga AFFF 50 l s/ruedas",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 61, por IMPORTRANGE (Links, fila 17): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E11": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga CO₂ 2 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 64: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga BC 5 kg",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 62, por IMPORTRANGE (Links, fila 18): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E12": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga CO₂ 5 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 65: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga Sales K 6 l",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 63, por IMPORTRANGE (Links, fila 19): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E13": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga HCFC/HFC 5 kg",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 66: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga CO₂ 2 kg",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 64, por IMPORTRANGE (Links, fila 20): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E14": {
    "hoja": "ESTACIONALIDAD",
-   "dato": "Recarga ABC 25 a 100 kg s/ruedas",
-   "como": "Aprovechamiento_Recargas_Planta_Industrial, hoja parametros_recargas, fila 68 a 71: recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "dato": "Recarga CO₂ 5 kg",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 65, por IMPORTRANGE (Links, fila 21): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
    "figs": []
   },
   "E15": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga HCFC/HFC 5 kg",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 66, por IMPORTRANGE (Links, fila 22): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E16": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga Clase D 9 l",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 67, por IMPORTRANGE (Links, fila 23): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E17": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 25 kg s/ruedas",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 68, por IMPORTRANGE (Links, fila 24): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E18": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 50 kg s/ruedas",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 69, por IMPORTRANGE (Links, fila 25): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E19": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 70 kg s/ruedas",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 70, por IMPORTRANGE (Links, fila 26): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E20": {
+   "hoja": "ESTACIONALIDAD",
+   "dato": "Recarga ABC 100 kg s/ruedas",
+   "como": "Aprovechamiento Recargas Planta Industrial, parametros_recargas fila 71, por IMPORTRANGE (Links, fila 27): recargas de cada mes = mix de rubros de la planta industrial × estacionalidad de cada rubro (automotor por ITV Córdoba y RTO Mendoza; edificios, educación, hoteles, salud y supermercados por los meses que dan sus fuentes; industrias parejo). Llevado a 100 % porque el archivo lo da redondeado.",
+   "figs": []
+  },
+  "E21": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de manuales",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -523,7 +559,7 @@
     "F02"
    ]
   },
-  "E16": {
+  "E22": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de rodantes",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -531,7 +567,7 @@
     "F02"
    ]
   },
-  "E17": {
+  "E23": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de recargas",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -539,7 +575,7 @@
     "F02"
    ]
   },
-  "E18": {
+  "E24": {
    "hoja": "ESTACIONALIDAD",
    "dato": "Mes pico de revendidos",
    "como": "El mes de mayor producción del año 2035 sumando todos los productos de la línea (como el total mensual del Dimensionamiento Técnico FLAMA). Factor de pico = unidades del mes pico / promedio mensual. Cada producto se compra con su propio mes pico (columna P): el AFFF 50 l sigue el perfil industrial y en diciembre, pico de revendidos, vende menos que su promedio.",
@@ -553,13 +589,13 @@
    "dato": "Hoja LAF 0,9 × 1220 × 2440 mm (cuerpo 1 kg)",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 45 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 45 cuerpos (Análisis alternativas corte chapa, Corte fila 19, por IMPORTRANGE: Links, fila 31).",
    "figs": [
     "P03"
    ],
    "cons": {
-    "FL_MAT_ABC_1kg": "=1/45",
-    "FL_REC_ABC_1kg": "=1/45"
+    "FL_MAT_ABC_1kg": "=1/Links!$B$31",
+    "FL_REC_ABC_1kg": "=1/Links!$B$31"
    }
   },
   "M02": {
@@ -568,13 +604,13 @@
    "dato": "Hoja LAF 1,25 × 1220 × 2440 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 27 cuerpos (Análisis alternativas corte chapa, Corte fila 20, por IMPORTRANGE: Links, fila 32).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_2.5kg": "=1/27",
-    "FL_REC_ABC_2.5kg": "=1/27"
+    "FL_MAT_ABC_2.5kg": "=1/Links!$B$32",
+    "FL_REC_ABC_2.5kg": "=1/Links!$B$32"
    }
   },
   "M03": {
@@ -583,13 +619,13 @@
    "dato": "Hoja LAF 1,6 × 1000 × 2000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 12 cuerpos (Análisis alternativas corte chapa, Corte fila 21, por IMPORTRANGE: Links, fila 33).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_5kg": "=1/12",
-    "FL_REC_ABC_5kg": "=1/12"
+    "FL_MAT_ABC_5kg": "=1/Links!$B$33",
+    "FL_REC_ABC_5kg": "=1/Links!$B$33"
    }
   },
   "M04": {
@@ -598,13 +634,13 @@
    "dato": "Hoja LAF 2,0 × 1500 × 3000 mm",
    "um": "hoja",
    "dest": "",
-   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos (Análisis alternativas corte chapa, hoja Corte).",
+   "como": "Un cuerpo por recipiente; de una hoja salen 15 cuerpos (Análisis alternativas corte chapa, Corte fila 22, por IMPORTRANGE: Links, fila 34).",
    "figs": [
     "P02"
    ],
    "cons": {
-    "FL_MAT_ABC_10kg": "=1/15",
-    "FL_REC_ABC_10kg": "=1/15"
+    "FL_MAT_ABC_10kg": "=1/Links!$B$34",
+    "FL_REC_ABC_10kg": "=1/Links!$B$34"
    }
   },
   "M05": {
@@ -5338,54 +5374,54 @@
   "REVENDIDOS|FL_MAT_CLASED_9l": 50
  },
  "est": {
-  "MANUALES|FL_MAT_ABC_1kg": 20,
-  "MANUALES|FL_MAT_ABC_2.5kg": 21,
-  "MANUALES|FL_MAT_ABC_5kg": 22,
-  "MANUALES|FL_MAT_ABC_10kg": 23,
-  "MANUALES|FL_REC_ABC_1kg": 24,
-  "MANUALES|FL_REC_ABC_2.5kg": 25,
-  "MANUALES|FL_REC_ABC_5kg": 26,
-  "MANUALES|FL_REC_ABC_10kg": 27,
-  "RODANTES|FL_MAT_ABC_25kg": 29,
-  "RODANTES|FL_MAT_ABC_50kg": 30,
-  "RODANTES|FL_MAT_ABC_70kg": 31,
-  "RODANTES|FL_MAT_ABC_100kg": 32,
-  "RODANTES|FL_REC_ABC_25kg": 33,
-  "RODANTES|FL_REC_ABC_50kg": 34,
-  "RODANTES|FL_REC_ABC_70kg": 35,
-  "RODANTES|FL_REC_ABC_100kg": 36,
-  "RECARGAS|RK_ABC_1kg": 38,
-  "RECARGAS|RK_ABC_2.5kg": 39,
-  "RECARGAS|RK_ABC_5kg": 40,
-  "RECARGAS|RK_ABC_10kg": 41,
-  "RECARGAS|RK_AGUA_10l": 42,
-  "RECARGAS|RK_AFFF_10l": 43,
-  "RECARGAS|RK_AFFF_50l": 44,
-  "RECARGAS|RK_BC_5kg": 45,
-  "RECARGAS|RK_SALESK_6l": 46,
-  "RECARGAS|RK_CO2_2kg": 47,
-  "RECARGAS|RK_CO2_5kg": 48,
-  "RECARGAS|RK_HCFC-HFC_5kg": 49,
-  "RECARGAS|RK_CLASED_9l": 50,
-  "RECARGAS|RK_ABC_25kg": 51,
-  "RECARGAS|RK_ABC_50kg": 52,
-  "RECARGAS|RK_ABC_70kg": 53,
-  "RECARGAS|RK_ABC_100kg": 54,
-  "REVENDIDOS|FL_MAT_AGUA_10l": 56,
-  "REVENDIDOS|FL_MAT_AFFF_10l": 57,
-  "REVENDIDOS|FL_MAT_AFFF_50l": 58,
-  "REVENDIDOS|FL_MAT_BC_5kg": 59,
-  "REVENDIDOS|FL_MAT_SALESK_6l": 60,
-  "REVENDIDOS|FL_MAT_CO2_2kg": 61,
-  "REVENDIDOS|FL_MAT_CO2_5kg": 62,
-  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 63,
-  "REVENDIDOS|FL_MAT_CLASED_9l": 64
+  "MANUALES|FL_MAT_ABC_1kg": 26,
+  "MANUALES|FL_MAT_ABC_2.5kg": 27,
+  "MANUALES|FL_MAT_ABC_5kg": 28,
+  "MANUALES|FL_MAT_ABC_10kg": 29,
+  "MANUALES|FL_REC_ABC_1kg": 30,
+  "MANUALES|FL_REC_ABC_2.5kg": 31,
+  "MANUALES|FL_REC_ABC_5kg": 32,
+  "MANUALES|FL_REC_ABC_10kg": 33,
+  "RODANTES|FL_MAT_ABC_25kg": 35,
+  "RODANTES|FL_MAT_ABC_50kg": 36,
+  "RODANTES|FL_MAT_ABC_70kg": 37,
+  "RODANTES|FL_MAT_ABC_100kg": 38,
+  "RODANTES|FL_REC_ABC_25kg": 39,
+  "RODANTES|FL_REC_ABC_50kg": 40,
+  "RODANTES|FL_REC_ABC_70kg": 41,
+  "RODANTES|FL_REC_ABC_100kg": 42,
+  "RECARGAS|RK_ABC_1kg": 44,
+  "RECARGAS|RK_ABC_2.5kg": 45,
+  "RECARGAS|RK_ABC_5kg": 46,
+  "RECARGAS|RK_ABC_10kg": 47,
+  "RECARGAS|RK_AGUA_10l": 48,
+  "RECARGAS|RK_AFFF_10l": 49,
+  "RECARGAS|RK_AFFF_50l": 50,
+  "RECARGAS|RK_BC_5kg": 51,
+  "RECARGAS|RK_SALESK_6l": 52,
+  "RECARGAS|RK_CO2_2kg": 53,
+  "RECARGAS|RK_CO2_5kg": 54,
+  "RECARGAS|RK_HCFC-HFC_5kg": 55,
+  "RECARGAS|RK_CLASED_9l": 56,
+  "RECARGAS|RK_ABC_25kg": 57,
+  "RECARGAS|RK_ABC_50kg": 58,
+  "RECARGAS|RK_ABC_70kg": 59,
+  "RECARGAS|RK_ABC_100kg": 60,
+  "REVENDIDOS|FL_MAT_AGUA_10l": 62,
+  "REVENDIDOS|FL_MAT_AFFF_10l": 63,
+  "REVENDIDOS|FL_MAT_AFFF_50l": 64,
+  "REVENDIDOS|FL_MAT_BC_5kg": 65,
+  "REVENDIDOS|FL_MAT_SALESK_6l": 66,
+  "REVENDIDOS|FL_MAT_CO2_2kg": 67,
+  "REVENDIDOS|FL_MAT_CO2_5kg": 68,
+  "REVENDIDOS|FL_MAT_HCFC-HFC_5kg": 69,
+  "REVENDIDOS|FL_MAT_CLASED_9l": 70
  },
  "pico": {
-  "MANUALES": 68,
-  "RODANTES": 69,
-  "RECARGAS": 70,
-  "REVENDIDOS": 71
+  "MANUALES": 74,
+  "RODANTES": 75,
+  "RECARGAS": 76,
+  "REVENDIDOS": 77
  },
  "cons": {
   "MP-01": 4,
