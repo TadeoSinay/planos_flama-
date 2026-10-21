@@ -596,7 +596,8 @@ def _lit(x):
 
 
 def _imp(ws, r0, c0, link, rango, valores, fmt=None):
-    """Bloque IMPORTRANGE como lo exporta Google: la primera celda lleva la fórmula; el resto, el valor calculado."""
+    """Bloque IMPORTRANGE como lo exporta Google: la primera celda lleva la fórmula; el resto, el valor calculado (al
+    final _dummy_mayus vacía esas celdas para que Sheets expanda el resultado)."""
     for i, fila in enumerate(valores):
         for j, x in enumerate(fila):
             if i == j == 0:
@@ -1536,4 +1537,26 @@ def excel(proyecciones, ruta, bom=None):
     bom = bom or os.path.join(os.path.dirname(os.path.dirname(ruta)), "bom", "FLAMA_BOM.xlsx")
     Libro(proyecciones, bom).armar(ruta)
     recalcular(ruta)
+    _dummy_mayus(ruta)
+
+
+def _dummy_mayus(ruta):
+    """Deja los IMPORTRANGE listos para Google Sheets: __xludf.DUMMYFUNCTION en mayúscula (LibreOffice la guarda en
+    minúscula) y vacías las celdas del bloque que no son la primera (si tienen algo, Sheets no expande el resultado y
+    da #REF!). Los demás valores calculados quedan guardados."""
+    import re
+    import shutil
+    import tempfile
+    import zipfile
+    tmp = tempfile.mktemp(suffix=".xlsx")
+    with zipfile.ZipFile(ruta) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+        for it in zin.infolist():
+            d = zin.read(it.filename)
+            if it.filename.startswith("xl/worksheets/"):
+                d = re.sub(rb'<c (r="[A-Z]+[0-9]+")( s="[0-9]+")?[^>]*><f[^>]*>[^<]*COMPUTED_VALUE[^<]*</f>'
+                           rb'(?:<v>[^<]*</v>)?</c>', lambda m: b"<c " + m.group(1) + (m.group(2) or b"") + b"/>", d,
+                           flags=re.I)
+                d = d.replace(b"__xludf.dummyfunction", b"__xludf.DUMMYFUNCTION")
+            zout.writestr(it, d)
+    shutil.move(tmp, ruta)
     return ruta
