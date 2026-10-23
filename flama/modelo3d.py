@@ -1217,48 +1217,50 @@ def _sector(r_in, r_out, h, z0, ancho, xc, yc, ang_c=-90.0):
 def marcado(m):
     """Dónde y cuándo se graba el marcado del recipiente (IRAM 3523 / 3550 5.1), según los procesos FLAMA.
     Devuelve (pieza, texto corto, texto de proceso en líneas)."""
-    # proceso FLAMA de manuales, «numerado de cúpula»: fabricante, n° y año estampados en frío en la CÚPULA, en arco
-    # alrededor del cuello (micropercusión), con el cuño DPS al lado; el mismo criterio en los carros (ver marca_cupula)
+    # decisión FLAMA: fabricante, n° y año estampados en el CUERPO, arriba y al lado de la costura
+    # longitudinal, en una línea horizontal sin código 2D; el mismo lugar de la chapa en todos los modelos (ver
+    # marca_cuerpo): el final queda fijo junto a la costura y el texto se extiende hacia la izquierda
+    corto = "estampado en el cuerpo, arriba, a la izquierda de la costura longitudinal, en línea horizontal"
     if m.familia == "rodante":
-        return ("cupula", "estampado en la cúpula, en arco junto al cuello (puesto 11, después de la PH y el secado)",
-                ["Estampado en la CÚPULA, en arco alrededor del cuello, en el puesto 11 (marcado),",
-                 "después de la PH (9) y el secado (10); centrado al costado derecho (libre de manija y manga);"])
-    return ("cupula", "estampado en la cúpula, en arco junto al cuello (puesto de numerado de cúpula)",
-            ["Estampado en la CÚPULA, en arco alrededor del cuello (micropercusión), después del",
-             "embutido y antes de soldar el cuello; centrado al frente, sobre la etiqueta;"])
+        return ("cuerpo", corto + " (puesto 11, después de la PH y el secado)",
+                ["Estampado en el CUERPO, arriba y a la izquierda de la costura longitudinal, en el puesto 11",
+                 "(marcado), después de la PH (9) y el secado (10); una línea horizontal, sin código 2D;"])
+    return ("cuerpo", corto,
+            ["Estampado en el CUERPO, arriba y a la izquierda de la costura longitudinal (micropercusión);",
+             "una línea horizontal, sin código 2D; el puesto de la secuencia se define en el proceso;"])
 
 
-MARCA_H = 5.0               # letra del marcado estampado (IRAM 4503; proceso «numerado de cúpula»)
+MARCA_H = 5.0               # letra del marcado estampado (IRAM 4503)
 CUNO_DPS = (15.0, 7.0)      # cuño DPS junto al n° (Res. 349/07 anexo IV)
-MARCA_ARCO_MAX = 270.0      # el arco no da la vuelta entera: el cuño queda separado del comienzo del texto
+MARCA_COSTURA = 15.0        # criterio: del borde de la chapa en la costura longitudinal al final del marcado (cuño)
+MARCA_BORDE = 20.0          # criterio: del borde superior de la chapa del cuerpo al borde de arriba del marcado; en
+                            # los manuales deja 9 mm libres bajo el bordón (labio 6 + escalón 5), en los carros 20 bajo
+                            # el escalón del casquete
 
 
-def marca_cupula(m):
-    """Franja del marcado estampado en la cúpula, en arco alrededor del cuello: radios (desde el eje), texto, paso
-    entre caracteres y ángulos en grados (0° = costado derecho, -90° = frente). La franja arranca 4 mm afuera del
-    cuello (cordón cuello-cúpula + 2 mm libres) y tiene el alto del cuño DPS; si el arco pasara de 270° se aleja del
-    cuello hasta que entre."""
+def marca_cuerpo(m):
+    """Marcado estampado en el cuerpo, en una línea horizontal arriba de la etiqueta y a la izquierda de la costura
+    longitudinal (vista desde afuera). Medidas sobre la chapa del cuerpo, iguales en todos los modelos: el final del
+    marcado (borde derecho del cuño DPS) a MARCA_COSTURA del borde de la costura y el borde de arriba a MARCA_BORDE
+    del borde superior de la chapa; el largo depende del texto y crece hacia la izquierda. Devuelve el texto, el
+    paso, las distancias sobre la chapa (s desde la costura, d desde el borde de arriba) y los ángulos en grados
+    (costura a -90°, como en recipiente())."""
     rod = m.familia == "rodante"
     txt = "FLAMA S.A.  N° 000001  " + (f"PE {m.spec['Presión de ensayo (MPa)']} MPa  " if rod else "") + "26"
     paso = 0.72 * MARCA_H
-    largo = len(txt) * paso + 4.0 + CUNO_DPS[0]
-    rc = max(m.geo["cuello"][0] / 2 + 4.0 + CUNO_DPS[1] / 2, largo / math.radians(MARCA_ARCO_MAX))
-    a_txt = math.degrees(len(txt) * paso / rc)
-    a_tot = math.degrees(largo / rc)
-    centro = 0.0 if rod else -90.0
-    a0 = centro - a_tot / 2                  # el texto avanza en sentido antihorario visto desde arriba
-    return dict(r_in=rc - CUNO_DPS[1] / 2, r_out=rc + CUNO_DPS[1] / 2, rc=rc, texto=txt, paso=paso, a0=a0,
-                a_tot=a_tot, a_dps0=a0 + a_txt + math.degrees(4.0 / rc), a_dps=math.degrees(CUNO_DPS[0] / rc),
-                centro=centro)
+    largo = math.ceil(len(txt) * paso + 4.0 + CUNO_DPS[0])      # mm enteros: es la cota del plano
+    R = m.geo["R"]
+    s_fin, s_ini = MARCA_COSTURA, MARCA_COSTURA + largo
+    a = lambda s_: -90.0 - math.degrees(s_ / R)
+    return dict(texto=txt, paso=paso, largo=largo, alto=CUNO_DPS[1], R=R, s_fin=s_fin, s_ini=s_ini,
+                d_sup=MARCA_BORDE, d_inf=MARCA_BORDE + CUNO_DPS[1], a_ini=a(s_ini), a_fin=a(s_fin),
+                s_dps=(s_fin + CUNO_DPS[0], s_fin), arco=math.degrees(largo / R))
 
 
-def z_cupula_en(dr, r, rod=False):
-    """Altura de la cara exterior de la cúpula a la distancia r del eje: elipse de semiejes R y hd − c0 centrada c0
-    sobre la unión (c0 = pollera recta en los manuales, escalón del casquete en los carros; ver recipiente())."""
-    lab, esc = dr["encastre"]
-    c0 = esc if rod else lab
-    u = min(1.0, r / dr["R"])
-    return dr["z_union"] + c0 + (dr["hd"] - c0) * math.sqrt(1.0 - u * u)
+def z_borde_chapa(dr, rod=False):
+    """Altura del borde superior de la chapa del cuerpo: en los manuales el labio entra en la cúpula; en los carros
+    el borde del cuerpo es la unión con el casquete."""
+    return dr["z_union"] + (0.0 if rod else dr["encastre"][0])
 
 
 # medidas de identificación (ver flama/rotulado.py para las fuentes)

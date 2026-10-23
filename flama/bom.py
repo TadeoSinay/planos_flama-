@@ -287,17 +287,19 @@ def operacion(m, k):
         return "S4 - se compra terminado (tercerizado con sello IRAM)"
     if k == "cuerpo":
         if m.capacidad == "1 kg":
-            return "5 Corte láser de caño (M15/M16) -> 9 encastre -> 10 bordoneado (los dos extremos)"
+            return ("5 Corte láser de caño (M15/M16) -> 9 encastre -> 10 bordoneado (los dos extremos) -> marcado "
+                    "(micropercusión en el cuerpo, junto a la costura; puesto a definir)")
         return ("2 Corte (guillotina) -> 3 cilindrado -> 4 punteo (modelo y lote con marcador; placas de refuerzo "
                 "70/100) -> 5 sold. longitudinal -> 7 armado y sold. circunferencial -> 8 sold. de accesorios -> 9 PH "
-                "-> 10 secado -> 11 marcado (estampado en la cúpula) -> 12 pintura" if rod else
-                "1 Guillotina -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> 10 bordoneado")
+                "-> 10 secado -> 11 marcado (estampado en el cuerpo, junto a la costura) -> 12 pintura" if rod else
+                "1 Guillotina -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> 10 bordoneado "
+                "-> marcado (micropercusión en el cuerpo, junto a la costura; puesto a definir)")
     if k in ("cupula", "fondo"):
         if not rod:
-            return ("6 Desbobinado + embutido (M06-M08) -> numerado de cúpula (micropercusión, en arco junto al "
-                    "cuello) -> 8 soldadura de cuello" if k == "cupula" else "6 Desbobinado + embutido (M06-M08)")
-        return ("Compra -> 6 soldadura de cupla -> 7 armado y sold. circunferencial -> 11 marcado (estampado en "
-                "arco junto al cuello)" if k == "cupula" else "Compra -> 7 armado y sold. circunferencial")
+            return ("6 Desbobinado + embutido (M06-M08) -> 8 soldadura de cuello" if k == "cupula"
+                    else "6 Desbobinado + embutido (M06-M08)")
+        return ("Compra -> 6 soldadura de cupla -> 7 armado y sold. circunferencial" if k == "cupula"
+                else "Compra -> 7 armado y sold. circunferencial")
     if k == "placas_refuerzo":
         return "2 Tira de orilla 200 × 900 -> 3 rolado a Ø380 -> corte con amoladora -> 4 punteo interior (4 esquinas)"
     if k == "cuello":
@@ -590,7 +592,8 @@ def bom_producto(m, cilindro=False):
             sub=1, item="TAPON")
         add(2, f"{base}-T2", f"Marcado del recipiente: {M.marcado(m)[1]}", 1, "u", "-",
             "Fabricante, n° de serie, año" + (", presión de ensayo" if m.familia == "rodante" else "") +
-            "; en arco junto al cuello, letra 5 mm; cuño DPS 15 × 7 junto al n°", None, "Proceso", "Marcado",
+            "; una línea horizontal arriba, a la izquierda de la costura (final a 15 de la costura y 20 del borde "
+            "de la chapa), letra 5 mm; cuño DPS 15 × 7 al final", None, "Proceso", "Marcado",
             norma=f"IRAM {n_ext} 5.1 · Res. 349/07 anexo IV", fte="N", sub=1)
         add(2, f"{base}-T3", "Etiqueta de identificación del cilindro suelto", 1, "u", "Poliéster autoadhesivo "
             "removible", "100 × 60, impresión térmica, QR GS1", None, "Compra", "Etiquetado", fte="P",

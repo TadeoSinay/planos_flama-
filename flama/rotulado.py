@@ -938,35 +938,39 @@ def _bloque(h, txts, x, y, alto=1.8, paso=3.6, ancho=None):
         h.texto(t, (x, y - paso * i), alto)
 
 
-def marca_en_arco(h, m, c, s, fondo=None, oscuro=(90, 10, 15)):
-    """Vista superior del marcado estampado en la cúpula, en arco alrededor del cuello (proceso «numerado de
-    cúpula»), a escala s: cuello y su agujero, pie del cordón, franja, caracteres tangentes al arco con la cabeza
-    hacia el cuello y cuño DPS al final. fondo: color de la cúpula alrededor. Devuelve el radio dibujado (mm de papel)."""
-    mk = M.marca_cupula(m)
-    cx, cy = c
-    dn, _, rosca, dh = m.geo["cuello"]
-    boca = {"M30x1,5": 28.376, "M22x1,5": 20.376}.get(rosca, dh - 7.8 if dh > 60 else dh - 6)
-    r_ext = (mk["r_out"] + 4.0) * s
+def marca_desarrollo(h, m, esq, s, fondo=None, oscuro=(90, 10, 15)):
+    """Marcado estampado en el cuerpo visto desde afuera, sobre la chapa del cuerpo en el rincón de la costura
+    longitudinal y el borde superior (esq: ese rincón en el papel, la chapa sigue hacia la izquierda y hacia abajo), a
+    escala s: borde superior, borde de la costura, arranque del bordón (manuales), franja, caracteres horizontales y
+    cuño DPS al final, con las cotas que fijan el final del marcado en la chapa. Devuelve el ancho dibujado a la
+    izquierda de esq (mm de papel)."""
+    mk = M.marca_cuerpo(m)
+    xc, yt = esq
+    rod = m.familia == "rodante"
+    xl, yb = xc - (mk["s_ini"] + 4.0) * s, yt - (mk["d_inf"] + 6.0) * s
     if fondo is not None:
-        h.relleno(sg.Point(cx, cy).buffer(r_ext, 96).difference(sg.Point(cx, cy).buffer(dn / 2 * s, 96)), fondo)
-    for r, capa in ((dn / 2, "01-VISIBLE"), (boca / 2, "01-VISIBLE"), (dn / 2 + 2.0, "08-FINA"), (r_ext / s, "08-FINA")):
-        h.msp.add_circle((cx, cy), r * s, dxfattribs={"layer": capa})
-    a1, a2 = mk["a0"], mk["a0"] + mk["a_tot"]
-    for r in (mk["r_in"], mk["r_out"]):
-        h.msp.add_arc((cx, cy), r * s, a1 % 360, a2 % 360, dxfattribs={"layer": "08-FINA"})
+        h.relleno(sg.box(xl, yb, xc, yt), fondo)
+    h.linea((xl, yt), (xc, yt), "01-VISIBLE")                    # borde superior de la chapa
+    h.linea((xc, yb), (xc, yt), "01-VISIBLE")                    # borde de la costura longitudinal
+    h.linea((xl, yb), (xl, yt))                                  # cortes del dibujo (la chapa sigue)
+    h.linea((xl, yb), (xc, yb))
+    if not rod:                                                  # labio + escalón del bordón, tapados por la cúpula
+        yr = yt - sum(M.encastre(m.geo)) * s
+        h.linea((xl, yr), (xc, yr))
+    xa, xf = xc - mk["s_ini"] * s, xc - mk["s_fin"] * s
+    y1, y0 = yt - mk["d_sup"] * s, yt - mk["d_inf"] * s
+    h.rect(xa, y0, xf, y1, "08-FINA")
     for i, ch in enumerate(mk["texto"]):
         if ch.strip():
-            th = math.radians(a1) + (i + 0.5) * mk["paso"] / mk["rc"]
-            h.grafica(ch, (cx + mk["rc"] * s * math.cos(th), cy + mk["rc"] * s * math.sin(th)), M.MARCA_H * s,
-                      A.MIDDLE_CENTER, rot=math.degrees(th) + 90, rgb=oscuro)
-    ts = np.linspace(math.radians(mk["a_dps0"]), math.radians(mk["a_dps0"] + mk["a_dps"]), 12)
-    pts = ([(cx + mk["r_out"] * s * math.cos(t), cy + mk["r_out"] * s * math.sin(t)) for t in ts] +
-           [(cx + mk["r_in"] * s * math.cos(t), cy + mk["r_in"] * s * math.sin(t)) for t in ts[::-1]])
-    h.msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": "01-VISIBLE"})
-    tm = float(ts[len(ts) // 2])
-    h.grafica("DPS", (cx + mk["rc"] * s * math.cos(tm), cy + mk["rc"] * s * math.sin(tm)), 3.0 * s,
-              A.MIDDLE_CENTER, rot=math.degrees(tm) + 90, rgb=oscuro)
-    return r_ext
+            h.grafica(ch, (xa + (i + 0.5) * mk["paso"] * s, (y0 + y1) / 2), M.MARCA_H * s, A.MIDDLE_CENTER, rgb=oscuro)
+    xd = xc - mk["s_dps"][0] * s
+    h.rect(xd, y0, xf, y1, "01-VISIBLE")
+    h.grafica("DPS", ((xd + xf) / 2, (y0 + y1) / 2), 3.0 * s, A.MIDDLE_CENTER, rgb=oscuro)
+    h.cota_lineal((xa, y0), (xf, y0), (xa, yb - 4.0), 0, 1 / s)
+    h.cota_lineal((xf, y0), (xc, yb), (xf, yb - 4.0), 0, 1 / s)
+    h.cota_lineal((xc, yt), (xf, y1), (xc + 4.0, yt), 90, 1 / s)
+    h.cota_lineal((xa, y1), (xa, y0), (xl - 4.0, y1), 90, 1 / s)
+    return xc - xl
 
 
 ESC_MARCA = {1.0: "1:1", 0.5: "1:2", 0.4: "1:2,5", 0.2: "1:5"}
@@ -1148,7 +1152,7 @@ def hoja4(m, piezas, info, proy, doc, ox):
                 "rayado rojo/blanco, abraza la unión válvula-cuello; indica equipo",
                 "nuevo no abierto. Sin norma: práctica de mercado (Georgia)."], px + 2, py + 26, 1.8, 3.4,
             ancho=X1 - 3 - (px + 2))
-    # R7 marcado y etiqueta de serie: en los propios, estampado en la cúpula en arco junto al cuello (vista superior)
+    # R7 marcado y etiqueta de serie: en los propios, estampado en el cuerpo junto a la costura (chapa vista desde afuera)
     mx, my = X0 + 385, Y0 + 61
     n_ext = m.spec["Norma IRAM extintor"]
     col = colores(m)
@@ -1169,22 +1173,24 @@ def hoja4(m, piezas, info, proy, doc, ox):
                     "a 180° de la etiqueta (relevado Melisam).", "Traza lote de polvo, PH y estampilla."], gx + gw * 0.5 + 3,
                 gy + gh * 0.5 + 6, 1.8, 3.0, ancho=mx + 86 - (gx + gw * 0.5 + 3))
     else:
-        # dos columnas: vista superior del arco a la izquierda; texto, etiqueta de serie y su nota a la derecha
-        h.texto("R7 MARCADO EN LA CÚPULA Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
-        mk = M.marca_cupula(m)
-        s7 = next(v for v in (0.5, 0.4, 0.2) if (mk["r_out"] + 4.0) * v <= 24.0)
-        r7 = marca_en_arco(h, m, (mx + 24, my + 30), s7, col["cuerpo"], oscuro)
-        h.texto("FRENTE", (mx + 24, my + 30 - r7 - 1.0), 1.8, A.TOP_CENTER)
-        corto = ("estampado en la cúpula, en arco junto al cuello, " +
-                 ("después de la PH (puesto 11)" if m.familia == "rodante" else "antes de soldar el cuello"))
-        _bloque(h, [f"Vista superior, esc. {ESC_MARCA[s7]}. IRAM {n_ext} 5.1: fabricante, n° de " +
-                    ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") + " y año (2 díg.), " + corto + ".",
-                    f"Franja Ø{_n(2 * mk['r_in'], 0)}-{_n(2 * mk['r_out'], 0)}, arco {_n(mk['a_tot'], 0)}°; letra 5 mm "
-                    "(IRAM 4503); cuño DPS 15 × 7 (Res. 349/07 anexo IV). Detalle: FL_REC hoja 3."],
-                mx + 50, my + 53, 1.8, 3.2, ancho=36)
+        # arriba, la chapa del cuerpo junto a la costura a todo el ancho; abajo, el texto y la etiqueta de serie
+        h.texto("R7 MARCADO EN EL CUERPO Y ETIQUETA DE SERIE", (mx + 42, my + 58), 2.5, A.MIDDLE_CENTER)
+        mk = M.marca_cuerpo(m)
+        s7 = next(v for v in (0.4, 0.2) if (mk["s_ini"] + 4.0) * v <= 70.0)   # misma escala en todos los propios
+        esq = (mx + 76, my + 53)
+        marca_desarrollo(h, m, esq, s7, col["cuerpo"], oscuro)
+        cuando = " después de la PH (puesto 11)" if m.familia == "rodante" else ""
+        _bloque(h, [f"Arriba: chapa del cuerpo vista desde afuera, esc. {ESC_MARCA[s7]}; borde derecho = costura "
+                    f"longitudinal. IRAM {n_ext} 5.1: fabricante, n° de " +
+                    ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") + " y año (2 díg.), estampados en "
+                    f"el cuerpo{cuando}, en una línea horizontal, sin código 2D. Mismo lugar de la chapa en todos los "
+                    f"modelos: el final (cuño DPS 15 × 7, Res. 349/07 anexo IV) a {_n(mk['s_fin'], 0)} de la costura y "
+                    f"el borde de arriba a {_n(mk['d_sup'], 0)} del borde de la chapa; el texto crece hacia la "
+                    f"izquierda. Letra 5 mm (IRAM 4503). Detalle: FL_REC hoja 3."],
+                mx + 3, my + 30, 1.8, 3.0, ancho=54)
         _bloque(h, [f"Etiqueta de serie GS1 {_n(gw, 0)} × {_n(gh, 0)} (1:2): QR GTIN + n° de serie, a 180° de la "
-                    "etiqueta."], mx + 50, my + 23.6, 1.8, 3.0, ancho=36)
-        gx, gy = mx + 52, my + 4
+                    "etiqueta."], mx + 60, my + 30, 1.8, 3.0, ancho=25)
+        gx, gy = mx + 60, my + 2
     h.relleno(sg.box(gx, gy, gx + gw * 0.5, gy + gh * 0.5), L.BLANCO)
     h.rect(gx, gy, gx + gw * 0.5, gy + gh * 0.5, "01-VISIBLE")
     qr(h, (gx + gw * 0.25, gy + gh * 0.3), gh * 0.35, 23)
