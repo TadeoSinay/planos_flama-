@@ -287,13 +287,13 @@ def operacion(m, k):
         return "S4 - se compra terminado (tercerizado con sello IRAM)"
     if k == "cuerpo":
         if m.capacidad == "1 kg":
-            return ("5 Corte láser de caño (M15/M16) -> 9 encastre -> 10 bordoneado (los dos extremos) -> marcado "
-                    "(micropercusión en el cuerpo, junto a la costura; puesto a definir)")
-        return ("2 Corte (guillotina) -> 3 cilindrado -> 4 punteo (modelo y lote con marcador; placas de refuerzo "
-                "70/100) -> 5 sold. longitudinal -> 7 armado y sold. circunferencial -> 8 sold. de accesorios -> 9 PH "
-                "-> 10 secado -> 11 marcado (estampado en el cuerpo, junto a la costura) -> 12 pintura" if rod else
-                "1 Guillotina -> 3 cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> 10 bordoneado "
-                "-> marcado (micropercusión en el cuerpo, junto a la costura; puesto a definir)")
+            return ("5 Corte láser de caño (M15/M16) -> 6 marcado del cuerpo (Pannier, junto a la costura) -> 9 encastre "
+                    "-> 10 bordoneado (los dos extremos)")
+        return ("2 Corte (guillotina) -> 2.1 marcado del cuerpo en el desarrollo plano (Pannier, junto a la costura) "
+                "-> 3 cilindrado -> 4 punteo (placas de refuerzo 70/100) -> 5 sold. longitudinal -> 7 armado y sold. "
+                "circunferencial -> 8 sold. de accesorios -> 9 PH -> 10 secado -> 12 pintura" if rod else
+                "1 Guillotina -> 6 marcado del cuerpo en el desarrollo plano (Pannier, junto a la costura) -> 3 "
+                "cilindrado -> 4 soldadura longitudinal -> 9 encastre del fondo -> 10 bordoneado")
     if k in ("cupula", "fondo"):
         if not rod:
             return ("6 Desbobinado + embutido (M06-M08) -> 8 soldadura de cuello" if k == "cupula"

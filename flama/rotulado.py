@@ -1179,7 +1179,7 @@ def hoja4(m, piezas, info, proy, doc, ox):
         s7 = next(v for v in (0.4, 0.2) if (mk["s_ini"] + 4.0) * v <= 70.0)   # misma escala en todos los propios
         esq = (mx + 76, my + 53)
         marca_desarrollo(h, m, esq, s7, col["cuerpo"], oscuro)
-        cuando = " después de la PH (puesto 11)" if m.familia == "rodante" else ""
+        cuando = " en el desarrollo plano (puesto 6)"
         _bloque(h, [f"Arriba: chapa del cuerpo vista desde afuera, esc. {ESC_MARCA[s7]}; borde derecho = costura "
                     f"longitudinal. IRAM {n_ext} 5.1: fabricante, n° de " +
                     ("serie, presión de ensayo" if n_ext == "3550" else "recipiente") + " y año (2 díg.), estampados en "

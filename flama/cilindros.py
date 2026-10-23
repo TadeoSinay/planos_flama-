@@ -291,9 +291,6 @@ def hoja3(m, doc, ox):
            f"del borde de la costura y borde de arriba a {_n(mk['d_sup'], 0)} mm del borde superior de la chapa;",
            f"el largo ({_n(mk['largo'], 0)} mm, arco de {_n(mk['arco'], 0)}° del cuerpo) crece hacia la izquierda.",
            "Letra 5 mm (IRAM 4503), legible después de pintar. Ubicación acotada a la derecha."]
-    if rod:
-        lin.append("Hasta el puesto 11 lleva modelo y lote escritos con marcador industrial (Edding 790), desde el "
-                   "punteo (4).")
     for i, t in enumerate(lin):
         h.texto(t, (mx, my + 22 - 3.5 * i), 1.9)
     s3 = next(v for v in (1.0, 0.5, 0.4, 0.2) if (mk["s_ini"] + 4.0) * v <= 100.0)

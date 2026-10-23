@@ -1220,14 +1220,12 @@ def marcado(m):
     # decisión FLAMA: fabricante, n° y año estampados en el CUERPO, arriba y al lado de la costura
     # longitudinal, en una línea horizontal sin código 2D; el mismo lugar de la chapa en todos los modelos (ver
     # marca_cuerpo): el final queda fijo junto a la costura y el texto se extiende hacia la izquierda
-    corto = "estampado en el cuerpo, arriba, a la izquierda de la costura longitudinal, en línea horizontal"
-    if m.familia == "rodante":
-        return ("cuerpo", corto + " (puesto 11, después de la PH y el secado)",
-                ["Estampado en el CUERPO, arriba y a la izquierda de la costura longitudinal, en el puesto 11",
-                 "(marcado), después de la PH (9) y el secado (10); una línea horizontal, sin código 2D;"])
+    # cuándo: puesto 6 del balanceo (marcado del cuerpo, manuales + carros), sobre el desarrollo todavía plano, entre la
+    # guillotina 2 y el cilindrado (Balanceo-FLAMA2035 › Carga, fila 39)
+    corto = "estampado en el cuerpo (desarrollo plano, puesto 6), arriba, a la izquierda de la costura, en línea horizontal"
     return ("cuerpo", corto,
-            ["Estampado en el CUERPO, arriba y a la izquierda de la costura longitudinal (micropercusión);",
-             "una línea horizontal, sin código 2D; el puesto de la secuencia se define en el proceso;"])
+            ["Estampado en el CUERPO con la Pannier en el puesto 6 (marcado del cuerpo), sobre el desarrollo plano,",
+             "entre la guillotina 2 y el cilindrado; arriba y a la izquierda de la costura, una línea, sin código 2D;"])
 
 
 MARCA_H = 5.0               # letra del marcado estampado (IRAM 4503)
